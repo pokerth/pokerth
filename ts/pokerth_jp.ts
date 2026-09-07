@@ -5620,7 +5620,7 @@ Do you really want to reset factory settings?</source>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="407"/>
         <location filename="../src/gui/qt/startwindow.ui" line="283"/>
         <source>About PokerTH</source>
-        <translation>PokerTH</translation>
+        <translation>PokerTH について</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="88"/>
@@ -5774,7 +5774,7 @@ Do you really want to reset factory settings?</source>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1015"/>
         <source>Could not set the IP address.</source>
-        <translation>IP アドレスが設定されていません。</translation>
+        <translation>IP アドレスを設定できませんでした。</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1021"/>
@@ -5789,7 +5789,7 @@ Do you really want to reset factory settings?</source>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1033"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>Bind 失敗 - 別のポートを選択してください。</translation>
+        <translation>ポートのバインドに失敗しました - 別のポートを選択してください。</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1039"/>
@@ -5917,7 +5917,7 @@ Please check your username and password.</source>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1258"/>
         <source>You cannot login at this time. Please try again in a few seconds.</source>
-        <translation>今回ログインできません。数秒後、再度お試し下さい。</translation>
+        <translation>現在ログインできません。数秒後にもう一度お試しください。</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1318"/>
@@ -6071,7 +6071,7 @@ If the problem persists, please check the server address or try again later.</so
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1206"/>
         <source>You were kicked from the server.</source>
-        <translation>サーバーから kick されました。</translation>
+        <translation>サーバーから退出させられました。</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1213"/>
@@ -6086,7 +6086,7 @@ If the problem persists, please check the server address or try again later.</so
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1233"/>
         <source>The client player count is invalid.</source>
-        <translation>クライアントプレイヤー計算が不正です。</translation>
+        <translation>クライアントのプレイヤー数が不正です。</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1239"/>
@@ -6142,7 +6142,7 @@ If the problem persists, please check the server address or try again later.</so
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1333"/>
         <source>You were kicked from the game.</source>
-        <translation>ゲームから kick されました。</translation>
+        <translation>ゲームから退出させられました。</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1340"/>

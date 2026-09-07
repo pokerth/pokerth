@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="it_IT">
+<TS version="2.1" language="gd_GB">
 <context>
     <name>AboutPage</name>
     <message>
         <location filename="../pages/AboutPage.qml" line="+45"/>
         <source>No changelog available.</source>
-        <translation>Nessun registro delle modifiche disponibile.</translation>
+        <translation>Chan eil loga atharraichean ri fhaighinn.</translation>
     </message>
     <message>
         <location line="+89"/>
         <source>About PokerTH</source>
-        <translation>Informazioni su PokerTH</translation>
+        <translation>Mu PokerTH</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>About</source>
-        <translation>Informazioni</translation>
+        <translation>Mu dhèidhinn</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Project</source>
-        <translation>Progetto</translation>
+        <translation>Pròiseact</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Changelog</source>
-        <translation>Modifiche</translation>
+        <translation>Loga nan atharraichean</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Thanks to</source>
-        <translation>Ringraziamenti a</translation>
+        <translation>Taing</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>License</source>
-        <translation>Licenza</translation>
+        <translation>Ceadachas</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Third party libs</source>
-        <translation>Librerie di terze parti</translation>
+        <translation>Tasglannan</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -51,122 +51,122 @@
     <message>
         <location line="+13"/>
         <source>- Poker engine for the popular Texas Hold&apos;em Poker</source>
-        <translation>- Motore per il popolare Poker &quot;Texas Holdem&quot;</translation>
+        <translation>- Einnsean poker airson Texas Hold&apos;em Poker mòr-chòrdte</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Singleplayer games with up to 9 computer-opponents</source>
-        <translation>- Giocatore singolo: possibilità di affrontare fino a 9 avversari IA</translation>
+        <translation>- Geamannan aon-chluicheadair le suas gu 9 co-fharpaisichean coimpiutair</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Multiplayer network games</source>
-        <translation>- Partite multigiocatore in rete</translation>
+        <translation>- Geamannan lìonraidh ioma-chluicheadair</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Internet online games</source>
-        <translation>- Partite multigiocatore su Internet</translation>
+        <translation>- Geamannan air an eadar-lìon</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Changeable gui with online style gallery</source>
-        <translation>- Interfaccia personalizzabile con galleria online di temi</translation>
+        <translation>- Eadar-aghaidh a ghabhas atharrachadh le gailearaidh dhe stoidhlichean air loidhne</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Online ranking website with result tables</source>
-        <translation>- Ranking online con tabelle dei risultati</translation>
+        <translation>- Làrach-lìn rangachaidh le clàran nan toraidhean</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Project page:</source>
-        <translation>Pagina progetto:</translation>
+        <translation>Duilleag a&apos; phròiseict:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Authors:</source>
-        <translation>Autori:</translation>
+        <translation>Ùghdaran:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
-        <translation>idea iniziale, achitettura di base, implementazione gui, grafica gui, pacchetto linux</translation>
+        <translation>beachd tòiseachaidh, dealbhadh bunasach, prògramachadh na h-eadar-aghaidh, deasachadh grafaigeachd na h-eadar-aghaidh, pacaid linux</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial idea, basic architecture, engine development</source>
-        <translation>idea iniziale, architettura di base, sviluppo motore</translation>
+        <translation>beachd tòiseachaidh, dealbhadh bunasach, leasachadh an einnsein</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>basic architecture, network development, windows package, MacOS package</source>
-        <translation>architettura di base, sviluppo di rete, pacchetto windows, pacchetto MacOS</translation>
+        <translation>dealbhadh bunasach, leasachadh lìonraidh, pacaid windows, pacaid MacOS</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial gui graphics design</source>
-        <translation>sviluppo iniziale grafica gui</translation>
+        <translation>a&apos; chiad dealbhachadh grafaigeachd na h-eadar-aghaidh</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>code modernization, QML layout</source>
-        <translation>modernizzazione del codice, layout QML</translation>
+        <translation>ùrachadh a&apos; chòd, co-dhealbhachd QML</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>web client development</source>
-        <translation>sviluppo del client web</translation>
+        <translation>leasachadh a&apos; chliant-lìn</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>- Wikimedia Commons: for different popular avatar picture resources</source>
-        <translation>- Wikimedia Commons: per le diverse gallerie di avatar</translation>
+        <translation>- Wikimedia Commons: airson caochladh ghoireasan dealbhan avatar mòr-chòrdte</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
-        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: per gli avatar raffiguranti persone</translation>
+        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: airson dealbhan avatar dhaoine</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- ZeiZei: for misc avatar pictures</source>
-        <translation>- ZeiZei: per gli avatar vari</translation>
+        <translation>- ZeiZei: airson dealbhan avatar measgaichte</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- kde-look.org: for different gpl licensed sounds</source>
-        <translation>- kde-look.org: per diversi suoni rilasciati sotto licenza GPL</translation>
+        <translation>- kde-look.org: airson caochladh fuaime fon cheadachas gpl</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- doc_dos: for self recorded chip sounds</source>
-        <translation>- doc_dos: per la registrazione del suono delle fiches</translation>
+        <translation>- doc_dos: airson fuaimean nam bonn a chlàraich e fhèin</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
-        <translation>- thiger, dunkanx, BerndA, coldz, drull: per diverse patch</translation>
+        <translation>- thiger, dunkanx, BerndA, coldz, drull: airson caochladh patch</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- kraut: for internet-game-server hosting and administration</source>
-        <translation>- kraut: per l&apos;hosting e l&apos;amministrazione del server per il gioco su internet</translation>
+        <translation>- kraut: airson òstadh is rianachd frithealaichean nan geamannan eadar-lìn</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
-        <translation>- danuxi: per gli sfondi della schermata di avvio e dello stile danuxi1</translation>
+        <translation>- danuxi: airson èifeachd grafaigeach an sgrìn-tòiseachaidh is cùlaibh a&apos; bhùird danuxi1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
-        <translation>- heyn: per il lavoro di moderazione sul forum, l&apos;organizzazione del bugtracker e la gestione delle richieste di nuove feature</translation>
+        <translation>- heyn: airson obair-mhaoir air a&apos; bhòrd-bhrath is rianachd a&apos; bugtracker is iarrtasan nam feart</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- texas_outlaw: for new table sounds</source>
-        <translation>- texas_outlaw: per i nuovi suoni del tavolo di gioco</translation>
+        <translation>- texas_outlaw: airson fuaimean a&apos; bhùird ùra</translation>
     </message>
 </context>
 <context>
@@ -174,12 +174,12 @@
     <message>
         <location filename="../cpp/androidconnectionservice.cpp" line="+29"/>
         <source>Connected to the game server</source>
-        <translation>Connesso al server di gioco</translation>
+        <translation>Ceangailte ri frithealaiche nan geamannan</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Online game connection</source>
-        <translation>Connessione di gioco online</translation>
+        <translation>Ceangal geama air loidhne</translation>
     </message>
 </context>
 <context>
@@ -187,22 +187,22 @@
     <message>
         <location filename="../components/AvatarCardRow.qml" line="+132"/>
         <source>Server response times</source>
-        <translation>Tempi di risposta del server</translation>
+        <translation>Ùineachan freagairte aig an fhrithealaiche</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Average: %1 ms</source>
-        <translation>Media: %1 ms</translation>
+        <translation>Cuibheas: %1 ms</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Minimum: %1 ms</source>
-        <translation>Minimo: %1 ms</translation>
+        <translation>As lugha: %1 ms</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Maximum: %1 ms</source>
-        <translation>Massimo: %1 ms</translation>
+        <translation>As motha: %1 ms</translation>
     </message>
 </context>
 <context>
@@ -210,32 +210,32 @@
     <message>
         <location filename="../pages/BbcRankingPage.qml" line="+36"/>
         <source>BBC Ranking</source>
-        <translation>Classifica BBC</translation>
+        <translation>Rangachadh BBC</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Season:</source>
-        <translation>Stagione:</translation>
+        <translation>Seusan:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>All-Time</source>
-        <translation>Sempre</translation>
+        <translation>Fad na h-ùine</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Search nickname</source>
-        <translation>Cerca nickname</translation>
+        <translation>Lorg far-ainm</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Step1</source>
-        <translation>Step1</translation>
+        <translation>Ceum 1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Season %1</source>
-        <translation>Stagione %1</translation>
+        <translation>Seusan %1</translation>
     </message>
 </context>
 <context>
@@ -243,39 +243,39 @@
     <message>
         <location filename="../components/ChatBox.qml" line="+31"/>
         <source>Nachricht …</source>
-        <translation>Messaggio …</translation>
+        <translation>Teachdaireachd …</translation>
     </message>
     <message>
         <location line="+797"/>
         <source>Link öffnen</source>
-        <translation>Apri link</translation>
+        <translation>Fosgail an ceangal</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Link kopieren</source>
-        <translation>Copia link</translation>
+        <translation>Dèan lethbhreac dhen cheangal</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+38"/>
         <source>Kopieren</source>
-        <translation>Copia</translation>
+        <translation>Dèan lethbhreac</translation>
     </message>
     <message>
         <location line="-33"/>
         <location line="+43"/>
         <source>Alles auswählen</source>
-        <translation>Seleziona tutto</translation>
+        <translation>Tagh na h-uile</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Ausschneiden</source>
-        <translation>Taglia</translation>
+        <translation>Gearr às</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Einfügen</source>
-        <translation>Incolla</translation>
+        <translation>Cuir ann</translation>
     </message>
 </context>
 <context>
@@ -283,7 +283,7 @@
     <message>
         <location filename="../cpp/chattranslator.cpp" line="+265"/>
         <source>Translation is currently unavailable. Please try again later.</source>
-        <translation>La traduzione non è al momento disponibile. Riprova più tardi.</translation>
+        <translation>Chan eil an t-eadar-theangachadh ri fhaighinn an-dràsta. Feuch ris a-rithist an ceann greis.</translation>
     </message>
 </context>
 <context>
@@ -291,98 +291,98 @@
     <message>
         <location filename="../components/CommunityPlayerView.qml" line="+30"/>
         <source>This season</source>
-        <translation>Questa stagione</translation>
+        <translation>An seusan seo</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+4"/>
         <source>All-time</source>
-        <translation>Sempre</translation>
+        <translation>Fad na h-ùine</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>This month</source>
-        <translation>Questo mese</translation>
+        <translation>Am mìos seo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This year</source>
-        <translation>Quest&apos;anno</translation>
+        <translation>Am bliadhna seo</translation>
     </message>
     <message>
         <location line="+75"/>
         <source>Player not found.</source>
-        <translation>Giocatore non trovato.</translation>
+        <translation>Cha deach an cluicheadair a lorg.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Could not load player (HTTP %1).</source>
-        <translation>Impossibile caricare il giocatore (HTTP %1).</translation>
+        <translation>Cha b&apos; urrainn dhuinn dàta a&apos; chluicheadair a luchdadh (HTTP %1).</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Cha b&apos; urrainn dhuinn freagairt an fhrithealaiche a phròiseasadh.</translation>
     </message>
     <message>
         <location line="+80"/>
         <source>Member since %1</source>
-        <translation>Membro dal %1</translation>
+        <translation>Ball o %1</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Awards</source>
-        <translation>Premi</translation>
+        <translation>Duaisean</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Tickets</source>
-        <translation>Biglietti</translation>
+        <translation>Ticheadan</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Step 2</source>
-        <translation>Step 2</translation>
+        <translation>Ceum 2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Step 3</source>
-        <translation>Step 3</translation>
+        <translation>Ceum 3</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Step 4</source>
-        <translation>Step 4</translation>
+        <translation>Ceum 4</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Rank</source>
-        <translation>Posizione</translation>
+        <translation>Àite</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Sgòr</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Geamannan</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Puingean</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Results:</source>
-        <translation>Risultati:</translation>
+        <translation>Toraidhean:</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Step %1</source>
-        <translation>Step %1</translation>
+        <translation>Ceum %1</translation>
     </message>
 </context>
 <context>
@@ -390,22 +390,22 @@
     <message>
         <location filename="../pages/CommunityRankingPage.qml" line="+40"/>
         <source>Community / Ranking</source>
-        <translation>Community / Classifica</translation>
+        <translation>Coimhearsnachd / rangachadh</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>PokerTH Ranking</source>
-        <translation>Classifica PokerTH</translation>
+        <translation>Rangachadh PokerTH</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>BBC Ranking</source>
-        <translation>Classifica BBC</translation>
+        <translation>Rangachadh BBC</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>WEC Ranking</source>
-        <translation>Classifica WEC</translation>
+        <translation>Rangachadh WEC</translation>
     </message>
 </context>
 <context>
@@ -415,17 +415,17 @@
         <location line="+17"/>
         <location line="+16"/>
         <source>Could not load ranking.</source>
-        <translation>Impossibile caricare la classifica.</translation>
+        <translation>Cha b&apos; urrainn dhuinn an rangachadh a luchdadh.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Could not load ranking (HTTP %1).</source>
-        <translation>Impossibile caricare la classifica (HTTP %1).</translation>
+        <translation>Cha b&apos; urrainn dhuinn an rangachadh a luchdadh (HTTP %1).</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Cha b&apos; urrainn dhuinn freagairt an fhrithealaiche a phròiseasadh.</translation>
     </message>
     <message>
         <location line="+26"/>
@@ -435,32 +435,32 @@
     <message>
         <location line="+7"/>
         <source>Nickname</source>
-        <translation>Nickname</translation>
+        <translation>Far-ainm</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Geamannan</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Sgòr</translation>
     </message>
     <message>
         <location line="+160"/>
         <source>No entries.</source>
-        <translation>Nessuna voce.</translation>
+        <translation>Chan eil innteart ann.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No matches.</source>
-        <translation>Nessuna corrispondenza.</translation>
+        <translation>Chan eil toradh ann.</translation>
     </message>
     <message>
         <location line="-44"/>
         <source>◀ Prev</source>
-        <translation>◀ Prec</translation>
+        <translation>◀ Air ais</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -470,12 +470,12 @@
     <message>
         <location line="+1"/>
         <source>Page %1 / %2  ·  %3 players</source>
-        <translation>Pagina %1 / %2  ·  %3 giocatori</translation>
+        <translation>Duilleag %1 / %2  ·  %3 cluicheadairean</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Next ▶</source>
-        <translation>Succ ▶</translation>
+        <translation>Air adhart ▶</translation>
     </message>
 </context>
 <context>
@@ -483,12 +483,12 @@
     <message>
         <location filename="../components/ConfirmPopup.qml" line="+25"/>
         <source>Yes</source>
-        <translation>Sì</translation>
+        <translation>Tha</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Sguir dheth</translation>
     </message>
 </context>
 <context>
@@ -496,7 +496,7 @@
     <message>
         <location filename="../components/CustomCheckBox.qml" line="+50"/>
         <source>CheckBox LabelText</source>
-        <translation>CheckBox LabelText</translation>
+        <translation>Teacsa leubail a&apos; bhogsa-cromaig</translation>
     </message>
 </context>
 <context>
@@ -504,22 +504,22 @@
     <message>
         <location filename="../components/ExampleAvatarPicker.qml" line="+68"/>
         <source>Beispiel-Avatar wählen</source>
-        <translation>Scegli avatar di esempio</translation>
+        <translation>Tagh avatar-eisimpleir</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Personen</source>
-        <translation>Persone</translation>
+        <translation>Daoine</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verschiedenes</source>
-        <translation>Vari</translation>
+        <translation>Measgaichte</translation>
     </message>
     <message>
         <location line="+83"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Sguir dheth</translation>
     </message>
 </context>
 <context>
@@ -528,7 +528,7 @@
         <location filename="../config/ForumNews.qml" line="+163"/>
         <location line="+11"/>
         <source>The forum feed could not be loaded.</source>
-        <translation>Impossibile caricare il feed del forum.</translation>
+        <translation>Cha b&apos; urrainn dhuinn inbhir a&apos; bhùird-bhrath a luchdadh.</translation>
     </message>
 </context>
 <context>
@@ -536,22 +536,22 @@
     <message>
         <location filename="../pages/ForumNewsPage.qml" line="+58"/>
         <source>Forum news</source>
-        <translation>Novità dal forum</translation>
+        <translation>Naidheachdan a&apos; bhùird-bhrath</translation>
     </message>
     <message>
         <location line="+141"/>
         <source>No entries.</source>
-        <translation>Nessuna voce.</translation>
+        <translation>Chan eil innteart ann.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Mark all as read</source>
-        <translation>Segna tutto come letto</translation>
+        <translation>Cuir comharra gun deach na h-uile a leughadh</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Open the forum</source>
-        <translation>Apri il forum</translation>
+        <translation>Fosgail am bòrd-brath</translation>
     </message>
 </context>
 <context>
@@ -559,22 +559,22 @@
     <message>
         <location filename="../pages/ForumPostPage.qml" line="+78"/>
         <source>Translation failed.</source>
-        <translation>Traduzione non riuscita.</translation>
+        <translation>Dh&apos;fhàillig leis an eadar-theangachadh.</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Show the original post</source>
-        <translation>Mostra il messaggio originale</translation>
+        <translation>Seall am post tùsail</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Translate the post</source>
-        <translation>Traduci il messaggio</translation>
+        <translation>Eadar-theangaich am post</translation>
     </message>
     <message>
         <location line="+147"/>
         <source>Open in the forum</source>
-        <translation>Apri nel forum</translation>
+        <translation>Fosgail air a&apos; bhòrd-bhrath</translation>
     </message>
 </context>
 <context>
@@ -582,22 +582,22 @@
     <message>
         <location filename="../components/GameActionBar.qml" line="+997"/>
         <source>Show</source>
-        <translation>Mostra</translation>
+        <translation>Seall</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Manuell</source>
-        <translation>Manuale</translation>
+        <translation>A làimh</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Auto Check/Call</source>
-        <translation>Check/Call automatico</translation>
+        <translation>Check/Call fèin-obrachail</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Auto Check/Fold</source>
-        <translation>Check/Fold automatico</translation>
+        <translation>Check/Fold fèin-obrachail</translation>
     </message>
 </context>
 <context>
@@ -605,12 +605,12 @@
     <message>
         <location filename="../components/GameAdminBadge.qml" line="+25"/>
         <source>Admin</source>
-        <translation>Admin</translation>
+        <translation>Rianaire</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Game admin: starts the game and can kick players</source>
-        <translation>Amministratore del tavolo: avvia la partita e può espellere i giocatori</translation>
+        <translation>Rianaire a&apos; gheama: tòisichidh e air a&apos; gheama is &apos;s urrainn dha cluicheadairean a thoirt air falbh</translation>
     </message>
 </context>
 <context>
@@ -618,72 +618,72 @@
     <message>
         <location filename="../components/GameInfoPanel.qml" line="+62"/>
         <source>Höchste Karte</source>
-        <translation>Carta alta</translation>
+        <translation>Cairt as àirde</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Paar</source>
-        <translation>Coppia</translation>
+        <translation>Paidhir</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Zwei Paare</source>
-        <translation>Doppia coppia</translation>
+        <translation>Dà phaidhir</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Drilling</source>
-        <translation>Tris</translation>
+        <translation>Trithear</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Straße</source>
-        <translation>Scala</translation>
+        <translation>Sreath</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Flush</source>
-        <translation>Colore</translation>
+        <translation>Flush</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Full House</source>
-        <translation>Full</translation>
+        <translation>Full House</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Vierling</source>
-        <translation>Poker</translation>
+        <translation>Ceathrar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Straight Flush</source>
-        <translation>Scala colore</translation>
+        <translation>Straight Flush</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Royal Flush</source>
-        <translation>Scala reale</translation>
+        <translation>Royal Flush</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Verlauf</source>
-        <translation>Cronologia</translation>
+        <translation>Eachdraidh</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Chancen</source>
-        <translation>Probabilità</translation>
+        <translation>Cothroman</translation>
     </message>
     <message>
         <location line="+245"/>
         <source>Kopieren</source>
-        <translation>Copia</translation>
+        <translation>Dèan lethbhreac</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Alles auswählen</source>
-        <translation>Seleziona tutto</translation>
+        <translation>Tagh na h-uile</translation>
     </message>
 </context>
 <context>
@@ -691,42 +691,42 @@
     <message>
         <location filename="../components/GameListItem.qml" line="+147"/>
         <source>Report inappropriate game name</source>
-        <translation>Segnala nome di partita offensivo</translation>
+        <translation>Aithris ainm geama mì-iomchaidh</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report game name</source>
-        <translation>Segnala nome partita</translation>
+        <translation>Aithris ainm a&apos; gheama</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure you want to report the game name:
 &quot;%1&quot; as inappropriate?</source>
-        <translation>Sei sicuro di voler segnalare il nome della partita:
-&quot;%1&quot; come offensivo?</translation>
+        <translation>A bheil thu cinnteach gu bheil thu airson ainm a&apos; gheama:
+&quot;%1&quot; aithris mar mhì-iomchaidh?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report</source>
-        <translation>Segnala</translation>
+        <translation>Aithris</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Close game (admin)</source>
-        <translation>Chiudi partita (admin)</translation>
+        <translation>Dùin an geama (rianaire)</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+3"/>
         <source>Close game</source>
-        <translation>Chiudi partita</translation>
+        <translation>Dùin an geama</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
-        <translation>Sei sicuro di voler chiudere la partita:
-&quot;%1&quot;?</translation>
+        <translation>A bheil thu cinnteach gu bheil thu airson an geama:
+&quot;%1&quot; a dhùnadh?</translation>
     </message>
 </context>
 <context>
@@ -734,42 +734,42 @@
     <message>
         <location filename="../pages/GamePage.qml" line="+2310"/>
         <source>Verlauf &amp; Chancen</source>
-        <translation>Cronologia e probabilità</translation>
+        <translation>Eachdraidh is cothroman</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Chat</source>
-        <translation>Chat</translation>
+        <translation>Cabadaich</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Emoji-Reaktionen</source>
-        <translation>Reazioni con emoji</translation>
+        <translation>Freagairtean emoji</translation>
     </message>
     <message>
         <location line="+314"/>
         <source>Game Over</source>
-        <translation>Partita terminata</translation>
+        <translation>Deireadh a&apos; gheama</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Congratulations, you won the game!</source>
-        <translation>Congratulazioni, hai vinto la partita!</translation>
+        <translation>Meal do naidheachd, bhuannaich thu an geama!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 wins the game!</source>
-        <translation>%1 vince la partita!</translation>
+        <translation>Bhuannaich %1 an geama!</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Back to Menu</source>
-        <translation>Torna al menu</translation>
+        <translation>Till dhan chlàr-taice</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>New Game</source>
-        <translation>Nuova partita</translation>
+        <translation>Geama ùr</translation>
     </message>
 </context>
 <context>
@@ -779,50 +779,50 @@
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
-        <translation>Ignora giocatore</translation>
+        <translation>Leig seachad cluicheadair</translation>
     </message>
     <message>
         <location line="-30"/>
         <location line="+36"/>
         <location line="+2"/>
         <source>Unignore player</source>
-        <translation>Non ignorare più il giocatore</translation>
+        <translation>Na leig seachad an cluicheadair</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Show player stats</source>
-        <translation>Mostra statistiche giocatore</translation>
+        <translation>Seall stadastaireachd a&apos; chluicheadair</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+35"/>
         <source>Report inappropriate avatar</source>
-        <translation>Segnala avatar non appropriato</translation>
+        <translation>Aithris avatar mì-iomchaidh</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Note about player ...</source>
-        <translation>Nota sul giocatore...</translation>
+        <translation>Nòta mun chluicheadair ...</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Are you sure you want to ignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero ignorare «%1»?&gt;</translation>
+        <translation>A bheil thu cinnteach gu bheil thu airson «%1» a leigeil seachad?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Are you sure you want to unignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero smettere di ignorare «%1»?&gt;</translation>
+        <translation>A bheil thu cinnteach nach eil thu airson «%1» a leigeil seachad tuilleadh?</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Are you sure you want to report the avatar of &quot;%1&quot; as inappropriate?</source>
-        <translation>Vuoi davvero segnalare l&apos;avatar di «%1» come non appropriato?</translation>
+        <translation>A bheil thu cinnteach gu bheil thu airson an avatar aig &quot;%1&quot; aithris mar mhì-iomchaidh?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Report</source>
-        <translation>Segnala</translation>
+        <translation>Aithris</translation>
     </message>
 </context>
 <context>
@@ -831,7 +831,7 @@
         <location filename="../components/GamePlayerSelfBox.qml" line="+209"/>
         <location line="+33"/>
         <source>Du</source>
-        <translation>Tu</translation>
+        <translation>Thusa</translation>
     </message>
 </context>
 <context>
@@ -839,27 +839,27 @@
     <message>
         <location filename="../components/GameStatusBar.qml" line="+100"/>
         <source>Show table ranking</source>
-        <translation>Mostra classifica del tavolo</translation>
+        <translation>Seall rangachadh a&apos; bhùird</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Open in browser</source>
-        <translation>Apri nel browser</translation>
+        <translation>Fosgail sa bhrabhsair</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Total:</source>
-        <translation>Totale:</translation>
+        <translation>Poit:</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Bets:</source>
-        <translation>Puntate:</translation>
+        <translation>Geallan:</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Spectating</source>
-        <translation>Spettatore</translation>
+        <translation>&apos;Ga amharc</translation>
     </message>
     <message>
         <location line="+49"/>
@@ -869,12 +869,12 @@
     <message>
         <location line="+10"/>
         <source>Game: %1</source>
-        <translation>Partita: %1</translation>
+        <translation>Geama: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Hand: %1</source>
-        <translation>Mano: %1</translation>
+        <translation>Làmh: %1</translation>
     </message>
 </context>
 <context>
@@ -883,92 +883,92 @@
         <location filename="../pages/GameTableStatsPage.qml" line="+151"/>
         <location line="+36"/>
         <source>Could not load table ranking (HTTP %1).</source>
-        <translation>Impossibile caricare la classifica del tavolo (HTTP %1).</translation>
+        <translation>Cha b&apos; urrainn dhuinn rangachadh a&apos; bhùird a luchdadh (HTTP %1).</translation>
     </message>
     <message>
         <location line="-16"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Cha b&apos; urrainn dhuinn freagairt an fhrithealaiche a phròiseasadh.</translation>
     </message>
     <message>
         <location line="+58"/>
         <source>Table ranking – %1</source>
-        <translation>Classifica del tavolo – %1</translation>
+        <translation>Rangachadh a&apos; bhùird – %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Table ranking</source>
-        <translation>Classifica del tavolo</translation>
+        <translation>Rangachadh a&apos; bhùird</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>Seòrsa: %1</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Players: %1 / %2</source>
-        <translation>Giocatori: %1 / %2</translation>
+        <translation>Cluicheadairean: %1 / %2</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Small blind: %1</source>
-        <translation>Buio piccolo: %1</translation>
+        <translation>Blind beag: %1</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Start cash: %1</source>
-        <translation>Capitale iniziale: %1</translation>
+        <translation>Airgead tòiseachaidh: %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervallo aumento buio: %1 mani</translation>
+        <translation>Eadaramh àrdachadh nam blinds: %1 làmhan</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervallo aumento buio: %1 minuti</translation>
+        <translation>Eadaramh àrdachadh nam blinds: %1 mionaidean</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modalità aumento buio: %1</translation>
+        <translation>Modh àrdachadh nam blinds: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>double blinds</source>
-        <translation>raddoppia blind</translation>
+        <translation>blinds dùbailte</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordine manuale dei blind</translation>
+        <translation>òrdugh nam blinds a làimh</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Action time: %1 sec</source>
-        <translation>Tempo di azione: %1 sec</translation>
+        <translation>Ùine gnìomha: %1 diog</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Hand delay: %1 sec</source>
-        <translation>Ritardo tra le mani: %1 sec</translation>
+        <translation>Stad eadar làmhan: %1 diog</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Current BBC season standings of the players at this table.</source>
-        <translation>Classifica della stagione BBC corrente dei giocatori a questo tavolo.</translation>
+        <translation>Suidheachadh làithreach nan cluicheadairean aig a&apos; bhòrd seo ann an seusan BBC.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Current WEC month standings of the players at this table.</source>
-        <translation>Classifica del mese WEC corrente dei giocatori a questo tavolo.</translation>
+        <translation>Suidheachadh làithreach nan cluicheadairean aig a&apos; bhòrd seo ann am mìos WEC.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Current season standings of the players at this table.</source>
-        <translation>Classifica della stagione corrente dei giocatori a questo tavolo.</translation>
+        <translation>Suidheachadh làithreach nan cluicheadairean aig a&apos; bhòrd seo sa cheusan.</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -978,32 +978,32 @@
     <message>
         <location line="+8"/>
         <source>Player</source>
-        <translation>Giocatore</translation>
+        <translation>Cluicheadair</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Geamannan</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>Cuibh.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Puingean</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Sgòr</translation>
     </message>
     <message>
         <location line="+138"/>
         <source>No ranking data for the players at this table yet.</source>
-        <translation>Ancora nessun dato di classifica per i giocatori a questo tavolo.</translation>
+        <translation>Chan eil dàta rangachaidh ann fhathast dha na cluicheadairean aig a&apos; bhòrd seo.</translation>
     </message>
 </context>
 <context>
@@ -1011,208 +1011,208 @@
     <message>
         <location filename="../pages/GameWaitPage.qml" line="+241"/>
         <source>Players</source>
-        <translation>Giocatori</translation>
+        <translation>Cluicheadairean</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>search for player ...</source>
-        <translation>ricerca giocatore ...</translation>
+        <translation>lorg cluicheadair ...</translation>
     </message>
     <message>
         <location line="+32"/>
         <location line="+310"/>
         <source>Sort alphabetically</source>
-        <translation>Ordina alfabeticamente</translation>
+        <translation>Seòrsaich a rèir na h-aibidil</translation>
     </message>
     <message>
         <location line="-309"/>
         <location line="+310"/>
         <source>Sort by country</source>
-        <translation>Ordina per nazionalità</translation>
+        <translation>Seòrsaich a rèir dùthcha</translation>
     </message>
     <message>
         <location line="-309"/>
         <location line="+310"/>
         <source>Display idle players</source>
-        <translation>Visualizza giocatori liberi</translation>
+        <translation>Seall cluicheadairean air tàmh</translation>
     </message>
     <message>
         <location line="-267"/>
         <location line="+687"/>
         <source>Game List</source>
-        <translation>Elenco partite</translation>
+        <translation>Liosta nan geamannan</translation>
     </message>
     <message>
         <location line="-636"/>
         <location line="+648"/>
         <source>No game list filter</source>
-        <translation>Nessun filtro elenco partite</translation>
+        <translation>Gun chriathrag air liosta nan geamannan</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open games</source>
-        <translation>Mostra partite aperte</translation>
+        <translation>Seall na geamannan fosgailte</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full games</source>
-        <translation>Mostra partite aperte e non piene</translation>
+        <translation>Seall na geamannan fosgailte nach eil làn</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
-        <translation>Mostra partite aperte, non piene e non private</translation>
+        <translation>Seall na geamannan fosgailte, nach eil làn is a tha poblach</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; private games</source>
-        <translation>Mostra partite aperte, non piene e private</translation>
+        <translation>Seall na geamannan fosgailte, nach eil làn is a tha prìobhaideach</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
-        <translation>Mostra partite aperte, non piene e con classifica</translation>
+        <translation>Seall na geamannan rangachaidh fosgailte nach eil làn</translation>
     </message>
     <message>
         <location line="-574"/>
         <source>Game Info</source>
-        <translation>Informazioni partita</translation>
+        <translation>Fiosrachadh a&apos; gheama</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Waiting for the start of the next hand to rejoin the game</source>
-        <translation>In attesa dell&apos;inizio della prossima mano per rientrare nella partita</translation>
+        <translation>A&apos; feitheamh ri toiseach na h-ath-làimhe gus tilleadh dhan gheama</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Spectating — waiting for the next hand</source>
-        <translation>Spettatore — in attesa della prossima mano</translation>
+        <translation>&apos;Ga amharc — a&apos; feitheamh ris an ath-làimh</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Waiting for players</source>
-        <translation>In attesa di giocatori</translation>
+        <translation>A&apos; feitheamh ri cluicheadairean</translation>
     </message>
     <message>
         <location line="+82"/>
         <source>Connected Players</source>
-        <translation>Giocatori connessi</translation>
+        <translation>Cluicheadairean ceangailte</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Players: %1 / %2</source>
-        <translation>Giocatori: %1 / %2</translation>
+        <translation>Cluicheadairean: %1 / %2</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>Seòrsa: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Small blind: %1</source>
-        <translation>Buio piccolo: %1</translation>
+        <translation>Blind beag: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Start cash: %1</source>
-        <translation>Capitale iniziale: %1</translation>
+        <translation>Airgead tòiseachaidh: %1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervallo aumento buio: %1 mani</translation>
+        <translation>Eadaramh àrdachadh nam blinds: %1 làmhan</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervallo aumento buio: %1 minuti</translation>
+        <translation>Eadaramh àrdachadh nam blinds: %1 mionaidean</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modalità aumento buio: %1</translation>
+        <translation>Modh àrdachadh nam blinds: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>double blinds</source>
-        <translation>raddoppia blind</translation>
+        <translation>blinds dùbailte</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordine manuale dei blind</translation>
+        <translation>òrdugh nam blinds a làimh</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Action time: %1 sec</source>
-        <translation>Tempo di azione: %1 sec</translation>
+        <translation>Ùine gnìomha: %1 diog</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Hand delay: %1 sec</source>
-        <translation>Ritardo tra le mani: %1 sec</translation>
+        <translation>Stad eadar làmhan: %1 diog</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Players in game (%1)</source>
-        <translation>Giocatori in partita (%1)</translation>
+        <translation>Cluicheadairean sa gheama (%1)</translation>
     </message>
     <message>
         <location line="-653"/>
         <location line="+745"/>
         <source>Kick player</source>
-        <translation>Espelli giocatore</translation>
+        <translation>Thoir an cluicheadair air falbh</translation>
     </message>
     <message>
         <location line="-744"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
-        <translation>Vuoi davvero espellere «%1» dalla partita?</translation>
+        <translation>A bheil thu cinnteach gu bheil thu airson «%1» a thoirt air falbh on gheama?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kick</source>
-        <translation>Espelli</translation>
+        <translation>Thoir a&apos; bhròg</translation>
     </message>
     <message>
         <location line="+776"/>
         <source>Lobby Chat</source>
-        <translation>Chat della lobby</translation>
+        <translation>Cabadaich an lobaidh</translation>
     </message>
     <message>
         <location line="+73"/>
         <source>Guests cannot chat</source>
-        <translation>Gli ospiti non possono chattare</translation>
+        <translation>Chan urrainn dha aoighean cabadaich</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Type your message...</source>
-        <translation>Scrivi il tuo messaggio...</translation>
+        <translation>Sgrìobh an teachdaireachd agad...</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Fill up with computer players</source>
-        <translation>Completa con giocatori del computer</translation>
+        <translation>Lìon le cluicheadairean coimpiutair</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Leave Game</source>
-        <translation>Abbandona partita</translation>
+        <translation>Fàg an geama</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Start Game</source>
-        <translation>Inizia partita</translation>
+        <translation>Tòisich air a&apos; gheama</translation>
     </message>
     <message>
         <location line="-88"/>
         <source>Suggest players</source>
-        <translation>Suggerisci giocatori</translation>
+        <translation>Mol cluicheadairean</translation>
     </message>
 </context>
 <context>
@@ -1220,32 +1220,32 @@
     <message>
         <location filename="../components/GlobalNoticePopup.qml" line="+58"/>
         <source>Global notice</source>
-        <translation>Avviso globale</translation>
+        <translation>Brath coitcheann</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This message is shown to every player on the server, in the lobby and at the tables.</source>
-        <translation>Questo messaggio viene mostrato a tutti i giocatori del server, nella lobby e ai tavoli.</translation>
+        <translation>Chithear an teachdaireachd seo aig gach cluicheadair air an fhrithealaiche, san lobaidh is aig na bùird.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Notice text …</source>
-        <translation>Testo dell&apos;avviso …</translation>
+        <translation>Teacsa a&apos; bhratha …</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>%1 / %2 characters</source>
-        <translation>%1 / %2 caratteri</translation>
+        <translation>%1 / %2 caractaran</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Sguir dheth</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Send</source>
-        <translation>Invia</translation>
+        <translation>Cuir</translation>
     </message>
 </context>
 <context>
@@ -1253,157 +1253,157 @@
     <message>
         <location filename="../components/GuiSettings.qml" line="+20"/>
         <source>Benutzeroberfläche</source>
-        <translation>Interfaccia utente</translation>
+        <translation>Eadar-aghaidh a&apos; chleachdaiche</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Allgemein</source>
-        <translation>Generale</translation>
+        <translation>Coitcheann</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Netzwerk</source>
-        <translation>Rete</translation>
+        <translation>Lìonra</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Dark Mode:</source>
-        <translation>Modalità scura:</translation>
+        <translation>Modh dorcha:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Automatisch</source>
-        <translation>Automatica</translation>
+        <translation>Fèin-obrachail</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Hell</source>
-        <translation>Chiaro</translation>
+        <translation>Soilleir</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Dunkel</source>
-        <translation>Scuro</translation>
+        <translation>Dorcha</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Sprache:</source>
-        <translation>Lingua:</translation>
+        <translation>Cànan:</translation>
     </message>
     <message>
         <location line="+70"/>
         <source>Ausblend-Animation für Verliererkarten</source>
-        <translation>Animazione di dissolvenza per le carte perdenti</translation>
+        <translation>Beòthachadh crìonaidh dha na cairtean a chaill</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Zeitstempel im Chat anzeigen</source>
-        <translation>Mostra l&apos;orario nella chat</translation>
+        <translation>Seall stampaichean-ama sa chabadaich</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Übersetzung anbieten (Globus-Symbol im Chat und bei Forum-Beiträgen)</source>
-        <translation>Offri la traduzione (icona del globo nella chat e nei messaggi del forum)</translation>
+        <translation>Tairg eadar-theangachadh (ìomhaigheag na cruinne sa chabadaich is sna postaichean)</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht oder eines Forum-Beitrags antippst; Zielsprache ist die oben gewählte Sprache.</source>
-        <translation>La traduzione utilizza un servizio esterno (Google Traduttore o, in alternativa, MyMemory). Non viene inviato nulla finché non tocchi l&apos;icona di un messaggio o di un messaggio del forum; la lingua di destinazione è quella selezionata sopra.</translation>
+        <translation>Cleachdaidh an t-eadar-theangachadh seirbheis on taobh a-muigh (Google Translate, no MyMemory mar chùl-taic). Cha tèid dad a chur ach nuair a bhriogas tu air ìomhaigheag teachdaireachd no puist; &apos;s e an cànan a thagh thu gu h-àrd an ceann-uidhe.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Animierte Karten (Aufdeck-Animation)</source>
-        <translation>Carte animate (animazione flip)</translation>
+        <translation>Cairtean beòthaichte (beòthachadh nochdaidh)</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Grafikeffekte reduzieren (Schatten/Glow) – für schwache Systeme</source>
-        <translation>Riduci effetti grafici (ombre/bagliori) – per sistemi meno performanti</translation>
+        <translation>Lùghdaich na h-èifeachdan grafaigeach (sgàilean/deàrrsadh) – dha shiostaman lag</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Alternative F-Tasten-Belegung (F1-F4)</source>
-        <translation>Assegnazione alternativa dei tasti F (F1-F4)</translation>
+        <translation>Co-dhealbhachd iuchraichean F eile (F1-F4)</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Symbole für Small Blind und Big Blind anzeigen</source>
-        <translation>Mostra i simboli di buio piccolo e buio grande</translation>
+        <translation>Seall samhlaidhean airson a&apos; bhlind bhig is mhòir</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Pot-Prozent-Schaltflächen anzeigen</source>
-        <translation>Mostra i pulsanti percentuale del piatto</translation>
+        <translation>Seall putanan ceudad na poite</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Anti-Peek: Eigene Karten erst bei Klick anzeigen</source>
-        <translation>Anti-sbirciata: mostra le proprie carte solo al clic</translation>
+        <translation>An aghaidh peekaidh: na seall na cairtean agad fhèin ach nuair a bhriogas tu orra</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Startbildschirm beim Startvorgang deaktivieren</source>
-        <translation>Disabilita la schermata iniziale all&apos;avvio</translation>
+        <translation>Na seall an sgrìn-tòiseachaidh nuair a thòisicheas an geama</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Internationale Pokerausdrücke (Check, Call, Raise) nicht übersetzen</source>
-        <translation>Non tradurre i termini internazionali del poker (Check, Call, Raise)</translation>
+        <translation>Na eadar-theangaich briathran eadar-nàiseanta a&apos; phoker (Check, Call, Raise)</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Tooltips anzeigen</source>
-        <translation>Mostra i suggerimenti</translation>
+        <translation>Seall gliocasan-sgrìn</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
-        <translation>Abilita lo zoom del tavolo (scorrimento e zoom, solo modalità mobile)</translation>
+        <translation>Cuir sùm a&apos; bhùird an comas (sguabadh is sùm, sa mhodh mhobile a-mhàin)</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)</source>
-        <translation>Mantieni i posti dei giocatori che hanno lasciato il tavolo (i riquadri dei giocatori rimanenti restano al loro posto)</translation>
+        <translation>Cum àitichean nan cluicheadairean a dh&apos;fhalbh on bhòrd (fanaidh na bogsaichean eile far a bheil iad)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Forum-Neuigkeiten anzeigen</source>
-        <translation>Mostra le novità dal forum</translation>
+        <translation>Seall naidheachdan a&apos; bhùird-bhrath</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Community-Inhalte anzeigen</source>
-        <translation>Mostra contenuti della community</translation>
+        <translation>Seall susbaint na coimhearsnachd</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Standard-Community:</source>
-        <translation>Community predefinita:</translation>
+        <translation>A&apos; choimhearsnachd bhunaiteach:</translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
-        <translation>Imposta il focus sul campo di puntata quando è il tuo turno</translation>
+        <translation>Cuir am fòcas air raon nan geall nuair as ann ortsa a tha an turas</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen</source>
-        <translation>Mostra il colore dello stato di rete nell&apos;angolo dell&apos;avatar</translation>
+        <translation>Seall dath staid an lìonraidh ann an oisean an avatair</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Emoji-Reaktionen deaktivieren</source>
-        <translation>Disabilita le reazioni con emoji</translation>
+        <translation>Cuir freagairtean emoji à comas</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Versehentliches Call nach einem großen Raise verhindern</source>
-        <translation>Evita chiamate accidentali dopo un grande rilancio</translation>
+        <translation>Cuir casg air Call gun rùn às dèidh Raise mòr</translation>
     </message>
     <message>
         <location line="-31"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
-        <translation>Suggerisci giocatori nelle proprie partite della community</translation>
+        <translation>Mol cluicheadairean sna geamannan coimhearsnachd agad fhèin</translation>
     </message>
 </context>
 <context>
@@ -1411,157 +1411,157 @@
     <message>
         <location filename="../components/InternetGameSettings.qml" line="+19"/>
         <source>Internetspiel</source>
-        <translation>Partita in Internet</translation>
+        <translation>Geama eadar-lìn</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Server-Konfiguration</source>
-        <translation>Configurazione server</translation>
+        <translation>Rèiteachadh an fhrithealaiche</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Automatische Server-Konfiguration</source>
-        <translation>Configurazione automatica del server</translation>
+        <translation>Rèiteachadh fèin-obrachail an fhrithealaiche</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Manuelle Server-Konfiguration</source>
-        <translation>Configurazione manuale del server</translation>
+        <translation>Rèiteachadh làimhe an fhrithealaiche</translation>
     </message>
     <message>
         <location line="-18"/>
         <source>Server-Liste:</source>
-        <translation>Elenco server:</translation>
+        <translation>Liosta nam frithealaichean:</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Server-Adresse:</source>
-        <translation>Indirizzo del server:</translation>
+        <translation>Seòladh an fhrithealaiche:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Server-Port:</source>
-        <translation>Porta del server:</translation>
+        <translation>Port an fhrithealaiche:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Server-Passwort:</source>
-        <translation>Password del server:</translation>
+        <translation>Facal-faire an fhrithealaiche:</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Nur registrierte Spieler</source>
-        <translation>Solo utenti registrati</translation>
+        <translation>Cluicheadairean clàraichte a-mhàin</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur eingeladene Spieler</source>
-        <translation>Solo utenti invitati</translation>
+        <translation>Cluicheadairean le cuireadh a-mhàin</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranglistenspiel</source>
-        <translation>Valida per la classifica</translation>
+        <translation>Geama rangachaidh</translation>
     </message>
     <message>
         <location line="+87"/>
         <source>Verbindungsoptionen</source>
-        <translation>Opzioni di connessione</translation>
+        <translation>Roghainnean a&apos; cheangail</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>TLS/SSL verwenden (verschlüsselte Verbindung)</source>
-        <translation>Usa TLS/SSL (connessione crittografata)</translation>
+        <translation>Cleachd TLS/SSL (ceangal crioptaichte)</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>SCTP verwenden (statt TCP)</source>
-        <translation>Usa SCTP (invece di TCP)</translation>
+        <translation>Cleachd SCTP (an àite TCP)</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>IPv6 verwenden</source>
-        <translation>Utilizza IPv6</translation>
+        <translation>Cleachd IPv6</translation>
     </message>
     <message>
         <location line="-52"/>
         <source>Avatar-Server</source>
-        <translation>Server avatar</translation>
+        <translation>Frithealaiche nan avatar</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Avatar-Server verwenden</source>
-        <translation>Usa il server avatar</translation>
+        <translation>Cleachd frithealaiche nan avatar</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avatar-Server-Adresse:</source>
-        <translation>Indirizzo del server avatar:</translation>
+        <translation>Seòladh frithealaiche nan avatar:</translation>
     </message>
     <message>
         <location line="-101"/>
         <source>Spiel-Einstellungen</source>
-        <translation>Impostazioni partita</translation>
+        <translation>Roghainnean a&apos; gheama</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Spiel-Name:</source>
-        <translation>Nome partita:</translation>
+        <translation>Ainm a&apos; gheama:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Spiel-Typ:</source>
-        <translation>Tipo di partita:</translation>
+        <translation>Seòrsa a&apos; gheama:</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Normal</source>
-        <translation>Normale</translation>
+        <translation>Àbhaisteach</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Spiel-Passwort verwenden</source>
-        <translation>Usa password della partita</translation>
+        <translation>Cleachd facal-faire airson a&apos; gheama</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Spiel-Passwort:</source>
-        <translation>Password della partita:</translation>
+        <translation>Facal-faire a&apos; gheama:</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Zuschauer erlauben</source>
-        <translation>Consenti spettatori</translation>
+        <translation>Ceadaich luchd-amhairc</translation>
     </message>
     <message>
         <location line="+84"/>
         <source>Tisch automatisch verlassen nach Spielende</source>
-        <translation>Lascia automaticamente il tavolo al termine della partita</translation>
+        <translation>Fàg am bòrd gu fèin-obrachail nuair a bhios an geama seachad</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>Weitere Optionen</source>
-        <translation>Altre opzioni</translation>
+        <translation>Barrachd roghainnean</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Ignorierte Spieler</source>
-        <translation>Giocatori Ignorati</translation>
+        <translation>Cluicheadairean &apos;gan leigeil seachad</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>(keine ignorierten Spieler)</source>
-        <translation>(nessun giocatore ignorato)</translation>
+        <translation>(chan eil cluicheadair &apos;ga leigeil seachad)</translation>
     </message>
     <message>
         <location line="-45"/>
         <source>Spieler auf der Ignore-Liste werden nicht im Chat angezeigt.</source>
-        <translation>I giocatori nella lista degli ignorati non vengono mostrati in chat.</translation>
+        <translation>Cha nochd na cluicheadairean air an liosta seo sa chabadaich.</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Entfernen</source>
-        <translation>Rimuovi</translation>
+        <translation>Thoir air falbh</translation>
     </message>
 </context>
 <context>
@@ -1569,149 +1569,149 @@
     <message>
         <location filename="../pages/LobbyCreateGamePage.qml" line="+314"/>
         <source>← Zurück</source>
-        <translation>← Indietro</translation>
+        <translation>← Air ais</translation>
     </message>
     <message>
         <location line="+8"/>
         <location line="+455"/>
         <source>Spiel erstellen</source>
-        <translation>Crea Partita</translation>
+        <translation>Cruthaich geama</translation>
     </message>
     <message>
         <location line="-426"/>
         <source>Spielname</source>
-        <translation>Nome partita</translation>
+        <translation>Ainm a&apos; gheama</translation>
     </message>
     <message>
         <location line="-205"/>
         <source>%1&apos;s game</source>
-        <translation>Partita di %1</translation>
+        <translation>An geama aig %1</translation>
     </message>
     <message>
         <location line="+214"/>
         <source>Spielname eingeben …</source>
-        <translation>Inserisci il nome della partita …</translation>
+        <translation>Cuir a-steach ainm geama …</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Spieltyp</source>
-        <translation>Tipo di partita</translation>
+        <translation>Seòrsa a&apos; gheama</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Normal</source>
-        <translation>Normale</translation>
+        <translation>Àbhaisteach</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur registrierte Spieler</source>
-        <translation>Solo utenti registrati</translation>
+        <translation>Cluicheadairean clàraichte a-mhàin</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur eingeladene Spieler</source>
-        <translation>Solo utenti invitati</translation>
+        <translation>Cluicheadairean le cuireadh a-mhàin</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranglistenspiel</source>
-        <translation>Valida per la classifica</translation>
+        <translation>Geama rangachaidh</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Community-Vorlage</source>
-        <translation>Modello della community</translation>
+        <translation>Teamplaid na coimhearsnachd</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Eigene Einstellungen</source>
-        <translation>Impostazioni personalizzate</translation>
+        <translation>Na roghainnean agad fhèin</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Passwort</source>
-        <translation>Password</translation>
+        <translation>Facal-faire</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Passwort eingeben …</source>
-        <translation>Inserisci password …</translation>
+        <translation>Cuir a-steach am facal-faire …</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Zuschauer erlaubt</source>
-        <translation>Spettatori ammessi</translation>
+        <translation>Tha luchd-amhairc ceadaichte</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Max. Spieler</source>
-        <translation>Numero max. giocatori</translation>
+        <translation>Cluicheadairean as motha</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Startgeld</source>
-        <translation>Capitale iniziale</translation>
+        <translation>Airgead tòiseachaidh</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Blind-Einstellungen</source>
-        <translation>Impostazioni buio</translation>
+        <translation>Roghainnean nam blinds</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Erster Small Blind</source>
-        <translation>Primo buio piccolo</translation>
+        <translation>A&apos; chiad bhlind beag</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Blind-Erhöhungsintervall</source>
-        <translation>Intervallo aumento buio</translation>
+        <translation>Eadaramh àrdachadh nam blinds</translation>
     </message>
     <message>
         <location line="+22"/>
         <location line="+28"/>
         <source>Alle</source>
-        <translation>Ogni</translation>
+        <translation>Gach</translation>
     </message>
     <message>
         <location line="-17"/>
         <source>Hände</source>
-        <translation>mani</translation>
+        <translation>làmhan</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Minuten</source>
-        <translation>minuti</translation>
+        <translation>mionaidean</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Blindliste: %1</source>
-        <translation>Lista dei bui: %1</translation>
+        <translation>Liosta nam blinds: %1</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Zeitlimits</source>
-        <translation>Limiti di tempo</translation>
+        <translation>Crìochan-ama</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Zeitlimit Spieleraktion</source>
-        <translation>Limite di tempo per l&apos;azione del giocatore</translation>
+        <translation>Crìoch-ama gnìomh a&apos; chluicheadair</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Pause zwischen Händen</source>
-        <translation>Ritardo tra le mani</translation>
+        <translation>Stad eadar làmhan</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Sguir dheth</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Bitte einen Spielnamen eingeben.</source>
-        <translation>Inserisci un nome per la partita.</translation>
+        <translation>Cuir a-steach ainm geama.</translation>
     </message>
 </context>
 <context>
@@ -1720,172 +1720,172 @@
         <location filename="../cpp/lobbyhandler.cpp" line="+1441"/>
         <location line="+1347"/>
         <source>Guests cannot send chat messages</source>
-        <translation>Gli ospiti non possono inviare messaggi in chat</translation>
+        <translation>Chan urrainn dha aoighean teachdaireachdan cabadaich a chur</translation>
     </message>
     <message>
         <location line="-1328"/>
         <location line="+1322"/>
         <source>Private messages are not available at the table.</source>
-        <translation>I messaggi privati non sono disponibili al tavolo.</translation>
+        <translation>Chan eil teachdaireachdan prìobhaideach ri fhaighinn aig a&apos; bhòrd.</translation>
     </message>
     <message>
         <location line="-1316"/>
         <source>Player not found</source>
-        <translation>Giocatore non trovato</translation>
+        <translation>Cha deach an cluicheadair a lorg</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Failed to send chat message</source>
-        <translation>Impossibile inviare il messaggio in chat</translation>
+        <translation>Cha b&apos; urrainn dhuinn an teachdaireachd chabadaich a chur</translation>
     </message>
     <message>
         <location line="+98"/>
         <source>The avatar report was accepted by the server. Thank you.</source>
-        <translation>La segnalazione dell&apos;avatar è stata accettata dal server. Grazie mille.</translation>
+        <translation>Ghabh am frithealaiche ris an aithris air avatar. Mòran taing.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This avatar was already reported by another player.</source>
-        <translation>Questo avatar è già stato segnalato da un altro giocatore.</translation>
+        <translation>Chaidh an t-avatar seo aithris le cluicheadair eile mu thràth.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An error occurred while reporting the avatar.</source>
-        <translation>Si è verificato un errore durante la segnalazione dell&apos;avatar.</translation>
+        <translation>Thachair mearachd le aithris air an avatar.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name report was accepted by the server. Thank you.</source>
-        <translation>La segnalazione sul nome della partita è stata accettata dal server. Grazie.</translation>
+        <translation>Ghabh am frithealaiche ris an aithris air ainm a&apos; gheama. Mòran taing.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game name was already reported by another player.</source>
-        <translation>Questo nome di partita è già stato segnalato da un altro giocatore.</translation>
+        <translation>Chaidh ainm a&apos; gheama seo aithris le cluicheadair eile mu thràth.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An error occurred while reporting the game name.</source>
-        <translation>Si è verificato un errore durante la segnalazione del nome di partita.</translation>
+        <translation>Thachair mearachd le aithris air ainm a&apos; gheama.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game was closed.</source>
-        <translation>La partita è stata chiusa.</translation>
+        <translation>Chaidh an geama a dhùnadh.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be closed.</source>
-        <translation>Impossibile chiudere la partita.</translation>
+        <translation>Cha b&apos; urrainn dhuinn an geama a dhùnadh.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked and banned permanently.</source>
-        <translation>Il giocatore è stato espulso e bandito permanentemente.</translation>
+        <translation>Chaidh a&apos; bhròg a thoirt dhan chluicheadair is a thoirmeasg gu buan.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked, but could not be banned because it was a guest player.</source>
-        <translation>Il giocatore è stato espulso ma non è stato bandito perchè era un ospite.</translation>
+        <translation>Chaidh a&apos; bhròg a thoirt dhan chluicheadair ach cha b&apos; urrainn dhuinn a thoirmeasg oir &apos;s e aoigh a bh&apos; ann.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked, but could not be banned, 
 because the nick could not be found in the database</source>
-        <translation>Il giocatore è stato espulso ma non bandito
-perchè il suo nickname non è stato trovato sul database</translation>
+        <translation>Chaidh a&apos; bhròg a thoirt dhan chluicheadair ach dha b&apos; urrainn dhuinn a thoirmeasg 
+on nach deach am far-ainm a lorg san stòr-dàta</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player could not be found.</source>
-        <translation>Impossibile trovare il giocatore.</translation>
+        <translation>Cha deach an cluicheadair a lorg.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The global notice was sent to all players.</source>
-        <translation>L&apos;avviso globale è stato inviato a tutti i giocatori.</translation>
+        <translation>Chaidh am brath coitcheann a chur dha na h-uile cluicheadair.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The global notice was rejected by the server.</source>
-        <translation>L&apos;avviso globale è stato rifiutato dal server.</translation>
+        <translation>Dhiùlt am frithealaiche am brath coitcheann.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>You cannot join this game, because another player in that game has your network address.</source>
-        <translation>Non puoi unirti alla partita, è presente un altro giocatore che ha il tuo stesso indirizzo di rete.</translation>
+        <translation>Chan urrainn dhut gabhail sa gheama seo oir tha an seòladh lìonraidh agad aig cluicheadair eile sa gheama seo.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Sorry, this game is already full.</source>
-        <translation>Spiacente, la partita è già al completo.</translation>
+        <translation>Tha sinn duilich, ach tha an geama seo làn mar-thà.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Unable to join - the server has already started the game.</source>
-        <translation>Impossibile partecipare - la partita è già iniziata.</translation>
+        <translation>Chan urrainn dhut gabhail ann - tha am frithealaiche air an geama a thòiseachadh.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game is of type invite-only. You cannot join this game without being invited.</source>
-        <translation>L&apos;accesso a questa partita è concesso solo su invito. Non puoi partecipare senza essere stato invitato.</translation>
+        <translation>Tha an geama seo dhen t-seòrsa le cuireadh a-mhàin. Chan urrainn dhut gabhail sa gheama seo gun chuireadh fhaighinn.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game name is already in use. Please choose a different name.</source>
-        <translation>Questo nome partita è già in uso. Scegli un nome diverso.</translation>
+        <translation>Tha an t-ainm geama seo &apos;ga chleachdadh mu thràth. Tagh ainm eile.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name is invalid. Please choose a different name.</source>
-        <translation>Il nome della partita non è valido. Scegli un nome diverso.</translation>
+        <translation>Tha ainm a&apos; gheama mì-dhligheach. Tagh ainm eile.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
-        <translation>Password sbagliata per la partita selezionata.
-Reinserire la password e riprovare.</translation>
+        <translation>Facal-faire mì-dhligheach le gabhail sa gheama.
+Cuir am facal-faire a-steach turas eile is feuch ris a-rithist.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You cannot join this type of game as guest.</source>
-        <translation>Non puoi accedere a questa partita come ospite.</translation>
+        <translation>Chan urrainn dhut gabhail san t-seòrsa dhe gheama seo mar aoigh.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The settings are invalid for this type of game.</source>
-        <translation>Impostazioni non valide per questo tipo di partita.</translation>
+        <translation>Tha na roghainnean mì-dhligheach airson an t-seòrsa dhe gheama seo.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game does not allow spectators.</source>
-        <translation>Questa partita non consente spettatori.</translation>
+        <translation>Chan eil an geama seo a&apos; ceadachadh luchd-amhairc.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Could not join the game.</source>
-        <translation>Impossibile unirsi alla partita.</translation>
+        <translation>Cha b&apos; urrainn dhuinn gabhail sa gheama.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Your connection to the server is very slow, the game had to start without you.</source>
-        <translation>La connessione al server è molto lenta, la partita è dovuta cominciare senza di te.</translation>
+        <translation>Tha an ceangal agad dhan fhrithealaiche glè shlaodach, bha aig a&apos; gheama tòiseachadh às d&apos; aonais.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were kicked from the game.</source>
-        <translation>Sei stato espulso dalla partita.</translation>
+        <translation>Fhuair thu a&apos; bhròg on gheama.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>You were removed due to inactivity.</source>
-        <translation>Sei stato rimosso per inattività.</translation>
+        <translation>Chaidh do thoirt air falbh air sgàth dìth gnìomhachd.</translation>
     </message>
     <message>
         <location line="+581"/>
         <source>%1 is not in the lobby at the moment.</source>
-        <translation>%1 non è nella lobby al momento.</translation>
+        <translation>Chan eil %1 san lobaidh an-dràsta.</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -1899,72 +1899,72 @@ Reinserire la password e riprovare.</translation>
         <location line="+11"/>
         <location line="+11"/>
         <source>Not connected to server</source>
-        <translation>Non connesso al server</translation>
+        <translation>Gun cheangal ris an fhrithealaiche</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>%1 has been invited to %2 by %3.</source>
-        <translation>%1 è stato invitato a %2 da %3.</translation>
+        <translation>Thug %3 cuireadh dha %1 gu %2.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>%1 has rejected the invitation to %2.</source>
-        <translation>%1 ha rifiutato l&apos;invito a %2.</translation>
+        <translation>Dhiùlt %1 an cuireadh gu %2.</translation>
     </message>
     <message>
         <location line="+79"/>
         <source>Guests cannot receive private messages.</source>
-        <translation>Gli ospiti non possono ricevere messaggi privati.</translation>
+        <translation>Chan urrainn dha aoighean teachdaireachdan prìobhaideach fhaighinn.</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Private message to %1:</source>
-        <translation>Messaggio privato a %1:</translation>
+        <translation>Teachdaireachd phrìobhaideach gu %1:</translation>
     </message>
     <message>
         <location line="+96"/>
         <source>Registered players only</source>
-        <translation>Solo utenti registrati</translation>
+        <translation>Cluicheadairean a chlàraich a-mhàin</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invited players only</source>
-        <translation>Solo utenti invitati</translation>
+        <translation>Cluicheadairean a fhuair cuireadh a-mhàin</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranking game</source>
-        <translation>Valida per la classifica</translation>
+        <translation>Geama rangachaidh</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Standard</source>
-        <translation>Standard</translation>
+        <translation>Àbhaisteach</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Running</source>
-        <translation>In corso</translation>
+        <translation>&apos;Ga ruith</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Closed</source>
-        <translation>Chiusa</translation>
+        <translation>Dùinte</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open</source>
-        <translation>Aperta</translation>
+        <translation>Fosgailte</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Full</source>
-        <translation>Piena</translation>
+        <translation>Làn</translation>
     </message>
     <message>
         <location line="-221"/>
         <source>%1 cannot join %2 because he is busy.</source>
-        <translation>%1 non può unirsi a %2 perché è occupato.</translation>
+        <translation>Chan urrainn dha %1 gabhail ann an %2 oir tha e trang.</translation>
     </message>
 </context>
 <context>
@@ -1972,335 +1972,335 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../pages/LobbyPage.qml" line="+1545"/>
         <source>Game invitation</source>
-        <translation>Invito alla partita</translation>
+        <translation>Cuireadh gu geama</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
-        <translation>Sei stato invitato alla partita &lt;b&gt;%1&lt;/b&gt; da &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Desideri partecipare alla partita?</translation>
+        <translation>Fhuair thu cuireadh dhan gheama &lt;b&gt;%1&lt;/b&gt; le &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;A bheil thu airson gabhail sa gheama seo?</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Decline</source>
-        <translation>Rifiuta</translation>
+        <translation>Diùlt</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Join</source>
-        <translation>Unisciti</translation>
+        <translation>Gabh pàirt</translation>
     </message>
     <message>
         <location line="-502"/>
         <source>Create Game</source>
-        <translation>Crea Partita</translation>
+        <translation>Cruthaich geama</translation>
     </message>
     <message>
         <location line="-746"/>
         <location line="+804"/>
         <source>Game Info</source>
-        <translation>Informazioni partita</translation>
+        <translation>Fiosrachadh a&apos; gheama</translation>
     </message>
     <message>
         <location line="-534"/>
         <location line="+483"/>
         <source>Join Game</source>
-        <translation>Unisciti alla partita</translation>
+        <translation>Gabh pàirt sa gheama</translation>
     </message>
     <message>
         <location line="-273"/>
         <source>Game List</source>
-        <translation>Elenco partite</translation>
+        <translation>Liosta nan geamannan</translation>
     </message>
     <message>
         <location line="+73"/>
         <source>Time: %1s/%2s</source>
-        <translation>Tempo: %1s/%2s</translation>
+        <translation>Ùine: %1 diog/%2 diog</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Private</source>
-        <translation>Privato</translation>
+        <translation>Prìobhaideach</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Public</source>
-        <translation>Pubblica</translation>
+        <translation>Poblach</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Ranking</source>
-        <translation>Classifica</translation>
+        <translation>Rangachadh</translation>
     </message>
     <message>
         <location line="+115"/>
         <location line="+287"/>
         <source>Lobby Chat</source>
-        <translation>Chat della lobby</translation>
+        <translation>Cabadaich an lobaidh</translation>
     </message>
     <message>
         <location line="-613"/>
         <source>No game list filter</source>
-        <translation>Nessun filtro elenco partite</translation>
+        <translation>Gun chriathrag air liosta nan geamannan</translation>
     </message>
     <message>
         <location line="+375"/>
         <source>Player: %1</source>
-        <translation>Giocatore: %1</translation>
+        <translation>Cluicheadair: %1</translation>
     </message>
     <message>
         <location line="-896"/>
         <source>Players</source>
-        <translation>Giocatori</translation>
+        <translation>Cluicheadairean</translation>
     </message>
     <message>
         <location line="+1010"/>
         <source>Select a game to see details</source>
-        <translation>Seleziona una partita per vedere i dettagli</translation>
+        <translation>Tagh geama gus am fiosrachadh fhaicinn</translation>
     </message>
     <message>
         <location line="-486"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
-        <translation>Mostra partite aperte, non piene e non private</translation>
+        <translation>Seall na geamannan fosgailte, nach eil làn is a tha poblach</translation>
     </message>
     <message>
         <location line="-627"/>
         <source>Report game name</source>
-        <translation>Segnala nome partita</translation>
+        <translation>Aithris ainm a&apos; gheama</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure you want to report the game name:
 &quot;%1&quot; as inappropriate?</source>
-        <translation>Sei sicuro di voler segnalare il nome della partita:
-&quot;%1&quot; come offensivo?</translation>
+        <translation>A bheil thu cinnteach gu bheil thu airson ainm a&apos; gheama:
+&quot;%1&quot; aithris mar mhì-iomchaidh?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report</source>
-        <translation>Segnala</translation>
+        <translation>Aithris</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Spectate</source>
-        <translation>Osserva</translation>
+        <translation>Amhairc</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+3"/>
         <source>Close game</source>
-        <translation>Chiudi partita</translation>
+        <translation>Dùin an geama</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
-        <translation>Sei sicuro di voler chiudere la partita:
-&quot;%1&quot;?</translation>
+        <translation>A bheil thu cinnteach gu bheil thu airson an geama:
+&quot;%1&quot; a dhùnadh?</translation>
     </message>
     <message>
         <location line="+169"/>
         <location line="+510"/>
         <source>Sort alphabetically</source>
-        <translation>Ordina alfabeticamente</translation>
+        <translation>Seòrsaich a rèir na h-aibidil</translation>
     </message>
     <message>
         <location line="-509"/>
         <location line="+510"/>
         <source>Sort by country</source>
-        <translation>Ordina per nazionalità</translation>
+        <translation>Seòrsaich a rèir dùthcha</translation>
     </message>
     <message>
         <location line="-509"/>
         <location line="+510"/>
         <source>Display idle players</source>
-        <translation>Visualizza giocatori liberi</translation>
+        <translation>Seall cluicheadairean air tàmh</translation>
     </message>
     <message>
         <location line="-423"/>
         <location line="+799"/>
         <source>Report inappropriate game name</source>
-        <translation>Segnala nome di partita offensivo</translation>
+        <translation>Aithris ainm geama mì-iomchaidh</translation>
     </message>
     <message>
         <location line="-791"/>
         <location line="+798"/>
         <source>Close game (admin)</source>
-        <translation>Chiudi partita (admin)</translation>
+        <translation>Dùin an geama (rianaire)</translation>
     </message>
     <message>
         <location line="-761"/>
         <source>Players: %1 / %2</source>
-        <translation>Giocatori: %1 / %2</translation>
+        <translation>Cluicheadairean: %1 / %2</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Status: %1</source>
-        <translation>Stato: %1</translation>
+        <translation>Staid: %1</translation>
     </message>
     <message>
         <location line="+33"/>
         <location line="+742"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>Seòrsa: %1</translation>
     </message>
     <message>
         <location line="-731"/>
         <source>Small blind: %1</source>
-        <translation>Buio piccolo: %1</translation>
+        <translation>Blind beag: %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Start cash: %1</source>
-        <translation>Capitale iniziale: %1</translation>
+        <translation>Airgead tòiseachaidh: %1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervallo aumento buio: %1 mani</translation>
+        <translation>Eadaramh àrdachadh nam blinds: %1 làmhan</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervallo aumento buio: %1 minuti</translation>
+        <translation>Eadaramh àrdachadh nam blinds: %1 mionaidean</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modalità aumento buio: %1</translation>
+        <translation>Modh àrdachadh nam blinds: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>double blinds</source>
-        <translation>raddoppia blind</translation>
+        <translation>blinds dùbailte</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordine manuale dei blind</translation>
+        <translation>òrdugh nam blinds a làimh</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds list: %1</source>
-        <translation>Elenco buio: %1</translation>
+        <translation>Liosta nam blinds: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Game timing: %1 sec (action)
 %2 sec (hand delay)</source>
-        <translation>Tempi di gioco: %1 sec (azione)
-%2 sec (ritardo mano)</translation>
+        <translation>Ùineachan a&apos; gheama: %1 diog (gnìomh)
+%2 diog (stad eadar làmhan)</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+690"/>
         <source>Players in game (%1)</source>
-        <translation>Giocatori in partita (%1)</translation>
+        <translation>Cluicheadairean sa gheama (%1)</translation>
     </message>
     <message>
         <location line="-605"/>
         <location line="+483"/>
         <source>Leave Game</source>
-        <translation>Abbandona partita</translation>
+        <translation>Fàg an geama</translation>
     </message>
     <message>
         <location line="-386"/>
         <source>Show open &amp; non-full &amp; private games</source>
-        <translation>Mostra partite aperte, non piene e private</translation>
+        <translation>Seall na geamannan fosgailte, nach eil làn is a tha prìobhaideach</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
-        <translation>Mostra partite aperte, non piene e con classifica</translation>
+        <translation>Seall na geamannan rangachaidh fosgailte nach eil làn</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Connected Players</source>
-        <translation>Giocatori connessi</translation>
+        <translation>Cluicheadairean ceangailte</translation>
     </message>
     <message>
         <location line="-658"/>
         <location line="+846"/>
         <source>Spectate game</source>
-        <translation>Osserva la partita</translation>
+        <translation>Amhairc air a&apos; gheama</translation>
     </message>
     <message>
         <location line="-845"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
-        <translation>Vuoi davvero osservare la partita:
-&quot;%1&quot;?</translation>
+        <translation>A bheil thu cinnteach gu bheil thu airson amharc air a&apos; gheama:
+«%1»?</translation>
     </message>
     <message>
         <location line="+950"/>
         <location line="+287"/>
         <source>Global notice (admin)</source>
-        <translation>Avviso globale (admin)</translation>
+        <translation>Brath coitcheann (rianaire)</translation>
     </message>
     <message>
         <location line="-124"/>
         <source>SB: %1 | Start cash: %2</source>
-        <translation>Buio piccolo: %1 | Capitale iniziale: %2</translation>
+        <translation>BB: %1 | Airgead tòiseachaidh: %2</translation>
     </message>
     <message>
         <location line="+272"/>
         <source>Privates Spiel</source>
-        <translation>Partita privata</translation>
+        <translation>Geama prìobhaideach</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Bitte das Passwort eingeben, um beizutreten.</source>
-        <translation>Inserisci la password per partecipare.</translation>
+        <translation>Cuir a-steach am facal-faire gus gabhail pàirt.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Passwort …</source>
-        <translation>Password …</translation>
+        <translation>Facal-faire …</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Sguir dheth</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Beitreten</source>
-        <translation>Unisciti</translation>
+        <translation>Gabh pàirt</translation>
     </message>
     <message>
         <location line="+141"/>
         <source>Rejoin possible</source>
-        <translation>È possibile rientrare in partita</translation>
+        <translation>Gabhaidh tilleadh dhan gheama</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>There is an existing session with a previous game.&lt;br&gt;Do you want to rejoin this game?</source>
-        <translation>È presente una sessione con una partita precedente.&lt;br&gt;Desideri rientrare in questa partita?</translation>
+        <translation>Tha seisean air a shàbhaladh o gheama roimhe ann.&lt;br&gt;A bheil thu airson tilleadh dhan gheama seo?</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>No</source>
-        <translation>No</translation>
+        <translation>Chan eil</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Rejoin</source>
-        <translation>Rientra</translation>
+        <translation>Till dhan gheama</translation>
     </message>
     <message>
         <location line="-976"/>
         <source>Show open &amp; non-full games</source>
-        <translation>Mostra partite aperte e non piene</translation>
+        <translation>Seall na geamannan fosgailte nach eil làn</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Show open games</source>
-        <translation>Mostra partite aperte</translation>
+        <translation>Seall na geamannan fosgailte</translation>
     </message>
     <message>
         <location line="-473"/>
         <location line="+452"/>
         <source>search for player ...</source>
-        <translation>ricerca giocatore ...</translation>
+        <translation>lorg cluicheadair ...</translation>
     </message>
 </context>
 <context>
@@ -2308,22 +2308,22 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../components/LobbyStatsBar.qml" line="+23"/>
         <source>%1 players · %2 running · %3 open</source>
-        <translation>%1 giocatori · %2 in corso · %3 aperte</translation>
+        <translation>%1 cluicheadairean · %2 &apos;gan ruith · %3 fosgailte</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>connected players: %1</source>
-        <translation>giocatori connessi: %1</translation>
+        <translation>cluicheadairean ceangailte: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>running games: %1</source>
-        <translation>partite in corso: %1</translation>
+        <translation>geamannan &apos;gan ruith: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>open games: %1</source>
-        <translation>partite aperte: %1</translation>
+        <translation>geamannan fosgailte: %1</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2336,120 +2336,120 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../pages/LocalGamePage.qml" line="+27"/>
         <source>alle %1 Hände</source>
-        <translation>ogni %1 mani</translation>
+        <translation>gach %1 làmhan</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>alle %1 Minuten</source>
-        <translation>ogni %1 minuti</translation>
+        <translation>gach %1 mionaidean</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>verdoppeln</source>
-        <translation>doppio</translation>
+        <translation>dùblachadh</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manuell</source>
-        <translation>manuale</translation>
+        <translation>a làimh</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Small Blind: $%1  •  Erhöhen %2  •  %3</source>
-        <translation>Buio piccolo: $%1  •  Rilancio %2  •  %3</translation>
+        <translation>Blind beag: $%1  •  àrdachadh %2  •  %3</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Lokales Spiel</source>
-        <translation>Partita locale</translation>
+        <translation>Geama ionadail</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Lokale Spiel-Einstellungen</source>
-        <translation>Impostazioni partita locale</translation>
+        <translation>Roghainnean a&apos; gheama ionadail</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Numero di giocatori:</translation>
+        <translation>Àireamh nan cluicheadairean:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Startkapital:</source>
-        <translation>Capitale iniziale:</translation>
+        <translation>Airgead tòiseachaidh:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Blinds</source>
-        <translation>Blind</translation>
+        <translation>Blinds</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Gespeicherte Blinds-Einstellungen verwenden</source>
-        <translation>Utilizza impostazioni dei blind salvate</translation>
+        <translation>Cleachd roghainnean nam blinds a chaidh a shàbhaladh</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Blinds-Einstellungen ändern …</source>
-        <translation>Modifica impostazioni buio …</translation>
+        <translation>Atharraich roghainnean nam blinds …</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Erster Small Blind:</source>
-        <translation>Primo small blind:</translation>
+        <translation>A&apos; chiad bhlind beag:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Small Blind erhöhen:</source>
-        <translation>Aumento buio piccolo:</translation>
+        <translation>Àrdaich am blind beag:</translation>
     </message>
     <message>
         <location line="+13"/>
         <location line="+24"/>
         <source>alle</source>
-        <translation>ogni</translation>
+        <translation>gach</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Hände</source>
-        <translation>mani</translation>
+        <translation>làmhan</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Minuten</source>
-        <translation>minuti</translation>
+        <translation>mionaidean</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Erhöhungsmodus:</source>
-        <translation>Modalità aumento:</translation>
+        <translation>Modh àrdachaidh:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre i blind</translation>
+        <translation>Dùblaich na blinds an-còmhnaidh</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordine buio manuale</translation>
+        <translation>Òrdugh nam blinds a làimh</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
-        <translation>Velocità di gioco
-(1=lento, 11=veloce):</translation>
+        <translation>Luaths a&apos; gheama
+(1 = slaodach, 11 = luath):</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Sguir dheth</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Spiel starten</source>
-        <translation>Inizia partita</translation>
+        <translation>Tòisich air a&apos; gheama</translation>
     </message>
 </context>
 <context>
@@ -2457,147 +2457,147 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../components/LocalGameSettings.qml" line="+55"/>
         <source>Lokales Spiel</source>
-        <translation>Partita locale</translation>
+        <translation>Geama ionadail</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Spieler &amp; Startkapital</source>
-        <translation>Giocatori e capitale iniziale</translation>
+        <translation>Cluicheadairean is airgead tòiseachaidh</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Numero di giocatori:</translation>
+        <translation>Àireamh nan cluicheadairean:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Startkapital:</source>
-        <translation>Capitale iniziale:</translation>
+        <translation>Airgead tòiseachaidh:</translation>
     </message>
     <message>
         <location line="+351"/>
         <source>Spiel-Einstellungsdialog bei neuem Spiel anzeigen</source>
-        <translation>Mostra finestra impostazioni partita per nuova partita</translation>
+        <translation>Seall còmhradh nan roghainnean nuair a thòisicheas geama ùr</translation>
     </message>
     <message>
         <location line="-313"/>
         <source>Blinds erhöhen</source>
-        <translation>Aumenta buio</translation>
+        <translation>Àrdaich na blinds</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Blind-Erhöhungsreihenfolge</source>
-        <translation>Ordine aumento buio</translation>
+        <translation>Òrdugh àrdachadh nam blinds</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>Blinds bei Anzahl der Hände erhöhen</source>
-        <translation>Aumenta buio dopo numero di mani</translation>
+        <translation>Àrdaich na blinds a-rèir àireamh nan làmhan</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Blinds zeitbasiert erhöhen</source>
-        <translation>Aumenta buio in base al tempo</translation>
+        <translation>Àrdaich na blinds a-rèir na h-ùine</translation>
     </message>
     <message>
         <location line="+57"/>
         <location line="+101"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre il buio</translation>
+        <translation>Dùblaich na blinds an-còmhnaidh</translation>
     </message>
     <message>
         <location line="-88"/>
         <location line="+14"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordine buio manuale</translation>
+        <translation>Òrdugh nam blinds a làimh</translation>
     </message>
     <message>
         <location line="-158"/>
         <source>Erster Small Blind:</source>
-        <translation>Primo buio piccolo:</translation>
+        <translation>A&apos; chiad bhlind beag:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
         <source>Small Blind erhöhen alle:</source>
-        <translation>Aumenta buio piccolo ogni:</translation>
+        <translation>Àrdaich am blind beag gach:</translation>
     </message>
     <message>
         <location line="-25"/>
         <source>Hände</source>
-        <translation>Mani</translation>
+        <translation>làmhan</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Minuten</source>
-        <translation>Minuti</translation>
+        <translation>mionaidean</translation>
     </message>
     <message>
         <location line="+100"/>
         <source>Hinzufügen</source>
-        <translation>Aggiungi</translation>
+        <translation>Cuir ris</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Löschen</source>
-        <translation>Elimina</translation>
+        <translation>Sguab às</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Danach:</source>
-        <translation>Dopo di che:</translation>
+        <translation>An uair sin:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Immer erhöhen um:</source>
-        <translation>Rilancia sempre di:</translation>
+        <translation>Àrdaich an-còmhnaidh le:</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Letzten Blind beibehalten</source>
-        <translation>Mantieni ultimo blind</translation>
+        <translation>Fuirich air a&apos; bhlind mu dheireadh</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Spielgeschwindigkeit</source>
-        <translation>Velocità di gioco</translation>
+        <translation>Luaths a&apos; gheama</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
-        <translation>Velocità di gioco
-(1=lento, 11=veloce):</translation>
+        <translation>Luaths a&apos; gheama
+(1 = slaodach, 11 = luath):</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Pause zwischen den Händen</source>
-        <translation>Pausa tra le mani</translation>
+        <translation>Stad eadar na làmhan</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Computerspieler</source>
-        <translation>Giocatori del computer</translation>
+        <translation>Cluicheadairean coimpiutair</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Spielstärke:</source>
-        <translation>Livello di gioco:</translation>
+        <translation>Neart a&apos; chluiche:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Klassisch</source>
-        <translation>Classico</translation>
+        <translation>Clasaigeach</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Stark</source>
-        <translation>Forte</translation>
+        <translation>Làidir</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</source>
-        <translation>Vale per le partite locali. Nelle partite in rete è il server a determinare la forza dei suoi giocatori del computer.</translation>
+        <translation>Tha seo a&apos; buntainn ri geamannan ionadail. Ann an geamannan lìonraidh, &apos;s e am frithealaiche a shuidhicheas neart nan cluicheadairean coimpiutair aige.</translation>
     </message>
 </context>
 <context>
@@ -2605,102 +2605,102 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../cpp/loghandler.cpp" line="+361"/>
         <source>Export PokerTH log file to HTML</source>
-        <translation>Esporta il file di registro di PokerTH in HTML</translation>
+        <translation>Às-phortaich faidhle loga PokerTH gu HTML</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH HTML log (*.html)</source>
-        <translation>Registro di PokerTH in formato HTML (*.html)</translation>
+        <translation>Loga HTML aig PokerTH (*.html)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Export PokerTH log file to plain text</source>
-        <translation>Esporta il file di registro di PokerTH in formato testo</translation>
+        <translation>Às-phortaich faidhle loga PokerTH gu teacsa lom</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH plain text log (*.txt)</source>
-        <translation>Registro di PokerTH in formato testo (*.html)</translation>
+        <translation>Loga teacsa lom aig PokerTH (*.txt)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Save PokerTH log file</source>
-        <translation>Salva il file di registro di PokerTH</translation>
+        <translation>Sàbhail faidhle loga PokerTH</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH SQL log (*.pdb)</source>
-        <translation>Registro PokerTH SQL (*.pdb)</translation>
+        <translation>Loga SQL aig PokerTH (*.pdb)</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>… (showing the last %1 KB of the log)</source>
-        <translation>… (mostra gli ultimi %1 KB del log)</translation>
+        <translation>… (a&apos; sealltainn %1 KB mu dheireadh an loga)</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Save PokerTH debug log</source>
-        <translation>Salva il log di debug di PokerTH</translation>
+        <translation>Sàbhail loga dì-bhugachaidh PokerTH</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH debug log (*.log)</source>
-        <translation>Log di debug di PokerTH (*.log)</translation>
+        <translation>Loga dì-bhugachaidh PokerTH (*.log)</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Log file not found.</source>
-        <translation>File di log non trovato.</translation>
+        <translation>Cha deach am faidhle loga a lorg.</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Processing of the log file on the web server failed.
 Please verify that you are uploading a valid PokerTH log file.</source>
-        <translation>Elaborazione del file di registro sul server web non riuscita.
-Controlla di stare caricando un file di registro di PokerTH valido.</translation>
+        <translation>Dh&apos;fhàillig le giullachd an fhaidhle loga air an fhrithealaiche-lìn.
+Feuch an dearbhaich thu gu bheil thu a&apos; luchdadh suas faidhle loga aig PokerTH a tha dligheach.</translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+30"/>
         <source>Failure reason: </source>
-        <translation>Causa dell&apos;errore: </translation>
+        <translation>Adhbhar an fhàilligidh: </translation>
     </message>
     <message>
         <location line="-27"/>
         <source>No file received.</source>
-        <translation>Nessun file ricevuto.</translation>
+        <translation>Cha deach faidhle fhaighinn.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>File rejected because of too many uploads.</source>
-        <translation>Il file è stato rifiutato a causa di troppi upload.</translation>
+        <translation>Chaidh am faidhle a dhiùltadh oir tha cus luchdaidhean suas ann.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>File rejected because of too many recent uploads. Please try again later.</source>
-        <translation>Il file è stato rifiutato a causa di troppi upload recenti. Riprovare più tardi.</translation>
+        <translation>Chaidh am faidhle a dhiùltadh oir bha cus luchdaidhean suas o chionn ghoirid ann. Am feuch thu ris a-rithist an ceann greis?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The file is too large.</source>
-        <translation>Il file è troppo grande.</translation>
+        <translation>Tha am faidhle ro mhòr.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This file is not a valid and current PokerTH log file.</source>
-        <translation>Questo file non contiene un registro di PokerTH valido e aggiornato.</translation>
+        <translation>Chan e faidhle loga làithreach dligheach aig PokerTH a tha san fhaidhle seo.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Internal error. Please try again later. ID: </source>
-        <translation>Errore interno. Riprovare più tardi. ID: </translation>
+        <translation>Mearachd taobh a-staigh. Am feuch thu ris a-rithist an ceann greis? ID: </translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Upload failed. Please check your internet connection!
 Uploading log files may fail if you are using an http proxy.</source>
-        <translation>Upload non riuscito. Controlla la connessione a Internet!
-L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un proxy http.</translation>
+        <translation>Dh&apos;fhàillig leis an luchdadh suas. Feuch an toir thu sùil air a&apos; cheangal agad dhan eadar-lìn!
+Dh&apos;fhaoidte gum fàillig le luchdadh suas aig faidhlichean loga ma tha thu a&apos; cleachdadh progsaidh http.</translation>
     </message>
 </context>
 <context>
@@ -2708,73 +2708,73 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
     <message>
         <location filename="../pages/LogsPage.qml" line="+86"/>
         <source>Logs</source>
-        <translation>Log</translation>
+        <translation>Logaichean</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Game:</source>
-        <translation>Partita:</translation>
+        <translation>Geama:</translation>
     </message>
     <message>
         <location line="+85"/>
         <source>Preview:</source>
-        <translation>Anteprima:</translation>
+        <translation>Ro-shealladh:</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Export as HTML</source>
-        <translation>Esporta in HTML</translation>
+        <translation>Às-phortaich mar HTML</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Export as txt</source>
-        <translation>Esporta in txt</translation>
+        <translation>Às-phortaich mar txt</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+133"/>
         <source>Save as ...</source>
-        <translation>Salva con nome...</translation>
+        <translation>Sàbhail mar ...</translation>
     </message>
     <message>
         <location line="-127"/>
         <source>Delete</source>
-        <translation>Elimina</translation>
+        <translation>Sguab às</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Show debug log</source>
-        <translation>Mostra log di debug</translation>
+        <translation>Seall an loga dì-bhugachaidh</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Analyse Logfile ...</source>
-        <translation>Esamina file di registro ...</translation>
+        <translation>Sgrùdaich am faidhle loga ...</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>PokerTH - Delete log files</source>
-        <translation>PokerTH - Elimina file di registro</translation>
+        <translation>PokerTH - Sguab às dha dh&apos;fhaidhlichean loga</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Do you really want to delete the selected log files?</source>
-        <translation>Desideri veramente cancellare i file di registro selezionati?</translation>
+        <translation>A bheil thu cinnteach gu bheil thu airson na faidhlichean loga a thagh thu a sguabadh às?</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Uploading log file</source>
-        <translation>Caricamento del file di registro</translation>
+        <translation>A&apos; luchdadh suas faidhle loga</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Debug log</source>
-        <translation>Log di debug</translation>
+        <translation>Loga dì-bhugachaidh</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Refresh</source>
-        <translation>Aggiorna</translation>
+        <translation>Ath-nuadhaich</translation>
     </message>
 </context>
 <context>
@@ -2782,74 +2782,74 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
     <message>
         <location filename="../components/LogsSettings.qml" line="+25"/>
         <source>Log-Nachrichten</source>
-        <translation>Registro messaggi</translation>
+        <translation>Teachdaireachdan an loga</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Log-Einstellungen</source>
-        <translation>Impostazioni log</translation>
+        <translation>Roghainnean an loga</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Logging aktivieren</source>
-        <translation>Abilita registrazione</translation>
+        <translation>Cuir an loga an comas</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Log-Verzeichnis:</source>
-        <translation>Cartella dei log:</translation>
+        <translation>Pasgan an loga:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Durchsuchen...</source>
-        <translation>Sfoglia...</translation>
+        <translation>Rùraich...</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Log-Verzeichnis auswählen</source>
-        <translation>Seleziona la cartella dei log</translation>
+        <translation>Tagh pasgan an loga</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Log-Verzeichnis</source>
-        <translation>Cartella dei log</translation>
+        <translation>Pasgan an loga</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Das Log-Verzeichnis wurde geändert.
 Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
-        <translation>La cartella dei log è stata modificata.
-Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
+        <translation>Chaidh pasgan an loga atharrachadh.
+Tòisich PokerTH às ùr ach an tèid na faidhlichean loga a shàbhaladh an-siud.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Ceart ma-thà</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Log-Intervall:</source>
-        <translation>Intervallo di log:</translation>
+        <translation>Eadaramh an loga:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Jedes Spiel</source>
-        <translation>Ogni partita</translation>
+        <translation>Gach geama</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Jede Hand</source>
-        <translation>Ogni mano</translation>
+        <translation>Gach làmh</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Jede Aktion</source>
-        <translation>Ogni azione</translation>
+        <translation>Gach gnìomh</translation>
     </message>
     <message>
         <location line="-29"/>
         <source>Log-Speicherdauer (Tage):</source>
-        <translation>Conservazione log (giorni):</translation>
+        <translation>Dè cho fada &apos;s a chumar na logaichean (làithean):</translation>
     </message>
 </context>
 <context>
@@ -2857,94 +2857,94 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/NetworkGameCreatePage.qml" line="+113"/>
         <source>← Zurück</source>
-        <translation>← Indietro</translation>
+        <translation>← Air ais</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Netzwerkspiel erstellen</source>
-        <translation>Crea partita in rete</translation>
+        <translation>Cruthaich geama lìonraidh</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Spiel-Einstellungen</source>
-        <translation>Impostazioni partita</translation>
+        <translation>Roghainnean a&apos; gheama</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Max. Spieler</source>
-        <translation>Numero max. giocatori</translation>
+        <translation>Cluicheadairean as motha</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Startgeld</source>
-        <translation>Capitale iniziale</translation>
+        <translation>Airgead tòiseachaidh</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Blind-Einstellungen</source>
-        <translation>Impostazioni buio</translation>
+        <translation>Roghainnean nam blinds</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Erster Small Blind</source>
-        <translation>Primo buio piccolo</translation>
+        <translation>A&apos; chiad bhlind beag</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Blind-Erhöhungsintervall</source>
-        <translation>Intervallo aumento buio</translation>
+        <translation>Eadaramh àrdachadh nam blinds</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+25"/>
         <source>Alle</source>
-        <translation>Ogni</translation>
+        <translation>Gach</translation>
     </message>
     <message>
         <location line="-14"/>
         <source>Hände</source>
-        <translation>mani</translation>
+        <translation>làmhan</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Minuten</source>
-        <translation>minuti</translation>
+        <translation>mionaidean</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre i blind</translation>
+        <translation>Dùblaich na blinds an-còmhnaidh</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Zeitlimits</source>
-        <translation>Limiti di tempo</translation>
+        <translation>Crìochan-ama</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Zeitlimit Spieleraktion</source>
-        <translation>Limite di tempo per l&apos;azione del giocatore</translation>
+        <translation>Crìoch-ama gnìomh a&apos; chluicheadair</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Pause zwischen Händen</source>
-        <translation>Ritardo tra le mani</translation>
+        <translation>Stad eadar làmhan</translation>
     </message>
     <message>
         <location line="+37"/>
         <location line="+35"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Sguir dheth</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Spiel erstellen</source>
-        <translation>Crea Partita</translation>
+        <translation>Cruthaich geama</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Server wird gestartet …</source>
-        <translation>Avvio del server …</translation>
+        <translation>A&apos; tòiseachadh an fhrithealaiche …</translation>
     </message>
 </context>
 <context>
@@ -2952,83 +2952,83 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/NetworkGameEnterPage.qml" line="+97"/>
         <source>← Zurück</source>
-        <translation>← Indietro</translation>
+        <translation>← Air ais</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Netzwerkspiel beitreten</source>
-        <translation>Unisciti a una partita in rete</translation>
+        <translation>Gabh pàirt an geama lìonraidh</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Server-Verbindung</source>
-        <translation>Connessione al server</translation>
+        <translation>Ceangal ris an fhrithealaiche</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Server-Adresse</source>
-        <translation>Indirizzo del server</translation>
+        <translation>Seòladh an fhrithealaiche</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>IP-Adresse oder Hostname</source>
-        <translation>Indirizzo IP o nome host</translation>
+        <translation>Seòladh IP no ainm òstair</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Port</source>
-        <translation>Porta</translation>
+        <translation>Port</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>IPv6 verwenden</source>
-        <translation>Utilizza IPv6</translation>
+        <translation>Cleachd IPv6</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>SCTP verwenden</source>
-        <translation>Utilizza SCTP</translation>
+        <translation>Cleachd SCTP</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Server-Profile</source>
-        <translation>Profili server</translation>
+        <translation>Pròifilean nam frithealaichean</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Profilname</source>
-        <translation>Nome profilo</translation>
+        <translation>Ainm na pròifil</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Name des Profils</source>
-        <translation>Nome del profilo</translation>
+        <translation>Ainm na pròifil seo</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Speichern</source>
-        <translation>Salva</translation>
+        <translation>Sàbhail</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Löschen</source>
-        <translation>Elimina</translation>
+        <translation>Sguab às</translation>
     </message>
     <message>
         <location line="+92"/>
         <location line="+36"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Sguir dheth</translation>
     </message>
     <message>
         <location line="-31"/>
         <source>Verbinden</source>
-        <translation>Connetti</translation>
+        <translation>Ceangail</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Verbinde mit Server …</source>
-        <translation>Connessione al server …</translation>
+        <translation>A&apos; ceangal ris an fhrithealaiche …</translation>
     </message>
 </context>
 <context>
@@ -3037,12 +3037,12 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location filename="../cpp/networkgamehandler.cpp" line="+55"/>
         <location line="+76"/>
         <source>No session available.</source>
-        <translation>Nessuna sessione disponibile.</translation>
+        <translation>Chan eil seisean ri fhaighinn.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Please enter a server address.</source>
-        <translation>Inserisci un indirizzo del server.</translation>
+        <translation>Cuir a-steach seòladh frithealaiche.</translation>
     </message>
 </context>
 <context>
@@ -3050,117 +3050,117 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/NetworkGameSettings.qml" line="+19"/>
         <source>Netzwerkspiel</source>
-        <translation>Partita in Rete</translation>
+        <translation>Geama lìonraidh</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Spieler &amp; Startkapital</source>
-        <translation>Giocatori e capitale iniziale</translation>
+        <translation>Cluicheadairean is airgead tòiseachaidh</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Numero di giocatori:</translation>
+        <translation>Àireamh nan cluicheadairean:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Startkapital:</source>
-        <translation>Capitale iniziale:</translation>
+        <translation>Airgead tòiseachaidh:</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Blinds erhöhen</source>
-        <translation>Aumenta buio</translation>
+        <translation>Àrdaich na blinds</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Blind-Erhöhungsreihenfolge</source>
-        <translation>Ordine aumento buio</translation>
+        <translation>Òrdugh àrdachadh nam blinds</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>Blinds bei Anzahl der Hände erhöhen</source>
-        <translation>Aumenta buio dopo numero di mani</translation>
+        <translation>Àrdaich na blinds a-rèir àireamh nan làmhan</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Blinds zeitbasiert erhöhen</source>
-        <translation>Aumenta buio in base al tempo</translation>
+        <translation>Àrdaich na blinds a-rèir na h-ùine</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre il buio</translation>
+        <translation>Dùblaich na blinds an-còmhnaidh</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordine buio manuale</translation>
+        <translation>Òrdugh nam blinds a làimh</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Manuelle Blind-Reihenfolge bearbeiten...</source>
-        <translation>Modifica ordine buio manuale...</translation>
+        <translation>Deasaich òrdugh nam blinds a làimh...</translation>
     </message>
     <message>
         <location line="-157"/>
         <source>Erster Small Blind:</source>
-        <translation>Primo buio piccolo:</translation>
+        <translation>A&apos; chiad bhlind beag:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
         <source>Small Blind erhöhen alle:</source>
-        <translation>Aumenta buio piccolo ogni:</translation>
+        <translation>Àrdaich am blind beag gach:</translation>
     </message>
     <message>
         <location line="-25"/>
         <source>Hände</source>
-        <translation>Mani</translation>
+        <translation>làmhan</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Minuten</source>
-        <translation>Minuti</translation>
+        <translation>mionaidean</translation>
     </message>
     <message>
         <location line="+61"/>
         <source>Zeiteinstellungen</source>
-        <translation>Impostazioni tempo</translation>
+        <translation>Roghainnean na h-ùine</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Verzögerung zwischen Händen
 (Sekunden):</source>
-        <translation>Ritardo tra le mani
-(secondi):</translation>
+        <translation>Stad eadar làmhan
+(diogan):</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Timeout für Spieleraktion
 (Sekunden):</source>
-        <translation>Timeout azione giocatore
-(secondi):</translation>
+        <translation>Crìoch-ama gnìomh a&apos; chluicheadair
+(diogan):</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Server-Einstellungen</source>
-        <translation>Impostazioni server</translation>
+        <translation>Roghainnean an fhrithealaiche</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Server-Port:</source>
-        <translation>Porta del server:</translation>
+        <translation>Port an fhrithealaiche:</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>SCTP verwenden</source>
-        <translation>Utilizza SCTP</translation>
+        <translation>Cleachd SCTP</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>IPv6 verwenden</source>
-        <translation>Utilizza IPv6</translation>
+        <translation>Cleachd IPv6</translation>
     </message>
 </context>
 <context>
@@ -3168,46 +3168,46 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/NicknameAvatarSettings.qml" line="+19"/>
         <source>Nicknamen/Avatare</source>
-        <translation>Nickname/Avatar</translation>
+        <translation>Far-ainmean/avataran</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Mein Spieler</source>
-        <translation>Il mio giocatore</translation>
+        <translation>An cluicheadair agam</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Mein Nickname:</source>
-        <translation>Il mio nickname:</translation>
+        <translation>Am far-ainm agam:</translation>
     </message>
     <message>
         <location line="+45"/>
         <source>Mein Avatar:</source>
-        <translation>Il mio avatar:</translation>
+        <translation>An t-avatar agam:</translation>
     </message>
     <message>
         <location line="+26"/>
         <location line="+113"/>
         <source>Auswählen...</source>
-        <translation>Seleziona...</translation>
+        <translation>Tagh...</translation>
     </message>
     <message>
         <location line="-110"/>
         <location line="+113"/>
         <source>Avatar auswählen</source>
-        <translation>Seleziona avatar</translation>
+        <translation>Tagh avatar</translation>
     </message>
     <message>
         <location line="-134"/>
         <location line="+113"/>
         <source>Kein Avatar gewählt</source>
-        <translation>Nessun avatar selezionato</translation>
+        <translation>Cha deach avatar a thaghadh</translation>
     </message>
     <message>
         <location line="-82"/>
         <location line="+113"/>
         <source>Beispiele...</source>
-        <translation>Esempi...</translation>
+        <translation>Eisimpleirean...</translation>
     </message>
     <message>
         <location line="-39"/>
@@ -3217,12 +3217,12 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="-55"/>
         <source>Gegner %1</source>
-        <translation>Avversario %1</translation>
+        <translation>Co-fharpaiseach %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Nickname:</source>
-        <translation>Nickname:</translation>
+        <translation>Far-ainm:</translation>
     </message>
 </context>
 <context>
@@ -3231,30 +3231,30 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location filename="../components/PlayerListItem.qml" line="+234"/>
         <location line="+116"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
-        <translation>%1 sta giocando in &quot;%2&quot;.</translation>
+        <translation>Tha %1 a&apos; cluiche ann an &quot;%2&quot;.</translation>
     </message>
     <message>
         <location line="-115"/>
         <location line="+117"/>
         <source>%1 is not playing at the moment.</source>
-        <translation>%1 non sta giocando in questo momento.</translation>
+        <translation>Chan eil %1 a&apos; cluiche an-dràsta.</translation>
     </message>
     <message>
         <location line="-216"/>
         <location line="+129"/>
         <location line="+140"/>
         <source>Invite to Game</source>
-        <translation>Invita alla partita</translation>
+        <translation>Thoir cuireadh dhan gheama</translation>
     </message>
     <message>
         <location line="-268"/>
         <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
-        <translation>Vuoi davvero invitare «%1» alla tua partita?</translation>
+        <translation>A bheil thu cinnteach gu bheil thu airson cuireadh a thoirt dha «%1» dhan gheama agad?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invite</source>
-        <translation>Invita</translation>
+        <translation>Thoir cuireadh</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3262,12 +3262,12 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location line="+130"/>
         <location line="+165"/>
         <source>Ignore player</source>
-        <translation>Ignora giocatore</translation>
+        <translation>Leig seachad cluicheadair</translation>
     </message>
     <message>
         <location line="-296"/>
         <source>Are you sure you want to ignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero ignorare «%1»?&gt;</translation>
+        <translation>A bheil thu cinnteach gu bheil thu airson «%1» a leigeil seachad?</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -3275,29 +3275,29 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location line="+121"/>
         <location line="+202"/>
         <source>Unignore player</source>
-        <translation>Non ignorare più il giocatore</translation>
+        <translation>Na leig seachad an cluicheadair</translation>
     </message>
     <message>
         <location line="-324"/>
         <source>Are you sure you want to unignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero smettere di ignorare «%1»?&gt;</translation>
+        <translation>A bheil thu cinnteach nach eil thu airson «%1» a leigeil seachad tuilleadh?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Are you sure you want to totally kickban &quot;%1&quot;?</source>
-        <translation>Vuoi davvero espellere e bandire totalmente «%1»?&gt;</translation>
+        <translation>A bheil thu cinnteach gu bheil thu airson «%1» a thoirmeasg gu tur?</translation>
     </message>
     <message>
         <location line="+95"/>
         <location line="+112"/>
         <source>Send private message</source>
-        <translation>Invia messaggio privato</translation>
+        <translation>Cuir teachdaireachd phrìobhaideach</translation>
     </message>
     <message>
         <location line="-79"/>
         <location line="+224"/>
         <source>Show player stats</source>
-        <translation>Mostra statistiche giocatore</translation>
+        <translation>Seall stadastaireachd a&apos; chluicheadair</translation>
     </message>
     <message>
         <location line="-353"/>
@@ -3305,7 +3305,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location line="+135"/>
         <location line="+252"/>
         <source>Total kickban</source>
-        <translation>Kickban totale</translation>
+        <translation>Toirmeasg slàn</translation>
     </message>
 </context>
 <context>
@@ -3313,32 +3313,32 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PlayerNoteDialog.qml" line="+57"/>
         <source>Note about &quot;%1&quot;</source>
-        <translation>Nota su «%1»</translation>
+        <translation>Nòta mu «%1»</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rating:</source>
-        <translation>Valutazione:</translation>
+        <translation>Rangachadh:</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Your private note about this player ...</source>
-        <translation>La tua nota privata su questo giocatore...</translation>
+        <translation>An nòta prìobhaideach agad mun chluicheadair seo ...</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Notes and ratings are stored locally and are only visible to you.</source>
-        <translation>Le note e le valutazioni sono salvate localmente e sono visibili solo a te.</translation>
+        <translation>Thèid na nòtaichean &apos;s na rangachaidhean a shàbhaladh gu h-ionadail &apos;s chan fhaic ach thusa iad.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Sguir dheth</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Save</source>
-        <translation>Salva</translation>
+        <translation>Sàbhail</translation>
     </message>
 </context>
 <context>
@@ -3346,22 +3346,22 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PlayerSeasonCard.qml" line="+157"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Sgòr</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>Cuibh.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Geamannan</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Puingean</translation>
     </message>
 </context>
 <context>
@@ -3369,7 +3369,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PlayerWinnerOverlay.qml" line="+56"/>
         <source>WINNER</source>
-        <translation>VINCITORE</translation>
+        <translation>BUANNAICHE</translation>
     </message>
 </context>
 <context>
@@ -3377,67 +3377,67 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/PokerthPlayerPage.qml" line="+81"/>
         <source>Could not load player (HTTP %1).</source>
-        <translation>Impossibile caricare il giocatore (HTTP %1).</translation>
+        <translation>Cha b&apos; urrainn dhuinn dàta a&apos; chluicheadair a luchdadh (HTTP %1).</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Player not found.</source>
-        <translation>Giocatore non trovato.</translation>
+        <translation>Cha deach an cluicheadair a lorg.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Cha b&apos; urrainn dhuinn freagairt an fhrithealaiche a phròiseasadh.</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Member since %1</source>
-        <translation>Membro dal %1</translation>
+        <translation>Ball o %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Last login %1</source>
-        <translation>Ultimo accesso %1</translation>
+        <translation>An logadh a-steach mu dheireadh %1</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Current season</source>
-        <translation>Stagione attuale</translation>
+        <translation>An seusan làithreach</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Rank</source>
-        <translation>Posizione</translation>
+        <translation>Àite</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Sgòr</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>Cuibh.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Geamannan</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Puingean</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Last 5:</source>
-        <translation>Ultime 5:</translation>
+        <translation>Na 5 mu dheireadh:</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Recent games</source>
-        <translation>Partite recenti</translation>
+        <translation>Geamannan o chionn ghoirid</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -3447,7 +3447,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+31"/>
         <source>Seasons</source>
-        <translation>Stagioni</translation>
+        <translation>Seusanan</translation>
     </message>
 </context>
 <context>
@@ -3463,78 +3463,78 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PrivateMessageDialog.qml" line="+190"/>
         <source>Private messages</source>
-        <translation>Messaggi privati</translation>
+        <translation>Teachdaireachdan prìobhaideach</translation>
     </message>
     <message>
         <location line="+38"/>
         <location line="+2"/>
         <source>Delete conversation</source>
-        <translation>Elimina conversazione</translation>
+        <translation>Sguab às an còmhradh</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete the conversation with &quot;%1&quot;?</source>
-        <translation>Eliminare la conversazione con &quot;%1&quot;?</translation>
+        <translation>A bheil thu airson an còmhradh le «%1» a sguabadh às?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete</source>
-        <translation>Elimina</translation>
+        <translation>Sguab às</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Close</source>
-        <translation>Chiudi</translation>
+        <translation>Dùin</translation>
     </message>
     <message>
         <location line="+112"/>
         <source>No conversation yet</source>
-        <translation>Nessuna conversazione</translation>
+        <translation>Chan eil còmhradh ann fhathast</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>not in the lobby</source>
-        <translation>non è nella lobby</translation>
+        <translation>chan eil e san lobaidh</translation>
     </message>
     <message>
         <location line="+173"/>
         <source>Translation failed.</source>
-        <translation>Traduzione non riuscita.</translation>
+        <translation>Dh&apos;fhàillig leis an eadar-theangachadh.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Show original</source>
-        <translation>Mostra l&apos;originale</translation>
+        <translation>Seall an tùsail</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Translate message</source>
-        <translation>Traduci il messaggio</translation>
+        <translation>Eadar-theangaich an teachdaireachd</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Private messages are not available at the table.</source>
-        <translation>I messaggi privati non sono disponibili al tavolo.</translation>
+        <translation>Chan eil teachdaireachdan prìobhaideach ri fhaighinn aig a&apos; bhòrd.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Guests cannot send chat messages</source>
-        <translation>Gli ospiti non possono inviare messaggi in chat</translation>
+        <translation>Chan urrainn dha aoighean teachdaireachdan cabadaich a chur</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Guests cannot receive private messages.</source>
-        <translation>Gli ospiti non possono ricevere messaggi privati.</translation>
+        <translation>Chan urrainn dha aoighean teachdaireachdan prìobhaideach fhaighinn.</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Message …</source>
-        <translation>Messaggio …</translation>
+        <translation>Teachdaireachd …</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Send</source>
-        <translation>Invia</translation>
+        <translation>Cuir</translation>
     </message>
 </context>
 <context>
@@ -3542,79 +3542,79 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../cpp/ziputils.cpp" line="+54"/>
         <source>Das Archiv konnte nicht gelesen werden.</source>
-        <translation>Impossibile leggere l&apos;archivio.</translation>
+        <translation>Cha b&apos; urrainn dhuinn an tasglann a leughadh.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
-        <translation>L&apos;archivio è vuoto o contiene troppi file.</translation>
+        <translation>Tha an tasglann falamh no tha cus fhaidhlichean innte.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
-        <translation>Impossibile creare la cartella di destinazione.</translation>
+        <translation>Cha b&apos; urrainn dhuinn am pasgan-uidhe a chruthachadh.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
-        <translation>Impossibile leggere una voce dell&apos;archivio.</translation>
+        <translation>Cha b&apos; urrainn dhuinn innteart na tasglainn a leughadh.</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+8"/>
         <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
-        <translation>L&apos;archivio contiene un percorso non valido: %1</translation>
+        <translation>Tha slighe mhì-dhligheach san tasglann: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+14"/>
         <source>Verzeichnis konnte nicht angelegt werden: %1</source>
-        <translation>Impossibile creare la cartella: %1</translation>
+        <translation>Cha b&apos; urrainn dhuinn am pasgan a chruthachadh: %1</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Das Archiv ist ungewöhnlich groß.</source>
-        <translation>L&apos;archivio è insolitamente grande.</translation>
+        <translation>Tha an tasglann anabarrach mòr.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
-        <translation>Impossibile estrarre una voce dell&apos;archivio: %1</translation>
+        <translation>Cha b&apos; urrainn dhuinn innteart na tasglainn a dhì-dhùmhlachadh: %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Datei konnte nicht geschrieben werden: %1</source>
-        <translation>Impossibile scrivere il file: %1</translation>
+        <translation>Cha b&apos; urrainn dhuinn am faidhle a sgrìobhadh: %1</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Der Stil-Ordner wurde nicht gefunden.</source>
-        <translation>La cartella dello stile non è stata trovata.</translation>
+        <translation>Cha deach pasgan na stoidhle a lorg.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv konnte nicht erstellt werden.</source>
-        <translation>Impossibile creare l&apos;archivio.</translation>
+        <translation>Cha b&apos; urrainn dhuinn an tasglann a chruthachadh.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Datei konnte nicht gelesen werden: %1</source>
-        <translation>Impossibile leggere il file: %1</translation>
+        <translation>Cha b&apos; urrainn dhuinn am faidhle a leughadh: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
-        <translation>Impossibile scrivere il file nell&apos;archivio: %1</translation>
+        <translation>Cha b&apos; urrainn dhuinn am faidhle a sgrìobhadh dhan tasglann: %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Der Stil-Ordner enthält keine Dateien.</source>
-        <translation>La cartella dello stile non contiene alcun file.</translation>
+        <translation>Chan eil faidhle sam bith ann am pasgan na stoidhle.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Das Archiv konnte nicht abgeschlossen werden.</source>
-        <translation>Impossibile finalizzare l&apos;archivio.</translation>
+        <translation>Cha b&apos; urrainn dhuinn an tasglann a choileanadh.</translation>
     </message>
 </context>
 <context>
@@ -3622,32 +3622,32 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/RankingPage.qml" line="+90"/>
         <source>Could not load ranking (HTTP %1).</source>
-        <translation>Impossibile caricare la classifica (HTTP %1).</translation>
+        <translation>Cha b&apos; urrainn dhuinn an rangachadh a luchdadh (HTTP %1).</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Cha b&apos; urrainn dhuinn freagairt an fhrithealaiche a phròiseasadh.</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Ranking</source>
-        <translation>Classifica</translation>
+        <translation>Rangachadh</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Season:</source>
-        <translation>Stagione:</translation>
+        <translation>Seusan:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Current season</source>
-        <translation>Stagione attuale</translation>
+        <translation>An seusan làithreach</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Username</source>
-        <translation>Nome utente</translation>
+        <translation>Ainm-cleachdaiche</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -3657,32 +3657,32 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+8"/>
         <source>Player</source>
-        <translation>Giocatore</translation>
+        <translation>Cluicheadair</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Geamannan</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>Cuibh.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Sgòr</translation>
     </message>
     <message>
         <location line="+150"/>
         <source>No entries.</source>
-        <translation>Nessuna voce.</translation>
+        <translation>Chan eil innteart ann.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>◀ Prev</source>
-        <translation>◀ Prec</translation>
+        <translation>◀ Air ais</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -3692,27 +3692,27 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+1"/>
         <source>Page %1 / %2  ·  %3 players</source>
-        <translation>Pagina %1 / %2  ·  %3 giocatori</translation>
+        <translation>Duilleag %1 / %2  ·  %3 cluicheadairean</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Next ▶</source>
-        <translation>Succ ▶</translation>
+        <translation>Air adhart ▶</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Ranking calculation:</source>
-        <translation>Calcolo della classifica:</translation>
+        <translation>Àireamhachadh an rangachaidh:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Placement points:</source>
-        <translation>Punti per piazzamento:</translation>
+        <translation>Puingean an àite:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Formula:</source>
-        <translation>Formula:</translation>
+        <translation>Foirmle:</translation>
     </message>
 </context>
 <context>
@@ -3720,22 +3720,22 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/ResetSettings.qml" line="+20"/>
         <source>Standardeinstellung</source>
-        <translation>Impostazioni predefinite</translation>
+        <translation>Roghainnean bunaiteach</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Alle Einstellungen werden auf die Standardwerte zurückgesetzt. Diese Aktion kann nicht rückgängig gemacht werden.</source>
-        <translation>Tutte le impostazioni verranno ripristinate ai valori predefiniti. Questa azione non può essere annullata.</translation>
+        <translation>Thèid na h-uile roghainn ath-shuidheachadh air na luachan bunaiteach. Cha ghabh seo a neo-dhèanamh.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Auf Werkeinstellungen zurücksetzen</source>
-        <translation>Ripristina impostazioni di fabbrica</translation>
+        <translation>Ath-shuidhich air roghainnean an fhactaraidh</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</source>
-        <translation>Le impostazioni sono state ripristinate. Riavvia PokerTH affinché tutte le modifiche abbiano effetto.</translation>
+        <translation>Chaidh na roghainnean ath-shuidheachadh. Tòisich PokerTH às ùr ach an tig a h-uile atharrachadh gu buil.</translation>
     </message>
 </context>
 <context>
@@ -3743,17 +3743,17 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/SeasonStatsSection.qml" line="+47"/>
         <source>Season Stats</source>
-        <translation>Statistiche della stagione</translation>
+        <translation>Stadastaireachd an t-seusain</translation>
     </message>
     <message>
         <location line="+60"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Geamannan</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Share</source>
-        <translation>Quota</translation>
+        <translation>Co-roinn</translation>
     </message>
 </context>
 <context>
@@ -3761,67 +3761,67 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/ServerConnectionDialog.qml" line="+241"/>
         <source>Back</source>
-        <translation>Indietro</translation>
+        <translation>Air ais</translation>
     </message>
     <message>
         <location line="+94"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Sguir dheth</translation>
     </message>
     <message>
         <location line="-65"/>
         <source>Connecting as...</source>
-        <translation>Connessione come...</translation>
+        <translation>A&apos; ceangal mar...</translation>
     </message>
     <message>
         <location line="-108"/>
         <source>Continue as Guest</source>
-        <translation>Continua come ospite</translation>
+        <translation>Lean air adhart mar aoigh</translation>
     </message>
     <message>
         <location line="+159"/>
         <source>Initializing connection...</source>
-        <translation>Inizializzazione connessione...</translation>
+        <translation>Ag ullachadh a&apos; cheangail...</translation>
     </message>
     <message>
         <location line="-74"/>
         <source>Login</source>
-        <translation>Accedi</translation>
+        <translation>Log a-steach</translation>
     </message>
     <message>
         <location line="-97"/>
         <source>Login as User</source>
-        <translation>Accedi come utente</translation>
+        <translation>Log a-steach mar chleachdaiche</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Password</source>
-        <translation>Password</translation>
+        <translation>Facal-faire</translation>
     </message>
     <message>
         <location line="-59"/>
         <source>Register</source>
-        <translation>Registrati</translation>
+        <translation>Clàraich</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Remember me</source>
-        <translation>Ricordami</translation>
+        <translation>Cuimhnich orm</translation>
     </message>
     <message>
         <location line="-48"/>
         <source>User Login</source>
-        <translation>Accesso utente</translation>
+        <translation>Logadh a-steach a&apos; chleachdaiche</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Username</source>
-        <translation>Nome utente</translation>
+        <translation>Ainm-cleachdaiche</translation>
     </message>
     <message>
         <location line="+79"/>
         <source>Username/Guest</source>
-        <translation>Nome utente/Ospite</translation>
+        <translation>Ainm-cleachdaiche/aoigh</translation>
     </message>
 </context>
 <context>
@@ -3829,379 +3829,379 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../cpp/serverconnectionhandler.cpp" line="+50"/>
         <source>Error: No session available</source>
-        <translation>Errore: nessuna sessione disponibile</translation>
+        <translation>Mearachd: chan eil seisean ri fhaighinn</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No session available</source>
-        <translation>Nessuna sessione disponibile</translation>
+        <translation>Chan eil seisean ri fhaighinn</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Connecting to server...</source>
-        <translation>Connessione al server...</translation>
+        <translation>A&apos; dèanamh ceangal ris an fhrithealaiche ...</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Connection canceled</source>
-        <translation>Connessione annullata</translation>
+        <translation>Chaidh sgur dhen cheangal</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Authenticating...</source>
-        <translation>Autenticazione in corso...</translation>
+        <translation>&apos;Ga dhearbhadh...</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Initialized...</source>
-        <translation>Inizializzato...</translation>
+        <translation>Air ullachadh...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Server list received...</source>
-        <translation>Elenco server ricevuto...</translation>
+        <translation>Fhuaras liosta nam frithealaichean...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Resolving server...</source>
-        <translation>Risoluzione server in corso...</translation>
+        <translation>A&apos; lorg seòladh an fhrithealaiche...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Connecting...</source>
-        <translation>Connessione in corso...</translation>
+        <translation>A&apos; ceangal...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Connected successfully!</source>
-        <translation>Connesso con successo!</translation>
+        <translation>Chaidh an ceangal a dhèanamh!</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Server address was not set.</source>
-        <translation>Indirizzo del server mancante.</translation>
+        <translation>Cha deach seòladh an fhrithealaiche a shuidheachadh.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
-        <translation>È stata specificata una porta non valida (le porte 0-1023 non sono permesse).</translation>
+        <translation>Chaidh port mì-dhligheach a shuidheachadh (chan eil na puirt 0-1023 ceadaichte).</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not create a socket for TCP communication.</source>
-        <translation>Impossibile creare un socket di comunicazione TCP.</translation>
+        <translation>Cha b&apos; urrainn dhuinn socaid airson conaltradh TCP a chruthachadh.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not set the IP address.</source>
-        <translation>Impossibile impostare l&apos;indirizzo IP.</translation>
+        <translation>Cha b&apos; urrainn dhuinn an seòladh IP a shuidheachadh.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not set the port for this type of address.</source>
-        <translation>Impossibile impostare la porta per questo tipo di indirizzo.</translation>
+        <translation>Cha b&apos; urrainn dhuinn am port airson an t-seòrsa seo dhe sheòladh a shuidheachadh.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server name could not be resolved.</source>
-        <translation>Impossibile risolvere il nome del server.</translation>
+        <translation>Cha b&apos; urrainn dhuinn ainm an fhrithealaiche fhuasgladh.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>Bind non riuscito - seleziona una porta diversa.</translation>
+        <translation>Dh&apos;fhàillig leis a&apos; cheangal - feuch an tagh thu port eile.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
-        <translation>Errore di rete interno: &quot;listen&quot; non riuscito.</translation>
+        <translation>Mearachd lìonraidh taobh a-staigh: dh&apos;fhàillig leis an &quot;listen&quot;.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Server execution was terminated.</source>
-        <translation>L&apos;esecuzione del server è stata interrotta.</translation>
+        <translation>Chaidh giullachd an fhrithealaiche a chrìochnachadh.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Could not connect to the server.
 The server might still be processing a previous connection attempt.
 Please wait a moment and try again.</source>
-        <translation>Impossibile connettersi al server.
-Il server potrebbe ancora elaborare un tentativo di connessione precedente.
-Attendere un momento e riprovare.</translation>
+        <translation>Cha b&apos; urrainn dhuinn ceangal ris an fhrithealaiche.
+Dh&apos;fhaoidte gu bheil am frithealaiche fhathast a&apos; pròiseasadh oidhirp cheangail roimhe.
+Fuirich greis is feuch ris a-rithist.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Connection timed out.
 The server might be busy or still processing a previous connection.
 Please wait a moment and try again.</source>
-        <translation>Timeout della connessione.
-Il server potrebbe essere occupato o elaborare ancora una connessione precedente.
-Attendere un momento e riprovare.</translation>
+        <translation>Dh&apos;fhalbh an ùine air a&apos; cheangal.
+Dh&apos;fhaoidte gu bheil am frithealaiche trang no fhathast a&apos; pròiseasadh ceangail roimhe.
+Fuirich greis is feuch ris a-rithist.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
-        <translation>Errore di rete interno: &quot;select&quot; non riuscita.</translation>
+        <translation>Mearachd lìonraidh taobh a-staigh: dh&apos;fhàillig leis an &quot;select&quot;.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
-        <translation>Errore di rete interno: &quot;send&quot; non riuscito.</translation>
+        <translation>Mearachd lìonraidh taobh a-staigh: dh&apos;fhàillig leis an &quot;send&quot;.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>The connection to the server was lost.</source>
-        <translation>La connessione al server è stata interrotta.</translation>
+        <translation>Chaidh an ceangal dhan fhrithealaiche air chall.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: Duplicate TCP connection.</source>
-        <translation>Errore di rete interno: connessione TCP duplicata.</translation>
+        <translation>Mearachd lìonraidh taobh a-staigh: Ceangal TCP dùblaichte.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation>È stato ricevuto un pacchetto non valido.
-Assicurati che tutti i giocatori abbiano la stessa versione di PokerTH.</translation>
+        <translation>Fhuaras pacaid lìonraidh mì-dhligheach.
+Dèan cinnteach gun cleachd na h-uile cluicheadair an aon tionndadh aig PokerTH.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation>Errore di stato interno.
-Assicurati che tutti i giocatori abbiano la stessa versione di PokerTH.</translation>
+        <translation>Mearachd staide taobh a-staigh.
+Dèan cinnteach gun cleachd na h-uile cluicheadair an aon tionndadh aig PokerTH.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: invalid socket type.</source>
-        <translation>Errore di rete interno: tipo di socket non valido.</translation>
+        <translation>Mearachd lìonraidh taobh a-staigh: seòrsa socaid mì-dhligheach.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Invalid server list URL.
 Please correct the address in the settings.</source>
-        <translation>URL della lista server non valido.
-Correggi l&apos;indirizzo nelle impostazioni.</translation>
+        <translation>URL liosta nam frithealaichean mì-dhligheach.
+Feuch an ceartaich thu an seòladh sna roghainnean.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The PokerTH internet server list contains invalid data.
 If you use a custom server list, please make sure its format is correct.</source>
-        <translation>La lista server internet di PokerTH contiene dati non validi.
-Se utilizzi una lista server personalizzata, assicurati che il suo formato sia corretto.</translation>
+        <translation>Tha dàta mì-dhligheach air liosta nam frithealaichean eadar-lìn aig PokerTH.
+Ma chleachdas tu liosta nam frithealaichean gnàthaichte, dèan cinnteach gu bheil a fòrmat mar bu chòir.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not unzip the PokerTH internet server list.</source>
-        <translation>Impossibile decomprimere la lista dei server Internet di PokerTH.</translation>
+        <translation>Cha b&apos; urrainn dhuinn liosta nam frithealaichean eadar-lìn aig PokerTH dì-dhùmhlachadh.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Could not download the PokerTH internet server list.
 Please make sure you are directly connected to the internet.</source>
-        <translation>Impossibile scaricare la lista server internet di PokerTH.
-Assicurati di essere connesso direttamente ad internet.</translation>
+        <translation>Cha b&apos; urrainn dhuinn liosta nam frithealaichean eadar-lìn aig PokerTH a luchdadh a-nuas.
+Dèan cinnteach gu bheil thu ceangailte ris an eadar-lìn gu dìreach.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not open the target file when downloading the server list.</source>
-        <translation>Impossibile aprire il file di destinazione durante il download della lista server.</translation>
+        <translation>Cha b&apos; urrainn dhuinn am faidhle-uidhe fhosgladh nuair a luchdaich sinn a-nuas liosta nam frithealaichean.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>The PokerTH server does not support this version of the game.
 Please go to https://www.pokerth.net and download the latest version.</source>
-        <translation>Il server di PokerTH non supporta questa versione del gioco.
-Visita l&apos;URL https://www.pokerth.net e scarica l&apos;ultima versione.</translation>
+        <translation>Chan eil am frithealaiche PokerTH a&apos; cur taic ris an tionndadh seo dhen gheama.
+Tadhail air https://www.pokerth.net is luchdaich a-nuas an tionndadh as ùire.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server is down for maintenance. Please try again later.</source>
-        <translation>Il server è down per manutenzione. Riprova più tardi.</translation>
+        <translation>Tha am frithealaiche far loidhne airson obrach-glèidhidh. Am feuch thu ris a-rithist an ceann greis?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sorry, this server is already full.</source>
-        <translation>Spiacente, il server è già al completo.</translation>
+        <translation>Tha sinn duilich, ach tha am frithealaiche seo làn mar-thà.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invalid login.
 Please check your username and password.</source>
-        <translation>Accesso negato.
-Controlla username e password.</translation>
+        <translation>Logadh a-steach mì-dhligheach.
+Feuch an dearbhaich thu an t-ainm cleachdaiche is am facal-faire agad.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The password is too long. Please choose another one.</source>
-        <translation>Questa password è troppo lunga. Scegline una diversa.</translation>
+        <translation>Tha am facal-faire ro fhada. Feuch an tagh thu fear eile.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>This player name is already in use. Please choose a different name.</source>
-        <translation>Questo nome giocatore è già in uso. Scegli un nome diverso.</translation>
+        <translation>Tha an t-ainm cluicheadair seo &apos;ga chleachdadh mu thràth. Tagh ainm eile.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player name is invalid. Please choose a different name.</source>
-        <translation>Il nome giocatore non è valido. Scegli un nome diverso.</translation>
+        <translation>Tha ainm a&apos; chluicheadair mì-dhligheach. Tagh ainm eile.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid player cards.</source>
-        <translation>Errore interno: carte del giocatore non valide.</translation>
+        <translation>Mearachd taobh a-staigh: cairtean cluicheadair mì-dhligheach.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid player results.</source>
-        <translation>Errore interno: risultati del giocatore non validi.</translation>
+        <translation>Mearachd taobh a-staigh: toraidhean cluicheadair mì-dhligheach.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
-        <translation>Il nome della partita è troppo corto o troppo lungo. Scegline un altro.</translation>
+        <translation>Tha ainm a&apos; gheama ro ghoirid no ro fhada. Feuch an tagh thu fear eile.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid game round.</source>
-        <translation>Errore interno: turno di gioco non valido.</translation>
+        <translation>Mearachd taobh a-staigh: cuairt gheama mhì-dhligheach.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid session.</source>
-        <translation>Errore interno: sessione non valida.</translation>
+        <translation>Mearachd taobh a-staigh: seisean mì-dhligheach.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be found.</source>
-        <translation>Impossibile trovare la partita.</translation>
+        <translation>Cha deach an geama a lorg.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The chat text is invalid.</source>
-        <translation>Il testo nella chat non è valido.</translation>
+        <translation>Tha teacsa na cabadaich mì-dhligheach.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server referred to an unknown player. Aborting.</source>
-        <translation>Il server ha contattato un giocatore sconosciuto. Operazione annullata.</translation>
+        <translation>Rinn am frithealaiche iomradh air cluicheadair neo-aithnichte. A&apos; sgur dheth.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The current player could not be found.</source>
-        <translation>Errore interno: Impossibile trovare il giocatore corrente. </translation>
+        <translation>Mearachd taobh a-staigh: Cha deach an cluicheadair làithreach a lorg.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The current player is not active.</source>
-        <translation>Errore interno: Il giocatore corrente non è attivo.</translation>
+        <translation>Mearachd taobh a-staigh: Chan eil an cluicheadair làithreach gnìomhach.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were kicked from the server.</source>
-        <translation>Sei stato espulso dal server.</translation>
+        <translation>Fhuair thu a&apos; bhròg on fhrithealaiche.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were temporarily banned from the server.</source>
-        <translation>Sei stato temporaneamente bandito dal server.</translation>
+        <translation>Chaidh do thoirmeasg on fhrithealaiche gu sealach.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your account is blocked indefinitely.</source>
-        <translation>Il tuo account è bloccato a tempo indeterminato.</translation>
+        <translation>Chaidh an cunntas agad a bhacadh gun chrìch.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation>La connessione al server è andata in timeout per inattività. Riconnettiti, sei il benvenuto!</translation>
+        <translation>Dh&apos;fhalbh an ùine air a&apos; cheangal agad dhan fhrithealaiche le dìth gnìomhachd. Tha thu làn di-beathte ceangal ris a-rithist!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The client player count is invalid.</source>
-        <translation>Il numero di giocatori non è valido.</translation>
+        <translation>Tha àireamh nan cluicheadairean cliaint mì-dhligheach.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
-        <translation>Sono stati impostati troppi blind manuali. Devi riconfigurare i blind.</translation>
+        <translation>Chaidh cus blinds a shuidheachadh. Feuch an ath-rèitich thu na blinds a làimh.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
-        <translation>È stato impostato un file di avatar non valido. Scegli un avatar diverso.</translation>
+        <translation>Chaidh faidhle avatar mì-dhligheach a shuidheachadh. Feuch an tagh thu avatar eile.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
-        <translation>Il file di avatar selezionato è troppo grande. Scegli un avatar diverso.</translation>
+        <translation>Chaidh faidhle avatar a tha ro mhòr a thaghadh. Feuch an tagh thu avatar eile.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid buffer size.</source>
-        <translation>Errore interno: dimensione del buffer non valida.</translation>
+        <translation>Mearachd taobh a-staigh: meud bufair mì-dhligheach.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation>Si è verificato un errore interno sugli avatar. Per favore, riferisci l&apos;accaduto ad un admin nella chat prepartita.</translation>
+        <translation>Thachair mearachd avatar taobh a-staigh. An aithris thu seo dha rianaire ann an cabadaich an lobaidh?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not start game: Synchronization failed.</source>
-        <translation>Impossibile avviare la partita: sincronizzazione non riuscita.</translation>
+        <translation>Cha b&apos; urrainn dhuinn an geama a thòiseachadh: Dh&apos;fhàillig leis an t-sioncronachadh.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be terminated.</source>
-        <translation>Impossibile terminare la partita.</translation>
+        <translation>Cha b&apos; urrainn dhuinn an geama a chrìochnachadh.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An internal game error occured.</source>
-        <translation>Si è verificato un errore interno di gioco.</translation>
+        <translation>Thachair mearachd gheama taobh a-staigh.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The dealer could not be found.</source>
-        <translation>Errore interno: impossibile trovare il mazziere.</translation>
+        <translation>Mearachd taobh a-staigh: cha deach an dàilear a lorg.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You cannot login at this time. Please try again in a few seconds.</source>
-        <translation>Impossibile effettuare l&apos;accesso. Riprova fra qualche istante.</translation>
+        <translation>Chan urrainn dhut logadh a-steach an-dràsta. Am feuch thu ris a-rithist an ceann greis?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The authentication could not be initialized.</source>
-        <translation>Errore interno: impossibile inizializzare l&apos;autenticazione.</translation>
+        <translation>Mearachd taobh a-staigh: cha b&apos; urrainn dhuinn an dearbhadh ullachadh.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server does not support the required authentication method.</source>
-        <translation>Il server non supporta il metodo di autenticazione richiesto.</translation>
+        <translation>Chan eil am frithealaiche a&apos; cur taic ris an dòigh dhearbhaidh a dh&apos;fheumar.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server could not reach its database. Please try again later.</source>
-        <translation>Il server non è riuscito a raggiungere il suo database. Riprova più tardi.</translation>
+        <translation>Cha b&apos; urrainn dhan fhrithealaiche an stòr-dàta aige a ruigsinn. Feuch ris a-rithist an ceann greis.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An internal error occured. (Error code %1)</source>
-        <translation>Errore interno. (Codice di errore %1)</translation>
+        <translation>Thachair mearachd taobh a-staigh. (Còd na mearachd %1)</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Connection failed, retrying...</source>
-        <translation>Connessione fallita, nuovo tentativo...</translation>
+        <translation>Dh&apos;fhàillig leis a&apos; cheangal, &apos;ga fheuchainn a-rithist...</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Retrying connection...</source>
-        <translation>Nuovo tentativo di connessione...</translation>
+        <translation>A&apos; feuchainn ris a&apos; cheangal a-rithist...</translation>
     </message>
 </context>
 <context>
@@ -4209,157 +4209,157 @@ Controlla username e password.</translation>
     <message>
         <location filename="../cpp/settingsmanager.cpp" line="+327"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
-        <translation>Immagini (*.png *.jpg *.jpeg *.gif)</translation>
+        <translation>Dealbhan (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
         <location line="+236"/>
         <source>Spieltisch-Stil auswählen</source>
-        <translation>Seleziona stile del tavolo da gioco</translation>
+        <translation>Tagh stoidhle bùird</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Spieltisch-Stil.</source>
-        <translation>Il file selezionato non è uno stile di tavolo da gioco.</translation>
+        <translation>Chan e stoidhle bùird a tha san fhaidhle a thagh thu.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Kartenstapel-Stil auswählen</source>
-        <translation>Seleziona stile del mazzo di carte</translation>
+        <translation>Tagh stoidhle chairtean</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Kartenstapel-Stil.</source>
-        <translation>Il file selezionato non è uno stile di mazzo di carte.</translation>
+        <translation>Chan e stoidhle chairtean a tha san fhaidhle a thagh thu.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Kartenrückseiten-Stil auswählen</source>
-        <translation>Seleziona stile del dorso delle carte</translation>
+        <translation>Tagh stoidhle cùlaibh nan cairtean</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Kartenrückseiten-Stil.</source>
-        <translation>Il file selezionato non è uno stile di dorso delle carte.</translation>
+        <translation>Chan e stoidhle cùlaibh nan cairtean a tha san fhaidhle a thagh thu.</translation>
     </message>
     <message>
         <location line="+86"/>
         <source>Die Stil-Datei kann nicht gelesen werden.</source>
-        <translation>Impossibile leggere il file di stile.</translation>
+        <translation>Cha ghabh faidhle na stoidhle a leughadh.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Die ausgewählte Datei ist kein PokerTH-Stil.</source>
-        <translation>Il file selezionato non è uno stile PokerTH.</translation>
+        <translation>Chan e stoidhle PokerTH a tha san fhaidhle a thagh thu.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Die Stil-Datei enthält kein gültiges XML (%1).</source>
-        <translation>Il file di stile non contiene XML valido (%1).</translation>
+        <translation>Chan eil XML dligheach ann am faidhle na stoidhle (%1).</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Der Dateiname der Stil-Datei muss auf &quot;%1&quot; enden.</source>
-        <translation>Il nome del file di stile deve terminare con &quot;%1&quot;.</translation>
+        <translation>Feumaidh ainm faidhle na stoidhle crìochnachadh le «%1».</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Die Stil-Datei muss in einem eigenen Ordner liegen.</source>
-        <translation>Il file di stile deve trovarsi in una cartella dedicata.</translation>
+        <translation>Feumaidh faidhle na stoidhle a bhith na phasgan fhèin.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ein Stil mit dem Namen &quot;%1&quot; ist bereits vorhanden.</source>
-        <translation>Esiste già uno stile con il nome &quot;%1&quot;.</translation>
+        <translation>Tha stoidhle air a bheil «%1» ann mu thràth.</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
-        <translation>Il mazzo di carte è incompleto, mancano: %1</translation>
+        <translation>Tha na cairtean neo-choileanta, tha seo a dhìth: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Die Kartenrückseiten-Grafik (Backside) fehlt.</source>
-        <translation>Manca l&apos;immagine del dorso delle carte (Backside).</translation>
+        <translation>Tha grafaigeachd cùlaibh nan cairtean (Backside) a dhìth.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Der Ordner der Stil-Datei enthält ungewöhnlich viele Dateien. Bitte den Stil in einen eigenen Ordner legen.</source>
-        <translation>La cartella del file di stile contiene un numero insolitamente alto di file. Metti lo stile in una cartella dedicata.</translation>
+        <translation>Tha àireamh neo-àbhaisteach de dh&apos;fhaidhlichean ann am pasgan na stoidhle. Cuir an stoidhle na pasgan fhèin.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Der Stil konnte nicht nach &quot;%1&quot; kopiert werden.</source>
-        <translation>Impossibile copiare lo stile in &quot;%1&quot;.</translation>
+        <translation>Cha b&apos; urrainn dhuinn an stoidhle a chopaigeadh gu «%1».</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Der Stil hat Format-Version %1, aktuell ist Version %2.</source>
-        <translation>Lo stile ha la versione di formato %1, la versione attuale è %2.</translation>
+        <translation>Tha tionndadh fòrmat %1 aig an stoidhle, &apos;s e %2 an tionndadh làithreach.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Fehlende Angaben: %1.</source>
-        <translation>Informazioni mancanti: %1.</translation>
+        <translation>Fiosrachadh a dhìth: %1.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Nicht gefundene Grafiken: %1.</source>
-        <translation>Grafiche non trovate: %1.</translation>
+        <translation>Grafaigeachd nach deach a lorg: %1.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Der Stil &quot;%1&quot; wurde übernommen, ist aber unvollständig:</source>
-        <translation>Lo stile &quot;%1&quot; è stato aggiunto, ma è incompleto:</translation>
+        <translation>Chaidh gabhail ris an stoidhle «%1» ach tha i neo-choileanta:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
-        <translation>Il client sostituisce i contenuti mancanti con la grafica predefinita.</translation>
+        <translation>Cuiridh an cliant grafaigeachd bhunaiteach an àite na susbainte a tha a dhìth.</translation>
     </message>
     <message>
         <location line="-182"/>
         <source>PokerTH-Stile (*.zip *.xml)</source>
-        <translation>Stili PokerTH (*.zip *.xml)</translation>
+        <translation>Stoidhlichean PokerTH (*.zip *.xml)</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Die ausgewählte Datei kann nicht gelesen werden.</source>
-        <translation>Impossibile leggere il file selezionato.</translation>
+        <translation>Cha ghabh am faidhle a thagh thu a leughadh.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Es konnte kein temporäres Verzeichnis angelegt werden.</source>
-        <translation>Impossibile creare una cartella temporanea.</translation>
+        <translation>Cha b&apos; urrainn dhuinn pasgan sealach a chruthachadh.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Das Archiv enthält keine Datei &quot;%1&quot;.</source>
-        <translation>L&apos;archivio non contiene alcun file &quot;%1&quot;.</translation>
+        <translation>Chan eil faidhle «%1» san tasglann.</translation>
     </message>
     <message>
         <location line="+196"/>
         <source>Stil exportieren</source>
-        <translation>Esporta stile</translation>
+        <translation>Às-phortaich an stoidhle</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>ZIP-Archive (*.zip)</source>
-        <translation>Archivi ZIP (*.zip)</translation>
+        <translation>Tasglannan ZIP (*.zip)</translation>
     </message>
     <message>
         <location line="-9"/>
         <source>Der Stil &quot;%1&quot; wurde nicht gefunden.</source>
-        <translation>Lo stile &quot;%1&quot; non è stato trovato.</translation>
+        <translation>Cha deach an stoidhle «%1» a lorg.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Das Archiv konnte nicht erstellt werden.</source>
-        <translation>Impossibile creare l&apos;archivio.</translation>
+        <translation>Cha b&apos; urrainn dhuinn an tasglann a chruthachadh.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</source>
-        <translation>Impossibile scrivere l&apos;archivio in &quot;%1&quot;.</translation>
+        <translation>Cha b&apos; urrainn dhuinn an tasglann a sgrìobhadh gu «%1».</translation>
     </message>
 </context>
 <context>
@@ -4367,47 +4367,47 @@ Controlla username e password.</translation>
     <message>
         <location filename="../pages/SettingsPage.qml" line="+254"/>
         <source>Benutzeroberfläche</source>
-        <translation>Interfaccia utente</translation>
+        <translation>Eadar-aghaidh a&apos; chleachdaiche</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Stil</source>
-        <translation>Stile</translation>
+        <translation>Stoidhle</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Sound</source>
-        <translation>Suono</translation>
+        <translation>Fuaim</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Lokales Spiel</source>
-        <translation>Partita locale</translation>
+        <translation>Geama ionadail</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Netzwerkspiel</source>
-        <translation>Partita in Rete</translation>
+        <translation>Geama lìonraidh</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Internetspiel</source>
-        <translation>Partita in Internet</translation>
+        <translation>Geama eadar-lìn</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Nicknamen/Avatare</source>
-        <translation>Nickname/Avatar</translation>
+        <translation>Far-ainmean/avataran</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Log-Nachrichten</source>
-        <translation>Registro messaggi</translation>
+        <translation>Teachdaireachdan an loga</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Standardeinstellung</source>
-        <translation>Impostazioni predefinite</translation>
+        <translation>Roghainnean bunaiteach</translation>
     </message>
 </context>
 <context>
@@ -4420,12 +4420,12 @@ Controlla username e password.</translation>
     <message>
         <location line="+100"/>
         <source>Über PokerTH</source>
-        <translation>Informazioni su PokerTH</translation>
+        <translation>Mu PokerTH</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Schließen</source>
-        <translation>Chiudi</translation>
+        <translation>Dùin</translation>
     </message>
 </context>
 <context>
@@ -4433,47 +4433,47 @@ Controlla username e password.</translation>
     <message>
         <location filename="../components/SoundSettings.qml" line="+19"/>
         <source>Sound</source>
-        <translation>Suono</translation>
+        <translation>Fuaim</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Klangeffekte</source>
-        <translation>Effetti sonori</translation>
+        <translation>Èifeachdan fuaime</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Klangeffekte aktivieren</source>
-        <translation>Abilita effetti sonori</translation>
+        <translation>Cuir na h-èifeachdan fuaime an comas</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Lautstärke:</source>
-        <translation>Volume:</translation>
+        <translation>Àirde na fuaime:</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Klang-Kategorien</source>
-        <translation>Categorie suoni </translation>
+        <translation>Roinnean-seòrsa nam fuaimean</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Spielaktionen (Check, Call, Raise ...)</source>
-        <translation>Azioni di gioco (Check, Call, Raise...)</translation>
+        <translation>Gnìomhan a&apos; gheama (Check, Call, Raise ...)</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Blind-Erhöhungs-Benachrichtigung</source>
-        <translation>Notifica aumento buio</translation>
+        <translation>Brath nuair a dh&apos;àrdaicheas na blinds</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>Netzwerkspiel-Benachrichtigungen</source>
-        <translation>Notifiche partite in rete</translation>
+        <translation>Brathan nan geamannan lìonraidh</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>Lobby-Chat-Benachrichtigungen</source>
-        <translation>Notifiche chat della lobby</translation>
+        <translation>Brathan cabadaich an lobaidh</translation>
     </message>
 </context>
 <context>
@@ -4481,12 +4481,12 @@ Controlla username e password.</translation>
     <message>
         <location filename="../components/StartFooter.qml" line="+197"/>
         <source>Privacy</source>
-        <translation>Privacy</translation>
+        <translation>Prìobhaideachd</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Source:</source>
-        <translation>Codice sorgente:</translation>
+        <translation>Bun-tùs:</translation>
     </message>
 </context>
 <context>
@@ -4494,32 +4494,32 @@ Controlla username e password.</translation>
     <message>
         <location filename="../pages/StartPage.qml" line="+155"/>
         <source>Internetspiel</source>
-        <translation>Partita in Internet</translation>
+        <translation>Geama eadar-lìn</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Lokales Spiel starten</source>
-        <translation>Inizia una partita locale</translation>
+        <translation>Tòisich air geama ionadail</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Netzwerkspiel erstellen</source>
-        <translation>Crea partita in rete</translation>
+        <translation>Cruthaich geama lìonraidh</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Netzwerkspiel beitreten</source>
-        <translation>Unisciti a una partita in rete</translation>
+        <translation>Gabh pàirt an geama lìonraidh</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Community / Ranking</source>
-        <translation>Community / Classifica</translation>
+        <translation>Coimhearsnachd / rangachadh</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Logs</source>
-        <translation>Log</translation>
+        <translation>Logaichean</translation>
     </message>
 </context>
 <context>
@@ -4552,7 +4552,7 @@ Controlla username e password.</translation>
     <message>
         <location line="+1"/>
         <source>All-In</source>
-        <translation>All-In</translation>
+        <translation>All-in</translation>
     </message>
 </context>
 <context>
@@ -4561,28 +4561,28 @@ Controlla username e password.</translation>
         <location filename="../components/StyleCard.qml" line="+69"/>
         <source>Keine
 Vorschau</source>
-        <translation>Nessuna
-anteprima</translation>
+        <translation>Gun
+ro-shealladh</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>von %1</source>
-        <translation>di %1</translation>
+        <translation>le %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>✓ Ausgewählt</source>
-        <translation>✓ Selezionato</translation>
+        <translation>✓ Air a thaghadh</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Stil entfernen</source>
-        <translation>Rimuovi stile</translation>
+        <translation>Thoir an stoidhle air falbh</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Stil als ZIP exportieren</source>
-        <translation>Esporta stile come ZIP</translation>
+        <translation>Às-phortaich an stoidhle mar ZIP</translation>
     </message>
 </context>
 <context>
@@ -4590,105 +4590,105 @@ anteprima</translation>
     <message>
         <location filename="../components/StyleSettings.qml" line="+49"/>
         <source>Stil hinzufügen</source>
-        <translation>Aggiungi stile</translation>
+        <translation>Cuir stoidhle ris</translation>
     </message>
     <message>
         <location line="+0"/>
         <location line="+8"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Ceart ma-thà</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Stil entfernen</source>
-        <translation>Rimuovi stile</translation>
+        <translation>Thoir an stoidhle air falbh</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Den Stil &quot;%1&quot; wirklich entfernen?</source>
-        <translation>Rimuovere davvero lo stile &quot;%1&quot;?</translation>
+        <translation>A bheil thu cinnteach gu bheil thu airson an stoidhle «%1» a thoirt air falbh?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Entfernen</source>
-        <translation>Rimuovi</translation>
+        <translation>Thoir air falbh</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Stil</source>
-        <translation>Stile</translation>
+        <translation>Stoidhle</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Spieltisch</source>
-        <translation>Tavolo di gioco</translation>
+        <translation>Bòrd a&apos; gheama</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Kartenstapel</source>
-        <translation>Mazzo di carte</translation>
+        <translation>Na cairtean</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Kartenrückseite</source>
-        <translation>Dorso delle carte</translation>
+        <translation>Cùlaibh nan cairtean</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Einsatzanzeige:</source>
-        <translation>Visualizzazione della puntata:</translation>
+        <translation>Sealladh nan geall:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Einsatz in der Spielerbox</source>
-        <translation>Puntata dentro il riquadro del giocatore</translation>
+        <translation>An geall am broinn bogsa a&apos; chluicheadair</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Einsatz neben der Spielerbox</source>
-        <translation>Puntata accanto al riquadro del giocatore</translation>
+        <translation>An geall ri taobh bogsa a&apos; chluicheadair</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Verfügbare Spieltisch-Stile:</source>
-        <translation>Stili tavolo disponibili:</translation>
+        <translation>Stoidhlichean bùird ri fhaighinn:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Keine Spieltisch-Stile gefunden.</source>
-        <translation>Nessuno stile tavolo trovato.</translation>
+        <translation>Cha deach stoidhle bùird a lorg.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verfügbare Kartenstapel-Stile:</source>
-        <translation>Stili mazzo di carte disponibili:</translation>
+        <translation>Stoidhlichean chairtean ri fhaighinn:</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Keine Kartenstapel-Stile gefunden.</source>
-        <translation>Nessuno stile mazzo di carte trovato.</translation>
+        <translation>Cha deach stoidhle chairtean a lorg.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verfügbare Kartenrückseiten:</source>
-        <translation>Dorsi delle carte disponibili:</translation>
+        <translation>Cùlaibhean chairtean ri fhaighinn:</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Keine Kartenrückseiten gefunden.</source>
-        <translation>Nessun dorso delle carte trovato.</translation>
+        <translation>Cha deach cùlaibh chairtean a lorg.</translation>
     </message>
     <message>
         <location line="-104"/>
         <location line="+56"/>
         <location line="+56"/>
         <source>Stil hinzufügen...</source>
-        <translation>Aggiungi stile...</translation>
+        <translation>Cuir stoidhle ris...</translation>
     </message>
     <message>
         <location line="-266"/>
         <source>Stil exportieren</source>
-        <translation>Esporta stile</translation>
+        <translation>Às-phortaich an stoidhle</translation>
     </message>
 </context>
 <context>
@@ -4696,92 +4696,92 @@ anteprima</translation>
     <message>
         <location filename="../pages/WecRankingPage.qml" line="+22"/>
         <source>January</source>
-        <translation>Gennaio</translation>
+        <translation>Am Faoilleach</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>February</source>
-        <translation>Febbraio</translation>
+        <translation>An Gearran</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>March</source>
-        <translation>Marzo</translation>
+        <translation>Am Màrt</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>April</source>
-        <translation>Aprile</translation>
+        <translation>An Giblean</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>May</source>
-        <translation>Maggio</translation>
+        <translation>An Cèitean</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>June</source>
-        <translation>Giugno</translation>
+        <translation>An t-Ògmhios</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>July</source>
-        <translation>Luglio</translation>
+        <translation>An t-Iuchar</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>August</source>
-        <translation>Agosto</translation>
+        <translation>An Lùnastal</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>September</source>
-        <translation>Settembre</translation>
+        <translation>An t-Sultain</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>October</source>
-        <translation>Ottobre</translation>
+        <translation>An Dàmhair</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>November</source>
-        <translation>Novembre</translation>
+        <translation>An t-Samhain</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>December</source>
-        <translation>Dicembre</translation>
+        <translation>An Dùbhlachd</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>WEC Ranking</source>
-        <translation>Classifica WEC</translation>
+        <translation>Rangachadh WEC</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Year:</source>
-        <translation>Anno:</translation>
+        <translation>Bliadhna:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Month:</source>
-        <translation>Mese:</translation>
+        <translation>Mìos:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>All-Year</source>
-        <translation>Tutto l&apos;anno</translation>
+        <translation>A&apos; bhliadhna gu lèir</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>All-Time</source>
-        <translation>Sempre</translation>
+        <translation>Fad na h-ùine</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Search nickname</source>
-        <translation>Cerca nickname</translation>
+        <translation>Lorg far-ainm</translation>
     </message>
 </context>
 <context>
@@ -4794,143 +4794,143 @@ anteprima</translation>
     <message>
         <location line="+287"/>
         <source>Back</source>
-        <translation>Indietro</translation>
+        <translation>Air ais</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Menu</source>
-        <translation>Menu</translation>
+        <translation>Clàr-taice</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>Private messages</source>
-        <translation>Messaggi privati</translation>
+        <translation>Teachdaireachdan prìobhaideach</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Forum news</source>
-        <translation>Novità dal forum</translation>
+        <translation>Naidheachdan a&apos; bhùird-bhrath</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Community / Ranking</source>
-        <translation>Community / Classifica</translation>
+        <translation>Coimhearsnachd / rangachadh</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Settings</source>
-        <translation>Impostazioni</translation>
+        <translation>Roghainnean</translation>
     </message>
     <message>
         <location line="+192"/>
         <source>Timeout Warning</source>
-        <translation>Avviso di timeout</translation>
+        <translation>Rabhadh gum falbh an ùine</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Timeout expired. You are being removed from the game.</source>
-        <translation>Timeout scaduto. Verrai rimosso dalla partita.</translation>
+        <translation>Dh&apos;fhalbh an ùine. Thèid do thoirt air falbh on gheama.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Timeout expired. You will be disconnected.</source>
-        <translation>Timeout scaduto. Verrai disconnesso.</translation>
+        <translation>Dh&apos;fhalbh an ùine. Thèid an ceangal agad a bhriseadh.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You are game-admin of an open game which will time out in %1 seconds.</source>
-        <translation>Sei amministratore di una partita aperta che scadrà tra %1 secondi.</translation>
+        <translation>Tha thu nad rianaire geama aig geama fosgailte is falbhaidh an ùine air an ceann %1 diog.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>You did not act in the game recently. You will be removed from the game in %1 seconds.</source>
-        <translation>Non hai effettuato azioni di gioco da un po&apos; di tempo. Verrai rimosso dalla partita in %1 secondi.</translation>
+        <translation>Cha do rinn thu gnìomhachd sa gheama o chionn greis. Thèid do thoirt air falbh on gheama an ceann %1 diog.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your connection is about to time out due to inactivity in %1 seconds.</source>
-        <translation>La tua connessione scadrà per inattività fra %1 secondi.</translation>
+        <translation>Falbhaidh an ùine air a&apos; cheangal agad an ceann %1 diog le dìth gnìomhachd.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Please click &quot;OK&quot; to stop the countdown!</source>
-        <translation>Premi &quot;OK&quot; per fermare il conto alla rovescia!</translation>
+        <translation>Briog air &quot;Ceart ma-thà&quot; gus sgur dhen chunntadh air ais!</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+285"/>
         <source>OK</source>
-        <translation> OK </translation>
+        <translation>Ceart ma-thà</translation>
     </message>
     <message>
         <location line="-250"/>
         <source>Server Message</source>
-        <translation>Messaggio del server</translation>
+        <translation>Brath an fhrithealaiche</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Close</source>
-        <translation>Chiudi</translation>
+        <translation>Dùin</translation>
     </message>
     <message>
         <location line="+156"/>
         <source>Connection interrupted</source>
-        <translation>Connessione interrotta</translation>
+        <translation>Chaidh briseadh a-steach air a&apos; cheangal</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Reconnecting to the server… (attempt %1 of %2)</source>
-        <translation>Riconnessione al server… (tentativo %1 di %2)</translation>
+        <translation>A&apos; ceangal ris an fhrithealaiche a-rithist… (oidhirp %1 à %2)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reconnecting to the server…</source>
-        <translation>Riconnessione al server…</translation>
+        <translation>A&apos; ceangal ris an fhrithealaiche a-rithist…</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Your seat at the table stays reserved for a few minutes.</source>
-        <translation>Il tuo posto al tavolo resta riservato per alcuni minuti.</translation>
+        <translation>Cumaidh sinn an t-àite agad aig a&apos; bhòrd fad beagan mhionaidean.</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Connection lost</source>
-        <translation>Connessione persa</translation>
+        <translation>Chaidh an ceangal air chall</translation>
     </message>
     <message>
         <location line="-734"/>
         <location line="+545"/>
         <location line="+22"/>
         <source>Leave Game</source>
-        <translation>Abbandona partita</translation>
+        <translation>Fàg an geama</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
-        <translation>Attenzione! Vuoi veramente abbandonare la partita corrente
-e tornare al prepartita?</translation>
+        <translation>An aire! A bheil thu cinnteach gu bheil thu airson an geama seo fhàgail
+is tilleadh dhan lobaidh?</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+57"/>
         <location line="+74"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Sguir dheth</translation>
     </message>
     <message>
         <location line="-693"/>
         <location line="+602"/>
         <location line="+22"/>
         <source>Leave Lobby</source>
-        <translation>Lascia lobby</translation>
+        <translation>Fàg an lobaidh</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Attention! Do you really want to leave the lobby
 and disconnect from the server?</source>
-        <translation>Attenzione! Vuoi davvero lasciare la lobby
-e disconnetterti dal server?</translation>
+        <translation>An aire! A bheil thu cinnteach gu bheil thu airson an lobaidh fhàgail
+is an ceangal ris an fhrithealaiche a bhriseadh?</translation>
     </message>
 </context>
 </TS>

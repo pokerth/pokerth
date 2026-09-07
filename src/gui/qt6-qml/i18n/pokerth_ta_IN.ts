@@ -1,172 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="it_IT">
+<TS version="2.1" language="ta_IN">
 <context>
     <name>AboutPage</name>
     <message>
         <location filename="../pages/AboutPage.qml" line="+45"/>
         <source>No changelog available.</source>
-        <translation>Nessun registro delle modifiche disponibile.</translation>
+        <translation>மாற்றப் பதிவு எதுவும் இல்லை.</translation>
     </message>
     <message>
         <location line="+89"/>
         <source>About PokerTH</source>
-        <translation>Informazioni su PokerTH</translation>
+        <translation>PokerTH பற்றி</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>About</source>
-        <translation>Informazioni</translation>
+        <translation>பற்றி</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Project</source>
-        <translation>Progetto</translation>
+        <translation>பணி திட்டம்</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Changelog</source>
-        <translation>Modifiche</translation>
+        <translation>மாற்றப் பதிவு</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Thanks to</source>
-        <translation>Ringraziamenti a</translation>
+        <translation>நன்றிகள்</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>License</source>
-        <translation>Licenza</translation>
+        <translation>உரிமம்</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Third party libs</source>
-        <translation>Librerie di terze parti</translation>
+        <translation>மூன்றாம் தரப்பு நூலகங்கள்</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>PokerTH %1</source>
-        <translation>PokerTH %1</translation>
+        <translation>போகர்டேஹோ %1</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>- Poker engine for the popular Texas Hold&apos;em Poker</source>
-        <translation>- Motore per il popolare Poker &quot;Texas Holdem&quot;</translation>
+        <translation>- பிரபலமான Texas Hold&apos;em போக்கருக்கான விளையாட்டு இயந்திரம்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Singleplayer games with up to 9 computer-opponents</source>
-        <translation>- Giocatore singolo: possibilità di affrontare fino a 9 avversari IA</translation>
+        <translation>- 9 கணினி எதிராளிகள் வரை உள்ள ஒற்றை வீரர் விளையாட்டுகள்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Multiplayer network games</source>
-        <translation>- Partite multigiocatore in rete</translation>
+        <translation>- பல வீரர் வலைப்பின்னல் விளையாட்டுகள்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Internet online games</source>
-        <translation>- Partite multigiocatore su Internet</translation>
+        <translation>- இணையத்தில் ஆன்லைன் விளையாட்டுகள்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Changeable gui with online style gallery</source>
-        <translation>- Interfaccia personalizzabile con galleria online di temi</translation>
+        <translation>- ஆன்லைன் பாணி தொகுப்புடன் மாற்றக்கூடிய தோற்றம்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Online ranking website with result tables</source>
-        <translation>- Ranking online con tabelle dei risultati</translation>
+        <translation>- முடிவு அட்டவணைகளுடன் கூடிய ஆன்லைன் தரவரிசை இணையதளம்</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Project page:</source>
-        <translation>Pagina progetto:</translation>
+        <translation>திட்டப் பக்கம்:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Authors:</source>
-        <translation>Autori:</translation>
+        <translation>ஆசிரியர்கள்:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
-        <translation>idea iniziale, achitettura di base, implementazione gui, grafica gui, pacchetto linux</translation>
+        <translation>முதல் யோசனை, அடிப்படை கட்டமைப்பு, இடைமுகம் உருவாக்கம், இடைமுக வரைகலை திருத்தம், Linux தொகுப்பு</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial idea, basic architecture, engine development</source>
-        <translation>idea iniziale, architettura di base, sviluppo motore</translation>
+        <translation>முதல் யோசனை, அடிப்படை கட்டமைப்பு, இயந்திர உருவாக்கம்</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>basic architecture, network development, windows package, MacOS package</source>
-        <translation>architettura di base, sviluppo di rete, pacchetto windows, pacchetto MacOS</translation>
+        <translation>அடிப்படை கட்டமைப்பு, வலைப்பின்னல் உருவாக்கம், Windows தொகுப்பு, MacOS தொகுப்பு</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial gui graphics design</source>
-        <translation>sviluppo iniziale grafica gui</translation>
+        <translation>முதல் இடைமுக வரைகலை வடிவமைப்பு</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>code modernization, QML layout</source>
-        <translation>modernizzazione del codice, layout QML</translation>
+        <translation>நிரலின் நவீனமயமாக்கல், QML அமைப்பு</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>web client development</source>
-        <translation>sviluppo del client web</translation>
+        <translation>இணைய வாடிக்கையாளர் உருவாக்கம்</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>- Wikimedia Commons: for different popular avatar picture resources</source>
-        <translation>- Wikimedia Commons: per le diverse gallerie di avatar</translation>
+        <translation>- Wikimedia Commons: பல்வேறு பிரபலமான அவதார் படங்களுக்காக</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
-        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: per gli avatar raffiguranti persone</translation>
+        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: நபர்களின் அவதார் படங்களுக்காக</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- ZeiZei: for misc avatar pictures</source>
-        <translation>- ZeiZei: per gli avatar vari</translation>
+        <translation>- ZeiZei: பிற அவதார் படங்களுக்காக</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- kde-look.org: for different gpl licensed sounds</source>
-        <translation>- kde-look.org: per diversi suoni rilasciati sotto licenza GPL</translation>
+        <translation>- kde-look.org: GPL உரிமத்தில் உள்ள பல்வேறு ஒலிகளுக்காக</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- doc_dos: for self recorded chip sounds</source>
-        <translation>- doc_dos: per la registrazione del suono delle fiches</translation>
+        <translation>- doc_dos: தானே பதிவு செய்த சில்லு ஒலிகளுக்காக</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
-        <translation>- thiger, dunkanx, BerndA, coldz, drull: per diverse patch</translation>
+        <translation>- thiger, dunkanx, BerndA, coldz, drull: பல்வேறு திருத்தங்களுக்காக</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- kraut: for internet-game-server hosting and administration</source>
-        <translation>- kraut: per l&apos;hosting e l&apos;amministrazione del server per il gioco su internet</translation>
+        <translation>- kraut: இணைய விளையாட்டு வழங்கியின் இயக்கம் மற்றும் நிர்வாகத்திற்காக</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
-        <translation>- danuxi: per gli sfondi della schermata di avvio e dello stile danuxi1</translation>
+        <translation>- danuxi: தொடக்கத் திரையின் பின்னணி மற்றும் danuxi1 மேசைப் பின்னணிக்காக</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
-        <translation>- heyn: per il lavoro di moderazione sul forum, l&apos;organizzazione del bugtracker e la gestione delle richieste di nuove feature</translation>
+        <translation>- heyn: மன்ற மேலாண்மை, பிழைத் தடமறிதல் மற்றும் கோரிக்கைகளின் ஒழுங்கமைப்புக்காக</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- texas_outlaw: for new table sounds</source>
-        <translation>- texas_outlaw: per i nuovi suoni del tavolo di gioco</translation>
+        <translation>- texas_outlaw: புதிய மேசை ஒலிகளுக்காக</translation>
     </message>
 </context>
 <context>
@@ -174,12 +174,12 @@
     <message>
         <location filename="../cpp/androidconnectionservice.cpp" line="+29"/>
         <source>Connected to the game server</source>
-        <translation>Connesso al server di gioco</translation>
+        <translation>விளையாட்டு வழங்கியுடன் இணைக்கப்பட்டது</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Online game connection</source>
-        <translation>Connessione di gioco online</translation>
+        <translation>ஆன்லைன் விளையாட்டு இணைப்பு</translation>
     </message>
 </context>
 <context>
@@ -187,22 +187,22 @@
     <message>
         <location filename="../components/AvatarCardRow.qml" line="+132"/>
         <source>Server response times</source>
-        <translation>Tempi di risposta del server</translation>
+        <translation>வழங்கியின் பதில் நேரங்கள்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Average: %1 ms</source>
-        <translation>Media: %1 ms</translation>
+        <translation>சராசரி: %1 ms</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Minimum: %1 ms</source>
-        <translation>Minimo: %1 ms</translation>
+        <translation>குறைந்தபட்சம்: %1 ms</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Maximum: %1 ms</source>
-        <translation>Massimo: %1 ms</translation>
+        <translation>அதிகபட்சம்: %1 ms</translation>
     </message>
 </context>
 <context>
@@ -210,32 +210,32 @@
     <message>
         <location filename="../pages/BbcRankingPage.qml" line="+36"/>
         <source>BBC Ranking</source>
-        <translation>Classifica BBC</translation>
+        <translation>BBC தரவரிசை</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Season:</source>
-        <translation>Stagione:</translation>
+        <translation>பருவம்:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>All-Time</source>
-        <translation>Sempre</translation>
+        <translation>எல்லா காலமும்</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Search nickname</source>
-        <translation>Cerca nickname</translation>
+        <translation>புனைபெயரைத் தேடு</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Step1</source>
-        <translation>Step1</translation>
+        <translation>நிலை 1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Season %1</source>
-        <translation>Stagione %1</translation>
+        <translation>பருவம் %1</translation>
     </message>
 </context>
 <context>
@@ -243,39 +243,39 @@
     <message>
         <location filename="../components/ChatBox.qml" line="+31"/>
         <source>Nachricht …</source>
-        <translation>Messaggio …</translation>
+        <translation>செய்தி …</translation>
     </message>
     <message>
         <location line="+797"/>
         <source>Link öffnen</source>
-        <translation>Apri link</translation>
+        <translation>இணைப்பைத் திற</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Link kopieren</source>
-        <translation>Copia link</translation>
+        <translation>இணைப்பை நகலெடு</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+38"/>
         <source>Kopieren</source>
-        <translation>Copia</translation>
+        <translation>நகலெடு</translation>
     </message>
     <message>
         <location line="-33"/>
         <location line="+43"/>
         <source>Alles auswählen</source>
-        <translation>Seleziona tutto</translation>
+        <translation>அனைத்தையும் தேர்ந்தெடு</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Ausschneiden</source>
-        <translation>Taglia</translation>
+        <translation>வெட்டு</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Einfügen</source>
-        <translation>Incolla</translation>
+        <translation>ஒட்டு</translation>
     </message>
 </context>
 <context>
@@ -283,7 +283,7 @@
     <message>
         <location filename="../cpp/chattranslator.cpp" line="+265"/>
         <source>Translation is currently unavailable. Please try again later.</source>
-        <translation>La traduzione non è al momento disponibile. Riprova più tardi.</translation>
+        <translation>மொழிபெயர்ப்பு தற்போது கிடைக்கவில்லை. பின்னர் மீண்டும் முயற்சிக்கவும்.</translation>
     </message>
 </context>
 <context>
@@ -291,98 +291,98 @@
     <message>
         <location filename="../components/CommunityPlayerView.qml" line="+30"/>
         <source>This season</source>
-        <translation>Questa stagione</translation>
+        <translation>இந்தப் பருவம்</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+4"/>
         <source>All-time</source>
-        <translation>Sempre</translation>
+        <translation>எல்லா காலமும்</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>This month</source>
-        <translation>Questo mese</translation>
+        <translation>இந்த மாதம்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This year</source>
-        <translation>Quest&apos;anno</translation>
+        <translation>இந்த ஆண்டு</translation>
     </message>
     <message>
         <location line="+75"/>
         <source>Player not found.</source>
-        <translation>Giocatore non trovato.</translation>
+        <translation>விளையாட்டு வீரர் கிடைக்கவில்லை.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Could not load player (HTTP %1).</source>
-        <translation>Impossibile caricare il giocatore (HTTP %1).</translation>
+        <translation>விளையாட்டு வீரரின் தரவை ஏற்ற இயலவில்லை (HTTP %1).</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>வழங்கியின் பதிலை பகுக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+80"/>
         <source>Member since %1</source>
-        <translation>Membro dal %1</translation>
+        <translation>%1 முதல் உறுப்பினர்</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Awards</source>
-        <translation>Premi</translation>
+        <translation>விருதுகள்</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Tickets</source>
-        <translation>Biglietti</translation>
+        <translation>நுழைவுச்சீட்டுகள்</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Step 2</source>
-        <translation>Step 2</translation>
+        <translation>நிலை 2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Step 3</source>
-        <translation>Step 3</translation>
+        <translation>நிலை 3</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Step 4</source>
-        <translation>Step 4</translation>
+        <translation>நிலை 4</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Rank</source>
-        <translation>Posizione</translation>
+        <translation>இடம்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>மதிப்பெண்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>விளையாட்டுகள்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>புள்ளிகள்</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Results:</source>
-        <translation>Risultati:</translation>
+        <translation>முடிவுகள்:</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Step %1</source>
-        <translation>Step %1</translation>
+        <translation>நிலை %1</translation>
     </message>
 </context>
 <context>
@@ -390,22 +390,22 @@
     <message>
         <location filename="../pages/CommunityRankingPage.qml" line="+40"/>
         <source>Community / Ranking</source>
-        <translation>Community / Classifica</translation>
+        <translation>சமூகம் / தரவரிசை</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>PokerTH Ranking</source>
-        <translation>Classifica PokerTH</translation>
+        <translation>PokerTH தரவரிசை</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>BBC Ranking</source>
-        <translation>Classifica BBC</translation>
+        <translation>BBC தரவரிசை</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>WEC Ranking</source>
-        <translation>Classifica WEC</translation>
+        <translation>WEC தரவரிசை</translation>
     </message>
 </context>
 <context>
@@ -415,17 +415,17 @@
         <location line="+17"/>
         <location line="+16"/>
         <source>Could not load ranking.</source>
-        <translation>Impossibile caricare la classifica.</translation>
+        <translation>தரவரிசையை ஏற்ற இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Could not load ranking (HTTP %1).</source>
-        <translation>Impossibile caricare la classifica (HTTP %1).</translation>
+        <translation>தரவரிசையை ஏற்ற இயலவில்லை (HTTP %1).</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>வழங்கியின் பதிலை பகுக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+26"/>
@@ -435,32 +435,32 @@
     <message>
         <location line="+7"/>
         <source>Nickname</source>
-        <translation>Nickname</translation>
+        <translation>புனைபெயர்</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>விளையாட்டுகள்</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>மதிப்பெண்</translation>
     </message>
     <message>
         <location line="+160"/>
         <source>No entries.</source>
-        <translation>Nessuna voce.</translation>
+        <translation>பதிவுகள் இல்லை.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No matches.</source>
-        <translation>Nessuna corrispondenza.</translation>
+        <translation>பொருத்தம் இல்லை.</translation>
     </message>
     <message>
         <location line="-44"/>
         <source>◀ Prev</source>
-        <translation>◀ Prec</translation>
+        <translation>◀ முந்தையது</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -470,12 +470,12 @@
     <message>
         <location line="+1"/>
         <source>Page %1 / %2  ·  %3 players</source>
-        <translation>Pagina %1 / %2  ·  %3 giocatori</translation>
+        <translation>பக்கம் %1 / %2  ·  %3 வீரர்கள்</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Next ▶</source>
-        <translation>Succ ▶</translation>
+        <translation>அடுத்தது ▶</translation>
     </message>
 </context>
 <context>
@@ -483,12 +483,12 @@
     <message>
         <location filename="../components/ConfirmPopup.qml" line="+25"/>
         <source>Yes</source>
-        <translation>Sì</translation>
+        <translation>ஆம்</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>நிறுத்திவிடு</translation>
     </message>
 </context>
 <context>
@@ -496,7 +496,7 @@
     <message>
         <location filename="../components/CustomCheckBox.qml" line="+50"/>
         <source>CheckBox LabelText</source>
-        <translation>CheckBox LabelText</translation>
+        <translation>தேர்வுப்பெட்டியின் அடையாள உரை</translation>
     </message>
 </context>
 <context>
@@ -504,22 +504,22 @@
     <message>
         <location filename="../components/ExampleAvatarPicker.qml" line="+68"/>
         <source>Beispiel-Avatar wählen</source>
-        <translation>Scegli avatar di esempio</translation>
+        <translation>மாதிரி அவதாரைத் தேர்ந்தெடு</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Personen</source>
-        <translation>Persone</translation>
+        <translation>நபர்கள்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verschiedenes</source>
-        <translation>Vari</translation>
+        <translation>இதர</translation>
     </message>
     <message>
         <location line="+83"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>நிறுத்திவிடு</translation>
     </message>
 </context>
 <context>
@@ -528,7 +528,7 @@
         <location filename="../config/ForumNews.qml" line="+163"/>
         <location line="+11"/>
         <source>The forum feed could not be loaded.</source>
-        <translation>Impossibile caricare il feed del forum.</translation>
+        <translation>மன்றத்தின் செய்திகளை ஏற்ற இயலவில்லை.</translation>
     </message>
 </context>
 <context>
@@ -536,22 +536,22 @@
     <message>
         <location filename="../pages/ForumNewsPage.qml" line="+58"/>
         <source>Forum news</source>
-        <translation>Novità dal forum</translation>
+        <translation>மன்றச் செய்திகள்</translation>
     </message>
     <message>
         <location line="+141"/>
         <source>No entries.</source>
-        <translation>Nessuna voce.</translation>
+        <translation>பதிவுகள் இல்லை.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Mark all as read</source>
-        <translation>Segna tutto come letto</translation>
+        <translation>அனைத்தையும் படித்ததாகக் குறி</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Open the forum</source>
-        <translation>Apri il forum</translation>
+        <translation>மன்றத்தைத் திற</translation>
     </message>
 </context>
 <context>
@@ -559,22 +559,22 @@
     <message>
         <location filename="../pages/ForumPostPage.qml" line="+78"/>
         <source>Translation failed.</source>
-        <translation>Traduzione non riuscita.</translation>
+        <translation>மொழிபெயர்ப்பு தோல்வியடைந்தது.</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Show the original post</source>
-        <translation>Mostra il messaggio originale</translation>
+        <translation>அசல் பதிவைக் காட்டு</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Translate the post</source>
-        <translation>Traduci il messaggio</translation>
+        <translation>பதிவை மொழிபெயர்</translation>
     </message>
     <message>
         <location line="+147"/>
         <source>Open in the forum</source>
-        <translation>Apri nel forum</translation>
+        <translation>மன்றத்தில் திற</translation>
     </message>
 </context>
 <context>
@@ -582,22 +582,22 @@
     <message>
         <location filename="../components/GameActionBar.qml" line="+997"/>
         <source>Show</source>
-        <translation>Mostra</translation>
+        <translation>காட்டு</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Manuell</source>
-        <translation>Manuale</translation>
+        <translation>கைமுறையாக</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Auto Check/Call</source>
-        <translation>Check/Call automatico</translation>
+        <translation>தானியங்கி செக்/கால்</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Auto Check/Fold</source>
-        <translation>Check/Fold automatico</translation>
+        <translation>தானியங்கி செக்/ஃபோல்ட்</translation>
     </message>
 </context>
 <context>
@@ -605,12 +605,12 @@
     <message>
         <location filename="../components/GameAdminBadge.qml" line="+25"/>
         <source>Admin</source>
-        <translation>Admin</translation>
+        <translation>நிர்வாகி</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Game admin: starts the game and can kick players</source>
-        <translation>Amministratore del tavolo: avvia la partita e può espellere i giocatori</translation>
+        <translation>விளையாட்டு நிர்வாகி: விளையாட்டைத் தொடங்குகிறார், வீரர்களை வெளியேற்றவும் முடியும்</translation>
     </message>
 </context>
 <context>
@@ -618,72 +618,72 @@
     <message>
         <location filename="../components/GameInfoPanel.qml" line="+62"/>
         <source>Höchste Karte</source>
-        <translation>Carta alta</translation>
+        <translation>உயர் சீட்டு</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Paar</source>
-        <translation>Coppia</translation>
+        <translation>ஒரு ஜோடி</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Zwei Paare</source>
-        <translation>Doppia coppia</translation>
+        <translation>இரண்டு ஜோடி</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Drilling</source>
-        <translation>Tris</translation>
+        <translation>மூன்று ஒரே சீட்டு</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Straße</source>
-        <translation>Scala</translation>
+        <translation>ஸ்ட்ரெயிட்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Flush</source>
-        <translation>Colore</translation>
+        <translation>ஃப்ளஷ்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Full House</source>
-        <translation>Full</translation>
+        <translation>ஃபுல் ஹவுஸ்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Vierling</source>
-        <translation>Poker</translation>
+        <translation>நான்கு ஒரே சீட்டு</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Straight Flush</source>
-        <translation>Scala colore</translation>
+        <translation>ஸ்ட்ரெயிட் ஃப்ளஷ்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Royal Flush</source>
-        <translation>Scala reale</translation>
+        <translation>ராயல் ஃப்ளஷ்</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Verlauf</source>
-        <translation>Cronologia</translation>
+        <translation>வரலாறு</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Chancen</source>
-        <translation>Probabilità</translation>
+        <translation>வாய்ப்புகள்</translation>
     </message>
     <message>
         <location line="+245"/>
         <source>Kopieren</source>
-        <translation>Copia</translation>
+        <translation>நகலெடு</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Alles auswählen</source>
-        <translation>Seleziona tutto</translation>
+        <translation>அனைத்தையும் தேர்ந்தெடு</translation>
     </message>
 </context>
 <context>
@@ -691,42 +691,42 @@
     <message>
         <location filename="../components/GameListItem.qml" line="+147"/>
         <source>Report inappropriate game name</source>
-        <translation>Segnala nome di partita offensivo</translation>
+        <translation>பொருத்தமற்ற விளையாட்டுப் பெயரைப் புகாரளி</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report game name</source>
-        <translation>Segnala nome partita</translation>
+        <translation>விளையாட்டுப் பெயரைப் புகாரளி</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure you want to report the game name:
 &quot;%1&quot; as inappropriate?</source>
-        <translation>Sei sicuro di voler segnalare il nome della partita:
-&quot;%1&quot; come offensivo?</translation>
+        <translation>விளையாட்டுப் பெயர்:
+„%1“ பொருத்தமற்றது என நிச்சயம் புகாரளிக்க வேண்டுமா?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report</source>
-        <translation>Segnala</translation>
+        <translation>புகாரளி</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Close game (admin)</source>
-        <translation>Chiudi partita (admin)</translation>
+        <translation>விளையாட்டை மூடு (நிர்வாகி)</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+3"/>
         <source>Close game</source>
-        <translation>Chiudi partita</translation>
+        <translation>விளையாட்டை மூடு</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
-        <translation>Sei sicuro di voler chiudere la partita:
-&quot;%1&quot;?</translation>
+        <translation>விளையாட்டு:
+„%1“ ஐ நிச்சயம் மூட வேண்டுமா?</translation>
     </message>
 </context>
 <context>
@@ -734,42 +734,42 @@
     <message>
         <location filename="../pages/GamePage.qml" line="+2310"/>
         <source>Verlauf &amp; Chancen</source>
-        <translation>Cronologia e probabilità</translation>
+        <translation>வரலாறும் வாய்ப்புகளும்</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Chat</source>
-        <translation>Chat</translation>
+        <translation>உரையாடல்</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Emoji-Reaktionen</source>
-        <translation>Reazioni con emoji</translation>
+        <translation>எமோஜி எதிர்வினைகள்</translation>
     </message>
     <message>
         <location line="+314"/>
         <source>Game Over</source>
-        <translation>Partita terminata</translation>
+        <translation>விளையாட்டு முடிந்தது</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Congratulations, you won the game!</source>
-        <translation>Congratulazioni, hai vinto la partita!</translation>
+        <translation>வாழ்த்துக்கள், நீங்கள் இந்த விளையாட்டில் வென்றீர்கள்!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 wins the game!</source>
-        <translation>%1 vince la partita!</translation>
+        <translation>%1 விளையாட்டில் வென்றார்!</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Back to Menu</source>
-        <translation>Torna al menu</translation>
+        <translation>பட்டிக்குத் திரும்பு</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>New Game</source>
-        <translation>Nuova partita</translation>
+        <translation>புதிய விளையாட்டு</translation>
     </message>
 </context>
 <context>
@@ -779,50 +779,50 @@
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
-        <translation>Ignora giocatore</translation>
+        <translation>விளையாட்டு வீரரை புறக்கணிக்கவும்</translation>
     </message>
     <message>
         <location line="-30"/>
         <location line="+36"/>
         <location line="+2"/>
         <source>Unignore player</source>
-        <translation>Non ignorare più il giocatore</translation>
+        <translation>வீரரின் புறக்கணிப்பை நீக்கு</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Show player stats</source>
-        <translation>Mostra statistiche giocatore</translation>
+        <translation>வீரரின் புள்ளிவிவரங்களைக் காட்டு</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+35"/>
         <source>Report inappropriate avatar</source>
-        <translation>Segnala avatar non appropriato</translation>
+        <translation>பொருத்தமற்ற அவதாரைப் புகாரளி</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Note about player ...</source>
-        <translation>Nota sul giocatore...</translation>
+        <translation>வீரரைப் பற்றிய குறிப்பு ...</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Are you sure you want to ignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero ignorare «%1»?&gt;</translation>
+        <translation>„%1“ ஐ நிச்சயம் புறக்கணிக்க வேண்டுமா?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Are you sure you want to unignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero smettere di ignorare «%1»?&gt;</translation>
+        <translation>„%1“ இன் புறக்கணிப்பை நிச்சயம் நீக்க வேண்டுமா?</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Are you sure you want to report the avatar of &quot;%1&quot; as inappropriate?</source>
-        <translation>Vuoi davvero segnalare l&apos;avatar di «%1» come non appropriato?</translation>
+        <translation>„%1“ இன் அவதார் பொருத்தமற்றது என நிச்சயம் புகாரளிக்க வேண்டுமா?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Report</source>
-        <translation>Segnala</translation>
+        <translation>புகாரளி</translation>
     </message>
 </context>
 <context>
@@ -831,7 +831,7 @@
         <location filename="../components/GamePlayerSelfBox.qml" line="+209"/>
         <location line="+33"/>
         <source>Du</source>
-        <translation>Tu</translation>
+        <translation>நீங்கள்</translation>
     </message>
 </context>
 <context>
@@ -839,42 +839,42 @@
     <message>
         <location filename="../components/GameStatusBar.qml" line="+100"/>
         <source>Show table ranking</source>
-        <translation>Mostra classifica del tavolo</translation>
+        <translation>மேசையின் தரவரிசையைக் காட்டு</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Open in browser</source>
-        <translation>Apri nel browser</translation>
+        <translation>உலாவியில் திற</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Total:</source>
-        <translation>Totale:</translation>
+        <translation>மொத்தத் தொகை:</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Bets:</source>
-        <translation>Puntate:</translation>
+        <translation>பந்தயங்கள்:</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Spectating</source>
-        <translation>Spettatore</translation>
+        <translation>பார்வையிடுகிறது</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Preflop</source>
-        <translation>Preflop</translation>
+        <translation>ப்ரீஃப்ளாப்</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Game: %1</source>
-        <translation>Partita: %1</translation>
+        <translation>விளையாட்டு: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Hand: %1</source>
-        <translation>Mano: %1</translation>
+        <translation>கை: %1</translation>
     </message>
 </context>
 <context>
@@ -883,92 +883,92 @@
         <location filename="../pages/GameTableStatsPage.qml" line="+151"/>
         <location line="+36"/>
         <source>Could not load table ranking (HTTP %1).</source>
-        <translation>Impossibile caricare la classifica del tavolo (HTTP %1).</translation>
+        <translation>மேசையின் தரவரிசையை ஏற்ற இயலவில்லை (HTTP %1).</translation>
     </message>
     <message>
         <location line="-16"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>வழங்கியின் பதிலை பகுக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+58"/>
         <source>Table ranking – %1</source>
-        <translation>Classifica del tavolo – %1</translation>
+        <translation>மேசையின் தரவரிசை – %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Table ranking</source>
-        <translation>Classifica del tavolo</translation>
+        <translation>மேசையின் தரவரிசை</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>வகை: %1</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Players: %1 / %2</source>
-        <translation>Giocatori: %1 / %2</translation>
+        <translation>வீரர்கள்: %1 / %2</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Small blind: %1</source>
-        <translation>Buio piccolo: %1</translation>
+        <translation>சிறிய பந்தயத்தொகை: %1</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Start cash: %1</source>
-        <translation>Capitale iniziale: %1</translation>
+        <translation>தொடக்க பணம்: %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervallo aumento buio: %1 mani</translation>
+        <translation>பந்தயத்தொகை உயர்வு இடைவெளி: %1 கைகள்</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervallo aumento buio: %1 minuti</translation>
+        <translation>பந்தயத்தொகை உயர்வு இடைவெளி: %1 நிமிடங்கள்</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modalità aumento buio: %1</translation>
+        <translation>பந்தயத்தொகை உயர்வு முறை: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>double blinds</source>
-        <translation>raddoppia blind</translation>
+        <translation>இரட்டிப்பு பந்தயத்தொகை</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordine manuale dei blind</translation>
+        <translation>சுய பந்தயத்தொகை வரிசை</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Action time: %1 sec</source>
-        <translation>Tempo di azione: %1 sec</translation>
+        <translation>நகர்த்த நேரம்: %1 வி</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Hand delay: %1 sec</source>
-        <translation>Ritardo tra le mani: %1 sec</translation>
+        <translation>கைகளுக்கு இடையே இடைவெளி: %1 வி</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Current BBC season standings of the players at this table.</source>
-        <translation>Classifica della stagione BBC corrente dei giocatori a questo tavolo.</translation>
+        <translation>இந்த மேசையின் வீரர்களின் தற்போதைய BBC பருவ நிலை.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Current WEC month standings of the players at this table.</source>
-        <translation>Classifica del mese WEC corrente dei giocatori a questo tavolo.</translation>
+        <translation>இந்த மேசையின் வீரர்களின் தற்போதைய WEC மாத நிலை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Current season standings of the players at this table.</source>
-        <translation>Classifica della stagione corrente dei giocatori a questo tavolo.</translation>
+        <translation>இந்த மேசையின் வீரர்களின் தற்போதைய பருவ நிலை.</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -978,32 +978,32 @@
     <message>
         <location line="+8"/>
         <source>Player</source>
-        <translation>Giocatore</translation>
+        <translation>விளையாட்டு வீரர்</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>விளையாட்டுகள்</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>சரா.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>புள்ளிகள்</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>மதிப்பெண்</translation>
     </message>
     <message>
         <location line="+138"/>
         <source>No ranking data for the players at this table yet.</source>
-        <translation>Ancora nessun dato di classifica per i giocatori a questo tavolo.</translation>
+        <translation>இந்த மேசையின் வீரர்களுக்கு இன்னும் தரவரிசைத் தரவு இல்லை.</translation>
     </message>
 </context>
 <context>
@@ -1011,208 +1011,208 @@
     <message>
         <location filename="../pages/GameWaitPage.qml" line="+241"/>
         <source>Players</source>
-        <translation>Giocatori</translation>
+        <translation>விளையாட்டு வீரர்கள்</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>search for player ...</source>
-        <translation>ricerca giocatore ...</translation>
+        <translation>வீரரைத் தேடு ...</translation>
     </message>
     <message>
         <location line="+32"/>
         <location line="+310"/>
         <source>Sort alphabetically</source>
-        <translation>Ordina alfabeticamente</translation>
+        <translation>அகர வரிசையில் அடுக்கு</translation>
     </message>
     <message>
         <location line="-309"/>
         <location line="+310"/>
         <source>Sort by country</source>
-        <translation>Ordina per nazionalità</translation>
+        <translation>நாட்டின்படி அடுக்கு</translation>
     </message>
     <message>
         <location line="-309"/>
         <location line="+310"/>
         <source>Display idle players</source>
-        <translation>Visualizza giocatori liberi</translation>
+        <translation>செயலற்ற வீரர்களைக் காட்டு</translation>
     </message>
     <message>
         <location line="-267"/>
         <location line="+687"/>
         <source>Game List</source>
-        <translation>Elenco partite</translation>
+        <translation>விளையாட்டுப் பட்டியல்</translation>
     </message>
     <message>
         <location line="-636"/>
         <location line="+648"/>
         <source>No game list filter</source>
-        <translation>Nessun filtro elenco partite</translation>
+        <translation>விளையாட்டுப் பட்டியல் வடிகட்டி இல்லை</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open games</source>
-        <translation>Mostra partite aperte</translation>
+        <translation>திறந்த விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full games</source>
-        <translation>Mostra partite aperte e non piene</translation>
+        <translation>திறந்த, நிரம்பாத விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
-        <translation>Mostra partite aperte, non piene e non private</translation>
+        <translation>திறந்த, நிரம்பாத, பொது விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; private games</source>
-        <translation>Mostra partite aperte, non piene e private</translation>
+        <translation>திறந்த, நிரம்பாத, தனிப்பட்ட விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
-        <translation>Mostra partite aperte, non piene e con classifica</translation>
+        <translation>திறந்த, நிரம்பாத தரவரிசை விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
         <location line="-574"/>
         <source>Game Info</source>
-        <translation>Informazioni partita</translation>
+        <translation>விளையாட்டை பற்றிய செய்தி</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Waiting for the start of the next hand to rejoin the game</source>
-        <translation>In attesa dell&apos;inizio della prossima mano per rientrare nella partita</translation>
+        <translation>விளையாட்டுக்குத் திரும்ப அடுத்த கை தொடங்குவதற்குக் காத்திருக்கிறது</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Spectating — waiting for the next hand</source>
-        <translation>Spettatore — in attesa della prossima mano</translation>
+        <translation>பார்வையிடுகிறது — அடுத்த கைக்குக் காத்திருக்கிறது</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Waiting for players</source>
-        <translation>In attesa di giocatori</translation>
+        <translation>வீரர்களுக்குக் காத்திருக்கிறது</translation>
     </message>
     <message>
         <location line="+82"/>
         <source>Connected Players</source>
-        <translation>Giocatori connessi</translation>
+        <translation>தொடர்பில் இருக்கும் விளையாட்டு வீரர்கள்</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Players: %1 / %2</source>
-        <translation>Giocatori: %1 / %2</translation>
+        <translation>வீரர்கள்: %1 / %2</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>வகை: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Small blind: %1</source>
-        <translation>Buio piccolo: %1</translation>
+        <translation>சிறிய பந்தயத்தொகை: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Start cash: %1</source>
-        <translation>Capitale iniziale: %1</translation>
+        <translation>தொடக்க பணம்: %1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervallo aumento buio: %1 mani</translation>
+        <translation>பந்தயத்தொகை உயர்வு இடைவெளி: %1 கைகள்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervallo aumento buio: %1 minuti</translation>
+        <translation>பந்தயத்தொகை உயர்வு இடைவெளி: %1 நிமிடங்கள்</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modalità aumento buio: %1</translation>
+        <translation>பந்தயத்தொகை உயர்வு முறை: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>double blinds</source>
-        <translation>raddoppia blind</translation>
+        <translation>இரட்டிப்பு பந்தயத்தொகை</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordine manuale dei blind</translation>
+        <translation>சுய பந்தயத்தொகை வரிசை</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Action time: %1 sec</source>
-        <translation>Tempo di azione: %1 sec</translation>
+        <translation>நகர்த்த நேரம்: %1 வி</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Hand delay: %1 sec</source>
-        <translation>Ritardo tra le mani: %1 sec</translation>
+        <translation>கைகளுக்கு இடையே இடைவெளி: %1 வி</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Players in game (%1)</source>
-        <translation>Giocatori in partita (%1)</translation>
+        <translation>விளையாட்டில் உள்ள வீரர்கள் (%1)</translation>
     </message>
     <message>
         <location line="-653"/>
         <location line="+745"/>
         <source>Kick player</source>
-        <translation>Espelli giocatore</translation>
+        <translation>வீரரை வெளியேற்று</translation>
     </message>
     <message>
         <location line="-744"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
-        <translation>Vuoi davvero espellere «%1» dalla partita?</translation>
+        <translation>„%1“ ஐ விளையாட்டிலிருந்து நிச்சயம் வெளியேற்ற வேண்டுமா?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kick</source>
-        <translation>Espelli</translation>
+        <translation>துரத்து</translation>
     </message>
     <message>
         <location line="+776"/>
         <source>Lobby Chat</source>
-        <translation>Chat della lobby</translation>
+        <translation>வரவேற்பறை உரையாடல்</translation>
     </message>
     <message>
         <location line="+73"/>
         <source>Guests cannot chat</source>
-        <translation>Gli ospiti non possono chattare</translation>
+        <translation>விருந்தினர்கள் உரையாட முடியாது</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Type your message...</source>
-        <translation>Scrivi il tuo messaggio...</translation>
+        <translation>உங்கள் செய்தியை உள்ளிடுக...</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Fill up with computer players</source>
-        <translation>Completa con giocatori del computer</translation>
+        <translation>கணினி வீரர்களால் நிரப்பு</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Leave Game</source>
-        <translation>Abbandona partita</translation>
+        <translation>விளையாட்டை விட்டு விலகு</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Start Game</source>
-        <translation>Inizia partita</translation>
+        <translation>விளையாட்டை துவக்குக</translation>
     </message>
     <message>
         <location line="-88"/>
         <source>Suggest players</source>
-        <translation>Suggerisci giocatori</translation>
+        <translation>வீரர்களை பரிந்துரை</translation>
     </message>
 </context>
 <context>
@@ -1220,32 +1220,32 @@
     <message>
         <location filename="../components/GlobalNoticePopup.qml" line="+58"/>
         <source>Global notice</source>
-        <translation>Avviso globale</translation>
+        <translation>பொது அறிவிப்பு</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This message is shown to every player on the server, in the lobby and at the tables.</source>
-        <translation>Questo messaggio viene mostrato a tutti i giocatori del server, nella lobby e ai tavoli.</translation>
+        <translation>இந்தச் செய்தி வழங்கியில் உள்ள ஒவ்வொரு வீரருக்கும், வரவேற்பறையிலும் மேசைகளிலும் காட்டப்படும்.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Notice text …</source>
-        <translation>Testo dell&apos;avviso …</translation>
+        <translation>அறிவிப்பின் உரை …</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>%1 / %2 characters</source>
-        <translation>%1 / %2 caratteri</translation>
+        <translation>%1 / %2 எழுத்துகள்</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>நிறுத்திவிடு</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Send</source>
-        <translation>Invia</translation>
+        <translation>அனுப்பு</translation>
     </message>
 </context>
 <context>
@@ -1253,157 +1253,157 @@
     <message>
         <location filename="../components/GuiSettings.qml" line="+20"/>
         <source>Benutzeroberfläche</source>
-        <translation>Interfaccia utente</translation>
+        <translation>பயனர் இடைமுகம்</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Allgemein</source>
-        <translation>Generale</translation>
+        <translation>பொது</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Netzwerk</source>
-        <translation>Rete</translation>
+        <translation>வலைப்பின்னல்</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Dark Mode:</source>
-        <translation>Modalità scura:</translation>
+        <translation>இருண்ட பயன்முறை:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Automatisch</source>
-        <translation>Automatica</translation>
+        <translation>தானியங்கி</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Hell</source>
-        <translation>Chiaro</translation>
+        <translation>வெளிர்</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Dunkel</source>
-        <translation>Scuro</translation>
+        <translation>இருண்ட</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Sprache:</source>
-        <translation>Lingua:</translation>
+        <translation>மொழி:</translation>
     </message>
     <message>
         <location line="+70"/>
         <source>Ausblend-Animation für Verliererkarten</source>
-        <translation>Animazione di dissolvenza per le carte perdenti</translation>
+        <translation>தோற்ற சீட்டுகளுக்கான மறையும் அசைவூட்டம்</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Zeitstempel im Chat anzeigen</source>
-        <translation>Mostra l&apos;orario nella chat</translation>
+        <translation>உரையாடலில் நேர முத்திரைகளைக் காட்டு</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Übersetzung anbieten (Globus-Symbol im Chat und bei Forum-Beiträgen)</source>
-        <translation>Offri la traduzione (icona del globo nella chat e nei messaggi del forum)</translation>
+        <translation>மொழிபெயர்ப்பை வழங்கு (உரையாடலிலும் மன்றப் பதிவுகளிலும் உலக உருவம்)</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht oder eines Forum-Beitrags antippst; Zielsprache ist die oben gewählte Sprache.</source>
-        <translation>La traduzione utilizza un servizio esterno (Google Traduttore o, in alternativa, MyMemory). Non viene inviato nulla finché non tocchi l&apos;icona di un messaggio o di un messaggio del forum; la lingua di destinazione è quella selezionata sopra.</translation>
+        <translation>மொழிபெயர்ப்பு வெளிப்புற சேவையைப் (Google Translate, மாற்றாக MyMemory) பயன்படுத்துகிறது. ஒரு செய்தியின் அல்லது மன்றப் பதிவின் உருவத்தைத் தொடும்வரை எதுவும் அனுப்பப்படாது; இலக்கு மொழி மேலே தேர்ந்தெடுத்த மொழியாகும்.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Animierte Karten (Aufdeck-Animation)</source>
-        <translation>Carte animate (animazione flip)</translation>
+        <translation>அசைவூட்டப்பட்ட சீட்டுகள் (திறக்கும் அசைவூட்டம்)</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Grafikeffekte reduzieren (Schatten/Glow) – für schwache Systeme</source>
-        <translation>Riduci effetti grafici (ombre/bagliori) – per sistemi meno performanti</translation>
+        <translation>வரைகலை விளைவுகளைக் குறை (நிழல்/ஒளிர்வு) – குறைந்த திறன் அமைப்புகளுக்கு</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Alternative F-Tasten-Belegung (F1-F4)</source>
-        <translation>Assegnazione alternativa dei tasti F (F1-F4)</translation>
+        <translation>மாற்று F விசை அமைப்பு (F1-F4)</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Symbole für Small Blind und Big Blind anzeigen</source>
-        <translation>Mostra i simboli di buio piccolo e buio grande</translation>
+        <translation>சிறிய மற்றும் பெரிய பந்தயத்தொகைக்கான குறியீடுகளைக் காட்டு</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Pot-Prozent-Schaltflächen anzeigen</source>
-        <translation>Mostra i pulsanti percentuale del piatto</translation>
+        <translation>மொத்தத் தொகையின் சதவீத பொத்தான்களைக் காட்டு</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Anti-Peek: Eigene Karten erst bei Klick anzeigen</source>
-        <translation>Anti-sbirciata: mostra le proprie carte solo al clic</translation>
+        <translation>எட்டிப்பார்ப்பதைத் தடு: உங்கள் சீட்டுகளை சொடுக்கியபின்பே காட்டு</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Startbildschirm beim Startvorgang deaktivieren</source>
-        <translation>Disabilita la schermata iniziale all&apos;avvio</translation>
+        <translation>தொடங்கும்போது தொடக்கத் திரையைக் காட்டாதே</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Internationale Pokerausdrücke (Check, Call, Raise) nicht übersetzen</source>
-        <translation>Non tradurre i termini internazionali del poker (Check, Call, Raise)</translation>
+        <translation>சர்வதேச போக்கர் சொற்களை (Check, Call, Raise) மொழிபெயர்க்காதே</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Tooltips anzeigen</source>
-        <translation>Mostra i suggerimenti</translation>
+        <translation>கருவிக் குறிப்புகளைக் காட்டு</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
-        <translation>Abilita lo zoom del tavolo (scorrimento e zoom, solo modalità mobile)</translation>
+        <translation>மேசைப் பெரிதாக்கலை இயக்கு (இழுத்தல் மற்றும் பெரிதாக்கல், கைபேசி பயன்முறையில் மட்டும்)</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)</source>
-        <translation>Mantieni i posti dei giocatori che hanno lasciato il tavolo (i riquadri dei giocatori rimanenti restano al loro posto)</translation>
+        <translation>விலகிய வீரர்களின் இடங்களை மேசையில் தக்கவை (மற்ற வீரர் பெட்டிகள் இடத்திலேயே இருக்கும்)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Forum-Neuigkeiten anzeigen</source>
-        <translation>Mostra le novità dal forum</translation>
+        <translation>மன்றச் செய்திகளைக் காட்டு</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Community-Inhalte anzeigen</source>
-        <translation>Mostra contenuti della community</translation>
+        <translation>சமூக உள்ளடக்கத்தைக் காட்டு</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Standard-Community:</source>
-        <translation>Community predefinita:</translation>
+        <translation>இயல்புநிலை சமூகம்:</translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
-        <translation>Imposta il focus sul campo di puntata quando è il tuo turno</translation>
+        <translation>உங்கள் முறை வரும்போது பந்தய புலத்தில் கவனத்தை வை</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen</source>
-        <translation>Mostra il colore dello stato di rete nell&apos;angolo dell&apos;avatar</translation>
+        <translation>அவதாரின் மூலையில் வலைப்பின்னல் நிலையின் நிறத்தைக் காட்டு</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Emoji-Reaktionen deaktivieren</source>
-        <translation>Disabilita le reazioni con emoji</translation>
+        <translation>எமோஜி எதிர்வினைகளை முடக்கு</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Versehentliches Call nach einem großen Raise verhindern</source>
-        <translation>Evita chiamate accidentali dopo un grande rilancio</translation>
+        <translation>பெரிய ரெய்ஸுக்குப் பிறகு தவறுதலான காலைத் தடு</translation>
     </message>
     <message>
         <location line="-31"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
-        <translation>Suggerisci giocatori nelle proprie partite della community</translation>
+        <translation>உங்கள் சமூக விளையாட்டுகளில் வீரர்களை பரிந்துரை</translation>
     </message>
 </context>
 <context>
@@ -1411,157 +1411,157 @@
     <message>
         <location filename="../components/InternetGameSettings.qml" line="+19"/>
         <source>Internetspiel</source>
-        <translation>Partita in Internet</translation>
+        <translation>இணைய விளையாட்டு</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Server-Konfiguration</source>
-        <translation>Configurazione server</translation>
+        <translation>வழங்கி அமைப்பு</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Automatische Server-Konfiguration</source>
-        <translation>Configurazione automatica del server</translation>
+        <translation>தானியங்கி வழங்கி அமைப்பு</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Manuelle Server-Konfiguration</source>
-        <translation>Configurazione manuale del server</translation>
+        <translation>கைமுறை வழங்கி அமைப்பு</translation>
     </message>
     <message>
         <location line="-18"/>
         <source>Server-Liste:</source>
-        <translation>Elenco server:</translation>
+        <translation>வழங்கிப் பட்டியல்:</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Server-Adresse:</source>
-        <translation>Indirizzo del server:</translation>
+        <translation>வழங்கி முகவரி:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Server-Port:</source>
-        <translation>Porta del server:</translation>
+        <translation>வழங்கி போர்ட்:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Server-Passwort:</source>
-        <translation>Password del server:</translation>
+        <translation>வழங்கி கடவுச்சொல்:</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Nur registrierte Spieler</source>
-        <translation>Solo utenti registrati</translation>
+        <translation>பதிவான வீரர்கள் மட்டும்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur eingeladene Spieler</source>
-        <translation>Solo utenti invitati</translation>
+        <translation>அழைப்பு பெற்ற வீரர்கள் மட்டும்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranglistenspiel</source>
-        <translation>Valida per la classifica</translation>
+        <translation>தரவரிசை விளையாட்டு</translation>
     </message>
     <message>
         <location line="+87"/>
         <source>Verbindungsoptionen</source>
-        <translation>Opzioni di connessione</translation>
+        <translation>இணைப்பு விருப்பங்கள்</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>TLS/SSL verwenden (verschlüsselte Verbindung)</source>
-        <translation>Usa TLS/SSL (connessione crittografata)</translation>
+        <translation>TLS/SSL ஐப் பயன்படுத்து (மறையாக்கப்பட்ட இணைப்பு)</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>SCTP verwenden (statt TCP)</source>
-        <translation>Usa SCTP (invece di TCP)</translation>
+        <translation>SCTP ஐப் பயன்படுத்து (TCP க்குப் பதிலாக)</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>IPv6 verwenden</source>
-        <translation>Utilizza IPv6</translation>
+        <translation>IPv6 ஐப் பயன்படுத்து</translation>
     </message>
     <message>
         <location line="-52"/>
         <source>Avatar-Server</source>
-        <translation>Server avatar</translation>
+        <translation>அவதார் வழங்கி</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Avatar-Server verwenden</source>
-        <translation>Usa il server avatar</translation>
+        <translation>அவதார் வழங்கியைப் பயன்படுத்து</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avatar-Server-Adresse:</source>
-        <translation>Indirizzo del server avatar:</translation>
+        <translation>அவதார் வழங்கி முகவரி:</translation>
     </message>
     <message>
         <location line="-101"/>
         <source>Spiel-Einstellungen</source>
-        <translation>Impostazioni partita</translation>
+        <translation>விளையாட்டு அமைப்புகள்</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Spiel-Name:</source>
-        <translation>Nome partita:</translation>
+        <translation>விளையாட்டின் பெயர்:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Spiel-Typ:</source>
-        <translation>Tipo di partita:</translation>
+        <translation>விளையாட்டு வகை:</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Normal</source>
-        <translation>Normale</translation>
+        <translation>சாதாரண</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Spiel-Passwort verwenden</source>
-        <translation>Usa password della partita</translation>
+        <translation>விளையாட்டுக் கடவுச்சொல்லைப் பயன்படுத்து</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Spiel-Passwort:</source>
-        <translation>Password della partita:</translation>
+        <translation>விளையாட்டுக் கடவுச்சொல்:</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Zuschauer erlauben</source>
-        <translation>Consenti spettatori</translation>
+        <translation>பார்வையாளர்களை அனுமதி</translation>
     </message>
     <message>
         <location line="+84"/>
         <source>Tisch automatisch verlassen nach Spielende</source>
-        <translation>Lascia automaticamente il tavolo al termine della partita</translation>
+        <translation>விளையாட்டு முடிந்ததும் தானாக மேசையை விட்டு விலகு</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>Weitere Optionen</source>
-        <translation>Altre opzioni</translation>
+        <translation>மேலும் விருப்பங்கள்</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Ignorierte Spieler</source>
-        <translation>Giocatori Ignorati</translation>
+        <translation>புறக்கணிக்கப்பட்ட வீரர்கள்</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>(keine ignorierten Spieler)</source>
-        <translation>(nessun giocatore ignorato)</translation>
+        <translation>(புறக்கணிக்கப்பட்ட வீரர்கள் இல்லை)</translation>
     </message>
     <message>
         <location line="-45"/>
         <source>Spieler auf der Ignore-Liste werden nicht im Chat angezeigt.</source>
-        <translation>I giocatori nella lista degli ignorati non vengono mostrati in chat.</translation>
+        <translation>புறக்கணிப்புப் பட்டியலில் உள்ள வீரர்கள் உரையாடலில் காட்டப்பட மாட்டார்கள்.</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Entfernen</source>
-        <translation>Rimuovi</translation>
+        <translation>நீக்கு</translation>
     </message>
 </context>
 <context>
@@ -1569,149 +1569,149 @@
     <message>
         <location filename="../pages/LobbyCreateGamePage.qml" line="+314"/>
         <source>← Zurück</source>
-        <translation>← Indietro</translation>
+        <translation>← பின்செல்</translation>
     </message>
     <message>
         <location line="+8"/>
         <location line="+455"/>
         <source>Spiel erstellen</source>
-        <translation>Crea Partita</translation>
+        <translation>விளையாட்டை உருவாக்கு</translation>
     </message>
     <message>
         <location line="-426"/>
         <source>Spielname</source>
-        <translation>Nome partita</translation>
+        <translation>விளையாட்டின் பெயர்</translation>
     </message>
     <message>
         <location line="-205"/>
         <source>%1&apos;s game</source>
-        <translation>Partita di %1</translation>
+        <translation>%1 இன் விளையாட்டு</translation>
     </message>
     <message>
         <location line="+214"/>
         <source>Spielname eingeben …</source>
-        <translation>Inserisci il nome della partita …</translation>
+        <translation>விளையாட்டின் பெயரை உள்ளிடுக …</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Spieltyp</source>
-        <translation>Tipo di partita</translation>
+        <translation>விளையாட்டு வகை</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Normal</source>
-        <translation>Normale</translation>
+        <translation>சாதாரண</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur registrierte Spieler</source>
-        <translation>Solo utenti registrati</translation>
+        <translation>பதிவான வீரர்கள் மட்டும்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur eingeladene Spieler</source>
-        <translation>Solo utenti invitati</translation>
+        <translation>அழைப்பு பெற்ற வீரர்கள் மட்டும்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranglistenspiel</source>
-        <translation>Valida per la classifica</translation>
+        <translation>தரவரிசை விளையாட்டு</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Community-Vorlage</source>
-        <translation>Modello della community</translation>
+        <translation>சமூக வார்ப்புரு</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Eigene Einstellungen</source>
-        <translation>Impostazioni personalizzate</translation>
+        <translation>சொந்த அமைப்புகள்</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Passwort</source>
-        <translation>Password</translation>
+        <translation>கடவுச்சொல்</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Passwort eingeben …</source>
-        <translation>Inserisci password …</translation>
+        <translation>கடவுச்சொல்லை உள்ளிடுக …</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Zuschauer erlaubt</source>
-        <translation>Spettatori ammessi</translation>
+        <translation>பார்வையாளர்கள் அனுமதிக்கப்படுகிறார்கள்</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Max. Spieler</source>
-        <translation>Numero max. giocatori</translation>
+        <translation>அதிகபட்ச வீரர்கள்</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Startgeld</source>
-        <translation>Capitale iniziale</translation>
+        <translation>தொடக்க பணம்</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Blind-Einstellungen</source>
-        <translation>Impostazioni buio</translation>
+        <translation>பந்தயத்தொகை அமைப்புகள்</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Erster Small Blind</source>
-        <translation>Primo buio piccolo</translation>
+        <translation>முதல் சிறிய பந்தயத்தொகை</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Blind-Erhöhungsintervall</source>
-        <translation>Intervallo aumento buio</translation>
+        <translation>பந்தயத்தொகை உயர்வு இடைவெளி</translation>
     </message>
     <message>
         <location line="+22"/>
         <location line="+28"/>
         <source>Alle</source>
-        <translation>Ogni</translation>
+        <translation>ஒவ்வொரு</translation>
     </message>
     <message>
         <location line="-17"/>
         <source>Hände</source>
-        <translation>mani</translation>
+        <translation>கைகள்</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Minuten</source>
-        <translation>minuti</translation>
+        <translation>நிமிடங்கள்</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Blindliste: %1</source>
-        <translation>Lista dei bui: %1</translation>
+        <translation>பந்தயத்தொகைப் பட்டியல்: %1</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Zeitlimits</source>
-        <translation>Limiti di tempo</translation>
+        <translation>நேர வரம்புகள்</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Zeitlimit Spieleraktion</source>
-        <translation>Limite di tempo per l&apos;azione del giocatore</translation>
+        <translation>வீரரின் நகர்வுக்கான நேர வரம்பு</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Pause zwischen Händen</source>
-        <translation>Ritardo tra le mani</translation>
+        <translation>கைகளுக்கு இடையே இடைவெளி</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>நிறுத்திவிடு</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Bitte einen Spielnamen eingeben.</source>
-        <translation>Inserisci un nome per la partita.</translation>
+        <translation>விளையாட்டின் பெயரை உள்ளிடுக.</translation>
     </message>
 </context>
 <context>
@@ -1720,172 +1720,172 @@
         <location filename="../cpp/lobbyhandler.cpp" line="+1441"/>
         <location line="+1347"/>
         <source>Guests cannot send chat messages</source>
-        <translation>Gli ospiti non possono inviare messaggi in chat</translation>
+        <translation>விருந்தினர்கள் உரையாடல் செய்திகளை அனுப்ப முடியாது</translation>
     </message>
     <message>
         <location line="-1328"/>
         <location line="+1322"/>
         <source>Private messages are not available at the table.</source>
-        <translation>I messaggi privati non sono disponibili al tavolo.</translation>
+        <translation>மேசையில் தனிப்பட்ட செய்திகள் கிடைக்காது.</translation>
     </message>
     <message>
         <location line="-1316"/>
         <source>Player not found</source>
-        <translation>Giocatore non trovato</translation>
+        <translation>விளையாட்டு வீரர் கிடைக்கவில்லை</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Failed to send chat message</source>
-        <translation>Impossibile inviare il messaggio in chat</translation>
+        <translation>உரையாடல் செய்தியை அனுப்ப இயலவில்லை</translation>
     </message>
     <message>
         <location line="+98"/>
         <source>The avatar report was accepted by the server. Thank you.</source>
-        <translation>La segnalazione dell&apos;avatar è stata accettata dal server. Grazie mille.</translation>
+        <translation>அவதார் பற்றிய புகார் வழங்கியால் ஏற்கப்பட்டது. நன்றி.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This avatar was already reported by another player.</source>
-        <translation>Questo avatar è già stato segnalato da un altro giocatore.</translation>
+        <translation>இந்த அவதார் ஏற்கனவே மற்றொரு வீரரால் புகாரளிக்கப்பட்டுள்ளது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An error occurred while reporting the avatar.</source>
-        <translation>Si è verificato un errore durante la segnalazione dell&apos;avatar.</translation>
+        <translation>அவதாரைப் புகாரளிக்கும்போது பிழை ஏற்பட்டது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name report was accepted by the server. Thank you.</source>
-        <translation>La segnalazione sul nome della partita è stata accettata dal server. Grazie.</translation>
+        <translation>விளையாட்டுப் பெயர் பற்றிய புகார் வழங்கியால் ஏற்கப்பட்டது. நன்றி.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game name was already reported by another player.</source>
-        <translation>Questo nome di partita è già stato segnalato da un altro giocatore.</translation>
+        <translation>இந்த விளையாட்டுப் பெயர் ஏற்கனவே மற்றொரு வீரரால் புகாரளிக்கப்பட்டுள்ளது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An error occurred while reporting the game name.</source>
-        <translation>Si è verificato un errore durante la segnalazione del nome di partita.</translation>
+        <translation>விளையாட்டுப் பெயரைப் புகாரளிக்கும்போது பிழை ஏற்பட்டது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game was closed.</source>
-        <translation>La partita è stata chiusa.</translation>
+        <translation>விளையாட்டு மூடப்பட்டது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be closed.</source>
-        <translation>Impossibile chiudere la partita.</translation>
+        <translation>விளையாட்டை மூட இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked and banned permanently.</source>
-        <translation>Il giocatore è stato espulso e bandito permanentemente.</translation>
+        <translation>வீரர் வெளியேற்றப்பட்டு நிரந்தரமாகத் தடை செய்யப்பட்டார்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked, but could not be banned because it was a guest player.</source>
-        <translation>Il giocatore è stato espulso ma non è stato bandito perchè era un ospite.</translation>
+        <translation>வீரர் வெளியேற்றப்பட்டார், ஆனால் விருந்தினர் என்பதால் தடை செய்ய இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked, but could not be banned, 
 because the nick could not be found in the database</source>
-        <translation>Il giocatore è stato espulso ma non bandito
-perchè il suo nickname non è stato trovato sul database</translation>
+        <translation>வீரர் வெளியேற்றப்பட்டார், ஆனால் தடை செய்ய இயலவில்லை, 
+ஏனெனில் அவரது புனைபெயர் தரவுத்தளத்தில் கிடைக்கவில்லை</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player could not be found.</source>
-        <translation>Impossibile trovare il giocatore.</translation>
+        <translation>விளையாட்டு வீரரைக் கண்டுபிடிக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The global notice was sent to all players.</source>
-        <translation>L&apos;avviso globale è stato inviato a tutti i giocatori.</translation>
+        <translation>பொது அறிவிப்பு அனைத்து வீரர்களுக்கும் அனுப்பப்பட்டது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The global notice was rejected by the server.</source>
-        <translation>L&apos;avviso globale è stato rifiutato dal server.</translation>
+        <translation>வழங்கி பொது அறிவிப்பை நிராகரித்தது.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>You cannot join this game, because another player in that game has your network address.</source>
-        <translation>Non puoi unirti alla partita, è presente un altro giocatore che ha il tuo stesso indirizzo di rete.</translation>
+        <translation>இந்த விளையாட்டில் சேர இயலாது, ஏனெனில் அதில் உள்ள மற்றொரு வீரருக்கு அதே வலைப்பின்னல் முகவரி உள்ளது.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Sorry, this game is already full.</source>
-        <translation>Spiacente, la partita è già al completo.</translation>
+        <translation>மன்னிக்கவும், இந்த விளையாட்டு ஏற்கனவே நிரம்பிவிட்டது.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Unable to join - the server has already started the game.</source>
-        <translation>Impossibile partecipare - la partita è già iniziata.</translation>
+        <translation>சேர இயலவில்லை - வழங்கி ஏற்கனவே விளையாட்டைத் தொடங்கிவிட்டது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game is of type invite-only. You cannot join this game without being invited.</source>
-        <translation>L&apos;accesso a questa partita è concesso solo su invito. Non puoi partecipare senza essere stato invitato.</translation>
+        <translation>இந்த விளையாட்டு அழைப்பு பெற்றவர்களுக்கு மட்டும். அழைப்பு இல்லாமல் சேர இயலாது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game name is already in use. Please choose a different name.</source>
-        <translation>Questo nome partita è già in uso. Scegli un nome diverso.</translation>
+        <translation>இந்த விளையாட்டுப் பெயர் ஏற்கனவே பயன்பாட்டில் உள்ளது. வேறு பெயரைத் தேர்ந்தெடுக்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name is invalid. Please choose a different name.</source>
-        <translation>Il nome della partita non è valido. Scegli un nome diverso.</translation>
+        <translation>விளையாட்டின் பெயர் செல்லாது. வேறு பெயரைத் தேர்ந்தெடுக்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
-        <translation>Password sbagliata per la partita selezionata.
-Reinserire la password e riprovare.</translation>
+        <translation>விளையட்டினுள் நுழையும் பொழுது உபயோகித்த இரகசிய வார்த்தை தவறு.
+தயவு செய்து சரியான இரகசிய வார்த்தையை உபயோகித்து மீண்டும் முயற்ச்சி செய்யவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You cannot join this type of game as guest.</source>
-        <translation>Non puoi accedere a questa partita come ospite.</translation>
+        <translation>இவ்வகையான விளையாட்டில் ஒரு விருந்தாளியாக நீங்கள் சேர முடியாது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The settings are invalid for this type of game.</source>
-        <translation>Impostazioni non valide per questo tipo di partita.</translation>
+        <translation>இவ்வகை விளையாட்டுக்கு இந்த அமைப்புகள் செல்லாது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game does not allow spectators.</source>
-        <translation>Questa partita non consente spettatori.</translation>
+        <translation>இந்த விளையாட்டு பார்வையாளர்களை அனுமதிக்கவில்லை.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Could not join the game.</source>
-        <translation>Impossibile unirsi alla partita.</translation>
+        <translation>விளையாட்டில் சேர இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Your connection to the server is very slow, the game had to start without you.</source>
-        <translation>La connessione al server è molto lenta, la partita è dovuta cominciare senza di te.</translation>
+        <translation>வழங்கியுடனான உங்கள் இணைப்பு மிகவும் மெதுவாக உள்ளது, விளையாட்டு உங்களை விட்டுத் தொடங்க வேண்டியிருந்தது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were kicked from the game.</source>
-        <translation>Sei stato espulso dalla partita.</translation>
+        <translation>நீங்கள் விளையாட்டிலிருந்து நீக்கப்பட்டுள்ளீர்.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>You were removed due to inactivity.</source>
-        <translation>Sei stato rimosso per inattività.</translation>
+        <translation>செயலற்ற நிலையின் காரணமாக நீங்கள் நீக்கப்பட்டீர்கள்.</translation>
     </message>
     <message>
         <location line="+581"/>
         <source>%1 is not in the lobby at the moment.</source>
-        <translation>%1 non è nella lobby al momento.</translation>
+        <translation>%1 தற்போது வரவேற்பறையில் இல்லை.</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -1899,72 +1899,72 @@ Reinserire la password e riprovare.</translation>
         <location line="+11"/>
         <location line="+11"/>
         <source>Not connected to server</source>
-        <translation>Non connesso al server</translation>
+        <translation>வழங்கியுடன் இணைப்பு இல்லை</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>%1 has been invited to %2 by %3.</source>
-        <translation>%1 è stato invitato a %2 da %3.</translation>
+        <translation>%3 என்பவர் %1 ஐ %2 க்கு அழைத்துள்ளார்.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>%1 has rejected the invitation to %2.</source>
-        <translation>%1 ha rifiutato l&apos;invito a %2.</translation>
+        <translation>%1 என்பவர் %2 க்கான அழைப்பை நிராகரித்தார்.</translation>
     </message>
     <message>
         <location line="+79"/>
         <source>Guests cannot receive private messages.</source>
-        <translation>Gli ospiti non possono ricevere messaggi privati.</translation>
+        <translation>விருந்தினர்கள் தனிப்பட்ட செய்திகளைப் பெற முடியாது.</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Private message to %1:</source>
-        <translation>Messaggio privato a %1:</translation>
+        <translation>%1 க்கான தனிப்பட்ட செய்தி:</translation>
     </message>
     <message>
         <location line="+96"/>
         <source>Registered players only</source>
-        <translation>Solo utenti registrati</translation>
+        <translation>பதிவான விளையாட்டு வீரர்கள் மட்டும்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invited players only</source>
-        <translation>Solo utenti invitati</translation>
+        <translation>அழைப்பு பெற்ற வீரர்கள் மட்டும்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranking game</source>
-        <translation>Valida per la classifica</translation>
+        <translation>தரவரிசை விளையாட்டு</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Standard</source>
-        <translation>Standard</translation>
+        <translation>சாதாரண விளையாட்டு</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Running</source>
-        <translation>In corso</translation>
+        <translation>நடைபெறுகிறது</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Closed</source>
-        <translation>Chiusa</translation>
+        <translation>மூடப்பட்டது</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open</source>
-        <translation>Aperta</translation>
+        <translation>திறந்துள்ளது</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Full</source>
-        <translation>Piena</translation>
+        <translation>நிரம்பியது</translation>
     </message>
     <message>
         <location line="-221"/>
         <source>%1 cannot join %2 because he is busy.</source>
-        <translation>%1 non può unirsi a %2 perché è occupato.</translation>
+        <translation>%1 பணியில் இருப்பதால் %2 இல் சேர இயலவில்லை.</translation>
     </message>
 </context>
 <context>
@@ -1972,335 +1972,335 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../pages/LobbyPage.qml" line="+1545"/>
         <source>Game invitation</source>
-        <translation>Invito alla partita</translation>
+        <translation>விளையாட்டு அழைப்பு</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
-        <translation>Sei stato invitato alla partita &lt;b&gt;%1&lt;/b&gt; da &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Desideri partecipare alla partita?</translation>
+        <translation>&lt;b&gt;%2&lt;/b&gt; உங்களை &lt;b&gt;%1&lt;/b&gt; விளையாட்டுக்கு அழைத்துள்ளார்.&lt;br&gt;இந்த விளையாட்டில் சேர விரும்புகிறீர்களா?</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Decline</source>
-        <translation>Rifiuta</translation>
+        <translation>நிராகரி</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Join</source>
-        <translation>Unisciti</translation>
+        <translation>சேர்</translation>
     </message>
     <message>
         <location line="-502"/>
         <source>Create Game</source>
-        <translation>Crea Partita</translation>
+        <translation>விளையாட்டை உருவாக்குக</translation>
     </message>
     <message>
         <location line="-746"/>
         <location line="+804"/>
         <source>Game Info</source>
-        <translation>Informazioni partita</translation>
+        <translation>விளையாட்டை பற்றிய செய்தி</translation>
     </message>
     <message>
         <location line="-534"/>
         <location line="+483"/>
         <source>Join Game</source>
-        <translation>Unisciti alla partita</translation>
+        <translation>விளையாட்டில் சேர்</translation>
     </message>
     <message>
         <location line="-273"/>
         <source>Game List</source>
-        <translation>Elenco partite</translation>
+        <translation>விளையாட்டுப் பட்டியல்</translation>
     </message>
     <message>
         <location line="+73"/>
         <source>Time: %1s/%2s</source>
-        <translation>Tempo: %1s/%2s</translation>
+        <translation>நேரம்: %1 வி/%2 வி</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Private</source>
-        <translation>Privato</translation>
+        <translation>தனிப்பட்ட</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Public</source>
-        <translation>Pubblica</translation>
+        <translation>பொது</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Ranking</source>
-        <translation>Classifica</translation>
+        <translation>தரவரிசை</translation>
     </message>
     <message>
         <location line="+115"/>
         <location line="+287"/>
         <source>Lobby Chat</source>
-        <translation>Chat della lobby</translation>
+        <translation>வரவேற்பறை உரையாடல்</translation>
     </message>
     <message>
         <location line="-613"/>
         <source>No game list filter</source>
-        <translation>Nessun filtro elenco partite</translation>
+        <translation>விளையாட்டுப் பட்டியல் வடிகட்டி இல்லை</translation>
     </message>
     <message>
         <location line="+375"/>
         <source>Player: %1</source>
-        <translation>Giocatore: %1</translation>
+        <translation>வீரர்: %1</translation>
     </message>
     <message>
         <location line="-896"/>
         <source>Players</source>
-        <translation>Giocatori</translation>
+        <translation>விளையாட்டு வீரர்கள்</translation>
     </message>
     <message>
         <location line="+1010"/>
         <source>Select a game to see details</source>
-        <translation>Seleziona una partita per vedere i dettagli</translation>
+        <translation>விவரங்களைக் காண ஒரு விளையாட்டைத் தேர்ந்தெடுக்கவும்</translation>
     </message>
     <message>
         <location line="-486"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
-        <translation>Mostra partite aperte, non piene e non private</translation>
+        <translation>திறந்த, நிரம்பாத, பொது விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
         <location line="-627"/>
         <source>Report game name</source>
-        <translation>Segnala nome partita</translation>
+        <translation>விளையாட்டுப் பெயரைப் புகாரளி</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure you want to report the game name:
 &quot;%1&quot; as inappropriate?</source>
-        <translation>Sei sicuro di voler segnalare il nome della partita:
-&quot;%1&quot; come offensivo?</translation>
+        <translation>விளையாட்டுப் பெயர்:
+„%1“ பொருத்தமற்றது என நிச்சயம் புகாரளிக்க வேண்டுமா?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report</source>
-        <translation>Segnala</translation>
+        <translation>புகாரளி</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Spectate</source>
-        <translation>Osserva</translation>
+        <translation>பார்வையிடு</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+3"/>
         <source>Close game</source>
-        <translation>Chiudi partita</translation>
+        <translation>விளையாட்டை மூடு</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
-        <translation>Sei sicuro di voler chiudere la partita:
-&quot;%1&quot;?</translation>
+        <translation>விளையாட்டு:
+„%1“ ஐ நிச்சயம் மூட வேண்டுமா?</translation>
     </message>
     <message>
         <location line="+169"/>
         <location line="+510"/>
         <source>Sort alphabetically</source>
-        <translation>Ordina alfabeticamente</translation>
+        <translation>அகர வரிசையில் அடுக்கு</translation>
     </message>
     <message>
         <location line="-509"/>
         <location line="+510"/>
         <source>Sort by country</source>
-        <translation>Ordina per nazionalità</translation>
+        <translation>நாட்டின்படி அடுக்கு</translation>
     </message>
     <message>
         <location line="-509"/>
         <location line="+510"/>
         <source>Display idle players</source>
-        <translation>Visualizza giocatori liberi</translation>
+        <translation>செயலற்ற வீரர்களைக் காட்டு</translation>
     </message>
     <message>
         <location line="-423"/>
         <location line="+799"/>
         <source>Report inappropriate game name</source>
-        <translation>Segnala nome di partita offensivo</translation>
+        <translation>பொருத்தமற்ற விளையாட்டுப் பெயரைப் புகாரளி</translation>
     </message>
     <message>
         <location line="-791"/>
         <location line="+798"/>
         <source>Close game (admin)</source>
-        <translation>Chiudi partita (admin)</translation>
+        <translation>விளையாட்டை மூடு (நிர்வாகி)</translation>
     </message>
     <message>
         <location line="-761"/>
         <source>Players: %1 / %2</source>
-        <translation>Giocatori: %1 / %2</translation>
+        <translation>வீரர்கள்: %1 / %2</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Status: %1</source>
-        <translation>Stato: %1</translation>
+        <translation>நிலை: %1</translation>
     </message>
     <message>
         <location line="+33"/>
         <location line="+742"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>வகை: %1</translation>
     </message>
     <message>
         <location line="-731"/>
         <source>Small blind: %1</source>
-        <translation>Buio piccolo: %1</translation>
+        <translation>சிறிய பந்தயத்தொகை: %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Start cash: %1</source>
-        <translation>Capitale iniziale: %1</translation>
+        <translation>தொடக்க பணம்: %1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervallo aumento buio: %1 mani</translation>
+        <translation>பந்தயத்தொகை உயர்வு இடைவெளி: %1 கைகள்</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervallo aumento buio: %1 minuti</translation>
+        <translation>பந்தயத்தொகை உயர்வு இடைவெளி: %1 நிமிடங்கள்</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modalità aumento buio: %1</translation>
+        <translation>பந்தயத்தொகை உயர்வு முறை: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>double blinds</source>
-        <translation>raddoppia blind</translation>
+        <translation>இரட்டிப்பு பந்தயத்தொகை</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordine manuale dei blind</translation>
+        <translation>சுய பந்தயத்தொகை வரிசை</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds list: %1</source>
-        <translation>Elenco buio: %1</translation>
+        <translation>பந்தயத்தொகைப் பட்டியல்: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Game timing: %1 sec (action)
 %2 sec (hand delay)</source>
-        <translation>Tempi di gioco: %1 sec (azione)
-%2 sec (ritardo mano)</translation>
+        <translation>விளையாட்டு நேரம்: %1 வி (நகர்வு)
+%2 வி (கைகளுக்கு இடையே)</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+690"/>
         <source>Players in game (%1)</source>
-        <translation>Giocatori in partita (%1)</translation>
+        <translation>விளையாட்டில் உள்ள வீரர்கள் (%1)</translation>
     </message>
     <message>
         <location line="-605"/>
         <location line="+483"/>
         <source>Leave Game</source>
-        <translation>Abbandona partita</translation>
+        <translation>விளையாட்டை விட்டு விலகு</translation>
     </message>
     <message>
         <location line="-386"/>
         <source>Show open &amp; non-full &amp; private games</source>
-        <translation>Mostra partite aperte, non piene e private</translation>
+        <translation>திறந்த, நிரம்பாத, தனிப்பட்ட விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
-        <translation>Mostra partite aperte, non piene e con classifica</translation>
+        <translation>திறந்த, நிரம்பாத தரவரிசை விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Connected Players</source>
-        <translation>Giocatori connessi</translation>
+        <translation>தொடர்பில் இருக்கும் விளையாட்டு வீரர்கள்</translation>
     </message>
     <message>
         <location line="-658"/>
         <location line="+846"/>
         <source>Spectate game</source>
-        <translation>Osserva la partita</translation>
+        <translation>விளையாட்டைப் பார்வையிடு</translation>
     </message>
     <message>
         <location line="-845"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
-        <translation>Vuoi davvero osservare la partita:
-&quot;%1&quot;?</translation>
+        <translation>விளையாட்டு:
+„%1“ ஐ நிச்சயம் பார்வையிட வேண்டுமா?</translation>
     </message>
     <message>
         <location line="+950"/>
         <location line="+287"/>
         <source>Global notice (admin)</source>
-        <translation>Avviso globale (admin)</translation>
+        <translation>பொது அறிவிப்பு (நிர்வாகி)</translation>
     </message>
     <message>
         <location line="-124"/>
         <source>SB: %1 | Start cash: %2</source>
-        <translation>Buio piccolo: %1 | Capitale iniziale: %2</translation>
+        <translation>சிறிய பந்தயம்: %1 | தொடக்க பணம்: %2</translation>
     </message>
     <message>
         <location line="+272"/>
         <source>Privates Spiel</source>
-        <translation>Partita privata</translation>
+        <translation>தனிப்பட்ட விளையாட்டு</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Bitte das Passwort eingeben, um beizutreten.</source>
-        <translation>Inserisci la password per partecipare.</translation>
+        <translation>சேர கடவுச்சொல்லை உள்ளிடுக.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Passwort …</source>
-        <translation>Password …</translation>
+        <translation>கடவுச்சொல் …</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>நிறுத்திவிடு</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Beitreten</source>
-        <translation>Unisciti</translation>
+        <translation>சேர்</translation>
     </message>
     <message>
         <location line="+141"/>
         <source>Rejoin possible</source>
-        <translation>È possibile rientrare in partita</translation>
+        <translation>விளையாட்டுக்குத் திரும்ப முடியும்</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>There is an existing session with a previous game.&lt;br&gt;Do you want to rejoin this game?</source>
-        <translation>È presente una sessione con una partita precedente.&lt;br&gt;Desideri rientrare in questa partita?</translation>
+        <translation>முந்தைய விளையாட்டின் அமர்வு சேமிக்கப்பட்டுள்ளது.&lt;br&gt;இந்த விளையாட்டுக்குத் திரும்ப விரும்புகிறீர்களா?</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>No</source>
-        <translation>No</translation>
+        <translation>இல்லை</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Rejoin</source>
-        <translation>Rientra</translation>
+        <translation>திரும்பு</translation>
     </message>
     <message>
         <location line="-976"/>
         <source>Show open &amp; non-full games</source>
-        <translation>Mostra partite aperte e non piene</translation>
+        <translation>திறந்த, நிரம்பாத விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Show open games</source>
-        <translation>Mostra partite aperte</translation>
+        <translation>திறந்த விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
         <location line="-473"/>
         <location line="+452"/>
         <source>search for player ...</source>
-        <translation>ricerca giocatore ...</translation>
+        <translation>வீரரைத் தேடு ...</translation>
     </message>
 </context>
 <context>
@@ -2308,22 +2308,22 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../components/LobbyStatsBar.qml" line="+23"/>
         <source>%1 players · %2 running · %3 open</source>
-        <translation>%1 giocatori · %2 in corso · %3 aperte</translation>
+        <translation>%1 வீரர்கள் · %2 நடைபெறுகிறது · %3 திறந்துள்ளது</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>connected players: %1</source>
-        <translation>giocatori connessi: %1</translation>
+        <translation>இணைந்துள்ள விளையாட்டு வீரர்கள்: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>running games: %1</source>
-        <translation>partite in corso: %1</translation>
+        <translation>நடைபெற்றுகொண்டிருக்கும் விளையாட்டு: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>open games: %1</source>
-        <translation>partite aperte: %1</translation>
+        <translation>ஆரம்பித்த விளையாட்டுகள்: %1</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2336,120 +2336,120 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../pages/LocalGamePage.qml" line="+27"/>
         <source>alle %1 Hände</source>
-        <translation>ogni %1 mani</translation>
+        <translation>ஒவ்வொரு %1 கைகளுக்கும்</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>alle %1 Minuten</source>
-        <translation>ogni %1 minuti</translation>
+        <translation>ஒவ்வொரு %1 நிமிடங்களுக்கும்</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>verdoppeln</source>
-        <translation>doppio</translation>
+        <translation>இரட்டிப்பு</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manuell</source>
-        <translation>manuale</translation>
+        <translation>கைமுறையாக</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Small Blind: $%1  •  Erhöhen %2  •  %3</source>
-        <translation>Buio piccolo: $%1  •  Rilancio %2  •  %3</translation>
+        <translation>சிறிய பந்தயத்தொகை: $%1  •  உயர்வு %2  •  %3</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Lokales Spiel</source>
-        <translation>Partita locale</translation>
+        <translation>உள்ளூர் விளையாட்டு</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Lokale Spiel-Einstellungen</source>
-        <translation>Impostazioni partita locale</translation>
+        <translation>உள்ளூர் விளையாட்டு அமைப்புகள்</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Numero di giocatori:</translation>
+        <translation>வீரர்களின் எண்ணிக்கை:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Startkapital:</source>
-        <translation>Capitale iniziale:</translation>
+        <translation>தொடக்க பணம்:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Blinds</source>
-        <translation>Blind</translation>
+        <translation>பந்தயத்தொகை</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Gespeicherte Blinds-Einstellungen verwenden</source>
-        <translation>Utilizza impostazioni dei blind salvate</translation>
+        <translation>சேமித்த பந்தயத்தொகை அமைப்புகளைப் பயன்படுத்து</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Blinds-Einstellungen ändern …</source>
-        <translation>Modifica impostazioni buio …</translation>
+        <translation>பந்தயத்தொகை அமைப்புகளை மாற்று …</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Erster Small Blind:</source>
-        <translation>Primo small blind:</translation>
+        <translation>முதல் சிறிய பந்தயத்தொகை:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Small Blind erhöhen:</source>
-        <translation>Aumento buio piccolo:</translation>
+        <translation>சிறிய பந்தயத்தொகையை உயர்த்து:</translation>
     </message>
     <message>
         <location line="+13"/>
         <location line="+24"/>
         <source>alle</source>
-        <translation>ogni</translation>
+        <translation>ஒவ்வொரு</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Hände</source>
-        <translation>mani</translation>
+        <translation>கைகள்</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Minuten</source>
-        <translation>minuti</translation>
+        <translation>நிமிடங்கள்</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Erhöhungsmodus:</source>
-        <translation>Modalità aumento:</translation>
+        <translation>உயர்வு முறை:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre i blind</translation>
+        <translation>பந்தயத்தொகையை எப்போதும் இரட்டிப்பாக்கு</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordine buio manuale</translation>
+        <translation>கைமுறை பந்தயத்தொகை வரிசை</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
-        <translation>Velocità di gioco
-(1=lento, 11=veloce):</translation>
+        <translation>விளையாட்டு வேகம்
+(1 = மெதுவாக, 11 = வேகமாக):</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>நிறுத்திவிடு</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Spiel starten</source>
-        <translation>Inizia partita</translation>
+        <translation>விளையாட்டைத் தொடங்கு</translation>
     </message>
 </context>
 <context>
@@ -2457,147 +2457,147 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../components/LocalGameSettings.qml" line="+55"/>
         <source>Lokales Spiel</source>
-        <translation>Partita locale</translation>
+        <translation>உள்ளூர் விளையாட்டு</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Spieler &amp; Startkapital</source>
-        <translation>Giocatori e capitale iniziale</translation>
+        <translation>வீரர்களும் தொடக்க பணமும்</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Numero di giocatori:</translation>
+        <translation>வீரர்களின் எண்ணிக்கை:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Startkapital:</source>
-        <translation>Capitale iniziale:</translation>
+        <translation>தொடக்க பணம்:</translation>
     </message>
     <message>
         <location line="+351"/>
         <source>Spiel-Einstellungsdialog bei neuem Spiel anzeigen</source>
-        <translation>Mostra finestra impostazioni partita per nuova partita</translation>
+        <translation>புதிய விளையாட்டின்போது அமைப்புகள் சாளரத்தைக் காட்டு</translation>
     </message>
     <message>
         <location line="-313"/>
         <source>Blinds erhöhen</source>
-        <translation>Aumenta buio</translation>
+        <translation>பந்தயத்தொகையை உயர்த்து</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Blind-Erhöhungsreihenfolge</source>
-        <translation>Ordine aumento buio</translation>
+        <translation>பந்தயத்தொகை உயர்வு வரிசை</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>Blinds bei Anzahl der Hände erhöhen</source>
-        <translation>Aumenta buio dopo numero di mani</translation>
+        <translation>கைகளின் எண்ணிக்கைப்படி பந்தயத்தொகையை உயர்த்து</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Blinds zeitbasiert erhöhen</source>
-        <translation>Aumenta buio in base al tempo</translation>
+        <translation>நேரத்தின்படி பந்தயத்தொகையை உயர்த்து</translation>
     </message>
     <message>
         <location line="+57"/>
         <location line="+101"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre il buio</translation>
+        <translation>பந்தயத்தொகையை எப்போதும் இரட்டிப்பாக்கு</translation>
     </message>
     <message>
         <location line="-88"/>
         <location line="+14"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordine buio manuale</translation>
+        <translation>கைமுறை பந்தயத்தொகை வரிசை</translation>
     </message>
     <message>
         <location line="-158"/>
         <source>Erster Small Blind:</source>
-        <translation>Primo buio piccolo:</translation>
+        <translation>முதல் சிறிய பந்தயத்தொகை:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
         <source>Small Blind erhöhen alle:</source>
-        <translation>Aumenta buio piccolo ogni:</translation>
+        <translation>சிறிய பந்தயத்தொகையை உயர்த்தும் இடைவெளி:</translation>
     </message>
     <message>
         <location line="-25"/>
         <source>Hände</source>
-        <translation>Mani</translation>
+        <translation>கைகள்</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Minuten</source>
-        <translation>Minuti</translation>
+        <translation>நிமிடங்கள்</translation>
     </message>
     <message>
         <location line="+100"/>
         <source>Hinzufügen</source>
-        <translation>Aggiungi</translation>
+        <translation>சேர்</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Löschen</source>
-        <translation>Elimina</translation>
+        <translation>அழி</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Danach:</source>
-        <translation>Dopo di che:</translation>
+        <translation>அதன்பிறகு:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Immer erhöhen um:</source>
-        <translation>Rilancia sempre di:</translation>
+        <translation>எப்போதும் இவ்வளவு உயர்த்து:</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Letzten Blind beibehalten</source>
-        <translation>Mantieni ultimo blind</translation>
+        <translation>கடைசி பந்தயத்தொகையில் இரு</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Spielgeschwindigkeit</source>
-        <translation>Velocità di gioco</translation>
+        <translation>விளையாட்டு வேகம்</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
-        <translation>Velocità di gioco
-(1=lento, 11=veloce):</translation>
+        <translation>விளையாட்டு வேகம்
+(1 = மெதுவாக, 11 = வேகமாக):</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Pause zwischen den Händen</source>
-        <translation>Pausa tra le mani</translation>
+        <translation>கைகளுக்கு இடையே இடைவெளி</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Computerspieler</source>
-        <translation>Giocatori del computer</translation>
+        <translation>கணினி வீரர்கள்</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Spielstärke:</source>
-        <translation>Livello di gioco:</translation>
+        <translation>விளையாட்டு வலிமை:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Klassisch</source>
-        <translation>Classico</translation>
+        <translation>பாரம்பரிய</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Stark</source>
-        <translation>Forte</translation>
+        <translation>வலிமையான</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</source>
-        <translation>Vale per le partite locali. Nelle partite in rete è il server a determinare la forza dei suoi giocatori del computer.</translation>
+        <translation>உள்ளூர் விளையாட்டுகளுக்குப் பொருந்தும். வலைப்பின்னல் விளையாட்டுகளில் தனது கணினி வீரர்களின் வலிமையை வழங்கியே தீர்மானிக்கிறது.</translation>
     </message>
 </context>
 <context>
@@ -2605,102 +2605,102 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../cpp/loghandler.cpp" line="+361"/>
         <source>Export PokerTH log file to HTML</source>
-        <translation>Esporta il file di registro di PokerTH in HTML</translation>
+        <translation>PokerTH பதிவுக் கோப்பை HTML ஆக ஏற்றுமதி செய்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH HTML log (*.html)</source>
-        <translation>Registro di PokerTH in formato HTML (*.html)</translation>
+        <translation>PokerTH HTML பதிவு (*.html)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Export PokerTH log file to plain text</source>
-        <translation>Esporta il file di registro di PokerTH in formato testo</translation>
+        <translation>PokerTH பதிவுக் கோப்பை எளிய உரையாக ஏற்றுமதி செய்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH plain text log (*.txt)</source>
-        <translation>Registro di PokerTH in formato testo (*.html)</translation>
+        <translation>PokerTH எளிய உரைப் பதிவு (*.txt)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Save PokerTH log file</source>
-        <translation>Salva il file di registro di PokerTH</translation>
+        <translation>PokerTH பதிவுக் கோப்பைச் சேமி</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH SQL log (*.pdb)</source>
-        <translation>Registro PokerTH SQL (*.pdb)</translation>
+        <translation>PokerTH SQL பதிவு (*.pdb)</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>… (showing the last %1 KB of the log)</source>
-        <translation>… (mostra gli ultimi %1 KB del log)</translation>
+        <translation>… (பதிவின் கடைசி %1 KB காட்டப்படுகிறது)</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Save PokerTH debug log</source>
-        <translation>Salva il log di debug di PokerTH</translation>
+        <translation>PokerTH வழுநீக்கப் பதிவைச் சேமி</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH debug log (*.log)</source>
-        <translation>Log di debug di PokerTH (*.log)</translation>
+        <translation>PokerTH வழுநீக்கப் பதிவு (*.log)</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Log file not found.</source>
-        <translation>File di log non trovato.</translation>
+        <translation>பதிவுக் கோப்பு கிடைக்கவில்லை.</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Processing of the log file on the web server failed.
 Please verify that you are uploading a valid PokerTH log file.</source>
-        <translation>Elaborazione del file di registro sul server web non riuscita.
-Controlla di stare caricando un file di registro di PokerTH valido.</translation>
+        <translation>இணையச் சேவையகத்தில் பதிவுக் கோப்பைச் செயலாக்க இயலவில்லை.
+சரியான PokerTH பதிவுக் கோப்பை பதிவேற்றுகிறீர்களா என உறுதிப்படுத்தவும்.</translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+30"/>
         <source>Failure reason: </source>
-        <translation>Causa dell&apos;errore: </translation>
+        <translation>தோல்விக்கான காரணம்: </translation>
     </message>
     <message>
         <location line="-27"/>
         <source>No file received.</source>
-        <translation>Nessun file ricevuto.</translation>
+        <translation>கோப்பு எதுவும் பெறப்படவில்லை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>File rejected because of too many uploads.</source>
-        <translation>Il file è stato rifiutato a causa di troppi upload.</translation>
+        <translation>அதிக பதிவேற்றங்கள் காரணமாக கோப்பு நிராகரிக்கப்பட்டது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>File rejected because of too many recent uploads. Please try again later.</source>
-        <translation>Il file è stato rifiutato a causa di troppi upload recenti. Riprovare più tardi.</translation>
+        <translation>சமீபத்தில் அதிக பதிவேற்றங்கள் காரணமாக கோப்பு நிராகரிக்கப்பட்டது. பின்னர் முயற்சிக்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The file is too large.</source>
-        <translation>Il file è troppo grande.</translation>
+        <translation>கோப்பு மிகப் பெரியது.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This file is not a valid and current PokerTH log file.</source>
-        <translation>Questo file non contiene un registro di PokerTH valido e aggiornato.</translation>
+        <translation>இந்தக் கோப்பு செல்லுபடியாகும் தற்போதைய PokerTH பதிவுக் கோப்பு அல்ல.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Internal error. Please try again later. ID: </source>
-        <translation>Errore interno. Riprovare più tardi. ID: </translation>
+        <translation>உள் பிழை. பின்னர் மீண்டும் முயற்சிக்கவும். ID: </translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Upload failed. Please check your internet connection!
 Uploading log files may fail if you are using an http proxy.</source>
-        <translation>Upload non riuscito. Controlla la connessione a Internet!
-L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un proxy http.</translation>
+        <translation>பதிவேற்றம் தோல்வியடைந்தது. உங்கள் இணைய இணைப்பைச் சரிபார்க்கவும்!
+HTTP ப்ராக்ஸி பயன்படுத்தினால் பதிவுக் கோப்புகளின் பதிவேற்றம் தோல்வியடையலாம்.</translation>
     </message>
 </context>
 <context>
@@ -2708,73 +2708,73 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
     <message>
         <location filename="../pages/LogsPage.qml" line="+86"/>
         <source>Logs</source>
-        <translation>Log</translation>
+        <translation>பதிவுகள்</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Game:</source>
-        <translation>Partita:</translation>
+        <translation>விளையாட்டு:</translation>
     </message>
     <message>
         <location line="+85"/>
         <source>Preview:</source>
-        <translation>Anteprima:</translation>
+        <translation>முன்னோட்டம்:</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Export as HTML</source>
-        <translation>Esporta in HTML</translation>
+        <translation>HTML ஆக ஏற்றுமதி செய்</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Export as txt</source>
-        <translation>Esporta in txt</translation>
+        <translation>txt ஆக ஏற்றுமதி செய்</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+133"/>
         <source>Save as ...</source>
-        <translation>Salva con nome...</translation>
+        <translation>இப்படிச் சேமி ...</translation>
     </message>
     <message>
         <location line="-127"/>
         <source>Delete</source>
-        <translation>Elimina</translation>
+        <translation>அழித்துவிடுக</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Show debug log</source>
-        <translation>Mostra log di debug</translation>
+        <translation>வழுநீக்கப் பதிவைக் காட்டு</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Analyse Logfile ...</source>
-        <translation>Esamina file di registro ...</translation>
+        <translation>பதிவுக் கோப்பை ஆய்வு செய் ...</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>PokerTH - Delete log files</source>
-        <translation>PokerTH - Elimina file di registro</translation>
+        <translation>PokerTH - பதிவுக் கோப்புகளை அழி</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Do you really want to delete the selected log files?</source>
-        <translation>Desideri veramente cancellare i file di registro selezionati?</translation>
+        <translation>தேர்ந்தெடுத்த பதிவுக் கோப்புகளை நிச்சயம் அழிக்க வேண்டுமா?</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Uploading log file</source>
-        <translation>Caricamento del file di registro</translation>
+        <translation>பதிவுக் கோப்பு பதிவேற்றப்படுகிறது</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Debug log</source>
-        <translation>Log di debug</translation>
+        <translation>வழுநீக்கப் பதிவு</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Refresh</source>
-        <translation>Aggiorna</translation>
+        <translation>புதுப்பி</translation>
     </message>
 </context>
 <context>
@@ -2782,74 +2782,74 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
     <message>
         <location filename="../components/LogsSettings.qml" line="+25"/>
         <source>Log-Nachrichten</source>
-        <translation>Registro messaggi</translation>
+        <translation>பதிவுச் செய்திகள்</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Log-Einstellungen</source>
-        <translation>Impostazioni log</translation>
+        <translation>பதிவு அமைப்புகள்</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Logging aktivieren</source>
-        <translation>Abilita registrazione</translation>
+        <translation>பதிவு செய்வதை இயக்கு</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Log-Verzeichnis:</source>
-        <translation>Cartella dei log:</translation>
+        <translation>பதிவு அடைவு:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Durchsuchen...</source>
-        <translation>Sfoglia...</translation>
+        <translation>உலாவு...</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Log-Verzeichnis auswählen</source>
-        <translation>Seleziona la cartella dei log</translation>
+        <translation>பதிவு அடைவைத் தேர்ந்தெடு</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Log-Verzeichnis</source>
-        <translation>Cartella dei log</translation>
+        <translation>பதிவு அடைவு</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Das Log-Verzeichnis wurde geändert.
 Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
-        <translation>La cartella dei log è stata modificata.
-Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
+        <translation>பதிவு அடைவு மாற்றப்பட்டது.
+பதிவுக் கோப்புகள் அங்கே சேமிக்கப்பட PokerTH ஐ மறுதொடக்கம் செய்யவும்.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>சரி</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Log-Intervall:</source>
-        <translation>Intervallo di log:</translation>
+        <translation>பதிவு இடைவெளி:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Jedes Spiel</source>
-        <translation>Ogni partita</translation>
+        <translation>ஒவ்வொரு விளையாட்டும்</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Jede Hand</source>
-        <translation>Ogni mano</translation>
+        <translation>ஒவ்வொரு கையும்</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Jede Aktion</source>
-        <translation>Ogni azione</translation>
+        <translation>ஒவ்வொரு நகர்வும்</translation>
     </message>
     <message>
         <location line="-29"/>
         <source>Log-Speicherdauer (Tage):</source>
-        <translation>Conservazione log (giorni):</translation>
+        <translation>பதிவுகளை வைத்திருக்கும் காலம் (நாட்கள்):</translation>
     </message>
 </context>
 <context>
@@ -2857,94 +2857,94 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/NetworkGameCreatePage.qml" line="+113"/>
         <source>← Zurück</source>
-        <translation>← Indietro</translation>
+        <translation>← பின்செல்</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Netzwerkspiel erstellen</source>
-        <translation>Crea partita in rete</translation>
+        <translation>வலைப்பின்னல் விளையாட்டை உருவாக்கு</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Spiel-Einstellungen</source>
-        <translation>Impostazioni partita</translation>
+        <translation>விளையாட்டு அமைப்புகள்</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Max. Spieler</source>
-        <translation>Numero max. giocatori</translation>
+        <translation>அதிகபட்ச வீரர்கள்</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Startgeld</source>
-        <translation>Capitale iniziale</translation>
+        <translation>தொடக்க பணம்</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Blind-Einstellungen</source>
-        <translation>Impostazioni buio</translation>
+        <translation>பந்தயத்தொகை அமைப்புகள்</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Erster Small Blind</source>
-        <translation>Primo buio piccolo</translation>
+        <translation>முதல் சிறிய பந்தயத்தொகை</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Blind-Erhöhungsintervall</source>
-        <translation>Intervallo aumento buio</translation>
+        <translation>பந்தயத்தொகை உயர்வு இடைவெளி</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+25"/>
         <source>Alle</source>
-        <translation>Ogni</translation>
+        <translation>ஒவ்வொரு</translation>
     </message>
     <message>
         <location line="-14"/>
         <source>Hände</source>
-        <translation>mani</translation>
+        <translation>கைகள்</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Minuten</source>
-        <translation>minuti</translation>
+        <translation>நிமிடங்கள்</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre i blind</translation>
+        <translation>பந்தயத்தொகையை எப்போதும் இரட்டிப்பாக்கு</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Zeitlimits</source>
-        <translation>Limiti di tempo</translation>
+        <translation>நேர வரம்புகள்</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Zeitlimit Spieleraktion</source>
-        <translation>Limite di tempo per l&apos;azione del giocatore</translation>
+        <translation>வீரரின் நகர்வுக்கான நேர வரம்பு</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Pause zwischen Händen</source>
-        <translation>Ritardo tra le mani</translation>
+        <translation>கைகளுக்கு இடையே இடைவெளி</translation>
     </message>
     <message>
         <location line="+37"/>
         <location line="+35"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>நிறுத்திவிடு</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Spiel erstellen</source>
-        <translation>Crea Partita</translation>
+        <translation>விளையாட்டை உருவாக்கு</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Server wird gestartet …</source>
-        <translation>Avvio del server …</translation>
+        <translation>வழங்கி தொடங்குகிறது …</translation>
     </message>
 </context>
 <context>
@@ -2952,83 +2952,83 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/NetworkGameEnterPage.qml" line="+97"/>
         <source>← Zurück</source>
-        <translation>← Indietro</translation>
+        <translation>← பின்செல்</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Netzwerkspiel beitreten</source>
-        <translation>Unisciti a una partita in rete</translation>
+        <translation>வலைப்பின்னல் விளையாட்டில் சேர்</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Server-Verbindung</source>
-        <translation>Connessione al server</translation>
+        <translation>வழங்கி இணைப்பு</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Server-Adresse</source>
-        <translation>Indirizzo del server</translation>
+        <translation>வழங்கி முகவரி</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>IP-Adresse oder Hostname</source>
-        <translation>Indirizzo IP o nome host</translation>
+        <translation>IP முகவரி அல்லது புரவலன் பெயர்</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Port</source>
-        <translation>Porta</translation>
+        <translation>போர்ட்</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>IPv6 verwenden</source>
-        <translation>Utilizza IPv6</translation>
+        <translation>IPv6 ஐப் பயன்படுத்து</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>SCTP verwenden</source>
-        <translation>Utilizza SCTP</translation>
+        <translation>SCTP ஐப் பயன்படுத்து</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Server-Profile</source>
-        <translation>Profili server</translation>
+        <translation>வழங்கி விவரக்குறிப்புகள்</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Profilname</source>
-        <translation>Nome profilo</translation>
+        <translation>விவரக்குறிப்பின் பெயர்</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Name des Profils</source>
-        <translation>Nome del profilo</translation>
+        <translation>இந்த விவரக்குறிப்பின் பெயர்</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Speichern</source>
-        <translation>Salva</translation>
+        <translation>சேமி</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Löschen</source>
-        <translation>Elimina</translation>
+        <translation>அழி</translation>
     </message>
     <message>
         <location line="+92"/>
         <location line="+36"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>நிறுத்திவிடு</translation>
     </message>
     <message>
         <location line="-31"/>
         <source>Verbinden</source>
-        <translation>Connetti</translation>
+        <translation>இணை</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Verbinde mit Server …</source>
-        <translation>Connessione al server …</translation>
+        <translation>வழங்கியுடன் இணைக்கிறது …</translation>
     </message>
 </context>
 <context>
@@ -3037,12 +3037,12 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location filename="../cpp/networkgamehandler.cpp" line="+55"/>
         <location line="+76"/>
         <source>No session available.</source>
-        <translation>Nessuna sessione disponibile.</translation>
+        <translation>அமர்வு எதுவும் கிடைக்கவில்லை.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Please enter a server address.</source>
-        <translation>Inserisci un indirizzo del server.</translation>
+        <translation>வழங்கி முகவரியை உள்ளிடுக.</translation>
     </message>
 </context>
 <context>
@@ -3050,117 +3050,117 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/NetworkGameSettings.qml" line="+19"/>
         <source>Netzwerkspiel</source>
-        <translation>Partita in Rete</translation>
+        <translation>வலைப்பின்னல் விளையாட்டு</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Spieler &amp; Startkapital</source>
-        <translation>Giocatori e capitale iniziale</translation>
+        <translation>வீரர்களும் தொடக்க பணமும்</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Numero di giocatori:</translation>
+        <translation>வீரர்களின் எண்ணிக்கை:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Startkapital:</source>
-        <translation>Capitale iniziale:</translation>
+        <translation>தொடக்க பணம்:</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Blinds erhöhen</source>
-        <translation>Aumenta buio</translation>
+        <translation>பந்தயத்தொகையை உயர்த்து</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Blind-Erhöhungsreihenfolge</source>
-        <translation>Ordine aumento buio</translation>
+        <translation>பந்தயத்தொகை உயர்வு வரிசை</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>Blinds bei Anzahl der Hände erhöhen</source>
-        <translation>Aumenta buio dopo numero di mani</translation>
+        <translation>கைகளின் எண்ணிக்கைப்படி பந்தயத்தொகையை உயர்த்து</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Blinds zeitbasiert erhöhen</source>
-        <translation>Aumenta buio in base al tempo</translation>
+        <translation>நேரத்தின்படி பந்தயத்தொகையை உயர்த்து</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre il buio</translation>
+        <translation>பந்தயத்தொகையை எப்போதும் இரட்டிப்பாக்கு</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordine buio manuale</translation>
+        <translation>கைமுறை பந்தயத்தொகை வரிசை</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Manuelle Blind-Reihenfolge bearbeiten...</source>
-        <translation>Modifica ordine buio manuale...</translation>
+        <translation>கைமுறை பந்தயத்தொகை வரிசையைத் திருத்து...</translation>
     </message>
     <message>
         <location line="-157"/>
         <source>Erster Small Blind:</source>
-        <translation>Primo buio piccolo:</translation>
+        <translation>முதல் சிறிய பந்தயத்தொகை:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
         <source>Small Blind erhöhen alle:</source>
-        <translation>Aumenta buio piccolo ogni:</translation>
+        <translation>சிறிய பந்தயத்தொகையை உயர்த்தும் இடைவெளி:</translation>
     </message>
     <message>
         <location line="-25"/>
         <source>Hände</source>
-        <translation>Mani</translation>
+        <translation>கைகள்</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Minuten</source>
-        <translation>Minuti</translation>
+        <translation>நிமிடங்கள்</translation>
     </message>
     <message>
         <location line="+61"/>
         <source>Zeiteinstellungen</source>
-        <translation>Impostazioni tempo</translation>
+        <translation>நேர அமைப்புகள்</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Verzögerung zwischen Händen
 (Sekunden):</source>
-        <translation>Ritardo tra le mani
-(secondi):</translation>
+        <translation>கைகளுக்கு இடையே இடைவெளி
+(வினாடிகள்):</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Timeout für Spieleraktion
 (Sekunden):</source>
-        <translation>Timeout azione giocatore
-(secondi):</translation>
+        <translation>வீரரின் நகர்வுக்கான நேர வரம்பு
+(வினாடிகள்):</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Server-Einstellungen</source>
-        <translation>Impostazioni server</translation>
+        <translation>வழங்கி அமைப்புகள்</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Server-Port:</source>
-        <translation>Porta del server:</translation>
+        <translation>வழங்கி போர்ட்:</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>SCTP verwenden</source>
-        <translation>Utilizza SCTP</translation>
+        <translation>SCTP ஐப் பயன்படுத்து</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>IPv6 verwenden</source>
-        <translation>Utilizza IPv6</translation>
+        <translation>IPv6 ஐப் பயன்படுத்து</translation>
     </message>
 </context>
 <context>
@@ -3168,61 +3168,61 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/NicknameAvatarSettings.qml" line="+19"/>
         <source>Nicknamen/Avatare</source>
-        <translation>Nickname/Avatar</translation>
+        <translation>புனைபெயர்கள்/அவதார்கள்</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Mein Spieler</source>
-        <translation>Il mio giocatore</translation>
+        <translation>என் வீரர்</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Mein Nickname:</source>
-        <translation>Il mio nickname:</translation>
+        <translation>என் புனைபெயர்:</translation>
     </message>
     <message>
         <location line="+45"/>
         <source>Mein Avatar:</source>
-        <translation>Il mio avatar:</translation>
+        <translation>என் அவதார்:</translation>
     </message>
     <message>
         <location line="+26"/>
         <location line="+113"/>
         <source>Auswählen...</source>
-        <translation>Seleziona...</translation>
+        <translation>தேர்ந்தெடு...</translation>
     </message>
     <message>
         <location line="-110"/>
         <location line="+113"/>
         <source>Avatar auswählen</source>
-        <translation>Seleziona avatar</translation>
+        <translation>அவதாரைத் தேர்ந்தெடு</translation>
     </message>
     <message>
         <location line="-134"/>
         <location line="+113"/>
         <source>Kein Avatar gewählt</source>
-        <translation>Nessun avatar selezionato</translation>
+        <translation>அவதார் தேர்ந்தெடுக்கப்படவில்லை</translation>
     </message>
     <message>
         <location line="-82"/>
         <location line="+113"/>
         <source>Beispiele...</source>
-        <translation>Esempi...</translation>
+        <translation>எடுத்துக்காட்டுகள்...</translation>
     </message>
     <message>
         <location line="-39"/>
         <source>Avatar:</source>
-        <translation>Avatar:</translation>
+        <translation>அவதார்:</translation>
     </message>
     <message>
         <location line="-55"/>
         <source>Gegner %1</source>
-        <translation>Avversario %1</translation>
+        <translation>எதிராளி %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Nickname:</source>
-        <translation>Nickname:</translation>
+        <translation>புனைபெயர்:</translation>
     </message>
 </context>
 <context>
@@ -3231,30 +3231,30 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location filename="../components/PlayerListItem.qml" line="+234"/>
         <location line="+116"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
-        <translation>%1 sta giocando in &quot;%2&quot;.</translation>
+        <translation>%1 „%2“ இல் விளையாடுகிறார்.</translation>
     </message>
     <message>
         <location line="-115"/>
         <location line="+117"/>
         <source>%1 is not playing at the moment.</source>
-        <translation>%1 non sta giocando in questo momento.</translation>
+        <translation>%1 தற்போது விளையாடவில்லை.</translation>
     </message>
     <message>
         <location line="-216"/>
         <location line="+129"/>
         <location line="+140"/>
         <source>Invite to Game</source>
-        <translation>Invita alla partita</translation>
+        <translation>விளையாட்டுக்கு அழை</translation>
     </message>
     <message>
         <location line="-268"/>
         <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
-        <translation>Vuoi davvero invitare «%1» alla tua partita?</translation>
+        <translation>„%1“ ஐ உங்கள் விளையாட்டுக்கு நிச்சயம் அழைக்க வேண்டுமா?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invite</source>
-        <translation>Invita</translation>
+        <translation>அழை</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3262,12 +3262,12 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location line="+130"/>
         <location line="+165"/>
         <source>Ignore player</source>
-        <translation>Ignora giocatore</translation>
+        <translation>விளையாட்டு வீரரை புறக்கணிக்கவும்</translation>
     </message>
     <message>
         <location line="-296"/>
         <source>Are you sure you want to ignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero ignorare «%1»?&gt;</translation>
+        <translation>„%1“ ஐ நிச்சயம் புறக்கணிக்க வேண்டுமா?</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -3275,29 +3275,29 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location line="+121"/>
         <location line="+202"/>
         <source>Unignore player</source>
-        <translation>Non ignorare più il giocatore</translation>
+        <translation>வீரரின் புறக்கணிப்பை நீக்கு</translation>
     </message>
     <message>
         <location line="-324"/>
         <source>Are you sure you want to unignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero smettere di ignorare «%1»?&gt;</translation>
+        <translation>„%1“ இன் புறக்கணிப்பை நிச்சயம் நீக்க வேண்டுமா?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Are you sure you want to totally kickban &quot;%1&quot;?</source>
-        <translation>Vuoi davvero espellere e bandire totalmente «%1»?&gt;</translation>
+        <translation>„%1“ ஐ முழுமையாக நிச்சயம் தடை செய்ய வேண்டுமா?</translation>
     </message>
     <message>
         <location line="+95"/>
         <location line="+112"/>
         <source>Send private message</source>
-        <translation>Invia messaggio privato</translation>
+        <translation>தனிப்பட்ட செய்தி அனுப்பு</translation>
     </message>
     <message>
         <location line="-79"/>
         <location line="+224"/>
         <source>Show player stats</source>
-        <translation>Mostra statistiche giocatore</translation>
+        <translation>வீரரின் புள்ளிவிவரங்களைக் காட்டு</translation>
     </message>
     <message>
         <location line="-353"/>
@@ -3305,7 +3305,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location line="+135"/>
         <location line="+252"/>
         <source>Total kickban</source>
-        <translation>Kickban totale</translation>
+        <translation>முழுமையான தடை</translation>
     </message>
 </context>
 <context>
@@ -3313,32 +3313,32 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PlayerNoteDialog.qml" line="+57"/>
         <source>Note about &quot;%1&quot;</source>
-        <translation>Nota su «%1»</translation>
+        <translation>„%1“ பற்றிய குறிப்பு</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rating:</source>
-        <translation>Valutazione:</translation>
+        <translation>மதிப்பீடு:</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Your private note about this player ...</source>
-        <translation>La tua nota privata su questo giocatore...</translation>
+        <translation>இந்த வீரரைப் பற்றிய உங்கள் தனிப்பட்ட குறிப்பு ...</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Notes and ratings are stored locally and are only visible to you.</source>
-        <translation>Le note e le valutazioni sono salvate localmente e sono visibili solo a te.</translation>
+        <translation>குறிப்புகளும் மதிப்பீடுகளும் உள்ளூரில் சேமிக்கப்படுகின்றன, உங்களுக்கு மட்டுமே தெரியும்.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>நிறுத்திவிடு</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Save</source>
-        <translation>Salva</translation>
+        <translation>பாதுகாத்து வை</translation>
     </message>
 </context>
 <context>
@@ -3346,22 +3346,22 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PlayerSeasonCard.qml" line="+157"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>மதிப்பெண்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>சரா.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>விளையாட்டுகள்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>புள்ளிகள்</translation>
     </message>
 </context>
 <context>
@@ -3369,7 +3369,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PlayerWinnerOverlay.qml" line="+56"/>
         <source>WINNER</source>
-        <translation>VINCITORE</translation>
+        <translation>வெற்றியாளர்</translation>
     </message>
 </context>
 <context>
@@ -3377,67 +3377,67 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/PokerthPlayerPage.qml" line="+81"/>
         <source>Could not load player (HTTP %1).</source>
-        <translation>Impossibile caricare il giocatore (HTTP %1).</translation>
+        <translation>விளையாட்டு வீரரின் தரவை ஏற்ற இயலவில்லை (HTTP %1).</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Player not found.</source>
-        <translation>Giocatore non trovato.</translation>
+        <translation>விளையாட்டு வீரர் கிடைக்கவில்லை.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>வழங்கியின் பதிலை பகுக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Member since %1</source>
-        <translation>Membro dal %1</translation>
+        <translation>%1 முதல் உறுப்பினர்</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Last login %1</source>
-        <translation>Ultimo accesso %1</translation>
+        <translation>கடைசி நுழைவு %1</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Current season</source>
-        <translation>Stagione attuale</translation>
+        <translation>தற்போதைய பருவம்</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Rank</source>
-        <translation>Posizione</translation>
+        <translation>இடம்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>மதிப்பெண்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>சரா.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>விளையாட்டுகள்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>புள்ளிகள்</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Last 5:</source>
-        <translation>Ultime 5:</translation>
+        <translation>கடைசி 5:</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Recent games</source>
-        <translation>Partite recenti</translation>
+        <translation>சமீபத்திய விளையாட்டுகள்</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -3447,7 +3447,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+31"/>
         <source>Seasons</source>
-        <translation>Stagioni</translation>
+        <translation>பருவங்கள்</translation>
     </message>
 </context>
 <context>
@@ -3463,78 +3463,78 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PrivateMessageDialog.qml" line="+190"/>
         <source>Private messages</source>
-        <translation>Messaggi privati</translation>
+        <translation>தனிப்பட்ட செய்திகள்</translation>
     </message>
     <message>
         <location line="+38"/>
         <location line="+2"/>
         <source>Delete conversation</source>
-        <translation>Elimina conversazione</translation>
+        <translation>உரையாடலை அழி</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete the conversation with &quot;%1&quot;?</source>
-        <translation>Eliminare la conversazione con &quot;%1&quot;?</translation>
+        <translation>„%1“ உடனான உரையாடலை அழிக்கவா?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete</source>
-        <translation>Elimina</translation>
+        <translation>அழித்துவிடுக</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Close</source>
-        <translation>Chiudi</translation>
+        <translation>மூடு</translation>
     </message>
     <message>
         <location line="+112"/>
         <source>No conversation yet</source>
-        <translation>Nessuna conversazione</translation>
+        <translation>இன்னும் உரையாடல் இல்லை</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>not in the lobby</source>
-        <translation>non è nella lobby</translation>
+        <translation>வரவேற்பறையில் இல்லை</translation>
     </message>
     <message>
         <location line="+173"/>
         <source>Translation failed.</source>
-        <translation>Traduzione non riuscita.</translation>
+        <translation>மொழிபெயர்ப்பு தோல்வியடைந்தது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Show original</source>
-        <translation>Mostra l&apos;originale</translation>
+        <translation>அசலைக் காட்டு</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Translate message</source>
-        <translation>Traduci il messaggio</translation>
+        <translation>செய்தியை மொழிபெயர்</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Private messages are not available at the table.</source>
-        <translation>I messaggi privati non sono disponibili al tavolo.</translation>
+        <translation>மேசையில் தனிப்பட்ட செய்திகள் கிடைக்காது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Guests cannot send chat messages</source>
-        <translation>Gli ospiti non possono inviare messaggi in chat</translation>
+        <translation>விருந்தினர்கள் உரையாடல் செய்திகளை அனுப்ப முடியாது</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Guests cannot receive private messages.</source>
-        <translation>Gli ospiti non possono ricevere messaggi privati.</translation>
+        <translation>விருந்தினர்கள் தனிப்பட்ட செய்திகளைப் பெற முடியாது.</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Message …</source>
-        <translation>Messaggio …</translation>
+        <translation>செய்தி …</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Send</source>
-        <translation>Invia</translation>
+        <translation>அனுப்பு</translation>
     </message>
 </context>
 <context>
@@ -3542,79 +3542,79 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../cpp/ziputils.cpp" line="+54"/>
         <source>Das Archiv konnte nicht gelesen werden.</source>
-        <translation>Impossibile leggere l&apos;archivio.</translation>
+        <translation>காப்பகத்தைப் படிக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
-        <translation>L&apos;archivio è vuoto o contiene troppi file.</translation>
+        <translation>காப்பகம் காலியாக உள்ளது அல்லது அதிக கோப்புகளைக் கொண்டுள்ளது.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
-        <translation>Impossibile creare la cartella di destinazione.</translation>
+        <translation>இலக்கு அடைவை உருவாக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
-        <translation>Impossibile leggere una voce dell&apos;archivio.</translation>
+        <translation>காப்பகத்தின் ஒரு உள்ளீட்டைப் படிக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+8"/>
         <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
-        <translation>L&apos;archivio contiene un percorso non valido: %1</translation>
+        <translation>காப்பகத்தில் செல்லாத பாதை உள்ளது: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+14"/>
         <source>Verzeichnis konnte nicht angelegt werden: %1</source>
-        <translation>Impossibile creare la cartella: %1</translation>
+        <translation>அடைவை உருவாக்க இயலவில்லை: %1</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Das Archiv ist ungewöhnlich groß.</source>
-        <translation>L&apos;archivio è insolitamente grande.</translation>
+        <translation>காப்பகம் வழக்கத்திற்கு மாறாக பெரியது.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
-        <translation>Impossibile estrarre una voce dell&apos;archivio: %1</translation>
+        <translation>காப்பகத்தின் ஒரு உள்ளீட்டைப் பிரித்தெடுக்க இயலவில்லை: %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Datei konnte nicht geschrieben werden: %1</source>
-        <translation>Impossibile scrivere il file: %1</translation>
+        <translation>கோப்பை எழுத இயலவில்லை: %1</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Der Stil-Ordner wurde nicht gefunden.</source>
-        <translation>La cartella dello stile non è stata trovata.</translation>
+        <translation>பாணி அடைவு கிடைக்கவில்லை.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv konnte nicht erstellt werden.</source>
-        <translation>Impossibile creare l&apos;archivio.</translation>
+        <translation>காப்பகத்தை உருவாக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Datei konnte nicht gelesen werden: %1</source>
-        <translation>Impossibile leggere il file: %1</translation>
+        <translation>கோப்பைப் படிக்க இயலவில்லை: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
-        <translation>Impossibile scrivere il file nell&apos;archivio: %1</translation>
+        <translation>கோப்பைக் காப்பகத்தில் எழுத இயலவில்லை: %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Der Stil-Ordner enthält keine Dateien.</source>
-        <translation>La cartella dello stile non contiene alcun file.</translation>
+        <translation>பாணி அடைவில் கோப்புகள் இல்லை.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Das Archiv konnte nicht abgeschlossen werden.</source>
-        <translation>Impossibile finalizzare l&apos;archivio.</translation>
+        <translation>காப்பகத்தை நிறைவு செய்ய இயலவில்லை.</translation>
     </message>
 </context>
 <context>
@@ -3622,32 +3622,32 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/RankingPage.qml" line="+90"/>
         <source>Could not load ranking (HTTP %1).</source>
-        <translation>Impossibile caricare la classifica (HTTP %1).</translation>
+        <translation>தரவரிசையை ஏற்ற இயலவில்லை (HTTP %1).</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>வழங்கியின் பதிலை பகுக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Ranking</source>
-        <translation>Classifica</translation>
+        <translation>தரவரிசை</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Season:</source>
-        <translation>Stagione:</translation>
+        <translation>பருவம்:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Current season</source>
-        <translation>Stagione attuale</translation>
+        <translation>தற்போதைய பருவம்</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Username</source>
-        <translation>Nome utente</translation>
+        <translation>பயனர் பெயர்</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -3657,32 +3657,32 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+8"/>
         <source>Player</source>
-        <translation>Giocatore</translation>
+        <translation>விளையாட்டு வீரர்</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>விளையாட்டுகள்</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>சரா.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>மதிப்பெண்</translation>
     </message>
     <message>
         <location line="+150"/>
         <source>No entries.</source>
-        <translation>Nessuna voce.</translation>
+        <translation>பதிவுகள் இல்லை.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>◀ Prev</source>
-        <translation>◀ Prec</translation>
+        <translation>◀ முந்தையது</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -3692,27 +3692,27 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+1"/>
         <source>Page %1 / %2  ·  %3 players</source>
-        <translation>Pagina %1 / %2  ·  %3 giocatori</translation>
+        <translation>பக்கம் %1 / %2  ·  %3 வீரர்கள்</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Next ▶</source>
-        <translation>Succ ▶</translation>
+        <translation>அடுத்தது ▶</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Ranking calculation:</source>
-        <translation>Calcolo della classifica:</translation>
+        <translation>தரவரிசைக் கணக்கீடு:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Placement points:</source>
-        <translation>Punti per piazzamento:</translation>
+        <translation>இட புள்ளிகள்:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Formula:</source>
-        <translation>Formula:</translation>
+        <translation>சூத்திரம்:</translation>
     </message>
 </context>
 <context>
@@ -3720,22 +3720,22 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/ResetSettings.qml" line="+20"/>
         <source>Standardeinstellung</source>
-        <translation>Impostazioni predefinite</translation>
+        <translation>இயல்புநிலை அமைப்புகள்</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Alle Einstellungen werden auf die Standardwerte zurückgesetzt. Diese Aktion kann nicht rückgängig gemacht werden.</source>
-        <translation>Tutte le impostazioni verranno ripristinate ai valori predefiniti. Questa azione non può essere annullata.</translation>
+        <translation>அனைத்து அமைப்புகளும் இயல்புநிலை மதிப்புகளுக்குத் திரும்பும். இச்செயலைத் திரும்பப் பெற இயலாது.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Auf Werkeinstellungen zurücksetzen</source>
-        <translation>Ripristina impostazioni di fabbrica</translation>
+        <translation>தொழிற்சாலை அமைப்புகளுக்கு மீட்டமை</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</source>
-        <translation>Le impostazioni sono state ripristinate. Riavvia PokerTH affinché tutte le modifiche abbiano effetto.</translation>
+        <translation>அமைப்புகள் மீட்டமைக்கப்பட்டன. அனைத்து மாற்றங்களும் செயல்பட PokerTH ஐ மறுதொடக்கம் செய்யவும்.</translation>
     </message>
 </context>
 <context>
@@ -3743,17 +3743,17 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/SeasonStatsSection.qml" line="+47"/>
         <source>Season Stats</source>
-        <translation>Statistiche della stagione</translation>
+        <translation>பருவப் புள்ளிவிவரம்</translation>
     </message>
     <message>
         <location line="+60"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>விளையாட்டுகள்</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Share</source>
-        <translation>Quota</translation>
+        <translation>பகிர்</translation>
     </message>
 </context>
 <context>
@@ -3761,67 +3761,67 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/ServerConnectionDialog.qml" line="+241"/>
         <source>Back</source>
-        <translation>Indietro</translation>
+        <translation>பின்செல்</translation>
     </message>
     <message>
         <location line="+94"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>நிறுத்திவிடு</translation>
     </message>
     <message>
         <location line="-65"/>
         <source>Connecting as...</source>
-        <translation>Connessione come...</translation>
+        <translation>இவ்வாறு இணைக்கிறது...</translation>
     </message>
     <message>
         <location line="-108"/>
         <source>Continue as Guest</source>
-        <translation>Continua come ospite</translation>
+        <translation>விருந்தினராகத் தொடர்</translation>
     </message>
     <message>
         <location line="+159"/>
         <source>Initializing connection...</source>
-        <translation>Inizializzazione connessione...</translation>
+        <translation>இணைப்பு தயாராகிறது...</translation>
     </message>
     <message>
         <location line="-74"/>
         <source>Login</source>
-        <translation>Accedi</translation>
+        <translation>நுழைவு</translation>
     </message>
     <message>
         <location line="-97"/>
         <source>Login as User</source>
-        <translation>Accedi come utente</translation>
+        <translation>பயனராக நுழை</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Password</source>
-        <translation>Password</translation>
+        <translation>கடவுச்சொல்</translation>
     </message>
     <message>
         <location line="-59"/>
         <source>Register</source>
-        <translation>Registrati</translation>
+        <translation>பதிவு செய்</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Remember me</source>
-        <translation>Ricordami</translation>
+        <translation>என்னை நினைவில் வை</translation>
     </message>
     <message>
         <location line="-48"/>
         <source>User Login</source>
-        <translation>Accesso utente</translation>
+        <translation>பயனர் நுழைவு</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Username</source>
-        <translation>Nome utente</translation>
+        <translation>பயனர் பெயர்</translation>
     </message>
     <message>
         <location line="+79"/>
         <source>Username/Guest</source>
-        <translation>Nome utente/Ospite</translation>
+        <translation>பயனர் பெயர்/விருந்தினர்</translation>
     </message>
 </context>
 <context>
@@ -3829,379 +3829,379 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../cpp/serverconnectionhandler.cpp" line="+50"/>
         <source>Error: No session available</source>
-        <translation>Errore: nessuna sessione disponibile</translation>
+        <translation>பிழை: அமர்வு எதுவும் கிடைக்கவில்லை</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No session available</source>
-        <translation>Nessuna sessione disponibile</translation>
+        <translation>அமர்வு எதுவும் கிடைக்கவில்லை</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Connecting to server...</source>
-        <translation>Connessione al server...</translation>
+        <translation>விளையாட்டு வழங்கியுடனான சேர்க்கை நடைபெற்றுகொண்டிருக்கிறது ...</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Connection canceled</source>
-        <translation>Connessione annullata</translation>
+        <translation>இணைப்பு ரத்து செய்யப்பட்டது</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Authenticating...</source>
-        <translation>Autenticazione in corso...</translation>
+        <translation>அடையாளம் சரிபார்க்கப்படுகிறது...</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Initialized...</source>
-        <translation>Inizializzato...</translation>
+        <translation>தயாராக உள்ளது...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Server list received...</source>
-        <translation>Elenco server ricevuto...</translation>
+        <translation>வழங்கிப் பட்டியல் பெறப்பட்டது...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Resolving server...</source>
-        <translation>Risoluzione server in corso...</translation>
+        <translation>வழங்கி முகவரி கண்டறியப்படுகிறது...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Connecting...</source>
-        <translation>Connessione in corso...</translation>
+        <translation>இணைக்கிறது...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Connected successfully!</source>
-        <translation>Connesso con successo!</translation>
+        <translation>இணைப்பு வெற்றியடைந்தது!</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Server address was not set.</source>
-        <translation>Indirizzo del server mancante.</translation>
+        <translation>விளையாட்டு வழங்கி முகவரி நிர்ணயிக்கப்படவில்லை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
-        <translation>È stata specificata una porta non valida (le porte 0-1023 non sono permesse).</translation>
+        <translation>ஒரு தவறான போர்ட் நிர்மாணிக்க பட்டுள்ளது (போர்ட் 0-1023 உபயோகிக்க அனுமதி இல்லை).</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not create a socket for TCP communication.</source>
-        <translation>Impossibile creare un socket di comunicazione TCP.</translation>
+        <translation>திசிபி தொடர்புக்கு சாக்கெட் உருவாக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not set the IP address.</source>
-        <translation>Impossibile impostare l&apos;indirizzo IP.</translation>
+        <translation>IP முகவரியை அமைக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not set the port for this type of address.</source>
-        <translation>Impossibile impostare la porta per questo tipo di indirizzo.</translation>
+        <translation>இந்த வகை முகவரிக்கு போர்ட்டை அமைக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server name could not be resolved.</source>
-        <translation>Impossibile risolvere il nome del server.</translation>
+        <translation>கணினி வழங்கியின் பெயரை புரிந்துகொள்ள இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>Bind non riuscito - seleziona una porta diversa.</translation>
+        <translation>போர்ட்டை இணைக்கும் செயல் தோற்றது - வேறொரு போர்ட்டைத் தேர்ந்தெடுக்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
-        <translation>Errore di rete interno: &quot;listen&quot; non riuscito.</translation>
+        <translation>உள் வலைப்பிழை: &quot;listen&quot; தோற்றது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Server execution was terminated.</source>
-        <translation>L&apos;esecuzione del server è stata interrotta.</translation>
+        <translation>விளையாட்டு வழங்கியின் செயல் முடிவுக்கு கொண்டு வரப்பட்டுள்ளது.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Could not connect to the server.
 The server might still be processing a previous connection attempt.
 Please wait a moment and try again.</source>
-        <translation>Impossibile connettersi al server.
-Il server potrebbe ancora elaborare un tentativo di connessione precedente.
-Attendere un momento e riprovare.</translation>
+        <translation>வழங்கியுடன் இணைக்க இயலவில்லை.
+முந்தைய இணைப்பு முயற்சியை வழங்கி இன்னும் செயலாக்கிக் கொண்டிருக்கலாம்.
+சிறிது காத்திருந்து மீண்டும் முயற்சிக்கவும்.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Connection timed out.
 The server might be busy or still processing a previous connection.
 Please wait a moment and try again.</source>
-        <translation>Timeout della connessione.
-Il server potrebbe essere occupato o elaborare ancora una connessione precedente.
-Attendere un momento e riprovare.</translation>
+        <translation>இணைப்பு நேரம் முடிந்தது.
+வழங்கி பணிமிகுதியில் இருக்கலாம் அல்லது முந்தைய இணைப்பை இன்னும் செயலாக்கிக் கொண்டிருக்கலாம்.
+சிறிது காத்திருந்து மீண்டும் முயற்சிக்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
-        <translation>Errore di rete interno: &quot;select&quot; non riuscita.</translation>
+        <translation>உள் வலைப்பிழை: &quot;select&quot; தோற்றது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
-        <translation>Errore di rete interno: &quot;send&quot; non riuscito.</translation>
+        <translation>உள் வலைப்பிழை: &quot;send&quot; தோற்றது.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>The connection to the server was lost.</source>
-        <translation>La connessione al server è stata interrotta.</translation>
+        <translation>வழங்கியுடனான இணைப்பு துண்டிக்கப்பட்டது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: Duplicate TCP connection.</source>
-        <translation>Errore di rete interno: connessione TCP duplicata.</translation>
+        <translation>உள் வலைப்பிழை: நகல் TCP இணைப்பு.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation>È stato ricevuto un pacchetto non valido.
-Assicurati che tutti i giocatori abbiano la stessa versione di PokerTH.</translation>
+        <translation>செல்லாத வலைப்பின்னல் பொட்டலம் பெறப்பட்டது.
+அனைத்து வீரர்களும் PokerTH இன் ஒரே பதிப்பைப் பயன்படுத்துகிறார்களா என உறுதிப்படுத்தவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation>Errore di stato interno.
-Assicurati che tutti i giocatori abbiano la stessa versione di PokerTH.</translation>
+        <translation>உள் நிலைப் பிழை.
+அனைத்து வீரர்களும் PokerTH இன் ஒரே பதிப்பைப் பயன்படுத்துகிறார்களா என உறுதிப்படுத்தவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: invalid socket type.</source>
-        <translation>Errore di rete interno: tipo di socket non valido.</translation>
+        <translation>உள் வலைப்பிழை: செல்லாத சாக்கெட் வகை.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Invalid server list URL.
 Please correct the address in the settings.</source>
-        <translation>URL della lista server non valido.
-Correggi l&apos;indirizzo nelle impostazioni.</translation>
+        <translation>பட்டியலில் உள்ள விளையாட்டு வழங்கியின் முகவரி தவறு.
+தயவு செய்து விளையாட்டு வழங்கியின் அமைப்பில் முகவரியை மாற்றவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The PokerTH internet server list contains invalid data.
 If you use a custom server list, please make sure its format is correct.</source>
-        <translation>La lista server internet di PokerTH contiene dati non validi.
-Se utilizzi una lista server personalizzata, assicurati che il suo formato sia corretto.</translation>
+        <translation>போகர்டேஹோ இன் இணையதள விளையாட்டு வழங்கியின் பட்டியலில் தவறான தகவல் உள்ளது.
+நீங்கள் உங்களுக்கென சிறப்பாக உருவாக்க பட்ட விளையாட்டு வழங்கி பட்டியலை உபயோகித்தால் தயவு செய்து அதன் வடிவமைப்பை சரி பார்க்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not unzip the PokerTH internet server list.</source>
-        <translation>Impossibile decomprimere la lista dei server Internet di PokerTH.</translation>
+        <translation>போகர்டேஹோ வின் இணையதள விளையாட்டு வழங்கியின் பட்டியலை அன்சிப் செய்ய முடியவில்லை.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Could not download the PokerTH internet server list.
 Please make sure you are directly connected to the internet.</source>
-        <translation>Impossibile scaricare la lista server internet di PokerTH.
-Assicurati di essere connesso direttamente ad internet.</translation>
+        <translation>போகர்டேஹோ இன் இணையதள விளையாட்டு வழங்கியின் பட்டியலை இணையதளத்தில் இருந்து இறக்குமதி செய்ய முடியவில்லை.
+தயவு செய்து நீங்கள் இணையதளத்துடன் நேரதியாக இணைந்துளீரா என சரி பார்க்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not open the target file when downloading the server list.</source>
-        <translation>Impossibile aprire il file di destinazione durante il download della lista server.</translation>
+        <translation>இணையதள விளையாட்டு வழங்கியின் பட்டியலை இணையதளத்தில் இருந்து இறக்குமதி செய்யும் பொழுது தேவையான கோப்பையை திறக்க முடியவில்லை.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>The PokerTH server does not support this version of the game.
 Please go to https://www.pokerth.net and download the latest version.</source>
-        <translation>Il server di PokerTH non supporta questa versione del gioco.
-Visita l&apos;URL https://www.pokerth.net e scarica l&apos;ultima versione.</translation>
+        <translation>PokerTH வழங்கி இந்த விளையாட்டுப் பதிப்பை ஆதரிக்கவில்லை.
+https://www.pokerth.net க்குச் சென்று சமீபத்திய பதிப்பைப் பதிவிறக்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server is down for maintenance. Please try again later.</source>
-        <translation>Il server è down per manutenzione. Riprova più tardi.</translation>
+        <translation>விளையாட்டு வழங்கி பழுது பார்க்கப்பட்டுகொண்டிருக்கிறது. தயவு செய்து பின்னர் முயற்சி செய்து பார்க்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sorry, this server is already full.</source>
-        <translation>Spiacente, il server è già al completo.</translation>
+        <translation>மன்னிக்கவும் விளையாட்டு வழங்கி முன்னதாகவே நிரம்பி வழிகிறது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invalid login.
 Please check your username and password.</source>
-        <translation>Accesso negato.
-Controlla username e password.</translation>
+        <translation>தவறான நுழைவு.
+தயவு செய்து உங்களின் உபயோகிக்கும் பெயர் மற்றும் இரகசிய வார்த்தையை சரி பார்க்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The password is too long. Please choose another one.</source>
-        <translation>Questa password è troppo lunga. Scegline una diversa.</translation>
+        <translation>இரகசிய வார்த்தையின் நீளம் அதிகமாக உள்ளது. தயவு செய்து வேறொன்றை தேர்ந்தெடுக்கவும்.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>This player name is already in use. Please choose a different name.</source>
-        <translation>Questo nome giocatore è già in uso. Scegli un nome diverso.</translation>
+        <translation>இந்த வீரர் பெயர் ஏற்கனவே பயன்பாட்டில் உள்ளது. வேறு பெயரைத் தேர்ந்தெடுக்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player name is invalid. Please choose a different name.</source>
-        <translation>Il nome giocatore non è valido. Scegli un nome diverso.</translation>
+        <translation>வீரர் பெயர் செல்லாது. வேறு பெயரைத் தேர்ந்தெடுக்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid player cards.</source>
-        <translation>Errore interno: carte del giocatore non valide.</translation>
+        <translation>உள் பிழை: செல்லாத வீரர் சீட்டுகள்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid player results.</source>
-        <translation>Errore interno: risultati del giocatore non validi.</translation>
+        <translation>உள் பிழை: செல்லாத வீரர் முடிவுகள்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
-        <translation>Il nome della partita è troppo corto o troppo lungo. Scegline un altro.</translation>
+        <translation>விளையாட்டின் பெயர் நீளம் மிகவும் குறைவாக உள்ளது அல்லது மிகவும் நீளமாக உள்ளது. தயவு செய்து வேறொன்றை தேர்ந்தெடுக்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid game round.</source>
-        <translation>Errore interno: turno di gioco non valido.</translation>
+        <translation>உள் பிழை: செல்லாத விளையாட்டுச் சுற்று.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid session.</source>
-        <translation>Errore interno: sessione non valida.</translation>
+        <translation>உள் பிழை: செல்லாத அமர்வு.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be found.</source>
-        <translation>Impossibile trovare la partita.</translation>
+        <translation>விளையாட்டை கண்டுபிடிக்க முடியவில்லை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The chat text is invalid.</source>
-        <translation>Il testo nella chat non è valido.</translation>
+        <translation>கூறிய வார்த்தை செல்லாது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server referred to an unknown player. Aborting.</source>
-        <translation>Il server ha contattato un giocatore sconosciuto. Operazione annullata.</translation>
+        <translation>வழங்கி தெரியாத விளையாட்டு வீரரைக் குறிப்பிட்டுள்ளது. நிறுத்தப்படுகிறது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The current player could not be found.</source>
-        <translation>Errore interno: Impossibile trovare il giocatore corrente. </translation>
+        <translation>உட்பிழை: தற்போதய விளையாட்டு வீரரை கண்டு பிடிக்க முடியவில்லை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The current player is not active.</source>
-        <translation>Errore interno: Il giocatore corrente non è attivo.</translation>
+        <translation>உட்பிழை: தற்போதய விளையாட்டு வீரர் உபயோகத்தில் இல்லை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were kicked from the server.</source>
-        <translation>Sei stato espulso dal server.</translation>
+        <translation>விளையாட்டு வழங்கியினால் நீங்கள் வெளியேற்றப்பட்டுள்ளீர்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were temporarily banned from the server.</source>
-        <translation>Sei stato temporaneamente bandito dal server.</translation>
+        <translation>நீங்கள் தற்சமையம் விளையாட்டு வழங்கியை உபயோகிப்பதிலிருந்து தள்ளிவைக்கப்பட்டுளீர்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your account is blocked indefinitely.</source>
-        <translation>Il tuo account è bloccato a tempo indeterminato.</translation>
+        <translation>உங்கள் கணக்கு காலவரையின்றித் தடை செய்யப்பட்டுள்ளது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation>La connessione al server è andata in timeout per inattività. Riconnettiti, sei il benvenuto!</translation>
+        <translation>நீண்ட நேரம் விளையாடாமல் இருந்ததால் விளையாட்டு வளங்கியுடனான தொடர்பு துண்டிக்கப்பட்டுள்ளது. விளையட்டினுள் மீண்டும் சேர உங்களை வரவேற்கிறோம்!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The client player count is invalid.</source>
-        <translation>Il numero di giocatori non è valido.</translation>
+        <translation>விளையாட்டு வாடிக்கையாளர்களின் எண்ணிக்கை செல்லாது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
-        <translation>Sono stati impostati troppi blind manuali. Devi riconfigurare i blind.</translation>
+        <translation>சுய பந்தயத்தொகைகளின் எண்ணிக்கை அதிகமாக நிர்ணயிக்கப்பட்டுள்ளது. தயவு செய்து அதன் எண்ணிக்கையை மாற்றியமைக்கவும்.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
-        <translation>È stato impostato un file di avatar non valido. Scegli un avatar diverso.</translation>
+        <translation>செல்லாத அவதார் கோப்பு அமைக்கப்பட்டுள்ளது. வேறு அவதாரைத் தேர்ந்தெடுக்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
-        <translation>Il file di avatar selezionato è troppo grande. Scegli un avatar diverso.</translation>
+        <translation>தேர்ந்தெடுத்த அவதார் கோப்பு மிகப் பெரியது. வேறு அவதாரைத் தேர்ந்தெடுக்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid buffer size.</source>
-        <translation>Errore interno: dimensione del buffer non valida.</translation>
+        <translation>உள் பிழை: செல்லாத இடையக அளவு.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation>Si è verificato un errore interno sugli avatar. Per favore, riferisci l&apos;accaduto ad un admin nella chat prepartita.</translation>
+        <translation>உள் அவதார் பிழை ஏற்பட்டது. வரவேற்பறை உரையாடலில் உள்ள நிர்வாகிக்கு இதைத் தெரிவிக்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not start game: Synchronization failed.</source>
-        <translation>Impossibile avviare la partita: sincronizzazione non riuscita.</translation>
+        <translation>விளையாட்டை ஆரம்பிக்க முடியவில்லை: பிணைப்பு தோற்றது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be terminated.</source>
-        <translation>Impossibile terminare la partita.</translation>
+        <translation>விளையாட்டை முடிக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An internal game error occured.</source>
-        <translation>Si è verificato un errore interno di gioco.</translation>
+        <translation>உள் விளையாட்டுப் பிழை ஏற்பட்டது.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The dealer could not be found.</source>
-        <translation>Errore interno: impossibile trovare il mazziere.</translation>
+        <translation>உள் பிழை: சீட்டு விநியோகிப்பவரைக் கண்டுபிடிக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You cannot login at this time. Please try again in a few seconds.</source>
-        <translation>Impossibile effettuare l&apos;accesso. Riprova fra qualche istante.</translation>
+        <translation>தற்சமயம் உங்களால் நுழைய முடியாது. சில வினாடிகள் கழித்து மீண்டும் முயற்சிக்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The authentication could not be initialized.</source>
-        <translation>Errore interno: impossibile inizializzare l&apos;autenticazione.</translation>
+        <translation>உள் பிழை: அடையாளச் சரிபார்ப்பைத் தயாரிக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server does not support the required authentication method.</source>
-        <translation>Il server non supporta il metodo di autenticazione richiesto.</translation>
+        <translation>தேவையான அடையாளச் சரிபார்ப்பு முறையை வழங்கி ஆதரிக்கவில்லை.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server could not reach its database. Please try again later.</source>
-        <translation>Il server non è riuscito a raggiungere il suo database. Riprova più tardi.</translation>
+        <translation>வழங்கியால் அதன் தரவுத்தளத்தை அணுக இயலவில்லை. பின்னர் மீண்டும் முயற்சிக்கவும்.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An internal error occured. (Error code %1)</source>
-        <translation>Errore interno. (Codice di errore %1)</translation>
+        <translation>உள் பிழை ஏற்பட்டது. (பிழைக் குறியீடு %1)</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Connection failed, retrying...</source>
-        <translation>Connessione fallita, nuovo tentativo...</translation>
+        <translation>இணைப்பு தோல்வி, மீண்டும் முயற்சிக்கிறது...</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Retrying connection...</source>
-        <translation>Nuovo tentativo di connessione...</translation>
+        <translation>மீண்டும் இணைக்கிறது...</translation>
     </message>
 </context>
 <context>
@@ -4209,157 +4209,157 @@ Controlla username e password.</translation>
     <message>
         <location filename="../cpp/settingsmanager.cpp" line="+327"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
-        <translation>Immagini (*.png *.jpg *.jpeg *.gif)</translation>
+        <translation>படங்கள் (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
         <location line="+236"/>
         <source>Spieltisch-Stil auswählen</source>
-        <translation>Seleziona stile del tavolo da gioco</translation>
+        <translation>மேசைப் பாணியைத் தேர்ந்தெடு</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Spieltisch-Stil.</source>
-        <translation>Il file selezionato non è uno stile di tavolo da gioco.</translation>
+        <translation>தேர்ந்தெடுத்த கோப்பு மேசைப் பாணி அல்ல.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Kartenstapel-Stil auswählen</source>
-        <translation>Seleziona stile del mazzo di carte</translation>
+        <translation>சீட்டுப் பாணியைத் தேர்ந்தெடு</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Kartenstapel-Stil.</source>
-        <translation>Il file selezionato non è uno stile di mazzo di carte.</translation>
+        <translation>தேர்ந்தெடுத்த கோப்பு சீட்டுப் பாணி அல்ல.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Kartenrückseiten-Stil auswählen</source>
-        <translation>Seleziona stile del dorso delle carte</translation>
+        <translation>சீட்டின் பின்புறப் பாணியைத் தேர்ந்தெடு</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Kartenrückseiten-Stil.</source>
-        <translation>Il file selezionato non è uno stile di dorso delle carte.</translation>
+        <translation>தேர்ந்தெடுத்த கோப்பு சீட்டின் பின்புறப் பாணி அல்ல.</translation>
     </message>
     <message>
         <location line="+86"/>
         <source>Die Stil-Datei kann nicht gelesen werden.</source>
-        <translation>Impossibile leggere il file di stile.</translation>
+        <translation>பாணிக் கோப்பைப் படிக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Die ausgewählte Datei ist kein PokerTH-Stil.</source>
-        <translation>Il file selezionato non è uno stile PokerTH.</translation>
+        <translation>தேர்ந்தெடுத்த கோப்பு PokerTH பாணி அல்ல.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Die Stil-Datei enthält kein gültiges XML (%1).</source>
-        <translation>Il file di stile non contiene XML valido (%1).</translation>
+        <translation>பாணிக் கோப்பில் செல்லுபடியாகும் XML இல்லை (%1).</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Der Dateiname der Stil-Datei muss auf &quot;%1&quot; enden.</source>
-        <translation>Il nome del file di stile deve terminare con &quot;%1&quot;.</translation>
+        <translation>பாணிக் கோப்பின் பெயர் „%1“ இல் முடிய வேண்டும்.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Die Stil-Datei muss in einem eigenen Ordner liegen.</source>
-        <translation>Il file di stile deve trovarsi in una cartella dedicata.</translation>
+        <translation>பாணிக் கோப்பு தனி அடைவில் இருக்க வேண்டும்.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ein Stil mit dem Namen &quot;%1&quot; ist bereits vorhanden.</source>
-        <translation>Esiste già uno stile con il nome &quot;%1&quot;.</translation>
+        <translation>„%1“ என்ற பெயரில் ஒரு பாணி ஏற்கனவே உள்ளது.</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
-        <translation>Il mazzo di carte è incompleto, mancano: %1</translation>
+        <translation>சீட்டுக் கட்டு முழுமையற்றது, விடுபட்டவை: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Die Kartenrückseiten-Grafik (Backside) fehlt.</source>
-        <translation>Manca l&apos;immagine del dorso delle carte (Backside).</translation>
+        <translation>சீட்டின் பின்புறப் படம் (Backside) இல்லை.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Der Ordner der Stil-Datei enthält ungewöhnlich viele Dateien. Bitte den Stil in einen eigenen Ordner legen.</source>
-        <translation>La cartella del file di stile contiene un numero insolitamente alto di file. Metti lo stile in una cartella dedicata.</translation>
+        <translation>பாணிக் கோப்பின் அடைவில் வழக்கத்திற்கு மாறாக அதிக கோப்புகள் உள்ளன. பாணியைத் தனி அடைவில் வைக்கவும்.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Der Stil konnte nicht nach &quot;%1&quot; kopiert werden.</source>
-        <translation>Impossibile copiare lo stile in &quot;%1&quot;.</translation>
+        <translation>பாணியை „%1“ க்கு நகலெடுக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Der Stil hat Format-Version %1, aktuell ist Version %2.</source>
-        <translation>Lo stile ha la versione di formato %1, la versione attuale è %2.</translation>
+        <translation>பாணியின் வடிவப் பதிப்பு %1, தற்போதைய பதிப்பு %2.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Fehlende Angaben: %1.</source>
-        <translation>Informazioni mancanti: %1.</translation>
+        <translation>விடுபட்ட தகவல்கள்: %1.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Nicht gefundene Grafiken: %1.</source>
-        <translation>Grafiche non trovate: %1.</translation>
+        <translation>கிடைக்காத படங்கள்: %1.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Der Stil &quot;%1&quot; wurde übernommen, ist aber unvollständig:</source>
-        <translation>Lo stile &quot;%1&quot; è stato aggiunto, ma è incompleto:</translation>
+        <translation>„%1“ பாணி ஏற்கப்பட்டது, ஆனால் முழுமையற்றது:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
-        <translation>Il client sostituisce i contenuti mancanti con la grafica predefinita.</translation>
+        <translation>விடுபட்ட உள்ளடக்கத்தை வாடிக்கையாளர் இயல்புநிலைப் படங்களால் நிரப்பும்.</translation>
     </message>
     <message>
         <location line="-182"/>
         <source>PokerTH-Stile (*.zip *.xml)</source>
-        <translation>Stili PokerTH (*.zip *.xml)</translation>
+        <translation>PokerTH பாணிகள் (*.zip *.xml)</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Die ausgewählte Datei kann nicht gelesen werden.</source>
-        <translation>Impossibile leggere il file selezionato.</translation>
+        <translation>தேர்ந்தெடுத்த கோப்பைப் படிக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Es konnte kein temporäres Verzeichnis angelegt werden.</source>
-        <translation>Impossibile creare una cartella temporanea.</translation>
+        <translation>தற்காலிக அடைவை உருவாக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Das Archiv enthält keine Datei &quot;%1&quot;.</source>
-        <translation>L&apos;archivio non contiene alcun file &quot;%1&quot;.</translation>
+        <translation>காப்பகத்தில் „%1“ கோப்பு இல்லை.</translation>
     </message>
     <message>
         <location line="+196"/>
         <source>Stil exportieren</source>
-        <translation>Esporta stile</translation>
+        <translation>பாணியை ஏற்றுமதி செய்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>ZIP-Archive (*.zip)</source>
-        <translation>Archivi ZIP (*.zip)</translation>
+        <translation>ZIP காப்பகங்கள் (*.zip)</translation>
     </message>
     <message>
         <location line="-9"/>
         <source>Der Stil &quot;%1&quot; wurde nicht gefunden.</source>
-        <translation>Lo stile &quot;%1&quot; non è stato trovato.</translation>
+        <translation>„%1“ பாணி கிடைக்கவில்லை.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Das Archiv konnte nicht erstellt werden.</source>
-        <translation>Impossibile creare l&apos;archivio.</translation>
+        <translation>காப்பகத்தை உருவாக்க இயலவில்லை.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</source>
-        <translation>Impossibile scrivere l&apos;archivio in &quot;%1&quot;.</translation>
+        <translation>காப்பகத்தை „%1“ இல் எழுத இயலவில்லை.</translation>
     </message>
 </context>
 <context>
@@ -4367,47 +4367,47 @@ Controlla username e password.</translation>
     <message>
         <location filename="../pages/SettingsPage.qml" line="+254"/>
         <source>Benutzeroberfläche</source>
-        <translation>Interfaccia utente</translation>
+        <translation>பயனர் இடைமுகம்</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Stil</source>
-        <translation>Stile</translation>
+        <translation>பாணி</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Sound</source>
-        <translation>Suono</translation>
+        <translation>ஒலி</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Lokales Spiel</source>
-        <translation>Partita locale</translation>
+        <translation>உள்ளூர் விளையாட்டு</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Netzwerkspiel</source>
-        <translation>Partita in Rete</translation>
+        <translation>வலைப்பின்னல் விளையாட்டு</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Internetspiel</source>
-        <translation>Partita in Internet</translation>
+        <translation>இணைய விளையாட்டு</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Nicknamen/Avatare</source>
-        <translation>Nickname/Avatar</translation>
+        <translation>புனைபெயர்கள்/அவதார்கள்</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Log-Nachrichten</source>
-        <translation>Registro messaggi</translation>
+        <translation>பதிவுச் செய்திகள்</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Standardeinstellung</source>
-        <translation>Impostazioni predefinite</translation>
+        <translation>இயல்புநிலை அமைப்புகள்</translation>
     </message>
 </context>
 <context>
@@ -4420,12 +4420,12 @@ Controlla username e password.</translation>
     <message>
         <location line="+100"/>
         <source>Über PokerTH</source>
-        <translation>Informazioni su PokerTH</translation>
+        <translation>PokerTH பற்றி</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Schließen</source>
-        <translation>Chiudi</translation>
+        <translation>மூடு</translation>
     </message>
 </context>
 <context>
@@ -4433,47 +4433,47 @@ Controlla username e password.</translation>
     <message>
         <location filename="../components/SoundSettings.qml" line="+19"/>
         <source>Sound</source>
-        <translation>Suono</translation>
+        <translation>ஒலி</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Klangeffekte</source>
-        <translation>Effetti sonori</translation>
+        <translation>ஒலி விளைவுகள்</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Klangeffekte aktivieren</source>
-        <translation>Abilita effetti sonori</translation>
+        <translation>ஒலி விளைவுகளை இயக்கு</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Lautstärke:</source>
-        <translation>Volume:</translation>
+        <translation>ஒலியளவு:</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Klang-Kategorien</source>
-        <translation>Categorie suoni </translation>
+        <translation>ஒலி வகைகள்</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Spielaktionen (Check, Call, Raise ...)</source>
-        <translation>Azioni di gioco (Check, Call, Raise...)</translation>
+        <translation>விளையாட்டு நகர்வுகள் (Check, Call, Raise ...)</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Blind-Erhöhungs-Benachrichtigung</source>
-        <translation>Notifica aumento buio</translation>
+        <translation>பந்தயத்தொகை உயர்வு அறிவிப்பு</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>Netzwerkspiel-Benachrichtigungen</source>
-        <translation>Notifiche partite in rete</translation>
+        <translation>வலைப்பின்னல் விளையாட்டு அறிவிப்புகள்</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>Lobby-Chat-Benachrichtigungen</source>
-        <translation>Notifiche chat della lobby</translation>
+        <translation>வரவேற்பறை உரையாடல் அறிவிப்புகள்</translation>
     </message>
 </context>
 <context>
@@ -4481,12 +4481,12 @@ Controlla username e password.</translation>
     <message>
         <location filename="../components/StartFooter.qml" line="+197"/>
         <source>Privacy</source>
-        <translation>Privacy</translation>
+        <translation>தனியுரிமை</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Source:</source>
-        <translation>Codice sorgente:</translation>
+        <translation>மூலக் குறியீடு:</translation>
     </message>
 </context>
 <context>
@@ -4494,32 +4494,32 @@ Controlla username e password.</translation>
     <message>
         <location filename="../pages/StartPage.qml" line="+155"/>
         <source>Internetspiel</source>
-        <translation>Partita in Internet</translation>
+        <translation>இணைய விளையாட்டு</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Lokales Spiel starten</source>
-        <translation>Inizia una partita locale</translation>
+        <translation>உள்ளூர் விளையாட்டைத் தொடங்கு</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Netzwerkspiel erstellen</source>
-        <translation>Crea partita in rete</translation>
+        <translation>வலைப்பின்னல் விளையாட்டை உருவாக்கு</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Netzwerkspiel beitreten</source>
-        <translation>Unisciti a una partita in rete</translation>
+        <translation>வலைப்பின்னல் விளையாட்டில் சேர்</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Community / Ranking</source>
-        <translation>Community / Classifica</translation>
+        <translation>சமூகம் / தரவரிசை</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Logs</source>
-        <translation>Log</translation>
+        <translation>பதிவுகள்</translation>
     </message>
 </context>
 <context>
@@ -4527,32 +4527,32 @@ Controlla username e password.</translation>
     <message>
         <location filename="../config/StaticData.qml" line="+124"/>
         <source>Fold</source>
-        <translation>Fold</translation>
+        <translation>ஃபோல்ட்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Check</source>
-        <translation>Check</translation>
+        <translation>செக்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Call</source>
-        <translation>Call</translation>
+        <translation>கால்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Bet</source>
-        <translation>Bet</translation>
+        <translation>பெட்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Raise</source>
-        <translation>Raise</translation>
+        <translation>ரெய்ஸ்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>All-In</source>
-        <translation>All-In</translation>
+        <translation>ஆல்-இன்</translation>
     </message>
 </context>
 <context>
@@ -4561,28 +4561,28 @@ Controlla username e password.</translation>
         <location filename="../components/StyleCard.qml" line="+69"/>
         <source>Keine
 Vorschau</source>
-        <translation>Nessuna
-anteprima</translation>
+        <translation>முன்னோட்டம்
+இல்லை</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>von %1</source>
-        <translation>di %1</translation>
+        <translation>உருவாக்கியவர்: %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>✓ Ausgewählt</source>
-        <translation>✓ Selezionato</translation>
+        <translation>✓ தேர்ந்தெடுக்கப்பட்டது</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Stil entfernen</source>
-        <translation>Rimuovi stile</translation>
+        <translation>பாணியை நீக்கு</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Stil als ZIP exportieren</source>
-        <translation>Esporta stile come ZIP</translation>
+        <translation>பாணியை ZIP ஆக ஏற்றுமதி செய்</translation>
     </message>
 </context>
 <context>
@@ -4590,105 +4590,105 @@ anteprima</translation>
     <message>
         <location filename="../components/StyleSettings.qml" line="+49"/>
         <source>Stil hinzufügen</source>
-        <translation>Aggiungi stile</translation>
+        <translation>பாணியைச் சேர்</translation>
     </message>
     <message>
         <location line="+0"/>
         <location line="+8"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>சரி</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Stil entfernen</source>
-        <translation>Rimuovi stile</translation>
+        <translation>பாணியை நீக்கு</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Den Stil &quot;%1&quot; wirklich entfernen?</source>
-        <translation>Rimuovere davvero lo stile &quot;%1&quot;?</translation>
+        <translation>„%1“ பாணியை நிச்சயம் நீக்க வேண்டுமா?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Entfernen</source>
-        <translation>Rimuovi</translation>
+        <translation>நீக்கு</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Stil</source>
-        <translation>Stile</translation>
+        <translation>பாணி</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Spieltisch</source>
-        <translation>Tavolo di gioco</translation>
+        <translation>விளையாட்டு மேசை</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Kartenstapel</source>
-        <translation>Mazzo di carte</translation>
+        <translation>சீட்டுக் கட்டு</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Kartenrückseite</source>
-        <translation>Dorso delle carte</translation>
+        <translation>சீட்டின் பின்புறம்</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Einsatzanzeige:</source>
-        <translation>Visualizzazione della puntata:</translation>
+        <translation>பந்தயக் காட்சி:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Einsatz in der Spielerbox</source>
-        <translation>Puntata dentro il riquadro del giocatore</translation>
+        <translation>பந்தயம் வீரர் பெட்டிக்குள்</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Einsatz neben der Spielerbox</source>
-        <translation>Puntata accanto al riquadro del giocatore</translation>
+        <translation>பந்தயம் வீரர் பெட்டிக்கு அருகில்</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Verfügbare Spieltisch-Stile:</source>
-        <translation>Stili tavolo disponibili:</translation>
+        <translation>கிடைக்கும் மேசைப் பாணிகள்:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Keine Spieltisch-Stile gefunden.</source>
-        <translation>Nessuno stile tavolo trovato.</translation>
+        <translation>மேசைப் பாணிகள் கிடைக்கவில்லை.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verfügbare Kartenstapel-Stile:</source>
-        <translation>Stili mazzo di carte disponibili:</translation>
+        <translation>கிடைக்கும் சீட்டுப் பாணிகள்:</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Keine Kartenstapel-Stile gefunden.</source>
-        <translation>Nessuno stile mazzo di carte trovato.</translation>
+        <translation>சீட்டுப் பாணிகள் கிடைக்கவில்லை.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verfügbare Kartenrückseiten:</source>
-        <translation>Dorsi delle carte disponibili:</translation>
+        <translation>கிடைக்கும் சீட்டுப் பின்புறங்கள்:</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Keine Kartenrückseiten gefunden.</source>
-        <translation>Nessun dorso delle carte trovato.</translation>
+        <translation>சீட்டுப் பின்புறங்கள் கிடைக்கவில்லை.</translation>
     </message>
     <message>
         <location line="-104"/>
         <location line="+56"/>
         <location line="+56"/>
         <source>Stil hinzufügen...</source>
-        <translation>Aggiungi stile...</translation>
+        <translation>பாணியைச் சேர்...</translation>
     </message>
     <message>
         <location line="-266"/>
         <source>Stil exportieren</source>
-        <translation>Esporta stile</translation>
+        <translation>பாணியை ஏற்றுமதி செய்</translation>
     </message>
 </context>
 <context>
@@ -4696,92 +4696,92 @@ anteprima</translation>
     <message>
         <location filename="../pages/WecRankingPage.qml" line="+22"/>
         <source>January</source>
-        <translation>Gennaio</translation>
+        <translation>ஜனவரி</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>February</source>
-        <translation>Febbraio</translation>
+        <translation>பிப்ரவரி</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>March</source>
-        <translation>Marzo</translation>
+        <translation>மார்ச்</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>April</source>
-        <translation>Aprile</translation>
+        <translation>ஏப்ரல்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>May</source>
-        <translation>Maggio</translation>
+        <translation>மே</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>June</source>
-        <translation>Giugno</translation>
+        <translation>ஜூன்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>July</source>
-        <translation>Luglio</translation>
+        <translation>ஜூலை</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>August</source>
-        <translation>Agosto</translation>
+        <translation>ஆகஸ்ட்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>September</source>
-        <translation>Settembre</translation>
+        <translation>செப்டம்பர்</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>October</source>
-        <translation>Ottobre</translation>
+        <translation>அக்டோபர்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>November</source>
-        <translation>Novembre</translation>
+        <translation>நவம்பர்</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>December</source>
-        <translation>Dicembre</translation>
+        <translation>டிசம்பர்</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>WEC Ranking</source>
-        <translation>Classifica WEC</translation>
+        <translation>WEC தரவரிசை</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Year:</source>
-        <translation>Anno:</translation>
+        <translation>ஆண்டு:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Month:</source>
-        <translation>Mese:</translation>
+        <translation>மாதம்:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>All-Year</source>
-        <translation>Tutto l&apos;anno</translation>
+        <translation>முழு ஆண்டு</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>All-Time</source>
-        <translation>Sempre</translation>
+        <translation>எல்லா காலமும்</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Search nickname</source>
-        <translation>Cerca nickname</translation>
+        <translation>புனைபெயரைத் தேடு</translation>
     </message>
 </context>
 <context>
@@ -4794,143 +4794,143 @@ anteprima</translation>
     <message>
         <location line="+287"/>
         <source>Back</source>
-        <translation>Indietro</translation>
+        <translation>பின்செல்</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Menu</source>
-        <translation>Menu</translation>
+        <translation>பட்டி</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>Private messages</source>
-        <translation>Messaggi privati</translation>
+        <translation>தனிப்பட்ட செய்திகள்</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Forum news</source>
-        <translation>Novità dal forum</translation>
+        <translation>மன்றச் செய்திகள்</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Community / Ranking</source>
-        <translation>Community / Classifica</translation>
+        <translation>சமூகம் / தரவரிசை</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Settings</source>
-        <translation>Impostazioni</translation>
+        <translation>அமைப்பு</translation>
     </message>
     <message>
         <location line="+192"/>
         <source>Timeout Warning</source>
-        <translation>Avviso di timeout</translation>
+        <translation>எச்சரிக்கை, காலம் நிறைவடையப்போகிறது</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Timeout expired. You are being removed from the game.</source>
-        <translation>Timeout scaduto. Verrai rimosso dalla partita.</translation>
+        <translation>நேரம் முடிந்தது. நீங்கள் விளையாட்டிலிருந்து நீக்கப்படுகிறீர்கள்.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Timeout expired. You will be disconnected.</source>
-        <translation>Timeout scaduto. Verrai disconnesso.</translation>
+        <translation>நேரம் முடிந்தது. உங்கள் இணைப்பு துண்டிக்கப்படும்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You are game-admin of an open game which will time out in %1 seconds.</source>
-        <translation>Sei amministratore di una partita aperta che scadrà tra %1 secondi.</translation>
+        <translation>நீங்கள் ஒரு திறந்த விளையாட்டின் நிர்வாகி; அதன் நேரம் %1 வினாடிகளில் முடியும்.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>You did not act in the game recently. You will be removed from the game in %1 seconds.</source>
-        <translation>Non hai effettuato azioni di gioco da un po&apos; di tempo. Verrai rimosso dalla partita in %1 secondi.</translation>
+        <translation>சமீபத்தில் விளையாட்டில் நீங்கள் நகரவில்லை. %1 வினாடிகளில் விளையாட்டிலிருந்து நீக்கப்படுவீர்கள்.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your connection is about to time out due to inactivity in %1 seconds.</source>
-        <translation>La tua connessione scadrà per inattività fra %1 secondi.</translation>
+        <translation>செயலற்ற நிலையால் உங்கள் இணைப்பு %1 வினாடிகளில் முடிவடையும்.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Please click &quot;OK&quot; to stop the countdown!</source>
-        <translation>Premi &quot;OK&quot; per fermare il conto alla rovescia!</translation>
+        <translation>கவுண்ட்டவுனை நிறுத்த „சரி“ பொத்தானை அழுத்தவும்!</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+285"/>
         <source>OK</source>
-        <translation> OK </translation>
+        <translation>சரி</translation>
     </message>
     <message>
         <location line="-250"/>
         <source>Server Message</source>
-        <translation>Messaggio del server</translation>
+        <translation>வழங்கியின் செய்தி</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Close</source>
-        <translation>Chiudi</translation>
+        <translation>மூடு</translation>
     </message>
     <message>
         <location line="+156"/>
         <source>Connection interrupted</source>
-        <translation>Connessione interrotta</translation>
+        <translation>இணைப்பு தடைபட்டது</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Reconnecting to the server… (attempt %1 of %2)</source>
-        <translation>Riconnessione al server… (tentativo %1 di %2)</translation>
+        <translation>வழங்கியுடன் மீண்டும் இணைக்கிறது… (முயற்சி %1 / %2)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reconnecting to the server…</source>
-        <translation>Riconnessione al server…</translation>
+        <translation>வழங்கியுடன் மீண்டும் இணைக்கிறது…</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Your seat at the table stays reserved for a few minutes.</source>
-        <translation>Il tuo posto al tavolo resta riservato per alcuni minuti.</translation>
+        <translation>மேசையில் உங்கள் இடம் இன்னும் சில நிமிடங்களுக்கு ஒதுக்கப்பட்டிருக்கும்.</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Connection lost</source>
-        <translation>Connessione persa</translation>
+        <translation>இணைப்பு துண்டிக்கப்பட்டது</translation>
     </message>
     <message>
         <location line="-734"/>
         <location line="+545"/>
         <location line="+22"/>
         <source>Leave Game</source>
-        <translation>Abbandona partita</translation>
+        <translation>விளையாட்டை விட்டு விலகு</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
-        <translation>Attenzione! Vuoi veramente abbandonare la partita corrente
-e tornare al prepartita?</translation>
+        <translation>கவனிக்க! தற்போதைய விளையாட்டிலிருந்து விலகி
+வரவேற்பறைக்குத் திரும்ப நிச்சயமாக விரும்புகிறீர்களா?</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+57"/>
         <location line="+74"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>நிறுத்திவிடு</translation>
     </message>
     <message>
         <location line="-693"/>
         <location line="+602"/>
         <location line="+22"/>
         <source>Leave Lobby</source>
-        <translation>Lascia lobby</translation>
+        <translation>வரவேற்பறையை விட்டு விலகு</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Attention! Do you really want to leave the lobby
 and disconnect from the server?</source>
-        <translation>Attenzione! Vuoi davvero lasciare la lobby
-e disconnetterti dal server?</translation>
+        <translation>கவனிக்க! வரவேற்பறையை விட்டு விலகி
+வழங்கியிலிருந்து துண்டிக்க நிச்சயமாக விரும்புகிறீர்களா?</translation>
     </message>
 </context>
 </TS>

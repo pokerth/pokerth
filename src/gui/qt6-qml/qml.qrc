@@ -106,6 +106,14 @@
         <file>i18n/pokerth_bg_BG.ts</file>
         <file>i18n/pokerth_fi_FI.ts</file>
         <file>i18n/pokerth_nb_NO.ts</file>
+        <file>i18n/pokerth_sk_SK.ts</file>
+        <file>i18n/pokerth_lt_LT.ts</file>
+        <file>i18n/pokerth_gl_ES.ts</file>
+        <file>i18n/pokerth_gd_GB.ts</file>
+        <file>i18n/pokerth_ja_JP.ts</file>
+        <file>i18n/pokerth_ta_IN.ts</file>
+        <file>i18n/pokerth_vi_VN.ts</file>
+        <file>i18n/pokerth_af_ZA.ts</file>
         <file>i18n/pokerth_zh_CN.ts</file>
         <file>pages/AboutPage.qml</file>
         <file>pages/GamePage.qml</file>

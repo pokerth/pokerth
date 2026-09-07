@@ -854,7 +854,7 @@ Dh&apos;fhaoidte gum fàillig le luchdadh suas aig faidhlichean loga ma tha thu 
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="57"/>
         <source>Report inappropriate avatar</source>
-        <translation>Aithris avatar  mì-iomchaidh</translation>
+        <translation>Aithris avatar mì-iomchaidh</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="465"/>
@@ -2031,7 +2031,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="293"/>
         <source>Report inappropriate game name</source>
-        <translation>Aithris ainm cluicheadair mì-iomchaidh</translation>
+        <translation>Aithris ainm geama mì-iomchaidh</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="296"/>
@@ -6147,7 +6147,7 @@ A bheil thu cinnteach gu bheil thu airson roghainnean an fhactaraidh ath-shuidhe
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1003"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
-        <translation>Chaidh post mì-dhligheach a shuidheachadh (chan eil na puirt 0-1023 ceadaichte).</translation>
+        <translation>Chaidh port mì-dhligheach a shuidheachadh (chan eil na puirt 0-1023 ceadaichte).</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1009"/>
@@ -6282,7 +6282,7 @@ Feuch an dearbhaich thu an t-ainm cleachdaiche is am facal-faire agad.</translat
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1258"/>
         <source>You cannot login at this time. Please try again in a few seconds.</source>
-        <translation>Chan urrainn dhut logadh a-steach an-dràsta. am feuch thu ris a-rithist an ceann greis?</translation>
+        <translation>Chan urrainn dhut logadh a-steach an-dràsta. Am feuch thu ris a-rithist an ceann greis?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1318"/>
@@ -6292,7 +6292,7 @@ Feuch an dearbhaich thu an t-ainm cleachdaiche is am facal-faire agad.</translat
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1325"/>
         <source>Your connection to the server is very slow, the game had to start without you.</source>
-        <translation>Cha an ceangal agad dhan fhrithealaiche glè shlaodach, bha aig a&apos; gheama tòiseachadh às d&apos; aonais.</translation>
+        <translation>Tha an ceangal agad dhan fhrithealaiche glè shlaodach, bha aig a&apos; gheama tòiseachadh às d&apos; aonais.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1353"/>
@@ -6364,18 +6364,18 @@ Cuir am facal-faire a-steach turas eile is feuch ris a-rithist.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1470"/>
         <source>The player was kicked and banned permanently.</source>
-        <translation>Chaidh a&apos; bhròig a thoirt dhan chluidheadair is a thoirmeasg gu buan.</translation>
+        <translation>Chaidh a&apos; bhròg a thoirt dhan chluicheadair is a thoirmeasg gu buan.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1474"/>
         <source>The player was kicked, but could not be banned because it was a guest player.</source>
-        <translation>Chaidh a&apos; bhròg a thoirt dhan chluicheadair ach dha b&apos; urrainn dhuinn a thoirmeasg oir &apos;s e aoigh a bh&apos; ann.</translation>
+        <translation>Chaidh a&apos; bhròg a thoirt dhan chluicheadair ach cha b&apos; urrainn dhuinn a thoirmeasg oir &apos;s e aoigh a bh&apos; ann.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1478"/>
         <source>The player was kicked, but could not be banned, 
 because the nick could not be found in the database</source>
-        <translation>Chaidh a&apos; bhròg a thoirt dhan chluicheadair ach dha b&apos; urrainn dhuinn a thoirmeasg 
+        <translation>Chaidh a&apos; bhròg a thoirt dhan chluicheadair ach cha b&apos; urrainn dhuinn a thoirmeasg 
 on nach deach am far-ainm a lorg san stòr-dàta</translation>
     </message>
     <message>
@@ -6723,7 +6723,7 @@ If the problem persists, please check the server address or try again later.</so
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="106"/>
         <source>You did not act in the game recently. You will be removed from the game in %1 seconds.</source>
-        <translation>Tha do rinn thu gnìomhachd sa gheama greis. Thèid do thoirt air falbh on gheama an ceann %1 diog.</translation>
+        <translation>Cha do rinn thu gnìomhachd sa gheama o chionn greis. Thèid do thoirt air falbh on gheama an ceann %1 diog.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="109"/>

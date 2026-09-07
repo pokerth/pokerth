@@ -1339,7 +1339,7 @@ Xin vui lòng đặt lại một tên khác!</translation>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="78"/>
         <location filename="../src/gui/qt/gui_800x480/createinternetgamedialog_800x480.ui" line="181"/>
         <source>Invited players only</source>
-        <translation>Chỉ dành cho người chơi được bạn chỉ định</translation>
+        <translation>Chỉ dành cho người chơi được mời</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="87"/>
@@ -1452,7 +1452,7 @@ Xin vui lòng đặt lại một tên khác!</translation>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="153"/>
         <source>%1&apos;s game</source>
-        <translation>%1 giây của trò chơi</translation>
+        <translation>Ván của %1</translation>
     </message>
 </context>
 <context>
@@ -6086,7 +6086,7 @@ Bạn có thật sự muốn áp dụng các thiết lập của chương trình
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1003"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
-        <translation>Địa chỉ cổng bị thiết lập sai (con số cổng được cho phép từ 0 đến 1023).</translation>
+        <translation>Đã đặt một cổng không hợp lệ (không được phép dùng cổng từ 0 đến 1023).</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1009"/>
@@ -6111,7 +6111,7 @@ Bạn có thật sự muốn áp dụng các thiết lập của chương trình
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1033"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>Bind thất bại - vui lòng chọn một cổng kết nối khác.</translation>
+        <translation>Gán cổng thất bại - vui lòng chọn một cổng kết nối khác.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1039"/>
@@ -6216,7 +6216,7 @@ Vui lòng kiểm tra tên đăng nhập và mật khẩu lần nữa.</translati
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1220"/>
         <source>Your account is blocked indefinitely.</source>
-        <translation>Tài khoản của bạn đã bị đóng.</translation>
+        <translation>Tài khoản của bạn đã bị khóa vô thời hạn.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1258"/>

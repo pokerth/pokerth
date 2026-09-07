@@ -4525,7 +4525,7 @@ Lütfen kullanıcı adınızı ve parolanızı denetleyin.</translation>
 <context>
     <name>StaticData</name>
     <message>
-        <location filename="../config/StaticData.qml" line="+114"/>
+        <location filename="../config/StaticData.qml" line="+124"/>
         <source>Fold</source>
         <translation>Pas</translation>
     </message>

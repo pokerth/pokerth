@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="it_IT">
+<TS version="2.1" language="af_ZA">
 <context>
     <name>AboutPage</name>
     <message>
         <location filename="../pages/AboutPage.qml" line="+45"/>
         <source>No changelog available.</source>
-        <translation>Nessun registro delle modifiche disponibile.</translation>
+        <translation>Geen veranderingslog beskikbaar nie.</translation>
     </message>
     <message>
         <location line="+89"/>
         <source>About PokerTH</source>
-        <translation>Informazioni su PokerTH</translation>
+        <translation>Aangaande PokerTH</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>About</source>
-        <translation>Informazioni</translation>
+        <translation>Aangaande</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Project</source>
-        <translation>Progetto</translation>
+        <translation>Projek</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Changelog</source>
-        <translation>Modifiche</translation>
+        <translation>Veranderingslog</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Thanks to</source>
-        <translation>Ringraziamenti a</translation>
+        <translation>Dankie aan</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>License</source>
-        <translation>Licenza</translation>
+        <translation>Lisensie</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Third party libs</source>
-        <translation>Librerie di terze parti</translation>
+        <translation>Derdeparty-biblioteke</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -51,122 +51,122 @@
     <message>
         <location line="+13"/>
         <source>- Poker engine for the popular Texas Hold&apos;em Poker</source>
-        <translation>- Motore per il popolare Poker &quot;Texas Holdem&quot;</translation>
+        <translation>- Poker-enjin vir die gewilde Texas Holdem-poker</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Singleplayer games with up to 9 computer-opponents</source>
-        <translation>- Giocatore singolo: possibilità di affrontare fino a 9 avversari IA</translation>
+        <translation>- Enkelspeler-spelle met tot 9 rekenaaropponente</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Multiplayer network games</source>
-        <translation>- Partite multigiocatore in rete</translation>
+        <translation>- Multispeler-netwerkspelle</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Internet online games</source>
-        <translation>- Partite multigiocatore su Internet</translation>
+        <translation>- Internetspelle aanlyn</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Changeable gui with online style gallery</source>
-        <translation>- Interfaccia personalizzabile con galleria online di temi</translation>
+        <translation>- Aanknip-GUI met aanlyn stylgalery</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Online ranking website with result tables</source>
-        <translation>- Ranking online con tabelle dei risultati</translation>
+        <translation>- Aanlyn gradeer-webwerf met resultaattabelle</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Project page:</source>
-        <translation>Pagina progetto:</translation>
+        <translation>Projekbladsy:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Authors:</source>
-        <translation>Autori:</translation>
+        <translation>Outeurs:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
-        <translation>idea iniziale, achitettura di base, implementazione gui, grafica gui, pacchetto linux</translation>
+        <translation>aanvanklike idee, basiese argitektuur, GUI-werking, GUI-grafikawerk, Linux-pakket</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial idea, basic architecture, engine development</source>
-        <translation>idea iniziale, architettura di base, sviluppo motore</translation>
+        <translation>aanvanklike idee, basiese argitektuur, enjinontwikkeling</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>basic architecture, network development, windows package, MacOS package</source>
-        <translation>architettura di base, sviluppo di rete, pacchetto windows, pacchetto MacOS</translation>
+        <translation>basiese argitektuur, netwerkontwikkeling, Windows-pakket, MacOS-pakket</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial gui graphics design</source>
-        <translation>sviluppo iniziale grafica gui</translation>
+        <translation>aanvanklike GUI-grafikaontwerp</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>code modernization, QML layout</source>
-        <translation>modernizzazione del codice, layout QML</translation>
+        <translation>modernisering van die kode, QML-uitleg</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>web client development</source>
-        <translation>sviluppo del client web</translation>
+        <translation>ontwikkeling van webkliënt</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>- Wikimedia Commons: for different popular avatar picture resources</source>
-        <translation>- Wikimedia Commons: per le diverse gallerie di avatar</translation>
+        <translation>- Wikimedia Commons: vir &apos;n verskeidenheid gewilde avatarprente</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
-        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: per gli avatar raffiguranti persone</translation>
+        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: vir mensavatar-prente</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- ZeiZei: for misc avatar pictures</source>
-        <translation>- ZeiZei: per gli avatar vari</translation>
+        <translation>- ZeiZei: vir diverse avatarprente</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- kde-look.org: for different gpl licensed sounds</source>
-        <translation>- kde-look.org: per diversi suoni rilasciati sotto licenza GPL</translation>
+        <translation>- kde-look.org: vir &apos;n verskeidenheid GPL-gelisensieerde klanke</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- doc_dos: for self recorded chip sounds</source>
-        <translation>- doc_dos: per la registrazione del suono delle fiches</translation>
+        <translation>- doc_dos: vir selfopgeneemde skyfieklanke</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
-        <translation>- thiger, dunkanx, BerndA, coldz, drull: per diverse patch</translation>
+        <translation>- thiger, dunkanx, BerndA, coldz, drull: vir &apos;n verskeidenheid pleisters</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- kraut: for internet-game-server hosting and administration</source>
-        <translation>- kraut: per l&apos;hosting e l&apos;amministrazione del server per il gioco su internet</translation>
+        <translation>- kraut: vir huisvesting en administrasie van internetspelbediener</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
-        <translation>- danuxi: per gli sfondi della schermata di avvio e dello stile danuxi1</translation>
+        <translation>- danuxi: vir beginvenster-agtergrondprent en Danuxi1-tafel se agtergrond</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
-        <translation>- heyn: per il lavoro di moderazione sul forum, l&apos;organizzazione del bugtracker e la gestione delle richieste di nuove feature</translation>
+        <translation>- heyn: vir modereer van forum en hantering van foutopsporing en wenslys</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- texas_outlaw: for new table sounds</source>
-        <translation>- texas_outlaw: per i nuovi suoni del tavolo di gioco</translation>
+        <translation>- texas_outlaw: vir nuwe tafelklanke</translation>
     </message>
 </context>
 <context>
@@ -174,12 +174,12 @@
     <message>
         <location filename="../cpp/androidconnectionservice.cpp" line="+29"/>
         <source>Connected to the game server</source>
-        <translation>Connesso al server di gioco</translation>
+        <translation>Gekoppel aan die spelbediener</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Online game connection</source>
-        <translation>Connessione di gioco online</translation>
+        <translation>Verbinding met aanlyn spel</translation>
     </message>
 </context>
 <context>
@@ -187,22 +187,22 @@
     <message>
         <location filename="../components/AvatarCardRow.qml" line="+132"/>
         <source>Server response times</source>
-        <translation>Tempi di risposta del server</translation>
+        <translation>Bediener se reaksietye</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Average: %1 ms</source>
-        <translation>Media: %1 ms</translation>
+        <translation>Gemiddeld: %1 ms</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Minimum: %1 ms</source>
-        <translation>Minimo: %1 ms</translation>
+        <translation>Minimum: %1 ms</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Maximum: %1 ms</source>
-        <translation>Massimo: %1 ms</translation>
+        <translation>Maksimum: %1 ms</translation>
     </message>
 </context>
 <context>
@@ -210,32 +210,32 @@
     <message>
         <location filename="../pages/BbcRankingPage.qml" line="+36"/>
         <source>BBC Ranking</source>
-        <translation>Classifica BBC</translation>
+        <translation>BBC-gradering</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Season:</source>
-        <translation>Stagione:</translation>
+        <translation>Seisoen:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>All-Time</source>
-        <translation>Sempre</translation>
+        <translation>Alle tye</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Search nickname</source>
-        <translation>Cerca nickname</translation>
+        <translation>Soek kennaam</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Step1</source>
-        <translation>Step1</translation>
+        <translation>Fase 1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Season %1</source>
-        <translation>Stagione %1</translation>
+        <translation>Seisoen %1</translation>
     </message>
 </context>
 <context>
@@ -243,39 +243,39 @@
     <message>
         <location filename="../components/ChatBox.qml" line="+31"/>
         <source>Nachricht …</source>
-        <translation>Messaggio …</translation>
+        <translation>Boodskap …</translation>
     </message>
     <message>
         <location line="+797"/>
         <source>Link öffnen</source>
-        <translation>Apri link</translation>
+        <translation>Maak skakel oop</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Link kopieren</source>
-        <translation>Copia link</translation>
+        <translation>Kopieer skakel</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+38"/>
         <source>Kopieren</source>
-        <translation>Copia</translation>
+        <translation>Kopieer</translation>
     </message>
     <message>
         <location line="-33"/>
         <location line="+43"/>
         <source>Alles auswählen</source>
-        <translation>Seleziona tutto</translation>
+        <translation>Kies alles</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Ausschneiden</source>
-        <translation>Taglia</translation>
+        <translation>Knip</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Einfügen</source>
-        <translation>Incolla</translation>
+        <translation>Plak</translation>
     </message>
 </context>
 <context>
@@ -283,7 +283,7 @@
     <message>
         <location filename="../cpp/chattranslator.cpp" line="+265"/>
         <source>Translation is currently unavailable. Please try again later.</source>
-        <translation>La traduzione non è al momento disponibile. Riprova più tardi.</translation>
+        <translation>Vertaling is tans nie beskikbaar nie. Probeer asseblief later weer.</translation>
     </message>
 </context>
 <context>
@@ -291,98 +291,98 @@
     <message>
         <location filename="../components/CommunityPlayerView.qml" line="+30"/>
         <source>This season</source>
-        <translation>Questa stagione</translation>
+        <translation>Hierdie seisoen</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+4"/>
         <source>All-time</source>
-        <translation>Sempre</translation>
+        <translation>Alle tye</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>This month</source>
-        <translation>Questo mese</translation>
+        <translation>Hierdie maand</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This year</source>
-        <translation>Quest&apos;anno</translation>
+        <translation>Hierdie jaar</translation>
     </message>
     <message>
         <location line="+75"/>
         <source>Player not found.</source>
-        <translation>Giocatore non trovato.</translation>
+        <translation>Speler nie gevind nie.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Could not load player (HTTP %1).</source>
-        <translation>Impossibile caricare il giocatore (HTTP %1).</translation>
+        <translation>Kon nie spelerdata laai nie (HTTP %1).</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Kon nie die bediener se antwoord ontleed nie.</translation>
     </message>
     <message>
         <location line="+80"/>
         <source>Member since %1</source>
-        <translation>Membro dal %1</translation>
+        <translation>Lid sedert %1</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Awards</source>
-        <translation>Premi</translation>
+        <translation>Toekennings</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Tickets</source>
-        <translation>Biglietti</translation>
+        <translation>Kaartjies</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Step 2</source>
-        <translation>Step 2</translation>
+        <translation>Fase 2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Step 3</source>
-        <translation>Step 3</translation>
+        <translation>Fase 3</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Step 4</source>
-        <translation>Step 4</translation>
+        <translation>Fase 4</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Rank</source>
-        <translation>Posizione</translation>
+        <translation>Plek</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Telling</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Speletjies</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Punte</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Results:</source>
-        <translation>Risultati:</translation>
+        <translation>Resultate:</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Step %1</source>
-        <translation>Step %1</translation>
+        <translation>Fase %1</translation>
     </message>
 </context>
 <context>
@@ -390,22 +390,22 @@
     <message>
         <location filename="../pages/CommunityRankingPage.qml" line="+40"/>
         <source>Community / Ranking</source>
-        <translation>Community / Classifica</translation>
+        <translation>Gemeenskap / gradering</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>PokerTH Ranking</source>
-        <translation>Classifica PokerTH</translation>
+        <translation>PokerTH-gradering</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>BBC Ranking</source>
-        <translation>Classifica BBC</translation>
+        <translation>BBC-gradering</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>WEC Ranking</source>
-        <translation>Classifica WEC</translation>
+        <translation>WEC-gradering</translation>
     </message>
 </context>
 <context>
@@ -415,17 +415,17 @@
         <location line="+17"/>
         <location line="+16"/>
         <source>Could not load ranking.</source>
-        <translation>Impossibile caricare la classifica.</translation>
+        <translation>Kon nie die gradering laai nie.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Could not load ranking (HTTP %1).</source>
-        <translation>Impossibile caricare la classifica (HTTP %1).</translation>
+        <translation>Kon nie die gradering laai nie (HTTP %1).</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Kon nie die bediener se antwoord ontleed nie.</translation>
     </message>
     <message>
         <location line="+26"/>
@@ -435,32 +435,32 @@
     <message>
         <location line="+7"/>
         <source>Nickname</source>
-        <translation>Nickname</translation>
+        <translation>Kennaam</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Speletjies</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Telling</translation>
     </message>
     <message>
         <location line="+160"/>
         <source>No entries.</source>
-        <translation>Nessuna voce.</translation>
+        <translation>Geen inskrywings nie.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No matches.</source>
-        <translation>Nessuna corrispondenza.</translation>
+        <translation>Geen resultate nie.</translation>
     </message>
     <message>
         <location line="-44"/>
         <source>◀ Prev</source>
-        <translation>◀ Prec</translation>
+        <translation>◀ Vorige</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -470,12 +470,12 @@
     <message>
         <location line="+1"/>
         <source>Page %1 / %2  ·  %3 players</source>
-        <translation>Pagina %1 / %2  ·  %3 giocatori</translation>
+        <translation>Bladsy %1 / %2  ·  %3 spelers</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Next ▶</source>
-        <translation>Succ ▶</translation>
+        <translation>Volgende ▶</translation>
     </message>
 </context>
 <context>
@@ -483,12 +483,12 @@
     <message>
         <location filename="../components/ConfirmPopup.qml" line="+25"/>
         <source>Yes</source>
-        <translation>Sì</translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Kanselleer</translation>
     </message>
 </context>
 <context>
@@ -496,7 +496,7 @@
     <message>
         <location filename="../components/CustomCheckBox.qml" line="+50"/>
         <source>CheckBox LabelText</source>
-        <translation>CheckBox LabelText</translation>
+        <translation>Etiketteks van merkblokkie</translation>
     </message>
 </context>
 <context>
@@ -504,22 +504,22 @@
     <message>
         <location filename="../components/ExampleAvatarPicker.qml" line="+68"/>
         <source>Beispiel-Avatar wählen</source>
-        <translation>Scegli avatar di esempio</translation>
+        <translation>Kies voorbeeldavatar</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Personen</source>
-        <translation>Persone</translation>
+        <translation>Mense</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verschiedenes</source>
-        <translation>Vari</translation>
+        <translation>Diverse</translation>
     </message>
     <message>
         <location line="+83"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Kanselleer</translation>
     </message>
 </context>
 <context>
@@ -528,7 +528,7 @@
         <location filename="../config/ForumNews.qml" line="+163"/>
         <location line="+11"/>
         <source>The forum feed could not be loaded.</source>
-        <translation>Impossibile caricare il feed del forum.</translation>
+        <translation>Kon nie die forumvoer laai nie.</translation>
     </message>
 </context>
 <context>
@@ -536,22 +536,22 @@
     <message>
         <location filename="../pages/ForumNewsPage.qml" line="+58"/>
         <source>Forum news</source>
-        <translation>Novità dal forum</translation>
+        <translation>Forumnuus</translation>
     </message>
     <message>
         <location line="+141"/>
         <source>No entries.</source>
-        <translation>Nessuna voce.</translation>
+        <translation>Geen inskrywings nie.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Mark all as read</source>
-        <translation>Segna tutto come letto</translation>
+        <translation>Merk alles as gelees</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Open the forum</source>
-        <translation>Apri il forum</translation>
+        <translation>Maak die forum oop</translation>
     </message>
 </context>
 <context>
@@ -559,22 +559,22 @@
     <message>
         <location filename="../pages/ForumPostPage.qml" line="+78"/>
         <source>Translation failed.</source>
-        <translation>Traduzione non riuscita.</translation>
+        <translation>Vertaling het misluk.</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Show the original post</source>
-        <translation>Mostra il messaggio originale</translation>
+        <translation>Wys die oorspronklike plasing</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Translate the post</source>
-        <translation>Traduci il messaggio</translation>
+        <translation>Vertaal die plasing</translation>
     </message>
     <message>
         <location line="+147"/>
         <source>Open in the forum</source>
-        <translation>Apri nel forum</translation>
+        <translation>Maak in die forum oop</translation>
     </message>
 </context>
 <context>
@@ -582,22 +582,22 @@
     <message>
         <location filename="../components/GameActionBar.qml" line="+997"/>
         <source>Show</source>
-        <translation>Mostra</translation>
+        <translation>Wys</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Manuell</source>
-        <translation>Manuale</translation>
+        <translation>Handmatig</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Auto Check/Call</source>
-        <translation>Check/Call automatico</translation>
+        <translation>Outo kyk/volg</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Auto Check/Fold</source>
-        <translation>Check/Fold automatico</translation>
+        <translation>Outo kyk/pas</translation>
     </message>
 </context>
 <context>
@@ -610,7 +610,7 @@
     <message>
         <location line="+13"/>
         <source>Game admin: starts the game and can kick players</source>
-        <translation>Amministratore del tavolo: avvia la partita e può espellere i giocatori</translation>
+        <translation>Speladmin: begin die spel en kan spelers uitskop</translation>
     </message>
 </context>
 <context>
@@ -618,72 +618,72 @@
     <message>
         <location filename="../components/GameInfoPanel.qml" line="+62"/>
         <source>Höchste Karte</source>
-        <translation>Carta alta</translation>
+        <translation>Hoë kaart</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Paar</source>
-        <translation>Coppia</translation>
+        <translation>Paar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Zwei Paare</source>
-        <translation>Doppia coppia</translation>
+        <translation>Twee pare</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Drilling</source>
-        <translation>Tris</translation>
+        <translation>Drie eenders</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Straße</source>
-        <translation>Scala</translation>
+        <translation>Straat</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Flush</source>
-        <translation>Colore</translation>
+        <translation>Flush</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Full House</source>
-        <translation>Full</translation>
+        <translation>Full House</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Vierling</source>
-        <translation>Poker</translation>
+        <translation>Vier eenders</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Straight Flush</source>
-        <translation>Scala colore</translation>
+        <translation>Straight Flush</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Royal Flush</source>
-        <translation>Scala reale</translation>
+        <translation>Royal Flush</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Verlauf</source>
-        <translation>Cronologia</translation>
+        <translation>Geskiedenis</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Chancen</source>
-        <translation>Probabilità</translation>
+        <translation>Kanse</translation>
     </message>
     <message>
         <location line="+245"/>
         <source>Kopieren</source>
-        <translation>Copia</translation>
+        <translation>Kopieer</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Alles auswählen</source>
-        <translation>Seleziona tutto</translation>
+        <translation>Kies alles</translation>
     </message>
 </context>
 <context>
@@ -691,42 +691,42 @@
     <message>
         <location filename="../components/GameListItem.qml" line="+147"/>
         <source>Report inappropriate game name</source>
-        <translation>Segnala nome di partita offensivo</translation>
+        <translation>Rapporteer onvanpaste spelnaam</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report game name</source>
-        <translation>Segnala nome partita</translation>
+        <translation>Rapporteer spelnaam</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure you want to report the game name:
 &quot;%1&quot; as inappropriate?</source>
-        <translation>Sei sicuro di voler segnalare il nome della partita:
-&quot;%1&quot; come offensivo?</translation>
+        <translation>Is jy seker jy wil die spelnaam:
+„%1“ as onvanpas rapporteer?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report</source>
-        <translation>Segnala</translation>
+        <translation>Rapporteer</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Close game (admin)</source>
-        <translation>Chiudi partita (admin)</translation>
+        <translation>Maak spel toe (admin)</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+3"/>
         <source>Close game</source>
-        <translation>Chiudi partita</translation>
+        <translation>Maak spel toe</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
-        <translation>Sei sicuro di voler chiudere la partita:
-&quot;%1&quot;?</translation>
+        <translation>Is jy seker jy wil die spel:
+„%1“ toemaak?</translation>
     </message>
 </context>
 <context>
@@ -734,42 +734,42 @@
     <message>
         <location filename="../pages/GamePage.qml" line="+2310"/>
         <source>Verlauf &amp; Chancen</source>
-        <translation>Cronologia e probabilità</translation>
+        <translation>Geskiedenis en kanse</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Chat</source>
-        <translation>Chat</translation>
+        <translation>Klets</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Emoji-Reaktionen</source>
-        <translation>Reazioni con emoji</translation>
+        <translation>Emoji-reaksies</translation>
     </message>
     <message>
         <location line="+314"/>
         <source>Game Over</source>
-        <translation>Partita terminata</translation>
+        <translation>Spel verby</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Congratulations, you won the game!</source>
-        <translation>Congratulazioni, hai vinto la partita!</translation>
+        <translation>Geluk, jy het die spel gewen!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 wins the game!</source>
-        <translation>%1 vince la partita!</translation>
+        <translation>%1 wen die spel!</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Back to Menu</source>
-        <translation>Torna al menu</translation>
+        <translation>Terug na die kieslys</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>New Game</source>
-        <translation>Nuova partita</translation>
+        <translation>Nuwe spel</translation>
     </message>
 </context>
 <context>
@@ -779,50 +779,50 @@
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
-        <translation>Ignora giocatore</translation>
+        <translation>Ignoreer speler</translation>
     </message>
     <message>
         <location line="-30"/>
         <location line="+36"/>
         <location line="+2"/>
         <source>Unignore player</source>
-        <translation>Non ignorare più il giocatore</translation>
+        <translation>Hou op om speler te ignoreer</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Show player stats</source>
-        <translation>Mostra statistiche giocatore</translation>
+        <translation>Wys spelerstatistiek</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+35"/>
         <source>Report inappropriate avatar</source>
-        <translation>Segnala avatar non appropriato</translation>
+        <translation>Rapporteer onvanpaste avatar</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Note about player ...</source>
-        <translation>Nota sul giocatore...</translation>
+        <translation>Nota oor speler ...</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Are you sure you want to ignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero ignorare «%1»?&gt;</translation>
+        <translation>Is jy seker jy wil „%1“ ignoreer?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Are you sure you want to unignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero smettere di ignorare «%1»?&gt;</translation>
+        <translation>Is jy seker jy wil ophou om „%1“ te ignoreer?</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Are you sure you want to report the avatar of &quot;%1&quot; as inappropriate?</source>
-        <translation>Vuoi davvero segnalare l&apos;avatar di «%1» come non appropriato?</translation>
+        <translation>Is jy seker jy wil die avatar van &quot;%1&quot; as onvanpas rapporteer?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Report</source>
-        <translation>Segnala</translation>
+        <translation>Rapporteer</translation>
     </message>
 </context>
 <context>
@@ -831,7 +831,7 @@
         <location filename="../components/GamePlayerSelfBox.qml" line="+209"/>
         <location line="+33"/>
         <source>Du</source>
-        <translation>Tu</translation>
+        <translation>Jy</translation>
     </message>
 </context>
 <context>
@@ -839,27 +839,27 @@
     <message>
         <location filename="../components/GameStatusBar.qml" line="+100"/>
         <source>Show table ranking</source>
-        <translation>Mostra classifica del tavolo</translation>
+        <translation>Wys die tafel se gradering</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Open in browser</source>
-        <translation>Apri nel browser</translation>
+        <translation>Maak in die blaaier oop</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Total:</source>
-        <translation>Totale:</translation>
+        <translation>Pot:</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Bets:</source>
-        <translation>Puntate:</translation>
+        <translation>Weddenskappe:</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Spectating</source>
-        <translation>Spettatore</translation>
+        <translation>Toeskou</translation>
     </message>
     <message>
         <location line="+49"/>
@@ -869,12 +869,12 @@
     <message>
         <location line="+10"/>
         <source>Game: %1</source>
-        <translation>Partita: %1</translation>
+        <translation>Spel: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Hand: %1</source>
-        <translation>Mano: %1</translation>
+        <translation>Hand: %1</translation>
     </message>
 </context>
 <context>
@@ -883,92 +883,92 @@
         <location filename="../pages/GameTableStatsPage.qml" line="+151"/>
         <location line="+36"/>
         <source>Could not load table ranking (HTTP %1).</source>
-        <translation>Impossibile caricare la classifica del tavolo (HTTP %1).</translation>
+        <translation>Kon nie die tafel se gradering laai nie (HTTP %1).</translation>
     </message>
     <message>
         <location line="-16"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Kon nie die bediener se antwoord ontleed nie.</translation>
     </message>
     <message>
         <location line="+58"/>
         <source>Table ranking – %1</source>
-        <translation>Classifica del tavolo – %1</translation>
+        <translation>Tafelgradering – %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Table ranking</source>
-        <translation>Classifica del tavolo</translation>
+        <translation>Tafelgradering</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>Tipe: %1</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Players: %1 / %2</source>
-        <translation>Giocatori: %1 / %2</translation>
+        <translation>Spelers: %1 / %2</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Small blind: %1</source>
-        <translation>Buio piccolo: %1</translation>
+        <translation>Klein blinde: %1</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Start cash: %1</source>
-        <translation>Capitale iniziale: %1</translation>
+        <translation>Beginkapitaal: %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervallo aumento buio: %1 mani</translation>
+        <translation>Interval vir verhoging van blindes: %1 hande</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervallo aumento buio: %1 minuti</translation>
+        <translation>Interval vir verhoging van blindes: %1 minute</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modalità aumento buio: %1</translation>
+        <translation>Modus vir verhoging van blindes: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>double blinds</source>
-        <translation>raddoppia blind</translation>
+        <translation>dubbelblindes</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordine manuale dei blind</translation>
+        <translation>handmatige blindesvolgorde</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Action time: %1 sec</source>
-        <translation>Tempo di azione: %1 sec</translation>
+        <translation>Tyd vir aksie: %1 s</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Hand delay: %1 sec</source>
-        <translation>Ritardo tra le mani: %1 sec</translation>
+        <translation>Pouse tussen hande: %1 s</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Current BBC season standings of the players at this table.</source>
-        <translation>Classifica della stagione BBC corrente dei giocatori a questo tavolo.</translation>
+        <translation>Huidige BBC-seisoenstand van die spelers aan hierdie tafel.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Current WEC month standings of the players at this table.</source>
-        <translation>Classifica del mese WEC corrente dei giocatori a questo tavolo.</translation>
+        <translation>Huidige WEC-maandstand van die spelers aan hierdie tafel.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Current season standings of the players at this table.</source>
-        <translation>Classifica della stagione corrente dei giocatori a questo tavolo.</translation>
+        <translation>Huidige seisoenstand van die spelers aan hierdie tafel.</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -978,32 +978,32 @@
     <message>
         <location line="+8"/>
         <source>Player</source>
-        <translation>Giocatore</translation>
+        <translation>Speler</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Speletjies</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>Gem.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Punte</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Telling</translation>
     </message>
     <message>
         <location line="+138"/>
         <source>No ranking data for the players at this table yet.</source>
-        <translation>Ancora nessun dato di classifica per i giocatori a questo tavolo.</translation>
+        <translation>Nog geen graderingsdata vir die spelers aan hierdie tafel nie.</translation>
     </message>
 </context>
 <context>
@@ -1011,208 +1011,208 @@
     <message>
         <location filename="../pages/GameWaitPage.qml" line="+241"/>
         <source>Players</source>
-        <translation>Giocatori</translation>
+        <translation>Spelers</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>search for player ...</source>
-        <translation>ricerca giocatore ...</translation>
+        <translation>soek vir speler...</translation>
     </message>
     <message>
         <location line="+32"/>
         <location line="+310"/>
         <source>Sort alphabetically</source>
-        <translation>Ordina alfabeticamente</translation>
+        <translation>Rangskik alfabeties</translation>
     </message>
     <message>
         <location line="-309"/>
         <location line="+310"/>
         <source>Sort by country</source>
-        <translation>Ordina per nazionalità</translation>
+        <translation>Rangskik volgens land</translation>
     </message>
     <message>
         <location line="-309"/>
         <location line="+310"/>
         <source>Display idle players</source>
-        <translation>Visualizza giocatori liberi</translation>
+        <translation>Wys niksdoenspelers</translation>
     </message>
     <message>
         <location line="-267"/>
         <location line="+687"/>
         <source>Game List</source>
-        <translation>Elenco partite</translation>
+        <translation>Spellys</translation>
     </message>
     <message>
         <location line="-636"/>
         <location line="+648"/>
         <source>No game list filter</source>
-        <translation>Nessun filtro elenco partite</translation>
+        <translation>Geen filter op die spellys nie</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open games</source>
-        <translation>Mostra partite aperte</translation>
+        <translation>Wys oop spelle</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full games</source>
-        <translation>Mostra partite aperte e non piene</translation>
+        <translation>Wys oop en nie-vol spelle</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
-        <translation>Mostra partite aperte, non piene e non private</translation>
+        <translation>Wys oop, nie-vol en openbare spelle</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; private games</source>
-        <translation>Mostra partite aperte, non piene e private</translation>
+        <translation>Wys oop, nie-vol en private spelle</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
-        <translation>Mostra partite aperte, non piene e con classifica</translation>
+        <translation>Wys oop, nie-vol graderingspelle</translation>
     </message>
     <message>
         <location line="-574"/>
         <source>Game Info</source>
-        <translation>Informazioni partita</translation>
+        <translation>Spelinfo</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Waiting for the start of the next hand to rejoin the game</source>
-        <translation>In attesa dell&apos;inizio della prossima mano per rientrare nella partita</translation>
+        <translation>Wag vir die begin van die volgende hand om by die spel aan te sluit</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Spectating — waiting for the next hand</source>
-        <translation>Spettatore — in attesa della prossima mano</translation>
+        <translation>Toeskou — wag vir die volgende hand</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Waiting for players</source>
-        <translation>In attesa di giocatori</translation>
+        <translation>Wag vir spelers</translation>
     </message>
     <message>
         <location line="+82"/>
         <source>Connected Players</source>
-        <translation>Giocatori connessi</translation>
+        <translation>Gekoppelde spelers</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Players: %1 / %2</source>
-        <translation>Giocatori: %1 / %2</translation>
+        <translation>Spelers: %1 / %2</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>Tipe: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Small blind: %1</source>
-        <translation>Buio piccolo: %1</translation>
+        <translation>Klein blinde: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Start cash: %1</source>
-        <translation>Capitale iniziale: %1</translation>
+        <translation>Beginkapitaal: %1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervallo aumento buio: %1 mani</translation>
+        <translation>Interval vir verhoging van blindes: %1 hande</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervallo aumento buio: %1 minuti</translation>
+        <translation>Interval vir verhoging van blindes: %1 minute</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modalità aumento buio: %1</translation>
+        <translation>Modus vir verhoging van blindes: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>double blinds</source>
-        <translation>raddoppia blind</translation>
+        <translation>dubbelblindes</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordine manuale dei blind</translation>
+        <translation>handmatige blindesvolgorde</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Action time: %1 sec</source>
-        <translation>Tempo di azione: %1 sec</translation>
+        <translation>Tyd vir aksie: %1 s</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Hand delay: %1 sec</source>
-        <translation>Ritardo tra le mani: %1 sec</translation>
+        <translation>Pouse tussen hande: %1 s</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Players in game (%1)</source>
-        <translation>Giocatori in partita (%1)</translation>
+        <translation>Spelers in die spel (%1)</translation>
     </message>
     <message>
         <location line="-653"/>
         <location line="+745"/>
         <source>Kick player</source>
-        <translation>Espelli giocatore</translation>
+        <translation>Skop speler uit</translation>
     </message>
     <message>
         <location line="-744"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
-        <translation>Vuoi davvero espellere «%1» dalla partita?</translation>
+        <translation>Is jy seker jy wil „%1“ uit die spel skop?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kick</source>
-        <translation>Espelli</translation>
+        <translation>Skop</translation>
     </message>
     <message>
         <location line="+776"/>
         <source>Lobby Chat</source>
-        <translation>Chat della lobby</translation>
+        <translation>Voorkamerklets</translation>
     </message>
     <message>
         <location line="+73"/>
         <source>Guests cannot chat</source>
-        <translation>Gli ospiti non possono chattare</translation>
+        <translation>Gaste kan nie klets nie</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Type your message...</source>
-        <translation>Scrivi il tuo messaggio...</translation>
+        <translation>Tik jou boodskap...</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Fill up with computer players</source>
-        <translation>Completa con giocatori del computer</translation>
+        <translation>Vul aan met rekenaarspelers</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Leave Game</source>
-        <translation>Abbandona partita</translation>
+        <translation>Verlaat die spel</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Start Game</source>
-        <translation>Inizia partita</translation>
+        <translation>Begin spel</translation>
     </message>
     <message>
         <location line="-88"/>
         <source>Suggest players</source>
-        <translation>Suggerisci giocatori</translation>
+        <translation>Stel spelers voor</translation>
     </message>
 </context>
 <context>
@@ -1220,32 +1220,32 @@
     <message>
         <location filename="../components/GlobalNoticePopup.qml" line="+58"/>
         <source>Global notice</source>
-        <translation>Avviso globale</translation>
+        <translation>Algemene kennisgewing</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This message is shown to every player on the server, in the lobby and at the tables.</source>
-        <translation>Questo messaggio viene mostrato a tutti i giocatori del server, nella lobby e ai tavoli.</translation>
+        <translation>Hierdie boodskap word aan elke speler op die bediener gewys, in die voorkamer en by die tafels.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Notice text …</source>
-        <translation>Testo dell&apos;avviso …</translation>
+        <translation>Teks van die kennisgewing …</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>%1 / %2 characters</source>
-        <translation>%1 / %2 caratteri</translation>
+        <translation>%1 / %2 karakters</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Kanselleer</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Send</source>
-        <translation>Invia</translation>
+        <translation>Stuur</translation>
     </message>
 </context>
 <context>
@@ -1253,157 +1253,157 @@
     <message>
         <location filename="../components/GuiSettings.qml" line="+20"/>
         <source>Benutzeroberfläche</source>
-        <translation>Interfaccia utente</translation>
+        <translation>Gebruikerskoppelvlak</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Allgemein</source>
-        <translation>Generale</translation>
+        <translation>Algemeen</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Netzwerk</source>
-        <translation>Rete</translation>
+        <translation>Netwerk</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Dark Mode:</source>
-        <translation>Modalità scura:</translation>
+        <translation>Donker modus:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Automatisch</source>
-        <translation>Automatica</translation>
+        <translation>Outomaties</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Hell</source>
-        <translation>Chiaro</translation>
+        <translation>Lig</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Dunkel</source>
-        <translation>Scuro</translation>
+        <translation>Donker</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Sprache:</source>
-        <translation>Lingua:</translation>
+        <translation>Taal:</translation>
     </message>
     <message>
         <location line="+70"/>
         <source>Ausblend-Animation für Verliererkarten</source>
-        <translation>Animazione di dissolvenza per le carte perdenti</translation>
+        <translation>Verdwyn-animasie vir verloorderkaarte</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Zeitstempel im Chat anzeigen</source>
-        <translation>Mostra l&apos;orario nella chat</translation>
+        <translation>Wys tydstempels in die klets</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Übersetzung anbieten (Globus-Symbol im Chat und bei Forum-Beiträgen)</source>
-        <translation>Offri la traduzione (icona del globo nella chat e nei messaggi del forum)</translation>
+        <translation>Bied vertaling aan (aardbolikoon in die klets en by forumplasings)</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht oder eines Forum-Beitrags antippst; Zielsprache ist die oben gewählte Sprache.</source>
-        <translation>La traduzione utilizza un servizio esterno (Google Traduttore o, in alternativa, MyMemory). Non viene inviato nulla finché non tocchi l&apos;icona di un messaggio o di un messaggio del forum; la lingua di destinazione è quella selezionata sopra.</translation>
+        <translation>Die vertaling gebruik &apos;n eksterne diens (Google Translate, andersins MyMemory). Niks word gestuur voordat jy die ikoon van &apos;n boodskap of forumplasing tik nie; die doeltaal is die taal wat hierbo gekies is.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Animierte Karten (Aufdeck-Animation)</source>
-        <translation>Carte animate (animazione flip)</translation>
+        <translation>Geanimeerde kaarte (omdraai-animasie)</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Grafikeffekte reduzieren (Schatten/Glow) – für schwache Systeme</source>
-        <translation>Riduci effetti grafici (ombre/bagliori) – per sistemi meno performanti</translation>
+        <translation>Verminder grafiese effekte (skaduwees/gloed) – vir swakker stelsels</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Alternative F-Tasten-Belegung (F1-F4)</source>
-        <translation>Assegnazione alternativa dei tasti F (F1-F4)</translation>
+        <translation>Alternatiewe F-sleutel-uitleg (F1-F4)</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Symbole für Small Blind und Big Blind anzeigen</source>
-        <translation>Mostra i simboli di buio piccolo e buio grande</translation>
+        <translation>Wys simbole vir die klein en groot blinde</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Pot-Prozent-Schaltflächen anzeigen</source>
-        <translation>Mostra i pulsanti percentuale del piatto</translation>
+        <translation>Wys knoppies vir persentasie van die pot</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Anti-Peek: Eigene Karten erst bei Klick anzeigen</source>
-        <translation>Anti-sbirciata: mostra le proprie carte solo al clic</translation>
+        <translation>Teen afloer: wys jou eie kaarte eers wanneer jy klik</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Startbildschirm beim Startvorgang deaktivieren</source>
-        <translation>Disabilita la schermata iniziale all&apos;avvio</translation>
+        <translation>Moenie die beginskerm by opstart wys nie</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Internationale Pokerausdrücke (Check, Call, Raise) nicht übersetzen</source>
-        <translation>Non tradurre i termini internazionali del poker (Check, Call, Raise)</translation>
+        <translation>Moenie internasionale pokerterme (Check, Call, Raise) vertaal nie</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Tooltips anzeigen</source>
-        <translation>Mostra i suggerimenti</translation>
+        <translation>Wys nutswenke</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
-        <translation>Abilita lo zoom del tavolo (scorrimento e zoom, solo modalità mobile)</translation>
+        <translation>Aktiveer tafelzoem (swiep en zoem, net in mobiele modus)</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)</source>
-        <translation>Mantieni i posti dei giocatori che hanno lasciato il tavolo (i riquadri dei giocatori rimanenti restano al loro posto)</translation>
+        <translation>Hou die plekke van spelers wat die tafel verlaat het oop (die ander spelerblokkies bly op hul plek)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Forum-Neuigkeiten anzeigen</source>
-        <translation>Mostra le novità dal forum</translation>
+        <translation>Wys forumnuus</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Community-Inhalte anzeigen</source>
-        <translation>Mostra contenuti della community</translation>
+        <translation>Wys gemeenskapsinhoud</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Standard-Community:</source>
-        <translation>Community predefinita:</translation>
+        <translation>Verstekgemeenskap:</translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
-        <translation>Imposta il focus sul campo di puntata quando è il tuo turno</translation>
+        <translation>Plaas die fokus in die weddenskapveld wanneer dit jou beurt is</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen</source>
-        <translation>Mostra il colore dello stato di rete nell&apos;angolo dell&apos;avatar</translation>
+        <translation>Wys die netwerkstatus se kleur in die hoek van die avatar</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Emoji-Reaktionen deaktivieren</source>
-        <translation>Disabilita le reazioni con emoji</translation>
+        <translation>Deaktiveer emoji-reaksies</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Versehentliches Call nach einem großen Raise verhindern</source>
-        <translation>Evita chiamate accidentali dopo un grande rilancio</translation>
+        <translation>Verhoed per ongeluk volg ná &apos;n groot verhoging</translation>
     </message>
     <message>
         <location line="-31"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
-        <translation>Suggerisci giocatori nelle proprie partite della community</translation>
+        <translation>Stel spelers voor in jou eie gemeenskapspelle</translation>
     </message>
 </context>
 <context>
@@ -1411,157 +1411,157 @@
     <message>
         <location filename="../components/InternetGameSettings.qml" line="+19"/>
         <source>Internetspiel</source>
-        <translation>Partita in Internet</translation>
+        <translation>Internetspel</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Server-Konfiguration</source>
-        <translation>Configurazione server</translation>
+        <translation>Bedienerkonfigurasie</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Automatische Server-Konfiguration</source>
-        <translation>Configurazione automatica del server</translation>
+        <translation>Outomatiese bedienerkonfigurasie</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Manuelle Server-Konfiguration</source>
-        <translation>Configurazione manuale del server</translation>
+        <translation>Handmatige bedienerkonfigurasie</translation>
     </message>
     <message>
         <location line="-18"/>
         <source>Server-Liste:</source>
-        <translation>Elenco server:</translation>
+        <translation>Bedienerlys:</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Server-Adresse:</source>
-        <translation>Indirizzo del server:</translation>
+        <translation>Bedieneradres:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Server-Port:</source>
-        <translation>Porta del server:</translation>
+        <translation>Bedienerpoort:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Server-Passwort:</source>
-        <translation>Password del server:</translation>
+        <translation>Bedienerwagwoord:</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Nur registrierte Spieler</source>
-        <translation>Solo utenti registrati</translation>
+        <translation>Net geregistreerde spelers</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur eingeladene Spieler</source>
-        <translation>Solo utenti invitati</translation>
+        <translation>Net genooide spelers</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranglistenspiel</source>
-        <translation>Valida per la classifica</translation>
+        <translation>Gradeerspel</translation>
     </message>
     <message>
         <location line="+87"/>
         <source>Verbindungsoptionen</source>
-        <translation>Opzioni di connessione</translation>
+        <translation>Verbindingsopsies</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>TLS/SSL verwenden (verschlüsselte Verbindung)</source>
-        <translation>Usa TLS/SSL (connessione crittografata)</translation>
+        <translation>Gebruik TLS/SSL (geënkripteerde verbinding)</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>SCTP verwenden (statt TCP)</source>
-        <translation>Usa SCTP (invece di TCP)</translation>
+        <translation>Gebruik SCTP (in plaas van TCP)</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>IPv6 verwenden</source>
-        <translation>Utilizza IPv6</translation>
+        <translation>Gebruik IPv6</translation>
     </message>
     <message>
         <location line="-52"/>
         <source>Avatar-Server</source>
-        <translation>Server avatar</translation>
+        <translation>Avatarbediener</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Avatar-Server verwenden</source>
-        <translation>Usa il server avatar</translation>
+        <translation>Gebruik avatarbediener</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avatar-Server-Adresse:</source>
-        <translation>Indirizzo del server avatar:</translation>
+        <translation>Adres van die avatarbediener:</translation>
     </message>
     <message>
         <location line="-101"/>
         <source>Spiel-Einstellungen</source>
-        <translation>Impostazioni partita</translation>
+        <translation>Spelinstellings</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Spiel-Name:</source>
-        <translation>Nome partita:</translation>
+        <translation>Spelnaam:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Spiel-Typ:</source>
-        <translation>Tipo di partita:</translation>
+        <translation>Speltipe:</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Normal</source>
-        <translation>Normale</translation>
+        <translation>Normaal</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Spiel-Passwort verwenden</source>
-        <translation>Usa password della partita</translation>
+        <translation>Gebruik spelwagwoord</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Spiel-Passwort:</source>
-        <translation>Password della partita:</translation>
+        <translation>Spelwagwoord:</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Zuschauer erlauben</source>
-        <translation>Consenti spettatori</translation>
+        <translation>Laat toeskouers toe</translation>
     </message>
     <message>
         <location line="+84"/>
         <source>Tisch automatisch verlassen nach Spielende</source>
-        <translation>Lascia automaticamente il tavolo al termine della partita</translation>
+        <translation>Verlaat die tafel outomaties ná die spel</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>Weitere Optionen</source>
-        <translation>Altre opzioni</translation>
+        <translation>Meer opsies</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Ignorierte Spieler</source>
-        <translation>Giocatori Ignorati</translation>
+        <translation>Geïgnoreerde spelers</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>(keine ignorierten Spieler)</source>
-        <translation>(nessun giocatore ignorato)</translation>
+        <translation>(geen geïgnoreerde spelers nie)</translation>
     </message>
     <message>
         <location line="-45"/>
         <source>Spieler auf der Ignore-Liste werden nicht im Chat angezeigt.</source>
-        <translation>I giocatori nella lista degli ignorati non vengono mostrati in chat.</translation>
+        <translation>Spelers op die ignoreerlys word nie in die klets gewys nie.</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Entfernen</source>
-        <translation>Rimuovi</translation>
+        <translation>Verwyder</translation>
     </message>
 </context>
 <context>
@@ -1569,149 +1569,149 @@
     <message>
         <location filename="../pages/LobbyCreateGamePage.qml" line="+314"/>
         <source>← Zurück</source>
-        <translation>← Indietro</translation>
+        <translation>← Terug</translation>
     </message>
     <message>
         <location line="+8"/>
         <location line="+455"/>
         <source>Spiel erstellen</source>
-        <translation>Crea Partita</translation>
+        <translation>Skep spel</translation>
     </message>
     <message>
         <location line="-426"/>
         <source>Spielname</source>
-        <translation>Nome partita</translation>
+        <translation>Spelnaam</translation>
     </message>
     <message>
         <location line="-205"/>
         <source>%1&apos;s game</source>
-        <translation>Partita di %1</translation>
+        <translation>%1 se spel</translation>
     </message>
     <message>
         <location line="+214"/>
         <source>Spielname eingeben …</source>
-        <translation>Inserisci il nome della partita …</translation>
+        <translation>Tik &apos;n spelnaam in …</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Spieltyp</source>
-        <translation>Tipo di partita</translation>
+        <translation>Speltipe</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Normal</source>
-        <translation>Normale</translation>
+        <translation>Normaal</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur registrierte Spieler</source>
-        <translation>Solo utenti registrati</translation>
+        <translation>Net geregistreerde spelers</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur eingeladene Spieler</source>
-        <translation>Solo utenti invitati</translation>
+        <translation>Net genooide spelers</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranglistenspiel</source>
-        <translation>Valida per la classifica</translation>
+        <translation>Gradeerspel</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Community-Vorlage</source>
-        <translation>Modello della community</translation>
+        <translation>Gemeenskapsjabloon</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Eigene Einstellungen</source>
-        <translation>Impostazioni personalizzate</translation>
+        <translation>Eie instellings</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Passwort</source>
-        <translation>Password</translation>
+        <translation>Wagwoord</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Passwort eingeben …</source>
-        <translation>Inserisci password …</translation>
+        <translation>Tik die wagwoord in …</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Zuschauer erlaubt</source>
-        <translation>Spettatori ammessi</translation>
+        <translation>Toeskouers toegelaat</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Max. Spieler</source>
-        <translation>Numero max. giocatori</translation>
+        <translation>Maks. spelers</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Startgeld</source>
-        <translation>Capitale iniziale</translation>
+        <translation>Beginkapitaal</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Blind-Einstellungen</source>
-        <translation>Impostazioni buio</translation>
+        <translation>Blinde-instellings</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Erster Small Blind</source>
-        <translation>Primo buio piccolo</translation>
+        <translation>Eerste klein blinde</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Blind-Erhöhungsintervall</source>
-        <translation>Intervallo aumento buio</translation>
+        <translation>Interval vir verhoging van blindes</translation>
     </message>
     <message>
         <location line="+22"/>
         <location line="+28"/>
         <source>Alle</source>
-        <translation>Ogni</translation>
+        <translation>Elke</translation>
     </message>
     <message>
         <location line="-17"/>
         <source>Hände</source>
-        <translation>mani</translation>
+        <translation>hande</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Minuten</source>
-        <translation>minuti</translation>
+        <translation>minute</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Blindliste: %1</source>
-        <translation>Lista dei bui: %1</translation>
+        <translation>Blindelys: %1</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Zeitlimits</source>
-        <translation>Limiti di tempo</translation>
+        <translation>Tydlimiete</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Zeitlimit Spieleraktion</source>
-        <translation>Limite di tempo per l&apos;azione del giocatore</translation>
+        <translation>Tydlimiet vir die speler se aksie</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Pause zwischen Händen</source>
-        <translation>Ritardo tra le mani</translation>
+        <translation>Pouse tussen hande</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Kanselleer</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Bitte einen Spielnamen eingeben.</source>
-        <translation>Inserisci un nome per la partita.</translation>
+        <translation>Tik asseblief &apos;n spelnaam in.</translation>
     </message>
 </context>
 <context>
@@ -1720,172 +1720,172 @@
         <location filename="../cpp/lobbyhandler.cpp" line="+1441"/>
         <location line="+1347"/>
         <source>Guests cannot send chat messages</source>
-        <translation>Gli ospiti non possono inviare messaggi in chat</translation>
+        <translation>Gaste kan nie kletsboodskappe stuur nie</translation>
     </message>
     <message>
         <location line="-1328"/>
         <location line="+1322"/>
         <source>Private messages are not available at the table.</source>
-        <translation>I messaggi privati non sono disponibili al tavolo.</translation>
+        <translation>Privaat boodskappe is nie by die tafel beskikbaar nie.</translation>
     </message>
     <message>
         <location line="-1316"/>
         <source>Player not found</source>
-        <translation>Giocatore non trovato</translation>
+        <translation>Speler nie gevind nie</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Failed to send chat message</source>
-        <translation>Impossibile inviare il messaggio in chat</translation>
+        <translation>Kon nie die kletsboodskap stuur nie</translation>
     </message>
     <message>
         <location line="+98"/>
         <source>The avatar report was accepted by the server. Thank you.</source>
-        <translation>La segnalazione dell&apos;avatar è stata accettata dal server. Grazie mille.</translation>
+        <translation>Die avatarrapport is deur die bediener aanvaar. Dankie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This avatar was already reported by another player.</source>
-        <translation>Questo avatar è già stato segnalato da un altro giocatore.</translation>
+        <translation>Hierdie avatar is reeds deur &apos;n ander speler gerapporteer.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An error occurred while reporting the avatar.</source>
-        <translation>Si è verificato un errore durante la segnalazione dell&apos;avatar.</translation>
+        <translation>&apos;n Fout het voorgekom toe die avatar gerapporteer is.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name report was accepted by the server. Thank you.</source>
-        <translation>La segnalazione sul nome della partita è stata accettata dal server. Grazie.</translation>
+        <translation>Die spelnaamrapport is deur die bediener aanvaar. Dankie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game name was already reported by another player.</source>
-        <translation>Questo nome di partita è già stato segnalato da un altro giocatore.</translation>
+        <translation>Hierdie spelnaam is reeds deur &apos;n ander speler gerapporteer.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An error occurred while reporting the game name.</source>
-        <translation>Si è verificato un errore durante la segnalazione del nome di partita.</translation>
+        <translation>&apos;n Fout het voorgekom toe die spelnaam gerapporteer is.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game was closed.</source>
-        <translation>La partita è stata chiusa.</translation>
+        <translation>Die spel is toegemaak.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be closed.</source>
-        <translation>Impossibile chiudere la partita.</translation>
+        <translation>Kon nie die spel toemaak nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked and banned permanently.</source>
-        <translation>Il giocatore è stato espulso e bandito permanentemente.</translation>
+        <translation>Die speler is geskop en permanent verban.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked, but could not be banned because it was a guest player.</source>
-        <translation>Il giocatore è stato espulso ma non è stato bandito perchè era un ospite.</translation>
+        <translation>Die speler is geskop, maar kon nie verban word nie want dit is &apos;n gasspeler.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked, but could not be banned, 
 because the nick could not be found in the database</source>
-        <translation>Il giocatore è stato espulso ma non bandito
-perchè il suo nickname non è stato trovato sul database</translation>
+        <translation>Die speler is geskop, maar kon nie verban word nie, 
+want die kennaam kon nie in die databasis gevind word nie</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player could not be found.</source>
-        <translation>Impossibile trovare il giocatore.</translation>
+        <translation>Kon nie die speler vind nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The global notice was sent to all players.</source>
-        <translation>L&apos;avviso globale è stato inviato a tutti i giocatori.</translation>
+        <translation>Die algemene kennisgewing is aan alle spelers gestuur.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The global notice was rejected by the server.</source>
-        <translation>L&apos;avviso globale è stato rifiutato dal server.</translation>
+        <translation>Die bediener het die algemene kennisgewing verwerp.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>You cannot join this game, because another player in that game has your network address.</source>
-        <translation>Non puoi unirti alla partita, è presente un altro giocatore che ha il tuo stesso indirizzo di rete.</translation>
+        <translation>Jy kan nie by hierdie spel aansluit nie omdat &apos;n ander speler in daardie spel dieselfde netwerkadres as jy het.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Sorry, this game is already full.</source>
-        <translation>Spiacente, la partita è già al completo.</translation>
+        <translation>Jammer, hierdie spel is reeds vol.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Unable to join - the server has already started the game.</source>
-        <translation>Impossibile partecipare - la partita è già iniziata.</translation>
+        <translation>Kan nie aansluit nie - die bediener het reeds met die spel begin.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game is of type invite-only. You cannot join this game without being invited.</source>
-        <translation>L&apos;accesso a questa partita è concesso solo su invito. Non puoi partecipare senza essere stato invitato.</translation>
+        <translation>Hierdie spel is van die tipe nooi-alleen. Jy kan nie by hierdie spel aansluit as jy nie genooi is nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game name is already in use. Please choose a different name.</source>
-        <translation>Questo nome partita è già in uso. Scegli un nome diverso.</translation>
+        <translation>Hierdie spelnaam is reeds in gebruik. Kies asseblief &apos;n ander naam.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name is invalid. Please choose a different name.</source>
-        <translation>Il nome della partita non è valido. Scegli un nome diverso.</translation>
+        <translation>Die spelnaam is ongeldig. Kies asseblief &apos;n ander naam.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
-        <translation>Password sbagliata per la partita selezionata.
-Reinserire la password e riprovare.</translation>
+        <translation>Ongeldige wagwoord toe by die spel aansluit.
+Tik asseblief weer die wagwoord in, en probeer weer.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You cannot join this type of game as guest.</source>
-        <translation>Non puoi accedere a questa partita come ospite.</translation>
+        <translation>Jy kan nie by hierdie tipe spel as &apos;n gas aansluit nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The settings are invalid for this type of game.</source>
-        <translation>Impostazioni non valide per questo tipo di partita.</translation>
+        <translation>Die instellings is ongeldig vir hierdie tipe spel.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game does not allow spectators.</source>
-        <translation>Questa partita non consente spettatori.</translation>
+        <translation>Hierdie spel laat nie toeskouers toe nie.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Could not join the game.</source>
-        <translation>Impossibile unirsi alla partita.</translation>
+        <translation>Kon nie by die spel aansluit nie.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Your connection to the server is very slow, the game had to start without you.</source>
-        <translation>La connessione al server è molto lenta, la partita è dovuta cominciare senza di te.</translation>
+        <translation>Jou verbinding met die bediener is baie stadig, en daarom het die spel sonder jou begin.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were kicked from the game.</source>
-        <translation>Sei stato espulso dalla partita.</translation>
+        <translation>Jy is uit die spel geskop.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>You were removed due to inactivity.</source>
-        <translation>Sei stato rimosso per inattività.</translation>
+        <translation>Jy is weens onaktiwiteit verwyder.</translation>
     </message>
     <message>
         <location line="+581"/>
         <source>%1 is not in the lobby at the moment.</source>
-        <translation>%1 non è nella lobby al momento.</translation>
+        <translation>%1 is tans nie in die voorkamer nie.</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -1899,72 +1899,72 @@ Reinserire la password e riprovare.</translation>
         <location line="+11"/>
         <location line="+11"/>
         <source>Not connected to server</source>
-        <translation>Non connesso al server</translation>
+        <translation>Nie aan die bediener gekoppel nie</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>%1 has been invited to %2 by %3.</source>
-        <translation>%1 è stato invitato a %2 da %3.</translation>
+        <translation>%3 het %1 na %2 genooi.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>%1 has rejected the invitation to %2.</source>
-        <translation>%1 ha rifiutato l&apos;invito a %2.</translation>
+        <translation>%1 het die uitnodiging na %2 van die hand gewys.</translation>
     </message>
     <message>
         <location line="+79"/>
         <source>Guests cannot receive private messages.</source>
-        <translation>Gli ospiti non possono ricevere messaggi privati.</translation>
+        <translation>Gaste kan nie privaat boodskappe ontvang nie.</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Private message to %1:</source>
-        <translation>Messaggio privato a %1:</translation>
+        <translation>Privaat boodskap aan %1:</translation>
     </message>
     <message>
         <location line="+96"/>
         <source>Registered players only</source>
-        <translation>Solo utenti registrati</translation>
+        <translation>Net geregistreerde spelers</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invited players only</source>
-        <translation>Solo utenti invitati</translation>
+        <translation>Net genooide spelers</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranking game</source>
-        <translation>Valida per la classifica</translation>
+        <translation>Gradeerspel</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Standard</source>
-        <translation>Standard</translation>
+        <translation>Standaard</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Running</source>
-        <translation>In corso</translation>
+        <translation>Aan die gang</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Closed</source>
-        <translation>Chiusa</translation>
+        <translation>Toegemaak</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open</source>
-        <translation>Aperta</translation>
+        <translation>Oop</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Full</source>
-        <translation>Piena</translation>
+        <translation>Vol</translation>
     </message>
     <message>
         <location line="-221"/>
         <source>%1 cannot join %2 because he is busy.</source>
-        <translation>%1 non può unirsi a %2 perché è occupato.</translation>
+        <translation>%1 kan nie by %2 aansluit nie omdat hy besig is.</translation>
     </message>
 </context>
 <context>
@@ -1972,335 +1972,335 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../pages/LobbyPage.qml" line="+1545"/>
         <source>Game invitation</source>
-        <translation>Invito alla partita</translation>
+        <translation>Speluitnodiging</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
-        <translation>Sei stato invitato alla partita &lt;b&gt;%1&lt;/b&gt; da &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Desideri partecipare alla partita?</translation>
+        <translation>Jy is deur &lt;b&gt;%2&lt;/b&gt; na die spel &lt;b&gt;%1&lt;/b&gt; genooi.&lt;br&gt;Wil jy by daardie spel aansluit?</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Decline</source>
-        <translation>Rifiuta</translation>
+        <translation>Wys van die hand</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Join</source>
-        <translation>Unisciti</translation>
+        <translation>Sluit aan</translation>
     </message>
     <message>
         <location line="-502"/>
         <source>Create Game</source>
-        <translation>Crea Partita</translation>
+        <translation>Skep spel</translation>
     </message>
     <message>
         <location line="-746"/>
         <location line="+804"/>
         <source>Game Info</source>
-        <translation>Informazioni partita</translation>
+        <translation>Spelinfo</translation>
     </message>
     <message>
         <location line="-534"/>
         <location line="+483"/>
         <source>Join Game</source>
-        <translation>Unisciti alla partita</translation>
+        <translation>Sluit by spel aan</translation>
     </message>
     <message>
         <location line="-273"/>
         <source>Game List</source>
-        <translation>Elenco partite</translation>
+        <translation>Spellys</translation>
     </message>
     <message>
         <location line="+73"/>
         <source>Time: %1s/%2s</source>
-        <translation>Tempo: %1s/%2s</translation>
+        <translation>Tyd: %1 s/%2 s</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Private</source>
-        <translation>Privato</translation>
+        <translation>Privaat</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Public</source>
-        <translation>Pubblica</translation>
+        <translation>Openbaar</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Ranking</source>
-        <translation>Classifica</translation>
+        <translation>Gradering</translation>
     </message>
     <message>
         <location line="+115"/>
         <location line="+287"/>
         <source>Lobby Chat</source>
-        <translation>Chat della lobby</translation>
+        <translation>Voorkamerklets</translation>
     </message>
     <message>
         <location line="-613"/>
         <source>No game list filter</source>
-        <translation>Nessun filtro elenco partite</translation>
+        <translation>Geen filter op die spellys nie</translation>
     </message>
     <message>
         <location line="+375"/>
         <source>Player: %1</source>
-        <translation>Giocatore: %1</translation>
+        <translation>Speler: %1</translation>
     </message>
     <message>
         <location line="-896"/>
         <source>Players</source>
-        <translation>Giocatori</translation>
+        <translation>Spelers</translation>
     </message>
     <message>
         <location line="+1010"/>
         <source>Select a game to see details</source>
-        <translation>Seleziona una partita per vedere i dettagli</translation>
+        <translation>Kies &apos;n spel om die besonderhede te sien</translation>
     </message>
     <message>
         <location line="-486"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
-        <translation>Mostra partite aperte, non piene e non private</translation>
+        <translation>Wys oop, nie-vol en openbare spelle</translation>
     </message>
     <message>
         <location line="-627"/>
         <source>Report game name</source>
-        <translation>Segnala nome partita</translation>
+        <translation>Rapporteer spelnaam</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure you want to report the game name:
 &quot;%1&quot; as inappropriate?</source>
-        <translation>Sei sicuro di voler segnalare il nome della partita:
-&quot;%1&quot; come offensivo?</translation>
+        <translation>Is jy seker jy wil die spelnaam:
+„%1“ as onvanpas rapporteer?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report</source>
-        <translation>Segnala</translation>
+        <translation>Rapporteer</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Spectate</source>
-        <translation>Osserva</translation>
+        <translation>Toeskou</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+3"/>
         <source>Close game</source>
-        <translation>Chiudi partita</translation>
+        <translation>Maak spel toe</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
-        <translation>Sei sicuro di voler chiudere la partita:
-&quot;%1&quot;?</translation>
+        <translation>Is jy seker jy wil die spel:
+„%1“ toemaak?</translation>
     </message>
     <message>
         <location line="+169"/>
         <location line="+510"/>
         <source>Sort alphabetically</source>
-        <translation>Ordina alfabeticamente</translation>
+        <translation>Rangskik alfabeties</translation>
     </message>
     <message>
         <location line="-509"/>
         <location line="+510"/>
         <source>Sort by country</source>
-        <translation>Ordina per nazionalità</translation>
+        <translation>Rangskik volgens land</translation>
     </message>
     <message>
         <location line="-509"/>
         <location line="+510"/>
         <source>Display idle players</source>
-        <translation>Visualizza giocatori liberi</translation>
+        <translation>Wys niksdoenspelers</translation>
     </message>
     <message>
         <location line="-423"/>
         <location line="+799"/>
         <source>Report inappropriate game name</source>
-        <translation>Segnala nome di partita offensivo</translation>
+        <translation>Rapporteer onvanpaste spelnaam</translation>
     </message>
     <message>
         <location line="-791"/>
         <location line="+798"/>
         <source>Close game (admin)</source>
-        <translation>Chiudi partita (admin)</translation>
+        <translation>Maak spel toe (admin)</translation>
     </message>
     <message>
         <location line="-761"/>
         <source>Players: %1 / %2</source>
-        <translation>Giocatori: %1 / %2</translation>
+        <translation>Spelers: %1 / %2</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Status: %1</source>
-        <translation>Stato: %1</translation>
+        <translation>Status: %1</translation>
     </message>
     <message>
         <location line="+33"/>
         <location line="+742"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>Tipe: %1</translation>
     </message>
     <message>
         <location line="-731"/>
         <source>Small blind: %1</source>
-        <translation>Buio piccolo: %1</translation>
+        <translation>Klein blinde: %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Start cash: %1</source>
-        <translation>Capitale iniziale: %1</translation>
+        <translation>Beginkapitaal: %1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervallo aumento buio: %1 mani</translation>
+        <translation>Interval vir verhoging van blindes: %1 hande</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervallo aumento buio: %1 minuti</translation>
+        <translation>Interval vir verhoging van blindes: %1 minute</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modalità aumento buio: %1</translation>
+        <translation>Modus vir verhoging van blindes: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>double blinds</source>
-        <translation>raddoppia blind</translation>
+        <translation>dubbelblindes</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordine manuale dei blind</translation>
+        <translation>handmatige blindesvolgorde</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds list: %1</source>
-        <translation>Elenco buio: %1</translation>
+        <translation>Blindelys: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Game timing: %1 sec (action)
 %2 sec (hand delay)</source>
-        <translation>Tempi di gioco: %1 sec (azione)
-%2 sec (ritardo mano)</translation>
+        <translation>Speltye: %1 s (aksie)
+%2 s (pouse tussen hande)</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+690"/>
         <source>Players in game (%1)</source>
-        <translation>Giocatori in partita (%1)</translation>
+        <translation>Spelers in die spel (%1)</translation>
     </message>
     <message>
         <location line="-605"/>
         <location line="+483"/>
         <source>Leave Game</source>
-        <translation>Abbandona partita</translation>
+        <translation>Verlaat die spel</translation>
     </message>
     <message>
         <location line="-386"/>
         <source>Show open &amp; non-full &amp; private games</source>
-        <translation>Mostra partite aperte, non piene e private</translation>
+        <translation>Wys oop, nie-vol en private spelle</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
-        <translation>Mostra partite aperte, non piene e con classifica</translation>
+        <translation>Wys oop, nie-vol graderingspelle</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Connected Players</source>
-        <translation>Giocatori connessi</translation>
+        <translation>Gekoppelde spelers</translation>
     </message>
     <message>
         <location line="-658"/>
         <location line="+846"/>
         <source>Spectate game</source>
-        <translation>Osserva la partita</translation>
+        <translation>Skou die spel toe</translation>
     </message>
     <message>
         <location line="-845"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
-        <translation>Vuoi davvero osservare la partita:
-&quot;%1&quot;?</translation>
+        <translation>Is jy seker jy wil die spel:
+„%1“ toeskou?</translation>
     </message>
     <message>
         <location line="+950"/>
         <location line="+287"/>
         <source>Global notice (admin)</source>
-        <translation>Avviso globale (admin)</translation>
+        <translation>Algemene kennisgewing (admin)</translation>
     </message>
     <message>
         <location line="-124"/>
         <source>SB: %1 | Start cash: %2</source>
-        <translation>Buio piccolo: %1 | Capitale iniziale: %2</translation>
+        <translation>KB: %1 | Beginkapitaal: %2</translation>
     </message>
     <message>
         <location line="+272"/>
         <source>Privates Spiel</source>
-        <translation>Partita privata</translation>
+        <translation>Private spel</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Bitte das Passwort eingeben, um beizutreten.</source>
-        <translation>Inserisci la password per partecipare.</translation>
+        <translation>Tik asseblief die wagwoord in om aan te sluit.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Passwort …</source>
-        <translation>Password …</translation>
+        <translation>Wagwoord …</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Kanselleer</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Beitreten</source>
-        <translation>Unisciti</translation>
+        <translation>Sluit aan</translation>
     </message>
     <message>
         <location line="+141"/>
         <source>Rejoin possible</source>
-        <translation>È possibile rientrare in partita</translation>
+        <translation>Kan weer by die spel aansluit</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>There is an existing session with a previous game.&lt;br&gt;Do you want to rejoin this game?</source>
-        <translation>È presente una sessione con una partita precedente.&lt;br&gt;Desideri rientrare in questa partita?</translation>
+        <translation>Daar is &apos;n gestoorde sessie van &apos;n vorige spel.&lt;br&gt;Wil jy weer by hierdie spel aansluit?</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>No</source>
-        <translation>No</translation>
+        <translation>Nee</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Rejoin</source>
-        <translation>Rientra</translation>
+        <translation>Sluit weer aan</translation>
     </message>
     <message>
         <location line="-976"/>
         <source>Show open &amp; non-full games</source>
-        <translation>Mostra partite aperte e non piene</translation>
+        <translation>Wys oop en nie-vol spelle</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Show open games</source>
-        <translation>Mostra partite aperte</translation>
+        <translation>Wys oop spelle</translation>
     </message>
     <message>
         <location line="-473"/>
         <location line="+452"/>
         <source>search for player ...</source>
-        <translation>ricerca giocatore ...</translation>
+        <translation>soek vir speler...</translation>
     </message>
 </context>
 <context>
@@ -2308,22 +2308,22 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../components/LobbyStatsBar.qml" line="+23"/>
         <source>%1 players · %2 running · %3 open</source>
-        <translation>%1 giocatori · %2 in corso · %3 aperte</translation>
+        <translation>%1 spelers · %2 aan die gang · %3 oop</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>connected players: %1</source>
-        <translation>giocatori connessi: %1</translation>
+        <translation>gekoppelde spelers: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>running games: %1</source>
-        <translation>partite in corso: %1</translation>
+        <translation>spelle aan die gang: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>open games: %1</source>
-        <translation>partite aperte: %1</translation>
+        <translation>oop spelle: %1</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2336,120 +2336,120 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../pages/LocalGamePage.qml" line="+27"/>
         <source>alle %1 Hände</source>
-        <translation>ogni %1 mani</translation>
+        <translation>elke %1 hande</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>alle %1 Minuten</source>
-        <translation>ogni %1 minuti</translation>
+        <translation>elke %1 minute</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>verdoppeln</source>
-        <translation>doppio</translation>
+        <translation>verdubbeling</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manuell</source>
-        <translation>manuale</translation>
+        <translation>handmatig</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Small Blind: $%1  •  Erhöhen %2  •  %3</source>
-        <translation>Buio piccolo: $%1  •  Rilancio %2  •  %3</translation>
+        <translation>Klein blinde: $%1  •  verhoging %2  •  %3</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Lokales Spiel</source>
-        <translation>Partita locale</translation>
+        <translation>Plaaslike spel</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Lokale Spiel-Einstellungen</source>
-        <translation>Impostazioni partita locale</translation>
+        <translation>Instellings vir plaaslike spel</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Numero di giocatori:</translation>
+        <translation>Aantal spelers:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Startkapital:</source>
-        <translation>Capitale iniziale:</translation>
+        <translation>Beginkapitaal:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Blinds</source>
-        <translation>Blind</translation>
+        <translation>Blindes</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Gespeicherte Blinds-Einstellungen verwenden</source>
-        <translation>Utilizza impostazioni dei blind salvate</translation>
+        <translation>Gebruik gestoorde blinde-instellings</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Blinds-Einstellungen ändern …</source>
-        <translation>Modifica impostazioni buio …</translation>
+        <translation>Verander blinde-instellings …</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Erster Small Blind:</source>
-        <translation>Primo small blind:</translation>
+        <translation>Eerste klein blinde:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Small Blind erhöhen:</source>
-        <translation>Aumento buio piccolo:</translation>
+        <translation>Verhoog die klein blinde:</translation>
     </message>
     <message>
         <location line="+13"/>
         <location line="+24"/>
         <source>alle</source>
-        <translation>ogni</translation>
+        <translation>elke</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Hände</source>
-        <translation>mani</translation>
+        <translation>hande</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Minuten</source>
-        <translation>minuti</translation>
+        <translation>minute</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Erhöhungsmodus:</source>
-        <translation>Modalità aumento:</translation>
+        <translation>Verhogingsmodus:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre i blind</translation>
+        <translation>Verdubbel blindes altyd</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordine buio manuale</translation>
+        <translation>Handmatige blindesvolgorde</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
-        <translation>Velocità di gioco
-(1=lento, 11=veloce):</translation>
+        <translation>Spelspoed
+(1 = stadig, 11 = vinnig):</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Kanselleer</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Spiel starten</source>
-        <translation>Inizia partita</translation>
+        <translation>Begin spel</translation>
     </message>
 </context>
 <context>
@@ -2457,147 +2457,147 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../components/LocalGameSettings.qml" line="+55"/>
         <source>Lokales Spiel</source>
-        <translation>Partita locale</translation>
+        <translation>Plaaslike spel</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Spieler &amp; Startkapital</source>
-        <translation>Giocatori e capitale iniziale</translation>
+        <translation>Spelers en beginkapitaal</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Numero di giocatori:</translation>
+        <translation>Aantal spelers:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Startkapital:</source>
-        <translation>Capitale iniziale:</translation>
+        <translation>Beginkapitaal:</translation>
     </message>
     <message>
         <location line="+351"/>
         <source>Spiel-Einstellungsdialog bei neuem Spiel anzeigen</source>
-        <translation>Mostra finestra impostazioni partita per nuova partita</translation>
+        <translation>Wys die instellingsvenster by &apos;n nuwe spel</translation>
     </message>
     <message>
         <location line="-313"/>
         <source>Blinds erhöhen</source>
-        <translation>Aumenta buio</translation>
+        <translation>Verhoog blindes</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Blind-Erhöhungsreihenfolge</source>
-        <translation>Ordine aumento buio</translation>
+        <translation>Volgorde vir verhoging van blindes</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>Blinds bei Anzahl der Hände erhöhen</source>
-        <translation>Aumenta buio dopo numero di mani</translation>
+        <translation>Verhoog blindes volgens die aantal hande</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Blinds zeitbasiert erhöhen</source>
-        <translation>Aumenta buio in base al tempo</translation>
+        <translation>Verhoog blindes volgens tyd</translation>
     </message>
     <message>
         <location line="+57"/>
         <location line="+101"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre il buio</translation>
+        <translation>Verdubbel blindes altyd</translation>
     </message>
     <message>
         <location line="-88"/>
         <location line="+14"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordine buio manuale</translation>
+        <translation>Handmatige blindesvolgorde</translation>
     </message>
     <message>
         <location line="-158"/>
         <source>Erster Small Blind:</source>
-        <translation>Primo buio piccolo:</translation>
+        <translation>Eerste klein blinde:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
         <source>Small Blind erhöhen alle:</source>
-        <translation>Aumenta buio piccolo ogni:</translation>
+        <translation>Verhoog die klein blinde elke:</translation>
     </message>
     <message>
         <location line="-25"/>
         <source>Hände</source>
-        <translation>Mani</translation>
+        <translation>hande</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Minuten</source>
-        <translation>Minuti</translation>
+        <translation>minute</translation>
     </message>
     <message>
         <location line="+100"/>
         <source>Hinzufügen</source>
-        <translation>Aggiungi</translation>
+        <translation>Voeg by</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Löschen</source>
-        <translation>Elimina</translation>
+        <translation>Skrap</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Danach:</source>
-        <translation>Dopo di che:</translation>
+        <translation>Daarna:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Immer erhöhen um:</source>
-        <translation>Rilancia sempre di:</translation>
+        <translation>Verhoog altyd met:</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Letzten Blind beibehalten</source>
-        <translation>Mantieni ultimo blind</translation>
+        <translation>Bly by die laaste blinde</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Spielgeschwindigkeit</source>
-        <translation>Velocità di gioco</translation>
+        <translation>Spelspoed</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
-        <translation>Velocità di gioco
-(1=lento, 11=veloce):</translation>
+        <translation>Spelspoed
+(1 = stadig, 11 = vinnig):</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Pause zwischen den Händen</source>
-        <translation>Pausa tra le mani</translation>
+        <translation>Pouse tussen die hande</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Computerspieler</source>
-        <translation>Giocatori del computer</translation>
+        <translation>Rekenaarspelers</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Spielstärke:</source>
-        <translation>Livello di gioco:</translation>
+        <translation>Speelsterkte:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Klassisch</source>
-        <translation>Classico</translation>
+        <translation>Klassiek</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Stark</source>
-        <translation>Forte</translation>
+        <translation>Sterk</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</source>
-        <translation>Vale per le partite locali. Nelle partite in rete è il server a determinare la forza dei suoi giocatori del computer.</translation>
+        <translation>Geld vir plaaslike spelle. By netwerkspelle bepaal die bediener die sterkte van sy rekenaarspelers.</translation>
     </message>
 </context>
 <context>
@@ -2605,102 +2605,102 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../cpp/loghandler.cpp" line="+361"/>
         <source>Export PokerTH log file to HTML</source>
-        <translation>Esporta il file di registro di PokerTH in HTML</translation>
+        <translation>Voer PokerTH-loglêer uit na HTML</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH HTML log (*.html)</source>
-        <translation>Registro di PokerTH in formato HTML (*.html)</translation>
+        <translation>PokerTH se HTML-log (*.html)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Export PokerTH log file to plain text</source>
-        <translation>Esporta il file di registro di PokerTH in formato testo</translation>
+        <translation>Voer PokerTH-loglêer uit na skoonteks</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH plain text log (*.txt)</source>
-        <translation>Registro di PokerTH in formato testo (*.html)</translation>
+        <translation>PokerTH se skoonteks-log (*.txt)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Save PokerTH log file</source>
-        <translation>Salva il file di registro di PokerTH</translation>
+        <translation>Stoor PokerTH-loglêer</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH SQL log (*.pdb)</source>
-        <translation>Registro PokerTH SQL (*.pdb)</translation>
+        <translation>PokerTH-SQL-log (*.pdb)</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>… (showing the last %1 KB of the log)</source>
-        <translation>… (mostra gli ultimi %1 KB del log)</translation>
+        <translation>… (die laaste %1 KB van die log word gewys)</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Save PokerTH debug log</source>
-        <translation>Salva il log di debug di PokerTH</translation>
+        <translation>Stoor PokerTH-ontfoutingslog</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH debug log (*.log)</source>
-        <translation>Log di debug di PokerTH (*.log)</translation>
+        <translation>PokerTH-ontfoutingslog (*.log)</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Log file not found.</source>
-        <translation>File di log non trovato.</translation>
+        <translation>Loglêer nie gevind nie.</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Processing of the log file on the web server failed.
 Please verify that you are uploading a valid PokerTH log file.</source>
-        <translation>Elaborazione del file di registro sul server web non riuscita.
-Controlla di stare caricando un file di registro di PokerTH valido.</translation>
+        <translation>Die webbediener kon nie die loglêer verwerk nie.
+Bevestig asseblief dat jy &apos;n geldige PokerTH-loglêer oplaai.</translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+30"/>
         <source>Failure reason: </source>
-        <translation>Causa dell&apos;errore: </translation>
+        <translation>Rede vir mislukking: </translation>
     </message>
     <message>
         <location line="-27"/>
         <source>No file received.</source>
-        <translation>Nessun file ricevuto.</translation>
+        <translation>Geen lêer ontvang nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>File rejected because of too many uploads.</source>
-        <translation>Il file è stato rifiutato a causa di troppi upload.</translation>
+        <translation>Lêer is verwerp weens te veel oplaaie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>File rejected because of too many recent uploads. Please try again later.</source>
-        <translation>Il file è stato rifiutato a causa di troppi upload recenti. Riprovare più tardi.</translation>
+        <translation>Lêer is verwerp weens te veel onlangse oplaaie. Probeer asseblief later weer.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The file is too large.</source>
-        <translation>Il file è troppo grande.</translation>
+        <translation>Die lêer is te groot.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This file is not a valid and current PokerTH log file.</source>
-        <translation>Questo file non contiene un registro di PokerTH valido e aggiornato.</translation>
+        <translation>Hierdie lêer is nie &apos;n geldige, huidige PokerTH-loglêer nie.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Internal error. Please try again later. ID: </source>
-        <translation>Errore interno. Riprovare più tardi. ID: </translation>
+        <translation>Interne fout. Probeer asseblief later weer. ID: </translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Upload failed. Please check your internet connection!
 Uploading log files may fail if you are using an http proxy.</source>
-        <translation>Upload non riuscito. Controlla la connessione a Internet!
-L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un proxy http.</translation>
+        <translation>Kon nie oplaai nie. Kontroleer asseblief jou internetverbinding!
+Om loglêers op te laai, kan misluk as jy &apos;n HTTP-instaanbediener gebruik.</translation>
     </message>
 </context>
 <context>
@@ -2708,73 +2708,73 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
     <message>
         <location filename="../pages/LogsPage.qml" line="+86"/>
         <source>Logs</source>
-        <translation>Log</translation>
+        <translation>Logs</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Game:</source>
-        <translation>Partita:</translation>
+        <translation>Spel:</translation>
     </message>
     <message>
         <location line="+85"/>
         <source>Preview:</source>
-        <translation>Anteprima:</translation>
+        <translation>Voorskou:</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Export as HTML</source>
-        <translation>Esporta in HTML</translation>
+        <translation>Voer uit as HTML</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Export as txt</source>
-        <translation>Esporta in txt</translation>
+        <translation>Voer uit as TXT</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+133"/>
         <source>Save as ...</source>
-        <translation>Salva con nome...</translation>
+        <translation>Stoor as...</translation>
     </message>
     <message>
         <location line="-127"/>
         <source>Delete</source>
-        <translation>Elimina</translation>
+        <translation>Skrap</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Show debug log</source>
-        <translation>Mostra log di debug</translation>
+        <translation>Wys ontfoutingslog</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Analyse Logfile ...</source>
-        <translation>Esamina file di registro ...</translation>
+        <translation>Ontleed loglêer...</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>PokerTH - Delete log files</source>
-        <translation>PokerTH - Elimina file di registro</translation>
+        <translation>PokerTH – Skrap loglêers</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Do you really want to delete the selected log files?</source>
-        <translation>Desideri veramente cancellare i file di registro selezionati?</translation>
+        <translation>Wil jy regtig die gekose loglêers skrap?</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Uploading log file</source>
-        <translation>Caricamento del file di registro</translation>
+        <translation>Oplaai van loglêer</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Debug log</source>
-        <translation>Log di debug</translation>
+        <translation>Ontfoutingslog</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Refresh</source>
-        <translation>Aggiorna</translation>
+        <translation>Verfris</translation>
     </message>
 </context>
 <context>
@@ -2782,74 +2782,74 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
     <message>
         <location filename="../components/LogsSettings.qml" line="+25"/>
         <source>Log-Nachrichten</source>
-        <translation>Registro messaggi</translation>
+        <translation>Logboodskappe</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Log-Einstellungen</source>
-        <translation>Impostazioni log</translation>
+        <translation>Loginstellings</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Logging aktivieren</source>
-        <translation>Abilita registrazione</translation>
+        <translation>Aktiveer logging</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Log-Verzeichnis:</source>
-        <translation>Cartella dei log:</translation>
+        <translation>Loggids:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Durchsuchen...</source>
-        <translation>Sfoglia...</translation>
+        <translation>Blaai...</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Log-Verzeichnis auswählen</source>
-        <translation>Seleziona la cartella dei log</translation>
+        <translation>Kies loggids</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Log-Verzeichnis</source>
-        <translation>Cartella dei log</translation>
+        <translation>Loggids</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Das Log-Verzeichnis wurde geändert.
 Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
-        <translation>La cartella dei log è stata modificata.
-Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
+        <translation>Die loggids is verander.
+Herbegin asseblief PokerTH sodat die loglêers daar gestoor word.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Oukei</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Log-Intervall:</source>
-        <translation>Intervallo di log:</translation>
+        <translation>Loginterval:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Jedes Spiel</source>
-        <translation>Ogni partita</translation>
+        <translation>Elke spel</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Jede Hand</source>
-        <translation>Ogni mano</translation>
+        <translation>Elke hand</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Jede Aktion</source>
-        <translation>Ogni azione</translation>
+        <translation>Elke aksie</translation>
     </message>
     <message>
         <location line="-29"/>
         <source>Log-Speicherdauer (Tage):</source>
-        <translation>Conservazione log (giorni):</translation>
+        <translation>Bewaartyd van logs (dae):</translation>
     </message>
 </context>
 <context>
@@ -2857,94 +2857,94 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/NetworkGameCreatePage.qml" line="+113"/>
         <source>← Zurück</source>
-        <translation>← Indietro</translation>
+        <translation>← Terug</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Netzwerkspiel erstellen</source>
-        <translation>Crea partita in rete</translation>
+        <translation>Skep netwerkspel</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Spiel-Einstellungen</source>
-        <translation>Impostazioni partita</translation>
+        <translation>Spelinstellings</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Max. Spieler</source>
-        <translation>Numero max. giocatori</translation>
+        <translation>Maks. spelers</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Startgeld</source>
-        <translation>Capitale iniziale</translation>
+        <translation>Beginkapitaal</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Blind-Einstellungen</source>
-        <translation>Impostazioni buio</translation>
+        <translation>Blinde-instellings</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Erster Small Blind</source>
-        <translation>Primo buio piccolo</translation>
+        <translation>Eerste klein blinde</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Blind-Erhöhungsintervall</source>
-        <translation>Intervallo aumento buio</translation>
+        <translation>Interval vir verhoging van blindes</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+25"/>
         <source>Alle</source>
-        <translation>Ogni</translation>
+        <translation>Elke</translation>
     </message>
     <message>
         <location line="-14"/>
         <source>Hände</source>
-        <translation>mani</translation>
+        <translation>hande</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Minuten</source>
-        <translation>minuti</translation>
+        <translation>minute</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre i blind</translation>
+        <translation>Verdubbel blindes altyd</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Zeitlimits</source>
-        <translation>Limiti di tempo</translation>
+        <translation>Tydlimiete</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Zeitlimit Spieleraktion</source>
-        <translation>Limite di tempo per l&apos;azione del giocatore</translation>
+        <translation>Tydlimiet vir die speler se aksie</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Pause zwischen Händen</source>
-        <translation>Ritardo tra le mani</translation>
+        <translation>Pouse tussen hande</translation>
     </message>
     <message>
         <location line="+37"/>
         <location line="+35"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Kanselleer</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Spiel erstellen</source>
-        <translation>Crea Partita</translation>
+        <translation>Skep spel</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Server wird gestartet …</source>
-        <translation>Avvio del server …</translation>
+        <translation>Bediener word begin …</translation>
     </message>
 </context>
 <context>
@@ -2952,83 +2952,83 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/NetworkGameEnterPage.qml" line="+97"/>
         <source>← Zurück</source>
-        <translation>← Indietro</translation>
+        <translation>← Terug</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Netzwerkspiel beitreten</source>
-        <translation>Unisciti a una partita in rete</translation>
+        <translation>Sluit by netwerkspel aan</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Server-Verbindung</source>
-        <translation>Connessione al server</translation>
+        <translation>Bedienerverbinding</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Server-Adresse</source>
-        <translation>Indirizzo del server</translation>
+        <translation>Bedieneradres</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>IP-Adresse oder Hostname</source>
-        <translation>Indirizzo IP o nome host</translation>
+        <translation>IP-adres of gasheernaam</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Port</source>
-        <translation>Porta</translation>
+        <translation>Poort</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>IPv6 verwenden</source>
-        <translation>Utilizza IPv6</translation>
+        <translation>Gebruik IPv6</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>SCTP verwenden</source>
-        <translation>Utilizza SCTP</translation>
+        <translation>Gebruik SCTP</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Server-Profile</source>
-        <translation>Profili server</translation>
+        <translation>Bedienerprofiele</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Profilname</source>
-        <translation>Nome profilo</translation>
+        <translation>Profielnaam</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Name des Profils</source>
-        <translation>Nome del profilo</translation>
+        <translation>Die naam van die profiel</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Speichern</source>
-        <translation>Salva</translation>
+        <translation>Stoor</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Löschen</source>
-        <translation>Elimina</translation>
+        <translation>Skrap</translation>
     </message>
     <message>
         <location line="+92"/>
         <location line="+36"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Kanselleer</translation>
     </message>
     <message>
         <location line="-31"/>
         <source>Verbinden</source>
-        <translation>Connetti</translation>
+        <translation>Koppel</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Verbinde mit Server …</source>
-        <translation>Connessione al server …</translation>
+        <translation>Koppel aan die bediener …</translation>
     </message>
 </context>
 <context>
@@ -3037,12 +3037,12 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location filename="../cpp/networkgamehandler.cpp" line="+55"/>
         <location line="+76"/>
         <source>No session available.</source>
-        <translation>Nessuna sessione disponibile.</translation>
+        <translation>Geen sessie beskikbaar nie.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Please enter a server address.</source>
-        <translation>Inserisci un indirizzo del server.</translation>
+        <translation>Tik asseblief &apos;n bedieneradres in.</translation>
     </message>
 </context>
 <context>
@@ -3050,117 +3050,117 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/NetworkGameSettings.qml" line="+19"/>
         <source>Netzwerkspiel</source>
-        <translation>Partita in Rete</translation>
+        <translation>Netwerkspel</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Spieler &amp; Startkapital</source>
-        <translation>Giocatori e capitale iniziale</translation>
+        <translation>Spelers en beginkapitaal</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Numero di giocatori:</translation>
+        <translation>Aantal spelers:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Startkapital:</source>
-        <translation>Capitale iniziale:</translation>
+        <translation>Beginkapitaal:</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Blinds erhöhen</source>
-        <translation>Aumenta buio</translation>
+        <translation>Verhoog blindes</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Blind-Erhöhungsreihenfolge</source>
-        <translation>Ordine aumento buio</translation>
+        <translation>Volgorde vir verhoging van blindes</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>Blinds bei Anzahl der Hände erhöhen</source>
-        <translation>Aumenta buio dopo numero di mani</translation>
+        <translation>Verhoog blindes volgens die aantal hande</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Blinds zeitbasiert erhöhen</source>
-        <translation>Aumenta buio in base al tempo</translation>
+        <translation>Verhoog blindes volgens tyd</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre il buio</translation>
+        <translation>Verdubbel blindes altyd</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordine buio manuale</translation>
+        <translation>Handmatige blindesvolgorde</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Manuelle Blind-Reihenfolge bearbeiten...</source>
-        <translation>Modifica ordine buio manuale...</translation>
+        <translation>Wysig handmatige blindesvolgorde...</translation>
     </message>
     <message>
         <location line="-157"/>
         <source>Erster Small Blind:</source>
-        <translation>Primo buio piccolo:</translation>
+        <translation>Eerste klein blinde:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
         <source>Small Blind erhöhen alle:</source>
-        <translation>Aumenta buio piccolo ogni:</translation>
+        <translation>Verhoog die klein blinde elke:</translation>
     </message>
     <message>
         <location line="-25"/>
         <source>Hände</source>
-        <translation>Mani</translation>
+        <translation>hande</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Minuten</source>
-        <translation>Minuti</translation>
+        <translation>minute</translation>
     </message>
     <message>
         <location line="+61"/>
         <source>Zeiteinstellungen</source>
-        <translation>Impostazioni tempo</translation>
+        <translation>Tydinstellings</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Verzögerung zwischen Händen
 (Sekunden):</source>
-        <translation>Ritardo tra le mani
-(secondi):</translation>
+        <translation>Pouse tussen hande
+(sekondes):</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Timeout für Spieleraktion
 (Sekunden):</source>
-        <translation>Timeout azione giocatore
-(secondi):</translation>
+        <translation>Tydlimiet vir die speler se aksie
+(sekondes):</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Server-Einstellungen</source>
-        <translation>Impostazioni server</translation>
+        <translation>Bedienerinstellings</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Server-Port:</source>
-        <translation>Porta del server:</translation>
+        <translation>Bedienerpoort:</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>SCTP verwenden</source>
-        <translation>Utilizza SCTP</translation>
+        <translation>Gebruik SCTP</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>IPv6 verwenden</source>
-        <translation>Utilizza IPv6</translation>
+        <translation>Gebruik IPv6</translation>
     </message>
 </context>
 <context>
@@ -3168,46 +3168,46 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/NicknameAvatarSettings.qml" line="+19"/>
         <source>Nicknamen/Avatare</source>
-        <translation>Nickname/Avatar</translation>
+        <translation>Kenname/avatars</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Mein Spieler</source>
-        <translation>Il mio giocatore</translation>
+        <translation>My speler</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Mein Nickname:</source>
-        <translation>Il mio nickname:</translation>
+        <translation>My kennaam:</translation>
     </message>
     <message>
         <location line="+45"/>
         <source>Mein Avatar:</source>
-        <translation>Il mio avatar:</translation>
+        <translation>My avatar:</translation>
     </message>
     <message>
         <location line="+26"/>
         <location line="+113"/>
         <source>Auswählen...</source>
-        <translation>Seleziona...</translation>
+        <translation>Kies...</translation>
     </message>
     <message>
         <location line="-110"/>
         <location line="+113"/>
         <source>Avatar auswählen</source>
-        <translation>Seleziona avatar</translation>
+        <translation>Kies avatar</translation>
     </message>
     <message>
         <location line="-134"/>
         <location line="+113"/>
         <source>Kein Avatar gewählt</source>
-        <translation>Nessun avatar selezionato</translation>
+        <translation>Geen avatar gekies nie</translation>
     </message>
     <message>
         <location line="-82"/>
         <location line="+113"/>
         <source>Beispiele...</source>
-        <translation>Esempi...</translation>
+        <translation>Voorbeelde...</translation>
     </message>
     <message>
         <location line="-39"/>
@@ -3217,12 +3217,12 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="-55"/>
         <source>Gegner %1</source>
-        <translation>Avversario %1</translation>
+        <translation>Opponent %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Nickname:</source>
-        <translation>Nickname:</translation>
+        <translation>Kennaam:</translation>
     </message>
 </context>
 <context>
@@ -3231,30 +3231,30 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location filename="../components/PlayerListItem.qml" line="+234"/>
         <location line="+116"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
-        <translation>%1 sta giocando in &quot;%2&quot;.</translation>
+        <translation>%1 speel in &quot;%2&quot;.</translation>
     </message>
     <message>
         <location line="-115"/>
         <location line="+117"/>
         <source>%1 is not playing at the moment.</source>
-        <translation>%1 non sta giocando in questo momento.</translation>
+        <translation>%1 speel nie op die oomblik nie.</translation>
     </message>
     <message>
         <location line="-216"/>
         <location line="+129"/>
         <location line="+140"/>
         <source>Invite to Game</source>
-        <translation>Invita alla partita</translation>
+        <translation>Nooi na die spel</translation>
     </message>
     <message>
         <location line="-268"/>
         <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
-        <translation>Vuoi davvero invitare «%1» alla tua partita?</translation>
+        <translation>Is jy seker jy wil „%1“ na jou spel nooi?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invite</source>
-        <translation>Invita</translation>
+        <translation>Nooi</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3262,12 +3262,12 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location line="+130"/>
         <location line="+165"/>
         <source>Ignore player</source>
-        <translation>Ignora giocatore</translation>
+        <translation>Ignoreer speler</translation>
     </message>
     <message>
         <location line="-296"/>
         <source>Are you sure you want to ignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero ignorare «%1»?&gt;</translation>
+        <translation>Is jy seker jy wil „%1“ ignoreer?</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -3275,29 +3275,29 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location line="+121"/>
         <location line="+202"/>
         <source>Unignore player</source>
-        <translation>Non ignorare più il giocatore</translation>
+        <translation>Hou op om speler te ignoreer</translation>
     </message>
     <message>
         <location line="-324"/>
         <source>Are you sure you want to unignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero smettere di ignorare «%1»?&gt;</translation>
+        <translation>Is jy seker jy wil ophou om „%1“ te ignoreer?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Are you sure you want to totally kickban &quot;%1&quot;?</source>
-        <translation>Vuoi davvero espellere e bandire totalmente «%1»?&gt;</translation>
+        <translation>Is jy seker jy wil „%1“ heeltemal verban?</translation>
     </message>
     <message>
         <location line="+95"/>
         <location line="+112"/>
         <source>Send private message</source>
-        <translation>Invia messaggio privato</translation>
+        <translation>Stuur privaat boodskap</translation>
     </message>
     <message>
         <location line="-79"/>
         <location line="+224"/>
         <source>Show player stats</source>
-        <translation>Mostra statistiche giocatore</translation>
+        <translation>Wys spelerstatistiek</translation>
     </message>
     <message>
         <location line="-353"/>
@@ -3305,7 +3305,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location line="+135"/>
         <location line="+252"/>
         <source>Total kickban</source>
-        <translation>Kickban totale</translation>
+        <translation>Totale skopverban</translation>
     </message>
 </context>
 <context>
@@ -3313,32 +3313,32 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PlayerNoteDialog.qml" line="+57"/>
         <source>Note about &quot;%1&quot;</source>
-        <translation>Nota su «%1»</translation>
+        <translation>Nota oor „%1“</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rating:</source>
-        <translation>Valutazione:</translation>
+        <translation>Beoordeling:</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Your private note about this player ...</source>
-        <translation>La tua nota privata su questo giocatore...</translation>
+        <translation>Jou privaat nota oor hierdie speler ...</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Notes and ratings are stored locally and are only visible to you.</source>
-        <translation>Le note e le valutazioni sono salvate localmente e sono visibili solo a te.</translation>
+        <translation>Notas en beoordelings word plaaslik gestoor en net jy kan hulle sien.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Kanselleer</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Save</source>
-        <translation>Salva</translation>
+        <translation>Stoor</translation>
     </message>
 </context>
 <context>
@@ -3346,22 +3346,22 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PlayerSeasonCard.qml" line="+157"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Telling</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>Gem.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Speletjies</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Punte</translation>
     </message>
 </context>
 <context>
@@ -3369,7 +3369,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PlayerWinnerOverlay.qml" line="+56"/>
         <source>WINNER</source>
-        <translation>VINCITORE</translation>
+        <translation>WENNER</translation>
     </message>
 </context>
 <context>
@@ -3377,67 +3377,67 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/PokerthPlayerPage.qml" line="+81"/>
         <source>Could not load player (HTTP %1).</source>
-        <translation>Impossibile caricare il giocatore (HTTP %1).</translation>
+        <translation>Kon nie spelerdata laai nie (HTTP %1).</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Player not found.</source>
-        <translation>Giocatore non trovato.</translation>
+        <translation>Speler nie gevind nie.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Kon nie die bediener se antwoord ontleed nie.</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Member since %1</source>
-        <translation>Membro dal %1</translation>
+        <translation>Lid sedert %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Last login %1</source>
-        <translation>Ultimo accesso %1</translation>
+        <translation>Laaste aanmelding %1</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Current season</source>
-        <translation>Stagione attuale</translation>
+        <translation>Huidige seisoen</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Rank</source>
-        <translation>Posizione</translation>
+        <translation>Plek</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Telling</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>Gem.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Speletjies</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Punte</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Last 5:</source>
-        <translation>Ultime 5:</translation>
+        <translation>Laaste 5:</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Recent games</source>
-        <translation>Partite recenti</translation>
+        <translation>Onlangse spelle</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -3447,7 +3447,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+31"/>
         <source>Seasons</source>
-        <translation>Stagioni</translation>
+        <translation>Seisoene</translation>
     </message>
 </context>
 <context>
@@ -3463,78 +3463,78 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PrivateMessageDialog.qml" line="+190"/>
         <source>Private messages</source>
-        <translation>Messaggi privati</translation>
+        <translation>Privaat boodskappe</translation>
     </message>
     <message>
         <location line="+38"/>
         <location line="+2"/>
         <source>Delete conversation</source>
-        <translation>Elimina conversazione</translation>
+        <translation>Skrap die gesprek</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete the conversation with &quot;%1&quot;?</source>
-        <translation>Eliminare la conversazione con &quot;%1&quot;?</translation>
+        <translation>Skrap die gesprek met „%1“?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete</source>
-        <translation>Elimina</translation>
+        <translation>Skrap</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Close</source>
-        <translation>Chiudi</translation>
+        <translation>Toemaak</translation>
     </message>
     <message>
         <location line="+112"/>
         <source>No conversation yet</source>
-        <translation>Nessuna conversazione</translation>
+        <translation>Nog geen gesprek nie</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>not in the lobby</source>
-        <translation>non è nella lobby</translation>
+        <translation>nie in die voorkamer nie</translation>
     </message>
     <message>
         <location line="+173"/>
         <source>Translation failed.</source>
-        <translation>Traduzione non riuscita.</translation>
+        <translation>Vertaling het misluk.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Show original</source>
-        <translation>Mostra l&apos;originale</translation>
+        <translation>Wys die oorspronklike</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Translate message</source>
-        <translation>Traduci il messaggio</translation>
+        <translation>Vertaal die boodskap</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Private messages are not available at the table.</source>
-        <translation>I messaggi privati non sono disponibili al tavolo.</translation>
+        <translation>Privaat boodskappe is nie by die tafel beskikbaar nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Guests cannot send chat messages</source>
-        <translation>Gli ospiti non possono inviare messaggi in chat</translation>
+        <translation>Gaste kan nie kletsboodskappe stuur nie</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Guests cannot receive private messages.</source>
-        <translation>Gli ospiti non possono ricevere messaggi privati.</translation>
+        <translation>Gaste kan nie privaat boodskappe ontvang nie.</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Message …</source>
-        <translation>Messaggio …</translation>
+        <translation>Boodskap …</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Send</source>
-        <translation>Invia</translation>
+        <translation>Stuur</translation>
     </message>
 </context>
 <context>
@@ -3542,79 +3542,79 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../cpp/ziputils.cpp" line="+54"/>
         <source>Das Archiv konnte nicht gelesen werden.</source>
-        <translation>Impossibile leggere l&apos;archivio.</translation>
+        <translation>Kon nie die argief lees nie.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
-        <translation>L&apos;archivio è vuoto o contiene troppi file.</translation>
+        <translation>Die argief is leeg of bevat te veel lêers.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
-        <translation>Impossibile creare la cartella di destinazione.</translation>
+        <translation>Kon nie die teikengids skep nie.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
-        <translation>Impossibile leggere una voce dell&apos;archivio.</translation>
+        <translation>Kon nie &apos;n inskrywing in die argief lees nie.</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+8"/>
         <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
-        <translation>L&apos;archivio contiene un percorso non valido: %1</translation>
+        <translation>Die argief bevat &apos;n ongeldige pad: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+14"/>
         <source>Verzeichnis konnte nicht angelegt werden: %1</source>
-        <translation>Impossibile creare la cartella: %1</translation>
+        <translation>Kon nie die gids skep nie: %1</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Das Archiv ist ungewöhnlich groß.</source>
-        <translation>L&apos;archivio è insolitamente grande.</translation>
+        <translation>Die argief is buitengewoon groot.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
-        <translation>Impossibile estrarre una voce dell&apos;archivio: %1</translation>
+        <translation>Kon nie &apos;n inskrywing in die argief uitpak nie: %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Datei konnte nicht geschrieben werden: %1</source>
-        <translation>Impossibile scrivere il file: %1</translation>
+        <translation>Kon nie die lêer skryf nie: %1</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Der Stil-Ordner wurde nicht gefunden.</source>
-        <translation>La cartella dello stile non è stata trovata.</translation>
+        <translation>Die stylgids is nie gevind nie.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv konnte nicht erstellt werden.</source>
-        <translation>Impossibile creare l&apos;archivio.</translation>
+        <translation>Kon nie die argief skep nie.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Datei konnte nicht gelesen werden: %1</source>
-        <translation>Impossibile leggere il file: %1</translation>
+        <translation>Kon nie die lêer lees nie: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
-        <translation>Impossibile scrivere il file nell&apos;archivio: %1</translation>
+        <translation>Kon nie die lêer na die argief skryf nie: %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Der Stil-Ordner enthält keine Dateien.</source>
-        <translation>La cartella dello stile non contiene alcun file.</translation>
+        <translation>Die stylgids bevat geen lêers nie.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Das Archiv konnte nicht abgeschlossen werden.</source>
-        <translation>Impossibile finalizzare l&apos;archivio.</translation>
+        <translation>Kon nie die argief voltooi nie.</translation>
     </message>
 </context>
 <context>
@@ -3622,32 +3622,32 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/RankingPage.qml" line="+90"/>
         <source>Could not load ranking (HTTP %1).</source>
-        <translation>Impossibile caricare la classifica (HTTP %1).</translation>
+        <translation>Kon nie die gradering laai nie (HTTP %1).</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Kon nie die bediener se antwoord ontleed nie.</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Ranking</source>
-        <translation>Classifica</translation>
+        <translation>Gradering</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Season:</source>
-        <translation>Stagione:</translation>
+        <translation>Seisoen:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Current season</source>
-        <translation>Stagione attuale</translation>
+        <translation>Huidige seisoen</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Username</source>
-        <translation>Nome utente</translation>
+        <translation>Gebruikernaam</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -3657,32 +3657,32 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+8"/>
         <source>Player</source>
-        <translation>Giocatore</translation>
+        <translation>Speler</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Speletjies</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>Gem.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Telling</translation>
     </message>
     <message>
         <location line="+150"/>
         <source>No entries.</source>
-        <translation>Nessuna voce.</translation>
+        <translation>Geen inskrywings nie.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>◀ Prev</source>
-        <translation>◀ Prec</translation>
+        <translation>◀ Vorige</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -3692,27 +3692,27 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+1"/>
         <source>Page %1 / %2  ·  %3 players</source>
-        <translation>Pagina %1 / %2  ·  %3 giocatori</translation>
+        <translation>Bladsy %1 / %2  ·  %3 spelers</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Next ▶</source>
-        <translation>Succ ▶</translation>
+        <translation>Volgende ▶</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Ranking calculation:</source>
-        <translation>Calcolo della classifica:</translation>
+        <translation>Berekening van die gradering:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Placement points:</source>
-        <translation>Punti per piazzamento:</translation>
+        <translation>Punte per plek:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Formula:</source>
-        <translation>Formula:</translation>
+        <translation>Formule:</translation>
     </message>
 </context>
 <context>
@@ -3720,22 +3720,22 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/ResetSettings.qml" line="+20"/>
         <source>Standardeinstellung</source>
-        <translation>Impostazioni predefinite</translation>
+        <translation>Verstekinstelling</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Alle Einstellungen werden auf die Standardwerte zurückgesetzt. Diese Aktion kann nicht rückgängig gemacht werden.</source>
-        <translation>Tutte le impostazioni verranno ripristinate ai valori predefiniti. Questa azione non può essere annullata.</translation>
+        <translation>Alle instellings word na die verstekwaardes teruggestel. Hierdie aksie kan nie ongedaan gemaak word nie.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Auf Werkeinstellungen zurücksetzen</source>
-        <translation>Ripristina impostazioni di fabbrica</translation>
+        <translation>Stel terug na fabrieksinstellings</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</source>
-        <translation>Le impostazioni sono state ripristinate. Riavvia PokerTH affinché tutte le modifiche abbiano effetto.</translation>
+        <translation>Die instellings is teruggestel. Herbegin asseblief PokerTH sodat alle veranderinge in werking tree.</translation>
     </message>
 </context>
 <context>
@@ -3743,17 +3743,17 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/SeasonStatsSection.qml" line="+47"/>
         <source>Season Stats</source>
-        <translation>Statistiche della stagione</translation>
+        <translation>Seisoenstatistiek</translation>
     </message>
     <message>
         <location line="+60"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Speletjies</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Share</source>
-        <translation>Quota</translation>
+        <translation>Deel</translation>
     </message>
 </context>
 <context>
@@ -3761,67 +3761,67 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/ServerConnectionDialog.qml" line="+241"/>
         <source>Back</source>
-        <translation>Indietro</translation>
+        <translation>Terug</translation>
     </message>
     <message>
         <location line="+94"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Kanselleer</translation>
     </message>
     <message>
         <location line="-65"/>
         <source>Connecting as...</source>
-        <translation>Connessione come...</translation>
+        <translation>Koppel as...</translation>
     </message>
     <message>
         <location line="-108"/>
         <source>Continue as Guest</source>
-        <translation>Continua come ospite</translation>
+        <translation>Gaan voort as gas</translation>
     </message>
     <message>
         <location line="+159"/>
         <source>Initializing connection...</source>
-        <translation>Inizializzazione connessione...</translation>
+        <translation>Verbinding word voorberei...</translation>
     </message>
     <message>
         <location line="-74"/>
         <source>Login</source>
-        <translation>Accedi</translation>
+        <translation>Meld aan</translation>
     </message>
     <message>
         <location line="-97"/>
         <source>Login as User</source>
-        <translation>Accedi come utente</translation>
+        <translation>Meld aan as gebruiker</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Password</source>
-        <translation>Password</translation>
+        <translation>Wagwoord</translation>
     </message>
     <message>
         <location line="-59"/>
         <source>Register</source>
-        <translation>Registrati</translation>
+        <translation>Registreer</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Remember me</source>
-        <translation>Ricordami</translation>
+        <translation>Onthou my</translation>
     </message>
     <message>
         <location line="-48"/>
         <source>User Login</source>
-        <translation>Accesso utente</translation>
+        <translation>Gebruikeraanmelding</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Username</source>
-        <translation>Nome utente</translation>
+        <translation>Gebruikernaam</translation>
     </message>
     <message>
         <location line="+79"/>
         <source>Username/Guest</source>
-        <translation>Nome utente/Ospite</translation>
+        <translation>Gebruikernaam/gas</translation>
     </message>
 </context>
 <context>
@@ -3829,379 +3829,379 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../cpp/serverconnectionhandler.cpp" line="+50"/>
         <source>Error: No session available</source>
-        <translation>Errore: nessuna sessione disponibile</translation>
+        <translation>Fout: geen sessie beskikbaar nie</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No session available</source>
-        <translation>Nessuna sessione disponibile</translation>
+        <translation>Geen sessie beskikbaar nie</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Connecting to server...</source>
-        <translation>Connessione al server...</translation>
+        <translation>Koppel tans aan bediener...</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Connection canceled</source>
-        <translation>Connessione annullata</translation>
+        <translation>Verbinding gekanselleer</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Authenticating...</source>
-        <translation>Autenticazione in corso...</translation>
+        <translation>Verifieer tans...</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Initialized...</source>
-        <translation>Inizializzato...</translation>
+        <translation>Voorberei...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Server list received...</source>
-        <translation>Elenco server ricevuto...</translation>
+        <translation>Bedienerlys ontvang...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Resolving server...</source>
-        <translation>Risoluzione server in corso...</translation>
+        <translation>Soek die bedieneradres op...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Connecting...</source>
-        <translation>Connessione in corso...</translation>
+        <translation>Koppel tans...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Connected successfully!</source>
-        <translation>Connesso con successo!</translation>
+        <translation>Verbinding geslaag!</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Server address was not set.</source>
-        <translation>Indirizzo del server mancante.</translation>
+        <translation>Bedieneradres is nie gestel nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
-        <translation>È stata specificata una porta non valida (le porte 0-1023 non sono permesse).</translation>
+        <translation>&apos;n Ongeldige poort is gestel (poorte 0-1023 word nie toegelaat nie).</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not create a socket for TCP communication.</source>
-        <translation>Impossibile creare un socket di comunicazione TCP.</translation>
+        <translation>Kon nie &apos;n sok vir TCP-kommunikasie skep nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not set the IP address.</source>
-        <translation>Impossibile impostare l&apos;indirizzo IP.</translation>
+        <translation>Kon nie die IP-adres stel nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not set the port for this type of address.</source>
-        <translation>Impossibile impostare la porta per questo tipo di indirizzo.</translation>
+        <translation>Kon nie die poort vir hierdie tipe adres stel nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server name could not be resolved.</source>
-        <translation>Impossibile risolvere il nome del server.</translation>
+        <translation>Kon nie die bedienernaam oplos nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>Bind non riuscito - seleziona una porta diversa.</translation>
+        <translation>Kon nie bind nie - kies asseblief &apos;n ander poort.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
-        <translation>Errore di rete interno: &quot;listen&quot; non riuscito.</translation>
+        <translation>Interne netwerkfout: kon nie &quot;listen&quot; nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Server execution was terminated.</source>
-        <translation>L&apos;esecuzione del server è stata interrotta.</translation>
+        <translation>Bedienerlopie is beëindig.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Could not connect to the server.
 The server might still be processing a previous connection attempt.
 Please wait a moment and try again.</source>
-        <translation>Impossibile connettersi al server.
-Il server potrebbe ancora elaborare un tentativo di connessione precedente.
-Attendere un momento e riprovare.</translation>
+        <translation>Kon nie aan die bediener koppel nie.
+Die bediener verwerk moontlik nog &apos;n vorige verbindingspoging.
+Wag &apos;n oomblik en probeer weer.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Connection timed out.
 The server might be busy or still processing a previous connection.
 Please wait a moment and try again.</source>
-        <translation>Timeout della connessione.
-Il server potrebbe essere occupato o elaborare ancora una connessione precedente.
-Attendere un momento e riprovare.</translation>
+        <translation>Die verbinding het uitgetel.
+Die bediener is dalk besig of verwerk nog &apos;n vorige verbinding.
+Wag &apos;n oomblik en probeer weer.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
-        <translation>Errore di rete interno: &quot;select&quot; non riuscita.</translation>
+        <translation>Interne netwerkfout: kon nie &quot;select&quot; nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
-        <translation>Errore di rete interno: &quot;send&quot; non riuscito.</translation>
+        <translation>Interne netwerkfout: kon nie &quot;send&quot; nie.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>The connection to the server was lost.</source>
-        <translation>La connessione al server è stata interrotta.</translation>
+        <translation>Die verbinding met die bediener is verloor.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: Duplicate TCP connection.</source>
-        <translation>Errore di rete interno: connessione TCP duplicata.</translation>
+        <translation>Interne netwerkfout: Duplikaat-TCP-verbinding.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation>È stato ricevuto un pacchetto non valido.
-Assicurati che tutti i giocatori abbiano la stessa versione di PokerTH.</translation>
+        <translation>&apos;n Ongeldige netwerkpakkie is ontvang.
+Maak asseblief seker dat alle spelers dieselfde weergawe van PokerTH gebruik.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation>Errore di stato interno.
-Assicurati che tutti i giocatori abbiano la stessa versione di PokerTH.</translation>
+        <translation>Interne toestandfout.
+Maak asseblief seker dat alle spelers dieselfde weergawe van PokerTH gebruik.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: invalid socket type.</source>
-        <translation>Errore di rete interno: tipo di socket non valido.</translation>
+        <translation>Interne netwerkfout: ongeldige soktipe.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Invalid server list URL.
 Please correct the address in the settings.</source>
-        <translation>URL della lista server non valido.
-Correggi l&apos;indirizzo nelle impostazioni.</translation>
+        <translation>Ongeldige bedienerlys-URL.
+Korrigeer asseblief die adres in die instellings.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The PokerTH internet server list contains invalid data.
 If you use a custom server list, please make sure its format is correct.</source>
-        <translation>La lista server internet di PokerTH contiene dati non validi.
-Se utilizzi una lista server personalizzata, assicurati che il suo formato sia corretto.</translation>
+        <translation>Die PokerTH-internetbedienerlys bevat ongeldige data.
+As jy &apos;n doelgemaakte bedienerlys gebruik, maak asseblief seker dat dit in die regte formaat is.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not unzip the PokerTH internet server list.</source>
-        <translation>Impossibile decomprimere la lista dei server Internet di PokerTH.</translation>
+        <translation>Kon nie die PokerTH-internetbedienerlys uitpak nie.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Could not download the PokerTH internet server list.
 Please make sure you are directly connected to the internet.</source>
-        <translation>Impossibile scaricare la lista server internet di PokerTH.
-Assicurati di essere connesso direttamente ad internet.</translation>
+        <translation>Kon nie die PokerTH-internetbedienerlys aflaai nie.
+Maak asseblief seker dat jy direk aan die internet gekoppel is.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not open the target file when downloading the server list.</source>
-        <translation>Impossibile aprire il file di destinazione durante il download della lista server.</translation>
+        <translation>Kon nie die teikenlêer oopmaak toe die bedienerlys afgelaai is nie.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>The PokerTH server does not support this version of the game.
 Please go to https://www.pokerth.net and download the latest version.</source>
-        <translation>Il server di PokerTH non supporta questa versione del gioco.
-Visita l&apos;URL https://www.pokerth.net e scarica l&apos;ultima versione.</translation>
+        <translation>Die PokerTH-bediener ondersteun nie hierdie weergawe van die spel nie.
+Gaan na https://www.pokerth.net en laai die nuutste weergawe af.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server is down for maintenance. Please try again later.</source>
-        <translation>Il server è down per manutenzione. Riprova più tardi.</translation>
+        <translation>Die bediener is af vir onderhoud. Probeer asseblief later weer.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sorry, this server is already full.</source>
-        <translation>Spiacente, il server è già al completo.</translation>
+        <translation>Jammer, hierdie bediener is reeds vol.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invalid login.
 Please check your username and password.</source>
-        <translation>Accesso negato.
-Controlla username e password.</translation>
+        <translation>Ongeldige aanmeld.
+Kontroleer asseblief jou gebruikernaam en wagwoord.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The password is too long. Please choose another one.</source>
-        <translation>Questa password è troppo lunga. Scegline una diversa.</translation>
+        <translation>Die wagwoord is te lank. Kies asseblief &apos;n ander wagwoord.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>This player name is already in use. Please choose a different name.</source>
-        <translation>Questo nome giocatore è già in uso. Scegli un nome diverso.</translation>
+        <translation>Hierdie spelernaam is reeds in gebruik. Kies asseblief &apos;n ander naam.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player name is invalid. Please choose a different name.</source>
-        <translation>Il nome giocatore non è valido. Scegli un nome diverso.</translation>
+        <translation>Die spelernaam is ongeldig. Kies asseblief &apos;n ander naam.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid player cards.</source>
-        <translation>Errore interno: carte del giocatore non valide.</translation>
+        <translation>Interne fout: ongeldige spelerkaarte.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid player results.</source>
-        <translation>Errore interno: risultati del giocatore non validi.</translation>
+        <translation>Interne fout: ongeldige spelerresultate.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
-        <translation>Il nome della partita è troppo corto o troppo lungo. Scegline un altro.</translation>
+        <translation>Die spelnaam is óf te kort óf te lank. Kies asseblief &apos;n ander naam.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid game round.</source>
-        <translation>Errore interno: turno di gioco non valido.</translation>
+        <translation>Interne fout: ongeldige spelrondte.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid session.</source>
-        <translation>Errore interno: sessione non valida.</translation>
+        <translation>Interne fout: ongeldige sessie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be found.</source>
-        <translation>Impossibile trovare la partita.</translation>
+        <translation>Kon nie die spel vind nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The chat text is invalid.</source>
-        <translation>Il testo nella chat non è valido.</translation>
+        <translation>Die kletsteks is ongeldig.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server referred to an unknown player. Aborting.</source>
-        <translation>Il server ha contattato un giocatore sconosciuto. Operazione annullata.</translation>
+        <translation>Die bediener verwys na &apos;n onbekende speler. Ons staak dus.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The current player could not be found.</source>
-        <translation>Errore interno: Impossibile trovare il giocatore corrente. </translation>
+        <translation>Interne fout: Kon nie die huidige speler vind nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The current player is not active.</source>
-        <translation>Errore interno: Il giocatore corrente non è attivo.</translation>
+        <translation>Interne fout: Die huidige speler is nie aktief nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were kicked from the server.</source>
-        <translation>Sei stato espulso dal server.</translation>
+        <translation>Jy is van die bediener af geskop.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were temporarily banned from the server.</source>
-        <translation>Sei stato temporaneamente bandito dal server.</translation>
+        <translation>Jy is tydelik van die bediener af verban.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your account is blocked indefinitely.</source>
-        <translation>Il tuo account è bloccato a tempo indeterminato.</translation>
+        <translation>Jou rekening is onbepaald geblokkeer.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation>La connessione al server è andata in timeout per inattività. Riconnettiti, sei il benvenuto!</translation>
+        <translation>Jou bedienerverbinding het uitgetel vanweë geen aktiwiteit. Jy is welkom om weer te koppel!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The client player count is invalid.</source>
-        <translation>Il numero di giocatori non è valido.</translation>
+        <translation>Die kliëntspelertelling is ongeldig.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
-        <translation>Sono stati impostati troppi blind manuali. Devi riconfigurare i blind.</translation>
+        <translation>Te veel handmatige blindes is gestel. Stel asseblief weer die handmatige blindes op.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
-        <translation>È stato impostato un file di avatar non valido. Scegli un avatar diverso.</translation>
+        <translation>&apos;n Ongeldige avatarlêer is opgestel. Kies asseblief &apos;n ander avatar.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
-        <translation>Il file di avatar selezionato è troppo grande. Scegli un avatar diverso.</translation>
+        <translation>Die gekose avatarlêer is te groot. Kies asseblief &apos;n ander avatar.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid buffer size.</source>
-        <translation>Errore interno: dimensione del buffer non valida.</translation>
+        <translation>Interne fout: ongeldige buffergrootte.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation>Si è verificato un errore interno sugli avatar. Per favore, riferisci l&apos;accaduto ad un admin nella chat prepartita.</translation>
+        <translation>&apos;n Interne avatarfout het voorgekom. Rapporteer dit asseblief aan &apos;n admin in die voorkamerklets.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not start game: Synchronization failed.</source>
-        <translation>Impossibile avviare la partita: sincronizzazione non riuscita.</translation>
+        <translation>Kon nie spel begin nie: sinchronisering het misluk.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be terminated.</source>
-        <translation>Impossibile terminare la partita.</translation>
+        <translation>Kon nie die spel beëindig nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An internal game error occured.</source>
-        <translation>Si è verificato un errore interno di gioco.</translation>
+        <translation>&apos;n Interne spelfout het voorgekom.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The dealer could not be found.</source>
-        <translation>Errore interno: impossibile trovare il mazziere.</translation>
+        <translation>Interne fout: kon nie die deler vind nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You cannot login at this time. Please try again in a few seconds.</source>
-        <translation>Impossibile effettuare l&apos;accesso. Riprova fra qualche istante.</translation>
+        <translation>Jy kan nie nou aanmeld nie. Probeer asseblief weer oor &apos;n paar sekondes.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The authentication could not be initialized.</source>
-        <translation>Errore interno: impossibile inizializzare l&apos;autenticazione.</translation>
+        <translation>Interne fout: kon nie die verifikasie voorberei nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server does not support the required authentication method.</source>
-        <translation>Il server non supporta il metodo di autenticazione richiesto.</translation>
+        <translation>Die bediener ondersteun nie die vereiste verifikasiemetode nie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server could not reach its database. Please try again later.</source>
-        <translation>Il server non è riuscito a raggiungere il suo database. Riprova più tardi.</translation>
+        <translation>Die bediener kon nie sy databasis bereik nie. Probeer asseblief later weer.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An internal error occured. (Error code %1)</source>
-        <translation>Errore interno. (Codice di errore %1)</translation>
+        <translation>&apos;n Interne fout het voorgekom. (Foutkode %1)</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Connection failed, retrying...</source>
-        <translation>Connessione fallita, nuovo tentativo...</translation>
+        <translation>Verbinding het misluk, probeer weer...</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Retrying connection...</source>
-        <translation>Nuovo tentativo di connessione...</translation>
+        <translation>Probeer weer koppel...</translation>
     </message>
 </context>
 <context>
@@ -4209,157 +4209,157 @@ Controlla username e password.</translation>
     <message>
         <location filename="../cpp/settingsmanager.cpp" line="+327"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
-        <translation>Immagini (*.png *.jpg *.jpeg *.gif)</translation>
+        <translation>Beelde (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
         <location line="+236"/>
         <source>Spieltisch-Stil auswählen</source>
-        <translation>Seleziona stile del tavolo da gioco</translation>
+        <translation>Kies tafelstyl</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Spieltisch-Stil.</source>
-        <translation>Il file selezionato non è uno stile di tavolo da gioco.</translation>
+        <translation>Die gekose lêer is nie &apos;n tafelstyl nie.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Kartenstapel-Stil auswählen</source>
-        <translation>Seleziona stile del mazzo di carte</translation>
+        <translation>Kies kaartstyl</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Kartenstapel-Stil.</source>
-        <translation>Il file selezionato non è uno stile di mazzo di carte.</translation>
+        <translation>Die gekose lêer is nie &apos;n kaartstyl nie.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Kartenrückseiten-Stil auswählen</source>
-        <translation>Seleziona stile del dorso delle carte</translation>
+        <translation>Kies styl vir die kaartagterkant</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Kartenrückseiten-Stil.</source>
-        <translation>Il file selezionato non è uno stile di dorso delle carte.</translation>
+        <translation>Die gekose lêer is nie &apos;n styl vir die kaartagterkant nie.</translation>
     </message>
     <message>
         <location line="+86"/>
         <source>Die Stil-Datei kann nicht gelesen werden.</source>
-        <translation>Impossibile leggere il file di stile.</translation>
+        <translation>Die styllêer kan nie gelees word nie.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Die ausgewählte Datei ist kein PokerTH-Stil.</source>
-        <translation>Il file selezionato non è uno stile PokerTH.</translation>
+        <translation>Die gekose lêer is nie &apos;n PokerTH-styl nie.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Die Stil-Datei enthält kein gültiges XML (%1).</source>
-        <translation>Il file di stile non contiene XML valido (%1).</translation>
+        <translation>Die styllêer bevat nie geldige XML nie (%1).</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Der Dateiname der Stil-Datei muss auf &quot;%1&quot; enden.</source>
-        <translation>Il nome del file di stile deve terminare con &quot;%1&quot;.</translation>
+        <translation>Die styllêer se naam moet op „%1“ eindig.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Die Stil-Datei muss in einem eigenen Ordner liegen.</source>
-        <translation>Il file di stile deve trovarsi in una cartella dedicata.</translation>
+        <translation>Die styllêer moet in sy eie gids wees.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ein Stil mit dem Namen &quot;%1&quot; ist bereits vorhanden.</source>
-        <translation>Esiste già uno stile con il nome &quot;%1&quot;.</translation>
+        <translation>Daar bestaan reeds &apos;n styl met die naam „%1“.</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
-        <translation>Il mazzo di carte è incompleto, mancano: %1</translation>
+        <translation>Die kaartpak is onvolledig, die volgende ontbreek: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Die Kartenrückseiten-Grafik (Backside) fehlt.</source>
-        <translation>Manca l&apos;immagine del dorso delle carte (Backside).</translation>
+        <translation>Die grafika vir die kaartagterkant (Backside) ontbreek.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Der Ordner der Stil-Datei enthält ungewöhnlich viele Dateien. Bitte den Stil in einen eigenen Ordner legen.</source>
-        <translation>La cartella del file di stile contiene un numero insolitamente alto di file. Metti lo stile in una cartella dedicata.</translation>
+        <translation>Die styllêer se gids bevat buitengewoon baie lêers. Plaas die styl asseblief in sy eie gids.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Der Stil konnte nicht nach &quot;%1&quot; kopiert werden.</source>
-        <translation>Impossibile copiare lo stile in &quot;%1&quot;.</translation>
+        <translation>Kon nie die styl na „%1“ kopieer nie.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Der Stil hat Format-Version %1, aktuell ist Version %2.</source>
-        <translation>Lo stile ha la versione di formato %1, la versione attuale è %2.</translation>
+        <translation>Die styl het formaatweergawe %1, die huidige weergawe is %2.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Fehlende Angaben: %1.</source>
-        <translation>Informazioni mancanti: %1.</translation>
+        <translation>Ontbrekende gegewens: %1.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Nicht gefundene Grafiken: %1.</source>
-        <translation>Grafiche non trovate: %1.</translation>
+        <translation>Grafika wat nie gevind is nie: %1.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Der Stil &quot;%1&quot; wurde übernommen, ist aber unvollständig:</source>
-        <translation>Lo stile &quot;%1&quot; è stato aggiunto, ma è incompleto:</translation>
+        <translation>Die styl „%1“ is aanvaar, maar is onvolledig:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
-        <translation>Il client sostituisce i contenuti mancanti con la grafica predefinita.</translation>
+        <translation>Die kliënt vervang ontbrekende inhoud met verstekgrafika.</translation>
     </message>
     <message>
         <location line="-182"/>
         <source>PokerTH-Stile (*.zip *.xml)</source>
-        <translation>Stili PokerTH (*.zip *.xml)</translation>
+        <translation>PokerTH-style (*.zip *.xml)</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Die ausgewählte Datei kann nicht gelesen werden.</source>
-        <translation>Impossibile leggere il file selezionato.</translation>
+        <translation>Die gekose lêer kan nie gelees word nie.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Es konnte kein temporäres Verzeichnis angelegt werden.</source>
-        <translation>Impossibile creare una cartella temporanea.</translation>
+        <translation>Kon nie &apos;n tydelike gids skep nie.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Das Archiv enthält keine Datei &quot;%1&quot;.</source>
-        <translation>L&apos;archivio non contiene alcun file &quot;%1&quot;.</translation>
+        <translation>Die argief bevat geen lêer „%1“ nie.</translation>
     </message>
     <message>
         <location line="+196"/>
         <source>Stil exportieren</source>
-        <translation>Esporta stile</translation>
+        <translation>Voer styl uit</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>ZIP-Archive (*.zip)</source>
-        <translation>Archivi ZIP (*.zip)</translation>
+        <translation>ZIP-argiewe (*.zip)</translation>
     </message>
     <message>
         <location line="-9"/>
         <source>Der Stil &quot;%1&quot; wurde nicht gefunden.</source>
-        <translation>Lo stile &quot;%1&quot; non è stato trovato.</translation>
+        <translation>Die styl „%1“ is nie gevind nie.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Das Archiv konnte nicht erstellt werden.</source>
-        <translation>Impossibile creare l&apos;archivio.</translation>
+        <translation>Kon nie die argief skep nie.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</source>
-        <translation>Impossibile scrivere l&apos;archivio in &quot;%1&quot;.</translation>
+        <translation>Kon nie die argief na „%1“ skryf nie.</translation>
     </message>
 </context>
 <context>
@@ -4367,47 +4367,47 @@ Controlla username e password.</translation>
     <message>
         <location filename="../pages/SettingsPage.qml" line="+254"/>
         <source>Benutzeroberfläche</source>
-        <translation>Interfaccia utente</translation>
+        <translation>Gebruikerskoppelvlak</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Stil</source>
-        <translation>Stile</translation>
+        <translation>Styl</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Sound</source>
-        <translation>Suono</translation>
+        <translation>Klank</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Lokales Spiel</source>
-        <translation>Partita locale</translation>
+        <translation>Plaaslike spel</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Netzwerkspiel</source>
-        <translation>Partita in Rete</translation>
+        <translation>Netwerkspel</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Internetspiel</source>
-        <translation>Partita in Internet</translation>
+        <translation>Internetspel</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Nicknamen/Avatare</source>
-        <translation>Nickname/Avatar</translation>
+        <translation>Kenname/avatars</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Log-Nachrichten</source>
-        <translation>Registro messaggi</translation>
+        <translation>Logboodskappe</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Standardeinstellung</source>
-        <translation>Impostazioni predefinite</translation>
+        <translation>Verstekinstelling</translation>
     </message>
 </context>
 <context>
@@ -4420,12 +4420,12 @@ Controlla username e password.</translation>
     <message>
         <location line="+100"/>
         <source>Über PokerTH</source>
-        <translation>Informazioni su PokerTH</translation>
+        <translation>Aangaande PokerTH</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Schließen</source>
-        <translation>Chiudi</translation>
+        <translation>Toemaak</translation>
     </message>
 </context>
 <context>
@@ -4433,17 +4433,17 @@ Controlla username e password.</translation>
     <message>
         <location filename="../components/SoundSettings.qml" line="+19"/>
         <source>Sound</source>
-        <translation>Suono</translation>
+        <translation>Klank</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Klangeffekte</source>
-        <translation>Effetti sonori</translation>
+        <translation>Klankeffekte</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Klangeffekte aktivieren</source>
-        <translation>Abilita effetti sonori</translation>
+        <translation>Aktiveer klankeffekte</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -4453,27 +4453,27 @@ Controlla username e password.</translation>
     <message>
         <location line="+31"/>
         <source>Klang-Kategorien</source>
-        <translation>Categorie suoni </translation>
+        <translation>Klankkategorieë</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Spielaktionen (Check, Call, Raise ...)</source>
-        <translation>Azioni di gioco (Check, Call, Raise...)</translation>
+        <translation>Spelaksies (Check, Call, Raise ...)</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Blind-Erhöhungs-Benachrichtigung</source>
-        <translation>Notifica aumento buio</translation>
+        <translation>Kennisgewing by verhoging van blindes</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>Netzwerkspiel-Benachrichtigungen</source>
-        <translation>Notifiche partite in rete</translation>
+        <translation>Kennisgewings van netwerkspelle</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>Lobby-Chat-Benachrichtigungen</source>
-        <translation>Notifiche chat della lobby</translation>
+        <translation>Kennisgewings van voorkamerklets</translation>
     </message>
 </context>
 <context>
@@ -4481,12 +4481,12 @@ Controlla username e password.</translation>
     <message>
         <location filename="../components/StartFooter.qml" line="+197"/>
         <source>Privacy</source>
-        <translation>Privacy</translation>
+        <translation>Privaatheid</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Source:</source>
-        <translation>Codice sorgente:</translation>
+        <translation>Bronkode:</translation>
     </message>
 </context>
 <context>
@@ -4494,32 +4494,32 @@ Controlla username e password.</translation>
     <message>
         <location filename="../pages/StartPage.qml" line="+155"/>
         <source>Internetspiel</source>
-        <translation>Partita in Internet</translation>
+        <translation>Internetspel</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Lokales Spiel starten</source>
-        <translation>Inizia una partita locale</translation>
+        <translation>Begin plaaslike spel</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Netzwerkspiel erstellen</source>
-        <translation>Crea partita in rete</translation>
+        <translation>Skep netwerkspel</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Netzwerkspiel beitreten</source>
-        <translation>Unisciti a una partita in rete</translation>
+        <translation>Sluit by netwerkspel aan</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Community / Ranking</source>
-        <translation>Community / Classifica</translation>
+        <translation>Gemeenskap / gradering</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Logs</source>
-        <translation>Log</translation>
+        <translation>Logs</translation>
     </message>
 </context>
 <context>
@@ -4527,32 +4527,32 @@ Controlla username e password.</translation>
     <message>
         <location filename="../config/StaticData.qml" line="+124"/>
         <source>Fold</source>
-        <translation>Fold</translation>
+        <translation>Pas</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Check</source>
-        <translation>Check</translation>
+        <translation>Kyk</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Call</source>
-        <translation>Call</translation>
+        <translation>Volg</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Bet</source>
-        <translation>Bet</translation>
+        <translation>Wed</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Raise</source>
-        <translation>Raise</translation>
+        <translation>Verhoog</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>All-In</source>
-        <translation>All-In</translation>
+        <translation>Alles in</translation>
     </message>
 </context>
 <context>
@@ -4561,28 +4561,28 @@ Controlla username e password.</translation>
         <location filename="../components/StyleCard.qml" line="+69"/>
         <source>Keine
 Vorschau</source>
-        <translation>Nessuna
-anteprima</translation>
+        <translation>Geen
+voorskou</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>von %1</source>
-        <translation>di %1</translation>
+        <translation>deur %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>✓ Ausgewählt</source>
-        <translation>✓ Selezionato</translation>
+        <translation>✓ Gekies</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Stil entfernen</source>
-        <translation>Rimuovi stile</translation>
+        <translation>Verwyder styl</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Stil als ZIP exportieren</source>
-        <translation>Esporta stile come ZIP</translation>
+        <translation>Voer styl uit as ZIP</translation>
     </message>
 </context>
 <context>
@@ -4590,105 +4590,105 @@ anteprima</translation>
     <message>
         <location filename="../components/StyleSettings.qml" line="+49"/>
         <source>Stil hinzufügen</source>
-        <translation>Aggiungi stile</translation>
+        <translation>Voeg styl by</translation>
     </message>
     <message>
         <location line="+0"/>
         <location line="+8"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Oukei</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Stil entfernen</source>
-        <translation>Rimuovi stile</translation>
+        <translation>Verwyder styl</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Den Stil &quot;%1&quot; wirklich entfernen?</source>
-        <translation>Rimuovere davvero lo stile &quot;%1&quot;?</translation>
+        <translation>Wil jy die styl „%1“ regtig verwyder?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Entfernen</source>
-        <translation>Rimuovi</translation>
+        <translation>Verwyder</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Stil</source>
-        <translation>Stile</translation>
+        <translation>Styl</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Spieltisch</source>
-        <translation>Tavolo di gioco</translation>
+        <translation>Speltafel</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Kartenstapel</source>
-        <translation>Mazzo di carte</translation>
+        <translation>Kaartpak</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Kartenrückseite</source>
-        <translation>Dorso delle carte</translation>
+        <translation>Kaartagterkant</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Einsatzanzeige:</source>
-        <translation>Visualizzazione della puntata:</translation>
+        <translation>Vertoon van die weddenskap:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Einsatz in der Spielerbox</source>
-        <translation>Puntata dentro il riquadro del giocatore</translation>
+        <translation>Weddenskap binne die spelerblokkie</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Einsatz neben der Spielerbox</source>
-        <translation>Puntata accanto al riquadro del giocatore</translation>
+        <translation>Weddenskap langs die spelerblokkie</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Verfügbare Spieltisch-Stile:</source>
-        <translation>Stili tavolo disponibili:</translation>
+        <translation>Beskikbare tafelstyle:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Keine Spieltisch-Stile gefunden.</source>
-        <translation>Nessuno stile tavolo trovato.</translation>
+        <translation>Geen tafelstyle gevind nie.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verfügbare Kartenstapel-Stile:</source>
-        <translation>Stili mazzo di carte disponibili:</translation>
+        <translation>Beskikbare kaartstyle:</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Keine Kartenstapel-Stile gefunden.</source>
-        <translation>Nessuno stile mazzo di carte trovato.</translation>
+        <translation>Geen kaartstyle gevind nie.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verfügbare Kartenrückseiten:</source>
-        <translation>Dorsi delle carte disponibili:</translation>
+        <translation>Beskikbare kaartagterkante:</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Keine Kartenrückseiten gefunden.</source>
-        <translation>Nessun dorso delle carte trovato.</translation>
+        <translation>Geen kaartagterkante gevind nie.</translation>
     </message>
     <message>
         <location line="-104"/>
         <location line="+56"/>
         <location line="+56"/>
         <source>Stil hinzufügen...</source>
-        <translation>Aggiungi stile...</translation>
+        <translation>Voeg styl by...</translation>
     </message>
     <message>
         <location line="-266"/>
         <source>Stil exportieren</source>
-        <translation>Esporta stile</translation>
+        <translation>Voer styl uit</translation>
     </message>
 </context>
 <context>
@@ -4696,92 +4696,92 @@ anteprima</translation>
     <message>
         <location filename="../pages/WecRankingPage.qml" line="+22"/>
         <source>January</source>
-        <translation>Gennaio</translation>
+        <translation>Januarie</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>February</source>
-        <translation>Febbraio</translation>
+        <translation>Februarie</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>March</source>
-        <translation>Marzo</translation>
+        <translation>Maart</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>April</source>
-        <translation>Aprile</translation>
+        <translation>April</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>May</source>
-        <translation>Maggio</translation>
+        <translation>Mei</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>June</source>
-        <translation>Giugno</translation>
+        <translation>Junie</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>July</source>
-        <translation>Luglio</translation>
+        <translation>Julie</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>August</source>
-        <translation>Agosto</translation>
+        <translation>Augustus</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>September</source>
-        <translation>Settembre</translation>
+        <translation>September</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>October</source>
-        <translation>Ottobre</translation>
+        <translation>Oktober</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>November</source>
-        <translation>Novembre</translation>
+        <translation>November</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>December</source>
-        <translation>Dicembre</translation>
+        <translation>Desember</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>WEC Ranking</source>
-        <translation>Classifica WEC</translation>
+        <translation>WEC-gradering</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Year:</source>
-        <translation>Anno:</translation>
+        <translation>Jaar:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Month:</source>
-        <translation>Mese:</translation>
+        <translation>Maand:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>All-Year</source>
-        <translation>Tutto l&apos;anno</translation>
+        <translation>Hele jaar</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>All-Time</source>
-        <translation>Sempre</translation>
+        <translation>Alle tye</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Search nickname</source>
-        <translation>Cerca nickname</translation>
+        <translation>Soek kennaam</translation>
     </message>
 </context>
 <context>
@@ -4794,143 +4794,143 @@ anteprima</translation>
     <message>
         <location line="+287"/>
         <source>Back</source>
-        <translation>Indietro</translation>
+        <translation>Terug</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Menu</source>
-        <translation>Menu</translation>
+        <translation>Kieslys</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>Private messages</source>
-        <translation>Messaggi privati</translation>
+        <translation>Privaat boodskappe</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Forum news</source>
-        <translation>Novità dal forum</translation>
+        <translation>Forumnuus</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Community / Ranking</source>
-        <translation>Community / Classifica</translation>
+        <translation>Gemeenskap / gradering</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Settings</source>
-        <translation>Impostazioni</translation>
+        <translation>Instellings</translation>
     </message>
     <message>
         <location line="+192"/>
         <source>Timeout Warning</source>
-        <translation>Avviso di timeout</translation>
+        <translation>Uittel-waarskuwing</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Timeout expired. You are being removed from the game.</source>
-        <translation>Timeout scaduto. Verrai rimosso dalla partita.</translation>
+        <translation>Die tyd is verstreke. Jy word uit die spel verwyder.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Timeout expired. You will be disconnected.</source>
-        <translation>Timeout scaduto. Verrai disconnesso.</translation>
+        <translation>Die tyd is verstreke. Jou verbinding word verbreek.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You are game-admin of an open game which will time out in %1 seconds.</source>
-        <translation>Sei amministratore di una partita aperta che scadrà tra %1 secondi.</translation>
+        <translation>Jy is speladmin van &apos;n oop spel wat oor %1 sekondes gaan uittel.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>You did not act in the game recently. You will be removed from the game in %1 seconds.</source>
-        <translation>Non hai effettuato azioni di gioco da un po&apos; di tempo. Verrai rimosso dalla partita in %1 secondi.</translation>
+        <translation>Jy het nie onlangs iets in die spel gedoen nie. Jy sal oor %1 sekondes uit die spel verwyder word.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your connection is about to time out due to inactivity in %1 seconds.</source>
-        <translation>La tua connessione scadrà per inattività fra %1 secondi.</translation>
+        <translation>Jou verbinding gaan oor %1 sekondes uittel vanweë geen aktiwiteit.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Please click &quot;OK&quot; to stop the countdown!</source>
-        <translation>Premi &quot;OK&quot; per fermare il conto alla rovescia!</translation>
+        <translation>Kliek asseblief &quot;Oukei&quot; om die aftelling te stop!</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+285"/>
         <source>OK</source>
-        <translation> OK </translation>
+        <translation>Oukei</translation>
     </message>
     <message>
         <location line="-250"/>
         <source>Server Message</source>
-        <translation>Messaggio del server</translation>
+        <translation>Bedienerboodskap</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Close</source>
-        <translation>Chiudi</translation>
+        <translation>Toemaak</translation>
     </message>
     <message>
         <location line="+156"/>
         <source>Connection interrupted</source>
-        <translation>Connessione interrotta</translation>
+        <translation>Verbinding onderbreek</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Reconnecting to the server… (attempt %1 of %2)</source>
-        <translation>Riconnessione al server… (tentativo %1 di %2)</translation>
+        <translation>Koppel weer aan die bediener… (poging %1 van %2)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reconnecting to the server…</source>
-        <translation>Riconnessione al server…</translation>
+        <translation>Koppel weer aan die bediener…</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Your seat at the table stays reserved for a few minutes.</source>
-        <translation>Il tuo posto al tavolo resta riservato per alcuni minuti.</translation>
+        <translation>Jou plek by die tafel bly nog &apos;n paar minute gereserveer.</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Connection lost</source>
-        <translation>Connessione persa</translation>
+        <translation>Verbinding verloor</translation>
     </message>
     <message>
         <location line="-734"/>
         <location line="+545"/>
         <location line="+22"/>
         <source>Leave Game</source>
-        <translation>Abbandona partita</translation>
+        <translation>Verlaat die spel</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
-        <translation>Attenzione! Vuoi veramente abbandonare la partita corrente
-e tornare al prepartita?</translation>
+        <translation>Let op! Wil jy regtig die huidige spel verlaat
+en na die voorkamer terugkeer?</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+57"/>
         <location line="+74"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Kanselleer</translation>
     </message>
     <message>
         <location line="-693"/>
         <location line="+602"/>
         <location line="+22"/>
         <source>Leave Lobby</source>
-        <translation>Lascia lobby</translation>
+        <translation>Verlaat die voorkamer</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Attention! Do you really want to leave the lobby
 and disconnect from the server?</source>
-        <translation>Attenzione! Vuoi davvero lasciare la lobby
-e disconnetterti dal server?</translation>
+        <translation>Let op! Wil jy regtig die voorkamer verlaat
+en van die bediener ontkoppel?</translation>
     </message>
 </context>
 </TS>

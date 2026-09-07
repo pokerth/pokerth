@@ -3087,7 +3087,7 @@ Nooi gerus ander spelers uit deur op hul kenname in die lys beskikbare spelers t
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2592"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
-        <translation>Is jy seker jy wil die naam &quot;%1&quot; toemaak?</translation>
+        <translation>Is jy seker jy wil die spel &quot;%1&quot; toemaak?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2608"/>
@@ -5721,7 +5721,7 @@ Wil jy regtig terugstel na die fabrieksinstellings?</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1039"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
-        <translation>Interne netwerkfout: kom nie &quot;luister&quot; nie.</translation>
+        <translation>Interne netwerkfout: kon nie &quot;luister&quot; nie.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1045"/>
@@ -5750,7 +5750,7 @@ As die bediener agter &apos;n NAT-roeteerder is, maak seker poortaanstuur is aan
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1069"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
-        <translation>Interne netwerkfout: kom nie &quot;stuur&quot; nie.</translation>
+        <translation>Interne netwerkfout: kon nie &quot;stuur&quot; nie.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1082"/>
@@ -5929,7 +5929,7 @@ because the nick could not be found in the database</source>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1153"/>
         <source>The password is too long. Please choose another one.</source>
-        <translation>Die wagwoord is te lank. Kies asseblief &apos;n ander naam.</translation>
+        <translation>Die wagwoord is te lank. Kies asseblief &apos;n ander wagwoord.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="618"/>
@@ -6271,7 +6271,7 @@ If the problem persists, please check the server address or try again later.</so
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="109"/>
         <source>Your connection is about to time out due to inactivity in %1 seconds.</source>
-        <translation>Jou verbinding gaan oor %1 uittel vanweë geen aktiwiteit.</translation>
+        <translation>Jou verbinding gaan oor %1 sekondes uittel vanweë geen aktiwiteit.</translation>
     </message>
 </context>
 </TS>

@@ -685,7 +685,7 @@ Please verify that you are uploading a valid PokerTH log file.</source>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="40"/>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="58"/>
         <source>About</source>
-        <translation>O</translation>
+        <translation>O programe</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -2114,7 +2114,7 @@ Prosím, vyberte si iné!</translation>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="153"/>
         <source>%1&apos;s game</source>
-        <translation>%1ova hra</translation>
+        <translation>Hra hráča %1</translation>
     </message>
 </context>
 <context>
@@ -4153,7 +4153,7 @@ Môžete pozývať ďalších hráčov kliknutím pravým tlačidlom na ich prie
     </message>
     <message>
         <source>%1&apos;s game</source>
-        <translation type="obsolete">%1ova hra</translation>
+        <translation type="obsolete">Hra hráča %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="271"/>
@@ -4599,11 +4599,11 @@ Môžete pozývať ďalších hráčov kliknutím pravým tlačidlom na ich prie
     </message>
     <message>
         <source>The server name could not be resolved.</source>
-        <translation type="obsolete">Meno servera sa nepodarilo resolvnúť.</translation>
+        <translation type="obsolete">Meno servera sa nepodarilo zistiť.</translation>
     </message>
     <message>
         <source>Bind failed - please choose a different port.</source>
-        <translation type="obsolete">Bind zlyhal - prosím, vyberte iný port.</translation>
+        <translation type="obsolete">Priradenie portu zlyhalo - prosím, vyberte iný port.</translation>
     </message>
     <message>
         <source>Internal network error: &quot;listen&quot; failed.</source>
@@ -4611,7 +4611,7 @@ Môžete pozývať ďalších hráčov kliknutím pravým tlačidlom na ich prie
     </message>
     <message>
         <source>Server execution was terminated.</source>
-        <translation type="obsolete">Spustenie servera bolo zrušené.</translation>
+        <translation type="obsolete">Beh servera bol ukončený.</translation>
     </message>
     <message>
         <source>Could not connect to the server.</source>
@@ -4763,7 +4763,7 @@ Prosím vyberte si inú prezývku.</translation>
     </message>
     <message>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
-        <translation type="obsolete">Bolo nastavených priliš veľa manuálnych stávok. Prosím upravte nastavenia manuálnych stávok.</translation>
+        <translation type="obsolete">Bolo nastavených príliš veľa manuálnych stávok. Prosím upravte nastavenia manuálnych stávok.</translation>
     </message>
     <message>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
@@ -4873,7 +4873,7 @@ a vrátiť sa späť do lobby?</translation>
     </message>
     <message>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation type="obsolete">Vaše pripojenie k serveru vypršalo z dôvodu neaaktivity. Stačí sa len znovu pripojiť!</translation>
+        <translation type="obsolete">Vaše pripojenie k serveru vypršalo z dôvodu neaktivity. Stačí sa len znovu pripojiť!</translation>
     </message>
     <message>
         <source>You cannot upload a new avatar file at this time. Please try again in a few seconds.</source>
@@ -5080,7 +5080,7 @@ Ak ste dočasne mimo, môžete použiť nástroje &quot;preč&quot; v nástrojov
         <location filename="../src/gui/qt/gui_800x480/internetgamelogindialog_800x480.ui" line="138"/>
         <location filename="../src/gui/qt/internetgamelogindialog.ui" line="85"/>
         <source>Login</source>
-        <translation>Login</translation>
+        <translation>Prihlásiť sa</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/internetgamelogindialog.ui" line="92"/>
@@ -7296,7 +7296,7 @@ Do you really want to reset factory settings?</source>
     </message>
     <message>
         <source>About</source>
-        <translation type="obsolete">O</translation>
+        <translation type="obsolete">O programe</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="387"/>
@@ -7501,12 +7501,12 @@ Prosím vyberte si inú prezývku.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1027"/>
         <source>The server name could not be resolved.</source>
-        <translation>Meno servera sa nepodarilo resolvnúť.</translation>
+        <translation>Meno servera sa nepodarilo zistiť.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1033"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>Bind zlyhal - prosím, vyberte iný port.</translation>
+        <translation>Priradenie portu zlyhalo - prosím, vyberte iný port.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1039"/>
@@ -7516,7 +7516,7 @@ Prosím vyberte si inú prezývku.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1045"/>
         <source>Server execution was terminated.</source>
-        <translation>Spustenie servera bolo zrušené.</translation>
+        <translation>Beh servera bol ukončený.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1051"/>
@@ -7685,7 +7685,7 @@ Prosím, skontrolujte meno užívateľa a heslo.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1220"/>
         <source>Your account is blocked indefinitely.</source>
-        <translation>Váš účet je trvalo blokovaný.</translation>
+        <translation>Váš účet je blokovaný na neurčito.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1258"/>
@@ -7848,7 +7848,7 @@ Prosím, vyberte si iné meno.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1227"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation>Vaše pripojenie k serveru vypršalo z dôvodu neaaktivity. Stačí sa len znovu pripojiť!</translation>
+        <translation>Vaše pripojenie k serveru vypršalo z dôvodu neaktivity. Stačí sa len znovu pripojiť!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1233"/>
@@ -7858,7 +7858,7 @@ Prosím, vyberte si iné meno.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1239"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
-        <translation>Bolo nastavených priliš veľa manuálnych stávok. Prosím upravte nastavenia manuálnych stávok.</translation>
+        <translation>Bolo nastavených príliš veľa manuálnych stávok. Prosím upravte nastavenia manuálnych stávok.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1246"/>

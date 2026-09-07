@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="it_IT">
+<TS version="2.1" language="vi_VN">
 <context>
     <name>AboutPage</name>
     <message>
         <location filename="../pages/AboutPage.qml" line="+45"/>
         <source>No changelog available.</source>
-        <translation>Nessun registro delle modifiche disponibile.</translation>
+        <translation>Không có nhật ký thay đổi.</translation>
     </message>
     <message>
         <location line="+89"/>
         <source>About PokerTH</source>
-        <translation>Informazioni su PokerTH</translation>
+        <translation>Thông tin về PokerTH</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>About</source>
-        <translation>Informazioni</translation>
+        <translation>Thông tin thêm</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Project</source>
-        <translation>Progetto</translation>
+        <translation>Dự Án</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Changelog</source>
-        <translation>Modifiche</translation>
+        <translation>Nhật ký thay đổi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Thanks to</source>
-        <translation>Ringraziamenti a</translation>
+        <translation>Xin dành lời cảm ơn tới</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>License</source>
-        <translation>Licenza</translation>
+        <translation>Bản quyền</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Third party libs</source>
-        <translation>Librerie di terze parti</translation>
+        <translation>Thư viện của bên thứ ba</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -51,122 +51,122 @@
     <message>
         <location line="+13"/>
         <source>- Poker engine for the popular Texas Hold&apos;em Poker</source>
-        <translation>- Motore per il popolare Poker &quot;Texas Holdem&quot;</translation>
+        <translation>- Bộ máy chơi bài cho Texas Hold&apos;em nổi tiếng</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Singleplayer games with up to 9 computer-opponents</source>
-        <translation>- Giocatore singolo: possibilità di affrontare fino a 9 avversari IA</translation>
+        <translation>- Màn chơi một người với tối đa 9 đối thủ máy tính</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Multiplayer network games</source>
-        <translation>- Partite multigiocatore in rete</translation>
+        <translation>- Màn chơi nhiều người qua mạng</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Internet online games</source>
-        <translation>- Partite multigiocatore su Internet</translation>
+        <translation>- Màn chơi trực tuyến qua Internet</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Changeable gui with online style gallery</source>
-        <translation>- Interfaccia personalizzabile con galleria online di temi</translation>
+        <translation>- Giao diện thay đổi được với thư viện kiểu trực tuyến</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Online ranking website with result tables</source>
-        <translation>- Ranking online con tabelle dei risultati</translation>
+        <translation>- Trang web xếp hạng trực tuyến kèm bảng kết quả</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Project page:</source>
-        <translation>Pagina progetto:</translation>
+        <translation>Trang dự án:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Authors:</source>
-        <translation>Autori:</translation>
+        <translation>Tác giả:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
-        <translation>idea iniziale, achitettura di base, implementazione gui, grafica gui, pacchetto linux</translation>
+        <translation>ý tưởng ban đầu, kiến trúc cơ bản, xây dựng giao diện, chỉnh sửa đồ họa giao diện, gói cài đặt Linux</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial idea, basic architecture, engine development</source>
-        <translation>idea iniziale, architettura di base, sviluppo motore</translation>
+        <translation>ý tưởng ban đầu, kiến trúc cơ bản, phát triển bộ máy</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>basic architecture, network development, windows package, MacOS package</source>
-        <translation>architettura di base, sviluppo di rete, pacchetto windows, pacchetto MacOS</translation>
+        <translation>kiến trúc cơ bản, phát triển phần mạng, gói cài đặt Windows, gói cài đặt MacOS</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial gui graphics design</source>
-        <translation>sviluppo iniziale grafica gui</translation>
+        <translation>thiết kế đồ họa giao diện ban đầu</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>code modernization, QML layout</source>
-        <translation>modernizzazione del codice, layout QML</translation>
+        <translation>hiện đại hóa mã nguồn, bố cục QML</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>web client development</source>
-        <translation>sviluppo del client web</translation>
+        <translation>phát triển ứng dụng web khách</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>- Wikimedia Commons: for different popular avatar picture resources</source>
-        <translation>- Wikimedia Commons: per le diverse gallerie di avatar</translation>
+        <translation>- Wikimedia Commons: nguồn cho các hình đại diện khác nhau</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
-        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: per gli avatar raffiguranti persone</translation>
+        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: nguồn cho hình đại diện là người</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- ZeiZei: for misc avatar pictures</source>
-        <translation>- ZeiZei: per gli avatar vari</translation>
+        <translation>- ZeiZei: nguồn cho hình đại diện tổng hợp</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- kde-look.org: for different gpl licensed sounds</source>
-        <translation>- kde-look.org: per diversi suoni rilasciati sotto licenza GPL</translation>
+        <translation>- kde-look.org: nguồn cho các âm thanh dưới dạng bản quyền mở GPL</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- doc_dos: for self recorded chip sounds</source>
-        <translation>- doc_dos: per la registrazione del suono delle fiches</translation>
+        <translation>- doc_dos: nguồn cho phần âm thanh thể hiện các hiệu ứng tiền tệ trong trò chơi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
-        <translation>- thiger, dunkanx, BerndA, coldz, drull: per diverse patch</translation>
+        <translation>- thiger, dunkanx, BerndA, coldz, drull: nguồn cho các phần cập nhật sửa lỗi cho chương trình</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- kraut: for internet-game-server hosting and administration</source>
-        <translation>- kraut: per l&apos;hosting e l&apos;amministrazione del server per il gioco su internet</translation>
+        <translation>- kraut: nguồn cho phần server của chương trình trong việc quản trị và quản lý hệ thống online</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
-        <translation>- danuxi: per gli sfondi della schermata di avvio e dello stile danuxi1</translation>
+        <translation>- danuxi: nguồn cho hiệu ứng nền và hiệu ứng bàn chơi bài</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
-        <translation>- heyn: per il lavoro di moderazione sul forum, l&apos;organizzazione del bugtracker e la gestione delle richieste di nuove feature</translation>
+        <translation>- heyn: cá nhân quản lý diễn đàn cũng như quản lý việc cập nhật các bản vá lỗi và xử lý các yêu cầu từ phía người dùng</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- texas_outlaw: for new table sounds</source>
-        <translation>- texas_outlaw: per i nuovi suoni del tavolo di gioco</translation>
+        <translation>- texas_outlaw: nguồn cho phần âm thanh khi khởi tạo bàn chơi bài mới</translation>
     </message>
 </context>
 <context>
@@ -174,12 +174,12 @@
     <message>
         <location filename="../cpp/androidconnectionservice.cpp" line="+29"/>
         <source>Connected to the game server</source>
-        <translation>Connesso al server di gioco</translation>
+        <translation>Đã kết nối tới máy chủ trò chơi</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Online game connection</source>
-        <translation>Connessione di gioco online</translation>
+        <translation>Kết nối màn chơi trực tuyến</translation>
     </message>
 </context>
 <context>
@@ -187,22 +187,22 @@
     <message>
         <location filename="../components/AvatarCardRow.qml" line="+132"/>
         <source>Server response times</source>
-        <translation>Tempi di risposta del server</translation>
+        <translation>Thời gian phản hồi của máy chủ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Average: %1 ms</source>
-        <translation>Media: %1 ms</translation>
+        <translation>Trung bình: %1 ms</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Minimum: %1 ms</source>
-        <translation>Minimo: %1 ms</translation>
+        <translation>Nhỏ nhất: %1 ms</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Maximum: %1 ms</source>
-        <translation>Massimo: %1 ms</translation>
+        <translation>Lớn nhất: %1 ms</translation>
     </message>
 </context>
 <context>
@@ -210,32 +210,32 @@
     <message>
         <location filename="../pages/BbcRankingPage.qml" line="+36"/>
         <source>BBC Ranking</source>
-        <translation>Classifica BBC</translation>
+        <translation>Xếp hạng BBC</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Season:</source>
-        <translation>Stagione:</translation>
+        <translation>Mùa giải:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>All-Time</source>
-        <translation>Sempre</translation>
+        <translation>Mọi thời điểm</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Search nickname</source>
-        <translation>Cerca nickname</translation>
+        <translation>Tìm biệt danh</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Step1</source>
-        <translation>Step1</translation>
+        <translation>Giai đoạn 1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Season %1</source>
-        <translation>Stagione %1</translation>
+        <translation>Mùa giải %1</translation>
     </message>
 </context>
 <context>
@@ -243,39 +243,39 @@
     <message>
         <location filename="../components/ChatBox.qml" line="+31"/>
         <source>Nachricht …</source>
-        <translation>Messaggio …</translation>
+        <translation>Tin nhắn …</translation>
     </message>
     <message>
         <location line="+797"/>
         <source>Link öffnen</source>
-        <translation>Apri link</translation>
+        <translation>Mở liên kết</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Link kopieren</source>
-        <translation>Copia link</translation>
+        <translation>Sao chép liên kết</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+38"/>
         <source>Kopieren</source>
-        <translation>Copia</translation>
+        <translation>Sao chép</translation>
     </message>
     <message>
         <location line="-33"/>
         <location line="+43"/>
         <source>Alles auswählen</source>
-        <translation>Seleziona tutto</translation>
+        <translation>Chọn tất cả</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Ausschneiden</source>
-        <translation>Taglia</translation>
+        <translation>Cắt</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Einfügen</source>
-        <translation>Incolla</translation>
+        <translation>Dán</translation>
     </message>
 </context>
 <context>
@@ -283,7 +283,7 @@
     <message>
         <location filename="../cpp/chattranslator.cpp" line="+265"/>
         <source>Translation is currently unavailable. Please try again later.</source>
-        <translation>La traduzione non è al momento disponibile. Riprova più tardi.</translation>
+        <translation>Hiện chưa dùng được chức năng dịch. Vui lòng thử lại sau.</translation>
     </message>
 </context>
 <context>
@@ -291,98 +291,98 @@
     <message>
         <location filename="../components/CommunityPlayerView.qml" line="+30"/>
         <source>This season</source>
-        <translation>Questa stagione</translation>
+        <translation>Mùa giải này</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+4"/>
         <source>All-time</source>
-        <translation>Sempre</translation>
+        <translation>Mọi thời điểm</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>This month</source>
-        <translation>Questo mese</translation>
+        <translation>Tháng này</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This year</source>
-        <translation>Quest&apos;anno</translation>
+        <translation>Năm nay</translation>
     </message>
     <message>
         <location line="+75"/>
         <source>Player not found.</source>
-        <translation>Giocatore non trovato.</translation>
+        <translation>Không tìm thấy người chơi.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Could not load player (HTTP %1).</source>
-        <translation>Impossibile caricare il giocatore (HTTP %1).</translation>
+        <translation>Không tải được dữ liệu người chơi (HTTP %1).</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Không phân tích được phản hồi của máy chủ.</translation>
     </message>
     <message>
         <location line="+80"/>
         <source>Member since %1</source>
-        <translation>Membro dal %1</translation>
+        <translation>Thành viên từ %1</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Awards</source>
-        <translation>Premi</translation>
+        <translation>Giải thưởng</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Tickets</source>
-        <translation>Biglietti</translation>
+        <translation>Vé</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Step 2</source>
-        <translation>Step 2</translation>
+        <translation>Giai đoạn 2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Step 3</source>
-        <translation>Step 3</translation>
+        <translation>Giai đoạn 3</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Step 4</source>
-        <translation>Step 4</translation>
+        <translation>Giai đoạn 4</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Rank</source>
-        <translation>Posizione</translation>
+        <translation>Hạng</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Điểm số</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Màn chơi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Điểm</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Results:</source>
-        <translation>Risultati:</translation>
+        <translation>Kết quả:</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Step %1</source>
-        <translation>Step %1</translation>
+        <translation>Giai đoạn %1</translation>
     </message>
 </context>
 <context>
@@ -390,22 +390,22 @@
     <message>
         <location filename="../pages/CommunityRankingPage.qml" line="+40"/>
         <source>Community / Ranking</source>
-        <translation>Community / Classifica</translation>
+        <translation>Cộng đồng / xếp hạng</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>PokerTH Ranking</source>
-        <translation>Classifica PokerTH</translation>
+        <translation>Xếp hạng PokerTH</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>BBC Ranking</source>
-        <translation>Classifica BBC</translation>
+        <translation>Xếp hạng BBC</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>WEC Ranking</source>
-        <translation>Classifica WEC</translation>
+        <translation>Xếp hạng WEC</translation>
     </message>
 </context>
 <context>
@@ -415,17 +415,17 @@
         <location line="+17"/>
         <location line="+16"/>
         <source>Could not load ranking.</source>
-        <translation>Impossibile caricare la classifica.</translation>
+        <translation>Không tải được bảng xếp hạng.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Could not load ranking (HTTP %1).</source>
-        <translation>Impossibile caricare la classifica (HTTP %1).</translation>
+        <translation>Không tải được bảng xếp hạng (HTTP %1).</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Không phân tích được phản hồi của máy chủ.</translation>
     </message>
     <message>
         <location line="+26"/>
@@ -435,32 +435,32 @@
     <message>
         <location line="+7"/>
         <source>Nickname</source>
-        <translation>Nickname</translation>
+        <translation>Biệt danh</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Màn chơi</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Điểm số</translation>
     </message>
     <message>
         <location line="+160"/>
         <source>No entries.</source>
-        <translation>Nessuna voce.</translation>
+        <translation>Không có mục nào.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No matches.</source>
-        <translation>Nessuna corrispondenza.</translation>
+        <translation>Không có kết quả khớp.</translation>
     </message>
     <message>
         <location line="-44"/>
         <source>◀ Prev</source>
-        <translation>◀ Prec</translation>
+        <translation>◀ Trước</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -470,12 +470,12 @@
     <message>
         <location line="+1"/>
         <source>Page %1 / %2  ·  %3 players</source>
-        <translation>Pagina %1 / %2  ·  %3 giocatori</translation>
+        <translation>Trang %1 / %2  ·  %3 người chơi</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Next ▶</source>
-        <translation>Succ ▶</translation>
+        <translation>Tiếp ▶</translation>
     </message>
 </context>
 <context>
@@ -483,12 +483,12 @@
     <message>
         <location filename="../components/ConfirmPopup.qml" line="+25"/>
         <source>Yes</source>
-        <translation>Sì</translation>
+        <translation>Đồng ý</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Hủy bỏ</translation>
     </message>
 </context>
 <context>
@@ -496,7 +496,7 @@
     <message>
         <location filename="../components/CustomCheckBox.qml" line="+50"/>
         <source>CheckBox LabelText</source>
-        <translation>CheckBox LabelText</translation>
+        <translation>Chữ nhãn của ô đánh dấu</translation>
     </message>
 </context>
 <context>
@@ -504,22 +504,22 @@
     <message>
         <location filename="../components/ExampleAvatarPicker.qml" line="+68"/>
         <source>Beispiel-Avatar wählen</source>
-        <translation>Scegli avatar di esempio</translation>
+        <translation>Chọn hình đại diện mẫu</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Personen</source>
-        <translation>Persone</translation>
+        <translation>Người</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verschiedenes</source>
-        <translation>Vari</translation>
+        <translation>Khác</translation>
     </message>
     <message>
         <location line="+83"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Hủy bỏ</translation>
     </message>
 </context>
 <context>
@@ -528,7 +528,7 @@
         <location filename="../config/ForumNews.qml" line="+163"/>
         <location line="+11"/>
         <source>The forum feed could not be loaded.</source>
-        <translation>Impossibile caricare il feed del forum.</translation>
+        <translation>Không tải được tin từ diễn đàn.</translation>
     </message>
 </context>
 <context>
@@ -536,22 +536,22 @@
     <message>
         <location filename="../pages/ForumNewsPage.qml" line="+58"/>
         <source>Forum news</source>
-        <translation>Novità dal forum</translation>
+        <translation>Tin diễn đàn</translation>
     </message>
     <message>
         <location line="+141"/>
         <source>No entries.</source>
-        <translation>Nessuna voce.</translation>
+        <translation>Không có mục nào.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Mark all as read</source>
-        <translation>Segna tutto come letto</translation>
+        <translation>Đánh dấu tất cả là đã đọc</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Open the forum</source>
-        <translation>Apri il forum</translation>
+        <translation>Mở diễn đàn</translation>
     </message>
 </context>
 <context>
@@ -559,22 +559,22 @@
     <message>
         <location filename="../pages/ForumPostPage.qml" line="+78"/>
         <source>Translation failed.</source>
-        <translation>Traduzione non riuscita.</translation>
+        <translation>Dịch thất bại.</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Show the original post</source>
-        <translation>Mostra il messaggio originale</translation>
+        <translation>Hiện bài viết gốc</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Translate the post</source>
-        <translation>Traduci il messaggio</translation>
+        <translation>Dịch bài viết</translation>
     </message>
     <message>
         <location line="+147"/>
         <source>Open in the forum</source>
-        <translation>Apri nel forum</translation>
+        <translation>Mở trong diễn đàn</translation>
     </message>
 </context>
 <context>
@@ -582,22 +582,22 @@
     <message>
         <location filename="../components/GameActionBar.qml" line="+997"/>
         <source>Show</source>
-        <translation>Mostra</translation>
+        <translation>Hiện</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Manuell</source>
-        <translation>Manuale</translation>
+        <translation>Thủ công</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Auto Check/Call</source>
-        <translation>Check/Call automatico</translation>
+        <translation>Tự động check/theo</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Auto Check/Fold</source>
-        <translation>Check/Fold automatico</translation>
+        <translation>Tự động check/bỏ bài</translation>
     </message>
 </context>
 <context>
@@ -605,12 +605,12 @@
     <message>
         <location filename="../components/GameAdminBadge.qml" line="+25"/>
         <source>Admin</source>
-        <translation>Admin</translation>
+        <translation>Quản trị viên</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Game admin: starts the game and can kick players</source>
-        <translation>Amministratore del tavolo: avvia la partita e può espellere i giocatori</translation>
+        <translation>Quản trị viên màn chơi: bắt đầu màn chơi và có thể đuổi người chơi</translation>
     </message>
 </context>
 <context>
@@ -618,72 +618,72 @@
     <message>
         <location filename="../components/GameInfoPanel.qml" line="+62"/>
         <source>Höchste Karte</source>
-        <translation>Carta alta</translation>
+        <translation>Mậu thầu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Paar</source>
-        <translation>Coppia</translation>
+        <translation>Đôi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Zwei Paare</source>
-        <translation>Doppia coppia</translation>
+        <translation>Hai đôi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Drilling</source>
-        <translation>Tris</translation>
+        <translation>Sám cô</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Straße</source>
-        <translation>Scala</translation>
+        <translation>Sảnh</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Flush</source>
-        <translation>Colore</translation>
+        <translation>Thùng</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Full House</source>
-        <translation>Full</translation>
+        <translation>Cù lũ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Vierling</source>
-        <translation>Poker</translation>
+        <translation>Tứ quý</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Straight Flush</source>
-        <translation>Scala colore</translation>
+        <translation>Thùng phá sảnh</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Royal Flush</source>
-        <translation>Scala reale</translation>
+        <translation>Thùng phá sảnh hoàng gia</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Verlauf</source>
-        <translation>Cronologia</translation>
+        <translation>Lịch sử</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Chancen</source>
-        <translation>Probabilità</translation>
+        <translation>Cơ hội</translation>
     </message>
     <message>
         <location line="+245"/>
         <source>Kopieren</source>
-        <translation>Copia</translation>
+        <translation>Sao chép</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Alles auswählen</source>
-        <translation>Seleziona tutto</translation>
+        <translation>Chọn tất cả</translation>
     </message>
 </context>
 <context>
@@ -691,42 +691,42 @@
     <message>
         <location filename="../components/GameListItem.qml" line="+147"/>
         <source>Report inappropriate game name</source>
-        <translation>Segnala nome di partita offensivo</translation>
+        <translation>Thông báo cho ban quản trị về tên của màn chơi vi phạm luật</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report game name</source>
-        <translation>Segnala nome partita</translation>
+        <translation>Báo cáo tên màn chơi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure you want to report the game name:
 &quot;%1&quot; as inappropriate?</source>
-        <translation>Sei sicuro di voler segnalare il nome della partita:
-&quot;%1&quot; come offensivo?</translation>
+        <translation>Bạn có chắc rằng bạn muốn tố cáo tên màn game :
+&quot;%1&quot; vì lý do không hợp lệ hay không?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report</source>
-        <translation>Segnala</translation>
+        <translation>Báo cáo</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Close game (admin)</source>
-        <translation>Chiudi partita (admin)</translation>
+        <translation>Đóng màn chơi (quản trị viên)</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+3"/>
         <source>Close game</source>
-        <translation>Chiudi partita</translation>
+        <translation>Đóng màn chơi</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
-        <translation>Sei sicuro di voler chiudere la partita:
-&quot;%1&quot;?</translation>
+        <translation>Bạn có chắc muốn đóng màn chơi:
+„%1“ hay không?</translation>
     </message>
 </context>
 <context>
@@ -734,42 +734,42 @@
     <message>
         <location filename="../pages/GamePage.qml" line="+2310"/>
         <source>Verlauf &amp; Chancen</source>
-        <translation>Cronologia e probabilità</translation>
+        <translation>Lịch sử và cơ hội</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Chat</source>
-        <translation>Chat</translation>
+        <translation>Tán gẫu</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Emoji-Reaktionen</source>
-        <translation>Reazioni con emoji</translation>
+        <translation>Biểu cảm emoji</translation>
     </message>
     <message>
         <location line="+314"/>
         <source>Game Over</source>
-        <translation>Partita terminata</translation>
+        <translation>Kết thúc màn chơi</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Congratulations, you won the game!</source>
-        <translation>Congratulazioni, hai vinto la partita!</translation>
+        <translation>Chúc mừng, bạn đã thắng màn chơi này!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 wins the game!</source>
-        <translation>%1 vince la partita!</translation>
+        <translation>%1 đã thắng màn chơi!</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Back to Menu</source>
-        <translation>Torna al menu</translation>
+        <translation>Về menu</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>New Game</source>
-        <translation>Nuova partita</translation>
+        <translation>Màn chơi mới</translation>
     </message>
 </context>
 <context>
@@ -779,50 +779,50 @@
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
-        <translation>Ignora giocatore</translation>
+        <translation>Bỏ qua người chơi</translation>
     </message>
     <message>
         <location line="-30"/>
         <location line="+36"/>
         <location line="+2"/>
         <source>Unignore player</source>
-        <translation>Non ignorare più il giocatore</translation>
+        <translation>Thôi bỏ qua người chơi</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Show player stats</source>
-        <translation>Mostra statistiche giocatore</translation>
+        <translation>Hiển thị trạng thái người chơi</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+35"/>
         <source>Report inappropriate avatar</source>
-        <translation>Segnala avatar non appropriato</translation>
+        <translation>Báo cáo trường hợp vi phạm hình đại diện </translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Note about player ...</source>
-        <translation>Nota sul giocatore...</translation>
+        <translation>Ghi chú về người chơi ...</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Are you sure you want to ignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero ignorare «%1»?&gt;</translation>
+        <translation>Bạn có chắc muốn bỏ qua „%1“ hay không?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Are you sure you want to unignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero smettere di ignorare «%1»?&gt;</translation>
+        <translation>Bạn có chắc muốn thôi bỏ qua „%1“ hay không?</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Are you sure you want to report the avatar of &quot;%1&quot; as inappropriate?</source>
-        <translation>Vuoi davvero segnalare l&apos;avatar di «%1» come non appropriato?</translation>
+        <translation>Bạn có chắc muốn báo cáo về thành viên &quot;%1&quot; với lý do hình ảnh đại diện không hợp lệ hay không?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Report</source>
-        <translation>Segnala</translation>
+        <translation>Báo cáo</translation>
     </message>
 </context>
 <context>
@@ -831,7 +831,7 @@
         <location filename="../components/GamePlayerSelfBox.qml" line="+209"/>
         <location line="+33"/>
         <source>Du</source>
-        <translation>Tu</translation>
+        <translation>Bạn</translation>
     </message>
 </context>
 <context>
@@ -839,27 +839,27 @@
     <message>
         <location filename="../components/GameStatusBar.qml" line="+100"/>
         <source>Show table ranking</source>
-        <translation>Mostra classifica del tavolo</translation>
+        <translation>Hiện bảng xếp hạng của bàn</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Open in browser</source>
-        <translation>Apri nel browser</translation>
+        <translation>Mở trong trình duyệt</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Total:</source>
-        <translation>Totale:</translation>
+        <translation>Pot:</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Bets:</source>
-        <translation>Puntate:</translation>
+        <translation>Tiền cược:</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Spectating</source>
-        <translation>Spettatore</translation>
+        <translation>Đang xem</translation>
     </message>
     <message>
         <location line="+49"/>
@@ -869,12 +869,12 @@
     <message>
         <location line="+10"/>
         <source>Game: %1</source>
-        <translation>Partita: %1</translation>
+        <translation>Màn chơi: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Hand: %1</source>
-        <translation>Mano: %1</translation>
+        <translation>Ván bài: %1</translation>
     </message>
 </context>
 <context>
@@ -883,92 +883,92 @@
         <location filename="../pages/GameTableStatsPage.qml" line="+151"/>
         <location line="+36"/>
         <source>Could not load table ranking (HTTP %1).</source>
-        <translation>Impossibile caricare la classifica del tavolo (HTTP %1).</translation>
+        <translation>Không tải được bảng xếp hạng của bàn (HTTP %1).</translation>
     </message>
     <message>
         <location line="-16"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Không phân tích được phản hồi của máy chủ.</translation>
     </message>
     <message>
         <location line="+58"/>
         <source>Table ranking – %1</source>
-        <translation>Classifica del tavolo – %1</translation>
+        <translation>Xếp hạng của bàn – %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Table ranking</source>
-        <translation>Classifica del tavolo</translation>
+        <translation>Xếp hạng của bàn</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>Loại: %1</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Players: %1 / %2</source>
-        <translation>Giocatori: %1 / %2</translation>
+        <translation>Người chơi: %1 / %2</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Small blind: %1</source>
-        <translation>Buio piccolo: %1</translation>
+        <translation>Tiền mù nhỏ: %1</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Start cash: %1</source>
-        <translation>Capitale iniziale: %1</translation>
+        <translation>Vốn ban đầu: %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervallo aumento buio: %1 mani</translation>
+        <translation>Khoảng tăng tiền mù: %1 ván</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervallo aumento buio: %1 minuti</translation>
+        <translation>Khoảng tăng tiền mù: %1 phút</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modalità aumento buio: %1</translation>
+        <translation>Cách tăng tiền mù: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>double blinds</source>
-        <translation>raddoppia blind</translation>
+        <translation>gấp đôi tiền cược</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordine manuale dei blind</translation>
+        <translation>thứ tự tăng tiền cược tự chỉnh</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Action time: %1 sec</source>
-        <translation>Tempo di azione: %1 sec</translation>
+        <translation>Thời gian ra quyết định: %1 giây</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Hand delay: %1 sec</source>
-        <translation>Ritardo tra le mani: %1 sec</translation>
+        <translation>Nghỉ giữa các ván: %1 giây</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Current BBC season standings of the players at this table.</source>
-        <translation>Classifica della stagione BBC corrente dei giocatori a questo tavolo.</translation>
+        <translation>Thứ hạng mùa BBC hiện tại của những người chơi ở bàn này.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Current WEC month standings of the players at this table.</source>
-        <translation>Classifica del mese WEC corrente dei giocatori a questo tavolo.</translation>
+        <translation>Thứ hạng tháng WEC hiện tại của những người chơi ở bàn này.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Current season standings of the players at this table.</source>
-        <translation>Classifica della stagione corrente dei giocatori a questo tavolo.</translation>
+        <translation>Thứ hạng mùa giải hiện tại của những người chơi ở bàn này.</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -978,32 +978,32 @@
     <message>
         <location line="+8"/>
         <source>Player</source>
-        <translation>Giocatore</translation>
+        <translation>Người chơi</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Màn chơi</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>TB</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Điểm</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Điểm số</translation>
     </message>
     <message>
         <location line="+138"/>
         <source>No ranking data for the players at this table yet.</source>
-        <translation>Ancora nessun dato di classifica per i giocatori a questo tavolo.</translation>
+        <translation>Chưa có dữ liệu xếp hạng cho những người chơi ở bàn này.</translation>
     </message>
 </context>
 <context>
@@ -1011,208 +1011,208 @@
     <message>
         <location filename="../pages/GameWaitPage.qml" line="+241"/>
         <source>Players</source>
-        <translation>Giocatori</translation>
+        <translation>Người chơi</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>search for player ...</source>
-        <translation>ricerca giocatore ...</translation>
+        <translation>tìm kiếm người chơi...</translation>
     </message>
     <message>
         <location line="+32"/>
         <location line="+310"/>
         <source>Sort alphabetically</source>
-        <translation>Ordina alfabeticamente</translation>
+        <translation>Sắp xếp theo thứ tự chữ cái</translation>
     </message>
     <message>
         <location line="-309"/>
         <location line="+310"/>
         <source>Sort by country</source>
-        <translation>Ordina per nazionalità</translation>
+        <translation>Sắp xếp theo quốc gia</translation>
     </message>
     <message>
         <location line="-309"/>
         <location line="+310"/>
         <source>Display idle players</source>
-        <translation>Visualizza giocatori liberi</translation>
+        <translation>Hiển thị các người chơi ở trạng thái chờ</translation>
     </message>
     <message>
         <location line="-267"/>
         <location line="+687"/>
         <source>Game List</source>
-        <translation>Elenco partite</translation>
+        <translation>Danh sách màn chơi</translation>
     </message>
     <message>
         <location line="-636"/>
         <location line="+648"/>
         <source>No game list filter</source>
-        <translation>Nessun filtro elenco partite</translation>
+        <translation>Không lọc danh sách màn chơi</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open games</source>
-        <translation>Mostra partite aperte</translation>
+        <translation>Hiện các màn chơi đang mở</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full games</source>
-        <translation>Mostra partite aperte e non piene</translation>
+        <translation>Hiện các màn chơi đang mở và chưa đủ người</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
-        <translation>Mostra partite aperte, non piene e non private</translation>
+        <translation>Hiện các màn chơi đang mở, chưa đủ người và công khai</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; private games</source>
-        <translation>Mostra partite aperte, non piene e private</translation>
+        <translation>Hiện các màn chơi đang mở, chưa đủ người và riêng tư</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
-        <translation>Mostra partite aperte, non piene e con classifica</translation>
+        <translation>Hiện các màn chơi xếp hạng đang mở và chưa đủ người</translation>
     </message>
     <message>
         <location line="-574"/>
         <source>Game Info</source>
-        <translation>Informazioni partita</translation>
+        <translation>Thông tin về màn chơi</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Waiting for the start of the next hand to rejoin the game</source>
-        <translation>In attesa dell&apos;inizio della prossima mano per rientrare nella partita</translation>
+        <translation>Đang chờ ván tiếp theo bắt đầu để quay lại màn chơi</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Spectating — waiting for the next hand</source>
-        <translation>Spettatore — in attesa della prossima mano</translation>
+        <translation>Đang xem — đang chờ ván tiếp theo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Waiting for players</source>
-        <translation>In attesa di giocatori</translation>
+        <translation>Đang chờ người chơi</translation>
     </message>
     <message>
         <location line="+82"/>
         <source>Connected Players</source>
-        <translation>Giocatori connessi</translation>
+        <translation>Số người chơi kết nối</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Players: %1 / %2</source>
-        <translation>Giocatori: %1 / %2</translation>
+        <translation>Người chơi: %1 / %2</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>Loại: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Small blind: %1</source>
-        <translation>Buio piccolo: %1</translation>
+        <translation>Tiền mù nhỏ: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Start cash: %1</source>
-        <translation>Capitale iniziale: %1</translation>
+        <translation>Vốn ban đầu: %1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervallo aumento buio: %1 mani</translation>
+        <translation>Khoảng tăng tiền mù: %1 ván</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervallo aumento buio: %1 minuti</translation>
+        <translation>Khoảng tăng tiền mù: %1 phút</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modalità aumento buio: %1</translation>
+        <translation>Cách tăng tiền mù: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>double blinds</source>
-        <translation>raddoppia blind</translation>
+        <translation>gấp đôi tiền cược</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordine manuale dei blind</translation>
+        <translation>thứ tự tăng tiền cược tự chỉnh</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Action time: %1 sec</source>
-        <translation>Tempo di azione: %1 sec</translation>
+        <translation>Thời gian ra quyết định: %1 giây</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Hand delay: %1 sec</source>
-        <translation>Ritardo tra le mani: %1 sec</translation>
+        <translation>Nghỉ giữa các ván: %1 giây</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Players in game (%1)</source>
-        <translation>Giocatori in partita (%1)</translation>
+        <translation>Người chơi trong màn chơi (%1)</translation>
     </message>
     <message>
         <location line="-653"/>
         <location line="+745"/>
         <source>Kick player</source>
-        <translation>Espelli giocatore</translation>
+        <translation>Đuổi người chơi</translation>
     </message>
     <message>
         <location line="-744"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
-        <translation>Vuoi davvero espellere «%1» dalla partita?</translation>
+        <translation>Bạn có chắc muốn đuổi „%1“ khỏi màn chơi hay không?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kick</source>
-        <translation>Espelli</translation>
+        <translation>Đuổi</translation>
     </message>
     <message>
         <location line="+776"/>
         <source>Lobby Chat</source>
-        <translation>Chat della lobby</translation>
+        <translation>Tán gẫu phòng chờ</translation>
     </message>
     <message>
         <location line="+73"/>
         <source>Guests cannot chat</source>
-        <translation>Gli ospiti non possono chattare</translation>
+        <translation>Khách không thể tán gẫu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Type your message...</source>
-        <translation>Scrivi il tuo messaggio...</translation>
+        <translation>Nhập tin nhắn của bạn...</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Fill up with computer players</source>
-        <translation>Completa con giocatori del computer</translation>
+        <translation>Bổ sung bằng người chơi máy tính</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Leave Game</source>
-        <translation>Abbandona partita</translation>
+        <translation>Rời màn chơi</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Start Game</source>
-        <translation>Inizia partita</translation>
+        <translation>Bắt đầu màn chơi</translation>
     </message>
     <message>
         <location line="-88"/>
         <source>Suggest players</source>
-        <translation>Suggerisci giocatori</translation>
+        <translation>Gợi ý người chơi</translation>
     </message>
 </context>
 <context>
@@ -1220,32 +1220,32 @@
     <message>
         <location filename="../components/GlobalNoticePopup.qml" line="+58"/>
         <source>Global notice</source>
-        <translation>Avviso globale</translation>
+        <translation>Thông báo chung</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This message is shown to every player on the server, in the lobby and at the tables.</source>
-        <translation>Questo messaggio viene mostrato a tutti i giocatori del server, nella lobby e ai tavoli.</translation>
+        <translation>Tin nhắn này hiển thị cho mọi người chơi trên máy chủ, ở phòng chờ và tại các bàn.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Notice text …</source>
-        <translation>Testo dell&apos;avviso …</translation>
+        <translation>Nội dung thông báo …</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>%1 / %2 characters</source>
-        <translation>%1 / %2 caratteri</translation>
+        <translation>%1 / %2 ký tự</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Hủy bỏ</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Send</source>
-        <translation>Invia</translation>
+        <translation>Gửi</translation>
     </message>
 </context>
 <context>
@@ -1253,157 +1253,157 @@
     <message>
         <location filename="../components/GuiSettings.qml" line="+20"/>
         <source>Benutzeroberfläche</source>
-        <translation>Interfaccia utente</translation>
+        <translation>Giao diện người dùng</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Allgemein</source>
-        <translation>Generale</translation>
+        <translation>Chung</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Netzwerk</source>
-        <translation>Rete</translation>
+        <translation>Mạng</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Dark Mode:</source>
-        <translation>Modalità scura:</translation>
+        <translation>Chế độ tối:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Automatisch</source>
-        <translation>Automatica</translation>
+        <translation>Tự động</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Hell</source>
-        <translation>Chiaro</translation>
+        <translation>Sáng</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Dunkel</source>
-        <translation>Scuro</translation>
+        <translation>Tối</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Sprache:</source>
-        <translation>Lingua:</translation>
+        <translation>Ngôn ngữ:</translation>
     </message>
     <message>
         <location line="+70"/>
         <source>Ausblend-Animation für Verliererkarten</source>
-        <translation>Animazione di dissolvenza per le carte perdenti</translation>
+        <translation>Hiệu ứng mờ dần cho các lá bài thua</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Zeitstempel im Chat anzeigen</source>
-        <translation>Mostra l&apos;orario nella chat</translation>
+        <translation>Hiện dấu thời gian trong phần tán gẫu</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Übersetzung anbieten (Globus-Symbol im Chat und bei Forum-Beiträgen)</source>
-        <translation>Offri la traduzione (icona del globo nella chat e nei messaggi del forum)</translation>
+        <translation>Đề nghị dịch (biểu tượng quả địa cầu trong tán gẫu và bài viết diễn đàn)</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht oder eines Forum-Beitrags antippst; Zielsprache ist die oben gewählte Sprache.</source>
-        <translation>La traduzione utilizza un servizio esterno (Google Traduttore o, in alternativa, MyMemory). Non viene inviato nulla finché non tocchi l&apos;icona di un messaggio o di un messaggio del forum; la lingua di destinazione è quella selezionata sopra.</translation>
+        <translation>Chức năng dịch dùng dịch vụ bên ngoài (Google Dịch, dự phòng là MyMemory). Không có gì được gửi đi cho tới khi bạn chạm vào biểu tượng của một tin nhắn hay bài viết; ngôn ngữ đích là ngôn ngữ đã chọn ở trên.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Animierte Karten (Aufdeck-Animation)</source>
-        <translation>Carte animate (animazione flip)</translation>
+        <translation>Lá bài động (hiệu ứng lật bài)</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Grafikeffekte reduzieren (Schatten/Glow) – für schwache Systeme</source>
-        <translation>Riduci effetti grafici (ombre/bagliori) – per sistemi meno performanti</translation>
+        <translation>Giảm hiệu ứng đồ họa (bóng đổ/ánh sáng) – cho máy yếu</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Alternative F-Tasten-Belegung (F1-F4)</source>
-        <translation>Assegnazione alternativa dei tasti F (F1-F4)</translation>
+        <translation>Bố trí phím F thay thế (F1-F4)</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Symbole für Small Blind und Big Blind anzeigen</source>
-        <translation>Mostra i simboli di buio piccolo e buio grande</translation>
+        <translation>Hiện ký hiệu tiền mù nhỏ và tiền mù lớn</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Pot-Prozent-Schaltflächen anzeigen</source>
-        <translation>Mostra i pulsanti percentuale del piatto</translation>
+        <translation>Hiện các nút phần trăm của pot</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Anti-Peek: Eigene Karten erst bei Klick anzeigen</source>
-        <translation>Anti-sbirciata: mostra le proprie carte solo al clic</translation>
+        <translation>Chống nhìn trộm: chỉ hiện bài của bạn khi bấm vào</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Startbildschirm beim Startvorgang deaktivieren</source>
-        <translation>Disabilita la schermata iniziale all&apos;avvio</translation>
+        <translation>Không hiện màn hình khởi động khi mở chương trình</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Internationale Pokerausdrücke (Check, Call, Raise) nicht übersetzen</source>
-        <translation>Non tradurre i termini internazionali del poker (Check, Call, Raise)</translation>
+        <translation>Không dịch các thuật ngữ poker quốc tế (Check, Call, Raise)</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Tooltips anzeigen</source>
-        <translation>Mostra i suggerimenti</translation>
+        <translation>Hiện chú giải công cụ</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
-        <translation>Abilita lo zoom del tavolo (scorrimento e zoom, solo modalità mobile)</translation>
+        <translation>Bật thu phóng bàn chơi (vuốt và thu phóng, chỉ ở chế độ di động)</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)</source>
-        <translation>Mantieni i posti dei giocatori che hanno lasciato il tavolo (i riquadri dei giocatori rimanenti restano al loro posto)</translation>
+        <translation>Giữ chỗ của những người chơi đã rời bàn (các ô người chơi còn lại giữ nguyên vị trí)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Forum-Neuigkeiten anzeigen</source>
-        <translation>Mostra le novità dal forum</translation>
+        <translation>Hiện tin diễn đàn</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Community-Inhalte anzeigen</source>
-        <translation>Mostra contenuti della community</translation>
+        <translation>Hiện nội dung cộng đồng</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Standard-Community:</source>
-        <translation>Community predefinita:</translation>
+        <translation>Cộng đồng mặc định:</translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
-        <translation>Imposta il focus sul campo di puntata quando è il tuo turno</translation>
+        <translation>Đưa con trỏ vào ô đặt cược khi đến lượt bạn</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen</source>
-        <translation>Mostra il colore dello stato di rete nell&apos;angolo dell&apos;avatar</translation>
+        <translation>Hiện màu trạng thái mạng ở góc hình đại diện</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Emoji-Reaktionen deaktivieren</source>
-        <translation>Disabilita le reazioni con emoji</translation>
+        <translation>Tắt biểu cảm emoji</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Versehentliches Call nach einem großen Raise verhindern</source>
-        <translation>Evita chiamate accidentali dopo un grande rilancio</translation>
+        <translation>Ngăn việc theo nhầm sau một lần tố lớn</translation>
     </message>
     <message>
         <location line="-31"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
-        <translation>Suggerisci giocatori nelle proprie partite della community</translation>
+        <translation>Gợi ý người chơi trong các màn chơi cộng đồng của bạn</translation>
     </message>
 </context>
 <context>
@@ -1411,157 +1411,157 @@
     <message>
         <location filename="../components/InternetGameSettings.qml" line="+19"/>
         <source>Internetspiel</source>
-        <translation>Partita in Internet</translation>
+        <translation>Màn chơi Internet</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Server-Konfiguration</source>
-        <translation>Configurazione server</translation>
+        <translation>Cấu hình máy chủ</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Automatische Server-Konfiguration</source>
-        <translation>Configurazione automatica del server</translation>
+        <translation>Cấu hình máy chủ tự động</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Manuelle Server-Konfiguration</source>
-        <translation>Configurazione manuale del server</translation>
+        <translation>Cấu hình máy chủ thủ công</translation>
     </message>
     <message>
         <location line="-18"/>
         <source>Server-Liste:</source>
-        <translation>Elenco server:</translation>
+        <translation>Danh sách máy chủ:</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Server-Adresse:</source>
-        <translation>Indirizzo del server:</translation>
+        <translation>Địa chỉ máy chủ:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Server-Port:</source>
-        <translation>Porta del server:</translation>
+        <translation>Cổng máy chủ:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Server-Passwort:</source>
-        <translation>Password del server:</translation>
+        <translation>Mật khẩu máy chủ:</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Nur registrierte Spieler</source>
-        <translation>Solo utenti registrati</translation>
+        <translation>Chỉ dành cho người chơi đã đăng ký</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur eingeladene Spieler</source>
-        <translation>Solo utenti invitati</translation>
+        <translation>Chỉ dành cho người chơi được mời</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranglistenspiel</source>
-        <translation>Valida per la classifica</translation>
+        <translation>Màn chơi xếp hạng</translation>
     </message>
     <message>
         <location line="+87"/>
         <source>Verbindungsoptionen</source>
-        <translation>Opzioni di connessione</translation>
+        <translation>Tùy chọn kết nối</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>TLS/SSL verwenden (verschlüsselte Verbindung)</source>
-        <translation>Usa TLS/SSL (connessione crittografata)</translation>
+        <translation>Dùng TLS/SSL (kết nối mã hóa)</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>SCTP verwenden (statt TCP)</source>
-        <translation>Usa SCTP (invece di TCP)</translation>
+        <translation>Dùng SCTP (thay cho TCP)</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>IPv6 verwenden</source>
-        <translation>Utilizza IPv6</translation>
+        <translation>Dùng IPv6</translation>
     </message>
     <message>
         <location line="-52"/>
         <source>Avatar-Server</source>
-        <translation>Server avatar</translation>
+        <translation>Máy chủ hình đại diện</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Avatar-Server verwenden</source>
-        <translation>Usa il server avatar</translation>
+        <translation>Dùng máy chủ hình đại diện</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avatar-Server-Adresse:</source>
-        <translation>Indirizzo del server avatar:</translation>
+        <translation>Địa chỉ máy chủ hình đại diện:</translation>
     </message>
     <message>
         <location line="-101"/>
         <source>Spiel-Einstellungen</source>
-        <translation>Impostazioni partita</translation>
+        <translation>Thiết lập màn chơi</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Spiel-Name:</source>
-        <translation>Nome partita:</translation>
+        <translation>Tên màn chơi:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Spiel-Typ:</source>
-        <translation>Tipo di partita:</translation>
+        <translation>Loại màn chơi:</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Normal</source>
-        <translation>Normale</translation>
+        <translation>Thường</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Spiel-Passwort verwenden</source>
-        <translation>Usa password della partita</translation>
+        <translation>Dùng mật khẩu cho màn chơi</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Spiel-Passwort:</source>
-        <translation>Password della partita:</translation>
+        <translation>Mật khẩu màn chơi:</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Zuschauer erlauben</source>
-        <translation>Consenti spettatori</translation>
+        <translation>Cho phép người xem</translation>
     </message>
     <message>
         <location line="+84"/>
         <source>Tisch automatisch verlassen nach Spielende</source>
-        <translation>Lascia automaticamente il tavolo al termine della partita</translation>
+        <translation>Tự động rời bàn khi màn chơi kết thúc</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>Weitere Optionen</source>
-        <translation>Altre opzioni</translation>
+        <translation>Tùy chọn khác</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Ignorierte Spieler</source>
-        <translation>Giocatori Ignorati</translation>
+        <translation>Người chơi bị bỏ qua</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>(keine ignorierten Spieler)</source>
-        <translation>(nessun giocatore ignorato)</translation>
+        <translation>(không có người chơi nào bị bỏ qua)</translation>
     </message>
     <message>
         <location line="-45"/>
         <source>Spieler auf der Ignore-Liste werden nicht im Chat angezeigt.</source>
-        <translation>I giocatori nella lista degli ignorati non vengono mostrati in chat.</translation>
+        <translation>Người chơi trong danh sách bỏ qua sẽ không hiện trong phần tán gẫu.</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Entfernen</source>
-        <translation>Rimuovi</translation>
+        <translation>Gỡ bỏ</translation>
     </message>
 </context>
 <context>
@@ -1569,149 +1569,149 @@
     <message>
         <location filename="../pages/LobbyCreateGamePage.qml" line="+314"/>
         <source>← Zurück</source>
-        <translation>← Indietro</translation>
+        <translation>← Quay lại</translation>
     </message>
     <message>
         <location line="+8"/>
         <location line="+455"/>
         <source>Spiel erstellen</source>
-        <translation>Crea Partita</translation>
+        <translation>Tạo màn chơi</translation>
     </message>
     <message>
         <location line="-426"/>
         <source>Spielname</source>
-        <translation>Nome partita</translation>
+        <translation>Tên màn chơi</translation>
     </message>
     <message>
         <location line="-205"/>
         <source>%1&apos;s game</source>
-        <translation>Partita di %1</translation>
+        <translation>Ván của %1</translation>
     </message>
     <message>
         <location line="+214"/>
         <source>Spielname eingeben …</source>
-        <translation>Inserisci il nome della partita …</translation>
+        <translation>Nhập tên màn chơi …</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Spieltyp</source>
-        <translation>Tipo di partita</translation>
+        <translation>Loại màn chơi</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Normal</source>
-        <translation>Normale</translation>
+        <translation>Thường</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur registrierte Spieler</source>
-        <translation>Solo utenti registrati</translation>
+        <translation>Chỉ dành cho người chơi đã đăng ký</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur eingeladene Spieler</source>
-        <translation>Solo utenti invitati</translation>
+        <translation>Chỉ dành cho người chơi được mời</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranglistenspiel</source>
-        <translation>Valida per la classifica</translation>
+        <translation>Màn chơi xếp hạng</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Community-Vorlage</source>
-        <translation>Modello della community</translation>
+        <translation>Mẫu của cộng đồng</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Eigene Einstellungen</source>
-        <translation>Impostazioni personalizzate</translation>
+        <translation>Thiết lập riêng</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Passwort</source>
-        <translation>Password</translation>
+        <translation>Mật khẩu</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Passwort eingeben …</source>
-        <translation>Inserisci password …</translation>
+        <translation>Nhập mật khẩu …</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Zuschauer erlaubt</source>
-        <translation>Spettatori ammessi</translation>
+        <translation>Cho phép người xem</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Max. Spieler</source>
-        <translation>Numero max. giocatori</translation>
+        <translation>Số người chơi tối đa</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Startgeld</source>
-        <translation>Capitale iniziale</translation>
+        <translation>Vốn ban đầu</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Blind-Einstellungen</source>
-        <translation>Impostazioni buio</translation>
+        <translation>Thiết lập tiền mù</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Erster Small Blind</source>
-        <translation>Primo buio piccolo</translation>
+        <translation>Tiền mù nhỏ đầu tiên</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Blind-Erhöhungsintervall</source>
-        <translation>Intervallo aumento buio</translation>
+        <translation>Khoảng tăng tiền mù</translation>
     </message>
     <message>
         <location line="+22"/>
         <location line="+28"/>
         <source>Alle</source>
-        <translation>Ogni</translation>
+        <translation>Mỗi</translation>
     </message>
     <message>
         <location line="-17"/>
         <source>Hände</source>
-        <translation>mani</translation>
+        <translation>ván</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Minuten</source>
-        <translation>minuti</translation>
+        <translation>phút</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Blindliste: %1</source>
-        <translation>Lista dei bui: %1</translation>
+        <translation>Danh sách tiền mù: %1</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Zeitlimits</source>
-        <translation>Limiti di tempo</translation>
+        <translation>Giới hạn thời gian</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Zeitlimit Spieleraktion</source>
-        <translation>Limite di tempo per l&apos;azione del giocatore</translation>
+        <translation>Giới hạn thời gian cho lượt của người chơi</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Pause zwischen Händen</source>
-        <translation>Ritardo tra le mani</translation>
+        <translation>Nghỉ giữa các ván</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Hủy bỏ</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Bitte einen Spielnamen eingeben.</source>
-        <translation>Inserisci un nome per la partita.</translation>
+        <translation>Vui lòng nhập tên màn chơi.</translation>
     </message>
 </context>
 <context>
@@ -1720,172 +1720,172 @@
         <location filename="../cpp/lobbyhandler.cpp" line="+1441"/>
         <location line="+1347"/>
         <source>Guests cannot send chat messages</source>
-        <translation>Gli ospiti non possono inviare messaggi in chat</translation>
+        <translation>Khách không thể gửi tin nhắn tán gẫu</translation>
     </message>
     <message>
         <location line="-1328"/>
         <location line="+1322"/>
         <source>Private messages are not available at the table.</source>
-        <translation>I messaggi privati non sono disponibili al tavolo.</translation>
+        <translation>Không dùng được tin nhắn riêng khi đang ở bàn.</translation>
     </message>
     <message>
         <location line="-1316"/>
         <source>Player not found</source>
-        <translation>Giocatore non trovato</translation>
+        <translation>Không tìm thấy người chơi</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Failed to send chat message</source>
-        <translation>Impossibile inviare il messaggio in chat</translation>
+        <translation>Không gửi được tin nhắn tán gẫu</translation>
     </message>
     <message>
         <location line="+98"/>
         <source>The avatar report was accepted by the server. Thank you.</source>
-        <translation>La segnalazione dell&apos;avatar è stata accettata dal server. Grazie mille.</translation>
+        <translation>Thông báo vi phạm về hình đại diện đã được ghi nhận bởi hệ thống máy chủ. Cảm ơn bạn.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This avatar was already reported by another player.</source>
-        <translation>Questo avatar è già stato segnalato da un altro giocatore.</translation>
+        <translation>Hình đại diện này đã bị báo cáo chính sách về hình đại diện bởi một người chơi khác.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An error occurred while reporting the avatar.</source>
-        <translation>Si è verificato un errore durante la segnalazione dell&apos;avatar.</translation>
+        <translation>Một lỗi đã xảy ra khi tiến hành thông báo vi phạm về hình đại diện.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name report was accepted by the server. Thank you.</source>
-        <translation>La segnalazione sul nome della partita è stata accettata dal server. Grazie.</translation>
+        <translation>Thông báo vi phạm về tên màn chơi đã được ghi nhận bởi hệ thống máy chủ. Cảm ơn bạn.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game name was already reported by another player.</source>
-        <translation>Questo nome di partita è già stato segnalato da un altro giocatore.</translation>
+        <translation>Tên của màn chơi này đã bị một người chơi khác thông báo.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An error occurred while reporting the game name.</source>
-        <translation>Si è verificato un errore durante la segnalazione del nome di partita.</translation>
+        <translation>Một lỗi đã xảy ra khi tiến hành gửi thông báo vi phạm tên màn chơi.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game was closed.</source>
-        <translation>La partita è stata chiusa.</translation>
+        <translation>Màn chơi đã được đóng.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be closed.</source>
-        <translation>Impossibile chiudere la partita.</translation>
+        <translation>Không thể đóng màn chơi.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked and banned permanently.</source>
-        <translation>Il giocatore è stato espulso e bandito permanentemente.</translation>
+        <translation>Người chơi đã bị đuổi và cấm vĩnh viễn.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked, but could not be banned because it was a guest player.</source>
-        <translation>Il giocatore è stato espulso ma non è stato bandito perchè era un ospite.</translation>
+        <translation>Người chơi đã bị đuổi, nhưng không thể cấm vì đó là người chơi khách.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked, but could not be banned, 
 because the nick could not be found in the database</source>
-        <translation>Il giocatore è stato espulso ma non bandito
-perchè il suo nickname non è stato trovato sul database</translation>
+        <translation>Người chơi đã bị đuổi, nhưng không thể cấm, 
+vì không tìm thấy biệt danh trong cơ sở dữ liệu</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player could not be found.</source>
-        <translation>Impossibile trovare il giocatore.</translation>
+        <translation>Không tìm thấy người chơi.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The global notice was sent to all players.</source>
-        <translation>L&apos;avviso globale è stato inviato a tutti i giocatori.</translation>
+        <translation>Thông báo chung đã được gửi tới tất cả người chơi.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The global notice was rejected by the server.</source>
-        <translation>L&apos;avviso globale è stato rifiutato dal server.</translation>
+        <translation>Máy chủ đã từ chối thông báo chung.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>You cannot join this game, because another player in that game has your network address.</source>
-        <translation>Non puoi unirti alla partita, è presente un altro giocatore che ha il tuo stesso indirizzo di rete.</translation>
+        <translation>Bạn không thể tham gia màn chơi này, vì một người chơi khác trong màn chơi này đang có cùng chung địa chỉ mạng với bạn.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Sorry, this game is already full.</source>
-        <translation>Spiacente, la partita è già al completo.</translation>
+        <translation>Xin lỗi, màn chơi này hiện đã đủ người chơi.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Unable to join - the server has already started the game.</source>
-        <translation>Impossibile partecipare - la partita è già iniziata.</translation>
+        <translation>Không thể tham gia - hệ thống máy chủ đã bắt đầu màn chơi này.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game is of type invite-only. You cannot join this game without being invited.</source>
-        <translation>L&apos;accesso a questa partita è concesso solo su invito. Non puoi partecipare senza essere stato invitato.</translation>
+        <translation>Màn chơi này thuộc loại chỉ dành cho người chơi được mời trước. Bạn không thể tham gia vào màn chơi này vì chưa nhận được lời mời nào từ chủ bàn.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game name is already in use. Please choose a different name.</source>
-        <translation>Questo nome partita è già in uso. Scegli un nome diverso.</translation>
+        <translation>Tên màn chơi này đã được dùng. Vui lòng chọn tên khác.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name is invalid. Please choose a different name.</source>
-        <translation>Il nome della partita non è valido. Scegli un nome diverso.</translation>
+        <translation>Tên màn chơi không hợp lệ. Vui lòng chọn tên khác.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
-        <translation>Password sbagliata per la partita selezionata.
-Reinserire la password e riprovare.</translation>
+        <translation>Sai mật khẩu khi gia nhập vào màn chơi.
+Hãy điền lại mật khẩu và thử lại một lần nữa.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You cannot join this type of game as guest.</source>
-        <translation>Non puoi accedere a questa partita come ospite.</translation>
+        <translation>Bạn không thể tham gia vào màn chơi này khi bạn đang đăng nhập dưới dạng khách/ẩn danh.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The settings are invalid for this type of game.</source>
-        <translation>Impostazioni non valide per questo tipo di partita.</translation>
+        <translation>Thiết lập cho màn chơi này đã bị lỗi.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game does not allow spectators.</source>
-        <translation>Questa partita non consente spettatori.</translation>
+        <translation>Màn chơi này không cho phép người xem.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Could not join the game.</source>
-        <translation>Impossibile unirsi alla partita.</translation>
+        <translation>Không thể tham gia màn chơi.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Your connection to the server is very slow, the game had to start without you.</source>
-        <translation>La connessione al server è molto lenta, la partita è dovuta cominciare senza di te.</translation>
+        <translation>Kết nối hiện tại của bạn tới máy chủ rất chậm, màn chơi này sẽ tự động bắt đầu mà không có bạn.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were kicked from the game.</source>
-        <translation>Sei stato espulso dalla partita.</translation>
+        <translation>Bạn đã bị đuổi khỏi màn chơi.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>You were removed due to inactivity.</source>
-        <translation>Sei stato rimosso per inattività.</translation>
+        <translation>Bạn đã bị loại vì không hoạt động.</translation>
     </message>
     <message>
         <location line="+581"/>
         <source>%1 is not in the lobby at the moment.</source>
-        <translation>%1 non è nella lobby al momento.</translation>
+        <translation>%1 hiện không ở trong phòng chờ.</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -1899,72 +1899,72 @@ Reinserire la password e riprovare.</translation>
         <location line="+11"/>
         <location line="+11"/>
         <source>Not connected to server</source>
-        <translation>Non connesso al server</translation>
+        <translation>Chưa kết nối tới máy chủ</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>%1 has been invited to %2 by %3.</source>
-        <translation>%1 è stato invitato a %2 da %3.</translation>
+        <translation>%3 đã mời %1 vào %2.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>%1 has rejected the invitation to %2.</source>
-        <translation>%1 ha rifiutato l&apos;invito a %2.</translation>
+        <translation>%1 đã từ chối lời mời vào %2.</translation>
     </message>
     <message>
         <location line="+79"/>
         <source>Guests cannot receive private messages.</source>
-        <translation>Gli ospiti non possono ricevere messaggi privati.</translation>
+        <translation>Khách không thể nhận tin nhắn riêng.</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Private message to %1:</source>
-        <translation>Messaggio privato a %1:</translation>
+        <translation>Tin nhắn riêng gửi tới %1:</translation>
     </message>
     <message>
         <location line="+96"/>
         <source>Registered players only</source>
-        <translation>Solo utenti registrati</translation>
+        <translation>Chỉ dành cho người chơi đã đăng ký</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invited players only</source>
-        <translation>Solo utenti invitati</translation>
+        <translation>Chỉ dành cho người chơi được mời</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranking game</source>
-        <translation>Valida per la classifica</translation>
+        <translation>Màn chơi được xếp hạng trên hệ thống máy chủ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Standard</source>
-        <translation>Standard</translation>
+        <translation>Tiêu Chuẩn</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Running</source>
-        <translation>In corso</translation>
+        <translation>Đang diễn ra</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Closed</source>
-        <translation>Chiusa</translation>
+        <translation>Đã đóng</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open</source>
-        <translation>Aperta</translation>
+        <translation>Đang mở</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Full</source>
-        <translation>Piena</translation>
+        <translation>Đã đủ người</translation>
     </message>
     <message>
         <location line="-221"/>
         <source>%1 cannot join %2 because he is busy.</source>
-        <translation>%1 non può unirsi a %2 perché è occupato.</translation>
+        <translation>%1 không thể tham gia %2 vì đang bận.</translation>
     </message>
 </context>
 <context>
@@ -1972,335 +1972,335 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../pages/LobbyPage.qml" line="+1545"/>
         <source>Game invitation</source>
-        <translation>Invito alla partita</translation>
+        <translation>Lời mời màn chơi</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
-        <translation>Sei stato invitato alla partita &lt;b&gt;%1&lt;/b&gt; da &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Desideri partecipare alla partita?</translation>
+        <translation>Bạn đã được mời tham gia màn chơi &lt;b&gt;%1&lt;/b&gt; bởi &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Bạn có muốn tham gia màn chơi này không?</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Decline</source>
-        <translation>Rifiuta</translation>
+        <translation>Từ chối</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Join</source>
-        <translation>Unisciti</translation>
+        <translation>Tham gia</translation>
     </message>
     <message>
         <location line="-502"/>
         <source>Create Game</source>
-        <translation>Crea Partita</translation>
+        <translation>Tạo màn chơi</translation>
     </message>
     <message>
         <location line="-746"/>
         <location line="+804"/>
         <source>Game Info</source>
-        <translation>Informazioni partita</translation>
+        <translation>Thông tin về màn chơi</translation>
     </message>
     <message>
         <location line="-534"/>
         <location line="+483"/>
         <source>Join Game</source>
-        <translation>Unisciti alla partita</translation>
+        <translation>Tham gia màn chơi</translation>
     </message>
     <message>
         <location line="-273"/>
         <source>Game List</source>
-        <translation>Elenco partite</translation>
+        <translation>Danh sách màn chơi</translation>
     </message>
     <message>
         <location line="+73"/>
         <source>Time: %1s/%2s</source>
-        <translation>Tempo: %1s/%2s</translation>
+        <translation>Thời gian: %1 giây/%2 giây</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Private</source>
-        <translation>Privato</translation>
+        <translation>Riêng tư</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Public</source>
-        <translation>Pubblica</translation>
+        <translation>Công khai</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Ranking</source>
-        <translation>Classifica</translation>
+        <translation>Xếp hạng</translation>
     </message>
     <message>
         <location line="+115"/>
         <location line="+287"/>
         <source>Lobby Chat</source>
-        <translation>Chat della lobby</translation>
+        <translation>Tán gẫu phòng chờ</translation>
     </message>
     <message>
         <location line="-613"/>
         <source>No game list filter</source>
-        <translation>Nessun filtro elenco partite</translation>
+        <translation>Không lọc danh sách màn chơi</translation>
     </message>
     <message>
         <location line="+375"/>
         <source>Player: %1</source>
-        <translation>Giocatore: %1</translation>
+        <translation>Người chơi: %1</translation>
     </message>
     <message>
         <location line="-896"/>
         <source>Players</source>
-        <translation>Giocatori</translation>
+        <translation>Người chơi</translation>
     </message>
     <message>
         <location line="+1010"/>
         <source>Select a game to see details</source>
-        <translation>Seleziona una partita per vedere i dettagli</translation>
+        <translation>Chọn một màn chơi để xem chi tiết</translation>
     </message>
     <message>
         <location line="-486"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
-        <translation>Mostra partite aperte, non piene e non private</translation>
+        <translation>Hiện các màn chơi đang mở, chưa đủ người và công khai</translation>
     </message>
     <message>
         <location line="-627"/>
         <source>Report game name</source>
-        <translation>Segnala nome partita</translation>
+        <translation>Báo cáo tên màn chơi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure you want to report the game name:
 &quot;%1&quot; as inappropriate?</source>
-        <translation>Sei sicuro di voler segnalare il nome della partita:
-&quot;%1&quot; come offensivo?</translation>
+        <translation>Bạn có chắc rằng bạn muốn tố cáo tên màn game :
+&quot;%1&quot; vì lý do không hợp lệ hay không?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report</source>
-        <translation>Segnala</translation>
+        <translation>Báo cáo</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Spectate</source>
-        <translation>Osserva</translation>
+        <translation>Xem</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+3"/>
         <source>Close game</source>
-        <translation>Chiudi partita</translation>
+        <translation>Đóng màn chơi</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
-        <translation>Sei sicuro di voler chiudere la partita:
-&quot;%1&quot;?</translation>
+        <translation>Bạn có chắc muốn đóng màn chơi:
+„%1“ hay không?</translation>
     </message>
     <message>
         <location line="+169"/>
         <location line="+510"/>
         <source>Sort alphabetically</source>
-        <translation>Ordina alfabeticamente</translation>
+        <translation>Sắp xếp theo thứ tự chữ cái</translation>
     </message>
     <message>
         <location line="-509"/>
         <location line="+510"/>
         <source>Sort by country</source>
-        <translation>Ordina per nazionalità</translation>
+        <translation>Sắp xếp theo quốc gia</translation>
     </message>
     <message>
         <location line="-509"/>
         <location line="+510"/>
         <source>Display idle players</source>
-        <translation>Visualizza giocatori liberi</translation>
+        <translation>Hiển thị các người chơi ở trạng thái chờ</translation>
     </message>
     <message>
         <location line="-423"/>
         <location line="+799"/>
         <source>Report inappropriate game name</source>
-        <translation>Segnala nome di partita offensivo</translation>
+        <translation>Thông báo cho ban quản trị về tên của màn chơi vi phạm luật</translation>
     </message>
     <message>
         <location line="-791"/>
         <location line="+798"/>
         <source>Close game (admin)</source>
-        <translation>Chiudi partita (admin)</translation>
+        <translation>Đóng màn chơi (quản trị viên)</translation>
     </message>
     <message>
         <location line="-761"/>
         <source>Players: %1 / %2</source>
-        <translation>Giocatori: %1 / %2</translation>
+        <translation>Người chơi: %1 / %2</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Status: %1</source>
-        <translation>Stato: %1</translation>
+        <translation>Trạng thái: %1</translation>
     </message>
     <message>
         <location line="+33"/>
         <location line="+742"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>Loại: %1</translation>
     </message>
     <message>
         <location line="-731"/>
         <source>Small blind: %1</source>
-        <translation>Buio piccolo: %1</translation>
+        <translation>Tiền mù nhỏ: %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Start cash: %1</source>
-        <translation>Capitale iniziale: %1</translation>
+        <translation>Vốn ban đầu: %1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervallo aumento buio: %1 mani</translation>
+        <translation>Khoảng tăng tiền mù: %1 ván</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervallo aumento buio: %1 minuti</translation>
+        <translation>Khoảng tăng tiền mù: %1 phút</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modalità aumento buio: %1</translation>
+        <translation>Cách tăng tiền mù: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>double blinds</source>
-        <translation>raddoppia blind</translation>
+        <translation>gấp đôi tiền cược</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordine manuale dei blind</translation>
+        <translation>thứ tự tăng tiền cược tự chỉnh</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds list: %1</source>
-        <translation>Elenco buio: %1</translation>
+        <translation>Danh sách tiền mù: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Game timing: %1 sec (action)
 %2 sec (hand delay)</source>
-        <translation>Tempi di gioco: %1 sec (azione)
-%2 sec (ritardo mano)</translation>
+        <translation>Thời gian màn chơi: %1 giây (lượt)
+%2 giây (nghỉ giữa các ván)</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+690"/>
         <source>Players in game (%1)</source>
-        <translation>Giocatori in partita (%1)</translation>
+        <translation>Người chơi trong màn chơi (%1)</translation>
     </message>
     <message>
         <location line="-605"/>
         <location line="+483"/>
         <source>Leave Game</source>
-        <translation>Abbandona partita</translation>
+        <translation>Rời màn chơi</translation>
     </message>
     <message>
         <location line="-386"/>
         <source>Show open &amp; non-full &amp; private games</source>
-        <translation>Mostra partite aperte, non piene e private</translation>
+        <translation>Hiện các màn chơi đang mở, chưa đủ người và riêng tư</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
-        <translation>Mostra partite aperte, non piene e con classifica</translation>
+        <translation>Hiện các màn chơi xếp hạng đang mở và chưa đủ người</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Connected Players</source>
-        <translation>Giocatori connessi</translation>
+        <translation>Số người chơi kết nối</translation>
     </message>
     <message>
         <location line="-658"/>
         <location line="+846"/>
         <source>Spectate game</source>
-        <translation>Osserva la partita</translation>
+        <translation>Xem màn chơi</translation>
     </message>
     <message>
         <location line="-845"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
-        <translation>Vuoi davvero osservare la partita:
-&quot;%1&quot;?</translation>
+        <translation>Bạn có chắc muốn xem màn chơi:
+„%1“ hay không?</translation>
     </message>
     <message>
         <location line="+950"/>
         <location line="+287"/>
         <source>Global notice (admin)</source>
-        <translation>Avviso globale (admin)</translation>
+        <translation>Thông báo chung (quản trị viên)</translation>
     </message>
     <message>
         <location line="-124"/>
         <source>SB: %1 | Start cash: %2</source>
-        <translation>Buio piccolo: %1 | Capitale iniziale: %2</translation>
+        <translation>Mù nhỏ: %1 | Vốn ban đầu: %2</translation>
     </message>
     <message>
         <location line="+272"/>
         <source>Privates Spiel</source>
-        <translation>Partita privata</translation>
+        <translation>Màn chơi riêng tư</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Bitte das Passwort eingeben, um beizutreten.</source>
-        <translation>Inserisci la password per partecipare.</translation>
+        <translation>Vui lòng nhập mật khẩu để tham gia.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Passwort …</source>
-        <translation>Password …</translation>
+        <translation>Mật khẩu …</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Hủy bỏ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Beitreten</source>
-        <translation>Unisciti</translation>
+        <translation>Tham gia</translation>
     </message>
     <message>
         <location line="+141"/>
         <source>Rejoin possible</source>
-        <translation>È possibile rientrare in partita</translation>
+        <translation>Có thể quay lại màn chơi</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>There is an existing session with a previous game.&lt;br&gt;Do you want to rejoin this game?</source>
-        <translation>È presente una sessione con una partita precedente.&lt;br&gt;Desideri rientrare in questa partita?</translation>
+        <translation>Có một phiên đã lưu của màn chơi trước.&lt;br&gt;Bạn có muốn quay lại màn chơi này không?</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>No</source>
-        <translation>No</translation>
+        <translation>Không Đồng Ý</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Rejoin</source>
-        <translation>Rientra</translation>
+        <translation>Quay lại</translation>
     </message>
     <message>
         <location line="-976"/>
         <source>Show open &amp; non-full games</source>
-        <translation>Mostra partite aperte e non piene</translation>
+        <translation>Hiện các màn chơi đang mở và chưa đủ người</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Show open games</source>
-        <translation>Mostra partite aperte</translation>
+        <translation>Hiện các màn chơi đang mở</translation>
     </message>
     <message>
         <location line="-473"/>
         <location line="+452"/>
         <source>search for player ...</source>
-        <translation>ricerca giocatore ...</translation>
+        <translation>tìm kiếm người chơi...</translation>
     </message>
 </context>
 <context>
@@ -2308,22 +2308,22 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../components/LobbyStatsBar.qml" line="+23"/>
         <source>%1 players · %2 running · %3 open</source>
-        <translation>%1 giocatori · %2 in corso · %3 aperte</translation>
+        <translation>%1 người chơi · %2 đang diễn ra · %3 đang mở</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>connected players: %1</source>
-        <translation>giocatori connessi: %1</translation>
+        <translation>những người chơi đã kết nối: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>running games: %1</source>
-        <translation>partite in corso: %1</translation>
+        <translation>những màn chơi đang diễn ra: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>open games: %1</source>
-        <translation>partite aperte: %1</translation>
+        <translation>những màn chơi mở: %1</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2336,120 +2336,120 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../pages/LocalGamePage.qml" line="+27"/>
         <source>alle %1 Hände</source>
-        <translation>ogni %1 mani</translation>
+        <translation>mỗi %1 ván</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>alle %1 Minuten</source>
-        <translation>ogni %1 minuti</translation>
+        <translation>mỗi %1 phút</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>verdoppeln</source>
-        <translation>doppio</translation>
+        <translation>gấp đôi</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manuell</source>
-        <translation>manuale</translation>
+        <translation>thủ công</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Small Blind: $%1  •  Erhöhen %2  •  %3</source>
-        <translation>Buio piccolo: $%1  •  Rilancio %2  •  %3</translation>
+        <translation>Tiền mù nhỏ: $%1  •  tăng %2  •  %3</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Lokales Spiel</source>
-        <translation>Partita locale</translation>
+        <translation>Màn chơi cục bộ</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Lokale Spiel-Einstellungen</source>
-        <translation>Impostazioni partita locale</translation>
+        <translation>Thiết lập màn chơi cục bộ</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Numero di giocatori:</translation>
+        <translation>Số người chơi:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Startkapital:</source>
-        <translation>Capitale iniziale:</translation>
+        <translation>Vốn ban đầu:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Blinds</source>
-        <translation>Blind</translation>
+        <translation>Tiền mù</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Gespeicherte Blinds-Einstellungen verwenden</source>
-        <translation>Utilizza impostazioni dei blind salvate</translation>
+        <translation>Dùng thiết lập tiền mù đã lưu</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Blinds-Einstellungen ändern …</source>
-        <translation>Modifica impostazioni buio …</translation>
+        <translation>Đổi thiết lập tiền mù …</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Erster Small Blind:</source>
-        <translation>Primo small blind:</translation>
+        <translation>Tiền mù nhỏ đầu tiên:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Small Blind erhöhen:</source>
-        <translation>Aumento buio piccolo:</translation>
+        <translation>Tăng tiền mù nhỏ:</translation>
     </message>
     <message>
         <location line="+13"/>
         <location line="+24"/>
         <source>alle</source>
-        <translation>ogni</translation>
+        <translation>mỗi</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Hände</source>
-        <translation>mani</translation>
+        <translation>ván</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Minuten</source>
-        <translation>minuti</translation>
+        <translation>phút</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Erhöhungsmodus:</source>
-        <translation>Modalità aumento:</translation>
+        <translation>Cách tăng:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre i blind</translation>
+        <translation>Luôn gấp đôi tiền mù</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordine buio manuale</translation>
+        <translation>Thứ tự tiền mù thủ công</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
-        <translation>Velocità di gioco
-(1=lento, 11=veloce):</translation>
+        <translation>Tốc độ màn chơi
+(1 = chậm, 11 = nhanh):</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Hủy bỏ</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Spiel starten</source>
-        <translation>Inizia partita</translation>
+        <translation>Bắt đầu màn chơi</translation>
     </message>
 </context>
 <context>
@@ -2457,147 +2457,147 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../components/LocalGameSettings.qml" line="+55"/>
         <source>Lokales Spiel</source>
-        <translation>Partita locale</translation>
+        <translation>Màn chơi cục bộ</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Spieler &amp; Startkapital</source>
-        <translation>Giocatori e capitale iniziale</translation>
+        <translation>Người chơi và vốn ban đầu</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Numero di giocatori:</translation>
+        <translation>Số người chơi:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Startkapital:</source>
-        <translation>Capitale iniziale:</translation>
+        <translation>Vốn ban đầu:</translation>
     </message>
     <message>
         <location line="+351"/>
         <source>Spiel-Einstellungsdialog bei neuem Spiel anzeigen</source>
-        <translation>Mostra finestra impostazioni partita per nuova partita</translation>
+        <translation>Hiện hộp thoại thiết lập khi tạo màn chơi mới</translation>
     </message>
     <message>
         <location line="-313"/>
         <source>Blinds erhöhen</source>
-        <translation>Aumenta buio</translation>
+        <translation>Tăng tiền mù</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Blind-Erhöhungsreihenfolge</source>
-        <translation>Ordine aumento buio</translation>
+        <translation>Thứ tự tăng tiền mù</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>Blinds bei Anzahl der Hände erhöhen</source>
-        <translation>Aumenta buio dopo numero di mani</translation>
+        <translation>Tăng tiền mù theo số ván</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Blinds zeitbasiert erhöhen</source>
-        <translation>Aumenta buio in base al tempo</translation>
+        <translation>Tăng tiền mù theo thời gian</translation>
     </message>
     <message>
         <location line="+57"/>
         <location line="+101"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre il buio</translation>
+        <translation>Luôn gấp đôi tiền mù</translation>
     </message>
     <message>
         <location line="-88"/>
         <location line="+14"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordine buio manuale</translation>
+        <translation>Thứ tự tiền mù thủ công</translation>
     </message>
     <message>
         <location line="-158"/>
         <source>Erster Small Blind:</source>
-        <translation>Primo buio piccolo:</translation>
+        <translation>Tiền mù nhỏ đầu tiên:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
         <source>Small Blind erhöhen alle:</source>
-        <translation>Aumenta buio piccolo ogni:</translation>
+        <translation>Tăng tiền mù nhỏ sau mỗi:</translation>
     </message>
     <message>
         <location line="-25"/>
         <source>Hände</source>
-        <translation>Mani</translation>
+        <translation>ván</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Minuten</source>
-        <translation>Minuti</translation>
+        <translation>phút</translation>
     </message>
     <message>
         <location line="+100"/>
         <source>Hinzufügen</source>
-        <translation>Aggiungi</translation>
+        <translation>Thêm</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Löschen</source>
-        <translation>Elimina</translation>
+        <translation>Xóa</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Danach:</source>
-        <translation>Dopo di che:</translation>
+        <translation>Sau đó:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Immer erhöhen um:</source>
-        <translation>Rilancia sempre di:</translation>
+        <translation>Luôn tăng thêm:</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Letzten Blind beibehalten</source>
-        <translation>Mantieni ultimo blind</translation>
+        <translation>Giữ ở mức tiền mù cuối</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Spielgeschwindigkeit</source>
-        <translation>Velocità di gioco</translation>
+        <translation>Tốc độ màn chơi</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
-        <translation>Velocità di gioco
-(1=lento, 11=veloce):</translation>
+        <translation>Tốc độ màn chơi
+(1 = chậm, 11 = nhanh):</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Pause zwischen den Händen</source>
-        <translation>Pausa tra le mani</translation>
+        <translation>Nghỉ giữa các ván</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Computerspieler</source>
-        <translation>Giocatori del computer</translation>
+        <translation>Người chơi máy tính</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Spielstärke:</source>
-        <translation>Livello di gioco:</translation>
+        <translation>Trình độ:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Klassisch</source>
-        <translation>Classico</translation>
+        <translation>Cổ điển</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Stark</source>
-        <translation>Forte</translation>
+        <translation>Mạnh</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</source>
-        <translation>Vale per le partite locali. Nelle partite in rete è il server a determinare la forza dei suoi giocatori del computer.</translation>
+        <translation>Áp dụng cho màn chơi cục bộ. Trong màn chơi qua mạng, máy chủ quyết định trình độ người chơi máy tính của nó.</translation>
     </message>
 </context>
 <context>
@@ -2605,102 +2605,102 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../cpp/loghandler.cpp" line="+361"/>
         <source>Export PokerTH log file to HTML</source>
-        <translation>Esporta il file di registro di PokerTH in HTML</translation>
+        <translation>Xuất tệp nhật ký PokerTH sang HTML</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH HTML log (*.html)</source>
-        <translation>Registro di PokerTH in formato HTML (*.html)</translation>
+        <translation>Nhật ký HTML của PokerTH (*.html)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Export PokerTH log file to plain text</source>
-        <translation>Esporta il file di registro di PokerTH in formato testo</translation>
+        <translation>Xuất tệp nhật ký PokerTH sang văn bản thuần</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH plain text log (*.txt)</source>
-        <translation>Registro di PokerTH in formato testo (*.html)</translation>
+        <translation>Nhật ký văn bản thuần của PokerTH (*.txt)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Save PokerTH log file</source>
-        <translation>Salva il file di registro di PokerTH</translation>
+        <translation>Lưu tệp nhật ký PokerTH</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH SQL log (*.pdb)</source>
-        <translation>Registro PokerTH SQL (*.pdb)</translation>
+        <translation>Nhật ký SQL của PokerTH (*.pdb)</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>… (showing the last %1 KB of the log)</source>
-        <translation>… (mostra gli ultimi %1 KB del log)</translation>
+        <translation>… (đang hiện %1 KB cuối của nhật ký)</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Save PokerTH debug log</source>
-        <translation>Salva il log di debug di PokerTH</translation>
+        <translation>Lưu nhật ký gỡ lỗi của PokerTH</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH debug log (*.log)</source>
-        <translation>Log di debug di PokerTH (*.log)</translation>
+        <translation>Nhật ký gỡ lỗi của PokerTH (*.log)</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Log file not found.</source>
-        <translation>File di log non trovato.</translation>
+        <translation>Không tìm thấy tệp nhật ký.</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Processing of the log file on the web server failed.
 Please verify that you are uploading a valid PokerTH log file.</source>
-        <translation>Elaborazione del file di registro sul server web non riuscita.
-Controlla di stare caricando un file di registro di PokerTH valido.</translation>
+        <translation>Máy chủ web xử lý tệp nhật ký thất bại.
+Vui lòng kiểm tra rằng bạn đang tải lên một tệp nhật ký PokerTH hợp lệ.</translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+30"/>
         <source>Failure reason: </source>
-        <translation>Causa dell&apos;errore: </translation>
+        <translation>Lý do thất bại: </translation>
     </message>
     <message>
         <location line="-27"/>
         <source>No file received.</source>
-        <translation>Nessun file ricevuto.</translation>
+        <translation>Không nhận được tệp nào.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>File rejected because of too many uploads.</source>
-        <translation>Il file è stato rifiutato a causa di troppi upload.</translation>
+        <translation>Tệp bị từ chối vì có quá nhiều lượt tải lên.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>File rejected because of too many recent uploads. Please try again later.</source>
-        <translation>Il file è stato rifiutato a causa di troppi upload recenti. Riprovare più tardi.</translation>
+        <translation>Tệp bị từ chối vì gần đây có quá nhiều lượt tải lên. Vui lòng thử lại sau.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The file is too large.</source>
-        <translation>Il file è troppo grande.</translation>
+        <translation>Tệp quá lớn.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This file is not a valid and current PokerTH log file.</source>
-        <translation>Questo file non contiene un registro di PokerTH valido e aggiornato.</translation>
+        <translation>Tệp này không phải là tệp nhật ký PokerTH hợp lệ và hiện hành.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Internal error. Please try again later. ID: </source>
-        <translation>Errore interno. Riprovare più tardi. ID: </translation>
+        <translation>Lỗi nội bộ. Vui lòng thử lại sau. ID: </translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Upload failed. Please check your internet connection!
 Uploading log files may fail if you are using an http proxy.</source>
-        <translation>Upload non riuscito. Controlla la connessione a Internet!
-L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un proxy http.</translation>
+        <translation>Tải lên thất bại. Vui lòng kiểm tra kết nối Internet của bạn!
+Việc tải lên tệp nhật ký có thể thất bại nếu bạn dùng proxy HTTP.</translation>
     </message>
 </context>
 <context>
@@ -2708,73 +2708,73 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
     <message>
         <location filename="../pages/LogsPage.qml" line="+86"/>
         <source>Logs</source>
-        <translation>Log</translation>
+        <translation>Nhật ký</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Game:</source>
-        <translation>Partita:</translation>
+        <translation>Màn chơi:</translation>
     </message>
     <message>
         <location line="+85"/>
         <source>Preview:</source>
-        <translation>Anteprima:</translation>
+        <translation>Xem trước:</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Export as HTML</source>
-        <translation>Esporta in HTML</translation>
+        <translation>Xuất dạng HTML</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Export as txt</source>
-        <translation>Esporta in txt</translation>
+        <translation>Xuất dạng txt</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+133"/>
         <source>Save as ...</source>
-        <translation>Salva con nome...</translation>
+        <translation>Lưu thành ...</translation>
     </message>
     <message>
         <location line="-127"/>
         <source>Delete</source>
-        <translation>Elimina</translation>
+        <translation>Xóa</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Show debug log</source>
-        <translation>Mostra log di debug</translation>
+        <translation>Hiện nhật ký gỡ lỗi</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Analyse Logfile ...</source>
-        <translation>Esamina file di registro ...</translation>
+        <translation>Phân tích tệp nhật ký ...</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>PokerTH - Delete log files</source>
-        <translation>PokerTH - Elimina file di registro</translation>
+        <translation>PokerTH - Xóa các tệp nhật ký</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Do you really want to delete the selected log files?</source>
-        <translation>Desideri veramente cancellare i file di registro selezionati?</translation>
+        <translation>Bạn có thật sự muốn xóa các tệp nhật ký đã chọn không?</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Uploading log file</source>
-        <translation>Caricamento del file di registro</translation>
+        <translation>Đang tải lên tệp nhật ký</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Debug log</source>
-        <translation>Log di debug</translation>
+        <translation>Nhật ký gỡ lỗi</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Refresh</source>
-        <translation>Aggiorna</translation>
+        <translation>Làm mới</translation>
     </message>
 </context>
 <context>
@@ -2782,74 +2782,74 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
     <message>
         <location filename="../components/LogsSettings.qml" line="+25"/>
         <source>Log-Nachrichten</source>
-        <translation>Registro messaggi</translation>
+        <translation>Thông điệp nhật ký</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Log-Einstellungen</source>
-        <translation>Impostazioni log</translation>
+        <translation>Thiết lập nhật ký</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Logging aktivieren</source>
-        <translation>Abilita registrazione</translation>
+        <translation>Bật ghi nhật ký</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Log-Verzeichnis:</source>
-        <translation>Cartella dei log:</translation>
+        <translation>Thư mục nhật ký:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Durchsuchen...</source>
-        <translation>Sfoglia...</translation>
+        <translation>Duyệt...</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Log-Verzeichnis auswählen</source>
-        <translation>Seleziona la cartella dei log</translation>
+        <translation>Chọn thư mục nhật ký</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Log-Verzeichnis</source>
-        <translation>Cartella dei log</translation>
+        <translation>Thư mục nhật ký</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Das Log-Verzeichnis wurde geändert.
 Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
-        <translation>La cartella dei log è stata modificata.
-Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
+        <translation>Thư mục nhật ký đã thay đổi.
+Vui lòng khởi động lại PokerTH để các tệp nhật ký được lưu ở đó.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Đồng ý</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Log-Intervall:</source>
-        <translation>Intervallo di log:</translation>
+        <translation>Khoảng ghi nhật ký:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Jedes Spiel</source>
-        <translation>Ogni partita</translation>
+        <translation>Mỗi màn chơi</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Jede Hand</source>
-        <translation>Ogni mano</translation>
+        <translation>Mỗi ván</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Jede Aktion</source>
-        <translation>Ogni azione</translation>
+        <translation>Mỗi thao tác</translation>
     </message>
     <message>
         <location line="-29"/>
         <source>Log-Speicherdauer (Tage):</source>
-        <translation>Conservazione log (giorni):</translation>
+        <translation>Thời gian lưu nhật ký (ngày):</translation>
     </message>
 </context>
 <context>
@@ -2857,94 +2857,94 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/NetworkGameCreatePage.qml" line="+113"/>
         <source>← Zurück</source>
-        <translation>← Indietro</translation>
+        <translation>← Quay lại</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Netzwerkspiel erstellen</source>
-        <translation>Crea partita in rete</translation>
+        <translation>Tạo màn chơi qua mạng</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Spiel-Einstellungen</source>
-        <translation>Impostazioni partita</translation>
+        <translation>Thiết lập màn chơi</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Max. Spieler</source>
-        <translation>Numero max. giocatori</translation>
+        <translation>Số người chơi tối đa</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Startgeld</source>
-        <translation>Capitale iniziale</translation>
+        <translation>Vốn ban đầu</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Blind-Einstellungen</source>
-        <translation>Impostazioni buio</translation>
+        <translation>Thiết lập tiền mù</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Erster Small Blind</source>
-        <translation>Primo buio piccolo</translation>
+        <translation>Tiền mù nhỏ đầu tiên</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Blind-Erhöhungsintervall</source>
-        <translation>Intervallo aumento buio</translation>
+        <translation>Khoảng tăng tiền mù</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+25"/>
         <source>Alle</source>
-        <translation>Ogni</translation>
+        <translation>Mỗi</translation>
     </message>
     <message>
         <location line="-14"/>
         <source>Hände</source>
-        <translation>mani</translation>
+        <translation>ván</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Minuten</source>
-        <translation>minuti</translation>
+        <translation>phút</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre i blind</translation>
+        <translation>Luôn gấp đôi tiền mù</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Zeitlimits</source>
-        <translation>Limiti di tempo</translation>
+        <translation>Giới hạn thời gian</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Zeitlimit Spieleraktion</source>
-        <translation>Limite di tempo per l&apos;azione del giocatore</translation>
+        <translation>Giới hạn thời gian cho lượt của người chơi</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Pause zwischen Händen</source>
-        <translation>Ritardo tra le mani</translation>
+        <translation>Nghỉ giữa các ván</translation>
     </message>
     <message>
         <location line="+37"/>
         <location line="+35"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Hủy bỏ</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Spiel erstellen</source>
-        <translation>Crea Partita</translation>
+        <translation>Tạo màn chơi</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Server wird gestartet …</source>
-        <translation>Avvio del server …</translation>
+        <translation>Đang khởi động máy chủ …</translation>
     </message>
 </context>
 <context>
@@ -2952,83 +2952,83 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/NetworkGameEnterPage.qml" line="+97"/>
         <source>← Zurück</source>
-        <translation>← Indietro</translation>
+        <translation>← Quay lại</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Netzwerkspiel beitreten</source>
-        <translation>Unisciti a una partita in rete</translation>
+        <translation>Tham gia màn chơi qua mạng</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Server-Verbindung</source>
-        <translation>Connessione al server</translation>
+        <translation>Kết nối máy chủ</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Server-Adresse</source>
-        <translation>Indirizzo del server</translation>
+        <translation>Địa chỉ máy chủ</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>IP-Adresse oder Hostname</source>
-        <translation>Indirizzo IP o nome host</translation>
+        <translation>Địa chỉ IP hoặc tên máy</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Port</source>
-        <translation>Porta</translation>
+        <translation>Cổng</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>IPv6 verwenden</source>
-        <translation>Utilizza IPv6</translation>
+        <translation>Dùng IPv6</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>SCTP verwenden</source>
-        <translation>Utilizza SCTP</translation>
+        <translation>Dùng SCTP</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Server-Profile</source>
-        <translation>Profili server</translation>
+        <translation>Hồ sơ máy chủ</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Profilname</source>
-        <translation>Nome profilo</translation>
+        <translation>Tên hồ sơ</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Name des Profils</source>
-        <translation>Nome del profilo</translation>
+        <translation>Tên của hồ sơ này</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Speichern</source>
-        <translation>Salva</translation>
+        <translation>Lưu</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Löschen</source>
-        <translation>Elimina</translation>
+        <translation>Xóa</translation>
     </message>
     <message>
         <location line="+92"/>
         <location line="+36"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Hủy bỏ</translation>
     </message>
     <message>
         <location line="-31"/>
         <source>Verbinden</source>
-        <translation>Connetti</translation>
+        <translation>Kết nối</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Verbinde mit Server …</source>
-        <translation>Connessione al server …</translation>
+        <translation>Đang kết nối tới máy chủ …</translation>
     </message>
 </context>
 <context>
@@ -3037,12 +3037,12 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location filename="../cpp/networkgamehandler.cpp" line="+55"/>
         <location line="+76"/>
         <source>No session available.</source>
-        <translation>Nessuna sessione disponibile.</translation>
+        <translation>Không có phiên nào khả dụng.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Please enter a server address.</source>
-        <translation>Inserisci un indirizzo del server.</translation>
+        <translation>Vui lòng nhập địa chỉ máy chủ.</translation>
     </message>
 </context>
 <context>
@@ -3050,117 +3050,117 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/NetworkGameSettings.qml" line="+19"/>
         <source>Netzwerkspiel</source>
-        <translation>Partita in Rete</translation>
+        <translation>Màn chơi qua mạng</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Spieler &amp; Startkapital</source>
-        <translation>Giocatori e capitale iniziale</translation>
+        <translation>Người chơi và vốn ban đầu</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Numero di giocatori:</translation>
+        <translation>Số người chơi:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Startkapital:</source>
-        <translation>Capitale iniziale:</translation>
+        <translation>Vốn ban đầu:</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Blinds erhöhen</source>
-        <translation>Aumenta buio</translation>
+        <translation>Tăng tiền mù</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Blind-Erhöhungsreihenfolge</source>
-        <translation>Ordine aumento buio</translation>
+        <translation>Thứ tự tăng tiền mù</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>Blinds bei Anzahl der Hände erhöhen</source>
-        <translation>Aumenta buio dopo numero di mani</translation>
+        <translation>Tăng tiền mù theo số ván</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Blinds zeitbasiert erhöhen</source>
-        <translation>Aumenta buio in base al tempo</translation>
+        <translation>Tăng tiền mù theo thời gian</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre il buio</translation>
+        <translation>Luôn gấp đôi tiền mù</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordine buio manuale</translation>
+        <translation>Thứ tự tiền mù thủ công</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Manuelle Blind-Reihenfolge bearbeiten...</source>
-        <translation>Modifica ordine buio manuale...</translation>
+        <translation>Sửa thứ tự tiền mù thủ công...</translation>
     </message>
     <message>
         <location line="-157"/>
         <source>Erster Small Blind:</source>
-        <translation>Primo buio piccolo:</translation>
+        <translation>Tiền mù nhỏ đầu tiên:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
         <source>Small Blind erhöhen alle:</source>
-        <translation>Aumenta buio piccolo ogni:</translation>
+        <translation>Tăng tiền mù nhỏ sau mỗi:</translation>
     </message>
     <message>
         <location line="-25"/>
         <source>Hände</source>
-        <translation>Mani</translation>
+        <translation>ván</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Minuten</source>
-        <translation>Minuti</translation>
+        <translation>phút</translation>
     </message>
     <message>
         <location line="+61"/>
         <source>Zeiteinstellungen</source>
-        <translation>Impostazioni tempo</translation>
+        <translation>Thiết lập thời gian</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Verzögerung zwischen Händen
 (Sekunden):</source>
-        <translation>Ritardo tra le mani
-(secondi):</translation>
+        <translation>Nghỉ giữa các ván
+(giây):</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Timeout für Spieleraktion
 (Sekunden):</source>
-        <translation>Timeout azione giocatore
-(secondi):</translation>
+        <translation>Giới hạn thời gian cho lượt của người chơi
+(giây):</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Server-Einstellungen</source>
-        <translation>Impostazioni server</translation>
+        <translation>Thiết lập máy chủ</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Server-Port:</source>
-        <translation>Porta del server:</translation>
+        <translation>Cổng máy chủ:</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>SCTP verwenden</source>
-        <translation>Utilizza SCTP</translation>
+        <translation>Dùng SCTP</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>IPv6 verwenden</source>
-        <translation>Utilizza IPv6</translation>
+        <translation>Dùng IPv6</translation>
     </message>
 </context>
 <context>
@@ -3168,61 +3168,61 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/NicknameAvatarSettings.qml" line="+19"/>
         <source>Nicknamen/Avatare</source>
-        <translation>Nickname/Avatar</translation>
+        <translation>Biệt danh/hình đại diện</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Mein Spieler</source>
-        <translation>Il mio giocatore</translation>
+        <translation>Người chơi của tôi</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Mein Nickname:</source>
-        <translation>Il mio nickname:</translation>
+        <translation>Biệt danh của tôi:</translation>
     </message>
     <message>
         <location line="+45"/>
         <source>Mein Avatar:</source>
-        <translation>Il mio avatar:</translation>
+        <translation>Hình đại diện của tôi:</translation>
     </message>
     <message>
         <location line="+26"/>
         <location line="+113"/>
         <source>Auswählen...</source>
-        <translation>Seleziona...</translation>
+        <translation>Chọn...</translation>
     </message>
     <message>
         <location line="-110"/>
         <location line="+113"/>
         <source>Avatar auswählen</source>
-        <translation>Seleziona avatar</translation>
+        <translation>Chọn hình đại diện</translation>
     </message>
     <message>
         <location line="-134"/>
         <location line="+113"/>
         <source>Kein Avatar gewählt</source>
-        <translation>Nessun avatar selezionato</translation>
+        <translation>Chưa chọn hình đại diện</translation>
     </message>
     <message>
         <location line="-82"/>
         <location line="+113"/>
         <source>Beispiele...</source>
-        <translation>Esempi...</translation>
+        <translation>Ví dụ...</translation>
     </message>
     <message>
         <location line="-39"/>
         <source>Avatar:</source>
-        <translation>Avatar:</translation>
+        <translation>Hình đại diện:</translation>
     </message>
     <message>
         <location line="-55"/>
         <source>Gegner %1</source>
-        <translation>Avversario %1</translation>
+        <translation>Đối thủ %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Nickname:</source>
-        <translation>Nickname:</translation>
+        <translation>Biệt danh:</translation>
     </message>
 </context>
 <context>
@@ -3231,30 +3231,30 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location filename="../components/PlayerListItem.qml" line="+234"/>
         <location line="+116"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
-        <translation>%1 sta giocando in &quot;%2&quot;.</translation>
+        <translation>%1 đang chơi ở &quot;%2&quot;.</translation>
     </message>
     <message>
         <location line="-115"/>
         <location line="+117"/>
         <source>%1 is not playing at the moment.</source>
-        <translation>%1 non sta giocando in questo momento.</translation>
+        <translation>%1 không chơi bàn nào ở thời điểm này.</translation>
     </message>
     <message>
         <location line="-216"/>
         <location line="+129"/>
         <location line="+140"/>
         <source>Invite to Game</source>
-        <translation>Invita alla partita</translation>
+        <translation>Mời vào màn chơi</translation>
     </message>
     <message>
         <location line="-268"/>
         <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
-        <translation>Vuoi davvero invitare «%1» alla tua partita?</translation>
+        <translation>Bạn có chắc muốn mời „%1“ vào màn chơi của bạn không?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invite</source>
-        <translation>Invita</translation>
+        <translation>Mời</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3262,12 +3262,12 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location line="+130"/>
         <location line="+165"/>
         <source>Ignore player</source>
-        <translation>Ignora giocatore</translation>
+        <translation>Bỏ qua người chơi</translation>
     </message>
     <message>
         <location line="-296"/>
         <source>Are you sure you want to ignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero ignorare «%1»?&gt;</translation>
+        <translation>Bạn có chắc muốn bỏ qua „%1“ hay không?</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -3275,29 +3275,29 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location line="+121"/>
         <location line="+202"/>
         <source>Unignore player</source>
-        <translation>Non ignorare più il giocatore</translation>
+        <translation>Thôi bỏ qua người chơi</translation>
     </message>
     <message>
         <location line="-324"/>
         <source>Are you sure you want to unignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero smettere di ignorare «%1»?&gt;</translation>
+        <translation>Bạn có chắc muốn thôi bỏ qua „%1“ hay không?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Are you sure you want to totally kickban &quot;%1&quot;?</source>
-        <translation>Vuoi davvero espellere e bandire totalmente «%1»?&gt;</translation>
+        <translation>Bạn có chắc muốn cấm hoàn toàn „%1“ không?</translation>
     </message>
     <message>
         <location line="+95"/>
         <location line="+112"/>
         <source>Send private message</source>
-        <translation>Invia messaggio privato</translation>
+        <translation>Gửi tin nhắn riêng</translation>
     </message>
     <message>
         <location line="-79"/>
         <location line="+224"/>
         <source>Show player stats</source>
-        <translation>Mostra statistiche giocatore</translation>
+        <translation>Hiển thị trạng thái người chơi</translation>
     </message>
     <message>
         <location line="-353"/>
@@ -3305,7 +3305,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location line="+135"/>
         <location line="+252"/>
         <source>Total kickban</source>
-        <translation>Kickban totale</translation>
+        <translation>Cấm hoàn toàn</translation>
     </message>
 </context>
 <context>
@@ -3313,32 +3313,32 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PlayerNoteDialog.qml" line="+57"/>
         <source>Note about &quot;%1&quot;</source>
-        <translation>Nota su «%1»</translation>
+        <translation>Ghi chú về „%1“</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rating:</source>
-        <translation>Valutazione:</translation>
+        <translation>Đánh giá:</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Your private note about this player ...</source>
-        <translation>La tua nota privata su questo giocatore...</translation>
+        <translation>Ghi chú riêng của bạn về người chơi này ...</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Notes and ratings are stored locally and are only visible to you.</source>
-        <translation>Le note e le valutazioni sono salvate localmente e sono visibili solo a te.</translation>
+        <translation>Ghi chú và đánh giá được lưu cục bộ và chỉ bạn nhìn thấy.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Hủy bỏ</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Save</source>
-        <translation>Salva</translation>
+        <translation>Lưu</translation>
     </message>
 </context>
 <context>
@@ -3346,22 +3346,22 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PlayerSeasonCard.qml" line="+157"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Điểm số</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>TB</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Màn chơi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Điểm</translation>
     </message>
 </context>
 <context>
@@ -3369,7 +3369,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PlayerWinnerOverlay.qml" line="+56"/>
         <source>WINNER</source>
-        <translation>VINCITORE</translation>
+        <translation>NGƯỜI THẮNG</translation>
     </message>
 </context>
 <context>
@@ -3377,67 +3377,67 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/PokerthPlayerPage.qml" line="+81"/>
         <source>Could not load player (HTTP %1).</source>
-        <translation>Impossibile caricare il giocatore (HTTP %1).</translation>
+        <translation>Không tải được dữ liệu người chơi (HTTP %1).</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Player not found.</source>
-        <translation>Giocatore non trovato.</translation>
+        <translation>Không tìm thấy người chơi.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Không phân tích được phản hồi của máy chủ.</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Member since %1</source>
-        <translation>Membro dal %1</translation>
+        <translation>Thành viên từ %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Last login %1</source>
-        <translation>Ultimo accesso %1</translation>
+        <translation>Lần đăng nhập cuối %1</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Current season</source>
-        <translation>Stagione attuale</translation>
+        <translation>Mùa giải hiện tại</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Rank</source>
-        <translation>Posizione</translation>
+        <translation>Hạng</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Điểm số</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>TB</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Màn chơi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Điểm</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Last 5:</source>
-        <translation>Ultime 5:</translation>
+        <translation>5 ván gần nhất:</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Recent games</source>
-        <translation>Partite recenti</translation>
+        <translation>Màn chơi gần đây</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -3447,7 +3447,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+31"/>
         <source>Seasons</source>
-        <translation>Stagioni</translation>
+        <translation>Các mùa giải</translation>
     </message>
 </context>
 <context>
@@ -3463,78 +3463,78 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PrivateMessageDialog.qml" line="+190"/>
         <source>Private messages</source>
-        <translation>Messaggi privati</translation>
+        <translation>Tin nhắn riêng</translation>
     </message>
     <message>
         <location line="+38"/>
         <location line="+2"/>
         <source>Delete conversation</source>
-        <translation>Elimina conversazione</translation>
+        <translation>Xóa cuộc trò chuyện</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete the conversation with &quot;%1&quot;?</source>
-        <translation>Eliminare la conversazione con &quot;%1&quot;?</translation>
+        <translation>Xóa cuộc trò chuyện với „%1“?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete</source>
-        <translation>Elimina</translation>
+        <translation>Xóa</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Close</source>
-        <translation>Chiudi</translation>
+        <translation>Đóng lại</translation>
     </message>
     <message>
         <location line="+112"/>
         <source>No conversation yet</source>
-        <translation>Nessuna conversazione</translation>
+        <translation>Chưa có cuộc trò chuyện nào</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>not in the lobby</source>
-        <translation>non è nella lobby</translation>
+        <translation>không ở trong phòng chờ</translation>
     </message>
     <message>
         <location line="+173"/>
         <source>Translation failed.</source>
-        <translation>Traduzione non riuscita.</translation>
+        <translation>Dịch thất bại.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Show original</source>
-        <translation>Mostra l&apos;originale</translation>
+        <translation>Hiện bản gốc</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Translate message</source>
-        <translation>Traduci il messaggio</translation>
+        <translation>Dịch tin nhắn</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Private messages are not available at the table.</source>
-        <translation>I messaggi privati non sono disponibili al tavolo.</translation>
+        <translation>Không dùng được tin nhắn riêng khi đang ở bàn.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Guests cannot send chat messages</source>
-        <translation>Gli ospiti non possono inviare messaggi in chat</translation>
+        <translation>Khách không thể gửi tin nhắn tán gẫu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Guests cannot receive private messages.</source>
-        <translation>Gli ospiti non possono ricevere messaggi privati.</translation>
+        <translation>Khách không thể nhận tin nhắn riêng.</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Message …</source>
-        <translation>Messaggio …</translation>
+        <translation>Tin nhắn …</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Send</source>
-        <translation>Invia</translation>
+        <translation>Gửi</translation>
     </message>
 </context>
 <context>
@@ -3542,79 +3542,79 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../cpp/ziputils.cpp" line="+54"/>
         <source>Das Archiv konnte nicht gelesen werden.</source>
-        <translation>Impossibile leggere l&apos;archivio.</translation>
+        <translation>Không đọc được kho lưu trữ.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
-        <translation>L&apos;archivio è vuoto o contiene troppi file.</translation>
+        <translation>Kho lưu trữ rỗng hoặc chứa quá nhiều tệp.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
-        <translation>Impossibile creare la cartella di destinazione.</translation>
+        <translation>Không tạo được thư mục đích.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
-        <translation>Impossibile leggere una voce dell&apos;archivio.</translation>
+        <translation>Không đọc được một mục trong kho lưu trữ.</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+8"/>
         <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
-        <translation>L&apos;archivio contiene un percorso non valido: %1</translation>
+        <translation>Kho lưu trữ chứa đường dẫn không hợp lệ: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+14"/>
         <source>Verzeichnis konnte nicht angelegt werden: %1</source>
-        <translation>Impossibile creare la cartella: %1</translation>
+        <translation>Không tạo được thư mục: %1</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Das Archiv ist ungewöhnlich groß.</source>
-        <translation>L&apos;archivio è insolitamente grande.</translation>
+        <translation>Kho lưu trữ lớn bất thường.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
-        <translation>Impossibile estrarre una voce dell&apos;archivio: %1</translation>
+        <translation>Không giải nén được một mục trong kho lưu trữ: %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Datei konnte nicht geschrieben werden: %1</source>
-        <translation>Impossibile scrivere il file: %1</translation>
+        <translation>Không ghi được tệp: %1</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Der Stil-Ordner wurde nicht gefunden.</source>
-        <translation>La cartella dello stile non è stata trovata.</translation>
+        <translation>Không tìm thấy thư mục của kiểu.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv konnte nicht erstellt werden.</source>
-        <translation>Impossibile creare l&apos;archivio.</translation>
+        <translation>Không tạo được kho lưu trữ.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Datei konnte nicht gelesen werden: %1</source>
-        <translation>Impossibile leggere il file: %1</translation>
+        <translation>Không đọc được tệp: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
-        <translation>Impossibile scrivere il file nell&apos;archivio: %1</translation>
+        <translation>Không ghi được tệp vào kho lưu trữ: %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Der Stil-Ordner enthält keine Dateien.</source>
-        <translation>La cartella dello stile non contiene alcun file.</translation>
+        <translation>Thư mục của kiểu không chứa tệp nào.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Das Archiv konnte nicht abgeschlossen werden.</source>
-        <translation>Impossibile finalizzare l&apos;archivio.</translation>
+        <translation>Không hoàn tất được kho lưu trữ.</translation>
     </message>
 </context>
 <context>
@@ -3622,32 +3622,32 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/RankingPage.qml" line="+90"/>
         <source>Could not load ranking (HTTP %1).</source>
-        <translation>Impossibile caricare la classifica (HTTP %1).</translation>
+        <translation>Không tải được bảng xếp hạng (HTTP %1).</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Không phân tích được phản hồi của máy chủ.</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Ranking</source>
-        <translation>Classifica</translation>
+        <translation>Xếp hạng</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Season:</source>
-        <translation>Stagione:</translation>
+        <translation>Mùa giải:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Current season</source>
-        <translation>Stagione attuale</translation>
+        <translation>Mùa giải hiện tại</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Username</source>
-        <translation>Nome utente</translation>
+        <translation>Tên đăng nhập</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -3657,32 +3657,32 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+8"/>
         <source>Player</source>
-        <translation>Giocatore</translation>
+        <translation>Người chơi</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Màn chơi</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>TB</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Điểm số</translation>
     </message>
     <message>
         <location line="+150"/>
         <source>No entries.</source>
-        <translation>Nessuna voce.</translation>
+        <translation>Không có mục nào.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>◀ Prev</source>
-        <translation>◀ Prec</translation>
+        <translation>◀ Trước</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -3692,27 +3692,27 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+1"/>
         <source>Page %1 / %2  ·  %3 players</source>
-        <translation>Pagina %1 / %2  ·  %3 giocatori</translation>
+        <translation>Trang %1 / %2  ·  %3 người chơi</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Next ▶</source>
-        <translation>Succ ▶</translation>
+        <translation>Tiếp ▶</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Ranking calculation:</source>
-        <translation>Calcolo della classifica:</translation>
+        <translation>Cách tính xếp hạng:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Placement points:</source>
-        <translation>Punti per piazzamento:</translation>
+        <translation>Điểm theo thứ hạng:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Formula:</source>
-        <translation>Formula:</translation>
+        <translation>Công thức:</translation>
     </message>
 </context>
 <context>
@@ -3720,22 +3720,22 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/ResetSettings.qml" line="+20"/>
         <source>Standardeinstellung</source>
-        <translation>Impostazioni predefinite</translation>
+        <translation>Thiết lập mặc định</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Alle Einstellungen werden auf die Standardwerte zurückgesetzt. Diese Aktion kann nicht rückgängig gemacht werden.</source>
-        <translation>Tutte le impostazioni verranno ripristinate ai valori predefiniti. Questa azione non può essere annullata.</translation>
+        <translation>Mọi thiết lập sẽ trở về giá trị mặc định. Không thể hoàn tác thao tác này.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Auf Werkeinstellungen zurücksetzen</source>
-        <translation>Ripristina impostazioni di fabbrica</translation>
+        <translation>Khôi phục thiết lập gốc</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</source>
-        <translation>Le impostazioni sono state ripristinate. Riavvia PokerTH affinché tutte le modifiche abbiano effetto.</translation>
+        <translation>Đã khôi phục thiết lập. Vui lòng khởi động lại PokerTH để mọi thay đổi có hiệu lực.</translation>
     </message>
 </context>
 <context>
@@ -3743,17 +3743,17 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/SeasonStatsSection.qml" line="+47"/>
         <source>Season Stats</source>
-        <translation>Statistiche della stagione</translation>
+        <translation>Thống kê mùa giải</translation>
     </message>
     <message>
         <location line="+60"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Màn chơi</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Share</source>
-        <translation>Quota</translation>
+        <translation>Chia sẻ</translation>
     </message>
 </context>
 <context>
@@ -3761,67 +3761,67 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/ServerConnectionDialog.qml" line="+241"/>
         <source>Back</source>
-        <translation>Indietro</translation>
+        <translation>Quay lại</translation>
     </message>
     <message>
         <location line="+94"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Hủy bỏ</translation>
     </message>
     <message>
         <location line="-65"/>
         <source>Connecting as...</source>
-        <translation>Connessione come...</translation>
+        <translation>Đang kết nối với tư cách...</translation>
     </message>
     <message>
         <location line="-108"/>
         <source>Continue as Guest</source>
-        <translation>Continua come ospite</translation>
+        <translation>Tiếp tục với tư cách khách</translation>
     </message>
     <message>
         <location line="+159"/>
         <source>Initializing connection...</source>
-        <translation>Inizializzazione connessione...</translation>
+        <translation>Đang chuẩn bị kết nối...</translation>
     </message>
     <message>
         <location line="-74"/>
         <source>Login</source>
-        <translation>Accedi</translation>
+        <translation>Đăng nhập</translation>
     </message>
     <message>
         <location line="-97"/>
         <source>Login as User</source>
-        <translation>Accedi come utente</translation>
+        <translation>Đăng nhập với tư cách người dùng</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Password</source>
-        <translation>Password</translation>
+        <translation>Mật khẩu</translation>
     </message>
     <message>
         <location line="-59"/>
         <source>Register</source>
-        <translation>Registrati</translation>
+        <translation>Đăng ký</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Remember me</source>
-        <translation>Ricordami</translation>
+        <translation>Ghi nhớ tôi</translation>
     </message>
     <message>
         <location line="-48"/>
         <source>User Login</source>
-        <translation>Accesso utente</translation>
+        <translation>Đăng nhập người dùng</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Username</source>
-        <translation>Nome utente</translation>
+        <translation>Tên đăng nhập</translation>
     </message>
     <message>
         <location line="+79"/>
         <source>Username/Guest</source>
-        <translation>Nome utente/Ospite</translation>
+        <translation>Tên đăng nhập/khách</translation>
     </message>
 </context>
 <context>
@@ -3829,379 +3829,379 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../cpp/serverconnectionhandler.cpp" line="+50"/>
         <source>Error: No session available</source>
-        <translation>Errore: nessuna sessione disponibile</translation>
+        <translation>Lỗi: không có phiên nào khả dụng</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No session available</source>
-        <translation>Nessuna sessione disponibile</translation>
+        <translation>Không có phiên nào khả dụng</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Connecting to server...</source>
-        <translation>Connessione al server...</translation>
+        <translation>Đang kết nối đến máy chủ...</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Connection canceled</source>
-        <translation>Connessione annullata</translation>
+        <translation>Đã hủy kết nối</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Authenticating...</source>
-        <translation>Autenticazione in corso...</translation>
+        <translation>Đang xác thực...</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Initialized...</source>
-        <translation>Inizializzato...</translation>
+        <translation>Đã chuẩn bị xong...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Server list received...</source>
-        <translation>Elenco server ricevuto...</translation>
+        <translation>Đã nhận danh sách máy chủ...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Resolving server...</source>
-        <translation>Risoluzione server in corso...</translation>
+        <translation>Đang phân giải địa chỉ máy chủ...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Connecting...</source>
-        <translation>Connessione in corso...</translation>
+        <translation>Đang kết nối...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Connected successfully!</source>
-        <translation>Connesso con successo!</translation>
+        <translation>Kết nối thành công!</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Server address was not set.</source>
-        <translation>Indirizzo del server mancante.</translation>
+        <translation>Địa chỉ máy chủ chưa được thiết lập.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
-        <translation>È stata specificata una porta non valida (le porte 0-1023 non sono permesse).</translation>
+        <translation>Đã đặt một cổng không hợp lệ (không được phép dùng cổng từ 0 đến 1023).</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not create a socket for TCP communication.</source>
-        <translation>Impossibile creare un socket di comunicazione TCP.</translation>
+        <translation>Không thể thiết lập socket cho giao thức TCP.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not set the IP address.</source>
-        <translation>Impossibile impostare l&apos;indirizzo IP.</translation>
+        <translation>Không thể thiết lập địa chỉ IP.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not set the port for this type of address.</source>
-        <translation>Impossibile impostare la porta per questo tipo di indirizzo.</translation>
+        <translation>Không thể thiết lập cổng kết nối này với loại địa chỉ đã lập.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server name could not be resolved.</source>
-        <translation>Impossibile risolvere il nome del server.</translation>
+        <translation>Tên máy chủ không thể phân giải.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>Bind non riuscito - seleziona una porta diversa.</translation>
+        <translation>Gán cổng thất bại - vui lòng chọn một cổng khác.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
-        <translation>Errore di rete interno: &quot;listen&quot; non riuscito.</translation>
+        <translation>Lỗi mạng nội bộ: &quot;listen&quot; thất bại.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Server execution was terminated.</source>
-        <translation>L&apos;esecuzione del server è stata interrotta.</translation>
+        <translation>Tiến trình máy chủ đã bị dừng.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Could not connect to the server.
 The server might still be processing a previous connection attempt.
 Please wait a moment and try again.</source>
-        <translation>Impossibile connettersi al server.
-Il server potrebbe ancora elaborare un tentativo di connessione precedente.
-Attendere un momento e riprovare.</translation>
+        <translation>Không kết nối được tới máy chủ.
+Có thể máy chủ vẫn đang xử lý một lần kết nối trước đó.
+Vui lòng đợi một lát rồi thử lại.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Connection timed out.
 The server might be busy or still processing a previous connection.
 Please wait a moment and try again.</source>
-        <translation>Timeout della connessione.
-Il server potrebbe essere occupato o elaborare ancora una connessione precedente.
-Attendere un momento e riprovare.</translation>
+        <translation>Kết nối đã quá thời gian.
+Có thể máy chủ đang bận hoặc vẫn đang xử lý một kết nối trước đó.
+Vui lòng đợi một lát rồi thử lại.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
-        <translation>Errore di rete interno: &quot;select&quot; non riuscita.</translation>
+        <translation>Lỗi mạng nội bộ: &quot;select&quot; thất bại.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
-        <translation>Errore di rete interno: &quot;send&quot; non riuscito.</translation>
+        <translation>Lỗi mạng nội bộ: &quot;send&quot; thất bại.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>The connection to the server was lost.</source>
-        <translation>La connessione al server è stata interrotta.</translation>
+        <translation>Kết nối đến hệ thống máy chủ bị gián đoạn.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: Duplicate TCP connection.</source>
-        <translation>Errore di rete interno: connessione TCP duplicata.</translation>
+        <translation>Lỗi mạng nội bộ: kết nối TCP bị trùng.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation>È stato ricevuto un pacchetto non valido.
-Assicurati che tutti i giocatori abbiano la stessa versione di PokerTH.</translation>
+        <translation>Một packet/gói tin trong mạng lưới được nhận sai cách thức.
+Hãy chắc rằng tất cả các người chơi đều cùng sử dụng chung phiên bản trò chơi.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation>Errore di stato interno.
-Assicurati che tutti i giocatori abbiano la stessa versione di PokerTH.</translation>
+        <translation>Lỗi hệ thống trạng thái.
+Hãy chắc rằng tất cả các người chơi đều cùng sử dụng chung một phiên bản của chương trình.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: invalid socket type.</source>
-        <translation>Errore di rete interno: tipo di socket non valido.</translation>
+        <translation>Lỗi mạng nội bộ: loại socket không hợp lệ.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Invalid server list URL.
 Please correct the address in the settings.</source>
-        <translation>URL della lista server non valido.
-Correggi l&apos;indirizzo nelle impostazioni.</translation>
+        <translation>URL của danh sách máy chủ không hợp lệ.
+Vui lòng sửa lại địa chỉ trong phần thiết lập.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The PokerTH internet server list contains invalid data.
 If you use a custom server list, please make sure its format is correct.</source>
-        <translation>La lista server internet di PokerTH contiene dati non validi.
-Se utilizzi una lista server personalizzata, assicurati che il suo formato sia corretto.</translation>
+        <translation>Danh sách máy chủ Internet của PokerTH chứa dữ liệu không hợp lệ.
+Nếu bạn dùng danh sách máy chủ riêng, hãy kiểm tra định dạng của nó.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not unzip the PokerTH internet server list.</source>
-        <translation>Impossibile decomprimere la lista dei server Internet di PokerTH.</translation>
+        <translation>Không thể bung nén danh sách hệ thống máy chủ online.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Could not download the PokerTH internet server list.
 Please make sure you are directly connected to the internet.</source>
-        <translation>Impossibile scaricare la lista server internet di PokerTH.
-Assicurati di essere connesso direttamente ad internet.</translation>
+        <translation>Không thể tải danh sách hệ thống máy chủ online.
+Hãy chắc rằng bạn đã kết nối máy tính của mình vào mạng Internet.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not open the target file when downloading the server list.</source>
-        <translation>Impossibile aprire il file di destinazione durante il download della lista server.</translation>
+        <translation>Không thể mở file đã chọn khi đang tải về danh sách máy chủ.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>The PokerTH server does not support this version of the game.
 Please go to https://www.pokerth.net and download the latest version.</source>
-        <translation>Il server di PokerTH non supporta questa versione del gioco.
-Visita l&apos;URL https://www.pokerth.net e scarica l&apos;ultima versione.</translation>
+        <translation>Máy chủ PokerTH không hỗ trợ phiên bản này của trò chơi.
+Vui lòng vào https://www.pokerth.net và tải phiên bản mới nhất.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server is down for maintenance. Please try again later.</source>
-        <translation>Il server è down per manutenzione. Riprova più tardi.</translation>
+        <translation>Hệ thống máy chủ hiện tại đang được bảo trì. Xin vui lòng đăng nhập lại sau.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sorry, this server is already full.</source>
-        <translation>Spiacente, il server è già al completo.</translation>
+        <translation>Xin lỗi, hệ thống máy chủ hiện tại đang quá tải.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invalid login.
 Please check your username and password.</source>
-        <translation>Accesso negato.
-Controlla username e password.</translation>
+        <translation>Đăng nhập thất bại.
+Vui lòng kiểm tra tên đăng nhập và mật khẩu lần nữa.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The password is too long. Please choose another one.</source>
-        <translation>Questa password è troppo lunga. Scegline una diversa.</translation>
+        <translation>Mật khẩu quá dài. Xin vui lòng chọn một mật khẩu khác ngắn hơn.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>This player name is already in use. Please choose a different name.</source>
-        <translation>Questo nome giocatore è già in uso. Scegli un nome diverso.</translation>
+        <translation>Tên người chơi này đã được dùng. Vui lòng chọn tên khác.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player name is invalid. Please choose a different name.</source>
-        <translation>Il nome giocatore non è valido. Scegli un nome diverso.</translation>
+        <translation>Tên người chơi không hợp lệ. Vui lòng chọn tên khác.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid player cards.</source>
-        <translation>Errore interno: carte del giocatore non valide.</translation>
+        <translation>Lỗi nội bộ: bài của người chơi không hợp lệ.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid player results.</source>
-        <translation>Errore interno: risultati del giocatore non validi.</translation>
+        <translation>Lỗi nội bộ: kết quả của người chơi không hợp lệ.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
-        <translation>Il nome della partita è troppo corto o troppo lungo. Scegline un altro.</translation>
+        <translation>Tên của màn chơi này quá ngắn hoặc quá dài. Xin vui lòng chọn một tên khác.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid game round.</source>
-        <translation>Errore interno: turno di gioco non valido.</translation>
+        <translation>Lỗi nội bộ: vòng chơi không hợp lệ.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid session.</source>
-        <translation>Errore interno: sessione non valida.</translation>
+        <translation>Lỗi nội bộ: phiên không hợp lệ.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be found.</source>
-        <translation>Impossibile trovare la partita.</translation>
+        <translation>Màn chơi này hiện không có trên hệ thống.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The chat text is invalid.</source>
-        <translation>Il testo nella chat non è valido.</translation>
+        <translation>Các chuỗi ký tự của phần tán gẫu bị sai định dạng.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server referred to an unknown player. Aborting.</source>
-        <translation>Il server ha contattato un giocatore sconosciuto. Operazione annullata.</translation>
+        <translation>Máy chủ đã tham chiếu đến một người chơi không xác định. Đang hủy bỏ.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The current player could not be found.</source>
-        <translation>Errore interno: Impossibile trovare il giocatore corrente. </translation>
+        <translation>Lỗi hệ thống: Người chơi hiện tại không được tìm thấy.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The current player is not active.</source>
-        <translation>Errore interno: Il giocatore corrente non è attivo.</translation>
+        <translation>Lỗi hệ thống: Người chơi hiện tại chưa được kích hoạt.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were kicked from the server.</source>
-        <translation>Sei stato espulso dal server.</translation>
+        <translation>Bạn đã bị đuổi khỏi hệ thống máy chủ.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were temporarily banned from the server.</source>
-        <translation>Sei stato temporaneamente bandito dal server.</translation>
+        <translation>Bạn tạm thời bị cấm đăng nhập vào hệ thống máy chủ.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your account is blocked indefinitely.</source>
-        <translation>Il tuo account è bloccato a tempo indeterminato.</translation>
+        <translation>Tài khoản của bạn đã bị khóa vô thời hạn.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation>La connessione al server è andata in timeout per inattività. Riconnettiti, sei il benvenuto!</translation>
+        <translation>Kết nối đến hệ thống máy chủ của bạn đã hết hạn về thời gian kết nối. Bạn vui lòng kết nối lại lần nữa!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The client player count is invalid.</source>
-        <translation>Il numero di giocatori non è valido.</translation>
+        <translation>Số lượng người chơi do máy khách báo không hợp lệ.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
-        <translation>Sono stati impostati troppi blind manuali. Devi riconfigurare i blind.</translation>
+        <translation>Quá nhiều mức tăng cược được thiết lập. Xin chọn một thiết lập tùy chỉnh khác.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
-        <translation>È stato impostato un file di avatar non valido. Scegli un avatar diverso.</translation>
+        <translation>Một hình ảnh đại diện được thiết lập bị lỗi. Hãy chọn một hình ảnh đại diện khác.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
-        <translation>Il file di avatar selezionato è troppo grande. Scegli un avatar diverso.</translation>
+        <translation>Hình ảnh đại diện được chọn có kích thước quá lớn. Vui lòng chọn một hình ảnh đại diện khác.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid buffer size.</source>
-        <translation>Errore interno: dimensione del buffer non valida.</translation>
+        <translation>Lỗi nội bộ: kích thước bộ đệm không hợp lệ.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation>Si è verificato un errore interno sugli avatar. Per favore, riferisci l&apos;accaduto ad un admin nella chat prepartita.</translation>
+        <translation>Lỗi hệ thống xảy ra với hình đại diện được chọn. Vui lòng thông báo lỗi này với người quản trị hệ thống ở phần tán gẫu công cộng.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not start game: Synchronization failed.</source>
-        <translation>Impossibile avviare la partita: sincronizzazione non riuscita.</translation>
+        <translation>Không thể bắt đầu màn chơi: Đồng bộ hóa hệ thống thất bại.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be terminated.</source>
-        <translation>Impossibile terminare la partita.</translation>
+        <translation>Không thể kết thúc màn chơi.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An internal game error occured.</source>
-        <translation>Si è verificato un errore interno di gioco.</translation>
+        <translation>Đã xảy ra lỗi nội bộ của trò chơi.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The dealer could not be found.</source>
-        <translation>Errore interno: impossibile trovare il mazziere.</translation>
+        <translation>Lỗi nội bộ: không tìm thấy người chia bài.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You cannot login at this time. Please try again in a few seconds.</source>
-        <translation>Impossibile effettuare l&apos;accesso. Riprova fra qualche istante.</translation>
+        <translation>Bạn không thể đăng nhập lúc này. Xin vui lòng thử lại trong vài giây nữa.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The authentication could not be initialized.</source>
-        <translation>Errore interno: impossibile inizializzare l&apos;autenticazione.</translation>
+        <translation>Lỗi nội bộ: không chuẩn bị được phần xác thực.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server does not support the required authentication method.</source>
-        <translation>Il server non supporta il metodo di autenticazione richiesto.</translation>
+        <translation>Máy chủ không hỗ trợ phương thức xác thực cần thiết.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server could not reach its database. Please try again later.</source>
-        <translation>Il server non è riuscito a raggiungere il suo database. Riprova più tardi.</translation>
+        <translation>Máy chủ không truy cập được cơ sở dữ liệu của nó. Vui lòng thử lại sau.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An internal error occured. (Error code %1)</source>
-        <translation>Errore interno. (Codice di errore %1)</translation>
+        <translation>Đã xảy ra lỗi nội bộ. (Mã lỗi %1)</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Connection failed, retrying...</source>
-        <translation>Connessione fallita, nuovo tentativo...</translation>
+        <translation>Kết nối thất bại, đang thử lại...</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Retrying connection...</source>
-        <translation>Nuovo tentativo di connessione...</translation>
+        <translation>Đang kết nối lại...</translation>
     </message>
 </context>
 <context>
@@ -4209,157 +4209,157 @@ Controlla username e password.</translation>
     <message>
         <location filename="../cpp/settingsmanager.cpp" line="+327"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
-        <translation>Immagini (*.png *.jpg *.jpeg *.gif)</translation>
+        <translation>Hình ảnh (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
         <location line="+236"/>
         <source>Spieltisch-Stil auswählen</source>
-        <translation>Seleziona stile del tavolo da gioco</translation>
+        <translation>Chọn kiểu bàn chơi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Spieltisch-Stil.</source>
-        <translation>Il file selezionato non è uno stile di tavolo da gioco.</translation>
+        <translation>Tệp đã chọn không phải là kiểu bàn chơi.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Kartenstapel-Stil auswählen</source>
-        <translation>Seleziona stile del mazzo di carte</translation>
+        <translation>Chọn kiểu bộ bài</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Kartenstapel-Stil.</source>
-        <translation>Il file selezionato non è uno stile di mazzo di carte.</translation>
+        <translation>Tệp đã chọn không phải là kiểu bộ bài.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Kartenrückseiten-Stil auswählen</source>
-        <translation>Seleziona stile del dorso delle carte</translation>
+        <translation>Chọn kiểu mặt sau lá bài</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Kartenrückseiten-Stil.</source>
-        <translation>Il file selezionato non è uno stile di dorso delle carte.</translation>
+        <translation>Tệp đã chọn không phải là kiểu mặt sau lá bài.</translation>
     </message>
     <message>
         <location line="+86"/>
         <source>Die Stil-Datei kann nicht gelesen werden.</source>
-        <translation>Impossibile leggere il file di stile.</translation>
+        <translation>Không đọc được tệp kiểu.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Die ausgewählte Datei ist kein PokerTH-Stil.</source>
-        <translation>Il file selezionato non è uno stile PokerTH.</translation>
+        <translation>Tệp đã chọn không phải là kiểu của PokerTH.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Die Stil-Datei enthält kein gültiges XML (%1).</source>
-        <translation>Il file di stile non contiene XML valido (%1).</translation>
+        <translation>Tệp kiểu không chứa XML hợp lệ (%1).</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Der Dateiname der Stil-Datei muss auf &quot;%1&quot; enden.</source>
-        <translation>Il nome del file di stile deve terminare con &quot;%1&quot;.</translation>
+        <translation>Tên tệp kiểu phải kết thúc bằng „%1“.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Die Stil-Datei muss in einem eigenen Ordner liegen.</source>
-        <translation>Il file di stile deve trovarsi in una cartella dedicata.</translation>
+        <translation>Tệp kiểu phải nằm trong thư mục riêng.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ein Stil mit dem Namen &quot;%1&quot; ist bereits vorhanden.</source>
-        <translation>Esiste già uno stile con il nome &quot;%1&quot;.</translation>
+        <translation>Đã có một kiểu tên là „%1“.</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
-        <translation>Il mazzo di carte è incompleto, mancano: %1</translation>
+        <translation>Bộ bài không đầy đủ, còn thiếu: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Die Kartenrückseiten-Grafik (Backside) fehlt.</source>
-        <translation>Manca l&apos;immagine del dorso delle carte (Backside).</translation>
+        <translation>Thiếu ảnh mặt sau lá bài (Backside).</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Der Ordner der Stil-Datei enthält ungewöhnlich viele Dateien. Bitte den Stil in einen eigenen Ordner legen.</source>
-        <translation>La cartella del file di stile contiene un numero insolitamente alto di file. Metti lo stile in una cartella dedicata.</translation>
+        <translation>Thư mục của tệp kiểu chứa số lượng tệp bất thường. Hãy đặt kiểu vào một thư mục riêng.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Der Stil konnte nicht nach &quot;%1&quot; kopiert werden.</source>
-        <translation>Impossibile copiare lo stile in &quot;%1&quot;.</translation>
+        <translation>Không sao chép được kiểu sang „%1“.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Der Stil hat Format-Version %1, aktuell ist Version %2.</source>
-        <translation>Lo stile ha la versione di formato %1, la versione attuale è %2.</translation>
+        <translation>Kiểu này có phiên bản định dạng %1, phiên bản hiện tại là %2.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Fehlende Angaben: %1.</source>
-        <translation>Informazioni mancanti: %1.</translation>
+        <translation>Thông tin còn thiếu: %1.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Nicht gefundene Grafiken: %1.</source>
-        <translation>Grafiche non trovate: %1.</translation>
+        <translation>Không tìm thấy các hình: %1.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Der Stil &quot;%1&quot; wurde übernommen, ist aber unvollständig:</source>
-        <translation>Lo stile &quot;%1&quot; è stato aggiunto, ma è incompleto:</translation>
+        <translation>Đã nhận kiểu „%1“, nhưng nó chưa đầy đủ:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
-        <translation>Il client sostituisce i contenuti mancanti con la grafica predefinita.</translation>
+        <translation>Phần nội dung còn thiếu sẽ được ứng dụng thay bằng hình mặc định.</translation>
     </message>
     <message>
         <location line="-182"/>
         <source>PokerTH-Stile (*.zip *.xml)</source>
-        <translation>Stili PokerTH (*.zip *.xml)</translation>
+        <translation>Kiểu PokerTH (*.zip *.xml)</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Die ausgewählte Datei kann nicht gelesen werden.</source>
-        <translation>Impossibile leggere il file selezionato.</translation>
+        <translation>Không đọc được tệp đã chọn.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Es konnte kein temporäres Verzeichnis angelegt werden.</source>
-        <translation>Impossibile creare una cartella temporanea.</translation>
+        <translation>Không tạo được thư mục tạm.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Das Archiv enthält keine Datei &quot;%1&quot;.</source>
-        <translation>L&apos;archivio non contiene alcun file &quot;%1&quot;.</translation>
+        <translation>Kho lưu trữ không chứa tệp „%1“.</translation>
     </message>
     <message>
         <location line="+196"/>
         <source>Stil exportieren</source>
-        <translation>Esporta stile</translation>
+        <translation>Xuất kiểu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>ZIP-Archive (*.zip)</source>
-        <translation>Archivi ZIP (*.zip)</translation>
+        <translation>Kho ZIP (*.zip)</translation>
     </message>
     <message>
         <location line="-9"/>
         <source>Der Stil &quot;%1&quot; wurde nicht gefunden.</source>
-        <translation>Lo stile &quot;%1&quot; non è stato trovato.</translation>
+        <translation>Không tìm thấy kiểu „%1“.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Das Archiv konnte nicht erstellt werden.</source>
-        <translation>Impossibile creare l&apos;archivio.</translation>
+        <translation>Không tạo được kho lưu trữ.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</source>
-        <translation>Impossibile scrivere l&apos;archivio in &quot;%1&quot;.</translation>
+        <translation>Không ghi được kho lưu trữ vào „%1“.</translation>
     </message>
 </context>
 <context>
@@ -4367,47 +4367,47 @@ Controlla username e password.</translation>
     <message>
         <location filename="../pages/SettingsPage.qml" line="+254"/>
         <source>Benutzeroberfläche</source>
-        <translation>Interfaccia utente</translation>
+        <translation>Giao diện người dùng</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Stil</source>
-        <translation>Stile</translation>
+        <translation>Kiểu</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Sound</source>
-        <translation>Suono</translation>
+        <translation>Âm thanh</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Lokales Spiel</source>
-        <translation>Partita locale</translation>
+        <translation>Màn chơi cục bộ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Netzwerkspiel</source>
-        <translation>Partita in Rete</translation>
+        <translation>Màn chơi qua mạng</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Internetspiel</source>
-        <translation>Partita in Internet</translation>
+        <translation>Màn chơi Internet</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Nicknamen/Avatare</source>
-        <translation>Nickname/Avatar</translation>
+        <translation>Biệt danh/hình đại diện</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Log-Nachrichten</source>
-        <translation>Registro messaggi</translation>
+        <translation>Thông điệp nhật ký</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Standardeinstellung</source>
-        <translation>Impostazioni predefinite</translation>
+        <translation>Thiết lập mặc định</translation>
     </message>
 </context>
 <context>
@@ -4420,12 +4420,12 @@ Controlla username e password.</translation>
     <message>
         <location line="+100"/>
         <source>Über PokerTH</source>
-        <translation>Informazioni su PokerTH</translation>
+        <translation>Thông tin về PokerTH</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Schließen</source>
-        <translation>Chiudi</translation>
+        <translation>Đóng lại</translation>
     </message>
 </context>
 <context>
@@ -4433,47 +4433,47 @@ Controlla username e password.</translation>
     <message>
         <location filename="../components/SoundSettings.qml" line="+19"/>
         <source>Sound</source>
-        <translation>Suono</translation>
+        <translation>Âm thanh</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Klangeffekte</source>
-        <translation>Effetti sonori</translation>
+        <translation>Hiệu ứng âm thanh</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Klangeffekte aktivieren</source>
-        <translation>Abilita effetti sonori</translation>
+        <translation>Bật hiệu ứng âm thanh</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Lautstärke:</source>
-        <translation>Volume:</translation>
+        <translation>Âm lượng:</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Klang-Kategorien</source>
-        <translation>Categorie suoni </translation>
+        <translation>Nhóm âm thanh</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Spielaktionen (Check, Call, Raise ...)</source>
-        <translation>Azioni di gioco (Check, Call, Raise...)</translation>
+        <translation>Thao tác trong màn chơi (Check, Call, Raise ...)</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Blind-Erhöhungs-Benachrichtigung</source>
-        <translation>Notifica aumento buio</translation>
+        <translation>Thông báo khi tăng tiền mù</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>Netzwerkspiel-Benachrichtigungen</source>
-        <translation>Notifiche partite in rete</translation>
+        <translation>Thông báo của màn chơi qua mạng</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>Lobby-Chat-Benachrichtigungen</source>
-        <translation>Notifiche chat della lobby</translation>
+        <translation>Thông báo của phần tán gẫu phòng chờ</translation>
     </message>
 </context>
 <context>
@@ -4481,12 +4481,12 @@ Controlla username e password.</translation>
     <message>
         <location filename="../components/StartFooter.qml" line="+197"/>
         <source>Privacy</source>
-        <translation>Privacy</translation>
+        <translation>Quyền riêng tư</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Source:</source>
-        <translation>Codice sorgente:</translation>
+        <translation>Mã nguồn:</translation>
     </message>
 </context>
 <context>
@@ -4494,32 +4494,32 @@ Controlla username e password.</translation>
     <message>
         <location filename="../pages/StartPage.qml" line="+155"/>
         <source>Internetspiel</source>
-        <translation>Partita in Internet</translation>
+        <translation>Màn chơi Internet</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Lokales Spiel starten</source>
-        <translation>Inizia una partita locale</translation>
+        <translation>Bắt đầu màn chơi cục bộ</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Netzwerkspiel erstellen</source>
-        <translation>Crea partita in rete</translation>
+        <translation>Tạo màn chơi qua mạng</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Netzwerkspiel beitreten</source>
-        <translation>Unisciti a una partita in rete</translation>
+        <translation>Tham gia màn chơi qua mạng</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Community / Ranking</source>
-        <translation>Community / Classifica</translation>
+        <translation>Cộng đồng / xếp hạng</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Logs</source>
-        <translation>Log</translation>
+        <translation>Nhật ký</translation>
     </message>
 </context>
 <context>
@@ -4527,7 +4527,7 @@ Controlla username e password.</translation>
     <message>
         <location filename="../config/StaticData.qml" line="+124"/>
         <source>Fold</source>
-        <translation>Fold</translation>
+        <translation>Bỏ bài</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4537,22 +4537,22 @@ Controlla username e password.</translation>
     <message>
         <location line="+1"/>
         <source>Call</source>
-        <translation>Call</translation>
+        <translation>Theo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Bet</source>
-        <translation>Bet</translation>
+        <translation>Cược</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Raise</source>
-        <translation>Raise</translation>
+        <translation>Tố</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>All-In</source>
-        <translation>All-In</translation>
+        <translation>Tất tay</translation>
     </message>
 </context>
 <context>
@@ -4561,28 +4561,28 @@ Controlla username e password.</translation>
         <location filename="../components/StyleCard.qml" line="+69"/>
         <source>Keine
 Vorschau</source>
-        <translation>Nessuna
-anteprima</translation>
+        <translation>Không có
+xem trước</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>von %1</source>
-        <translation>di %1</translation>
+        <translation>tác giả: %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>✓ Ausgewählt</source>
-        <translation>✓ Selezionato</translation>
+        <translation>✓ Đã chọn</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Stil entfernen</source>
-        <translation>Rimuovi stile</translation>
+        <translation>Gỡ bỏ kiểu</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Stil als ZIP exportieren</source>
-        <translation>Esporta stile come ZIP</translation>
+        <translation>Xuất kiểu dạng ZIP</translation>
     </message>
 </context>
 <context>
@@ -4590,105 +4590,105 @@ anteprima</translation>
     <message>
         <location filename="../components/StyleSettings.qml" line="+49"/>
         <source>Stil hinzufügen</source>
-        <translation>Aggiungi stile</translation>
+        <translation>Thêm kiểu</translation>
     </message>
     <message>
         <location line="+0"/>
         <location line="+8"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Đồng ý</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Stil entfernen</source>
-        <translation>Rimuovi stile</translation>
+        <translation>Gỡ bỏ kiểu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Den Stil &quot;%1&quot; wirklich entfernen?</source>
-        <translation>Rimuovere davvero lo stile &quot;%1&quot;?</translation>
+        <translation>Bạn có thật sự muốn gỡ bỏ kiểu „%1“ không?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Entfernen</source>
-        <translation>Rimuovi</translation>
+        <translation>Gỡ bỏ</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Stil</source>
-        <translation>Stile</translation>
+        <translation>Kiểu</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Spieltisch</source>
-        <translation>Tavolo di gioco</translation>
+        <translation>Bàn chơi</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Kartenstapel</source>
-        <translation>Mazzo di carte</translation>
+        <translation>Bộ bài</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Kartenrückseite</source>
-        <translation>Dorso delle carte</translation>
+        <translation>Mặt sau lá bài</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Einsatzanzeige:</source>
-        <translation>Visualizzazione della puntata:</translation>
+        <translation>Hiển thị tiền cược:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Einsatz in der Spielerbox</source>
-        <translation>Puntata dentro il riquadro del giocatore</translation>
+        <translation>Tiền cược trong ô người chơi</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Einsatz neben der Spielerbox</source>
-        <translation>Puntata accanto al riquadro del giocatore</translation>
+        <translation>Tiền cược bên cạnh ô người chơi</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Verfügbare Spieltisch-Stile:</source>
-        <translation>Stili tavolo disponibili:</translation>
+        <translation>Các kiểu bàn chơi có sẵn:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Keine Spieltisch-Stile gefunden.</source>
-        <translation>Nessuno stile tavolo trovato.</translation>
+        <translation>Không tìm thấy kiểu bàn chơi nào.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verfügbare Kartenstapel-Stile:</source>
-        <translation>Stili mazzo di carte disponibili:</translation>
+        <translation>Các kiểu bộ bài có sẵn:</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Keine Kartenstapel-Stile gefunden.</source>
-        <translation>Nessuno stile mazzo di carte trovato.</translation>
+        <translation>Không tìm thấy kiểu bộ bài nào.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verfügbare Kartenrückseiten:</source>
-        <translation>Dorsi delle carte disponibili:</translation>
+        <translation>Các mặt sau lá bài có sẵn:</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Keine Kartenrückseiten gefunden.</source>
-        <translation>Nessun dorso delle carte trovato.</translation>
+        <translation>Không tìm thấy mặt sau lá bài nào.</translation>
     </message>
     <message>
         <location line="-104"/>
         <location line="+56"/>
         <location line="+56"/>
         <source>Stil hinzufügen...</source>
-        <translation>Aggiungi stile...</translation>
+        <translation>Thêm kiểu...</translation>
     </message>
     <message>
         <location line="-266"/>
         <source>Stil exportieren</source>
-        <translation>Esporta stile</translation>
+        <translation>Xuất kiểu</translation>
     </message>
 </context>
 <context>
@@ -4696,92 +4696,92 @@ anteprima</translation>
     <message>
         <location filename="../pages/WecRankingPage.qml" line="+22"/>
         <source>January</source>
-        <translation>Gennaio</translation>
+        <translation>Tháng Một</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>February</source>
-        <translation>Febbraio</translation>
+        <translation>Tháng Hai</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>March</source>
-        <translation>Marzo</translation>
+        <translation>Tháng Ba</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>April</source>
-        <translation>Aprile</translation>
+        <translation>Tháng Tư</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>May</source>
-        <translation>Maggio</translation>
+        <translation>Tháng Năm</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>June</source>
-        <translation>Giugno</translation>
+        <translation>Tháng Sáu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>July</source>
-        <translation>Luglio</translation>
+        <translation>Tháng Bảy</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>August</source>
-        <translation>Agosto</translation>
+        <translation>Tháng Tám</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>September</source>
-        <translation>Settembre</translation>
+        <translation>Tháng Chín</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>October</source>
-        <translation>Ottobre</translation>
+        <translation>Tháng Mười</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>November</source>
-        <translation>Novembre</translation>
+        <translation>Tháng Mười Một</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>December</source>
-        <translation>Dicembre</translation>
+        <translation>Tháng Mười Hai</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>WEC Ranking</source>
-        <translation>Classifica WEC</translation>
+        <translation>Xếp hạng WEC</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Year:</source>
-        <translation>Anno:</translation>
+        <translation>Năm:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Month:</source>
-        <translation>Mese:</translation>
+        <translation>Tháng:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>All-Year</source>
-        <translation>Tutto l&apos;anno</translation>
+        <translation>Cả năm</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>All-Time</source>
-        <translation>Sempre</translation>
+        <translation>Mọi thời điểm</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Search nickname</source>
-        <translation>Cerca nickname</translation>
+        <translation>Tìm biệt danh</translation>
     </message>
 </context>
 <context>
@@ -4794,7 +4794,7 @@ anteprima</translation>
     <message>
         <location line="+287"/>
         <source>Back</source>
-        <translation>Indietro</translation>
+        <translation>Quay lại</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4804,133 +4804,133 @@ anteprima</translation>
     <message>
         <location line="+52"/>
         <source>Private messages</source>
-        <translation>Messaggi privati</translation>
+        <translation>Tin nhắn riêng</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Forum news</source>
-        <translation>Novità dal forum</translation>
+        <translation>Tin diễn đàn</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Community / Ranking</source>
-        <translation>Community / Classifica</translation>
+        <translation>Cộng đồng / xếp hạng</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Settings</source>
-        <translation>Impostazioni</translation>
+        <translation>Thiết lập</translation>
     </message>
     <message>
         <location line="+192"/>
         <source>Timeout Warning</source>
-        <translation>Avviso di timeout</translation>
+        <translation>Cảnh báo về thời gian</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Timeout expired. You are being removed from the game.</source>
-        <translation>Timeout scaduto. Verrai rimosso dalla partita.</translation>
+        <translation>Đã hết thời gian. Bạn đang bị loại khỏi màn chơi.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Timeout expired. You will be disconnected.</source>
-        <translation>Timeout scaduto. Verrai disconnesso.</translation>
+        <translation>Đã hết thời gian. Kết nối của bạn sẽ bị ngắt.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You are game-admin of an open game which will time out in %1 seconds.</source>
-        <translation>Sei amministratore di una partita aperta che scadrà tra %1 secondi.</translation>
+        <translation>Bạn đang ở vị trí quản trị của màn chơi mở này, sẽ hết hạn sau %1 giây nữa.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>You did not act in the game recently. You will be removed from the game in %1 seconds.</source>
-        <translation>Non hai effettuato azioni di gioco da un po&apos; di tempo. Verrai rimosso dalla partita in %1 secondi.</translation>
+        <translation>Bạn đã không thao tác trong màn chơi này. Bạn sẽ bị đuổi khỏi màn chơi này trong %1 giây nữa.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your connection is about to time out due to inactivity in %1 seconds.</source>
-        <translation>La tua connessione scadrà per inattività fra %1 secondi.</translation>
+        <translation>Kết nối của bạn sẽ quá thời gian cho phép trong vòng %1 giây nữa.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Please click &quot;OK&quot; to stop the countdown!</source>
-        <translation>Premi &quot;OK&quot; per fermare il conto alla rovescia!</translation>
+        <translation>Hãy click &quot;Đồng ý&quot; để dừng lại việc đếm lùi!</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+285"/>
         <source>OK</source>
-        <translation> OK </translation>
+        <translation>Đồng ý</translation>
     </message>
     <message>
         <location line="-250"/>
         <source>Server Message</source>
-        <translation>Messaggio del server</translation>
+        <translation>Thông báo từ hệ thống máy chủ</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Close</source>
-        <translation>Chiudi</translation>
+        <translation>Đóng lại</translation>
     </message>
     <message>
         <location line="+156"/>
         <source>Connection interrupted</source>
-        <translation>Connessione interrotta</translation>
+        <translation>Kết nối bị gián đoạn</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Reconnecting to the server… (attempt %1 of %2)</source>
-        <translation>Riconnessione al server… (tentativo %1 di %2)</translation>
+        <translation>Đang kết nối lại tới máy chủ… (lần %1 / %2)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reconnecting to the server…</source>
-        <translation>Riconnessione al server…</translation>
+        <translation>Đang kết nối lại tới máy chủ…</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Your seat at the table stays reserved for a few minutes.</source>
-        <translation>Il tuo posto al tavolo resta riservato per alcuni minuti.</translation>
+        <translation>Chỗ của bạn ở bàn vẫn được giữ thêm vài phút.</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Connection lost</source>
-        <translation>Connessione persa</translation>
+        <translation>Mất kết nối</translation>
     </message>
     <message>
         <location line="-734"/>
         <location line="+545"/>
         <location line="+22"/>
         <source>Leave Game</source>
-        <translation>Abbandona partita</translation>
+        <translation>Rời màn chơi</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
-        <translation>Attenzione! Vuoi veramente abbandonare la partita corrente
-e tornare al prepartita?</translation>
+        <translation>Chú ý! Bạn có thật sự muốn thoát ra khỏi màn chơi này
+và quay lại phòng chờ của hệ thống không?</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+57"/>
         <location line="+74"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Hủy bỏ</translation>
     </message>
     <message>
         <location line="-693"/>
         <location line="+602"/>
         <location line="+22"/>
         <source>Leave Lobby</source>
-        <translation>Lascia lobby</translation>
+        <translation>Rời phòng chờ</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Attention! Do you really want to leave the lobby
 and disconnect from the server?</source>
-        <translation>Attenzione! Vuoi davvero lasciare la lobby
-e disconnetterti dal server?</translation>
+        <translation>Chú ý! Bạn có thật sự muốn rời phòng chờ
+và ngắt kết nối khỏi máy chủ không?</translation>
     </message>
 </context>
 </TS>

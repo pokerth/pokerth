@@ -1340,7 +1340,7 @@ Please choose another one!</source>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="153"/>
         <source>%1&apos;s game</source>
-        <translation>%1 வது விளையாட்டு</translation>
+        <translation>%1 இன் விளையாட்டு</translation>
     </message>
 </context>
 <context>
@@ -6226,7 +6226,7 @@ If the problem persists, please check the server address or try again later.</so
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1246"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
-        <translation>அவதார் எனப்படும் கோப்பையின் அமைப்பு செல்லாது. தயவு செய்து வேறொரு அவதாரத்தை தேர்ந்தெடுக்கவும்.</translation>
+        <translation>அவதார் கோப்பின் அமைப்பு செல்லாது. தயவு செய்து வேறொரு அவதாரத்தை தேர்ந்தெடுக்கவும்.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1252"/>

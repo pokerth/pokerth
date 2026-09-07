@@ -25,6 +25,7 @@ QtObject {
     readonly property var languages: [
             { langName: "Deutsch (Deutsch)", code: "de_DE"},
             { langName: "English (English)", code: "en_US"},
+            { langName: "Afrikaans (Afrikaans)", code: "af_ZA"},
             { langName: "Bulgarian (Български)", code: "bg_BG"},
             { langName: "Catalan (Català)", code: "ca_ES"},
             { langName: "Chinese, Simplified (简体中文)", code: "zh_CN"},
@@ -33,17 +34,24 @@ QtObject {
             { langName: "Dutch (Nederlands)", code: "nl_NL"},
             { langName: "Finnish (Suomi)", code: "fi_FI"},
             { langName: "French (Français)", code: "fr_FR"},
+            { langName: "Galician (Galego)", code: "gl_ES"},
             { langName: "Greek (Ελληνικά)", code: "el_GR"},
             { langName: "Hungarian (Magyar)", code: "hu_HU"},
             { langName: "Italian (Italiano)", code: "it_IT"},
+            { langName: "Japanese (日本語)", code: "ja_JP"},
+            { langName: "Lithuanian (Lietuvių)", code: "lt_LT"},
             { langName: "Norwegian (Norsk bokmål)", code: "nb_NO"},
             { langName: "Polish (Polski)", code: "pl_PL"},
             { langName: "Portuguese (Português)", code: "pt_PT"},
             { langName: "Portuguese, Brazil (Português do Brasil)", code: "pt_BR"},
             { langName: "Russian (Русский)", code: "ru_RU"},
+            { langName: "Scottish Gaelic (Gàidhlig)", code: "gd_GB"},
+            { langName: "Slovak (Slovenčina)", code: "sk_SK"},
             { langName: "Spanish (Español)", code: "es_ES"},
             { langName: "Swedish (Svenska)", code: "sv_SE"},
-            { langName: "Turkish (Türkçe)", code: "tr_TR"}
+            { langName: "Tamil (தமிழ்)", code: "ta_IN"},
+            { langName: "Turkish (Türkçe)", code: "tr_TR"},
+            { langName: "Vietnamese (Tiếng Việt)", code: "vi_VN"}
         ]
 
     function findSupportedLocale(systemName) {
@@ -75,6 +83,8 @@ QtObject {
         "cs_CZ": "cz", "da_DK": "dk", "el_GR": "gr", "hu_HU": "hu",
         "nl_NL": "nl", "pl_PL": "pl", "sv_SE": "sv", "tr_TR": "tr",
         "bg_BG": "bg", "ca_ES": "ca", "fi_FI": "fi", "nb_NO": "no",
+        "af_ZA": "af", "gd_GB": "gd", "gl_ES": "gl", "ja_JP": "jp",
+        "lt_LT": "lt", "sk_SK": "sk", "ta_IN": "ta", "vi_VN": "vi",
         "zh_CN": "zhcn"
     })
 

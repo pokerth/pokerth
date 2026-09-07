@@ -4525,7 +4525,7 @@ Controleer de gebruikersnaam en het wachtwoord.</translation>
 <context>
     <name>StaticData</name>
     <message>
-        <location filename="../config/StaticData.qml" line="+114"/>
+        <location filename="../config/StaticData.qml" line="+124"/>
         <source>Fold</source>
         <translation>Passen</translation>
     </message>

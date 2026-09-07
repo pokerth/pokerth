@@ -971,7 +971,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/aboutpokerth.ui" line="245"/>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="270"/>
         <source>License</source>
-        <translation>Licenzija</translation>
+        <translation>Licencija</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="277"/>
@@ -1808,7 +1808,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="332"/>
         <location filename="../src/gui/qt/gui_800x480/gamelobbydialog_800x480.ui" line="1009"/>
         <source>Display idle players</source>
-        <translation>Rodyti laisvus žaidėjus</translation>
+        <translation>Rodyti neaktyvius žaidėjus</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="710"/>
@@ -1994,7 +1994,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="275"/>
         <source>Ignore player</source>
-        <translation>Ignorouti žaidėją</translation>
+        <translation>Ignoruoti žaidėją</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="277"/>
@@ -6207,7 +6207,7 @@ Do you really want to reset factory settings?</source>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1003"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
-        <translation>Vidinis prievadas buvo nustatytas (prievadai 0-1023 yra neleidžiami).</translation>
+        <translation>Nustatytas netinkamas prievadas (prievadai 0-1023 yra neleidžiami).</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1009"/>
@@ -6232,7 +6232,7 @@ Do you really want to reset factory settings?</source>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1033"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>Surišimas nepavyko -  prašome pasirinkti kitą prievadą.</translation>
+        <translation>Prievado susiejimas nepavyko - prašome pasirinkti kitą prievadą.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1039"/>
@@ -6281,7 +6281,7 @@ Jei serveris yra už NAT-maršruto parinktuvo, įsitikinkite ar prievadas persiu
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1088"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation>Vidinis tinklo paketas buvo gautas.
+        <translation>Gautas netinkamas tinklo paketas.
 Prašome įsitikinti, kad visi žaidėjai naudoja tokią pačią PokerTH versiją.</translation>
     </message>
     <message>
@@ -6289,7 +6289,7 @@ Prašome įsitikinti, kad visi žaidėjai naudoja tokią pačią PokerTH versij�
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Vidinės būsenos klaida.
-Prašome įsitikinti, kad visil žaidėjai naudoja tokią pačią PokerTH versiją.</translation>
+Prašome įsitikinti, kad visi žaidėjai naudoja tokią pačią PokerTH versiją.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1101"/>
@@ -6353,12 +6353,12 @@ Prašome patikrinti vartotojo vardą ir slaptažodį.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1220"/>
         <source>Your account is blocked indefinitely.</source>
-        <translation>Jūsų paskyrą yra užblokuota neribotam laikui.</translation>
+        <translation>Jūsų paskyra yra užblokuota neribotam laikui.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1258"/>
         <source>You cannot login at this time. Please try again in a few seconds.</source>
-        <translation>Jūs negalite šiuo metu prisijungti. Prašome pamėginti vėl po penkių sekundžių.</translation>
+        <translation>Jūs negalite šiuo metu prisijungti. Prašome pamėginti vėl po kelių sekundžių.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1318"/>
@@ -6527,7 +6527,7 @@ If the problem persists, please check the server address or try again later.</so
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1233"/>
         <source>The client player count is invalid.</source>
-        <translation>Kliento žaidėjas yra apskaičiuotas netinkamai.</translation>
+        <translation>Kliento žaidėjų skaičius yra netinkamas.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1239"/>
@@ -6537,7 +6537,7 @@ If the problem persists, please check the server address or try again later.</so
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1246"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
-        <translation>Vidinis avataro failas buvo sukonfigūruotas. Prašome pasirinkti kitą avatarą.</translation>
+        <translation>Sukonfigūruotas netinkamas avataro failas. Prašome pasirinkti kitą avatarą.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1252"/>
@@ -6778,7 +6778,7 @@ because the nick could not be found in the database</source>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="42"/>
         <source>Please click &quot;OK&quot; to stop the countdown!</source>
-        <translation>Prašome spragtelėti &quot;GERAI&quot;, kad sustabdytumėte nebuvimą!</translation>
+        <translation>Prašome spragtelėti &quot;GERAI&quot;, kad sustabdytumėte atgalinį skaičiavimą!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="91"/>

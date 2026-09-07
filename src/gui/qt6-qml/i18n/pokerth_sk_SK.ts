@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="it_IT">
+<TS version="2.1" language="sk_SK">
 <context>
     <name>AboutPage</name>
     <message>
         <location filename="../pages/AboutPage.qml" line="+45"/>
         <source>No changelog available.</source>
-        <translation>Nessun registro delle modifiche disponibile.</translation>
+        <translation>Nie je k dispozícii žiadny zoznam zmien.</translation>
     </message>
     <message>
         <location line="+89"/>
         <source>About PokerTH</source>
-        <translation>Informazioni su PokerTH</translation>
+        <translation>O PokerTH</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>About</source>
-        <translation>Informazioni</translation>
+        <translation>O programe</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Project</source>
-        <translation>Progetto</translation>
+        <translation>Projekt</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Changelog</source>
-        <translation>Modifiche</translation>
+        <translation>Zoznam zmien</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Thanks to</source>
-        <translation>Ringraziamenti a</translation>
+        <translation>Poďakovanie</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>License</source>
-        <translation>Licenza</translation>
+        <translation>Licencia</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Third party libs</source>
-        <translation>Librerie di terze parti</translation>
+        <translation>Knižnice tretích strán</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -51,37 +51,37 @@
     <message>
         <location line="+13"/>
         <source>- Poker engine for the popular Texas Hold&apos;em Poker</source>
-        <translation>- Motore per il popolare Poker &quot;Texas Holdem&quot;</translation>
+        <translation>- Pokerový engine pre populárny Texas Hold&apos;em</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Singleplayer games with up to 9 computer-opponents</source>
-        <translation>- Giocatore singolo: possibilità di affrontare fino a 9 avversari IA</translation>
+        <translation>- Hry pre jedného hráča až s 9 počítačovými súpermi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Multiplayer network games</source>
-        <translation>- Partite multigiocatore in rete</translation>
+        <translation>- Sieťové hry pre viacerých hráčov</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Internet online games</source>
-        <translation>- Partite multigiocatore su Internet</translation>
+        <translation>- Online hry cez internet</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Changeable gui with online style gallery</source>
-        <translation>- Interfaccia personalizzabile con galleria online di temi</translation>
+        <translation>- Vymeniteľný vzhľad s online galériou štýlov</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Online ranking website with result tables</source>
-        <translation>- Ranking online con tabelle dei risultati</translation>
+        <translation>- Webová stránka s online rebríčkami a tabuľkami výsledkov</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Project page:</source>
-        <translation>Pagina progetto:</translation>
+        <translation>Stránka projektu:</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -91,82 +91,82 @@
     <message>
         <location line="+2"/>
         <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
-        <translation>idea iniziale, achitettura di base, implementazione gui, grafica gui, pacchetto linux</translation>
+        <translation>pôvodná myšlienka, základná architektúra, implementácia rozhrania, úprava grafiky rozhrania, balík pre Linux</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial idea, basic architecture, engine development</source>
-        <translation>idea iniziale, architettura di base, sviluppo motore</translation>
+        <translation>pôvodná myšlienka, základná architektúra, vývoj enginu</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>basic architecture, network development, windows package, MacOS package</source>
-        <translation>architettura di base, sviluppo di rete, pacchetto windows, pacchetto MacOS</translation>
+        <translation>základná architektúra, sieťový vývoj, balík pre Windows, balík pre MacOS</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial gui graphics design</source>
-        <translation>sviluppo iniziale grafica gui</translation>
+        <translation>pôvodný grafický návrh rozhrania</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>code modernization, QML layout</source>
-        <translation>modernizzazione del codice, layout QML</translation>
+        <translation>modernizácia kódu, rozloženie QML</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>web client development</source>
-        <translation>sviluppo del client web</translation>
+        <translation>vývoj webového klienta</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>- Wikimedia Commons: for different popular avatar picture resources</source>
-        <translation>- Wikimedia Commons: per le diverse gallerie di avatar</translation>
+        <translation>- Wikimedia Commons: za rôzne obľúbené obrázky avatarov</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
-        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: per gli avatar raffiguranti persone</translation>
+        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: za obrázky avatarov s ľuďmi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- ZeiZei: for misc avatar pictures</source>
-        <translation>- ZeiZei: per gli avatar vari</translation>
+        <translation>- ZeiZei: za ostatné obrázky avatarov</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- kde-look.org: for different gpl licensed sounds</source>
-        <translation>- kde-look.org: per diversi suoni rilasciati sotto licenza GPL</translation>
+        <translation>- kde-look.org: za rôzne zvuky licencované pod GPL</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- doc_dos: for self recorded chip sounds</source>
-        <translation>- doc_dos: per la registrazione del suono delle fiches</translation>
+        <translation>- doc_dos: za vlastné nahrávky zvukov žetónov</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
-        <translation>- thiger, dunkanx, BerndA, coldz, drull: per diverse patch</translation>
+        <translation>- thiger, dunkanx, BerndA, coldz, drull: za rôzne opravy</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- kraut: for internet-game-server hosting and administration</source>
-        <translation>- kraut: per l&apos;hosting e l&apos;amministrazione del server per il gioco su internet</translation>
+        <translation>- kraut: za hosting a správu internetového herného servera</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
-        <translation>- danuxi: per gli sfondi della schermata di avvio e dello stile danuxi1</translation>
+        <translation>- danuxi: za grafiku pozadia úvodného okna a pozadie stola danuxi1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
-        <translation>- heyn: per il lavoro di moderazione sul forum, l&apos;organizzazione del bugtracker e la gestione delle richieste di nuove feature</translation>
+        <translation>- heyn: za moderovanie fóra a organizáciu bugtrackera a zoznamu požiadaviek</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- texas_outlaw: for new table sounds</source>
-        <translation>- texas_outlaw: per i nuovi suoni del tavolo di gioco</translation>
+        <translation>- texas_outlaw: za nové zvuky stola</translation>
     </message>
 </context>
 <context>
@@ -174,12 +174,12 @@
     <message>
         <location filename="../cpp/androidconnectionservice.cpp" line="+29"/>
         <source>Connected to the game server</source>
-        <translation>Connesso al server di gioco</translation>
+        <translation>Pripojené k hernému serveru</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Online game connection</source>
-        <translation>Connessione di gioco online</translation>
+        <translation>Pripojenie k online hre</translation>
     </message>
 </context>
 <context>
@@ -187,22 +187,22 @@
     <message>
         <location filename="../components/AvatarCardRow.qml" line="+132"/>
         <source>Server response times</source>
-        <translation>Tempi di risposta del server</translation>
+        <translation>Časy odozvy servera</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Average: %1 ms</source>
-        <translation>Media: %1 ms</translation>
+        <translation>Priemer: %1 ms</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Minimum: %1 ms</source>
-        <translation>Minimo: %1 ms</translation>
+        <translation>Minimum: %1 ms</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Maximum: %1 ms</source>
-        <translation>Massimo: %1 ms</translation>
+        <translation>Maximum: %1 ms</translation>
     </message>
 </context>
 <context>
@@ -210,32 +210,32 @@
     <message>
         <location filename="../pages/BbcRankingPage.qml" line="+36"/>
         <source>BBC Ranking</source>
-        <translation>Classifica BBC</translation>
+        <translation>Rebríček BBC</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Season:</source>
-        <translation>Stagione:</translation>
+        <translation>Sezóna:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>All-Time</source>
-        <translation>Sempre</translation>
+        <translation>Za celý čas</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Search nickname</source>
-        <translation>Cerca nickname</translation>
+        <translation>Hľadať prezývku</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Step1</source>
-        <translation>Step1</translation>
+        <translation>Fáza 1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Season %1</source>
-        <translation>Stagione %1</translation>
+        <translation>Sezóna %1</translation>
     </message>
 </context>
 <context>
@@ -243,39 +243,39 @@
     <message>
         <location filename="../components/ChatBox.qml" line="+31"/>
         <source>Nachricht …</source>
-        <translation>Messaggio …</translation>
+        <translation>Správa …</translation>
     </message>
     <message>
         <location line="+797"/>
         <source>Link öffnen</source>
-        <translation>Apri link</translation>
+        <translation>Otvoriť odkaz</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Link kopieren</source>
-        <translation>Copia link</translation>
+        <translation>Kopírovať odkaz</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+38"/>
         <source>Kopieren</source>
-        <translation>Copia</translation>
+        <translation>Kopírovať</translation>
     </message>
     <message>
         <location line="-33"/>
         <location line="+43"/>
         <source>Alles auswählen</source>
-        <translation>Seleziona tutto</translation>
+        <translation>Vybrať všetko</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Ausschneiden</source>
-        <translation>Taglia</translation>
+        <translation>Vystrihnúť</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Einfügen</source>
-        <translation>Incolla</translation>
+        <translation>Vložiť</translation>
     </message>
 </context>
 <context>
@@ -283,7 +283,7 @@
     <message>
         <location filename="../cpp/chattranslator.cpp" line="+265"/>
         <source>Translation is currently unavailable. Please try again later.</source>
-        <translation>La traduzione non è al momento disponibile. Riprova più tardi.</translation>
+        <translation>Preklad momentálne nie je dostupný. Skúste to, prosím, neskôr.</translation>
     </message>
 </context>
 <context>
@@ -291,98 +291,98 @@
     <message>
         <location filename="../components/CommunityPlayerView.qml" line="+30"/>
         <source>This season</source>
-        <translation>Questa stagione</translation>
+        <translation>Táto sezóna</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+4"/>
         <source>All-time</source>
-        <translation>Sempre</translation>
+        <translation>Za celý čas</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>This month</source>
-        <translation>Questo mese</translation>
+        <translation>Tento mesiac</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This year</source>
-        <translation>Quest&apos;anno</translation>
+        <translation>Tento rok</translation>
     </message>
     <message>
         <location line="+75"/>
         <source>Player not found.</source>
-        <translation>Giocatore non trovato.</translation>
+        <translation>Hráč sa nenašiel.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Could not load player (HTTP %1).</source>
-        <translation>Impossibile caricare il giocatore (HTTP %1).</translation>
+        <translation>Nepodarilo sa načítať údaje hráča (HTTP %1).</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Nepodarilo sa spracovať odpoveď servera.</translation>
     </message>
     <message>
         <location line="+80"/>
         <source>Member since %1</source>
-        <translation>Membro dal %1</translation>
+        <translation>Členom od %1</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Awards</source>
-        <translation>Premi</translation>
+        <translation>Ocenenia</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Tickets</source>
-        <translation>Biglietti</translation>
+        <translation>Vstupenky</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Step 2</source>
-        <translation>Step 2</translation>
+        <translation>Fáza 2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Step 3</source>
-        <translation>Step 3</translation>
+        <translation>Fáza 3</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Step 4</source>
-        <translation>Step 4</translation>
+        <translation>Fáza 4</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Rank</source>
-        <translation>Posizione</translation>
+        <translation>Poradie</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Skóre</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Hry</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Body</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Results:</source>
-        <translation>Risultati:</translation>
+        <translation>Výsledky:</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Step %1</source>
-        <translation>Step %1</translation>
+        <translation>Fáza %1</translation>
     </message>
 </context>
 <context>
@@ -390,22 +390,22 @@
     <message>
         <location filename="../pages/CommunityRankingPage.qml" line="+40"/>
         <source>Community / Ranking</source>
-        <translation>Community / Classifica</translation>
+        <translation>Komunita / rebríček</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>PokerTH Ranking</source>
-        <translation>Classifica PokerTH</translation>
+        <translation>Rebríček PokerTH</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>BBC Ranking</source>
-        <translation>Classifica BBC</translation>
+        <translation>Rebríček BBC</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>WEC Ranking</source>
-        <translation>Classifica WEC</translation>
+        <translation>Rebríček WEC</translation>
     </message>
 </context>
 <context>
@@ -415,17 +415,17 @@
         <location line="+17"/>
         <location line="+16"/>
         <source>Could not load ranking.</source>
-        <translation>Impossibile caricare la classifica.</translation>
+        <translation>Nepodarilo sa načítať rebríček.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Could not load ranking (HTTP %1).</source>
-        <translation>Impossibile caricare la classifica (HTTP %1).</translation>
+        <translation>Nepodarilo sa načítať rebríček (HTTP %1).</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Nepodarilo sa spracovať odpoveď servera.</translation>
     </message>
     <message>
         <location line="+26"/>
@@ -435,32 +435,32 @@
     <message>
         <location line="+7"/>
         <source>Nickname</source>
-        <translation>Nickname</translation>
+        <translation>Prezývka</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Hry</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Skóre</translation>
     </message>
     <message>
         <location line="+160"/>
         <source>No entries.</source>
-        <translation>Nessuna voce.</translation>
+        <translation>Žiadne záznamy.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No matches.</source>
-        <translation>Nessuna corrispondenza.</translation>
+        <translation>Žiadne zhody.</translation>
     </message>
     <message>
         <location line="-44"/>
         <source>◀ Prev</source>
-        <translation>◀ Prec</translation>
+        <translation>◀ Predošlá</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -470,12 +470,12 @@
     <message>
         <location line="+1"/>
         <source>Page %1 / %2  ·  %3 players</source>
-        <translation>Pagina %1 / %2  ·  %3 giocatori</translation>
+        <translation>Strana %1 / %2  ·  hráčov: %3</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Next ▶</source>
-        <translation>Succ ▶</translation>
+        <translation>Ďalšia ▶</translation>
     </message>
 </context>
 <context>
@@ -483,12 +483,12 @@
     <message>
         <location filename="../components/ConfirmPopup.qml" line="+25"/>
         <source>Yes</source>
-        <translation>Sì</translation>
+        <translation>Áno</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Zrušiť</translation>
     </message>
 </context>
 <context>
@@ -496,7 +496,7 @@
     <message>
         <location filename="../components/CustomCheckBox.qml" line="+50"/>
         <source>CheckBox LabelText</source>
-        <translation>CheckBox LabelText</translation>
+        <translation>Text popisu zaškrtávacieho políčka</translation>
     </message>
 </context>
 <context>
@@ -504,22 +504,22 @@
     <message>
         <location filename="../components/ExampleAvatarPicker.qml" line="+68"/>
         <source>Beispiel-Avatar wählen</source>
-        <translation>Scegli avatar di esempio</translation>
+        <translation>Vybrať ukážkového avatara</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Personen</source>
-        <translation>Persone</translation>
+        <translation>Osoby</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verschiedenes</source>
-        <translation>Vari</translation>
+        <translation>Rôzne</translation>
     </message>
     <message>
         <location line="+83"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Zrušiť</translation>
     </message>
 </context>
 <context>
@@ -528,7 +528,7 @@
         <location filename="../config/ForumNews.qml" line="+163"/>
         <location line="+11"/>
         <source>The forum feed could not be loaded.</source>
-        <translation>Impossibile caricare il feed del forum.</translation>
+        <translation>Nepodarilo sa načítať príspevky z fóra.</translation>
     </message>
 </context>
 <context>
@@ -536,22 +536,22 @@
     <message>
         <location filename="../pages/ForumNewsPage.qml" line="+58"/>
         <source>Forum news</source>
-        <translation>Novità dal forum</translation>
+        <translation>Novinky z fóra</translation>
     </message>
     <message>
         <location line="+141"/>
         <source>No entries.</source>
-        <translation>Nessuna voce.</translation>
+        <translation>Žiadne záznamy.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Mark all as read</source>
-        <translation>Segna tutto come letto</translation>
+        <translation>Označiť všetko ako prečítané</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Open the forum</source>
-        <translation>Apri il forum</translation>
+        <translation>Otvoriť fórum</translation>
     </message>
 </context>
 <context>
@@ -559,22 +559,22 @@
     <message>
         <location filename="../pages/ForumPostPage.qml" line="+78"/>
         <source>Translation failed.</source>
-        <translation>Traduzione non riuscita.</translation>
+        <translation>Preklad zlyhal.</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Show the original post</source>
-        <translation>Mostra il messaggio originale</translation>
+        <translation>Zobraziť pôvodný príspevok</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Translate the post</source>
-        <translation>Traduci il messaggio</translation>
+        <translation>Preložiť príspevok</translation>
     </message>
     <message>
         <location line="+147"/>
         <source>Open in the forum</source>
-        <translation>Apri nel forum</translation>
+        <translation>Otvoriť na fóre</translation>
     </message>
 </context>
 <context>
@@ -582,22 +582,22 @@
     <message>
         <location filename="../components/GameActionBar.qml" line="+997"/>
         <source>Show</source>
-        <translation>Mostra</translation>
+        <translation>Zobraziť</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Manuell</source>
-        <translation>Manuale</translation>
+        <translation>Ručne</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Auto Check/Call</source>
-        <translation>Check/Call automatico</translation>
+        <translation>Auto čakať/dorovnať</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Auto Check/Fold</source>
-        <translation>Check/Fold automatico</translation>
+        <translation>Auto čakať/zložiť</translation>
     </message>
 </context>
 <context>
@@ -605,12 +605,12 @@
     <message>
         <location filename="../components/GameAdminBadge.qml" line="+25"/>
         <source>Admin</source>
-        <translation>Admin</translation>
+        <translation>Administrátor</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Game admin: starts the game and can kick players</source>
-        <translation>Amministratore del tavolo: avvia la partita e può espellere i giocatori</translation>
+        <translation>Administrátor hry: spúšťa hru a môže vykopnúť hráčov</translation>
     </message>
 </context>
 <context>
@@ -618,72 +618,72 @@
     <message>
         <location filename="../components/GameInfoPanel.qml" line="+62"/>
         <source>Höchste Karte</source>
-        <translation>Carta alta</translation>
+        <translation>Vysoká karta</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Paar</source>
-        <translation>Coppia</translation>
+        <translation>Pár</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Zwei Paare</source>
-        <translation>Doppia coppia</translation>
+        <translation>Dva páry</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Drilling</source>
-        <translation>Tris</translation>
+        <translation>Trojica</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Straße</source>
-        <translation>Scala</translation>
+        <translation>Postupka</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Flush</source>
-        <translation>Colore</translation>
+        <translation>Farba</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Full House</source>
-        <translation>Full</translation>
+        <translation>Full house</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Vierling</source>
-        <translation>Poker</translation>
+        <translation>Štvorica</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Straight Flush</source>
-        <translation>Scala colore</translation>
+        <translation>Postupka vo farbe</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Royal Flush</source>
-        <translation>Scala reale</translation>
+        <translation>Royal flush</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Verlauf</source>
-        <translation>Cronologia</translation>
+        <translation>História</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Chancen</source>
-        <translation>Probabilità</translation>
+        <translation>Šance</translation>
     </message>
     <message>
         <location line="+245"/>
         <source>Kopieren</source>
-        <translation>Copia</translation>
+        <translation>Kopírovať</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Alles auswählen</source>
-        <translation>Seleziona tutto</translation>
+        <translation>Vybrať všetko</translation>
     </message>
 </context>
 <context>
@@ -691,42 +691,42 @@
     <message>
         <location filename="../components/GameListItem.qml" line="+147"/>
         <source>Report inappropriate game name</source>
-        <translation>Segnala nome di partita offensivo</translation>
+        <translation>Nahlásiť nevhodný názov hry</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report game name</source>
-        <translation>Segnala nome partita</translation>
+        <translation>Nahlásiť názov hry</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure you want to report the game name:
 &quot;%1&quot; as inappropriate?</source>
-        <translation>Sei sicuro di voler segnalare il nome della partita:
-&quot;%1&quot; come offensivo?</translation>
+        <translation>Určite chcete nahlásiť názov hry:
+„%1“ ako nevhodný?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report</source>
-        <translation>Segnala</translation>
+        <translation>Nahlásiť</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Close game (admin)</source>
-        <translation>Chiudi partita (admin)</translation>
+        <translation>Zavrieť hru (administrátor)</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+3"/>
         <source>Close game</source>
-        <translation>Chiudi partita</translation>
+        <translation>Zavrieť hru</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
-        <translation>Sei sicuro di voler chiudere la partita:
-&quot;%1&quot;?</translation>
+        <translation>Určite chcete zavrieť hru:
+„%1“?</translation>
     </message>
 </context>
 <context>
@@ -734,7 +734,7 @@
     <message>
         <location filename="../pages/GamePage.qml" line="+2310"/>
         <source>Verlauf &amp; Chancen</source>
-        <translation>Cronologia e probabilità</translation>
+        <translation>História a šance</translation>
     </message>
     <message>
         <location line="+55"/>
@@ -744,32 +744,32 @@
     <message>
         <location line="+17"/>
         <source>Emoji-Reaktionen</source>
-        <translation>Reazioni con emoji</translation>
+        <translation>Emoji reakcie</translation>
     </message>
     <message>
         <location line="+314"/>
         <source>Game Over</source>
-        <translation>Partita terminata</translation>
+        <translation>Koniec hry</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Congratulations, you won the game!</source>
-        <translation>Congratulazioni, hai vinto la partita!</translation>
+        <translation>Gratulujeme, vyhrali ste túto hru!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 wins the game!</source>
-        <translation>%1 vince la partita!</translation>
+        <translation>%1 vyhráva hru!</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Back to Menu</source>
-        <translation>Torna al menu</translation>
+        <translation>Späť do ponuky</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>New Game</source>
-        <translation>Nuova partita</translation>
+        <translation>Nová hra</translation>
     </message>
 </context>
 <context>
@@ -779,50 +779,50 @@
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
-        <translation>Ignora giocatore</translation>
+        <translation>Ignorovať hráča</translation>
     </message>
     <message>
         <location line="-30"/>
         <location line="+36"/>
         <location line="+2"/>
         <source>Unignore player</source>
-        <translation>Non ignorare più il giocatore</translation>
+        <translation>Prestať ignorovať hráča</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Show player stats</source>
-        <translation>Mostra statistiche giocatore</translation>
+        <translation>Zobraziť štatistiky hráča</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+35"/>
         <source>Report inappropriate avatar</source>
-        <translation>Segnala avatar non appropriato</translation>
+        <translation>Nahlásiť nevhodného avatara</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Note about player ...</source>
-        <translation>Nota sul giocatore...</translation>
+        <translation>Poznámka o hráčovi ...</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Are you sure you want to ignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero ignorare «%1»?&gt;</translation>
+        <translation>Určite chcete ignorovať hráča „%1“?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Are you sure you want to unignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero smettere di ignorare «%1»?&gt;</translation>
+        <translation>Určite chcete prestať ignorovať hráča „%1“?</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Are you sure you want to report the avatar of &quot;%1&quot; as inappropriate?</source>
-        <translation>Vuoi davvero segnalare l&apos;avatar di «%1» come non appropriato?</translation>
+        <translation>Určite chcete nahlásiť avatara hráča &quot;%1&quot; ako nevhodného?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Report</source>
-        <translation>Segnala</translation>
+        <translation>Nahlásiť</translation>
     </message>
 </context>
 <context>
@@ -831,7 +831,7 @@
         <location filename="../components/GamePlayerSelfBox.qml" line="+209"/>
         <location line="+33"/>
         <source>Du</source>
-        <translation>Tu</translation>
+        <translation>Vy</translation>
     </message>
 </context>
 <context>
@@ -839,27 +839,27 @@
     <message>
         <location filename="../components/GameStatusBar.qml" line="+100"/>
         <source>Show table ranking</source>
-        <translation>Mostra classifica del tavolo</translation>
+        <translation>Zobraziť rebríček stola</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Open in browser</source>
-        <translation>Apri nel browser</translation>
+        <translation>Otvoriť v prehliadači</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Total:</source>
-        <translation>Totale:</translation>
+        <translation>Bank:</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Bets:</source>
-        <translation>Puntate:</translation>
+        <translation>Stávky:</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Spectating</source>
-        <translation>Spettatore</translation>
+        <translation>Prizeranie</translation>
     </message>
     <message>
         <location line="+49"/>
@@ -869,12 +869,12 @@
     <message>
         <location line="+10"/>
         <source>Game: %1</source>
-        <translation>Partita: %1</translation>
+        <translation>Hra: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Hand: %1</source>
-        <translation>Mano: %1</translation>
+        <translation>Rozdanie: %1</translation>
     </message>
 </context>
 <context>
@@ -883,92 +883,92 @@
         <location filename="../pages/GameTableStatsPage.qml" line="+151"/>
         <location line="+36"/>
         <source>Could not load table ranking (HTTP %1).</source>
-        <translation>Impossibile caricare la classifica del tavolo (HTTP %1).</translation>
+        <translation>Nepodarilo sa načítať rebríček stola (HTTP %1).</translation>
     </message>
     <message>
         <location line="-16"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Nepodarilo sa spracovať odpoveď servera.</translation>
     </message>
     <message>
         <location line="+58"/>
         <source>Table ranking – %1</source>
-        <translation>Classifica del tavolo – %1</translation>
+        <translation>Rebríček stola – %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Table ranking</source>
-        <translation>Classifica del tavolo</translation>
+        <translation>Rebríček stola</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>Typ: %1</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Players: %1 / %2</source>
-        <translation>Giocatori: %1 / %2</translation>
+        <translation>Hráči: %1 / %2</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Small blind: %1</source>
-        <translation>Buio piccolo: %1</translation>
+        <translation>Malý blind: %1</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Start cash: %1</source>
-        <translation>Capitale iniziale: %1</translation>
+        <translation>Počiatočný kapitál: %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervallo aumento buio: %1 mani</translation>
+        <translation>Interval zvyšovania blindov: %1 rozdaní</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervallo aumento buio: %1 minuti</translation>
+        <translation>Interval zvyšovania blindov: %1 minút</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modalità aumento buio: %1</translation>
+        <translation>Režim zvyšovania blindov: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>double blinds</source>
-        <translation>raddoppia blind</translation>
+        <translation>dvojité blindy</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordine manuale dei blind</translation>
+        <translation>ručné poradie blindov</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Action time: %1 sec</source>
-        <translation>Tempo di azione: %1 sec</translation>
+        <translation>Čas na ťah: %1 s</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Hand delay: %1 sec</source>
-        <translation>Ritardo tra le mani: %1 sec</translation>
+        <translation>Prestávka medzi rozdaniami: %1 s</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Current BBC season standings of the players at this table.</source>
-        <translation>Classifica della stagione BBC corrente dei giocatori a questo tavolo.</translation>
+        <translation>Aktuálne umiestnenie hráčov pri tomto stole v sezóne BBC.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Current WEC month standings of the players at this table.</source>
-        <translation>Classifica del mese WEC corrente dei giocatori a questo tavolo.</translation>
+        <translation>Aktuálne umiestnenie hráčov pri tomto stole v mesiaci WEC.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Current season standings of the players at this table.</source>
-        <translation>Classifica della stagione corrente dei giocatori a questo tavolo.</translation>
+        <translation>Aktuálne umiestnenie hráčov pri tomto stole v sezóne.</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -978,32 +978,32 @@
     <message>
         <location line="+8"/>
         <source>Player</source>
-        <translation>Giocatore</translation>
+        <translation>Hráč</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Hry</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>Priem.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Body</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Skóre</translation>
     </message>
     <message>
         <location line="+138"/>
         <source>No ranking data for the players at this table yet.</source>
-        <translation>Ancora nessun dato di classifica per i giocatori a questo tavolo.</translation>
+        <translation>Zatiaľ nie sú k dispozícii údaje rebríčka pre hráčov pri tomto stole.</translation>
     </message>
 </context>
 <context>
@@ -1011,208 +1011,208 @@
     <message>
         <location filename="../pages/GameWaitPage.qml" line="+241"/>
         <source>Players</source>
-        <translation>Giocatori</translation>
+        <translation>Hráči</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>search for player ...</source>
-        <translation>ricerca giocatore ...</translation>
+        <translation>hľadanie hráča...</translation>
     </message>
     <message>
         <location line="+32"/>
         <location line="+310"/>
         <source>Sort alphabetically</source>
-        <translation>Ordina alfabeticamente</translation>
+        <translation>Zoradiť podľa abecedy</translation>
     </message>
     <message>
         <location line="-309"/>
         <location line="+310"/>
         <source>Sort by country</source>
-        <translation>Ordina per nazionalità</translation>
+        <translation>Zoradiť podľa krajiny</translation>
     </message>
     <message>
         <location line="-309"/>
         <location line="+310"/>
         <source>Display idle players</source>
-        <translation>Visualizza giocatori liberi</translation>
+        <translation>Zobraziť neaktívnych hráčov</translation>
     </message>
     <message>
         <location line="-267"/>
         <location line="+687"/>
         <source>Game List</source>
-        <translation>Elenco partite</translation>
+        <translation>Zoznam hier</translation>
     </message>
     <message>
         <location line="-636"/>
         <location line="+648"/>
         <source>No game list filter</source>
-        <translation>Nessun filtro elenco partite</translation>
+        <translation>Bez filtra zoznamu hier</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open games</source>
-        <translation>Mostra partite aperte</translation>
+        <translation>Zobraziť otvorené hry</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full games</source>
-        <translation>Mostra partite aperte e non piene</translation>
+        <translation>Zobraziť otvorené a nezaplnené hry</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
-        <translation>Mostra partite aperte, non piene e non private</translation>
+        <translation>Zobraziť otvorené, nezaplnené a verejné hry</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; private games</source>
-        <translation>Mostra partite aperte, non piene e private</translation>
+        <translation>Zobraziť otvorené, nezaplnené a súkromné hry</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
-        <translation>Mostra partite aperte, non piene e con classifica</translation>
+        <translation>Zobraziť otvorené, nezaplnené vyhodnocované hry</translation>
     </message>
     <message>
         <location line="-574"/>
         <source>Game Info</source>
-        <translation>Informazioni partita</translation>
+        <translation>Info o hre</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Waiting for the start of the next hand to rejoin the game</source>
-        <translation>In attesa dell&apos;inizio della prossima mano per rientrare nella partita</translation>
+        <translation>Čaká sa na začiatok ďalšieho rozdania pre návrat do hry</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Spectating — waiting for the next hand</source>
-        <translation>Spettatore — in attesa della prossima mano</translation>
+        <translation>Prizeranie — čaká sa na ďalšie rozdanie</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Waiting for players</source>
-        <translation>In attesa di giocatori</translation>
+        <translation>Čaká sa na hráčov</translation>
     </message>
     <message>
         <location line="+82"/>
         <source>Connected Players</source>
-        <translation>Giocatori connessi</translation>
+        <translation>Pripojení hráči</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Players: %1 / %2</source>
-        <translation>Giocatori: %1 / %2</translation>
+        <translation>Hráči: %1 / %2</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>Typ: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Small blind: %1</source>
-        <translation>Buio piccolo: %1</translation>
+        <translation>Malý blind: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Start cash: %1</source>
-        <translation>Capitale iniziale: %1</translation>
+        <translation>Počiatočný kapitál: %1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervallo aumento buio: %1 mani</translation>
+        <translation>Interval zvyšovania blindov: %1 rozdaní</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervallo aumento buio: %1 minuti</translation>
+        <translation>Interval zvyšovania blindov: %1 minút</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modalità aumento buio: %1</translation>
+        <translation>Režim zvyšovania blindov: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>double blinds</source>
-        <translation>raddoppia blind</translation>
+        <translation>dvojité blindy</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordine manuale dei blind</translation>
+        <translation>ručné poradie blindov</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Action time: %1 sec</source>
-        <translation>Tempo di azione: %1 sec</translation>
+        <translation>Čas na ťah: %1 s</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Hand delay: %1 sec</source>
-        <translation>Ritardo tra le mani: %1 sec</translation>
+        <translation>Prestávka medzi rozdaniami: %1 s</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Players in game (%1)</source>
-        <translation>Giocatori in partita (%1)</translation>
+        <translation>Hráči v hre (%1)</translation>
     </message>
     <message>
         <location line="-653"/>
         <location line="+745"/>
         <source>Kick player</source>
-        <translation>Espelli giocatore</translation>
+        <translation>Vykopnúť hráča</translation>
     </message>
     <message>
         <location line="-744"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
-        <translation>Vuoi davvero espellere «%1» dalla partita?</translation>
+        <translation>Určite chcete vykopnúť hráča „%1“ z hry?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kick</source>
-        <translation>Espelli</translation>
+        <translation>Vykopnúť</translation>
     </message>
     <message>
         <location line="+776"/>
         <source>Lobby Chat</source>
-        <translation>Chat della lobby</translation>
+        <translation>Chat lobby</translation>
     </message>
     <message>
         <location line="+73"/>
         <source>Guests cannot chat</source>
-        <translation>Gli ospiti non possono chattare</translation>
+        <translation>Hostia nemôžu chatovať</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Type your message...</source>
-        <translation>Scrivi il tuo messaggio...</translation>
+        <translation>Napíšte svoju správu...</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Fill up with computer players</source>
-        <translation>Completa con giocatori del computer</translation>
+        <translation>Doplniť počítačovými hráčmi</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Leave Game</source>
-        <translation>Abbandona partita</translation>
+        <translation>Opustiť hru</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Start Game</source>
-        <translation>Inizia partita</translation>
+        <translation>Spustiť hru</translation>
     </message>
     <message>
         <location line="-88"/>
         <source>Suggest players</source>
-        <translation>Suggerisci giocatori</translation>
+        <translation>Navrhnúť hráčov</translation>
     </message>
 </context>
 <context>
@@ -1220,32 +1220,32 @@
     <message>
         <location filename="../components/GlobalNoticePopup.qml" line="+58"/>
         <source>Global notice</source>
-        <translation>Avviso globale</translation>
+        <translation>Všeobecné oznámenie</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This message is shown to every player on the server, in the lobby and at the tables.</source>
-        <translation>Questo messaggio viene mostrato a tutti i giocatori del server, nella lobby e ai tavoli.</translation>
+        <translation>Túto správu uvidí každý hráč na serveri – v lobby aj pri stoloch.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Notice text …</source>
-        <translation>Testo dell&apos;avviso …</translation>
+        <translation>Text oznámenia …</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>%1 / %2 characters</source>
-        <translation>%1 / %2 caratteri</translation>
+        <translation>%1 / %2 znakov</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Send</source>
-        <translation>Invia</translation>
+        <translation>Odoslať</translation>
     </message>
 </context>
 <context>
@@ -1253,157 +1253,157 @@
     <message>
         <location filename="../components/GuiSettings.qml" line="+20"/>
         <source>Benutzeroberfläche</source>
-        <translation>Interfaccia utente</translation>
+        <translation>Používateľské rozhranie</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Allgemein</source>
-        <translation>Generale</translation>
+        <translation>Všeobecné</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Netzwerk</source>
-        <translation>Rete</translation>
+        <translation>Sieť</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Dark Mode:</source>
-        <translation>Modalità scura:</translation>
+        <translation>Tmavý režim:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Automatisch</source>
-        <translation>Automatica</translation>
+        <translation>Automaticky</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Hell</source>
-        <translation>Chiaro</translation>
+        <translation>Svetlý</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Dunkel</source>
-        <translation>Scuro</translation>
+        <translation>Tmavý</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Sprache:</source>
-        <translation>Lingua:</translation>
+        <translation>Jazyk:</translation>
     </message>
     <message>
         <location line="+70"/>
         <source>Ausblend-Animation für Verliererkarten</source>
-        <translation>Animazione di dissolvenza per le carte perdenti</translation>
+        <translation>Animácia miznutia prehratých kariet</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Zeitstempel im Chat anzeigen</source>
-        <translation>Mostra l&apos;orario nella chat</translation>
+        <translation>Zobrazovať časové značky v chate</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Übersetzung anbieten (Globus-Symbol im Chat und bei Forum-Beiträgen)</source>
-        <translation>Offri la traduzione (icona del globo nella chat e nei messaggi del forum)</translation>
+        <translation>Ponúkať preklad (ikona zemegule v chate a pri príspevkoch na fóre)</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht oder eines Forum-Beitrags antippst; Zielsprache ist die oben gewählte Sprache.</source>
-        <translation>La traduzione utilizza un servizio esterno (Google Traduttore o, in alternativa, MyMemory). Non viene inviato nulla finché non tocchi l&apos;icona di un messaggio o di un messaggio del forum; la lingua di destinazione è quella selezionata sopra.</translation>
+        <translation>Preklad používa externú službu (Prekladač Google, náhradne MyMemory). Údaje sa odošlú až vtedy, keď klepnete na ikonu pri správe alebo príspevku; cieľovým jazykom je jazyk zvolený vyššie.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Animierte Karten (Aufdeck-Animation)</source>
-        <translation>Carte animate (animazione flip)</translation>
+        <translation>Animované karty (animácia odkrývania)</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Grafikeffekte reduzieren (Schatten/Glow) – für schwache Systeme</source>
-        <translation>Riduci effetti grafici (ombre/bagliori) – per sistemi meno performanti</translation>
+        <translation>Obmedziť grafické efekty (tiene/žiara) – pre slabšie systémy</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Alternative F-Tasten-Belegung (F1-F4)</source>
-        <translation>Assegnazione alternativa dei tasti F (F1-F4)</translation>
+        <translation>Alternatívne rozloženie klávesov F1-F4</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Symbole für Small Blind und Big Blind anzeigen</source>
-        <translation>Mostra i simboli di buio piccolo e buio grande</translation>
+        <translation>Zobrazovať symboly malého a veľkého blindu</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Pot-Prozent-Schaltflächen anzeigen</source>
-        <translation>Mostra i pulsanti percentuale del piatto</translation>
+        <translation>Zobrazovať tlačidlá percenta z banku</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Anti-Peek: Eigene Karten erst bei Klick anzeigen</source>
-        <translation>Anti-sbirciata: mostra le proprie carte solo al clic</translation>
+        <translation>Ochrana proti nazeraniu: vlastné karty zobraziť až po kliknutí</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Startbildschirm beim Startvorgang deaktivieren</source>
-        <translation>Disabilita la schermata iniziale all&apos;avvio</translation>
+        <translation>Nezobrazovať úvodnú obrazovku pri spustení</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Internationale Pokerausdrücke (Check, Call, Raise) nicht übersetzen</source>
-        <translation>Non tradurre i termini internazionali del poker (Check, Call, Raise)</translation>
+        <translation>Neprekladať medzinárodné pokerové výrazy (Check, Call, Raise)</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Tooltips anzeigen</source>
-        <translation>Mostra i suggerimenti</translation>
+        <translation>Zobrazovať bublinové tipy</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
-        <translation>Abilita lo zoom del tavolo (scorrimento e zoom, solo modalità mobile)</translation>
+        <translation>Povoliť priblíženie stola (posúvanie a zoom, len mobilný režim)</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)</source>
-        <translation>Mantieni i posti dei giocatori che hanno lasciato il tavolo (i riquadri dei giocatori rimanenti restano al loro posto)</translation>
+        <translation>Ponechať miesta hráčov, ktorí odišli od stola (ostatné boxy hráčov zostanú na mieste)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Forum-Neuigkeiten anzeigen</source>
-        <translation>Mostra le novità dal forum</translation>
+        <translation>Zobrazovať novinky z fóra</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Community-Inhalte anzeigen</source>
-        <translation>Mostra contenuti della community</translation>
+        <translation>Zobrazovať obsah komunity</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Standard-Community:</source>
-        <translation>Community predefinita:</translation>
+        <translation>Predvolená komunita:</translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
-        <translation>Imposta il focus sul campo di puntata quando è il tuo turno</translation>
+        <translation>Presunúť kurzor do poľa stávky, keď ste na rade</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen</source>
-        <translation>Mostra il colore dello stato di rete nell&apos;angolo dell&apos;avatar</translation>
+        <translation>Zobrazovať farbu stavu siete v rohu avatara</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Emoji-Reaktionen deaktivieren</source>
-        <translation>Disabilita le reazioni con emoji</translation>
+        <translation>Vypnúť emoji reakcie</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Versehentliches Call nach einem großen Raise verhindern</source>
-        <translation>Evita chiamate accidentali dopo un grande rilancio</translation>
+        <translation>Zabrániť nechcenému dorovnaniu po veľkom zvýšení</translation>
     </message>
     <message>
         <location line="-31"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
-        <translation>Suggerisci giocatori nelle proprie partite della community</translation>
+        <translation>Navrhovať hráčov vo vlastných komunitných hrách</translation>
     </message>
 </context>
 <context>
@@ -1411,157 +1411,157 @@
     <message>
         <location filename="../components/InternetGameSettings.qml" line="+19"/>
         <source>Internetspiel</source>
-        <translation>Partita in Internet</translation>
+        <translation>Internetová hra</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Server-Konfiguration</source>
-        <translation>Configurazione server</translation>
+        <translation>Nastavenie servera</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Automatische Server-Konfiguration</source>
-        <translation>Configurazione automatica del server</translation>
+        <translation>Automatické nastavenie servera</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Manuelle Server-Konfiguration</source>
-        <translation>Configurazione manuale del server</translation>
+        <translation>Ručné nastavenie servera</translation>
     </message>
     <message>
         <location line="-18"/>
         <source>Server-Liste:</source>
-        <translation>Elenco server:</translation>
+        <translation>Zoznam serverov:</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Server-Adresse:</source>
-        <translation>Indirizzo del server:</translation>
+        <translation>Adresa servera:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Server-Port:</source>
-        <translation>Porta del server:</translation>
+        <translation>Port servera:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Server-Passwort:</source>
-        <translation>Password del server:</translation>
+        <translation>Heslo servera:</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Nur registrierte Spieler</source>
-        <translation>Solo utenti registrati</translation>
+        <translation>Iba registrovaní hráči</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur eingeladene Spieler</source>
-        <translation>Solo utenti invitati</translation>
+        <translation>Iba pozvaní hráči</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranglistenspiel</source>
-        <translation>Valida per la classifica</translation>
+        <translation>Vyhodnocovaná hra</translation>
     </message>
     <message>
         <location line="+87"/>
         <source>Verbindungsoptionen</source>
-        <translation>Opzioni di connessione</translation>
+        <translation>Možnosti pripojenia</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>TLS/SSL verwenden (verschlüsselte Verbindung)</source>
-        <translation>Usa TLS/SSL (connessione crittografata)</translation>
+        <translation>Použiť TLS/SSL (šifrované spojenie)</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>SCTP verwenden (statt TCP)</source>
-        <translation>Usa SCTP (invece di TCP)</translation>
+        <translation>Použiť SCTP (namiesto TCP)</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>IPv6 verwenden</source>
-        <translation>Utilizza IPv6</translation>
+        <translation>Použiť IPv6</translation>
     </message>
     <message>
         <location line="-52"/>
         <source>Avatar-Server</source>
-        <translation>Server avatar</translation>
+        <translation>Server avatarov</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Avatar-Server verwenden</source>
-        <translation>Usa il server avatar</translation>
+        <translation>Použiť server avatarov</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avatar-Server-Adresse:</source>
-        <translation>Indirizzo del server avatar:</translation>
+        <translation>Adresa servera avatarov:</translation>
     </message>
     <message>
         <location line="-101"/>
         <source>Spiel-Einstellungen</source>
-        <translation>Impostazioni partita</translation>
+        <translation>Nastavenia hry</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Spiel-Name:</source>
-        <translation>Nome partita:</translation>
+        <translation>Názov hry:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Spiel-Typ:</source>
-        <translation>Tipo di partita:</translation>
+        <translation>Typ hry:</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Normal</source>
-        <translation>Normale</translation>
+        <translation>Normálna</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Spiel-Passwort verwenden</source>
-        <translation>Usa password della partita</translation>
+        <translation>Použiť heslo hry</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Spiel-Passwort:</source>
-        <translation>Password della partita:</translation>
+        <translation>Heslo hry:</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Zuschauer erlauben</source>
-        <translation>Consenti spettatori</translation>
+        <translation>Povoliť divákov</translation>
     </message>
     <message>
         <location line="+84"/>
         <source>Tisch automatisch verlassen nach Spielende</source>
-        <translation>Lascia automaticamente il tavolo al termine della partita</translation>
+        <translation>Automaticky opustiť stôl po skončení hry</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>Weitere Optionen</source>
-        <translation>Altre opzioni</translation>
+        <translation>Ďalšie možnosti</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Ignorierte Spieler</source>
-        <translation>Giocatori Ignorati</translation>
+        <translation>Ignorovaní hráči</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>(keine ignorierten Spieler)</source>
-        <translation>(nessun giocatore ignorato)</translation>
+        <translation>(žiadni ignorovaní hráči)</translation>
     </message>
     <message>
         <location line="-45"/>
         <source>Spieler auf der Ignore-Liste werden nicht im Chat angezeigt.</source>
-        <translation>I giocatori nella lista degli ignorati non vengono mostrati in chat.</translation>
+        <translation>Hráči na zozname ignorovaných sa v chate nezobrazujú.</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Entfernen</source>
-        <translation>Rimuovi</translation>
+        <translation>Odstrániť</translation>
     </message>
 </context>
 <context>
@@ -1569,149 +1569,149 @@
     <message>
         <location filename="../pages/LobbyCreateGamePage.qml" line="+314"/>
         <source>← Zurück</source>
-        <translation>← Indietro</translation>
+        <translation>← Späť</translation>
     </message>
     <message>
         <location line="+8"/>
         <location line="+455"/>
         <source>Spiel erstellen</source>
-        <translation>Crea Partita</translation>
+        <translation>Vytvoriť hru</translation>
     </message>
     <message>
         <location line="-426"/>
         <source>Spielname</source>
-        <translation>Nome partita</translation>
+        <translation>Názov hry</translation>
     </message>
     <message>
         <location line="-205"/>
         <source>%1&apos;s game</source>
-        <translation>Partita di %1</translation>
+        <translation>Hra hráča %1</translation>
     </message>
     <message>
         <location line="+214"/>
         <source>Spielname eingeben …</source>
-        <translation>Inserisci il nome della partita …</translation>
+        <translation>Zadajte názov hry …</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Spieltyp</source>
-        <translation>Tipo di partita</translation>
+        <translation>Typ hry</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Normal</source>
-        <translation>Normale</translation>
+        <translation>Normálna</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur registrierte Spieler</source>
-        <translation>Solo utenti registrati</translation>
+        <translation>Iba registrovaní hráči</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur eingeladene Spieler</source>
-        <translation>Solo utenti invitati</translation>
+        <translation>Iba pozvaní hráči</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranglistenspiel</source>
-        <translation>Valida per la classifica</translation>
+        <translation>Vyhodnocovaná hra</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Community-Vorlage</source>
-        <translation>Modello della community</translation>
+        <translation>Šablóna komunity</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Eigene Einstellungen</source>
-        <translation>Impostazioni personalizzate</translation>
+        <translation>Vlastné nastavenia</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Passwort</source>
-        <translation>Password</translation>
+        <translation>Heslo</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Passwort eingeben …</source>
-        <translation>Inserisci password …</translation>
+        <translation>Zadajte heslo …</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Zuschauer erlaubt</source>
-        <translation>Spettatori ammessi</translation>
+        <translation>Diváci povolení</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Max. Spieler</source>
-        <translation>Numero max. giocatori</translation>
+        <translation>Max. hráčov</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Startgeld</source>
-        <translation>Capitale iniziale</translation>
+        <translation>Počiatočný kapitál</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Blind-Einstellungen</source>
-        <translation>Impostazioni buio</translation>
+        <translation>Nastavenia blindov</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Erster Small Blind</source>
-        <translation>Primo buio piccolo</translation>
+        <translation>Prvý malý blind</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Blind-Erhöhungsintervall</source>
-        <translation>Intervallo aumento buio</translation>
+        <translation>Interval zvyšovania blindov</translation>
     </message>
     <message>
         <location line="+22"/>
         <location line="+28"/>
         <source>Alle</source>
-        <translation>Ogni</translation>
+        <translation>Každých</translation>
     </message>
     <message>
         <location line="-17"/>
         <source>Hände</source>
-        <translation>mani</translation>
+        <translation>rozdaní</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Minuten</source>
-        <translation>minuti</translation>
+        <translation>minút</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Blindliste: %1</source>
-        <translation>Lista dei bui: %1</translation>
+        <translation>Zoznam blindov: %1</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Zeitlimits</source>
-        <translation>Limiti di tempo</translation>
+        <translation>Časové limity</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Zeitlimit Spieleraktion</source>
-        <translation>Limite di tempo per l&apos;azione del giocatore</translation>
+        <translation>Časový limit na ťah hráča</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Pause zwischen Händen</source>
-        <translation>Ritardo tra le mani</translation>
+        <translation>Prestávka medzi rozdaniami</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Bitte einen Spielnamen eingeben.</source>
-        <translation>Inserisci un nome per la partita.</translation>
+        <translation>Zadajte, prosím, názov hry.</translation>
     </message>
 </context>
 <context>
@@ -1720,172 +1720,172 @@
         <location filename="../cpp/lobbyhandler.cpp" line="+1441"/>
         <location line="+1347"/>
         <source>Guests cannot send chat messages</source>
-        <translation>Gli ospiti non possono inviare messaggi in chat</translation>
+        <translation>Hostia nemôžu posielať správy do chatu</translation>
     </message>
     <message>
         <location line="-1328"/>
         <location line="+1322"/>
         <source>Private messages are not available at the table.</source>
-        <translation>I messaggi privati non sono disponibili al tavolo.</translation>
+        <translation>Súkromné správy nie sú pri stole dostupné.</translation>
     </message>
     <message>
         <location line="-1316"/>
         <source>Player not found</source>
-        <translation>Giocatore non trovato</translation>
+        <translation>Hráč sa nenašiel</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Failed to send chat message</source>
-        <translation>Impossibile inviare il messaggio in chat</translation>
+        <translation>Správu do chatu sa nepodarilo odoslať</translation>
     </message>
     <message>
         <location line="+98"/>
         <source>The avatar report was accepted by the server. Thank you.</source>
-        <translation>La segnalazione dell&apos;avatar è stata accettata dal server. Grazie mille.</translation>
+        <translation>Hlásenie o avatarovi bolo prijaté serverom. Ďakujeme.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This avatar was already reported by another player.</source>
-        <translation>Questo avatar è già stato segnalato da un altro giocatore.</translation>
+        <translation>Tento avatar už bol nahlásený iným hráčom.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An error occurred while reporting the avatar.</source>
-        <translation>Si è verificato un errore durante la segnalazione dell&apos;avatar.</translation>
+        <translation>Počas nahlasovania avatara nastala chyba.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name report was accepted by the server. Thank you.</source>
-        <translation>La segnalazione sul nome della partita è stata accettata dal server. Grazie.</translation>
+        <translation>Hlásenie o názve hry bolo prijaté serverom. Ďakujeme.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game name was already reported by another player.</source>
-        <translation>Questo nome di partita è già stato segnalato da un altro giocatore.</translation>
+        <translation>Tento názov hry už bol nahlásený iným hráčom.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An error occurred while reporting the game name.</source>
-        <translation>Si è verificato un errore durante la segnalazione del nome di partita.</translation>
+        <translation>Počas nahlasovania názvu hry nastala chyba.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game was closed.</source>
-        <translation>La partita è stata chiusa.</translation>
+        <translation>Hra bola zavretá.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be closed.</source>
-        <translation>Impossibile chiudere la partita.</translation>
+        <translation>Hru sa nepodarilo zavrieť.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked and banned permanently.</source>
-        <translation>Il giocatore è stato espulso e bandito permanentemente.</translation>
+        <translation>Hráč bol vykopnutý a natrvalo zablokovaný.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked, but could not be banned because it was a guest player.</source>
-        <translation>Il giocatore è stato espulso ma non è stato bandito perchè era un ospite.</translation>
+        <translation>Hráč bol vykopnutý, ale nedal sa zablokovať, pretože bol iba hosť.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked, but could not be banned, 
 because the nick could not be found in the database</source>
-        <translation>Il giocatore è stato espulso ma non bandito
-perchè il suo nickname non è stato trovato sul database</translation>
+        <translation>Hráč bol vykopnutý, ale nedal sa zablokovať, 
+pretože jeho prezývka sa nenašla v databáze</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player could not be found.</source>
-        <translation>Impossibile trovare il giocatore.</translation>
+        <translation>Hráča sa nepodarilo nájsť.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The global notice was sent to all players.</source>
-        <translation>L&apos;avviso globale è stato inviato a tutti i giocatori.</translation>
+        <translation>Všeobecné oznámenie bolo odoslané všetkým hráčom.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The global notice was rejected by the server.</source>
-        <translation>L&apos;avviso globale è stato rifiutato dal server.</translation>
+        <translation>Server zamietol všeobecné oznámenie.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>You cannot join this game, because another player in that game has your network address.</source>
-        <translation>Non puoi unirti alla partita, è presente un altro giocatore che ha il tuo stesso indirizzo di rete.</translation>
+        <translation>Nemôžete sa pripojiť k tejto hre, pretože iný hráč v tejto hre má vašu sieťovú adresu.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Sorry, this game is already full.</source>
-        <translation>Spiacente, la partita è già al completo.</translation>
+        <translation>Ľutujem, táto hra je už plná.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Unable to join - the server has already started the game.</source>
-        <translation>Impossibile partecipare - la partita è già iniziata.</translation>
+        <translation>Nepodarilo sa pripojiť k hre - na serveri už začala hra.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game is of type invite-only. You cannot join this game without being invited.</source>
-        <translation>L&apos;accesso a questa partita è concesso solo su invito. Non puoi partecipare senza essere stato invitato.</translation>
+        <translation>Tento typ hry je len na pozvánku. Nemôžete sa pridať k tejto hre bez toho, aby vás niekto pozval.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game name is already in use. Please choose a different name.</source>
-        <translation>Questo nome partita è già in uso. Scegli un nome diverso.</translation>
+        <translation>Tento názov hry sa už používa. Zvoľte, prosím, iný názov.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name is invalid. Please choose a different name.</source>
-        <translation>Il nome della partita non è valido. Scegli un nome diverso.</translation>
+        <translation>Názov hry je neplatný. Zvoľte, prosím, iný názov.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
-        <translation>Password sbagliata per la partita selezionata.
-Reinserire la password e riprovare.</translation>
+        <translation>Neplatné heslo pri pripájaní sa k hre.
+Prosím, skúste to znovu.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You cannot join this type of game as guest.</source>
-        <translation>Non puoi accedere a questa partita come ospite.</translation>
+        <translation>K tejto hre sa nemôžete pripojiť ako hosť.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The settings are invalid for this type of game.</source>
-        <translation>Impostazioni non valide per questo tipo di partita.</translation>
+        <translation>Nastavenia sú neplatné pre tento typ hry.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game does not allow spectators.</source>
-        <translation>Questa partita non consente spettatori.</translation>
+        <translation>Táto hra nepovoľuje divákov.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Could not join the game.</source>
-        <translation>Impossibile unirsi alla partita.</translation>
+        <translation>K hre sa nepodarilo pripojiť.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Your connection to the server is very slow, the game had to start without you.</source>
-        <translation>La connessione al server è molto lenta, la partita è dovuta cominciare senza di te.</translation>
+        <translation>Vaše pripojenie k serveru je veľmi pomalé, hra musela začať bez vás.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were kicked from the game.</source>
-        <translation>Sei stato espulso dalla partita.</translation>
+        <translation>Boli ste vykopnutý z hry.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>You were removed due to inactivity.</source>
-        <translation>Sei stato rimosso per inattività.</translation>
+        <translation>Boli ste odstránený z dôvodu nečinnosti.</translation>
     </message>
     <message>
         <location line="+581"/>
         <source>%1 is not in the lobby at the moment.</source>
-        <translation>%1 non è nella lobby al momento.</translation>
+        <translation>%1 momentálne nie je v lobby.</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -1899,72 +1899,72 @@ Reinserire la password e riprovare.</translation>
         <location line="+11"/>
         <location line="+11"/>
         <source>Not connected to server</source>
-        <translation>Non connesso al server</translation>
+        <translation>Nepripojené k serveru</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>%1 has been invited to %2 by %3.</source>
-        <translation>%1 è stato invitato a %2 da %3.</translation>
+        <translation>%3 pozval hráča %1 do %2.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>%1 has rejected the invitation to %2.</source>
-        <translation>%1 ha rifiutato l&apos;invito a %2.</translation>
+        <translation>%1 odmietol pozvánku do %2.</translation>
     </message>
     <message>
         <location line="+79"/>
         <source>Guests cannot receive private messages.</source>
-        <translation>Gli ospiti non possono ricevere messaggi privati.</translation>
+        <translation>Hostia nemôžu prijímať súkromné správy.</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Private message to %1:</source>
-        <translation>Messaggio privato a %1:</translation>
+        <translation>Súkromná správa pre %1:</translation>
     </message>
     <message>
         <location line="+96"/>
         <source>Registered players only</source>
-        <translation>Solo utenti registrati</translation>
+        <translation>Iba registrovaní hráči</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invited players only</source>
-        <translation>Solo utenti invitati</translation>
+        <translation>Iba pozvaní hráči</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranking game</source>
-        <translation>Valida per la classifica</translation>
+        <translation>Vyhodnocovaná hra</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Standard</source>
-        <translation>Standard</translation>
+        <translation>Štandardná</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Running</source>
-        <translation>In corso</translation>
+        <translation>Prebieha</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Closed</source>
-        <translation>Chiusa</translation>
+        <translation>Zavretá</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open</source>
-        <translation>Aperta</translation>
+        <translation>Otvorená</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Full</source>
-        <translation>Piena</translation>
+        <translation>Plná</translation>
     </message>
     <message>
         <location line="-221"/>
         <source>%1 cannot join %2 because he is busy.</source>
-        <translation>%1 non può unirsi a %2 perché è occupato.</translation>
+        <translation>%1 sa nemôže pripojiť do %2, pretože je zaneprázdnený.</translation>
     </message>
 </context>
 <context>
@@ -1972,335 +1972,335 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../pages/LobbyPage.qml" line="+1545"/>
         <source>Game invitation</source>
-        <translation>Invito alla partita</translation>
+        <translation>Pozvánka do hry</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
-        <translation>Sei stato invitato alla partita &lt;b&gt;%1&lt;/b&gt; da &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Desideri partecipare alla partita?</translation>
+        <translation>Prišla vám pozvánka ku hre &lt;b&gt;%1&lt;/b&gt; od &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Želáte si pridať sa k tejto hre?</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Decline</source>
-        <translation>Rifiuta</translation>
+        <translation>Odmietnuť</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Join</source>
-        <translation>Unisciti</translation>
+        <translation>Pripojiť sa</translation>
     </message>
     <message>
         <location line="-502"/>
         <source>Create Game</source>
-        <translation>Crea Partita</translation>
+        <translation>Vytvoriť hru</translation>
     </message>
     <message>
         <location line="-746"/>
         <location line="+804"/>
         <source>Game Info</source>
-        <translation>Informazioni partita</translation>
+        <translation>Info o hre</translation>
     </message>
     <message>
         <location line="-534"/>
         <location line="+483"/>
         <source>Join Game</source>
-        <translation>Unisciti alla partita</translation>
+        <translation>Pripojiť sa k hre</translation>
     </message>
     <message>
         <location line="-273"/>
         <source>Game List</source>
-        <translation>Elenco partite</translation>
+        <translation>Zoznam hier</translation>
     </message>
     <message>
         <location line="+73"/>
         <source>Time: %1s/%2s</source>
-        <translation>Tempo: %1s/%2s</translation>
+        <translation>Čas: %1 s/%2 s</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Private</source>
-        <translation>Privato</translation>
+        <translation>Súkromná</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Public</source>
-        <translation>Pubblica</translation>
+        <translation>Verejná</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Ranking</source>
-        <translation>Classifica</translation>
+        <translation>Rebríček</translation>
     </message>
     <message>
         <location line="+115"/>
         <location line="+287"/>
         <source>Lobby Chat</source>
-        <translation>Chat della lobby</translation>
+        <translation>Chat lobby</translation>
     </message>
     <message>
         <location line="-613"/>
         <source>No game list filter</source>
-        <translation>Nessun filtro elenco partite</translation>
+        <translation>Bez filtra zoznamu hier</translation>
     </message>
     <message>
         <location line="+375"/>
         <source>Player: %1</source>
-        <translation>Giocatore: %1</translation>
+        <translation>Hráč: %1</translation>
     </message>
     <message>
         <location line="-896"/>
         <source>Players</source>
-        <translation>Giocatori</translation>
+        <translation>Hráči</translation>
     </message>
     <message>
         <location line="+1010"/>
         <source>Select a game to see details</source>
-        <translation>Seleziona una partita per vedere i dettagli</translation>
+        <translation>Vyberte hru pre zobrazenie podrobností</translation>
     </message>
     <message>
         <location line="-486"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
-        <translation>Mostra partite aperte, non piene e non private</translation>
+        <translation>Zobraziť otvorené, nezaplnené a verejné hry</translation>
     </message>
     <message>
         <location line="-627"/>
         <source>Report game name</source>
-        <translation>Segnala nome partita</translation>
+        <translation>Nahlásiť názov hry</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure you want to report the game name:
 &quot;%1&quot; as inappropriate?</source>
-        <translation>Sei sicuro di voler segnalare il nome della partita:
-&quot;%1&quot; come offensivo?</translation>
+        <translation>Určite chcete nahlásiť názov hry:
+„%1“ ako nevhodný?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report</source>
-        <translation>Segnala</translation>
+        <translation>Nahlásiť</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Spectate</source>
-        <translation>Osserva</translation>
+        <translation>Prizerať sa</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+3"/>
         <source>Close game</source>
-        <translation>Chiudi partita</translation>
+        <translation>Zavrieť hru</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
-        <translation>Sei sicuro di voler chiudere la partita:
-&quot;%1&quot;?</translation>
+        <translation>Určite chcete zavrieť hru:
+„%1“?</translation>
     </message>
     <message>
         <location line="+169"/>
         <location line="+510"/>
         <source>Sort alphabetically</source>
-        <translation>Ordina alfabeticamente</translation>
+        <translation>Zoradiť podľa abecedy</translation>
     </message>
     <message>
         <location line="-509"/>
         <location line="+510"/>
         <source>Sort by country</source>
-        <translation>Ordina per nazionalità</translation>
+        <translation>Zoradiť podľa krajiny</translation>
     </message>
     <message>
         <location line="-509"/>
         <location line="+510"/>
         <source>Display idle players</source>
-        <translation>Visualizza giocatori liberi</translation>
+        <translation>Zobraziť neaktívnych hráčov</translation>
     </message>
     <message>
         <location line="-423"/>
         <location line="+799"/>
         <source>Report inappropriate game name</source>
-        <translation>Segnala nome di partita offensivo</translation>
+        <translation>Nahlásiť nevhodný názov hry</translation>
     </message>
     <message>
         <location line="-791"/>
         <location line="+798"/>
         <source>Close game (admin)</source>
-        <translation>Chiudi partita (admin)</translation>
+        <translation>Zavrieť hru (administrátor)</translation>
     </message>
     <message>
         <location line="-761"/>
         <source>Players: %1 / %2</source>
-        <translation>Giocatori: %1 / %2</translation>
+        <translation>Hráči: %1 / %2</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Status: %1</source>
-        <translation>Stato: %1</translation>
+        <translation>Stav: %1</translation>
     </message>
     <message>
         <location line="+33"/>
         <location line="+742"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>Typ: %1</translation>
     </message>
     <message>
         <location line="-731"/>
         <source>Small blind: %1</source>
-        <translation>Buio piccolo: %1</translation>
+        <translation>Malý blind: %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Start cash: %1</source>
-        <translation>Capitale iniziale: %1</translation>
+        <translation>Počiatočný kapitál: %1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervallo aumento buio: %1 mani</translation>
+        <translation>Interval zvyšovania blindov: %1 rozdaní</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervallo aumento buio: %1 minuti</translation>
+        <translation>Interval zvyšovania blindov: %1 minút</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modalità aumento buio: %1</translation>
+        <translation>Režim zvyšovania blindov: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>double blinds</source>
-        <translation>raddoppia blind</translation>
+        <translation>dvojité blindy</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordine manuale dei blind</translation>
+        <translation>ručné poradie blindov</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds list: %1</source>
-        <translation>Elenco buio: %1</translation>
+        <translation>Zoznam blindov: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Game timing: %1 sec (action)
 %2 sec (hand delay)</source>
-        <translation>Tempi di gioco: %1 sec (azione)
-%2 sec (ritardo mano)</translation>
+        <translation>Časovanie hry: %1 s (ťah)
+%2 s (prestávka medzi rozdaniami)</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+690"/>
         <source>Players in game (%1)</source>
-        <translation>Giocatori in partita (%1)</translation>
+        <translation>Hráči v hre (%1)</translation>
     </message>
     <message>
         <location line="-605"/>
         <location line="+483"/>
         <source>Leave Game</source>
-        <translation>Abbandona partita</translation>
+        <translation>Opustiť hru</translation>
     </message>
     <message>
         <location line="-386"/>
         <source>Show open &amp; non-full &amp; private games</source>
-        <translation>Mostra partite aperte, non piene e private</translation>
+        <translation>Zobraziť otvorené, nezaplnené a súkromné hry</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
-        <translation>Mostra partite aperte, non piene e con classifica</translation>
+        <translation>Zobraziť otvorené, nezaplnené vyhodnocované hry</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Connected Players</source>
-        <translation>Giocatori connessi</translation>
+        <translation>Pripojení hráči</translation>
     </message>
     <message>
         <location line="-658"/>
         <location line="+846"/>
         <source>Spectate game</source>
-        <translation>Osserva la partita</translation>
+        <translation>Prizerať sa hre</translation>
     </message>
     <message>
         <location line="-845"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
-        <translation>Vuoi davvero osservare la partita:
-&quot;%1&quot;?</translation>
+        <translation>Určite sa chcete prizerať hre:
+„%1“?</translation>
     </message>
     <message>
         <location line="+950"/>
         <location line="+287"/>
         <source>Global notice (admin)</source>
-        <translation>Avviso globale (admin)</translation>
+        <translation>Všeobecné oznámenie (administrátor)</translation>
     </message>
     <message>
         <location line="-124"/>
         <source>SB: %1 | Start cash: %2</source>
-        <translation>Buio piccolo: %1 | Capitale iniziale: %2</translation>
+        <translation>MB: %1 | Počiatočný kapitál: %2</translation>
     </message>
     <message>
         <location line="+272"/>
         <source>Privates Spiel</source>
-        <translation>Partita privata</translation>
+        <translation>Súkromná hra</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Bitte das Passwort eingeben, um beizutreten.</source>
-        <translation>Inserisci la password per partecipare.</translation>
+        <translation>Zadajte, prosím, heslo pre pripojenie.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Passwort …</source>
-        <translation>Password …</translation>
+        <translation>Heslo …</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Beitreten</source>
-        <translation>Unisciti</translation>
+        <translation>Pripojiť sa</translation>
     </message>
     <message>
         <location line="+141"/>
         <source>Rejoin possible</source>
-        <translation>È possibile rientrare in partita</translation>
+        <translation>Návrat do hry je možný</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>There is an existing session with a previous game.&lt;br&gt;Do you want to rejoin this game?</source>
-        <translation>È presente una sessione con una partita precedente.&lt;br&gt;Desideri rientrare in questa partita?</translation>
+        <translation>Existuje uložená relácia predchádzajúcej hry.&lt;br&gt;Chcete sa vrátiť do tejto hry?</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>No</source>
-        <translation>No</translation>
+        <translation>Nie</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Rejoin</source>
-        <translation>Rientra</translation>
+        <translation>Vrátiť sa</translation>
     </message>
     <message>
         <location line="-976"/>
         <source>Show open &amp; non-full games</source>
-        <translation>Mostra partite aperte e non piene</translation>
+        <translation>Zobraziť otvorené a nezaplnené hry</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Show open games</source>
-        <translation>Mostra partite aperte</translation>
+        <translation>Zobraziť otvorené hry</translation>
     </message>
     <message>
         <location line="-473"/>
         <location line="+452"/>
         <source>search for player ...</source>
-        <translation>ricerca giocatore ...</translation>
+        <translation>hľadanie hráča...</translation>
     </message>
 </context>
 <context>
@@ -2308,22 +2308,22 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../components/LobbyStatsBar.qml" line="+23"/>
         <source>%1 players · %2 running · %3 open</source>
-        <translation>%1 giocatori · %2 in corso · %3 aperte</translation>
+        <translation>hráčov: %1 · prebieha: %2 · otvorených: %3</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>connected players: %1</source>
-        <translation>giocatori connessi: %1</translation>
+        <translation>pripojení hráči: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>running games: %1</source>
-        <translation>partite in corso: %1</translation>
+        <translation>spustené hry: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>open games: %1</source>
-        <translation>partite aperte: %1</translation>
+        <translation>otvorené hry: %1</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2336,120 +2336,120 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../pages/LocalGamePage.qml" line="+27"/>
         <source>alle %1 Hände</source>
-        <translation>ogni %1 mani</translation>
+        <translation>každých %1 rozdaní</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>alle %1 Minuten</source>
-        <translation>ogni %1 minuti</translation>
+        <translation>každých %1 minút</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>verdoppeln</source>
-        <translation>doppio</translation>
+        <translation>zdvojnásobenie</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manuell</source>
-        <translation>manuale</translation>
+        <translation>ručne</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Small Blind: $%1  •  Erhöhen %2  •  %3</source>
-        <translation>Buio piccolo: $%1  •  Rilancio %2  •  %3</translation>
+        <translation>Malý blind: $%1  •  zvyšovanie %2  •  %3</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Lokales Spiel</source>
-        <translation>Partita locale</translation>
+        <translation>Lokálna hra</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Lokale Spiel-Einstellungen</source>
-        <translation>Impostazioni partita locale</translation>
+        <translation>Nastavenia lokálnej hry</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Numero di giocatori:</translation>
+        <translation>Počet hráčov:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Startkapital:</source>
-        <translation>Capitale iniziale:</translation>
+        <translation>Počiatočný kapitál:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Blinds</source>
-        <translation>Blind</translation>
+        <translation>Blindy</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Gespeicherte Blinds-Einstellungen verwenden</source>
-        <translation>Utilizza impostazioni dei blind salvate</translation>
+        <translation>Použiť uložené nastavenia blindov</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Blinds-Einstellungen ändern …</source>
-        <translation>Modifica impostazioni buio …</translation>
+        <translation>Zmeniť nastavenia blindov …</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Erster Small Blind:</source>
-        <translation>Primo small blind:</translation>
+        <translation>Prvý malý blind:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Small Blind erhöhen:</source>
-        <translation>Aumento buio piccolo:</translation>
+        <translation>Zvyšovať malý blind:</translation>
     </message>
     <message>
         <location line="+13"/>
         <location line="+24"/>
         <source>alle</source>
-        <translation>ogni</translation>
+        <translation>každých</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Hände</source>
-        <translation>mani</translation>
+        <translation>rozdaní</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Minuten</source>
-        <translation>minuti</translation>
+        <translation>minút</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Erhöhungsmodus:</source>
-        <translation>Modalità aumento:</translation>
+        <translation>Režim zvyšovania:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre i blind</translation>
+        <translation>Blindy vždy zdvojnásobiť</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordine buio manuale</translation>
+        <translation>Ručné poradie blindov</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
-        <translation>Velocità di gioco
-(1=lento, 11=veloce):</translation>
+        <translation>Rýchlosť hry
+(1 = pomaly, 11 = rýchlo):</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Spiel starten</source>
-        <translation>Inizia partita</translation>
+        <translation>Spustiť hru</translation>
     </message>
 </context>
 <context>
@@ -2457,147 +2457,147 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../components/LocalGameSettings.qml" line="+55"/>
         <source>Lokales Spiel</source>
-        <translation>Partita locale</translation>
+        <translation>Lokálna hra</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Spieler &amp; Startkapital</source>
-        <translation>Giocatori e capitale iniziale</translation>
+        <translation>Hráči a počiatočný kapitál</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Numero di giocatori:</translation>
+        <translation>Počet hráčov:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Startkapital:</source>
-        <translation>Capitale iniziale:</translation>
+        <translation>Počiatočný kapitál:</translation>
     </message>
     <message>
         <location line="+351"/>
         <source>Spiel-Einstellungsdialog bei neuem Spiel anzeigen</source>
-        <translation>Mostra finestra impostazioni partita per nuova partita</translation>
+        <translation>Zobraziť dialóg nastavení pri novej hre</translation>
     </message>
     <message>
         <location line="-313"/>
         <source>Blinds erhöhen</source>
-        <translation>Aumenta buio</translation>
+        <translation>Zvyšovanie blindov</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Blind-Erhöhungsreihenfolge</source>
-        <translation>Ordine aumento buio</translation>
+        <translation>Poradie zvyšovania blindov</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>Blinds bei Anzahl der Hände erhöhen</source>
-        <translation>Aumenta buio dopo numero di mani</translation>
+        <translation>Zvyšovať blindy podľa počtu rozdaní</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Blinds zeitbasiert erhöhen</source>
-        <translation>Aumenta buio in base al tempo</translation>
+        <translation>Zvyšovať blindy podľa času</translation>
     </message>
     <message>
         <location line="+57"/>
         <location line="+101"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre il buio</translation>
+        <translation>Blindy vždy zdvojnásobiť</translation>
     </message>
     <message>
         <location line="-88"/>
         <location line="+14"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordine buio manuale</translation>
+        <translation>Ručné poradie blindov</translation>
     </message>
     <message>
         <location line="-158"/>
         <source>Erster Small Blind:</source>
-        <translation>Primo buio piccolo:</translation>
+        <translation>Prvý malý blind:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
         <source>Small Blind erhöhen alle:</source>
-        <translation>Aumenta buio piccolo ogni:</translation>
+        <translation>Zvyšovať malý blind každých:</translation>
     </message>
     <message>
         <location line="-25"/>
         <source>Hände</source>
-        <translation>Mani</translation>
+        <translation>rozdaní</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Minuten</source>
-        <translation>Minuti</translation>
+        <translation>minút</translation>
     </message>
     <message>
         <location line="+100"/>
         <source>Hinzufügen</source>
-        <translation>Aggiungi</translation>
+        <translation>Pridať</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Löschen</source>
-        <translation>Elimina</translation>
+        <translation>Vymazať</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Danach:</source>
-        <translation>Dopo di che:</translation>
+        <translation>Potom:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Immer erhöhen um:</source>
-        <translation>Rilancia sempre di:</translation>
+        <translation>Vždy zvýšiť o:</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Letzten Blind beibehalten</source>
-        <translation>Mantieni ultimo blind</translation>
+        <translation>Zostať pri poslednom blinde</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Spielgeschwindigkeit</source>
-        <translation>Velocità di gioco</translation>
+        <translation>Rýchlosť hry</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
-        <translation>Velocità di gioco
-(1=lento, 11=veloce):</translation>
+        <translation>Rýchlosť hry
+(1 = pomaly, 11 = rýchlo):</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Pause zwischen den Händen</source>
-        <translation>Pausa tra le mani</translation>
+        <translation>Prestávka medzi rozdaniami</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Computerspieler</source>
-        <translation>Giocatori del computer</translation>
+        <translation>Počítačoví hráči</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Spielstärke:</source>
-        <translation>Livello di gioco:</translation>
+        <translation>Herná sila:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Klassisch</source>
-        <translation>Classico</translation>
+        <translation>Klasická</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Stark</source>
-        <translation>Forte</translation>
+        <translation>Silná</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</source>
-        <translation>Vale per le partite locali. Nelle partite in rete è il server a determinare la forza dei suoi giocatori del computer.</translation>
+        <translation>Platí pre lokálne hry. Pri sieťových hrách určuje silu svojich počítačových hráčov server.</translation>
     </message>
 </context>
 <context>
@@ -2605,102 +2605,102 @@ Reinserire la password e riprovare.</translation>
     <message>
         <location filename="../cpp/loghandler.cpp" line="+361"/>
         <source>Export PokerTH log file to HTML</source>
-        <translation>Esporta il file di registro di PokerTH in HTML</translation>
+        <translation>Exportovať súbor záznamu PokerTH do HTML</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH HTML log (*.html)</source>
-        <translation>Registro di PokerTH in formato HTML (*.html)</translation>
+        <translation>HTML záznam PokerTH (*.html)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Export PokerTH log file to plain text</source>
-        <translation>Esporta il file di registro di PokerTH in formato testo</translation>
+        <translation>Exportovať súbor záznamu PokerTH do čistého textu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH plain text log (*.txt)</source>
-        <translation>Registro di PokerTH in formato testo (*.html)</translation>
+        <translation>Textový záznam PokerTH (*.txt)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Save PokerTH log file</source>
-        <translation>Salva il file di registro di PokerTH</translation>
+        <translation>Uložiť súbor záznamu PokerTH</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH SQL log (*.pdb)</source>
-        <translation>Registro PokerTH SQL (*.pdb)</translation>
+        <translation>SQL záznam PokerTH (*.pdb)</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>… (showing the last %1 KB of the log)</source>
-        <translation>… (mostra gli ultimi %1 KB del log)</translation>
+        <translation>… (zobrazených je posledných %1 KB záznamu)</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Save PokerTH debug log</source>
-        <translation>Salva il log di debug di PokerTH</translation>
+        <translation>Uložiť ladiaci záznam PokerTH</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH debug log (*.log)</source>
-        <translation>Log di debug di PokerTH (*.log)</translation>
+        <translation>Ladiaci záznam PokerTH (*.log)</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Log file not found.</source>
-        <translation>File di log non trovato.</translation>
+        <translation>Súbor záznamu sa nenašiel.</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Processing of the log file on the web server failed.
 Please verify that you are uploading a valid PokerTH log file.</source>
-        <translation>Elaborazione del file di registro sul server web non riuscita.
-Controlla di stare caricando un file di registro di PokerTH valido.</translation>
+        <translation>Spracovanie súboru záznamu na webovom serveri zlyhalo.
+Skontrolujte, či nahrávate platný súbor záznamu PokerTH.</translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+30"/>
         <source>Failure reason: </source>
-        <translation>Causa dell&apos;errore: </translation>
+        <translation>Dôvod chyby: </translation>
     </message>
     <message>
         <location line="-27"/>
         <source>No file received.</source>
-        <translation>Nessun file ricevuto.</translation>
+        <translation>Nebol prijatý žiadny súbor.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>File rejected because of too many uploads.</source>
-        <translation>Il file è stato rifiutato a causa di troppi upload.</translation>
+        <translation>Súbor odmietnutý - príliš veľa nahrávaní.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>File rejected because of too many recent uploads. Please try again later.</source>
-        <translation>Il file è stato rifiutato a causa di troppi upload recenti. Riprovare più tardi.</translation>
+        <translation>Súbor odmietnutý - príliš veľa nedávnych nahrávaní. Skúste to neskôr.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The file is too large.</source>
-        <translation>Il file è troppo grande.</translation>
+        <translation>Súbor je príliš veľký.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This file is not a valid and current PokerTH log file.</source>
-        <translation>Questo file non contiene un registro di PokerTH valido e aggiornato.</translation>
+        <translation>Tento súbor nie je platný a aktuálny súbor záznamu PokerTH.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Internal error. Please try again later. ID: </source>
-        <translation>Errore interno. Riprovare più tardi. ID: </translation>
+        <translation>Interná chyba. Skúste to neskôr. ID: </translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Upload failed. Please check your internet connection!
 Uploading log files may fail if you are using an http proxy.</source>
-        <translation>Upload non riuscito. Controlla la connessione a Internet!
-L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un proxy http.</translation>
+        <translation>Nahrávanie zlyhalo. Skontrolujte svoje pripojenie na internet!
+Nahrávanie súborov záznamu môže zlyhať, ak používate HTTP proxy.</translation>
     </message>
 </context>
 <context>
@@ -2708,73 +2708,73 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
     <message>
         <location filename="../pages/LogsPage.qml" line="+86"/>
         <source>Logs</source>
-        <translation>Log</translation>
+        <translation>Záznamy</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Game:</source>
-        <translation>Partita:</translation>
+        <translation>Hra:</translation>
     </message>
     <message>
         <location line="+85"/>
         <source>Preview:</source>
-        <translation>Anteprima:</translation>
+        <translation>Náhľad:</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Export as HTML</source>
-        <translation>Esporta in HTML</translation>
+        <translation>Exportovať ako HTML</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Export as txt</source>
-        <translation>Esporta in txt</translation>
+        <translation>Exportovať ako txt</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+133"/>
         <source>Save as ...</source>
-        <translation>Salva con nome...</translation>
+        <translation>Uložiť ako ...</translation>
     </message>
     <message>
         <location line="-127"/>
         <source>Delete</source>
-        <translation>Elimina</translation>
+        <translation>Vymazať</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Show debug log</source>
-        <translation>Mostra log di debug</translation>
+        <translation>Zobraziť ladiaci záznam</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Analyse Logfile ...</source>
-        <translation>Esamina file di registro ...</translation>
+        <translation>Analyzovať súbor záznamu ...</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>PokerTH - Delete log files</source>
-        <translation>PokerTH - Elimina file di registro</translation>
+        <translation>PokerTH - Vymazanie súborov záznamu</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Do you really want to delete the selected log files?</source>
-        <translation>Desideri veramente cancellare i file di registro selezionati?</translation>
+        <translation>Naozaj chcete vymazať vybrané súbory záznamu?</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Uploading log file</source>
-        <translation>Caricamento del file di registro</translation>
+        <translation>Nahráva sa súbor záznamu</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Debug log</source>
-        <translation>Log di debug</translation>
+        <translation>Ladiaci záznam</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Refresh</source>
-        <translation>Aggiorna</translation>
+        <translation>Obnoviť</translation>
     </message>
 </context>
 <context>
@@ -2782,44 +2782,44 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
     <message>
         <location filename="../components/LogsSettings.qml" line="+25"/>
         <source>Log-Nachrichten</source>
-        <translation>Registro messaggi</translation>
+        <translation>Správy záznamu</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Log-Einstellungen</source>
-        <translation>Impostazioni log</translation>
+        <translation>Nastavenia záznamu</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Logging aktivieren</source>
-        <translation>Abilita registrazione</translation>
+        <translation>Povoliť zaznamenávanie</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Log-Verzeichnis:</source>
-        <translation>Cartella dei log:</translation>
+        <translation>Priečinok záznamov:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Durchsuchen...</source>
-        <translation>Sfoglia...</translation>
+        <translation>Prehľadávať...</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Log-Verzeichnis auswählen</source>
-        <translation>Seleziona la cartella dei log</translation>
+        <translation>Vybrať priečinok záznamov</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Log-Verzeichnis</source>
-        <translation>Cartella dei log</translation>
+        <translation>Priečinok záznamov</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Das Log-Verzeichnis wurde geändert.
 Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
-        <translation>La cartella dei log è stata modificata.
-Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
+        <translation>Priečinok záznamov bol zmenený.
+Reštartujte, prosím, PokerTH, aby sa súbory záznamu ukladali tam.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2829,27 +2829,27 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+29"/>
         <source>Log-Intervall:</source>
-        <translation>Intervallo di log:</translation>
+        <translation>Interval zaznamenávania:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Jedes Spiel</source>
-        <translation>Ogni partita</translation>
+        <translation>Každá hra</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Jede Hand</source>
-        <translation>Ogni mano</translation>
+        <translation>Každé rozdanie</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Jede Aktion</source>
-        <translation>Ogni azione</translation>
+        <translation>Každá akcia</translation>
     </message>
     <message>
         <location line="-29"/>
         <source>Log-Speicherdauer (Tage):</source>
-        <translation>Conservazione log (giorni):</translation>
+        <translation>Doba uchovávania záznamov (dni):</translation>
     </message>
 </context>
 <context>
@@ -2857,94 +2857,94 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/NetworkGameCreatePage.qml" line="+113"/>
         <source>← Zurück</source>
-        <translation>← Indietro</translation>
+        <translation>← Späť</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Netzwerkspiel erstellen</source>
-        <translation>Crea partita in rete</translation>
+        <translation>Vytvoriť sieťovú hru</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Spiel-Einstellungen</source>
-        <translation>Impostazioni partita</translation>
+        <translation>Nastavenia hry</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Max. Spieler</source>
-        <translation>Numero max. giocatori</translation>
+        <translation>Max. hráčov</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Startgeld</source>
-        <translation>Capitale iniziale</translation>
+        <translation>Počiatočný kapitál</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Blind-Einstellungen</source>
-        <translation>Impostazioni buio</translation>
+        <translation>Nastavenia blindov</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Erster Small Blind</source>
-        <translation>Primo buio piccolo</translation>
+        <translation>Prvý malý blind</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Blind-Erhöhungsintervall</source>
-        <translation>Intervallo aumento buio</translation>
+        <translation>Interval zvyšovania blindov</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+25"/>
         <source>Alle</source>
-        <translation>Ogni</translation>
+        <translation>Každých</translation>
     </message>
     <message>
         <location line="-14"/>
         <source>Hände</source>
-        <translation>mani</translation>
+        <translation>rozdaní</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Minuten</source>
-        <translation>minuti</translation>
+        <translation>minút</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre i blind</translation>
+        <translation>Blindy vždy zdvojnásobiť</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Zeitlimits</source>
-        <translation>Limiti di tempo</translation>
+        <translation>Časové limity</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Zeitlimit Spieleraktion</source>
-        <translation>Limite di tempo per l&apos;azione del giocatore</translation>
+        <translation>Časový limit na ťah hráča</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Pause zwischen Händen</source>
-        <translation>Ritardo tra le mani</translation>
+        <translation>Prestávka medzi rozdaniami</translation>
     </message>
     <message>
         <location line="+37"/>
         <location line="+35"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Spiel erstellen</source>
-        <translation>Crea Partita</translation>
+        <translation>Vytvoriť hru</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Server wird gestartet …</source>
-        <translation>Avvio del server …</translation>
+        <translation>Spúšťa sa server …</translation>
     </message>
 </context>
 <context>
@@ -2952,83 +2952,83 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/NetworkGameEnterPage.qml" line="+97"/>
         <source>← Zurück</source>
-        <translation>← Indietro</translation>
+        <translation>← Späť</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Netzwerkspiel beitreten</source>
-        <translation>Unisciti a una partita in rete</translation>
+        <translation>Pripojiť sa k sieťovej hre</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Server-Verbindung</source>
-        <translation>Connessione al server</translation>
+        <translation>Pripojenie k serveru</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Server-Adresse</source>
-        <translation>Indirizzo del server</translation>
+        <translation>Adresa servera</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>IP-Adresse oder Hostname</source>
-        <translation>Indirizzo IP o nome host</translation>
+        <translation>IP adresa alebo názov počítača</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Port</source>
-        <translation>Porta</translation>
+        <translation>Port</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>IPv6 verwenden</source>
-        <translation>Utilizza IPv6</translation>
+        <translation>Použiť IPv6</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>SCTP verwenden</source>
-        <translation>Utilizza SCTP</translation>
+        <translation>Použiť SCTP</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Server-Profile</source>
-        <translation>Profili server</translation>
+        <translation>Profily serverov</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Profilname</source>
-        <translation>Nome profilo</translation>
+        <translation>Názov profilu</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Name des Profils</source>
-        <translation>Nome del profilo</translation>
+        <translation>Názov tohto profilu</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Speichern</source>
-        <translation>Salva</translation>
+        <translation>Uložiť</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Löschen</source>
-        <translation>Elimina</translation>
+        <translation>Vymazať</translation>
     </message>
     <message>
         <location line="+92"/>
         <location line="+36"/>
         <source>Abbrechen</source>
-        <translation>Annulla</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
         <location line="-31"/>
         <source>Verbinden</source>
-        <translation>Connetti</translation>
+        <translation>Pripojiť</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Verbinde mit Server …</source>
-        <translation>Connessione al server …</translation>
+        <translation>Pripája sa k serveru …</translation>
     </message>
 </context>
 <context>
@@ -3037,12 +3037,12 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location filename="../cpp/networkgamehandler.cpp" line="+55"/>
         <location line="+76"/>
         <source>No session available.</source>
-        <translation>Nessuna sessione disponibile.</translation>
+        <translation>Nie je dostupná žiadna relácia.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Please enter a server address.</source>
-        <translation>Inserisci un indirizzo del server.</translation>
+        <translation>Zadajte, prosím, adresu servera.</translation>
     </message>
 </context>
 <context>
@@ -3050,117 +3050,117 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/NetworkGameSettings.qml" line="+19"/>
         <source>Netzwerkspiel</source>
-        <translation>Partita in Rete</translation>
+        <translation>Sieťová hra</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Spieler &amp; Startkapital</source>
-        <translation>Giocatori e capitale iniziale</translation>
+        <translation>Hráči a počiatočný kapitál</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Numero di giocatori:</translation>
+        <translation>Počet hráčov:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Startkapital:</source>
-        <translation>Capitale iniziale:</translation>
+        <translation>Počiatočný kapitál:</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Blinds erhöhen</source>
-        <translation>Aumenta buio</translation>
+        <translation>Zvyšovanie blindov</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Blind-Erhöhungsreihenfolge</source>
-        <translation>Ordine aumento buio</translation>
+        <translation>Poradie zvyšovania blindov</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>Blinds bei Anzahl der Hände erhöhen</source>
-        <translation>Aumenta buio dopo numero di mani</translation>
+        <translation>Zvyšovať blindy podľa počtu rozdaní</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Blinds zeitbasiert erhöhen</source>
-        <translation>Aumenta buio in base al tempo</translation>
+        <translation>Zvyšovať blindy podľa času</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Raddoppia sempre il buio</translation>
+        <translation>Blindy vždy zdvojnásobiť</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordine buio manuale</translation>
+        <translation>Ručné poradie blindov</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Manuelle Blind-Reihenfolge bearbeiten...</source>
-        <translation>Modifica ordine buio manuale...</translation>
+        <translation>Upraviť ručné poradie blindov...</translation>
     </message>
     <message>
         <location line="-157"/>
         <source>Erster Small Blind:</source>
-        <translation>Primo buio piccolo:</translation>
+        <translation>Prvý malý blind:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
         <source>Small Blind erhöhen alle:</source>
-        <translation>Aumenta buio piccolo ogni:</translation>
+        <translation>Zvyšovať malý blind každých:</translation>
     </message>
     <message>
         <location line="-25"/>
         <source>Hände</source>
-        <translation>Mani</translation>
+        <translation>rozdaní</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Minuten</source>
-        <translation>Minuti</translation>
+        <translation>minút</translation>
     </message>
     <message>
         <location line="+61"/>
         <source>Zeiteinstellungen</source>
-        <translation>Impostazioni tempo</translation>
+        <translation>Nastavenia času</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Verzögerung zwischen Händen
 (Sekunden):</source>
-        <translation>Ritardo tra le mani
-(secondi):</translation>
+        <translation>Prestávka medzi rozdaniami
+(sekundy):</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Timeout für Spieleraktion
 (Sekunden):</source>
-        <translation>Timeout azione giocatore
-(secondi):</translation>
+        <translation>Časový limit na ťah hráča
+(sekundy):</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Server-Einstellungen</source>
-        <translation>Impostazioni server</translation>
+        <translation>Nastavenia servera</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Server-Port:</source>
-        <translation>Porta del server:</translation>
+        <translation>Port servera:</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>SCTP verwenden</source>
-        <translation>Utilizza SCTP</translation>
+        <translation>Použiť SCTP</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>IPv6 verwenden</source>
-        <translation>Utilizza IPv6</translation>
+        <translation>Použiť IPv6</translation>
     </message>
 </context>
 <context>
@@ -3168,46 +3168,46 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/NicknameAvatarSettings.qml" line="+19"/>
         <source>Nicknamen/Avatare</source>
-        <translation>Nickname/Avatar</translation>
+        <translation>Prezývky/avatary</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Mein Spieler</source>
-        <translation>Il mio giocatore</translation>
+        <translation>Môj hráč</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Mein Nickname:</source>
-        <translation>Il mio nickname:</translation>
+        <translation>Moja prezývka:</translation>
     </message>
     <message>
         <location line="+45"/>
         <source>Mein Avatar:</source>
-        <translation>Il mio avatar:</translation>
+        <translation>Môj avatar:</translation>
     </message>
     <message>
         <location line="+26"/>
         <location line="+113"/>
         <source>Auswählen...</source>
-        <translation>Seleziona...</translation>
+        <translation>Vybrať...</translation>
     </message>
     <message>
         <location line="-110"/>
         <location line="+113"/>
         <source>Avatar auswählen</source>
-        <translation>Seleziona avatar</translation>
+        <translation>Vybrať avatara</translation>
     </message>
     <message>
         <location line="-134"/>
         <location line="+113"/>
         <source>Kein Avatar gewählt</source>
-        <translation>Nessun avatar selezionato</translation>
+        <translation>Nie je vybraný žiadny avatar</translation>
     </message>
     <message>
         <location line="-82"/>
         <location line="+113"/>
         <source>Beispiele...</source>
-        <translation>Esempi...</translation>
+        <translation>Príklady...</translation>
     </message>
     <message>
         <location line="-39"/>
@@ -3217,12 +3217,12 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="-55"/>
         <source>Gegner %1</source>
-        <translation>Avversario %1</translation>
+        <translation>Súper %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Nickname:</source>
-        <translation>Nickname:</translation>
+        <translation>Prezývka:</translation>
     </message>
 </context>
 <context>
@@ -3231,30 +3231,30 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location filename="../components/PlayerListItem.qml" line="+234"/>
         <location line="+116"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
-        <translation>%1 sta giocando in &quot;%2&quot;.</translation>
+        <translation>%1 hrá v &quot;%2&quot;.</translation>
     </message>
     <message>
         <location line="-115"/>
         <location line="+117"/>
         <source>%1 is not playing at the moment.</source>
-        <translation>%1 non sta giocando in questo momento.</translation>
+        <translation>%1 momentálne nehrá.</translation>
     </message>
     <message>
         <location line="-216"/>
         <location line="+129"/>
         <location line="+140"/>
         <source>Invite to Game</source>
-        <translation>Invita alla partita</translation>
+        <translation>Pozvať do hry</translation>
     </message>
     <message>
         <location line="-268"/>
         <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
-        <translation>Vuoi davvero invitare «%1» alla tua partita?</translation>
+        <translation>Určite chcete pozvať hráča „%1“ do svojej hry?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invite</source>
-        <translation>Invita</translation>
+        <translation>Pozvať</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3262,12 +3262,12 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location line="+130"/>
         <location line="+165"/>
         <source>Ignore player</source>
-        <translation>Ignora giocatore</translation>
+        <translation>Ignorovať hráča</translation>
     </message>
     <message>
         <location line="-296"/>
         <source>Are you sure you want to ignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero ignorare «%1»?&gt;</translation>
+        <translation>Určite chcete ignorovať hráča „%1“?</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -3275,29 +3275,29 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location line="+121"/>
         <location line="+202"/>
         <source>Unignore player</source>
-        <translation>Non ignorare più il giocatore</translation>
+        <translation>Prestať ignorovať hráča</translation>
     </message>
     <message>
         <location line="-324"/>
         <source>Are you sure you want to unignore &quot;%1&quot;?</source>
-        <translation>Vuoi davvero smettere di ignorare «%1»?&gt;</translation>
+        <translation>Určite chcete prestať ignorovať hráča „%1“?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Are you sure you want to totally kickban &quot;%1&quot;?</source>
-        <translation>Vuoi davvero espellere e bandire totalmente «%1»?&gt;</translation>
+        <translation>Určite chcete hráča „%1“ úplne zablokovať?</translation>
     </message>
     <message>
         <location line="+95"/>
         <location line="+112"/>
         <source>Send private message</source>
-        <translation>Invia messaggio privato</translation>
+        <translation>Poslať súkromnú správu</translation>
     </message>
     <message>
         <location line="-79"/>
         <location line="+224"/>
         <source>Show player stats</source>
-        <translation>Mostra statistiche giocatore</translation>
+        <translation>Zobraziť štatistiky hráča</translation>
     </message>
     <message>
         <location line="-353"/>
@@ -3305,7 +3305,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location line="+135"/>
         <location line="+252"/>
         <source>Total kickban</source>
-        <translation>Kickban totale</translation>
+        <translation>Úplné zablokovanie</translation>
     </message>
 </context>
 <context>
@@ -3313,32 +3313,32 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PlayerNoteDialog.qml" line="+57"/>
         <source>Note about &quot;%1&quot;</source>
-        <translation>Nota su «%1»</translation>
+        <translation>Poznámka o hráčovi „%1“</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rating:</source>
-        <translation>Valutazione:</translation>
+        <translation>Hodnotenie:</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Your private note about this player ...</source>
-        <translation>La tua nota privata su questo giocatore...</translation>
+        <translation>Vaša súkromná poznámka o tomto hráčovi ...</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Notes and ratings are stored locally and are only visible to you.</source>
-        <translation>Le note e le valutazioni sono salvate localmente e sono visibili solo a te.</translation>
+        <translation>Poznámky a hodnotenia sa ukladajú lokálne a vidíte ich len vy.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Save</source>
-        <translation>Salva</translation>
+        <translation>Uložiť</translation>
     </message>
 </context>
 <context>
@@ -3346,22 +3346,22 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PlayerSeasonCard.qml" line="+157"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Skóre</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>Priem.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Hry</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Body</translation>
     </message>
 </context>
 <context>
@@ -3369,7 +3369,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PlayerWinnerOverlay.qml" line="+56"/>
         <source>WINNER</source>
-        <translation>VINCITORE</translation>
+        <translation>VÍŤAZ</translation>
     </message>
 </context>
 <context>
@@ -3377,67 +3377,67 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/PokerthPlayerPage.qml" line="+81"/>
         <source>Could not load player (HTTP %1).</source>
-        <translation>Impossibile caricare il giocatore (HTTP %1).</translation>
+        <translation>Nepodarilo sa načítať údaje hráča (HTTP %1).</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Player not found.</source>
-        <translation>Giocatore non trovato.</translation>
+        <translation>Hráč sa nenašiel.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Nepodarilo sa spracovať odpoveď servera.</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Member since %1</source>
-        <translation>Membro dal %1</translation>
+        <translation>Členom od %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Last login %1</source>
-        <translation>Ultimo accesso %1</translation>
+        <translation>Posledné prihlásenie %1</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Current season</source>
-        <translation>Stagione attuale</translation>
+        <translation>Aktuálna sezóna</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Rank</source>
-        <translation>Posizione</translation>
+        <translation>Poradie</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Skóre</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>Priem.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Hry</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Body</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Last 5:</source>
-        <translation>Ultime 5:</translation>
+        <translation>Posledných 5:</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Recent games</source>
-        <translation>Partite recenti</translation>
+        <translation>Nedávne hry</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -3447,7 +3447,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+31"/>
         <source>Seasons</source>
-        <translation>Stagioni</translation>
+        <translation>Sezóny</translation>
     </message>
 </context>
 <context>
@@ -3463,78 +3463,78 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/PrivateMessageDialog.qml" line="+190"/>
         <source>Private messages</source>
-        <translation>Messaggi privati</translation>
+        <translation>Súkromné správy</translation>
     </message>
     <message>
         <location line="+38"/>
         <location line="+2"/>
         <source>Delete conversation</source>
-        <translation>Elimina conversazione</translation>
+        <translation>Vymazať konverzáciu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete the conversation with &quot;%1&quot;?</source>
-        <translation>Eliminare la conversazione con &quot;%1&quot;?</translation>
+        <translation>Vymazať konverzáciu s hráčom „%1“?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete</source>
-        <translation>Elimina</translation>
+        <translation>Vymazať</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Close</source>
-        <translation>Chiudi</translation>
+        <translation>Zavrieť</translation>
     </message>
     <message>
         <location line="+112"/>
         <source>No conversation yet</source>
-        <translation>Nessuna conversazione</translation>
+        <translation>Zatiaľ žiadna konverzácia</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>not in the lobby</source>
-        <translation>non è nella lobby</translation>
+        <translation>nie je v lobby</translation>
     </message>
     <message>
         <location line="+173"/>
         <source>Translation failed.</source>
-        <translation>Traduzione non riuscita.</translation>
+        <translation>Preklad zlyhal.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Show original</source>
-        <translation>Mostra l&apos;originale</translation>
+        <translation>Zobraziť originál</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Translate message</source>
-        <translation>Traduci il messaggio</translation>
+        <translation>Preložiť správu</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Private messages are not available at the table.</source>
-        <translation>I messaggi privati non sono disponibili al tavolo.</translation>
+        <translation>Súkromné správy nie sú pri stole dostupné.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Guests cannot send chat messages</source>
-        <translation>Gli ospiti non possono inviare messaggi in chat</translation>
+        <translation>Hostia nemôžu posielať správy do chatu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Guests cannot receive private messages.</source>
-        <translation>Gli ospiti non possono ricevere messaggi privati.</translation>
+        <translation>Hostia nemôžu prijímať súkromné správy.</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Message …</source>
-        <translation>Messaggio …</translation>
+        <translation>Správa …</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Send</source>
-        <translation>Invia</translation>
+        <translation>Odoslať</translation>
     </message>
 </context>
 <context>
@@ -3542,79 +3542,79 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../cpp/ziputils.cpp" line="+54"/>
         <source>Das Archiv konnte nicht gelesen werden.</source>
-        <translation>Impossibile leggere l&apos;archivio.</translation>
+        <translation>Archív sa nepodarilo prečítať.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
-        <translation>L&apos;archivio è vuoto o contiene troppi file.</translation>
+        <translation>Archív je prázdny alebo obsahuje príliš veľa súborov.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
-        <translation>Impossibile creare la cartella di destinazione.</translation>
+        <translation>Cieľový priečinok sa nepodarilo vytvoriť.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
-        <translation>Impossibile leggere una voce dell&apos;archivio.</translation>
+        <translation>Položku archívu sa nepodarilo prečítať.</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+8"/>
         <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
-        <translation>L&apos;archivio contiene un percorso non valido: %1</translation>
+        <translation>Archív obsahuje neplatnú cestu: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+14"/>
         <source>Verzeichnis konnte nicht angelegt werden: %1</source>
-        <translation>Impossibile creare la cartella: %1</translation>
+        <translation>Priečinok sa nepodarilo vytvoriť: %1</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Das Archiv ist ungewöhnlich groß.</source>
-        <translation>L&apos;archivio è insolitamente grande.</translation>
+        <translation>Archív je neobvykle veľký.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
-        <translation>Impossibile estrarre una voce dell&apos;archivio: %1</translation>
+        <translation>Položku archívu sa nepodarilo rozbaliť: %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Datei konnte nicht geschrieben werden: %1</source>
-        <translation>Impossibile scrivere il file: %1</translation>
+        <translation>Súbor sa nepodarilo zapísať: %1</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Der Stil-Ordner wurde nicht gefunden.</source>
-        <translation>La cartella dello stile non è stata trovata.</translation>
+        <translation>Priečinok štýlu sa nenašiel.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv konnte nicht erstellt werden.</source>
-        <translation>Impossibile creare l&apos;archivio.</translation>
+        <translation>Archív sa nepodarilo vytvoriť.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Datei konnte nicht gelesen werden: %1</source>
-        <translation>Impossibile leggere il file: %1</translation>
+        <translation>Súbor sa nepodarilo prečítať: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
-        <translation>Impossibile scrivere il file nell&apos;archivio: %1</translation>
+        <translation>Súbor sa nepodarilo zapísať do archívu: %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Der Stil-Ordner enthält keine Dateien.</source>
-        <translation>La cartella dello stile non contiene alcun file.</translation>
+        <translation>Priečinok štýlu neobsahuje žiadne súbory.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Das Archiv konnte nicht abgeschlossen werden.</source>
-        <translation>Impossibile finalizzare l&apos;archivio.</translation>
+        <translation>Archív sa nepodarilo dokončiť.</translation>
     </message>
 </context>
 <context>
@@ -3622,32 +3622,32 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/RankingPage.qml" line="+90"/>
         <source>Could not load ranking (HTTP %1).</source>
-        <translation>Impossibile caricare la classifica (HTTP %1).</translation>
+        <translation>Nepodarilo sa načítať rebríček (HTTP %1).</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Could not parse server response.</source>
-        <translation>Impossibile analizzare la risposta del server.</translation>
+        <translation>Nepodarilo sa spracovať odpoveď servera.</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Ranking</source>
-        <translation>Classifica</translation>
+        <translation>Rebríček</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Season:</source>
-        <translation>Stagione:</translation>
+        <translation>Sezóna:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Current season</source>
-        <translation>Stagione attuale</translation>
+        <translation>Aktuálna sezóna</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Username</source>
-        <translation>Nome utente</translation>
+        <translation>Používateľské meno</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -3657,32 +3657,32 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+8"/>
         <source>Player</source>
-        <translation>Giocatore</translation>
+        <translation>Hráč</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Hry</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avg</source>
-        <translation>Media</translation>
+        <translation>Priem.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Score</source>
-        <translation>Punteggio</translation>
+        <translation>Skóre</translation>
     </message>
     <message>
         <location line="+150"/>
         <source>No entries.</source>
-        <translation>Nessuna voce.</translation>
+        <translation>Žiadne záznamy.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>◀ Prev</source>
-        <translation>◀ Prec</translation>
+        <translation>◀ Predošlá</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -3692,27 +3692,27 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+1"/>
         <source>Page %1 / %2  ·  %3 players</source>
-        <translation>Pagina %1 / %2  ·  %3 giocatori</translation>
+        <translation>Strana %1 / %2  ·  hráčov: %3</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Next ▶</source>
-        <translation>Succ ▶</translation>
+        <translation>Ďalšia ▶</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Ranking calculation:</source>
-        <translation>Calcolo della classifica:</translation>
+        <translation>Výpočet rebríčka:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Placement points:</source>
-        <translation>Punti per piazzamento:</translation>
+        <translation>Body za umiestnenie:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Formula:</source>
-        <translation>Formula:</translation>
+        <translation>Vzorec:</translation>
     </message>
 </context>
 <context>
@@ -3720,22 +3720,22 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/ResetSettings.qml" line="+20"/>
         <source>Standardeinstellung</source>
-        <translation>Impostazioni predefinite</translation>
+        <translation>Predvolené nastavenia</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Alle Einstellungen werden auf die Standardwerte zurückgesetzt. Diese Aktion kann nicht rückgängig gemacht werden.</source>
-        <translation>Tutte le impostazioni verranno ripristinate ai valori predefiniti. Questa azione non può essere annullata.</translation>
+        <translation>Všetky nastavenia sa vrátia na predvolené hodnoty. Túto akciu nie je možné vrátiť späť.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Auf Werkeinstellungen zurücksetzen</source>
-        <translation>Ripristina impostazioni di fabbrica</translation>
+        <translation>Obnoviť továrenské nastavenia</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</source>
-        <translation>Le impostazioni sono state ripristinate. Riavvia PokerTH affinché tutte le modifiche abbiano effetto.</translation>
+        <translation>Nastavenia boli obnovené. Reštartujte, prosím, PokerTH, aby sa všetky zmeny prejavili.</translation>
     </message>
 </context>
 <context>
@@ -3743,17 +3743,17 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../components/SeasonStatsSection.qml" line="+47"/>
         <source>Season Stats</source>
-        <translation>Statistiche della stagione</translation>
+        <translation>Štatistiky sezóny</translation>
     </message>
     <message>
         <location line="+60"/>
         <source>Games</source>
-        <translation>Partite</translation>
+        <translation>Hry</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Share</source>
-        <translation>Quota</translation>
+        <translation>Zdieľať</translation>
     </message>
 </context>
 <context>
@@ -3761,67 +3761,67 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../pages/ServerConnectionDialog.qml" line="+241"/>
         <source>Back</source>
-        <translation>Indietro</translation>
+        <translation>Späť</translation>
     </message>
     <message>
         <location line="+94"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
         <location line="-65"/>
         <source>Connecting as...</source>
-        <translation>Connessione come...</translation>
+        <translation>Pripája sa ako...</translation>
     </message>
     <message>
         <location line="-108"/>
         <source>Continue as Guest</source>
-        <translation>Continua come ospite</translation>
+        <translation>Pokračovať ako hosť</translation>
     </message>
     <message>
         <location line="+159"/>
         <source>Initializing connection...</source>
-        <translation>Inizializzazione connessione...</translation>
+        <translation>Pripravuje sa pripojenie...</translation>
     </message>
     <message>
         <location line="-74"/>
         <source>Login</source>
-        <translation>Accedi</translation>
+        <translation>Prihlásiť sa</translation>
     </message>
     <message>
         <location line="-97"/>
         <source>Login as User</source>
-        <translation>Accedi come utente</translation>
+        <translation>Prihlásiť sa ako používateľ</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Password</source>
-        <translation>Password</translation>
+        <translation>Heslo</translation>
     </message>
     <message>
         <location line="-59"/>
         <source>Register</source>
-        <translation>Registrati</translation>
+        <translation>Registrovať sa</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Remember me</source>
-        <translation>Ricordami</translation>
+        <translation>Zapamätať si ma</translation>
     </message>
     <message>
         <location line="-48"/>
         <source>User Login</source>
-        <translation>Accesso utente</translation>
+        <translation>Prihlásenie používateľa</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Username</source>
-        <translation>Nome utente</translation>
+        <translation>Používateľské meno</translation>
     </message>
     <message>
         <location line="+79"/>
         <source>Username/Guest</source>
-        <translation>Nome utente/Ospite</translation>
+        <translation>Používateľské meno/hosť</translation>
     </message>
 </context>
 <context>
@@ -3829,379 +3829,379 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location filename="../cpp/serverconnectionhandler.cpp" line="+50"/>
         <source>Error: No session available</source>
-        <translation>Errore: nessuna sessione disponibile</translation>
+        <translation>Chyba: nie je dostupná žiadna relácia</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No session available</source>
-        <translation>Nessuna sessione disponibile</translation>
+        <translation>Nie je dostupná žiadna relácia</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Connecting to server...</source>
-        <translation>Connessione al server...</translation>
+        <translation>Pripájam sa na server...</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Connection canceled</source>
-        <translation>Connessione annullata</translation>
+        <translation>Pripojenie bolo zrušené</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Authenticating...</source>
-        <translation>Autenticazione in corso...</translation>
+        <translation>Overuje sa...</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Initialized...</source>
-        <translation>Inizializzato...</translation>
+        <translation>Pripravené...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Server list received...</source>
-        <translation>Elenco server ricevuto...</translation>
+        <translation>Zoznam serverov prijatý...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Resolving server...</source>
-        <translation>Risoluzione server in corso...</translation>
+        <translation>Zisťuje sa adresa servera...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Connecting...</source>
-        <translation>Connessione in corso...</translation>
+        <translation>Pripája sa...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Connected successfully!</source>
-        <translation>Connesso con successo!</translation>
+        <translation>Pripojenie bolo úspešné!</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Server address was not set.</source>
-        <translation>Indirizzo del server mancante.</translation>
+        <translation>Adresa servera nebola nastavená.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
-        <translation>È stata specificata una porta non valida (le porte 0-1023 non sono permesse).</translation>
+        <translation>Bol nastavený neplatný port (nie sú povolené porty 0-1023).</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not create a socket for TCP communication.</source>
-        <translation>Impossibile creare un socket di comunicazione TCP.</translation>
+        <translation>Nepodarilo sa vytvoriť socket pre komunikáciu TCP.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not set the IP address.</source>
-        <translation>Impossibile impostare l&apos;indirizzo IP.</translation>
+        <translation>Nepodarilo sa nastaviť IP adresu.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not set the port for this type of address.</source>
-        <translation>Impossibile impostare la porta per questo tipo di indirizzo.</translation>
+        <translation>Nepodarilo sa nastaviť port pre tento typ adresy.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server name could not be resolved.</source>
-        <translation>Impossibile risolvere il nome del server.</translation>
+        <translation>Meno servera sa nepodarilo zistiť.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>Bind non riuscito - seleziona una porta diversa.</translation>
+        <translation>Priradenie portu zlyhalo - prosím, vyberte iný port.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
-        <translation>Errore di rete interno: &quot;listen&quot; non riuscito.</translation>
+        <translation>Interná chyba siete: &quot;listen&quot; zlyhalo.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Server execution was terminated.</source>
-        <translation>L&apos;esecuzione del server è stata interrotta.</translation>
+        <translation>Beh servera bol ukončený.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Could not connect to the server.
 The server might still be processing a previous connection attempt.
 Please wait a moment and try again.</source>
-        <translation>Impossibile connettersi al server.
-Il server potrebbe ancora elaborare un tentativo di connessione precedente.
-Attendere un momento e riprovare.</translation>
+        <translation>Nepodarilo sa pripojiť k serveru.
+Server možno stále spracúva predchádzajúci pokus o pripojenie.
+Chvíľu počkajte a skúste to znovu.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Connection timed out.
 The server might be busy or still processing a previous connection.
 Please wait a moment and try again.</source>
-        <translation>Timeout della connessione.
-Il server potrebbe essere occupato o elaborare ancora una connessione precedente.
-Attendere un momento e riprovare.</translation>
+        <translation>Vypršal časový limit pripojenia.
+Server môže byť zaneprázdnený alebo stále spracúva predchádzajúce pripojenie.
+Chvíľu počkajte a skúste to znovu.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
-        <translation>Errore di rete interno: &quot;select&quot; non riuscita.</translation>
+        <translation>Interná chyba siete: &quot;select&quot; zlyhalo.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
-        <translation>Errore di rete interno: &quot;send&quot; non riuscito.</translation>
+        <translation>Interná chyba siete: &quot;send&quot; zlyhalo.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>The connection to the server was lost.</source>
-        <translation>La connessione al server è stata interrotta.</translation>
+        <translation>Spojenie so serverom bolo stratené.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: Duplicate TCP connection.</source>
-        <translation>Errore di rete interno: connessione TCP duplicata.</translation>
+        <translation>Interná chyba siete: Duplikované TCP spojenie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation>È stato ricevuto un pacchetto non valido.
-Assicurati che tutti i giocatori abbiano la stessa versione di PokerTH.</translation>
+        <translation>Bol prijatý neplatný sieťový paket.
+Prosím, uistite sa, že všetci hráči používajú rovnakú verziu PokerTH.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation>Errore di stato interno.
-Assicurati che tutti i giocatori abbiano la stessa versione di PokerTH.</translation>
+        <translation>Chyba interného stavu.
+Prosím, uistite sa, že všetci hráči používajú rovnakú verziu PokerTH.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: invalid socket type.</source>
-        <translation>Errore di rete interno: tipo di socket non valido.</translation>
+        <translation>Interná chyba siete: neplatný typ socketu.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Invalid server list URL.
 Please correct the address in the settings.</source>
-        <translation>URL della lista server non valido.
-Correggi l&apos;indirizzo nelle impostazioni.</translation>
+        <translation>Neplatné URL zoznamu serverov.
+Prosím, opravte adresu v nastaveniach.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The PokerTH internet server list contains invalid data.
 If you use a custom server list, please make sure its format is correct.</source>
-        <translation>La lista server internet di PokerTH contiene dati non validi.
-Se utilizzi una lista server personalizzata, assicurati che il suo formato sia corretto.</translation>
+        <translation>Zoznam internetových serverov PokerTH obsahuje neplatné údaje.
+Ak používate vlastný zoznam serverov, uistite sa, prosím, že má správny formát.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not unzip the PokerTH internet server list.</source>
-        <translation>Impossibile decomprimere la lista dei server Internet di PokerTH.</translation>
+        <translation>Nepodarilo sa rozzipovať zoznam internetových serverov PokerTH.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Could not download the PokerTH internet server list.
 Please make sure you are directly connected to the internet.</source>
-        <translation>Impossibile scaricare la lista server internet di PokerTH.
-Assicurati di essere connesso direttamente ad internet.</translation>
+        <translation>Nepodarilo sa stiahnuť zoznam internetových serverov PokerTH.
+Uistite sa, prosím, že ste pripojený priamo na internet.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not open the target file when downloading the server list.</source>
-        <translation>Impossibile aprire il file di destinazione durante il download della lista server.</translation>
+        <translation>Nepodarilo sa otvoriť cieľový súbor pri sťahovaní zoznamu serverov.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>The PokerTH server does not support this version of the game.
 Please go to https://www.pokerth.net and download the latest version.</source>
-        <translation>Il server di PokerTH non supporta questa versione del gioco.
-Visita l&apos;URL https://www.pokerth.net e scarica l&apos;ultima versione.</translation>
+        <translation>Server PokerTH nepodporuje túto verziu hry.
+Prejdite na https://www.pokerth.net a stiahnite si najnovšiu verziu.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server is down for maintenance. Please try again later.</source>
-        <translation>Il server è down per manutenzione. Riprova più tardi.</translation>
+        <translation>Server je mimo prevádzky kvôli údržbe. Prosím skúste to neskôr.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sorry, this server is already full.</source>
-        <translation>Spiacente, il server è già al completo.</translation>
+        <translation>Ľutujem, tento server je už plný.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invalid login.
 Please check your username and password.</source>
-        <translation>Accesso negato.
-Controlla username e password.</translation>
+        <translation>Neplatný login.
+Prosím, skontrolujte meno užívateľa a heslo.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The password is too long. Please choose another one.</source>
-        <translation>Questa password è troppo lunga. Scegline una diversa.</translation>
+        <translation>Heslo je príliš dlhé. Prosím, zvoľte si iné heslo.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>This player name is already in use. Please choose a different name.</source>
-        <translation>Questo nome giocatore è già in uso. Scegli un nome diverso.</translation>
+        <translation>Toto meno hráča sa už používa. Zvoľte, prosím, iné meno.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player name is invalid. Please choose a different name.</source>
-        <translation>Il nome giocatore non è valido. Scegli un nome diverso.</translation>
+        <translation>Meno hráča je neplatné. Zvoľte, prosím, iné meno.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid player cards.</source>
-        <translation>Errore interno: carte del giocatore non valide.</translation>
+        <translation>Interná chyba: neplatné karty hráča.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid player results.</source>
-        <translation>Errore interno: risultati del giocatore non validi.</translation>
+        <translation>Interná chyba: neplatné výsledky hráča.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
-        <translation>Il nome della partita è troppo corto o troppo lungo. Scegline un altro.</translation>
+        <translation>Názov hry je buď príliš krátky alebo príliš dlhý. Prosím zvoľte iný názov.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid game round.</source>
-        <translation>Errore interno: turno di gioco non valido.</translation>
+        <translation>Interná chyba: neplatné kolo hry.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid session.</source>
-        <translation>Errore interno: sessione non valida.</translation>
+        <translation>Interná chyba: neplatná relácia.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be found.</source>
-        <translation>Impossibile trovare la partita.</translation>
+        <translation>Hru sa nepodarilo nájsť.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The chat text is invalid.</source>
-        <translation>Il testo nella chat non è valido.</translation>
+        <translation>Text chatu je neplatný.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server referred to an unknown player. Aborting.</source>
-        <translation>Il server ha contattato un giocatore sconosciuto. Operazione annullata.</translation>
+        <translation>Server sa odvolal na neznámeho hráča. Ukončujem.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The current player could not be found.</source>
-        <translation>Errore interno: Impossibile trovare il giocatore corrente. </translation>
+        <translation>Interná chyba: Nepodarilo sa nájsť aktuálneho hráča.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The current player is not active.</source>
-        <translation>Errore interno: Il giocatore corrente non è attivo.</translation>
+        <translation>Interná chyba: Aktuálny hráč nie je aktívny.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were kicked from the server.</source>
-        <translation>Sei stato espulso dal server.</translation>
+        <translation>Boli ste vykopnutý zo serveru.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were temporarily banned from the server.</source>
-        <translation>Sei stato temporaneamente bandito dal server.</translation>
+        <translation>Boli ste dočasne zablokovaný na serveri.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your account is blocked indefinitely.</source>
-        <translation>Il tuo account è bloccato a tempo indeterminato.</translation>
+        <translation>Váš účet je blokovaný na neurčito.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation>La connessione al server è andata in timeout per inattività. Riconnettiti, sei il benvenuto!</translation>
+        <translation>Vaše pripojenie k serveru vypršalo z dôvodu neaktivity. Stačí sa len znovu pripojiť!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The client player count is invalid.</source>
-        <translation>Il numero di giocatori non è valido.</translation>
+        <translation>Počet hráčov klienta je neplatný.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
-        <translation>Sono stati impostati troppi blind manuali. Devi riconfigurare i blind.</translation>
+        <translation>Bolo nastavených príliš veľa manuálnych blindov. Prosím upravte nastavenia manuálnych blindov.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
-        <translation>È stato impostato un file di avatar non valido. Scegli un avatar diverso.</translation>
+        <translation>Bol nastavený neplatný súbor s avatarom. Prosím vyberte iného avatara.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
-        <translation>Il file di avatar selezionato è troppo grande. Scegli un avatar diverso.</translation>
+        <translation>Vybraný súbor s avatarom je príliš veľký. Prosím vyberte iného avatara.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid buffer size.</source>
-        <translation>Errore interno: dimensione del buffer non valida.</translation>
+        <translation>Interná chyba: neplatná veľkosť buffera.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation>Si è verificato un errore interno sugli avatar. Per favore, riferisci l&apos;accaduto ad un admin nella chat prepartita.</translation>
+        <translation>Došlo k internej chybe avatara. Prosím nahláste ju adminovi v lobby chate.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not start game: Synchronization failed.</source>
-        <translation>Impossibile avviare la partita: sincronizzazione non riuscita.</translation>
+        <translation>Nepodarilo sa spustiť hru: Zlyhala synchronizácia.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be terminated.</source>
-        <translation>Impossibile terminare la partita.</translation>
+        <translation>Hru sa nepodarilo ukončiť.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An internal game error occured.</source>
-        <translation>Si è verificato un errore interno di gioco.</translation>
+        <translation>Došlo k internej chybe hry.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The dealer could not be found.</source>
-        <translation>Errore interno: impossibile trovare il mazziere.</translation>
+        <translation>Interná chyba: nepodarilo sa nájsť rozdávajúceho.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You cannot login at this time. Please try again in a few seconds.</source>
-        <translation>Impossibile effettuare l&apos;accesso. Riprova fra qualche istante.</translation>
+        <translation>Prihlásenie nie je v tejto chvíli možné. Skúste to, prosím, znovu o niekoľko sekúnd.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The authentication could not be initialized.</source>
-        <translation>Errore interno: impossibile inizializzare l&apos;autenticazione.</translation>
+        <translation>Interná chyba: overovanie sa nepodarilo inicializovať.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server does not support the required authentication method.</source>
-        <translation>Il server non supporta il metodo di autenticazione richiesto.</translation>
+        <translation>Server nepodporuje požadovaný spôsob overovania.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server could not reach its database. Please try again later.</source>
-        <translation>Il server non è riuscito a raggiungere il suo database. Riprova più tardi.</translation>
+        <translation>Server sa nedokázal spojiť so svojou databázou. Skúste to, prosím, neskôr.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An internal error occured. (Error code %1)</source>
-        <translation>Errore interno. (Codice di errore %1)</translation>
+        <translation>Došlo k internej chybe. (Kód chyby %1)</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Connection failed, retrying...</source>
-        <translation>Connessione fallita, nuovo tentativo...</translation>
+        <translation>Pripojenie zlyhalo, opakuje sa pokus...</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Retrying connection...</source>
-        <translation>Nuovo tentativo di connessione...</translation>
+        <translation>Opakuje sa pripojenie...</translation>
     </message>
 </context>
 <context>
@@ -4209,157 +4209,157 @@ Controlla username e password.</translation>
     <message>
         <location filename="../cpp/settingsmanager.cpp" line="+327"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
-        <translation>Immagini (*.png *.jpg *.jpeg *.gif)</translation>
+        <translation>Obrázky (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
         <location line="+236"/>
         <source>Spieltisch-Stil auswählen</source>
-        <translation>Seleziona stile del tavolo da gioco</translation>
+        <translation>Vybrať štýl herného stola</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Spieltisch-Stil.</source>
-        <translation>Il file selezionato non è uno stile di tavolo da gioco.</translation>
+        <translation>Vybraný súbor nie je štýl herného stola.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Kartenstapel-Stil auswählen</source>
-        <translation>Seleziona stile del mazzo di carte</translation>
+        <translation>Vybrať štýl kariet</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Kartenstapel-Stil.</source>
-        <translation>Il file selezionato non è uno stile di mazzo di carte.</translation>
+        <translation>Vybraný súbor nie je štýl kariet.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Kartenrückseiten-Stil auswählen</source>
-        <translation>Seleziona stile del dorso delle carte</translation>
+        <translation>Vybrať štýl rubu kariet</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Kartenrückseiten-Stil.</source>
-        <translation>Il file selezionato non è uno stile di dorso delle carte.</translation>
+        <translation>Vybraný súbor nie je štýl rubu kariet.</translation>
     </message>
     <message>
         <location line="+86"/>
         <source>Die Stil-Datei kann nicht gelesen werden.</source>
-        <translation>Impossibile leggere il file di stile.</translation>
+        <translation>Súbor štýlu sa nedá prečítať.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Die ausgewählte Datei ist kein PokerTH-Stil.</source>
-        <translation>Il file selezionato non è uno stile PokerTH.</translation>
+        <translation>Vybraný súbor nie je štýl PokerTH.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Die Stil-Datei enthält kein gültiges XML (%1).</source>
-        <translation>Il file di stile non contiene XML valido (%1).</translation>
+        <translation>Súbor štýlu neobsahuje platné XML (%1).</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Der Dateiname der Stil-Datei muss auf &quot;%1&quot; enden.</source>
-        <translation>Il nome del file di stile deve terminare con &quot;%1&quot;.</translation>
+        <translation>Názov súboru štýlu musí končiť na „%1“.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Die Stil-Datei muss in einem eigenen Ordner liegen.</source>
-        <translation>Il file di stile deve trovarsi in una cartella dedicata.</translation>
+        <translation>Súbor štýlu musí byť vo vlastnom priečinku.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ein Stil mit dem Namen &quot;%1&quot; ist bereits vorhanden.</source>
-        <translation>Esiste già uno stile con il nome &quot;%1&quot;.</translation>
+        <translation>Štýl s názvom „%1“ už existuje.</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
-        <translation>Il mazzo di carte è incompleto, mancano: %1</translation>
+        <translation>Sada kariet je neúplná, chýba: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Die Kartenrückseiten-Grafik (Backside) fehlt.</source>
-        <translation>Manca l&apos;immagine del dorso delle carte (Backside).</translation>
+        <translation>Chýba grafika rubu kariet (Backside).</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Der Ordner der Stil-Datei enthält ungewöhnlich viele Dateien. Bitte den Stil in einen eigenen Ordner legen.</source>
-        <translation>La cartella del file di stile contiene un numero insolitamente alto di file. Metti lo stile in una cartella dedicata.</translation>
+        <translation>Priečinok súboru štýlu obsahuje neobvykle veľa súborov. Umiestnite štýl do vlastného priečinka.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Der Stil konnte nicht nach &quot;%1&quot; kopiert werden.</source>
-        <translation>Impossibile copiare lo stile in &quot;%1&quot;.</translation>
+        <translation>Štýl sa nepodarilo skopírovať do „%1“.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Der Stil hat Format-Version %1, aktuell ist Version %2.</source>
-        <translation>Lo stile ha la versione di formato %1, la versione attuale è %2.</translation>
+        <translation>Štýl má verziu formátu %1, aktuálna je verzia %2.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Fehlende Angaben: %1.</source>
-        <translation>Informazioni mancanti: %1.</translation>
+        <translation>Chýbajúce údaje: %1.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Nicht gefundene Grafiken: %1.</source>
-        <translation>Grafiche non trovate: %1.</translation>
+        <translation>Nenájdené obrázky: %1.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Der Stil &quot;%1&quot; wurde übernommen, ist aber unvollständig:</source>
-        <translation>Lo stile &quot;%1&quot; è stato aggiunto, ma è incompleto:</translation>
+        <translation>Štýl „%1“ bol prevzatý, ale je neúplný:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
-        <translation>Il client sostituisce i contenuti mancanti con la grafica predefinita.</translation>
+        <translation>Chýbajúci obsah klient nahradí predvolenými obrázkami.</translation>
     </message>
     <message>
         <location line="-182"/>
         <source>PokerTH-Stile (*.zip *.xml)</source>
-        <translation>Stili PokerTH (*.zip *.xml)</translation>
+        <translation>Štýly PokerTH (*.zip *.xml)</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Die ausgewählte Datei kann nicht gelesen werden.</source>
-        <translation>Impossibile leggere il file selezionato.</translation>
+        <translation>Vybraný súbor sa nedá prečítať.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Es konnte kein temporäres Verzeichnis angelegt werden.</source>
-        <translation>Impossibile creare una cartella temporanea.</translation>
+        <translation>Nepodarilo sa vytvoriť dočasný priečinok.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Das Archiv enthält keine Datei &quot;%1&quot;.</source>
-        <translation>L&apos;archivio non contiene alcun file &quot;%1&quot;.</translation>
+        <translation>Archív neobsahuje súbor „%1“.</translation>
     </message>
     <message>
         <location line="+196"/>
         <source>Stil exportieren</source>
-        <translation>Esporta stile</translation>
+        <translation>Exportovať štýl</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>ZIP-Archive (*.zip)</source>
-        <translation>Archivi ZIP (*.zip)</translation>
+        <translation>Archívy ZIP (*.zip)</translation>
     </message>
     <message>
         <location line="-9"/>
         <source>Der Stil &quot;%1&quot; wurde nicht gefunden.</source>
-        <translation>Lo stile &quot;%1&quot; non è stato trovato.</translation>
+        <translation>Štýl „%1“ sa nenašiel.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Das Archiv konnte nicht erstellt werden.</source>
-        <translation>Impossibile creare l&apos;archivio.</translation>
+        <translation>Archív sa nepodarilo vytvoriť.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</source>
-        <translation>Impossibile scrivere l&apos;archivio in &quot;%1&quot;.</translation>
+        <translation>Archív sa nepodarilo zapísať do „%1“.</translation>
     </message>
 </context>
 <context>
@@ -4367,47 +4367,47 @@ Controlla username e password.</translation>
     <message>
         <location filename="../pages/SettingsPage.qml" line="+254"/>
         <source>Benutzeroberfläche</source>
-        <translation>Interfaccia utente</translation>
+        <translation>Používateľské rozhranie</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Stil</source>
-        <translation>Stile</translation>
+        <translation>Štýl</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Sound</source>
-        <translation>Suono</translation>
+        <translation>Zvuk</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Lokales Spiel</source>
-        <translation>Partita locale</translation>
+        <translation>Lokálna hra</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Netzwerkspiel</source>
-        <translation>Partita in Rete</translation>
+        <translation>Sieťová hra</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Internetspiel</source>
-        <translation>Partita in Internet</translation>
+        <translation>Internetová hra</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Nicknamen/Avatare</source>
-        <translation>Nickname/Avatar</translation>
+        <translation>Prezývky/avatary</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Log-Nachrichten</source>
-        <translation>Registro messaggi</translation>
+        <translation>Správy záznamu</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Standardeinstellung</source>
-        <translation>Impostazioni predefinite</translation>
+        <translation>Predvolené nastavenia</translation>
     </message>
 </context>
 <context>
@@ -4420,12 +4420,12 @@ Controlla username e password.</translation>
     <message>
         <location line="+100"/>
         <source>Über PokerTH</source>
-        <translation>Informazioni su PokerTH</translation>
+        <translation>O PokerTH</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Schließen</source>
-        <translation>Chiudi</translation>
+        <translation>Zavrieť</translation>
     </message>
 </context>
 <context>
@@ -4433,47 +4433,47 @@ Controlla username e password.</translation>
     <message>
         <location filename="../components/SoundSettings.qml" line="+19"/>
         <source>Sound</source>
-        <translation>Suono</translation>
+        <translation>Zvuk</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Klangeffekte</source>
-        <translation>Effetti sonori</translation>
+        <translation>Zvukové efekty</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Klangeffekte aktivieren</source>
-        <translation>Abilita effetti sonori</translation>
+        <translation>Povoliť zvukové efekty</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Lautstärke:</source>
-        <translation>Volume:</translation>
+        <translation>Hlasitosť:</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Klang-Kategorien</source>
-        <translation>Categorie suoni </translation>
+        <translation>Kategórie zvukov</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Spielaktionen (Check, Call, Raise ...)</source>
-        <translation>Azioni di gioco (Check, Call, Raise...)</translation>
+        <translation>Herné akcie (Check, Call, Raise ...)</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Blind-Erhöhungs-Benachrichtigung</source>
-        <translation>Notifica aumento buio</translation>
+        <translation>Upozornenie na zvýšenie blindov</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>Netzwerkspiel-Benachrichtigungen</source>
-        <translation>Notifiche partite in rete</translation>
+        <translation>Upozornenia sieťovej hry</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>Lobby-Chat-Benachrichtigungen</source>
-        <translation>Notifiche chat della lobby</translation>
+        <translation>Upozornenia chatu lobby</translation>
     </message>
 </context>
 <context>
@@ -4481,12 +4481,12 @@ Controlla username e password.</translation>
     <message>
         <location filename="../components/StartFooter.qml" line="+197"/>
         <source>Privacy</source>
-        <translation>Privacy</translation>
+        <translation>Súkromie</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Source:</source>
-        <translation>Codice sorgente:</translation>
+        <translation>Zdrojový kód:</translation>
     </message>
 </context>
 <context>
@@ -4494,32 +4494,32 @@ Controlla username e password.</translation>
     <message>
         <location filename="../pages/StartPage.qml" line="+155"/>
         <source>Internetspiel</source>
-        <translation>Partita in Internet</translation>
+        <translation>Internetová hra</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Lokales Spiel starten</source>
-        <translation>Inizia una partita locale</translation>
+        <translation>Spustiť lokálnu hru</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Netzwerkspiel erstellen</source>
-        <translation>Crea partita in rete</translation>
+        <translation>Vytvoriť sieťovú hru</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Netzwerkspiel beitreten</source>
-        <translation>Unisciti a una partita in rete</translation>
+        <translation>Pripojiť sa k sieťovej hre</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Community / Ranking</source>
-        <translation>Community / Classifica</translation>
+        <translation>Komunita / rebríček</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Logs</source>
-        <translation>Log</translation>
+        <translation>Záznamy</translation>
     </message>
 </context>
 <context>
@@ -4527,32 +4527,32 @@ Controlla username e password.</translation>
     <message>
         <location filename="../config/StaticData.qml" line="+124"/>
         <source>Fold</source>
-        <translation>Fold</translation>
+        <translation>Zložiť</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Check</source>
-        <translation>Check</translation>
+        <translation>Čakať</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Call</source>
-        <translation>Call</translation>
+        <translation>Dorovnať</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Bet</source>
-        <translation>Bet</translation>
+        <translation>Staviť</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Raise</source>
-        <translation>Raise</translation>
+        <translation>Zvýšiť</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>All-In</source>
-        <translation>All-In</translation>
+        <translation>All-in</translation>
     </message>
 </context>
 <context>
@@ -4561,28 +4561,28 @@ Controlla username e password.</translation>
         <location filename="../components/StyleCard.qml" line="+69"/>
         <source>Keine
 Vorschau</source>
-        <translation>Nessuna
-anteprima</translation>
+        <translation>Bez
+náhľadu</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>von %1</source>
-        <translation>di %1</translation>
+        <translation>od %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>✓ Ausgewählt</source>
-        <translation>✓ Selezionato</translation>
+        <translation>✓ Vybrané</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Stil entfernen</source>
-        <translation>Rimuovi stile</translation>
+        <translation>Odstrániť štýl</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Stil als ZIP exportieren</source>
-        <translation>Esporta stile come ZIP</translation>
+        <translation>Exportovať štýl ako ZIP</translation>
     </message>
 </context>
 <context>
@@ -4590,7 +4590,7 @@ anteprima</translation>
     <message>
         <location filename="../components/StyleSettings.qml" line="+49"/>
         <source>Stil hinzufügen</source>
-        <translation>Aggiungi stile</translation>
+        <translation>Pridať štýl</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -4601,94 +4601,94 @@ anteprima</translation>
     <message>
         <location line="+49"/>
         <source>Stil entfernen</source>
-        <translation>Rimuovi stile</translation>
+        <translation>Odstrániť štýl</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Den Stil &quot;%1&quot; wirklich entfernen?</source>
-        <translation>Rimuovere davvero lo stile &quot;%1&quot;?</translation>
+        <translation>Naozaj odstrániť štýl „%1“?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Entfernen</source>
-        <translation>Rimuovi</translation>
+        <translation>Odstrániť</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Stil</source>
-        <translation>Stile</translation>
+        <translation>Štýl</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Spieltisch</source>
-        <translation>Tavolo di gioco</translation>
+        <translation>Herný stôl</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Kartenstapel</source>
-        <translation>Mazzo di carte</translation>
+        <translation>Sada kariet</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Kartenrückseite</source>
-        <translation>Dorso delle carte</translation>
+        <translation>Rub kariet</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Einsatzanzeige:</source>
-        <translation>Visualizzazione della puntata:</translation>
+        <translation>Zobrazenie stávky:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Einsatz in der Spielerbox</source>
-        <translation>Puntata dentro il riquadro del giocatore</translation>
+        <translation>Stávka v boxe hráča</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Einsatz neben der Spielerbox</source>
-        <translation>Puntata accanto al riquadro del giocatore</translation>
+        <translation>Stávka vedľa boxu hráča</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Verfügbare Spieltisch-Stile:</source>
-        <translation>Stili tavolo disponibili:</translation>
+        <translation>Dostupné štýly herného stola:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Keine Spieltisch-Stile gefunden.</source>
-        <translation>Nessuno stile tavolo trovato.</translation>
+        <translation>Nenašli sa žiadne štýly herného stola.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verfügbare Kartenstapel-Stile:</source>
-        <translation>Stili mazzo di carte disponibili:</translation>
+        <translation>Dostupné štýly kariet:</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Keine Kartenstapel-Stile gefunden.</source>
-        <translation>Nessuno stile mazzo di carte trovato.</translation>
+        <translation>Nenašli sa žiadne štýly kariet.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verfügbare Kartenrückseiten:</source>
-        <translation>Dorsi delle carte disponibili:</translation>
+        <translation>Dostupné ruby kariet:</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Keine Kartenrückseiten gefunden.</source>
-        <translation>Nessun dorso delle carte trovato.</translation>
+        <translation>Nenašli sa žiadne ruby kariet.</translation>
     </message>
     <message>
         <location line="-104"/>
         <location line="+56"/>
         <location line="+56"/>
         <source>Stil hinzufügen...</source>
-        <translation>Aggiungi stile...</translation>
+        <translation>Pridať štýl...</translation>
     </message>
     <message>
         <location line="-266"/>
         <source>Stil exportieren</source>
-        <translation>Esporta stile</translation>
+        <translation>Exportovať štýl</translation>
     </message>
 </context>
 <context>
@@ -4696,92 +4696,92 @@ anteprima</translation>
     <message>
         <location filename="../pages/WecRankingPage.qml" line="+22"/>
         <source>January</source>
-        <translation>Gennaio</translation>
+        <translation>Január</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>February</source>
-        <translation>Febbraio</translation>
+        <translation>Február</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>March</source>
-        <translation>Marzo</translation>
+        <translation>Marec</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>April</source>
-        <translation>Aprile</translation>
+        <translation>Apríl</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>May</source>
-        <translation>Maggio</translation>
+        <translation>Máj</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>June</source>
-        <translation>Giugno</translation>
+        <translation>Jún</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>July</source>
-        <translation>Luglio</translation>
+        <translation>Júl</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>August</source>
-        <translation>Agosto</translation>
+        <translation>August</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>September</source>
-        <translation>Settembre</translation>
+        <translation>September</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>October</source>
-        <translation>Ottobre</translation>
+        <translation>Október</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>November</source>
-        <translation>Novembre</translation>
+        <translation>November</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>December</source>
-        <translation>Dicembre</translation>
+        <translation>December</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>WEC Ranking</source>
-        <translation>Classifica WEC</translation>
+        <translation>Rebríček WEC</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Year:</source>
-        <translation>Anno:</translation>
+        <translation>Rok:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Month:</source>
-        <translation>Mese:</translation>
+        <translation>Mesiac:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>All-Year</source>
-        <translation>Tutto l&apos;anno</translation>
+        <translation>Celý rok</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>All-Time</source>
-        <translation>Sempre</translation>
+        <translation>Za celý čas</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Search nickname</source>
-        <translation>Cerca nickname</translation>
+        <translation>Hľadať prezývku</translation>
     </message>
 </context>
 <context>
@@ -4794,143 +4794,143 @@ anteprima</translation>
     <message>
         <location line="+287"/>
         <source>Back</source>
-        <translation>Indietro</translation>
+        <translation>Späť</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Menu</source>
-        <translation>Menu</translation>
+        <translation>Ponuka</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>Private messages</source>
-        <translation>Messaggi privati</translation>
+        <translation>Súkromné správy</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Forum news</source>
-        <translation>Novità dal forum</translation>
+        <translation>Novinky z fóra</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Community / Ranking</source>
-        <translation>Community / Classifica</translation>
+        <translation>Komunita / rebríček</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Settings</source>
-        <translation>Impostazioni</translation>
+        <translation>Nastavenia</translation>
     </message>
     <message>
         <location line="+192"/>
         <source>Timeout Warning</source>
-        <translation>Avviso di timeout</translation>
+        <translation>Varovanie pred vypršaním</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Timeout expired. You are being removed from the game.</source>
-        <translation>Timeout scaduto. Verrai rimosso dalla partita.</translation>
+        <translation>Čas vypršal. Budete odstránený z hry.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Timeout expired. You will be disconnected.</source>
-        <translation>Timeout scaduto. Verrai disconnesso.</translation>
+        <translation>Čas vypršal. Pripojenie bude ukončené.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You are game-admin of an open game which will time out in %1 seconds.</source>
-        <translation>Sei amministratore di una partita aperta che scadrà tra %1 secondi.</translation>
+        <translation>Ste administrátorom otvorenej hry, ktorá vyprší o %1 sekúnd.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>You did not act in the game recently. You will be removed from the game in %1 seconds.</source>
-        <translation>Non hai effettuato azioni di gioco da un po&apos; di tempo. Verrai rimosso dalla partita in %1 secondi.</translation>
+        <translation>Dlho ste nekonali v hre. Budete odstránený z hry o %1 sekúnd.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your connection is about to time out due to inactivity in %1 seconds.</source>
-        <translation>La tua connessione scadrà per inattività fra %1 secondi.</translation>
+        <translation>Vaše spojenie vyprší z dôvodu neaktivity o %1 sekúnd.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Please click &quot;OK&quot; to stop the countdown!</source>
-        <translation>Premi &quot;OK&quot; per fermare il conto alla rovescia!</translation>
+        <translation>Prosím, kliknite na &quot;OK&quot; pre zastavenie počítadla!</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+285"/>
         <source>OK</source>
-        <translation> OK </translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location line="-250"/>
         <source>Server Message</source>
-        <translation>Messaggio del server</translation>
+        <translation>Správa serveru</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Close</source>
-        <translation>Chiudi</translation>
+        <translation>Zavrieť</translation>
     </message>
     <message>
         <location line="+156"/>
         <source>Connection interrupted</source>
-        <translation>Connessione interrotta</translation>
+        <translation>Spojenie prerušené</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Reconnecting to the server… (attempt %1 of %2)</source>
-        <translation>Riconnessione al server… (tentativo %1 di %2)</translation>
+        <translation>Opätovné pripájanie k serveru… (pokus %1 z %2)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reconnecting to the server…</source>
-        <translation>Riconnessione al server…</translation>
+        <translation>Opätovné pripájanie k serveru…</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Your seat at the table stays reserved for a few minutes.</source>
-        <translation>Il tuo posto al tavolo resta riservato per alcuni minuti.</translation>
+        <translation>Vaše miesto pri stole zostane rezervované ešte niekoľko minút.</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Connection lost</source>
-        <translation>Connessione persa</translation>
+        <translation>Spojenie stratené</translation>
     </message>
     <message>
         <location line="-734"/>
         <location line="+545"/>
         <location line="+22"/>
         <source>Leave Game</source>
-        <translation>Abbandona partita</translation>
+        <translation>Opustiť hru</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
-        <translation>Attenzione! Vuoi veramente abbandonare la partita corrente
-e tornare al prepartita?</translation>
+        <translation>Upozornenie! Určite chcete opustiť momentálnu hru
+a vrátiť sa späť do lobby?</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+57"/>
         <location line="+74"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
         <location line="-693"/>
         <location line="+602"/>
         <location line="+22"/>
         <source>Leave Lobby</source>
-        <translation>Lascia lobby</translation>
+        <translation>Opustiť lobby</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Attention! Do you really want to leave the lobby
 and disconnect from the server?</source>
-        <translation>Attenzione! Vuoi davvero lasciare la lobby
-e disconnetterti dal server?</translation>
+        <translation>Upozornenie! Určite chcete opustiť lobby
+a odpojiť sa od servera?</translation>
     </message>
 </context>
 </TS>

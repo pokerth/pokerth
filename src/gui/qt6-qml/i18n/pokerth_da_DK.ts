@@ -4525,7 +4525,7 @@ Undersøg venligst dit brugernavn og din adgangskode.</translation>
 <context>
     <name>StaticData</name>
     <message>
-        <location filename="../config/StaticData.qml" line="+114"/>
+        <location filename="../config/StaticData.qml" line="+124"/>
         <source>Fold</source>
         <translation>Fold</translation>
     </message>
