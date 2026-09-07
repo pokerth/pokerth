@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pt_BR">
+<TS version="2.1" language="ru_RU">
 <context>
     <name>AboutPage</name>
     <message>
         <location filename="../pages/AboutPage.qml" line="+45"/>
         <source>No changelog available.</source>
-        <translation>Nenhum registro de alterações disponível.</translation>
+        <translation>Журнал изменений недоступен.</translation>
     </message>
     <message>
         <location line="+89"/>
         <source>About PokerTH</source>
-        <translation>Sobre o PokerTH</translation>
+        <translation>О программе PokerTH</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>About</source>
-        <translation>Sobre</translation>
+        <translation>О программе</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Project</source>
-        <translation>Projeto</translation>
+        <translation>Проект</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Changelog</source>
-        <translation>Alterações</translation>
+        <translation>Журнал изменений</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Thanks to</source>
-        <translation>Obrigado a</translation>
+        <translation>Благодарности</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>License</source>
-        <translation>Licença</translation>
+        <translation>Лицензия</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Third party libs</source>
-        <translation>Parte da Livraria de Terceiros</translation>
+        <translation>Сторонние библиотеки</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -51,122 +51,122 @@
     <message>
         <location line="+13"/>
         <source>- Poker engine for the popular Texas Hold&apos;em Poker</source>
-        <translation>Motor de Poker para o popular Texas Hold&apos;em Poker</translation>
+        <translation>- Движок для популярного покера Texas Hold&apos;em</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Singleplayer games with up to 9 computer-opponents</source>
-        <translation>Jogo simples com 9 oponentes computador.</translation>
+        <translation>- Одиночные игры с числом компьютерных соперников до 9</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Multiplayer network games</source>
-        <translation>Jogo Multijogadores</translation>
+        <translation>- Многопользовательские сетевые игры</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Internet online games</source>
-        <translation>Jogos online via internet</translation>
+        <translation>- Онлайн-игры в Интернете</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Changeable gui with online style gallery</source>
-        <translation>Guia alteravel com galeria de estilos online</translation>
+        <translation>- Сменное оформление с онлайн-галереей стилей</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Online ranking website with result tables</source>
-        <translation>Ranking online de resultados de mesas</translation>
+        <translation>- Сайт с онлайн-рейтингами и таблицами результатов</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Project page:</source>
-        <translation>Pagina do projeto:</translation>
+        <translation>Страница проекта:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Authors:</source>
-        <translation>Autores:</translation>
+        <translation>Авторы:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
-        <translation>Ideia inicial, arquitetura basica, guia de implementação, guia graficos de edicação, pacote linux</translation>
+        <translation>первоначальная идея, базовая архитектура, реализация интерфейса, обработка графики интерфейса, пакет для Linux</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial idea, basic architecture, engine development</source>
-        <translation>ideia inicial, estrutura basica, develviemento de motor</translation>
+        <translation>первоначальная идея, базовая архитектура, разработка движка</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>basic architecture, network development, windows package, MacOS package</source>
-        <translation>arquitetura basica, desenvolvimento de rede, pacote windows, pacote MacOs</translation>
+        <translation>базовая архитектура, разработка сетевой части, пакет для Windows, пакет для MacOS</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>initial gui graphics design</source>
-        <translation>Design inicial de guia graficos</translation>
+        <translation>первоначальный графический дизайн интерфейса</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>code modernization, QML layout</source>
-        <translation>modernização do código, layout QML</translation>
+        <translation>модернизация кода, вёрстка QML</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>web client development</source>
-        <translation>desenvolvimento do cliente web</translation>
+        <translation>разработка веб-клиента</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>- Wikimedia Commons: for different popular avatar picture resources</source>
-        <translation>- Wikimedia Commons: por diferentes e populares recursos e imagens de avateres</translation>
+        <translation>- Wikimedia Commons: за различные популярные изображения аватаров</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
-        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: por populares imagens de avateres</translation>
+        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: за изображения аватаров людей</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- ZeiZei: for misc avatar pictures</source>
-        <translation>- ZeiZei: por miscelanios de imagens de avateres</translation>
+        <translation>- ZeiZei: за прочие изображения аватаров</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- kde-look.org: for different gpl licensed sounds</source>
-        <translation>- kde-look.org: por diferentes sonds de licença gpl</translation>
+        <translation>- kde-look.org: за различные звуки под лицензией GPL</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- doc_dos: for self recorded chip sounds</source>
-        <translation>- doc_dos: pela gravação dos sons das fichas</translation>
+        <translation>- doc_dos: за самостоятельно записанные звуки фишек</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
-        <translation>- thiger, dunkanx, BerndA, coldz, drull: por diferentes atualizações</translation>
+        <translation>- thiger, dunkanx, BerndA, coldz, drull: за различные патчи</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- kraut: for internet-game-server hosting and administration</source>
-        <translation>- kraut: pela administração e hospedagem do servidor de jogos</translation>
+        <translation>- kraut: за хостинг и администрирование игрового интернет-сервера</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
-        <translation>- danuxi: pelo fundo da tela inicial e danuxi1 fundo da mesa</translation>
+        <translation>- danuxi: за фон стартового окна и фон стола danuxi1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
-        <translation>- heyn: pela moderação do forum e diagnosticos do bugtracker e requisições de melhorias</translation>
+        <translation>- heyn: за модерирование форума, ведение багтрекера и списка пожеланий</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>- texas_outlaw: for new table sounds</source>
-        <translation>- texas_outlaw: pela nova tabela de sons</translation>
+        <translation>- texas_outlaw: за новые звуки игрового стола</translation>
     </message>
 </context>
 <context>
@@ -174,12 +174,12 @@
     <message>
         <location filename="../cpp/androidconnectionservice.cpp" line="+29"/>
         <source>Connected to the game server</source>
-        <translation>Conectado ao servidor do jogo</translation>
+        <translation>Подключено к игровому серверу</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Online game connection</source>
-        <translation>Conexão do jogo online</translation>
+        <translation>Подключение к онлайн-игре</translation>
     </message>
 </context>
 <context>
@@ -187,22 +187,22 @@
     <message>
         <location filename="../components/AvatarCardRow.qml" line="+132"/>
         <source>Server response times</source>
-        <translation>Tempos de resposta do servidor</translation>
+        <translation>Время отклика сервера</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Average: %1 ms</source>
-        <translation>Média: %1 ms</translation>
+        <translation>Среднее: %1 мс</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Minimum: %1 ms</source>
-        <translation>Mínimo: %1 ms</translation>
+        <translation>Минимум: %1 мс</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Maximum: %1 ms</source>
-        <translation>Máximo: %1 ms</translation>
+        <translation>Максимум: %1 мс</translation>
     </message>
 </context>
 <context>
@@ -210,32 +210,32 @@
     <message>
         <location filename="../pages/BbcRankingPage.qml" line="+36"/>
         <source>BBC Ranking</source>
-        <translation>Ranking BBC</translation>
+        <translation>Рейтинг BBC</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Season:</source>
-        <translation>Temporada:</translation>
+        <translation>Сезон:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>All-Time</source>
-        <translation>Todos os Tempos</translation>
+        <translation>За всё время</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Search nickname</source>
-        <translation>Buscar apelido</translation>
+        <translation>Поиск по нику</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Step1</source>
-        <translation>Passo1</translation>
+        <translation>Этап 1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Season %1</source>
-        <translation>Temporada %1</translation>
+        <translation>Сезон %1</translation>
     </message>
 </context>
 <context>
@@ -243,39 +243,39 @@
     <message>
         <location filename="../components/ChatBox.qml" line="+31"/>
         <source>Nachricht …</source>
-        <translation>Mensagem …</translation>
+        <translation>Сообщение …</translation>
     </message>
     <message>
         <location line="+791"/>
         <source>Link öffnen</source>
-        <translation>Abrir link</translation>
+        <translation>Открыть ссылку</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Link kopieren</source>
-        <translation>Copiar link</translation>
+        <translation>Копировать ссылку</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+38"/>
         <source>Kopieren</source>
-        <translation>Copiar</translation>
+        <translation>Копировать</translation>
     </message>
     <message>
         <location line="-33"/>
         <location line="+43"/>
         <source>Alles auswählen</source>
-        <translation>Selecionar tudo</translation>
+        <translation>Выделить всё</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Ausschneiden</source>
-        <translation>Recortar</translation>
+        <translation>Вырезать</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Einfügen</source>
-        <translation>Colar</translation>
+        <translation>Вставить</translation>
     </message>
 </context>
 <context>
@@ -283,7 +283,7 @@
     <message>
         <location filename="../cpp/chattranslator.cpp" line="+265"/>
         <source>Translation is currently unavailable. Please try again later.</source>
-        <translation>A tradução está indisponível no momento. Tente novamente mais tarde.</translation>
+        <translation>Перевод сейчас недоступен. Повторите попытку позже.</translation>
     </message>
 </context>
 <context>
@@ -291,98 +291,98 @@
     <message>
         <location filename="../components/CommunityPlayerView.qml" line="+30"/>
         <source>This season</source>
-        <translation>Esta temporada</translation>
+        <translation>Текущий сезон</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+4"/>
         <source>All-time</source>
-        <translation>Todos os tempos</translation>
+        <translation>За всё время</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>This month</source>
-        <translation>Este mês</translation>
+        <translation>Текущий месяц</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This year</source>
-        <translation>Este ano</translation>
+        <translation>Текущий год</translation>
     </message>
     <message>
         <location line="+75"/>
         <source>Player not found.</source>
-        <translation>Jogador não encontrado.</translation>
+        <translation>Игрок не найден.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Could not load player (HTTP %1).</source>
-        <translation>Não foi possível carregar o jogador (HTTP %1).</translation>
+        <translation>Не удалось загрузить данные игрока (HTTP %1).</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Could not parse server response.</source>
-        <translation>Não foi possível interpretar a resposta do servidor.</translation>
+        <translation>Не удалось разобрать ответ сервера.</translation>
     </message>
     <message>
         <location line="+80"/>
         <source>Member since %1</source>
-        <translation>Membro desde %1</translation>
+        <translation>Участник с %1</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Awards</source>
-        <translation>Prêmios</translation>
+        <translation>Награды</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Tickets</source>
-        <translation>Tickets</translation>
+        <translation>Билеты</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Step 2</source>
-        <translation>Passo 2</translation>
+        <translation>Этап 2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Step 3</source>
-        <translation>Passo 3</translation>
+        <translation>Этап 3</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Step 4</source>
-        <translation>Passo 4</translation>
+        <translation>Этап 4</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Rank</source>
-        <translation>Posição</translation>
+        <translation>Место</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Score</source>
-        <translation>Pontuação</translation>
+        <translation>Счёт</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Jogos</translation>
+        <translation>Игры</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Pontos</translation>
+        <translation>Очки</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Results:</source>
-        <translation>Resultados:</translation>
+        <translation>Результаты:</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Step %1</source>
-        <translation>Passo %1</translation>
+        <translation>Этап %1</translation>
     </message>
 </context>
 <context>
@@ -390,22 +390,22 @@
     <message>
         <location filename="../pages/CommunityRankingPage.qml" line="+40"/>
         <source>Community / Ranking</source>
-        <translation>Comunidade / Ranking</translation>
+        <translation>Сообщество / рейтинг</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>PokerTH Ranking</source>
-        <translation>Ranking PokerTH</translation>
+        <translation>Рейтинг PokerTH</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>BBC Ranking</source>
-        <translation>Ranking BBC</translation>
+        <translation>Рейтинг BBC</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>WEC Ranking</source>
-        <translation>Ranking WEC</translation>
+        <translation>Рейтинг WEC</translation>
     </message>
 </context>
 <context>
@@ -415,52 +415,52 @@
         <location line="+17"/>
         <location line="+16"/>
         <source>Could not load ranking.</source>
-        <translation>Não foi possível carregar o ranking.</translation>
+        <translation>Не удалось загрузить рейтинг.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Could not load ranking (HTTP %1).</source>
-        <translation>Não foi possível carregar o ranking (HTTP %1).</translation>
+        <translation>Не удалось загрузить рейтинг (HTTP %1).</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Could not parse server response.</source>
-        <translation>Não foi possível interpretar a resposta do servidor.</translation>
+        <translation>Не удалось разобрать ответ сервера.</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>#</source>
-        <translation>#</translation>
+        <translation>№</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Nickname</source>
-        <translation>Apelido</translation>
+        <translation>Ник</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Jogos</translation>
+        <translation>Игры</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Score</source>
-        <translation>Pontuação</translation>
+        <translation>Счёт</translation>
     </message>
     <message>
         <location line="+160"/>
         <source>No entries.</source>
-        <translation>Nenhuma entrada.</translation>
+        <translation>Нет записей.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No matches.</source>
-        <translation>Nenhuma correspondência.</translation>
+        <translation>Совпадений нет.</translation>
     </message>
     <message>
         <location line="-44"/>
         <source>◀ Prev</source>
-        <translation>◀ Anterior</translation>
+        <translation>◀ Назад</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -470,12 +470,12 @@
     <message>
         <location line="+1"/>
         <source>Page %1 / %2  ·  %3 players</source>
-        <translation>Página %1 / %2  ·  %3 jogadores</translation>
+        <translation>Страница %1 / %2  ·  игроков: %3</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Next ▶</source>
-        <translation>Próximo ▶</translation>
+        <translation>Вперёд ▶</translation>
     </message>
 </context>
 <context>
@@ -483,12 +483,12 @@
     <message>
         <location filename="../components/ConfirmPopup.qml" line="+25"/>
         <source>Yes</source>
-        <translation>Sim</translation>
+        <translation>Да</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
 </context>
 <context>
@@ -496,7 +496,7 @@
     <message>
         <location filename="../components/CustomCheckBox.qml" line="+50"/>
         <source>CheckBox LabelText</source>
-        <translation>Texto do Rótulo da Caixa de Seleção</translation>
+        <translation>Текст метки флажка</translation>
     </message>
 </context>
 <context>
@@ -504,22 +504,22 @@
     <message>
         <location filename="../components/ExampleAvatarPicker.qml" line="+68"/>
         <source>Beispiel-Avatar wählen</source>
-        <translation>Escolher avatar de exemplo</translation>
+        <translation>Выбор образца аватара</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Personen</source>
-        <translation>Pessoas</translation>
+        <translation>Люди</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verschiedenes</source>
-        <translation>Diversos</translation>
+        <translation>Разное</translation>
     </message>
     <message>
         <location line="+83"/>
         <source>Abbrechen</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
 </context>
 <context>
@@ -528,7 +528,7 @@
         <location filename="../config/ForumNews.qml" line="+163"/>
         <location line="+11"/>
         <source>The forum feed could not be loaded.</source>
-        <translation>Não foi possível carregar o feed do fórum.</translation>
+        <translation>Не удалось загрузить ленту форума.</translation>
     </message>
 </context>
 <context>
@@ -536,22 +536,22 @@
     <message>
         <location filename="../pages/ForumNewsPage.qml" line="+58"/>
         <source>Forum news</source>
-        <translation>Novidades do fórum</translation>
+        <translation>Новости форума</translation>
     </message>
     <message>
         <location line="+141"/>
         <source>No entries.</source>
-        <translation>Nenhuma entrada.</translation>
+        <translation>Нет записей.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Mark all as read</source>
-        <translation>Marcar tudo como lido</translation>
+        <translation>Отметить все как прочитанные</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Open the forum</source>
-        <translation>Abrir o fórum</translation>
+        <translation>Открыть форум</translation>
     </message>
 </context>
 <context>
@@ -559,22 +559,22 @@
     <message>
         <location filename="../pages/ForumPostPage.qml" line="+78"/>
         <source>Translation failed.</source>
-        <translation>Falha na tradução.</translation>
+        <translation>Не удалось выполнить перевод.</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Show the original post</source>
-        <translation>Mostrar a mensagem original</translation>
+        <translation>Показать оригинал сообщения</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Translate the post</source>
-        <translation>Traduzir a mensagem</translation>
+        <translation>Перевести сообщение</translation>
     </message>
     <message>
         <location line="+147"/>
         <source>Open in the forum</source>
-        <translation>Abrir no fórum</translation>
+        <translation>Открыть на форуме</translation>
     </message>
 </context>
 <context>
@@ -582,22 +582,22 @@
     <message>
         <location filename="../components/GameActionBar.qml" line="+997"/>
         <source>Show</source>
-        <translation>Mostrar</translation>
+        <translation>Показать</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Manuell</source>
-        <translation>Manual</translation>
+        <translation>Вручную</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Auto Check/Call</source>
-        <translation>Auto Check/Call</translation>
+        <translation>Авто чек/колл</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Auto Check/Fold</source>
-        <translation>Auto Check/Fold</translation>
+        <translation>Авто чек/фолд</translation>
     </message>
 </context>
 <context>
@@ -605,12 +605,12 @@
     <message>
         <location filename="../components/GameAdminBadge.qml" line="+25"/>
         <source>Admin</source>
-        <translation>Admin</translation>
+        <translation>Админ</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Game admin: starts the game and can kick players</source>
-        <translation>Administrador do jogo: inicia o jogo e pode expulsar jogadores</translation>
+        <translation>Администратор игры: начинает игру и может исключать игроков</translation>
     </message>
 </context>
 <context>
@@ -618,72 +618,72 @@
     <message>
         <location filename="../components/GameInfoPanel.qml" line="+56"/>
         <source>Höchste Karte</source>
-        <translation>Carta Alta</translation>
+        <translation>Старшая карта</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Paar</source>
-        <translation>Par</translation>
+        <translation>Пара</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Zwei Paare</source>
-        <translation>Dois Pares</translation>
+        <translation>Две пары</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Drilling</source>
-        <translation>Trinca</translation>
+        <translation>Тройка</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Straße</source>
-        <translation>Sequência</translation>
+        <translation>Стрит</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Flush</source>
-        <translation>Flush</translation>
+        <translation>Флеш</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Full House</source>
-        <translation>Full House</translation>
+        <translation>Фулл-хаус</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Vierling</source>
-        <translation>Quadra</translation>
+        <translation>Каре</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Straight Flush</source>
-        <translation>Straight Flush</translation>
+        <translation>Стрит-флеш</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Royal Flush</source>
-        <translation>Royal Flush</translation>
+        <translation>Роял-флеш</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Verlauf</source>
-        <translation>Histórico</translation>
+        <translation>История</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Chancen</source>
-        <translation>Chances</translation>
+        <translation>Шансы</translation>
     </message>
     <message>
         <location line="+245"/>
         <source>Kopieren</source>
-        <translation>Copiar</translation>
+        <translation>Копировать</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Alles auswählen</source>
-        <translation>Selecionar tudo</translation>
+        <translation>Выделить всё</translation>
     </message>
 </context>
 <context>
@@ -691,41 +691,42 @@
     <message>
         <location filename="../components/GameListItem.qml" line="+147"/>
         <source>Report inappropriate game name</source>
-        <translation>Reportar nome de jogo inapropriado</translation>
+        <translation>Сообщить о недопустимом названии игры</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report game name</source>
-        <translation>Reportar nome do jogo</translation>
+        <translation>Жалоба на название игры</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure you want to report the game name:
 &quot;%1&quot; as inappropriate?</source>
-        <translation>Tem certeza que deseja reportar o nome do jogo &quot;%1&quot; como inapropriado?</translation>
+        <translation>Вы действительно хотите сообщить, что название игры:
+«%1» является недопустимым?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report</source>
-        <translation>Reportar</translation>
+        <translation>Сообщить</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Close game (admin)</source>
-        <translation>Fechar jogo (admin)</translation>
+        <translation>Закрыть игру (админ)</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+3"/>
         <source>Close game</source>
-        <translation>Fechar Jogo</translation>
+        <translation>Закрыть игру</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
-        <translation>Você tem certeza que deseja fechar o jogo:
-&quot;%1&quot;?</translation>
+        <translation>Вы действительно хотите закрыть игру:
+«%1»?</translation>
     </message>
 </context>
 <context>
@@ -733,42 +734,42 @@
     <message>
         <location filename="../pages/GamePage.qml" line="+2304"/>
         <source>Verlauf &amp; Chancen</source>
-        <translation>Histórico e chances</translation>
+        <translation>История и шансы</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>Chat</source>
-        <translation>Chat</translation>
+        <translation>Чат</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Emoji-Reaktionen</source>
-        <translation>Reações com emoji</translation>
+        <translation>Эмодзи-реакции</translation>
     </message>
     <message>
         <location line="+311"/>
         <source>Game Over</source>
-        <translation>Fim de jogo</translation>
+        <translation>Игра окончена</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Congratulations, you won the game!</source>
-        <translation>Parabéns, você venceu o jogo!</translation>
+        <translation>Поздравляем, вы выиграли игру!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 wins the game!</source>
-        <translation>%1 vence o jogo!</translation>
+        <translation>%1 выигрывает игру!</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Back to Menu</source>
-        <translation>Voltar ao menu</translation>
+        <translation>В меню</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>New Game</source>
-        <translation>Novo jogo</translation>
+        <translation>Новая игра</translation>
     </message>
 </context>
 <context>
@@ -778,50 +779,50 @@
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
-        <translation>Jogador ignorado</translation>
+        <translation>Игнорировать игрока</translation>
     </message>
     <message>
         <location line="-30"/>
         <location line="+36"/>
         <location line="+2"/>
         <source>Unignore player</source>
-        <translation>Aceitar jogador</translation>
+        <translation>Прекратить игнорировать игрока</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Show player stats</source>
-        <translation>Mostrar estatus do jogador</translation>
+        <translation>Показать статистику игрока</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+35"/>
         <source>Report inappropriate avatar</source>
-        <translation>Reportar avatar inapropriado</translation>
+        <translation>Сообщить о недопустимом аватаре</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Note about player ...</source>
-        <translation>Nota sobre o jogador ...</translation>
+        <translation>Заметка об игроке ...</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Are you sure you want to ignore &quot;%1&quot;?</source>
-        <translation>Tem certeza de que deseja ignorar “%1”?&gt;</translation>
+        <translation>Вы действительно хотите игнорировать «%1»?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Are you sure you want to unignore &quot;%1&quot;?</source>
-        <translation>Tem certeza de que deseja deixar de ignorar “%1”?&gt;</translation>
+        <translation>Вы действительно хотите прекратить игнорировать «%1»?</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Are you sure you want to report the avatar of &quot;%1&quot; as inappropriate?</source>
-        <translation>Tem certeza de que deseja reportar o avatar de “%1” como inapropriado?</translation>
+        <translation>Вы действительно хотите сообщить, что аватар игрока «%1» является недопустимым?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Report</source>
-        <translation>Reportar</translation>
+        <translation>Сообщить</translation>
     </message>
 </context>
 <context>
@@ -830,7 +831,7 @@
         <location filename="../components/GamePlayerSelfBox.qml" line="+209"/>
         <location line="+33"/>
         <source>Du</source>
-        <translation>Você</translation>
+        <translation>Вы</translation>
     </message>
 </context>
 <context>
@@ -838,42 +839,42 @@
     <message>
         <location filename="../components/GameStatusBar.qml" line="+100"/>
         <source>Show table ranking</source>
-        <translation>Mostrar ranking da mesa</translation>
+        <translation>Показать рейтинг стола</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Open in browser</source>
-        <translation>Abrir no navegador</translation>
+        <translation>Открыть в браузере</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Total:</source>
-        <translation>Total:</translation>
+        <translation>Банк:</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Bets:</source>
-        <translation>Apostas:</translation>
+        <translation>Ставки:</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Spectating</source>
-        <translation>Assistindo</translation>
+        <translation>Наблюдение</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Preflop</source>
-        <translation>Pré-flop</translation>
+        <translation>Префлоп</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Game: %1</source>
-        <translation>Jogo: %1</translation>
+        <translation>Игра: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Hand: %1</source>
-        <translation>Mão: %1</translation>
+        <translation>Раздача: %1</translation>
     </message>
 </context>
 <context>
@@ -882,127 +883,127 @@
         <location filename="../pages/GameTableStatsPage.qml" line="+151"/>
         <location line="+36"/>
         <source>Could not load table ranking (HTTP %1).</source>
-        <translation>Não foi possível carregar o ranking da mesa (HTTP %1).</translation>
+        <translation>Не удалось загрузить рейтинг стола (HTTP %1).</translation>
     </message>
     <message>
         <location line="-16"/>
         <source>Could not parse server response.</source>
-        <translation>Não foi possível interpretar a resposta do servidor.</translation>
+        <translation>Не удалось разобрать ответ сервера.</translation>
     </message>
     <message>
         <location line="+58"/>
         <source>Table ranking – %1</source>
-        <translation>Ranking da mesa – %1</translation>
+        <translation>Рейтинг стола – %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Table ranking</source>
-        <translation>Ranking da mesa</translation>
+        <translation>Рейтинг стола</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>Тип: %1</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Players: %1 / %2</source>
-        <translation>Jogadores: %1 / %2</translation>
+        <translation>Игроки: %1 / %2</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Small blind: %1</source>
-        <translation>Small blind: %1</translation>
+        <translation>Малый блайнд: %1</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Start cash: %1</source>
-        <translation>Capital inicial: %1</translation>
+        <translation>Начальная сумма: %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervalo de aumento dos blinds: %1 mãos</translation>
+        <translation>Интервал повышения блайндов: %1 раздач</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervalo de aumento dos blinds: %1 minutos</translation>
+        <translation>Интервал повышения блайндов: %1 мин.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modo de aumento dos blinds: %1</translation>
+        <translation>Режим повышения блайндов: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>double blinds</source>
-        <translation>duplo blinds</translation>
+        <translation>удвоение блайндов</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordem manual de blinds</translation>
+        <translation>ручной порядок блайндов</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Action time: %1 sec</source>
-        <translation>Tempo de ação: %1 seg</translation>
+        <translation>Время на ход: %1 с</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Hand delay: %1 sec</source>
-        <translation>Atraso entre mãos: %1 seg</translation>
+        <translation>Пауза между раздачами: %1 с</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Current BBC season standings of the players at this table.</source>
-        <translation>Ranking da temporada atual do BBC dos jogadores desta mesa.</translation>
+        <translation>Текущее положение игроков этого стола в сезоне BBC.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Current WEC month standings of the players at this table.</source>
-        <translation>Ranking do mês atual do WEC dos jogadores desta mesa.</translation>
+        <translation>Текущее положение игроков этого стола в месяце WEC.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Current season standings of the players at this table.</source>
-        <translation>Ranking da temporada atual dos jogadores desta mesa.</translation>
+        <translation>Текущее положение игроков этого стола в сезоне.</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>#</source>
-        <translation>#</translation>
+        <translation>№</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Player</source>
-        <translation>Jogador</translation>
+        <translation>Игрок</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Jogos</translation>
+        <translation>Игры</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Avg</source>
-        <translation>Média</translation>
+        <translation>Сред.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Points</source>
-        <translation>Pontos</translation>
+        <translation>Очки</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Score</source>
-        <translation>Pontuação</translation>
+        <translation>Счёт</translation>
     </message>
     <message>
         <location line="+138"/>
         <source>No ranking data for the players at this table yet.</source>
-        <translation>Ainda não há dados de ranking para os jogadores desta mesa.</translation>
+        <translation>Пока нет данных рейтинга для игроков этого стола.</translation>
     </message>
 </context>
 <context>
@@ -1010,208 +1011,208 @@
     <message>
         <location filename="../pages/GameWaitPage.qml" line="+241"/>
         <source>Players</source>
-        <translation>Jogadores</translation>
+        <translation>Игроки</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>search for player ...</source>
-        <translation>procurando por jogador...</translation>
+        <translation>поиск игрока ...</translation>
     </message>
     <message>
         <location line="+32"/>
         <location line="+310"/>
         <source>Sort alphabetically</source>
-        <translation>Sortear em ordem alfabetica</translation>
+        <translation>Сортировать по алфавиту</translation>
     </message>
     <message>
         <location line="-309"/>
         <location line="+310"/>
         <source>Sort by country</source>
-        <translation>Sortia por país</translation>
+        <translation>Сортировать по стране</translation>
     </message>
     <message>
         <location line="-309"/>
         <location line="+310"/>
         <source>Display idle players</source>
-        <translation>Mostrar jogadores inativos</translation>
+        <translation>Показывать бездействующих игроков</translation>
     </message>
     <message>
         <location line="-267"/>
         <location line="+687"/>
         <source>Game List</source>
-        <translation>Lista de jogos</translation>
+        <translation>Список игр</translation>
     </message>
     <message>
         <location line="-636"/>
         <location line="+648"/>
         <source>No game list filter</source>
-        <translation>Sem filtro de lista de jogos</translation>
+        <translation>Без фильтра списка игр</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open games</source>
-        <translation>Mostrar jogos abertos</translation>
+        <translation>Показывать открытые игры</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full games</source>
-        <translation>Mostrar jogos abertos e não cheios</translation>
+        <translation>Показывать открытые и незаполненные игры</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
-        <translation>Mostrar jogos abertos, não cheios e não privados</translation>
+        <translation>Показывать открытые, незаполненные и публичные игры</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; private games</source>
-        <translation>Mostrar jogos abertos, não cheios e privados</translation>
+        <translation>Показывать открытые, незаполненные и приватные игры</translation>
     </message>
     <message>
         <location line="-647"/>
         <location line="+648"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
-        <translation>Mostrar jogos abertos, não cheios e de ranking</translation>
+        <translation>Показывать открытые, незаполненные и рейтинговые игры</translation>
     </message>
     <message>
         <location line="-574"/>
         <source>Game Info</source>
-        <translation>Info de jogo</translation>
+        <translation>Информация об игре</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Waiting for the start of the next hand to rejoin the game</source>
-        <translation>Aguardando o início da próxima mão para voltar ao jogo</translation>
+        <translation>Ожидание начала следующей раздачи для возврата в игру</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Spectating — waiting for the next hand</source>
-        <translation>Assistindo — aguardando a próxima mão</translation>
+        <translation>Наблюдение — ожидание следующей раздачи</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Waiting for players</source>
-        <translation>Aguardando jogadores</translation>
+        <translation>Ожидание игроков</translation>
     </message>
     <message>
         <location line="+82"/>
         <source>Connected Players</source>
-        <translation>Jogadores Conectados</translation>
+        <translation>Подключённые игроки</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Players: %1 / %2</source>
-        <translation>Jogadores: %1 / %2</translation>
+        <translation>Игроки: %1 / %2</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>Тип: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Small blind: %1</source>
-        <translation>Small blind: %1</translation>
+        <translation>Малый блайнд: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Start cash: %1</source>
-        <translation>Capital inicial: %1</translation>
+        <translation>Начальная сумма: %1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervalo de aumento dos blinds: %1 mãos</translation>
+        <translation>Интервал повышения блайндов: %1 раздач</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervalo de aumento dos blinds: %1 minutos</translation>
+        <translation>Интервал повышения блайндов: %1 мин.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modo de aumento dos blinds: %1</translation>
+        <translation>Режим повышения блайндов: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>double blinds</source>
-        <translation>duplo blinds</translation>
+        <translation>удвоение блайндов</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordem manual de blinds</translation>
+        <translation>ручной порядок блайндов</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Action time: %1 sec</source>
-        <translation>Tempo de ação: %1 seg</translation>
+        <translation>Время на ход: %1 с</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Hand delay: %1 sec</source>
-        <translation>Atraso entre mãos: %1 seg</translation>
+        <translation>Пауза между раздачами: %1 с</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Players in game (%1)</source>
-        <translation>Jogadores no jogo (%1)</translation>
+        <translation>Игроки в игре (%1)</translation>
     </message>
     <message>
         <location line="-653"/>
         <location line="+745"/>
         <source>Kick player</source>
-        <translation>Expulsar jogador</translation>
+        <translation>Исключить игрока</translation>
     </message>
     <message>
         <location line="-744"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
-        <translation>Tem certeza de que deseja expulsar “%1” do jogo?</translation>
+        <translation>Вы действительно хотите исключить «%1» из игры?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kick</source>
-        <translation>Expulsar</translation>
+        <translation>Исключить</translation>
     </message>
     <message>
         <location line="+776"/>
         <source>Lobby Chat</source>
-        <translation>Chat do lobby</translation>
+        <translation>Чат лобби</translation>
     </message>
     <message>
         <location line="+73"/>
         <source>Guests cannot chat</source>
-        <translation>Convidados não podem usar o chat</translation>
+        <translation>Гости не могут писать в чат</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Type your message...</source>
-        <translation>Digite sua mensagem...</translation>
+        <translation>Введите сообщение...</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Fill up with computer players</source>
-        <translation>Completar com jogadores do computador</translation>
+        <translation>Дополнить компьютерными игроками</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Leave Game</source>
-        <translation>Deixar o Jogo</translation>
+        <translation>Покинуть игру</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Start Game</source>
-        <translation>Iniciar Jogo</translation>
+        <translation>Начать игру</translation>
     </message>
     <message>
         <location line="-88"/>
         <source>Suggest players</source>
-        <translation>Sugerir jogadores</translation>
+        <translation>Предложить игроков</translation>
     </message>
 </context>
 <context>
@@ -1219,32 +1220,32 @@
     <message>
         <location filename="../components/GlobalNoticePopup.qml" line="+58"/>
         <source>Global notice</source>
-        <translation>Aviso global</translation>
+        <translation>Общее объявление</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This message is shown to every player on the server, in the lobby and at the tables.</source>
-        <translation>Esta mensagem é exibida para todos os jogadores do servidor, no lobby e nas mesas.</translation>
+        <translation>Это сообщение увидит каждый игрок на сервере — в лобби и за столами.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Notice text …</source>
-        <translation>Texto do aviso …</translation>
+        <translation>Текст объявления …</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>%1 / %2 characters</source>
-        <translation>%1 / %2 caracteres</translation>
+        <translation>%1 / %2 символов</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Send</source>
-        <translation>Enviar</translation>
+        <translation>Отправить</translation>
     </message>
 </context>
 <context>
@@ -1252,157 +1253,157 @@
     <message>
         <location filename="../components/GuiSettings.qml" line="+20"/>
         <source>Benutzeroberfläche</source>
-        <translation>Interface do usuário</translation>
+        <translation>Интерфейс</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Allgemein</source>
-        <translation>Geral</translation>
+        <translation>Общие</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Netzwerk</source>
-        <translation>Rede</translation>
+        <translation>Сеть</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Dark Mode:</source>
-        <translation>Modo escuro:</translation>
+        <translation>Тёмная тема:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Automatisch</source>
-        <translation>Automático</translation>
+        <translation>Автоматически</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Hell</source>
-        <translation>Claro</translation>
+        <translation>Светлая</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Dunkel</source>
-        <translation>Escuro</translation>
+        <translation>Тёмная</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Sprache:</source>
-        <translation>Idioma:</translation>
+        <translation>Язык:</translation>
     </message>
     <message>
         <location line="+70"/>
         <source>Ausblend-Animation für Verliererkarten</source>
-        <translation>Animação de esmaecimento para cartas perdedoras</translation>
+        <translation>Анимация исчезновения карт проигравших</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Zeitstempel im Chat anzeigen</source>
-        <translation>Mostrar horário no chat</translation>
+        <translation>Показывать время в чате</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Übersetzung anbieten (Globus-Symbol im Chat und bei Forum-Beiträgen)</source>
-        <translation>Oferecer tradução (ícone de globo no chat e nas mensagens do fórum)</translation>
+        <translation>Предлагать перевод (значок глобуса в чате и в сообщениях форума)</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht oder eines Forum-Beitrags antippst; Zielsprache ist die oben gewählte Sprache.</source>
-        <translation>A tradução usa um serviço externo (Google Tradutor ou, como alternativa, o MyMemory). Nada é enviado até você tocar no ícone de uma mensagem ou de uma mensagem do fórum; o idioma de destino é o selecionado acima.</translation>
+        <translation>Для перевода используется внешняя служба (Google Переводчик, запасной вариант — MyMemory). Данные отправляются только когда вы нажимаете значок у сообщения или записи форума; язык перевода — выбранный выше.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Animierte Karten (Aufdeck-Animation)</source>
-        <translation>Cartas animadas (animação de revelação)</translation>
+        <translation>Анимация карт (вскрытие)</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Grafikeffekte reduzieren (Schatten/Glow) – für schwache Systeme</source>
-        <translation>Reduzir efeitos gráficos (sombra/brilho) – para sistemas mais fracos</translation>
+        <translation>Меньше графических эффектов (тени/свечение) — для слабых систем</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Alternative F-Tasten-Belegung (F1-F4)</source>
-        <translation>Atribuição alternativa das teclas F (F1-F4)</translation>
+        <translation>Альтернативная раскладка клавиш F1-F4</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Symbole für Small Blind und Big Blind anzeigen</source>
-        <translation>Mostrar ícones de Small Blind e Big Blind</translation>
+        <translation>Показывать значки малого и большого блайнда</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Pot-Prozent-Schaltflächen anzeigen</source>
-        <translation>Mostrar botões de porcentagem do pote</translation>
+        <translation>Показывать кнопки процента от банка</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Anti-Peek: Eigene Karten erst bei Klick anzeigen</source>
-        <translation>Anti-espiada: mostrar suas cartas somente ao clicar</translation>
+        <translation>Защита от подглядывания: показывать свои карты только по нажатию</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Startbildschirm beim Startvorgang deaktivieren</source>
-        <translation>Desativar tela inicial durante a inicialização</translation>
+        <translation>Не показывать заставку при запуске</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Internationale Pokerausdrücke (Check, Call, Raise) nicht übersetzen</source>
-        <translation>Não traduzir termos internacionais de pôquer (Check, Call, Raise)</translation>
+        <translation>Не переводить международные покерные термины (Check, Call, Raise)</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Tooltips anzeigen</source>
-        <translation>Mostrar dicas</translation>
+        <translation>Показывать подсказки</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
-        <translation>Ativar zoom da mesa (deslizar e ampliar, somente no modo mobile)</translation>
+        <translation>Включить масштабирование стола (свайп и зум, только мобильный режим)</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)</source>
-        <translation>Manter os lugares dos jogadores que saíram da mesa (as caixas dos jogadores restantes permanecem no lugar)</translation>
+        <translation>Сохранять места вышедших игроков за столом (остальные блоки игроков остаются на месте)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Forum-Neuigkeiten anzeigen</source>
-        <translation>Mostrar novidades do fórum</translation>
+        <translation>Показывать новости форума</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Community-Inhalte anzeigen</source>
-        <translation>Mostrar conteúdo da comunidade</translation>
+        <translation>Показывать материалы сообщества</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Standard-Community:</source>
-        <translation>Comunidade padrão:</translation>
+        <translation>Сообщество по умолчанию:</translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
-        <translation>Colocar o foco no campo de aposta quando for sua vez</translation>
+        <translation>Переводить фокус в поле ставки, когда наступает ваш ход</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen</source>
-        <translation>Mostrar cor de status de rede no canto do avatar</translation>
+        <translation>Показывать цвет состояния сети в углу аватара</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Emoji-Reaktionen deaktivieren</source>
-        <translation>Desativar reações com emoji</translation>
+        <translation>Отключить эмодзи-реакции</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Versehentliches Call nach einem großen Raise verhindern</source>
-        <translation>Evitar Call acidental após um grande Raise</translation>
+        <translation>Не допускать случайный колл после крупного рейза</translation>
     </message>
     <message>
         <location line="-31"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
-        <translation>Sugerir jogadores nos seus próprios jogos da comunidade</translation>
+        <translation>Предлагать игроков в собственных играх сообщества</translation>
     </message>
 </context>
 <context>
@@ -1410,157 +1411,157 @@
     <message>
         <location filename="../components/InternetGameSettings.qml" line="+19"/>
         <source>Internetspiel</source>
-        <translation>Jogo pela Internet</translation>
+        <translation>Интернет-игра</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Server-Konfiguration</source>
-        <translation>Configuração do servidor</translation>
+        <translation>Настройка сервера</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Automatische Server-Konfiguration</source>
-        <translation>Configuração automática do servidor</translation>
+        <translation>Автоматическая настройка сервера</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Manuelle Server-Konfiguration</source>
-        <translation>Configuração manual do servidor</translation>
+        <translation>Ручная настройка сервера</translation>
     </message>
     <message>
         <location line="-18"/>
         <source>Server-Liste:</source>
-        <translation>Lista de servidores:</translation>
+        <translation>Список серверов:</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Server-Adresse:</source>
-        <translation>Endereço do servidor:</translation>
+        <translation>Адрес сервера:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Server-Port:</source>
-        <translation>Porta do servidor:</translation>
+        <translation>Порт сервера:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Server-Passwort:</source>
-        <translation>Senha do servidor:</translation>
+        <translation>Пароль сервера:</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Nur registrierte Spieler</source>
-        <translation>Somente jogadores registrados</translation>
+        <translation>Только зарегистрированные игроки</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur eingeladene Spieler</source>
-        <translation>Somente jogadores convidados</translation>
+        <translation>Только приглашённые игроки</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranglistenspiel</source>
-        <translation>Jogo ranqueado</translation>
+        <translation>Рейтинговая игра</translation>
     </message>
     <message>
         <location line="+87"/>
         <source>Verbindungsoptionen</source>
-        <translation>Opções de conexão</translation>
+        <translation>Параметры подключения</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>TLS/SSL verwenden (verschlüsselte Verbindung)</source>
-        <translation>Usar TLS/SSL (conexão criptografada)</translation>
+        <translation>Использовать TLS/SSL (шифрованное соединение)</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>SCTP verwenden (statt TCP)</source>
-        <translation>Usar SCTP (em vez de TCP)</translation>
+        <translation>Использовать SCTP (вместо TCP)</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>IPv6 verwenden</source>
-        <translation>Usar IPv6</translation>
+        <translation>Использовать IPv6</translation>
     </message>
     <message>
         <location line="-52"/>
         <source>Avatar-Server</source>
-        <translation>Servidor de avatares</translation>
+        <translation>Сервер аватаров</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Avatar-Server verwenden</source>
-        <translation>Usar servidor de avatares</translation>
+        <translation>Использовать сервер аватаров</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avatar-Server-Adresse:</source>
-        <translation>Endereço do servidor de avatares:</translation>
+        <translation>Адрес сервера аватаров:</translation>
     </message>
     <message>
         <location line="-101"/>
         <source>Spiel-Einstellungen</source>
-        <translation>Configurações do jogo</translation>
+        <translation>Настройки игры</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Spiel-Name:</source>
-        <translation>Nome do jogo:</translation>
+        <translation>Название игры:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Spiel-Typ:</source>
-        <translation>Tipo de jogo:</translation>
+        <translation>Тип игры:</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Normal</source>
-        <translation>Normal</translation>
+        <translation>Обычная</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Spiel-Passwort verwenden</source>
-        <translation>Usar senha do jogo</translation>
+        <translation>Использовать пароль игры</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Spiel-Passwort:</source>
-        <translation>Senha do jogo:</translation>
+        <translation>Пароль игры:</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Zuschauer erlauben</source>
-        <translation>Permitir espectadores</translation>
+        <translation>Разрешить наблюдателей</translation>
     </message>
     <message>
         <location line="+84"/>
         <source>Tisch automatisch verlassen nach Spielende</source>
-        <translation>Sair da mesa automaticamente após o fim do jogo</translation>
+        <translation>Автоматически покидать стол после окончания игры</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>Weitere Optionen</source>
-        <translation>Mais opções</translation>
+        <translation>Дополнительные параметры</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Ignorierte Spieler</source>
-        <translation>Jogadores ignorados</translation>
+        <translation>Игнорируемые игроки</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>(keine ignorierten Spieler)</source>
-        <translation>(nenhum jogador ignorado)</translation>
+        <translation>(нет игнорируемых игроков)</translation>
     </message>
     <message>
         <location line="-45"/>
         <source>Spieler auf der Ignore-Liste werden nicht im Chat angezeigt.</source>
-        <translation>Jogadores na lista de ignorados não aparecem no chat.</translation>
+        <translation>Игроки из списка игнорируемых не отображаются в чате.</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Entfernen</source>
-        <translation>Remover</translation>
+        <translation>Убрать</translation>
     </message>
 </context>
 <context>
@@ -1568,149 +1569,149 @@
     <message>
         <location filename="../pages/LobbyCreateGamePage.qml" line="+314"/>
         <source>← Zurück</source>
-        <translation>← Voltar</translation>
+        <translation>← Назад</translation>
     </message>
     <message>
         <location line="+8"/>
         <location line="+455"/>
         <source>Spiel erstellen</source>
-        <translation>Criar jogo</translation>
+        <translation>Создать игру</translation>
     </message>
     <message>
         <location line="-426"/>
         <source>Spielname</source>
-        <translation>Nome do jogo</translation>
+        <translation>Название игры</translation>
     </message>
     <message>
         <location line="-205"/>
         <source>%1&apos;s game</source>
-        <translation>Jogo de %1</translation>
+        <translation>Игра %1</translation>
     </message>
     <message>
         <location line="+214"/>
         <source>Spielname eingeben …</source>
-        <translation>Digite o nome do jogo …</translation>
+        <translation>Введите название игры …</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Spieltyp</source>
-        <translation>Tipo de jogo</translation>
+        <translation>Тип игры</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Normal</source>
-        <translation>Normal</translation>
+        <translation>Обычная</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur registrierte Spieler</source>
-        <translation>Somente jogadores registrados</translation>
+        <translation>Только зарегистрированные игроки</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nur eingeladene Spieler</source>
-        <translation>Somente jogadores convidados</translation>
+        <translation>Только приглашённые игроки</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranglistenspiel</source>
-        <translation>Jogo ranqueado</translation>
+        <translation>Рейтинговая игра</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Community-Vorlage</source>
-        <translation>Modelo da comunidade</translation>
+        <translation>Шаблон сообщества</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Eigene Einstellungen</source>
-        <translation>Configurações personalizadas</translation>
+        <translation>Свои настройки</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Passwort</source>
-        <translation>Senha</translation>
+        <translation>Пароль</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Passwort eingeben …</source>
-        <translation>Digite a senha …</translation>
+        <translation>Введите пароль …</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Zuschauer erlaubt</source>
-        <translation>Espectadores permitidos</translation>
+        <translation>Наблюдатели разрешены</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Max. Spieler</source>
-        <translation>Máx. de jogadores</translation>
+        <translation>Макс. игроков</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Startgeld</source>
-        <translation>Capital inicial</translation>
+        <translation>Начальная сумма</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Blind-Einstellungen</source>
-        <translation>Configurações de blinds</translation>
+        <translation>Настройки блайндов</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Erster Small Blind</source>
-        <translation>Primeiro small blind</translation>
+        <translation>Начальный малый блайнд</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Blind-Erhöhungsintervall</source>
-        <translation>Intervalo de aumento dos blinds</translation>
+        <translation>Интервал повышения блайндов</translation>
     </message>
     <message>
         <location line="+22"/>
         <location line="+28"/>
         <source>Alle</source>
-        <translation>Todas</translation>
+        <translation>Каждые</translation>
     </message>
     <message>
         <location line="-17"/>
         <source>Hände</source>
-        <translation>Mãos</translation>
+        <translation>раздач</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Minuten</source>
-        <translation>Minutos</translation>
+        <translation>минут</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Blindliste: %1</source>
-        <translation>Lista de blinds: %1</translation>
+        <translation>Список блайндов: %1</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Zeitlimits</source>
-        <translation>Limites de tempo</translation>
+        <translation>Ограничения по времени</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Zeitlimit Spieleraktion</source>
-        <translation>Limite de tempo para ação do jogador</translation>
+        <translation>Время на ход игрока</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Pause zwischen Händen</source>
-        <translation>Pausa entre mãos</translation>
+        <translation>Пауза между раздачами</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Abbrechen</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Bitte einen Spielnamen eingeben.</source>
-        <translation>Por favor, insira um nome para o jogo.</translation>
+        <translation>Введите название игры.</translation>
     </message>
 </context>
 <context>
@@ -1719,172 +1720,172 @@
         <location filename="../cpp/lobbyhandler.cpp" line="+1441"/>
         <location line="+1347"/>
         <source>Guests cannot send chat messages</source>
-        <translation>Convidados não podem enviar mensagens no chat</translation>
+        <translation>Гости не могут отправлять сообщения в чат</translation>
     </message>
     <message>
         <location line="-1328"/>
         <location line="+1322"/>
         <source>Private messages are not available at the table.</source>
-        <translation>Mensagens privadas não estão disponíveis na mesa.</translation>
+        <translation>Личные сообщения недоступны за столом.</translation>
     </message>
     <message>
         <location line="-1316"/>
         <source>Player not found</source>
-        <translation>Jogador não encontrado</translation>
+        <translation>Игрок не найден</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Failed to send chat message</source>
-        <translation>Falha ao enviar mensagem no chat</translation>
+        <translation>Не удалось отправить сообщение в чат</translation>
     </message>
     <message>
         <location line="+98"/>
         <source>The avatar report was accepted by the server. Thank you.</source>
-        <translation>O reporte de avatar foi aceito pelo servidor. Obrigado.</translation>
+        <translation>Сообщение об аватаре принято сервером. Спасибо.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This avatar was already reported by another player.</source>
-        <translation>Este avatar foi reportado por outro jogador.</translation>
+        <translation>Об этом аватаре уже сообщил другой игрок.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An error occurred while reporting the avatar.</source>
-        <translation>Um erro ocorreu durante o reporte de avatar.</translation>
+        <translation>Произошла ошибка при отправке жалобы на аватар.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name report was accepted by the server. Thank you.</source>
-        <translation>O reporte do nome do jogo foi aceito pelo servidor. Obrigado.</translation>
+        <translation>Сообщение о названии игры принято сервером. Спасибо.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game name was already reported by another player.</source>
-        <translation>Este nome de jogo já foi reportado por outro jogador.</translation>
+        <translation>Об этом названии игры уже сообщил другой игрок.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An error occurred while reporting the game name.</source>
-        <translation>Um erro foi encontrado durante o reporte do nome do jogo.</translation>
+        <translation>Произошла ошибка при отправке жалобы на название игры.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game was closed.</source>
-        <translation>O jogo foi fechado.</translation>
+        <translation>Игра была закрыта.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be closed.</source>
-        <translation>O jogo não pode ser fechado.</translation>
+        <translation>Не удалось закрыть игру.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked and banned permanently.</source>
-        <translation>O jogador foi chutado e banido permanentemente.</translation>
+        <translation>Игрок был исключён и заблокирован навсегда.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked, but could not be banned because it was a guest player.</source>
-        <translation>O jogador foi chutado, mas não pode ser banido porque é um jogador convidado.</translation>
+        <translation>Игрок был исключён, но не заблокирован, так как является гостем.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player was kicked, but could not be banned, 
 because the nick could not be found in the database</source>
-        <translation>O jogador foi chutado, mas não pode ser banido,
-porque o apelido não pode ser encontrado na data base</translation>
+        <translation>Игрок был исключён, но не заблокирован, 
+так как его ник не найден в базе данных</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player could not be found.</source>
-        <translation>O jogador não pode ser encontrado.</translation>
+        <translation>Игрок не найден.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The global notice was sent to all players.</source>
-        <translation>O aviso global foi enviado para todos os jogadores.</translation>
+        <translation>Общее объявление отправлено всем игрокам.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The global notice was rejected by the server.</source>
-        <translation>O aviso global foi rejeitado pelo servidor.</translation>
+        <translation>Сервер отклонил общее объявление.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>You cannot join this game, because another player in that game has your network address.</source>
-        <translation>Você não pode entrar neste jogo, porque outro jogador tem o mesmo endereço de rede que você.</translation>
+        <translation>Вы не можете присоединиться к этой игре, потому что у другого игрока в ней такой же сетевой адрес.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Sorry, this game is already full.</source>
-        <translation>Desculpe, este jogo está cheio.</translation>
+        <translation>Извините, все места в этой игре уже заняты.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Unable to join - the server has already started the game.</source>
-        <translation>Impossível entrar - o servidor já começou o jogo.</translation>
+        <translation>Подключение невозможно — сервер уже начал игру.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game is of type invite-only. You cannot join this game without being invited.</source>
-        <translation>Este jogo e apenas para convite. Você nao pode entrar neste jogo sem ser convidado.</translation>
+        <translation>Эта игра только для приглашённых игроков. Без приглашения присоединиться нельзя.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game name is already in use. Please choose a different name.</source>
-        <translation>Este nome de jogo já está em uso. Escolha um nome diferente.</translation>
+        <translation>Это название игры уже занято. Выберите другое название.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name is invalid. Please choose a different name.</source>
-        <translation>O nome do jogo é inválido. Escolha um nome diferente.</translation>
+        <translation>Недопустимое название игры. Выберите другое название.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
-        <translation>Senha inválida ao tentar entrar no jogo.
-Por favor redigite a senha e tente novamente.</translation>
+        <translation>Неверный пароль при подключении к игре.
+Введите пароль заново и попробуйте снова.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You cannot join this type of game as guest.</source>
-        <translation>Você não pode entrar neste jogo como convidado.</translation>
+        <translation>Вы не можете присоединиться к игре этого типа в качестве гостя.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The settings are invalid for this type of game.</source>
-        <translation>As configurações estão invalidas para este tipo de jogo.</translation>
+        <translation>Настройки недопустимы для игры этого типа.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This game does not allow spectators.</source>
-        <translation>Este jogo não permite espectadores.</translation>
+        <translation>В этой игре наблюдатели не разрешены.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Could not join the game.</source>
-        <translation>Não foi possível entrar no jogo.</translation>
+        <translation>Не удалось присоединиться к игре.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Your connection to the server is very slow, the game had to start without you.</source>
-        <translation>Sua conexão com o servidor está muito lenta, o jogo teve que começar sem você.</translation>
+        <translation>Ваше соединение с сервером слишком медленное, игра началась без вас.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were kicked from the game.</source>
-        <translation>Você foi expulso do jogo.</translation>
+        <translation>Вы были исключены из игры.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>You were removed due to inactivity.</source>
-        <translation>Você foi removido por inatividade.</translation>
+        <translation>Вы были удалены из-за бездействия.</translation>
     </message>
     <message>
         <location line="+581"/>
         <source>%1 is not in the lobby at the moment.</source>
-        <translation>%1 não está no lobby no momento.</translation>
+        <translation>%1 сейчас не в лобби.</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -1898,72 +1899,72 @@ Por favor redigite a senha e tente novamente.</translation>
         <location line="+11"/>
         <location line="+11"/>
         <source>Not connected to server</source>
-        <translation>Não conectado ao servidor</translation>
+        <translation>Нет подключения к серверу</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>%1 has been invited to %2 by %3.</source>
-        <translation>%1 foi convidado para %2 por %3.</translation>
+        <translation>%3 пригласил %1 в %2.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>%1 has rejected the invitation to %2.</source>
-        <translation>%1 recusou o convite para %2.</translation>
+        <translation>%1 отклонил приглашение в %2.</translation>
     </message>
     <message>
         <location line="+79"/>
         <source>Guests cannot receive private messages.</source>
-        <translation>Convidados não podem receber mensagens privadas.</translation>
+        <translation>Гости не могут получать личные сообщения.</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Private message to %1:</source>
-        <translation>Mensagem privada para %1:</translation>
+        <translation>Личное сообщение для %1:</translation>
     </message>
     <message>
         <location line="+96"/>
         <source>Registered players only</source>
-        <translation>Jogadores registrados apenas</translation>
+        <translation>Только зарегистрированные игроки</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invited players only</source>
-        <translation>Jogadores convidados apenas</translation>
+        <translation>Только приглашённые игроки</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranking game</source>
-        <translation>Raking do jogo</translation>
+        <translation>Рейтинговая игра</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Standard</source>
-        <translation>Padrão</translation>
+        <translation>Стандартная</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Running</source>
-        <translation>Em andamento</translation>
+        <translation>Идёт</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Closed</source>
-        <translation>Fechado</translation>
+        <translation>Закрыта</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open</source>
-        <translation>Aberto</translation>
+        <translation>Открыта</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Full</source>
-        <translation>Cheio</translation>
+        <translation>Заполнена</translation>
     </message>
     <message>
         <location line="-221"/>
         <source>%1 cannot join %2 because he is busy.</source>
-        <translation>%1 não pode entrar em %2 porque está ocupado.</translation>
+        <translation>%1 не может присоединиться к %2, так как занят.</translation>
     </message>
 </context>
 <context>
@@ -1971,334 +1972,335 @@ Por favor redigite a senha e tente novamente.</translation>
     <message>
         <location filename="../pages/LobbyPage.qml" line="+1545"/>
         <source>Game invitation</source>
-        <translation>Convite para o jogo</translation>
+        <translation>Приглашение в игру</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
-        <translation>Você foi convidade para o jogo &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Você gostaria de entrar neste jogo?</translation>
+        <translation>Игрок &lt;b&gt;%2&lt;/b&gt; пригласил вас в игру &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Хотите присоединиться?</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Decline</source>
-        <translation>Recusar</translation>
+        <translation>Отклонить</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Join</source>
-        <translation>Entrar</translation>
+        <translation>Присоединиться</translation>
     </message>
     <message>
         <location line="-502"/>
         <source>Create Game</source>
-        <translation>Criar Jogo</translation>
+        <translation>Создать игру</translation>
     </message>
     <message>
         <location line="-746"/>
         <location line="+804"/>
         <source>Game Info</source>
-        <translation>Info de jogo</translation>
+        <translation>Информация об игре</translation>
     </message>
     <message>
         <location line="-534"/>
         <location line="+483"/>
         <source>Join Game</source>
-        <translation>Entrar no Jogo</translation>
+        <translation>Присоединиться к игре</translation>
     </message>
     <message>
         <location line="-273"/>
         <source>Game List</source>
-        <translation>Lista de jogos</translation>
+        <translation>Список игр</translation>
     </message>
     <message>
         <location line="+73"/>
         <source>Time: %1s/%2s</source>
-        <translation>Tempo: %1s/%2s</translation>
+        <translation>Время: %1 с/%2 с</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Private</source>
-        <translation>Privado</translation>
+        <translation>Приватная</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Public</source>
-        <translation>Público</translation>
+        <translation>Публичная</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Ranking</source>
-        <translation>Ranking</translation>
+        <translation>Рейтинг</translation>
     </message>
     <message>
         <location line="+115"/>
         <location line="+287"/>
         <source>Lobby Chat</source>
-        <translation>Chat do lobby</translation>
+        <translation>Чат лобби</translation>
     </message>
     <message>
         <location line="-613"/>
         <source>No game list filter</source>
-        <translation>Sem filtro de lista de jogos</translation>
+        <translation>Без фильтра списка игр</translation>
     </message>
     <message>
         <location line="+375"/>
         <source>Player: %1</source>
-        <translation>Jogador: %1</translation>
+        <translation>Игрок: %1</translation>
     </message>
     <message>
         <location line="-896"/>
         <source>Players</source>
-        <translation>Jogadores</translation>
+        <translation>Игроки</translation>
     </message>
     <message>
         <location line="+1010"/>
         <source>Select a game to see details</source>
-        <translation>Selecione um jogo para ver os detalhes</translation>
+        <translation>Выберите игру, чтобы увидеть подробности</translation>
     </message>
     <message>
         <location line="-486"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
-        <translation>Mostrar jogos abertos, não cheios e não privados</translation>
+        <translation>Показывать открытые, незаполненные и публичные игры</translation>
     </message>
     <message>
         <location line="-627"/>
         <source>Report game name</source>
-        <translation>Reportar nome do jogo</translation>
+        <translation>Жалоба на название игры</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure you want to report the game name:
 &quot;%1&quot; as inappropriate?</source>
-        <translation>Tem certeza que deseja reportar o nome do jogo &quot;%1&quot; como inapropriado?</translation>
+        <translation>Вы действительно хотите сообщить, что название игры:
+«%1» является недопустимым?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Report</source>
-        <translation>Reportar</translation>
+        <translation>Сообщить</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Spectate</source>
-        <translation>Assistir</translation>
+        <translation>Наблюдать</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+3"/>
         <source>Close game</source>
-        <translation>Fechar Jogo</translation>
+        <translation>Закрыть игру</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
-        <translation>Você tem certeza que deseja fechar o jogo:
-&quot;%1&quot;?</translation>
+        <translation>Вы действительно хотите закрыть игру:
+«%1»?</translation>
     </message>
     <message>
         <location line="+169"/>
         <location line="+510"/>
         <source>Sort alphabetically</source>
-        <translation>Sortear em ordem alfabetica</translation>
+        <translation>Сортировать по алфавиту</translation>
     </message>
     <message>
         <location line="-509"/>
         <location line="+510"/>
         <source>Sort by country</source>
-        <translation>Sortia por país</translation>
+        <translation>Сортировать по стране</translation>
     </message>
     <message>
         <location line="-509"/>
         <location line="+510"/>
         <source>Display idle players</source>
-        <translation>Mostrar jogadores inativos</translation>
+        <translation>Показывать бездействующих игроков</translation>
     </message>
     <message>
         <location line="-423"/>
         <location line="+799"/>
         <source>Report inappropriate game name</source>
-        <translation>Reportar nome de jogo inapropriado</translation>
+        <translation>Сообщить о недопустимом названии игры</translation>
     </message>
     <message>
         <location line="-791"/>
         <location line="+798"/>
         <source>Close game (admin)</source>
-        <translation>Fechar jogo (admin)</translation>
+        <translation>Закрыть игру (админ)</translation>
     </message>
     <message>
         <location line="-761"/>
         <source>Players: %1 / %2</source>
-        <translation>Jogadores: %1 / %2</translation>
+        <translation>Игроки: %1 / %2</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Status: %1</source>
-        <translation>Status: %1</translation>
+        <translation>Состояние: %1</translation>
     </message>
     <message>
         <location line="+33"/>
         <location line="+742"/>
         <source>Type: %1</source>
-        <translation>Tipo: %1</translation>
+        <translation>Тип: %1</translation>
     </message>
     <message>
         <location line="-731"/>
         <source>Small blind: %1</source>
-        <translation>Small blind: %1</translation>
+        <translation>Малый блайнд: %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Start cash: %1</source>
-        <translation>Capital inicial: %1</translation>
+        <translation>Начальная сумма: %1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds raise interval: %1 hands</source>
-        <translation>Intervalo de aumento dos blinds: %1 mãos</translation>
+        <translation>Интервал повышения блайндов: %1 раздач</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blinds raise interval: %1 minutes</source>
-        <translation>Intervalo de aumento dos blinds: %1 minutos</translation>
+        <translation>Интервал повышения блайндов: %1 мин.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Blinds raise mode: %1</source>
-        <translation>Modo de aumento dos blinds: %1</translation>
+        <translation>Режим повышения блайндов: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>double blinds</source>
-        <translation>duplo blinds</translation>
+        <translation>удвоение блайндов</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>ordem manual de blinds</translation>
+        <translation>ручной порядок блайндов</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Blinds list: %1</source>
-        <translation>Lista de blinds: %1</translation>
+        <translation>Список блайндов: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Game timing: %1 sec (action)
 %2 sec (hand delay)</source>
-        <translation>Tempo de jogo: %1 seg (ação)
-%2 seg (atraso entre mãos)</translation>
+        <translation>Тайминг игры: %1 с (ход)
+%2 с (пауза между раздачами)</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+690"/>
         <source>Players in game (%1)</source>
-        <translation>Jogadores no jogo (%1)</translation>
+        <translation>Игроки в игре (%1)</translation>
     </message>
     <message>
         <location line="-605"/>
         <location line="+483"/>
         <source>Leave Game</source>
-        <translation>Deixar o Jogo</translation>
+        <translation>Покинуть игру</translation>
     </message>
     <message>
         <location line="-386"/>
         <source>Show open &amp; non-full &amp; private games</source>
-        <translation>Mostrar jogos abertos, não cheios e privados</translation>
+        <translation>Показывать открытые, незаполненные и приватные игры</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
-        <translation>Mostrar jogos abertos, não cheios e de ranking</translation>
+        <translation>Показывать открытые, незаполненные и рейтинговые игры</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Connected Players</source>
-        <translation>Jogadores Conectados</translation>
+        <translation>Подключённые игроки</translation>
     </message>
     <message>
         <location line="-658"/>
         <location line="+846"/>
         <source>Spectate game</source>
-        <translation>Assistir ao jogo</translation>
+        <translation>Наблюдать за игрой</translation>
     </message>
     <message>
         <location line="-845"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
-        <translation>Tem certeza de que deseja assistir ao jogo:
-&quot;%1&quot;?</translation>
+        <translation>Вы действительно хотите наблюдать за игрой:
+«%1»?</translation>
     </message>
     <message>
         <location line="+950"/>
         <location line="+287"/>
         <source>Global notice (admin)</source>
-        <translation>Aviso global (admin)</translation>
+        <translation>Общее объявление (админ)</translation>
     </message>
     <message>
         <location line="-124"/>
         <source>SB: %1 | Start cash: %2</source>
-        <translation>SB: %1 | Capital inicial: %2</translation>
+        <translation>МБ: %1 | Начальная сумма: %2</translation>
     </message>
     <message>
         <location line="+272"/>
         <source>Privates Spiel</source>
-        <translation>Jogo privado</translation>
+        <translation>Приватная игра</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Bitte das Passwort eingeben, um beizutreten.</source>
-        <translation>Digite a senha para entrar.</translation>
+        <translation>Введите пароль, чтобы присоединиться.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Passwort …</source>
-        <translation>Senha …</translation>
+        <translation>Пароль …</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Abbrechen</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Beitreten</source>
-        <translation>Entrar</translation>
+        <translation>Присоединиться</translation>
     </message>
     <message>
         <location line="+141"/>
         <source>Rejoin possible</source>
-        <translation>Possível reentrar</translation>
+        <translation>Можно вернуться в игру</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>There is an existing session with a previous game.&lt;br&gt;Do you want to rejoin this game?</source>
-        <translation>Existe uma sessão com um jogo anterior.&lt;br&gt;Você gostaria de reentrar neste jogo?</translation>
+        <translation>Есть сохранённая сессия предыдущей игры.&lt;br&gt;Хотите вернуться в эту игру?</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>No</source>
-        <translation>Não</translation>
+        <translation>Нет</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Rejoin</source>
-        <translation>Reentrar</translation>
+        <translation>Вернуться</translation>
     </message>
     <message>
         <location line="-976"/>
         <source>Show open &amp; non-full games</source>
-        <translation>Mostrar jogos abertos e não cheios</translation>
+        <translation>Показывать открытые и незаполненные игры</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Show open games</source>
-        <translation>Mostrar jogos abertos</translation>
+        <translation>Показывать открытые игры</translation>
     </message>
     <message>
         <location line="-473"/>
         <location line="+452"/>
         <source>search for player ...</source>
-        <translation>procurando por jogador...</translation>
+        <translation>поиск игрока ...</translation>
     </message>
 </context>
 <context>
@@ -2306,22 +2308,22 @@ Por favor redigite a senha e tente novamente.</translation>
     <message>
         <location filename="../components/LobbyStatsBar.qml" line="+23"/>
         <source>%1 players · %2 running · %3 open</source>
-        <translation>%1 jogadores · %2 em andamento · %3 abertos</translation>
+        <translation>Игроков: %1 · идёт: %2 · открыто: %3</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>connected players: %1</source>
-        <translation>jogadores conectados: %1</translation>
+        <translation>Подключённых игроков: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>running games: %1</source>
-        <translation>partidas em jogo: %1</translation>
+        <translation>Текущих игр: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>open games: %1</source>
-        <translation>partidas abertas: %1</translation>
+        <translation>Открытых игр: %1</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2334,120 +2336,120 @@ Por favor redigite a senha e tente novamente.</translation>
     <message>
         <location filename="../pages/LocalGamePage.qml" line="+27"/>
         <source>alle %1 Hände</source>
-        <translation>a cada %1 mãos</translation>
+        <translation>каждые %1 раздач</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>alle %1 Minuten</source>
-        <translation>a cada %1 minutos</translation>
+        <translation>каждые %1 минут</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>verdoppeln</source>
-        <translation>dobrar</translation>
+        <translation>удвоение</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>manuell</source>
-        <translation>manual</translation>
+        <translation>вручную</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Small Blind: $%1  •  Erhöhen %2  •  %3</source>
-        <translation>Small Blind: $%1  •  Aumento %2  •  %3</translation>
+        <translation>Малый блайнд: $%1  •  повышение %2  •  %3</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Lokales Spiel</source>
-        <translation>Jogo local</translation>
+        <translation>Локальная игра</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Lokale Spiel-Einstellungen</source>
-        <translation>Configurações de jogo local</translation>
+        <translation>Настройки локальной игры</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Número de jogadores:</translation>
+        <translation>Количество игроков:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Startkapital:</source>
-        <translation>Capital inicial:</translation>
+        <translation>Начальная сумма:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Blinds</source>
-        <translation>Blinds</translation>
+        <translation>Блайнды</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Gespeicherte Blinds-Einstellungen verwenden</source>
-        <translation>Usar configurações de blinds salvas</translation>
+        <translation>Использовать сохранённые настройки блайндов</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Blinds-Einstellungen ändern …</source>
-        <translation>Alterar configurações de blinds …</translation>
+        <translation>Изменить настройки блайндов …</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Erster Small Blind:</source>
-        <translation>Primeiro small blind:</translation>
+        <translation>Начальный малый блайнд:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Small Blind erhöhen:</source>
-        <translation>Aumentar small blind:</translation>
+        <translation>Повышать малый блайнд:</translation>
     </message>
     <message>
         <location line="+13"/>
         <location line="+24"/>
         <source>alle</source>
-        <translation>a cada</translation>
+        <translation>каждые</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Hände</source>
-        <translation>Mãos</translation>
+        <translation>раздач</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Minuten</source>
-        <translation>Minutos</translation>
+        <translation>минут</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Erhöhungsmodus:</source>
-        <translation>Modo de aumento:</translation>
+        <translation>Режим повышения:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Sempre dobrar os blinds</translation>
+        <translation>Всегда удваивать блайнды</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordem manual dos blinds</translation>
+        <translation>Ручной порядок блайндов</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
-        <translation>Velocidade do jogo
-(1=lento, 11=rápido):</translation>
+        <translation>Скорость игры
+(1 = медленно, 11 = быстро):</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Abbrechen</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Spiel starten</source>
-        <translation>Iniciar jogo</translation>
+        <translation>Начать игру</translation>
     </message>
 </context>
 <context>
@@ -2455,147 +2457,147 @@ Por favor redigite a senha e tente novamente.</translation>
     <message>
         <location filename="../components/LocalGameSettings.qml" line="+55"/>
         <source>Lokales Spiel</source>
-        <translation>Jogo local</translation>
+        <translation>Локальная игра</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Spieler &amp; Startkapital</source>
-        <translation>Jogadores e capital inicial</translation>
+        <translation>Игроки и начальная сумма</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Número de jogadores:</translation>
+        <translation>Количество игроков:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Startkapital:</source>
-        <translation>Capital inicial:</translation>
+        <translation>Начальная сумма:</translation>
     </message>
     <message>
         <location line="+351"/>
         <source>Spiel-Einstellungsdialog bei neuem Spiel anzeigen</source>
-        <translation>Mostrar diálogo de configurações ao criar um novo jogo</translation>
+        <translation>Показывать диалог настроек при новой игре</translation>
     </message>
     <message>
         <location line="-313"/>
         <source>Blinds erhöhen</source>
-        <translation>Aumentar blinds</translation>
+        <translation>Повышение блайндов</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Blind-Erhöhungsreihenfolge</source>
-        <translation>Ordem de aumento dos blinds</translation>
+        <translation>Порядок повышения блайндов</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>Blinds bei Anzahl der Hände erhöhen</source>
-        <translation>Aumentar blinds pelo número de mãos</translation>
+        <translation>Повышать блайнды по числу раздач</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Blinds zeitbasiert erhöhen</source>
-        <translation>Aumentar blinds com base no tempo</translation>
+        <translation>Повышать блайнды по времени</translation>
     </message>
     <message>
         <location line="+57"/>
         <location line="+101"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Sempre dobrar os blinds</translation>
+        <translation>Всегда удваивать блайнды</translation>
     </message>
     <message>
         <location line="-88"/>
         <location line="+14"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordem manual dos blinds</translation>
+        <translation>Ручной порядок блайндов</translation>
     </message>
     <message>
         <location line="-158"/>
         <source>Erster Small Blind:</source>
-        <translation>Primeiro small blind:</translation>
+        <translation>Начальный малый блайнд:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
         <source>Small Blind erhöhen alle:</source>
-        <translation>Aumentar small blind a cada:</translation>
+        <translation>Повышать малый блайнд каждые:</translation>
     </message>
     <message>
         <location line="-25"/>
         <source>Hände</source>
-        <translation>Mãos</translation>
+        <translation>раздач</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Minuten</source>
-        <translation>Minutos</translation>
+        <translation>минут</translation>
     </message>
     <message>
         <location line="+100"/>
         <source>Hinzufügen</source>
-        <translation>Adicionar</translation>
+        <translation>Добавить</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Löschen</source>
-        <translation>Excluir</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Danach:</source>
-        <translation>Depois:</translation>
+        <translation>Затем:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Immer erhöhen um:</source>
-        <translation>Sempre aumentar em:</translation>
+        <translation>Всегда повышать на:</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Letzten Blind beibehalten</source>
-        <translation>Manter o último blind</translation>
+        <translation>Придерживаться последнего блайнда</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Spielgeschwindigkeit</source>
-        <translation>Velocidade do jogo</translation>
+        <translation>Скорость игры</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
-        <translation>Velocidade do jogo
-(1=lento, 11=rápido):</translation>
+        <translation>Скорость игры
+(1 = медленно, 11 = быстро):</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Pause zwischen den Händen</source>
-        <translation>Pausa entre as mãos</translation>
+        <translation>Пауза между раздачами</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Computerspieler</source>
-        <translation>Jogadores do computador</translation>
+        <translation>Компьютерные игроки</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Spielstärke:</source>
-        <translation>Nível de jogo:</translation>
+        <translation>Уровень игры:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Klassisch</source>
-        <translation>Clássico</translation>
+        <translation>Классический</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Stark</source>
-        <translation>Forte</translation>
+        <translation>Сильный</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</source>
-        <translation>Vale para jogos locais. Em jogos em rede, o servidor determina a força dos seus jogadores do computador.</translation>
+        <translation>Действует для локальных игр. В сетевых играх уровень своих компьютерных игроков определяет сервер.</translation>
     </message>
 </context>
 <context>
@@ -2603,102 +2605,102 @@ Por favor redigite a senha e tente novamente.</translation>
     <message>
         <location filename="../cpp/loghandler.cpp" line="+361"/>
         <source>Export PokerTH log file to HTML</source>
-        <translation>Exportar arquivo log em HTML do PokerTH</translation>
+        <translation>Экспорт файла журнала PokerTH в HTML</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH HTML log (*.html)</source>
-        <translation>Log PokerTH HTML(*.html)</translation>
+        <translation>Файл журнала PokerTH в формате HTML (*.html)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Export PokerTH log file to plain text</source>
-        <translation>Exportar arquivo log do PokerTH em formato texto</translation>
+        <translation>Экспорт файла журнала PokerTH в обычный текст</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH plain text log (*.txt)</source>
-        <translation>Log PokerTH texto(*.txt)</translation>
+        <translation>Файл журнала PokerTH в текстовом формате (*.txt)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Save PokerTH log file</source>
-        <translation>Salvar arquivo log PokerTH </translation>
+        <translation>Сохранить файл журнала PokerTH</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH SQL log (*.pdb)</source>
-        <translation>PokerTH log SQL &quot;*.pdb)</translation>
+        <translation>Файл журнала PokerTH в формате SQL (*.pdb)</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>… (showing the last %1 KB of the log)</source>
-        <translation>… (mostrando os últimos %1 KB do log)</translation>
+        <translation>… (показаны последние %1 КБ журнала)</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Save PokerTH debug log</source>
-        <translation>Salvar log de depuração do PokerTH</translation>
+        <translation>Сохранить отладочный журнал PokerTH</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PokerTH debug log (*.log)</source>
-        <translation>Log de depuração do PokerTH (*.log)</translation>
+        <translation>Отладочный журнал PokerTH (*.log)</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Log file not found.</source>
-        <translation>Arquivo de log não encontrado.</translation>
+        <translation>Файл журнала не найден.</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Processing of the log file on the web server failed.
 Please verify that you are uploading a valid PokerTH log file.</source>
-        <translation>Processando o arquivo de log na falha do servidor web.
-Por Favor, verifique se você está enviando o arquivo de log valido do PokerTH.</translation>
+        <translation>Не удалось выполнить обработку файла журнала на веб-сервере.
+Убедитесь, что отправляете корректный файл журнала PokerTH.</translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+30"/>
         <source>Failure reason: </source>
-        <translation>Razão da Falha: </translation>
+        <translation>Причина сбоя: </translation>
     </message>
     <message>
         <location line="-27"/>
         <source>No file received.</source>
-        <translation>Nenhuma arquivo recebido.</translation>
+        <translation>Не получены файлы.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>File rejected because of too many uploads.</source>
-        <translation>Arquivo rejeitado por ter muitas tentativas de envio.</translation>
+        <translation>Файл отклонён из-за слишком большого количества отправок.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>File rejected because of too many recent uploads. Please try again later.</source>
-        <translation>Arquivo rejeitado por ter muitas envios recentemente. Por favor tente novamente mais tarde.</translation>
+        <translation>Файл отклонён из-за слишком большого количества недавних отправок. Повторите попытку позже.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The file is too large.</source>
-        <translation>Este arquivo é muito grande.</translation>
+        <translation>Этот файл слишком велик.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This file is not a valid and current PokerTH log file.</source>
-        <translation>Este arquivo não é valido ou corrente do log do PokerTH</translation>
+        <translation>Этот файл не является корректным текущим файлом журнала PokerTH.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Internal error. Please try again later. ID: </source>
-        <translation>Erro Interno. Por favor Tente novamente mais tarde. ID: </translation>
+        <translation>Внутренняя ошибка. Повторите попытку позже. Идентификатор: </translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Upload failed. Please check your internet connection!
 Uploading log files may fail if you are using an http proxy.</source>
-        <translation>Envio falhou. Por favor verificar sua conexão com internet!
-Enviar arquivos de log pode gerar problemas ao usar http proxy.</translation>
+        <translation>Не удалось выполнить отправку. Проверьте своё подключение к Интернету!
+Использование HTTP-прокси может приводить к сбою отправки файлов журнала.</translation>
     </message>
 </context>
 <context>
@@ -2706,73 +2708,73 @@ Enviar arquivos de log pode gerar problemas ao usar http proxy.</translation>
     <message>
         <location filename="../pages/LogsPage.qml" line="+86"/>
         <source>Logs</source>
-        <translation>Logs</translation>
+        <translation>Журналы</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Game:</source>
-        <translation>Jogo:</translation>
+        <translation>Игра:</translation>
     </message>
     <message>
         <location line="+85"/>
         <source>Preview:</source>
-        <translation>Pré-Visualizar:</translation>
+        <translation>Предпросмотр:</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Export as HTML</source>
-        <translation>Exportar como HTML</translation>
+        <translation>Экспорт в HTML</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Export as txt</source>
-        <translation>Exportar como txt</translation>
+        <translation>Экспорт в txt</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+133"/>
         <source>Save as ...</source>
-        <translation>Salvar como ...</translation>
+        <translation>Сохранить как ...</translation>
     </message>
     <message>
         <location line="-127"/>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Show debug log</source>
-        <translation>Mostrar log de depuração</translation>
+        <translation>Показать отладочный журнал</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Analyse Logfile ...</source>
-        <translation>Analisar Arquivo de log ...</translation>
+        <translation>Проанализировать файл журнала ...</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>PokerTH - Delete log files</source>
-        <translation>PokerTH - Delete log files</translation>
+        <translation>PokerTH — удаление файлов журнала</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Do you really want to delete the selected log files?</source>
-        <translation>Você realmente quer apagar o arquivo de logs selecionado?</translation>
+        <translation>Вы действительно хотите удалить выбранные файлы журнала?</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Uploading log file</source>
-        <translation>Enviando o Arquivo de Log</translation>
+        <translation>Отправка файла журнала</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Debug log</source>
-        <translation>Log de depuração</translation>
+        <translation>Отладочный журнал</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Refresh</source>
-        <translation>Atualizar</translation>
+        <translation>Обновить</translation>
     </message>
 </context>
 <context>
@@ -2780,74 +2782,74 @@ Enviar arquivos de log pode gerar problemas ao usar http proxy.</translation>
     <message>
         <location filename="../components/LogsSettings.qml" line="+25"/>
         <source>Log-Nachrichten</source>
-        <translation>Mensagens de log</translation>
+        <translation>Сообщения журнала</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Log-Einstellungen</source>
-        <translation>Configurações de log</translation>
+        <translation>Настройки журнала</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Logging aktivieren</source>
-        <translation>Ativar log</translation>
+        <translation>Включить ведение журнала</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Log-Verzeichnis:</source>
-        <translation>Diretório de log:</translation>
+        <translation>Каталог журналов:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Durchsuchen...</source>
-        <translation>Procurar...</translation>
+        <translation>Обзор...</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Log-Verzeichnis auswählen</source>
-        <translation>Selecionar diretório de log</translation>
+        <translation>Выбор каталога журналов</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Log-Verzeichnis</source>
-        <translation>Diretório de log</translation>
+        <translation>Каталог журналов</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Das Log-Verzeichnis wurde geändert.
 Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
-        <translation>O diretório de log foi alterado.
-Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
+        <translation>Каталог журналов изменён.
+Перезапустите PokerTH, чтобы файлы журнала сохранялись туда.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>ОК</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Log-Intervall:</source>
-        <translation>Intervalo de log:</translation>
+        <translation>Интервал записи:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Jedes Spiel</source>
-        <translation>Cada jogo</translation>
+        <translation>Каждая игра</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Jede Hand</source>
-        <translation>Cada mão</translation>
+        <translation>Каждая раздача</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Jede Aktion</source>
-        <translation>Cada ação</translation>
+        <translation>Каждое действие</translation>
     </message>
     <message>
         <location line="-29"/>
         <source>Log-Speicherdauer (Tage):</source>
-        <translation>Duração de armazenamento do log (dias):</translation>
+        <translation>Срок хранения журналов (дней):</translation>
     </message>
 </context>
 <context>
@@ -2855,94 +2857,94 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
     <message>
         <location filename="../pages/NetworkGameCreatePage.qml" line="+113"/>
         <source>← Zurück</source>
-        <translation>← Voltar</translation>
+        <translation>← Назад</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Netzwerkspiel erstellen</source>
-        <translation>Criar jogo em rede</translation>
+        <translation>Создать сетевую игру</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Spiel-Einstellungen</source>
-        <translation>Configurações do jogo</translation>
+        <translation>Настройки игры</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Max. Spieler</source>
-        <translation>Máx. de jogadores</translation>
+        <translation>Макс. игроков</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Startgeld</source>
-        <translation>Capital inicial</translation>
+        <translation>Начальная сумма</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Blind-Einstellungen</source>
-        <translation>Configurações de blinds</translation>
+        <translation>Настройки блайндов</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Erster Small Blind</source>
-        <translation>Primeiro small blind</translation>
+        <translation>Начальный малый блайнд</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Blind-Erhöhungsintervall</source>
-        <translation>Intervalo de aumento dos blinds</translation>
+        <translation>Интервал повышения блайндов</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+25"/>
         <source>Alle</source>
-        <translation>Todas</translation>
+        <translation>Каждые</translation>
     </message>
     <message>
         <location line="-14"/>
         <source>Hände</source>
-        <translation>Mãos</translation>
+        <translation>раздач</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Minuten</source>
-        <translation>Minutos</translation>
+        <translation>минут</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Sempre dobrar os blinds</translation>
+        <translation>Всегда удваивать блайнды</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Zeitlimits</source>
-        <translation>Limites de tempo</translation>
+        <translation>Ограничения по времени</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Zeitlimit Spieleraktion</source>
-        <translation>Limite de tempo para ação do jogador</translation>
+        <translation>Время на ход игрока</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Pause zwischen Händen</source>
-        <translation>Pausa entre mãos</translation>
+        <translation>Пауза между раздачами</translation>
     </message>
     <message>
         <location line="+37"/>
         <location line="+35"/>
         <source>Abbrechen</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location line="-30"/>
         <source>Spiel erstellen</source>
-        <translation>Criar jogo</translation>
+        <translation>Создать игру</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Server wird gestartet …</source>
-        <translation>Iniciando servidor …</translation>
+        <translation>Запуск сервера …</translation>
     </message>
 </context>
 <context>
@@ -2950,83 +2952,83 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
     <message>
         <location filename="../pages/NetworkGameEnterPage.qml" line="+97"/>
         <source>← Zurück</source>
-        <translation>← Voltar</translation>
+        <translation>← Назад</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Netzwerkspiel beitreten</source>
-        <translation>Entrar em jogo em rede</translation>
+        <translation>Присоединиться к сетевой игре</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Server-Verbindung</source>
-        <translation>Conexão com o servidor</translation>
+        <translation>Подключение к серверу</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Server-Adresse</source>
-        <translation>Endereço do servidor</translation>
+        <translation>Адрес сервера</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>IP-Adresse oder Hostname</source>
-        <translation>Endereço IP ou nome do host</translation>
+        <translation>IP-адрес или имя узла</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Port</source>
-        <translation>Porta</translation>
+        <translation>Порт</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>IPv6 verwenden</source>
-        <translation>Usar IPv6</translation>
+        <translation>Использовать IPv6</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>SCTP verwenden</source>
-        <translation>Usar SCTP</translation>
+        <translation>Использовать SCTP</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Server-Profile</source>
-        <translation>Perfis de servidor</translation>
+        <translation>Профили серверов</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Profilname</source>
-        <translation>Nome do perfil</translation>
+        <translation>Название профиля</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Name des Profils</source>
-        <translation>Nome do perfil</translation>
+        <translation>Имя профиля</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Speichern</source>
-        <translation>Salvar</translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Löschen</source>
-        <translation>Excluir</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location line="+92"/>
         <location line="+36"/>
         <source>Abbrechen</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location line="-31"/>
         <source>Verbinden</source>
-        <translation>Conectar</translation>
+        <translation>Подключиться</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Verbinde mit Server …</source>
-        <translation>Conectando ao servidor …</translation>
+        <translation>Подключение к серверу …</translation>
     </message>
 </context>
 <context>
@@ -3035,12 +3037,12 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
         <location filename="../cpp/networkgamehandler.cpp" line="+55"/>
         <location line="+76"/>
         <source>No session available.</source>
-        <translation>Nenhuma sessão disponível.</translation>
+        <translation>Нет доступной сессии.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Please enter a server address.</source>
-        <translation>Digite um endereço de servidor.</translation>
+        <translation>Введите адрес сервера.</translation>
     </message>
 </context>
 <context>
@@ -3048,117 +3050,117 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
     <message>
         <location filename="../components/NetworkGameSettings.qml" line="+19"/>
         <source>Netzwerkspiel</source>
-        <translation>Jogo em rede</translation>
+        <translation>Сетевая игра</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Spieler &amp; Startkapital</source>
-        <translation>Jogadores e capital inicial</translation>
+        <translation>Игроки и начальная сумма</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Anzahl der Spieler:</source>
-        <translation>Número de jogadores:</translation>
+        <translation>Количество игроков:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Startkapital:</source>
-        <translation>Capital inicial:</translation>
+        <translation>Начальная сумма:</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Blinds erhöhen</source>
-        <translation>Aumentar blinds</translation>
+        <translation>Повышение блайндов</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Blind-Erhöhungsreihenfolge</source>
-        <translation>Ordem de aumento dos blinds</translation>
+        <translation>Порядок повышения блайндов</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>Blinds bei Anzahl der Hände erhöhen</source>
-        <translation>Aumentar blinds pelo número de mãos</translation>
+        <translation>Повышать блайнды по числу раздач</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Blinds zeitbasiert erhöhen</source>
-        <translation>Aumentar blinds com base no tempo</translation>
+        <translation>Повышать блайнды по времени</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Blinds immer verdoppeln</source>
-        <translation>Sempre dobrar os blinds</translation>
+        <translation>Всегда удваивать блайнды</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Ordem manual dos blinds</translation>
+        <translation>Ручной порядок блайндов</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Manuelle Blind-Reihenfolge bearbeiten...</source>
-        <translation>Editar ordem manual dos blinds...</translation>
+        <translation>Изменить ручной порядок блайндов...</translation>
     </message>
     <message>
         <location line="-157"/>
         <source>Erster Small Blind:</source>
-        <translation>Primeiro small blind:</translation>
+        <translation>Начальный малый блайнд:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
         <source>Small Blind erhöhen alle:</source>
-        <translation>Aumentar small blind a cada:</translation>
+        <translation>Повышать малый блайнд каждые:</translation>
     </message>
     <message>
         <location line="-25"/>
         <source>Hände</source>
-        <translation>Mãos</translation>
+        <translation>раздач</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Minuten</source>
-        <translation>Minutos</translation>
+        <translation>минут</translation>
     </message>
     <message>
         <location line="+61"/>
         <source>Zeiteinstellungen</source>
-        <translation>Configurações de tempo</translation>
+        <translation>Настройки времени</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Verzögerung zwischen Händen
 (Sekunden):</source>
-        <translation>Atraso entre mãos
-(segundos):</translation>
+        <translation>Пауза между раздачами
+(секунды):</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Timeout für Spieleraktion
 (Sekunden):</source>
-        <translation>Tempo limite para ação do jogador
-(segundos):</translation>
+        <translation>Тайм-аут хода игрока
+(секунды):</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Server-Einstellungen</source>
-        <translation>Configurações do servidor</translation>
+        <translation>Настройки сервера</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Server-Port:</source>
-        <translation>Porta do servidor:</translation>
+        <translation>Порт сервера:</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>SCTP verwenden</source>
-        <translation>Usar SCTP</translation>
+        <translation>Использовать SCTP</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>IPv6 verwenden</source>
-        <translation>Usar IPv6</translation>
+        <translation>Использовать IPv6</translation>
     </message>
 </context>
 <context>
@@ -3166,61 +3168,61 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
     <message>
         <location filename="../components/NicknameAvatarSettings.qml" line="+19"/>
         <source>Nicknamen/Avatare</source>
-        <translation>Apelidos/Avatares</translation>
+        <translation>Ники/аватары</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Mein Spieler</source>
-        <translation>Meu jogador</translation>
+        <translation>Мой игрок</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Mein Nickname:</source>
-        <translation>Meu apelido:</translation>
+        <translation>Мой ник:</translation>
     </message>
     <message>
         <location line="+45"/>
         <source>Mein Avatar:</source>
-        <translation>Meu avatar:</translation>
+        <translation>Мой аватар:</translation>
     </message>
     <message>
         <location line="+26"/>
         <location line="+113"/>
         <source>Auswählen...</source>
-        <translation>Selecionar...</translation>
+        <translation>Выбрать...</translation>
     </message>
     <message>
         <location line="-110"/>
         <location line="+113"/>
         <source>Avatar auswählen</source>
-        <translation>Selecionar avatar</translation>
+        <translation>Выбор аватара</translation>
     </message>
     <message>
         <location line="-134"/>
         <location line="+113"/>
         <source>Kein Avatar gewählt</source>
-        <translation>Nenhum avatar selecionado</translation>
+        <translation>Аватар не выбран</translation>
     </message>
     <message>
         <location line="-82"/>
         <location line="+113"/>
         <source>Beispiele...</source>
-        <translation>Exemplos...</translation>
+        <translation>Образцы...</translation>
     </message>
     <message>
         <location line="-39"/>
         <source>Avatar:</source>
-        <translation>Avatar:</translation>
+        <translation>Аватар:</translation>
     </message>
     <message>
         <location line="-55"/>
         <source>Gegner %1</source>
-        <translation>Adversário %1</translation>
+        <translation>Соперник %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Nickname:</source>
-        <translation>Apelido:</translation>
+        <translation>Ник:</translation>
     </message>
 </context>
 <context>
@@ -3229,30 +3231,30 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
         <location filename="../components/PlayerListItem.qml" line="+234"/>
         <location line="+116"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
-        <translation>%1 está jogando em &quot;%2&quot;.</translation>
+        <translation>%1 играет в «%2».</translation>
     </message>
     <message>
         <location line="-115"/>
         <location line="+117"/>
         <source>%1 is not playing at the moment.</source>
-        <translation>%1 não está jogando no momento.</translation>
+        <translation>%1 сейчас не играет.</translation>
     </message>
     <message>
         <location line="-216"/>
         <location line="+129"/>
         <location line="+140"/>
         <source>Invite to Game</source>
-        <translation>Convidar para o jogo</translation>
+        <translation>Пригласить в игру</translation>
     </message>
     <message>
         <location line="-268"/>
         <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
-        <translation>Tem certeza de que deseja convidar “%1” para o seu jogo?</translation>
+        <translation>Вы действительно хотите пригласить «%1» в свою игру?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invite</source>
-        <translation>Convidar</translation>
+        <translation>Пригласить</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3260,12 +3262,12 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
         <location line="+130"/>
         <location line="+165"/>
         <source>Ignore player</source>
-        <translation>Jogador ignorado</translation>
+        <translation>Игнорировать игрока</translation>
     </message>
     <message>
         <location line="-296"/>
         <source>Are you sure you want to ignore &quot;%1&quot;?</source>
-        <translation>Tem certeza de que deseja ignorar “%1”?&gt;</translation>
+        <translation>Вы действительно хотите игнорировать «%1»?</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -3273,29 +3275,29 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
         <location line="+121"/>
         <location line="+202"/>
         <source>Unignore player</source>
-        <translation>Aceitar jogador</translation>
+        <translation>Прекратить игнорировать игрока</translation>
     </message>
     <message>
         <location line="-324"/>
         <source>Are you sure you want to unignore &quot;%1&quot;?</source>
-        <translation>Tem certeza de que deseja deixar de ignorar “%1”?&gt;</translation>
+        <translation>Вы действительно хотите прекратить игнорировать «%1»?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Are you sure you want to totally kickban &quot;%1&quot;?</source>
-        <translation>Tem certeza de que deseja expulsar e banir totalmente “%1”?&gt;</translation>
+        <translation>Вы действительно хотите полностью заблокировать «%1»?</translation>
     </message>
     <message>
         <location line="+95"/>
         <location line="+112"/>
         <source>Send private message</source>
-        <translation>Enviar mensagem privada</translation>
+        <translation>Отправить личное сообщение</translation>
     </message>
     <message>
         <location line="-79"/>
         <location line="+224"/>
         <source>Show player stats</source>
-        <translation>Mostrar estatus do jogador</translation>
+        <translation>Показать статистику игрока</translation>
     </message>
     <message>
         <location line="-353"/>
@@ -3303,7 +3305,7 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
         <location line="+135"/>
         <location line="+252"/>
         <source>Total kickban</source>
-        <translation>Total de ChutesBan</translation>
+        <translation>Полная блокировка</translation>
     </message>
 </context>
 <context>
@@ -3311,32 +3313,32 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
     <message>
         <location filename="../components/PlayerNoteDialog.qml" line="+57"/>
         <source>Note about &quot;%1&quot;</source>
-        <translation>Nota sobre &quot;%1&quot;</translation>
+        <translation>Заметка об игроке «%1»</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rating:</source>
-        <translation>Avaliação:</translation>
+        <translation>Оценка:</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Your private note about this player ...</source>
-        <translation>Sua nota privada sobre este jogador ...</translation>
+        <translation>Ваша личная заметка об этом игроке ...</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Notes and ratings are stored locally and are only visible to you.</source>
-        <translation>As notas e avaliações são salvas localmente e são visíveis apenas para você.</translation>
+        <translation>Заметки и оценки хранятся локально и видны только вам.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Save</source>
-        <translation>Salvar</translation>
+        <translation>Сохранить</translation>
     </message>
 </context>
 <context>
@@ -3344,22 +3346,22 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
     <message>
         <location filename="../components/PlayerSeasonCard.qml" line="+157"/>
         <source>Score</source>
-        <translation>Pontuação</translation>
+        <translation>Счёт</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avg</source>
-        <translation>Média</translation>
+        <translation>Сред.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Jogos</translation>
+        <translation>Игры</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Pontos</translation>
+        <translation>Очки</translation>
     </message>
 </context>
 <context>
@@ -3367,7 +3369,7 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
     <message>
         <location filename="../components/PlayerWinnerOverlay.qml" line="+56"/>
         <source>WINNER</source>
-        <translation>VENCEDOR</translation>
+        <translation>ПОБЕДИТЕЛЬ</translation>
     </message>
 </context>
 <context>
@@ -3375,77 +3377,77 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
     <message>
         <location filename="../pages/PokerthPlayerPage.qml" line="+81"/>
         <source>Could not load player (HTTP %1).</source>
-        <translation>Não foi possível carregar o jogador (HTTP %1).</translation>
+        <translation>Не удалось загрузить данные игрока (HTTP %1).</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Player not found.</source>
-        <translation>Jogador não encontrado.</translation>
+        <translation>Игрок не найден.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Could not parse server response.</source>
-        <translation>Não foi possível interpretar a resposta do servidor.</translation>
+        <translation>Не удалось разобрать ответ сервера.</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Member since %1</source>
-        <translation>Membro desde %1</translation>
+        <translation>Участник с %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Last login %1</source>
-        <translation>Último login %1</translation>
+        <translation>Последний вход %1</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Current season</source>
-        <translation>Temporada atual</translation>
+        <translation>Текущий сезон</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Rank</source>
-        <translation>Posição</translation>
+        <translation>Место</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Score</source>
-        <translation>Pontuação</translation>
+        <translation>Счёт</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avg</source>
-        <translation>Média</translation>
+        <translation>Сред.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Games</source>
-        <translation>Jogos</translation>
+        <translation>Игры</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Points</source>
-        <translation>Pontos</translation>
+        <translation>Очки</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Last 5:</source>
-        <translation>Últimas 5:</translation>
+        <translation>Последние 5:</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Recent games</source>
-        <translation>Jogos recentes</translation>
+        <translation>Недавние игры</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>#%1</source>
-        <translation>#%1</translation>
+        <translation>№%1</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Seasons</source>
-        <translation>Temporadas</translation>
+        <translation>Сезоны</translation>
     </message>
 </context>
 <context>
@@ -3461,78 +3463,78 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
     <message>
         <location filename="../components/PrivateMessageDialog.qml" line="+190"/>
         <source>Private messages</source>
-        <translation>Mensagens privadas</translation>
+        <translation>Личные сообщения</translation>
     </message>
     <message>
         <location line="+38"/>
         <location line="+2"/>
         <source>Delete conversation</source>
-        <translation>Excluir conversa</translation>
+        <translation>Удалить переписку</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete the conversation with &quot;%1&quot;?</source>
-        <translation>Excluir a conversa com &quot;%1&quot;?</translation>
+        <translation>Удалить переписку с «%1»?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete</source>
-        <translation>Excluir</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Close</source>
-        <translation>Fechar</translation>
+        <translation>Закрыть</translation>
     </message>
     <message>
         <location line="+112"/>
         <source>No conversation yet</source>
-        <translation>Ainda sem conversa</translation>
+        <translation>Переписки пока нет</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>not in the lobby</source>
-        <translation>não está no lobby</translation>
+        <translation>не в лобби</translation>
     </message>
     <message>
         <location line="+173"/>
         <source>Translation failed.</source>
-        <translation>Falha na tradução.</translation>
+        <translation>Не удалось выполнить перевод.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Show original</source>
-        <translation>Mostrar o original</translation>
+        <translation>Показать оригинал</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Translate message</source>
-        <translation>Traduzir a mensagem</translation>
+        <translation>Перевести сообщение</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Private messages are not available at the table.</source>
-        <translation>Mensagens privadas não estão disponíveis na mesa.</translation>
+        <translation>Личные сообщения недоступны за столом.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Guests cannot send chat messages</source>
-        <translation>Convidados não podem enviar mensagens no chat</translation>
+        <translation>Гости не могут отправлять сообщения в чат</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Guests cannot receive private messages.</source>
-        <translation>Convidados não podem receber mensagens privadas.</translation>
+        <translation>Гости не могут получать личные сообщения.</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Message …</source>
-        <translation>Mensagem …</translation>
+        <translation>Сообщение …</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Send</source>
-        <translation>Enviar</translation>
+        <translation>Отправить</translation>
     </message>
 </context>
 <context>
@@ -3540,79 +3542,79 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
     <message>
         <location filename="../cpp/ziputils.cpp" line="+54"/>
         <source>Das Archiv konnte nicht gelesen werden.</source>
-        <translation>Não foi possível ler o arquivo ZIP.</translation>
+        <translation>Не удалось прочитать архив.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
-        <translation>O arquivo ZIP está vazio ou contém arquivos demais.</translation>
+        <translation>Архив пуст или содержит слишком много файлов.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
-        <translation>Não foi possível criar a pasta de destino.</translation>
+        <translation>Не удалось создать целевой каталог.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
-        <translation>Não foi possível ler uma entrada do arquivo ZIP.</translation>
+        <translation>Не удалось прочитать запись архива.</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+8"/>
         <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
-        <translation>O arquivo ZIP contém um caminho inválido: %1</translation>
+        <translation>Архив содержит недопустимый путь: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+14"/>
         <source>Verzeichnis konnte nicht angelegt werden: %1</source>
-        <translation>Não foi possível criar a pasta: %1</translation>
+        <translation>Не удалось создать каталог: %1</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Das Archiv ist ungewöhnlich groß.</source>
-        <translation>O arquivo ZIP é excepcionalmente grande.</translation>
+        <translation>Архив необычно велик.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
-        <translation>Não foi possível extrair uma entrada do arquivo ZIP: %1</translation>
+        <translation>Не удалось распаковать запись архива: %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Datei konnte nicht geschrieben werden: %1</source>
-        <translation>Não foi possível gravar o arquivo: %1</translation>
+        <translation>Не удалось записать файл: %1</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Der Stil-Ordner wurde nicht gefunden.</source>
-        <translation>A pasta do estilo não foi encontrada.</translation>
+        <translation>Каталог стиля не найден.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv konnte nicht erstellt werden.</source>
-        <translation>Não foi possível criar o arquivo ZIP.</translation>
+        <translation>Не удалось создать архив.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Datei konnte nicht gelesen werden: %1</source>
-        <translation>Não foi possível ler o arquivo: %1</translation>
+        <translation>Не удалось прочитать файл: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
-        <translation>Não foi possível gravar o arquivo no pacote ZIP: %1</translation>
+        <translation>Не удалось записать файл в архив: %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Der Stil-Ordner enthält keine Dateien.</source>
-        <translation>A pasta do estilo não contém arquivos.</translation>
+        <translation>В каталоге стиля нет файлов.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Das Archiv konnte nicht abgeschlossen werden.</source>
-        <translation>Não foi possível finalizar o arquivo ZIP.</translation>
+        <translation>Не удалось завершить создание архива.</translation>
     </message>
 </context>
 <context>
@@ -3620,67 +3622,67 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
     <message>
         <location filename="../pages/RankingPage.qml" line="+90"/>
         <source>Could not load ranking (HTTP %1).</source>
-        <translation>Não foi possível carregar o ranking (HTTP %1).</translation>
+        <translation>Не удалось загрузить рейтинг (HTTP %1).</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Could not parse server response.</source>
-        <translation>Não foi possível interpretar a resposta do servidor.</translation>
+        <translation>Не удалось разобрать ответ сервера.</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Ranking</source>
-        <translation>Ranking</translation>
+        <translation>Рейтинг</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Season:</source>
-        <translation>Temporada:</translation>
+        <translation>Сезон:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Current season</source>
-        <translation>Temporada atual</translation>
+        <translation>Текущий сезон</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Username</source>
-        <translation>Nome de usuário</translation>
+        <translation>Имя пользователя</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>#</source>
-        <translation>#</translation>
+        <translation>№</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Player</source>
-        <translation>Jogador</translation>
+        <translation>Игрок</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Games</source>
-        <translation>Jogos</translation>
+        <translation>Игры</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avg</source>
-        <translation>Média</translation>
+        <translation>Сред.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Score</source>
-        <translation>Pontuação</translation>
+        <translation>Счёт</translation>
     </message>
     <message>
         <location line="+150"/>
         <source>No entries.</source>
-        <translation>Nenhuma entrada.</translation>
+        <translation>Нет записей.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>◀ Prev</source>
-        <translation>◀ Anterior</translation>
+        <translation>◀ Назад</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -3690,27 +3692,27 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
     <message>
         <location line="+1"/>
         <source>Page %1 / %2  ·  %3 players</source>
-        <translation>Página %1 / %2  ·  %3 jogadores</translation>
+        <translation>Страница %1 / %2  ·  игроков: %3</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Next ▶</source>
-        <translation>Próximo ▶</translation>
+        <translation>Вперёд ▶</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Ranking calculation:</source>
-        <translation>Cálculo do ranking:</translation>
+        <translation>Расчёт рейтинга:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Placement points:</source>
-        <translation>Pontos por posição:</translation>
+        <translation>Очки за места:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Formula:</source>
-        <translation>Fórmula:</translation>
+        <translation>Формула:</translation>
     </message>
 </context>
 <context>
@@ -3718,22 +3720,22 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
     <message>
         <location filename="../components/ResetSettings.qml" line="+20"/>
         <source>Standardeinstellung</source>
-        <translation>Configuração padrão</translation>
+        <translation>Настройки по умолчанию</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Alle Einstellungen werden auf die Standardwerte zurückgesetzt. Diese Aktion kann nicht rückgängig gemacht werden.</source>
-        <translation>Todas as configurações serão redefinidas para os valores padrão. Esta ação não pode ser desfeita.</translation>
+        <translation>Все настройки будут сброшены на значения по умолчанию. Это действие нельзя отменить.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Auf Werkeinstellungen zurücksetzen</source>
-        <translation>Restaurar configurações de fábrica</translation>
+        <translation>Сбросить на заводские настройки</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</source>
-        <translation>As configurações foram redefinidas. Reinicie o PokerTH para que todas as alterações tenham efeito.</translation>
+        <translation>Настройки сброшены. Перезапустите PokerTH, чтобы все изменения вступили в силу.</translation>
     </message>
 </context>
 <context>
@@ -3741,17 +3743,17 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
     <message>
         <location filename="../components/SeasonStatsSection.qml" line="+47"/>
         <source>Season Stats</source>
-        <translation>Estatísticas da temporada</translation>
+        <translation>Статистика сезона</translation>
     </message>
     <message>
         <location line="+60"/>
         <source>Games</source>
-        <translation>Jogos</translation>
+        <translation>Игры</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Share</source>
-        <translation>Proporção</translation>
+        <translation>Поделиться</translation>
     </message>
 </context>
 <context>
@@ -3759,67 +3761,67 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
     <message>
         <location filename="../pages/ServerConnectionDialog.qml" line="+241"/>
         <source>Back</source>
-        <translation>Voltar</translation>
+        <translation>Назад</translation>
     </message>
     <message>
         <location line="+94"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location line="-65"/>
         <source>Connecting as...</source>
-        <translation>Conectando como...</translation>
+        <translation>Подключение как...</translation>
     </message>
     <message>
         <location line="-108"/>
         <source>Continue as Guest</source>
-        <translation>Continuar como convidado</translation>
+        <translation>Продолжить как гость</translation>
     </message>
     <message>
         <location line="+159"/>
         <source>Initializing connection...</source>
-        <translation>Inicializando conexão...</translation>
+        <translation>Инициализация подключения...</translation>
     </message>
     <message>
         <location line="-74"/>
         <source>Login</source>
-        <translation>Entrar</translation>
+        <translation>Войти</translation>
     </message>
     <message>
         <location line="-97"/>
         <source>Login as User</source>
-        <translation>Entrar como usuário</translation>
+        <translation>Войти как пользователь</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Password</source>
-        <translation>Senha</translation>
+        <translation>Пароль</translation>
     </message>
     <message>
         <location line="-59"/>
         <source>Register</source>
-        <translation>Registrar</translation>
+        <translation>Регистрация</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Remember me</source>
-        <translation>Lembrar de mim</translation>
+        <translation>Запомнить меня</translation>
     </message>
     <message>
         <location line="-48"/>
         <source>User Login</source>
-        <translation>Login do usuário</translation>
+        <translation>Вход пользователя</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Username</source>
-        <translation>Nome de usuário</translation>
+        <translation>Имя пользователя</translation>
     </message>
     <message>
         <location line="+79"/>
         <source>Username/Guest</source>
-        <translation>Usuário/Convidado</translation>
+        <translation>Имя пользователя/гость</translation>
     </message>
 </context>
 <context>
@@ -3827,379 +3829,379 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
     <message>
         <location filename="../cpp/serverconnectionhandler.cpp" line="+50"/>
         <source>Error: No session available</source>
-        <translation>Erro: Nenhuma sessão disponível</translation>
+        <translation>Ошибка: нет доступной сессии</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No session available</source>
-        <translation>Nenhuma sessão disponível</translation>
+        <translation>Нет доступной сессии</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Connecting to server...</source>
-        <translation>Conectando ao servidor...</translation>
+        <translation>Соединение с сервером...</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Connection canceled</source>
-        <translation>Conexão cancelada</translation>
+        <translation>Подключение отменено</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Authenticating...</source>
-        <translation>Autenticando...</translation>
+        <translation>Проверка подлинности...</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Initialized...</source>
-        <translation>Inicializado...</translation>
+        <translation>Инициализировано...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Server list received...</source>
-        <translation>Lista de servidores recebida...</translation>
+        <translation>Список серверов получен...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Resolving server...</source>
-        <translation>Resolvendo servidor...</translation>
+        <translation>Определение адреса сервера...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Connecting...</source>
-        <translation>Conectando...</translation>
+        <translation>Подключение...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Connected successfully!</source>
-        <translation>Conectado com sucesso!</translation>
+        <translation>Подключение выполнено!</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Server address was not set.</source>
-        <translation>Endereço de servidor não foi adicionado.</translation>
+        <translation>Не установлен адрес сервера.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
-        <translation>Porta inválida adicionada (portas 0-1023 não são permitidas).</translation>
+        <translation>Указан неверный порт (диапазон 0-1023 не допускается).</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not create a socket for TCP communication.</source>
-        <translation>Não foi possível criar um socket para comunicação por TCP.</translation>
+        <translation>Не удалось создать сокет для TCP-соединения.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not set the IP address.</source>
-        <translation>Não foi possível adicionar o endereço IP.</translation>
+        <translation>Не удалось задать IP-адрес.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not set the port for this type of address.</source>
-        <translation>Não foi possível adicionar a porta para este endereço.</translation>
+        <translation>Не удалось задать порт для этого типа адреса.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server name could not be resolved.</source>
-        <translation>O nome do servidor não pode ser resovildo.</translation>
+        <translation>Не удалось определить имя сервера.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>A conexão falhou - por favor escolha uma porta diferente.</translation>
+        <translation>Не удалось занять порт — выберите другой порт.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
-        <translation>Erro interno de rede: &quot;listen&quot; falhou.</translation>
+        <translation>Внутренняя сетевая ошибка: неудачная команда &quot;listen&quot;.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Server execution was terminated.</source>
-        <translation>Execusão do servidor foi terminada.</translation>
+        <translation>Работа сервера была прервана.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Could not connect to the server.
 The server might still be processing a previous connection attempt.
 Please wait a moment and try again.</source>
-        <translation>Não foi possível conectar ao servidor.
-O servidor pode ainda estar processando uma tentativa de conexão anterior.
-Por favor, aguarde um momento e tente novamente.</translation>
+        <translation>Не удалось подключиться к серверу.
+Возможно, сервер ещё обрабатывает предыдущую попытку подключения.
+Подождите немного и попробуйте снова.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Connection timed out.
 The server might be busy or still processing a previous connection.
 Please wait a moment and try again.</source>
-        <translation>Tempo de conexão esgotado.
-O servidor pode estar ocupado ou ainda processando uma conexão anterior.
-Por favor, aguarde um momento e tente novamente.</translation>
+        <translation>Тайм-аут подключения.
+Возможно, сервер занят или ещё обрабатывает предыдущее подключение.
+Подождите немного и попробуйте снова.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
-        <translation>Erro interno de rede: &quot;selecionar&quot; falhou.</translation>
+        <translation>Внутренняя сетевая ошибка: неудачная команда &quot;select&quot;.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
-        <translation>Erro interno de rede: &quot;enviar&quot; falhou.</translation>
+        <translation>Внутренняя сетевая ошибка: неудачная команда &quot;send&quot;.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>The connection to the server was lost.</source>
-        <translation>A conexão com o servidor foi perdida.</translation>
+        <translation>Соединение с сервером было потеряно.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: Duplicate TCP connection.</source>
-        <translation>Erro interno de rede: Conexão TCP duplicada.</translation>
+        <translation>Внутренняя сетевая ошибка: двойное TCP-соединение.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation>Um pacote inválido foi recebido.
-Por favor tenha certeza de que todos os jogadores usam a mesma versão do PokerTH.</translation>
+        <translation>Принят неверный сетевой пакет.
+Убедитесь, что все игроки используют одинаковую версию PokerTH.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation>Erro interno de estado.
-Por favor tenha certeza de que todos os jogadores usam a mesma versão do PokerTH.</translation>
+        <translation>Внутренняя ошибка состояния.
+Убедитесь, что все игроки используют одинаковую версию PokerTH.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: invalid socket type.</source>
-        <translation>Erro interno de rede: tipo de socket inválido.</translation>
+        <translation>Внутренняя сетевая ошибка: неверный тип сокета.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Invalid server list URL.
 Please correct the address in the settings.</source>
-        <translation>Lista de URL servidor inválida.
-Por favor coloque o endereço correto nas configurações.</translation>
+        <translation>Неверная ссылка на список серверов.
+Исправьте адрес в настройках.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The PokerTH internet server list contains invalid data.
 If you use a custom server list, please make sure its format is correct.</source>
-        <translation>A lista de servidores contém informação invalida para o PokerTH.
-Se você usar uma lista prórpia de servidor, por favor tenha certeza de que o formato é correto.</translation>
+        <translation>Список интернет-серверов PokerTH содержит неверные сведения.
+Если вы используете собственный список серверов, убедитесь, что его формат корректен.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not unzip the PokerTH internet server list.</source>
-        <translation>Não foi possível descompactar a lista de servidores do PokerTH.</translation>
+        <translation>Не удалось распаковать список интернет-серверов PokerTH.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Could not download the PokerTH internet server list.
 Please make sure you are directly connected to the internet.</source>
-        <translation>Não foi possivel fazer o download da lista de servidores do PokerTH.
-Por favor tenha certeza de que está conectado a internet.</translation>
+        <translation>Не удалось загрузить список интернет-серверов PokerTH.
+Убедитесь, что вы напрямую подключены к Интернету.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not open the target file when downloading the server list.</source>
-        <translation>Não foi possivel abrir o arquivo especifico quando realizou o download do servidor.</translation>
+        <translation>Не удалось открыть целевой файл во время загрузки списка серверов.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>The PokerTH server does not support this version of the game.
 Please go to https://www.pokerth.net and download the latest version.</source>
-        <translation>O servidor do PokerTH não suporta esta versão do jogo.
-Por favor, vá para https://www.pokerth.net e faça o download da última versão.</translation>
+        <translation>Сервер PokerTH не поддерживает эту версию игры.
+Перейдите на https://www.pokerth.net и загрузите последнюю версию.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server is down for maintenance. Please try again later.</source>
-        <translation>O servidor está paralizado para manutenção. Por favor tente mais tarde.</translation>
+        <translation>Сервер находится на техобслуживании. Повторите попытку позже.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sorry, this server is already full.</source>
-        <translation>Desculpe, este servidor está cheio.</translation>
+        <translation>Извините, все места на этом сервере уже заняты.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invalid login.
 Please check your username and password.</source>
-        <translation>Entrada invalida.
-Por favor cheque seu usuário e senha.</translation>
+        <translation>Ошибка входа.
+Проверьте своё имя пользователя и пароль.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The password is too long. Please choose another one.</source>
-        <translation>A senha é muito longa. Por favor escolha outra.</translation>
+        <translation>Слишком длинный пароль. Выберите другой.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>This player name is already in use. Please choose a different name.</source>
-        <translation>Este nome de jogador já está em uso. Por favor, escolha outro nome.</translation>
+        <translation>Это имя игрока уже занято. Выберите другое имя.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The player name is invalid. Please choose a different name.</source>
-        <translation>O nome de jogador é inválido. Por favor, escolha outro nome.</translation>
+        <translation>Недопустимое имя игрока. Выберите другое имя.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid player cards.</source>
-        <translation>Erro interno: cartas do jogador inválidas.</translation>
+        <translation>Внутренняя ошибка: неверные карты игрока.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid player results.</source>
-        <translation>Erro interno: resultados do jogador inválidos.</translation>
+        <translation>Внутренняя ошибка: неверные результаты игрока.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
-        <translation>O nome do jogo é muito curto ou longo. Por favor escolha outro.</translation>
+        <translation>Название игры слишком короткое или слишком длинное. Выберите другое.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid game round.</source>
-        <translation>Erro interno: rodada de jogo inválida.</translation>
+        <translation>Внутренняя ошибка: неверный раунд игры.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid session.</source>
-        <translation>Erro interno: sessão inválida.</translation>
+        <translation>Внутренняя ошибка: неверная сессия.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be found.</source>
-        <translation>O jogo não pode ser encontrado.</translation>
+        <translation>Игра не найдена.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The chat text is invalid.</source>
-        <translation>O texto do bate-papo é invalido.</translation>
+        <translation>Недопустимый текст чата.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server referred to an unknown player. Aborting.</source>
-        <translation>O servidor refere-se a um jogador desconhecido. Abortando.</translation>
+        <translation>Сервер обратился к неизвестному игроку. Останов.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The current player could not be found.</source>
-        <translation>Erro interno: O jogador atual não pode ser encontrado.</translation>
+        <translation>Внутренняя ошибка: не удалось найти текущего игрока.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The current player is not active.</source>
-        <translation>Erro interno: O jogador atual não está ativo.</translation>
+        <translation>Внутренняя ошибка: текущий игрок не активен.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were kicked from the server.</source>
-        <translation>Você foi chutado do servidor.</translation>
+        <translation>Вы были отключены от сервера.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You were temporarily banned from the server.</source>
-        <translation>Você está temporariamente banido deste servidor.</translation>
+        <translation>Вы были временно заблокированы на сервере.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your account is blocked indefinitely.</source>
-        <translation>Sua conta está bloqueado indefinidamente.</translation>
+        <translation>Ваша учётная запись заблокирована на неопределённый срок.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation>Sua conexão expirou devido à inatividade. Você é muito bem-vindo para reconectar!</translation>
+        <translation>Соединение с сервером закрыто из-за бездействия. Вы можете подключиться снова!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The client player count is invalid.</source>
-        <translation>A conta do cliente é invalida.</translation>
+        <translation>Неверное количество игроков у клиента.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
-        <translation>Muitos manual blinds configurados. Por favor reconfigure o manual blinds.</translation>
+        <translation>Задано слишком много ручных блайндов. Настройте ручные блайнды заново.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
-        <translation>Um avatar invalido foi configurado. Por favor escolha outro.</translation>
+        <translation>Задан недопустимый файл аватара. Выберите другой аватар.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
-        <translation>O avatar selecionado é muito grande. Por favor escolha outro avatar.</translation>
+        <translation>Выбранный файл аватара слишком велик. Выберите другой аватар.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: invalid buffer size.</source>
-        <translation>Erro interno: tamanho de buffer inválido.</translation>
+        <translation>Внутренняя ошибка: неверный размер буфера.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation>Um erro interno de avatar ocorreu. Por favor reporte ao admin do lobby bate-papo.</translation>
+        <translation>Произошла внутренняя ошибка при обработке аватара. Сообщите об этом администратору в чате лобби.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not start game: Synchronization failed.</source>
-        <translation>Não pode ser iniciado o jogo: Falha de Sincronização.</translation>
+        <translation>Не удалось начать игру: сбой синхронизации.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The game could not be terminated.</source>
-        <translation>O jogo não pôde ser encerrado.</translation>
+        <translation>Не удалось завершить игру.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>An internal game error occured.</source>
-        <translation>Um erro interno do jogo ocorreu.</translation>
+        <translation>Произошла внутренняя ошибка игры.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The dealer could not be found.</source>
-        <translation>Erro interno: o dealer não pode ser encontrado.</translation>
+        <translation>Внутренняя ошибка: не удалось найти дилера.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You cannot login at this time. Please try again in a few seconds.</source>
-        <translation>Você não pode entrar no momento. Por favor tente em alguns instantes.</translation>
+        <translation>Вы не можете войти сейчас. Повторите попытку через несколько секунд.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The authentication could not be initialized.</source>
-        <translation>Erro interno: a autenticação não pôde ser inicializada.</translation>
+        <translation>Внутренняя ошибка: не удалось инициализировать проверку подлинности.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server does not support the required authentication method.</source>
-        <translation>O servidor não suporta o método de autenticação necessário.</translation>
+        <translation>Сервер не поддерживает требуемый способ проверки подлинности.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server could not reach its database. Please try again later.</source>
-        <translation>O servidor não conseguiu acessar seu banco de dados. Por favor, tente novamente mais tarde.</translation>
+        <translation>Серверу не удалось обратиться к своей базе данных. Повторите попытку позже.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An internal error occured. (Error code %1)</source>
-        <translation>Um erro interno ocorreu. (Código de erro %1)</translation>
+        <translation>Произошла внутренняя ошибка. (Код ошибки %1)</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Connection failed, retrying...</source>
-        <translation>Falha na conexão, tentando novamente...</translation>
+        <translation>Сбой подключения, повторная попытка...</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Retrying connection...</source>
-        <translation>Tentando conectar novamente...</translation>
+        <translation>Повторное подключение...</translation>
     </message>
 </context>
 <context>
@@ -4207,157 +4209,157 @@ Por favor cheque seu usuário e senha.</translation>
     <message>
         <location filename="../cpp/settingsmanager.cpp" line="+327"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
-        <translation>Imagens (*.png *.jpg *.jpeg *.gif)</translation>
+        <translation>Изображения (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
         <location line="+236"/>
         <source>Spieltisch-Stil auswählen</source>
-        <translation>Selecionar estilo de mesa de jogo</translation>
+        <translation>Выбор стиля игрового стола</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Spieltisch-Stil.</source>
-        <translation>O arquivo selecionado não é um estilo de mesa de jogo.</translation>
+        <translation>Выбранный файл не является стилем игрового стола.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Kartenstapel-Stil auswählen</source>
-        <translation>Selecionar estilo de baralho</translation>
+        <translation>Выбор стиля колоды</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Kartenstapel-Stil.</source>
-        <translation>O arquivo selecionado não é um estilo de baralho.</translation>
+        <translation>Выбранный файл не является стилем колоды.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Kartenrückseiten-Stil auswählen</source>
-        <translation>Selecionar estilo de verso de cartas</translation>
+        <translation>Выбор стиля рубашки карт</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Die ausgewählte Datei ist kein Kartenrückseiten-Stil.</source>
-        <translation>O arquivo selecionado não é um estilo de verso de cartas.</translation>
+        <translation>Выбранный файл не является стилем рубашки карт.</translation>
     </message>
     <message>
         <location line="+86"/>
         <source>Die Stil-Datei kann nicht gelesen werden.</source>
-        <translation>Não é possível ler o arquivo de estilo.</translation>
+        <translation>Не удалось прочитать файл стиля.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Die ausgewählte Datei ist kein PokerTH-Stil.</source>
-        <translation>O arquivo selecionado não é um estilo do PokerTH.</translation>
+        <translation>Выбранный файл не является стилем PokerTH.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Die Stil-Datei enthält kein gültiges XML (%1).</source>
-        <translation>O arquivo de estilo não contém XML válido (%1).</translation>
+        <translation>Файл стиля не содержит корректного XML (%1).</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Der Dateiname der Stil-Datei muss auf &quot;%1&quot; enden.</source>
-        <translation>O nome do arquivo de estilo deve terminar com &quot;%1&quot;.</translation>
+        <translation>Имя файла стиля должно оканчиваться на «%1».</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Die Stil-Datei muss in einem eigenen Ordner liegen.</source>
-        <translation>O arquivo de estilo deve estar em uma pasta própria.</translation>
+        <translation>Файл стиля должен находиться в отдельном каталоге.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ein Stil mit dem Namen &quot;%1&quot; ist bereits vorhanden.</source>
-        <translation>Já existe um estilo com o nome &quot;%1&quot;.</translation>
+        <translation>Стиль с именем «%1» уже существует.</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
-        <translation>O baralho está incompleto, faltam: %1</translation>
+        <translation>Колода неполная, отсутствует: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Die Kartenrückseiten-Grafik (Backside) fehlt.</source>
-        <translation>Falta a imagem do verso das cartas (Backside).</translation>
+        <translation>Отсутствует изображение рубашки карт (Backside).</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Der Ordner der Stil-Datei enthält ungewöhnlich viele Dateien. Bitte den Stil in einen eigenen Ordner legen.</source>
-        <translation>A pasta do arquivo de estilo contém um número incomum de arquivos. Coloque o estilo em uma pasta própria.</translation>
+        <translation>Каталог файла стиля содержит необычно много файлов. Поместите стиль в отдельный каталог.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Der Stil konnte nicht nach &quot;%1&quot; kopiert werden.</source>
-        <translation>Não foi possível copiar o estilo para &quot;%1&quot;.</translation>
+        <translation>Не удалось скопировать стиль в «%1».</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Der Stil hat Format-Version %1, aktuell ist Version %2.</source>
-        <translation>O estilo tem a versão de formato %1, a versão atual é %2.</translation>
+        <translation>Версия формата стиля — %1, текущая версия — %2.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Fehlende Angaben: %1.</source>
-        <translation>Informações ausentes: %1.</translation>
+        <translation>Отсутствующие сведения: %1.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Nicht gefundene Grafiken: %1.</source>
-        <translation>Gráficos não encontrados: %1.</translation>
+        <translation>Ненайденные изображения: %1.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Der Stil &quot;%1&quot; wurde übernommen, ist aber unvollständig:</source>
-        <translation>O estilo &quot;%1&quot; foi adicionado, mas está incompleto:</translation>
+        <translation>Стиль «%1» принят, но он неполный:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
-        <translation>O cliente substitui o conteúdo ausente por gráficos padrão.</translation>
+        <translation>Недостающее содержимое клиент заменит стандартными изображениями.</translation>
     </message>
     <message>
         <location line="-182"/>
         <source>PokerTH-Stile (*.zip *.xml)</source>
-        <translation>Estilos do PokerTH (*.zip *.xml)</translation>
+        <translation>Стили PokerTH (*.zip *.xml)</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Die ausgewählte Datei kann nicht gelesen werden.</source>
-        <translation>Não é possível ler o arquivo selecionado.</translation>
+        <translation>Не удалось прочитать выбранный файл.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Es konnte kein temporäres Verzeichnis angelegt werden.</source>
-        <translation>Não foi possível criar uma pasta temporária.</translation>
+        <translation>Не удалось создать временный каталог.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Das Archiv enthält keine Datei &quot;%1&quot;.</source>
-        <translation>O arquivo ZIP não contém nenhum arquivo &quot;%1&quot;.</translation>
+        <translation>Архив не содержит файла «%1».</translation>
     </message>
     <message>
         <location line="+196"/>
         <source>Stil exportieren</source>
-        <translation>Exportar estilo</translation>
+        <translation>Экспорт стиля</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>ZIP-Archive (*.zip)</source>
-        <translation>Arquivos ZIP (*.zip)</translation>
+        <translation>ZIP-архивы (*.zip)</translation>
     </message>
     <message>
         <location line="-9"/>
         <source>Der Stil &quot;%1&quot; wurde nicht gefunden.</source>
-        <translation>O estilo &quot;%1&quot; não foi encontrado.</translation>
+        <translation>Стиль «%1» не найден.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Das Archiv konnte nicht erstellt werden.</source>
-        <translation>Não foi possível criar o arquivo ZIP.</translation>
+        <translation>Не удалось создать архив.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</source>
-        <translation>Não foi possível gravar o arquivo ZIP em &quot;%1&quot;.</translation>
+        <translation>Не удалось записать архив в «%1».</translation>
     </message>
 </context>
 <context>
@@ -4365,47 +4367,47 @@ Por favor cheque seu usuário e senha.</translation>
     <message>
         <location filename="../pages/SettingsPage.qml" line="+254"/>
         <source>Benutzeroberfläche</source>
-        <translation>Interface do usuário</translation>
+        <translation>Интерфейс</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Stil</source>
-        <translation>Estilo</translation>
+        <translation>Стиль</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Sound</source>
-        <translation>Som</translation>
+        <translation>Звук</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Lokales Spiel</source>
-        <translation>Jogo local</translation>
+        <translation>Локальная игра</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Netzwerkspiel</source>
-        <translation>Jogo em rede</translation>
+        <translation>Сетевая игра</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Internetspiel</source>
-        <translation>Jogo pela Internet</translation>
+        <translation>Интернет-игра</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Nicknamen/Avatare</source>
-        <translation>Apelidos/Avatares</translation>
+        <translation>Ники/аватары</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Log-Nachrichten</source>
-        <translation>Mensagens de log</translation>
+        <translation>Сообщения журнала</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Standardeinstellung</source>
-        <translation>Configuração padrão</translation>
+        <translation>Настройки по умолчанию</translation>
     </message>
 </context>
 <context>
@@ -4418,12 +4420,12 @@ Por favor cheque seu usuário e senha.</translation>
     <message>
         <location line="+100"/>
         <source>Über PokerTH</source>
-        <translation>Sobre o PokerTH</translation>
+        <translation>О программе PokerTH</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Schließen</source>
-        <translation>Fechar</translation>
+        <translation>Закрыть</translation>
     </message>
 </context>
 <context>
@@ -4431,47 +4433,47 @@ Por favor cheque seu usuário e senha.</translation>
     <message>
         <location filename="../components/SoundSettings.qml" line="+19"/>
         <source>Sound</source>
-        <translation>Som</translation>
+        <translation>Звук</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Klangeffekte</source>
-        <translation>Efeitos sonoros</translation>
+        <translation>Звуковые эффекты</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Klangeffekte aktivieren</source>
-        <translation>Ativar efeitos sonoros</translation>
+        <translation>Включить звуковые эффекты</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Lautstärke:</source>
-        <translation>Volume:</translation>
+        <translation>Громкость:</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Klang-Kategorien</source>
-        <translation>Categorias de som</translation>
+        <translation>Категории звуков</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Spielaktionen (Check, Call, Raise ...)</source>
-        <translation>Ações do jogo (Check, Call, Raise ...)</translation>
+        <translation>Игровые действия (Check, Call, Raise ...)</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Blind-Erhöhungs-Benachrichtigung</source>
-        <translation>Notificação de aumento dos blinds</translation>
+        <translation>Уведомление о повышении блайндов</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>Netzwerkspiel-Benachrichtigungen</source>
-        <translation>Notificações de jogo em rede</translation>
+        <translation>Уведомления сетевой игры</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>Lobby-Chat-Benachrichtigungen</source>
-        <translation>Notificações do chat do lobby</translation>
+        <translation>Уведомления чата лобби</translation>
     </message>
 </context>
 <context>
@@ -4479,12 +4481,12 @@ Por favor cheque seu usuário e senha.</translation>
     <message>
         <location filename="../components/StartFooter.qml" line="+197"/>
         <source>Privacy</source>
-        <translation>Privacidade</translation>
+        <translation>Конфиденциальность</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Source:</source>
-        <translation>Código-fonte:</translation>
+        <translation>Исходный код:</translation>
     </message>
 </context>
 <context>
@@ -4492,32 +4494,32 @@ Por favor cheque seu usuário e senha.</translation>
     <message>
         <location filename="../pages/StartPage.qml" line="+155"/>
         <source>Internetspiel</source>
-        <translation>Jogo pela Internet</translation>
+        <translation>Интернет-игра</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Lokales Spiel starten</source>
-        <translation>Iniciar jogo local</translation>
+        <translation>Начать локальную игру</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Netzwerkspiel erstellen</source>
-        <translation>Criar jogo em rede</translation>
+        <translation>Создать сетевую игру</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Netzwerkspiel beitreten</source>
-        <translation>Entrar em jogo em rede</translation>
+        <translation>Присоединиться к сетевой игре</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Community / Ranking</source>
-        <translation>Comunidade / Ranking</translation>
+        <translation>Сообщество / рейтинг</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Logs</source>
-        <translation>Logs</translation>
+        <translation>Журналы</translation>
     </message>
 </context>
 <context>
@@ -4525,32 +4527,32 @@ Por favor cheque seu usuário e senha.</translation>
     <message>
         <location filename="../config/StaticData.qml" line="+96"/>
         <source>Fold</source>
-        <translation>Fold</translation>
+        <translation>Фолд</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Check</source>
-        <translation>Check</translation>
+        <translation>Чек</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Call</source>
-        <translation>Call</translation>
+        <translation>Колл</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Bet</source>
-        <translation>Bet</translation>
+        <translation>Бет</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Raise</source>
-        <translation>Raise</translation>
+        <translation>Рейз</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>All-In</source>
-        <translation>All-In</translation>
+        <translation>Олл-ин</translation>
     </message>
 </context>
 <context>
@@ -4559,28 +4561,28 @@ Por favor cheque seu usuário e senha.</translation>
         <location filename="../components/StyleCard.qml" line="+69"/>
         <source>Keine
 Vorschau</source>
-        <translation>Sem
-prévia</translation>
+        <translation>Нет
+предпросмотра</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>von %1</source>
-        <translation>de %1</translation>
+        <translation>автор: %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>✓ Ausgewählt</source>
-        <translation>✓ Selecionado</translation>
+        <translation>✓ Выбран</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Stil entfernen</source>
-        <translation>Remover estilo</translation>
+        <translation>Убрать стиль</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Stil als ZIP exportieren</source>
-        <translation>Exportar estilo como ZIP</translation>
+        <translation>Экспортировать стиль в ZIP</translation>
     </message>
 </context>
 <context>
@@ -4588,105 +4590,105 @@ prévia</translation>
     <message>
         <location filename="../components/StyleSettings.qml" line="+49"/>
         <source>Stil hinzufügen</source>
-        <translation>Adicionar estilo</translation>
+        <translation>Добавить стиль</translation>
     </message>
     <message>
         <location line="+0"/>
         <location line="+8"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>ОК</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Stil entfernen</source>
-        <translation>Remover estilo</translation>
+        <translation>Убрать стиль</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Den Stil &quot;%1&quot; wirklich entfernen?</source>
-        <translation>Deseja realmente remover o estilo &quot;%1&quot;?</translation>
+        <translation>Действительно убрать стиль «%1»?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Entfernen</source>
-        <translation>Remover</translation>
+        <translation>Убрать</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Stil</source>
-        <translation>Estilo</translation>
+        <translation>Стиль</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Spieltisch</source>
-        <translation>Mesa de jogo</translation>
+        <translation>Игровой стол</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Kartenstapel</source>
-        <translation>Baralho</translation>
+        <translation>Колода</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Kartenrückseite</source>
-        <translation>Verso das cartas</translation>
+        <translation>Рубашка карт</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Einsatzanzeige:</source>
-        <translation>Exibição da aposta:</translation>
+        <translation>Отображение ставок:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Einsatz in der Spielerbox</source>
-        <translation>Aposta dentro do quadro do jogador</translation>
+        <translation>Ставка внутри блока игрока</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Einsatz neben der Spielerbox</source>
-        <translation>Aposta ao lado do quadro do jogador</translation>
+        <translation>Ставка рядом с блоком игрока</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Verfügbare Spieltisch-Stile:</source>
-        <translation>Estilos de mesa disponíveis:</translation>
+        <translation>Доступные стили игрового стола:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Keine Spieltisch-Stile gefunden.</source>
-        <translation>Nenhum estilo de mesa encontrado.</translation>
+        <translation>Стили игрового стола не найдены.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verfügbare Kartenstapel-Stile:</source>
-        <translation>Estilos de baralho disponíveis:</translation>
+        <translation>Доступные стили колоды:</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Keine Kartenstapel-Stile gefunden.</source>
-        <translation>Nenhum estilo de baralho encontrado.</translation>
+        <translation>Стили колоды не найдены.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verfügbare Kartenrückseiten:</source>
-        <translation>Versos de carta disponíveis:</translation>
+        <translation>Доступные рубашки карт:</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Keine Kartenrückseiten gefunden.</source>
-        <translation>Nenhum verso de carta encontrado.</translation>
+        <translation>Рубашки карт не найдены.</translation>
     </message>
     <message>
         <location line="-104"/>
         <location line="+56"/>
         <location line="+56"/>
         <source>Stil hinzufügen...</source>
-        <translation>Adicionar estilo...</translation>
+        <translation>Добавить стиль...</translation>
     </message>
     <message>
         <location line="-266"/>
         <source>Stil exportieren</source>
-        <translation>Exportar estilo</translation>
+        <translation>Экспорт стиля</translation>
     </message>
 </context>
 <context>
@@ -4694,92 +4696,92 @@ prévia</translation>
     <message>
         <location filename="../pages/WecRankingPage.qml" line="+22"/>
         <source>January</source>
-        <translation>Janeiro</translation>
+        <translation>Январь</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>February</source>
-        <translation>Fevereiro</translation>
+        <translation>Февраль</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>March</source>
-        <translation>Março</translation>
+        <translation>Март</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>April</source>
-        <translation>Abril</translation>
+        <translation>Апрель</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>May</source>
-        <translation>Maio</translation>
+        <translation>Май</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>June</source>
-        <translation>Junho</translation>
+        <translation>Июнь</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>July</source>
-        <translation>Julho</translation>
+        <translation>Июль</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>August</source>
-        <translation>Agosto</translation>
+        <translation>Август</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>September</source>
-        <translation>Setembro</translation>
+        <translation>Сентябрь</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>October</source>
-        <translation>Outubro</translation>
+        <translation>Октябрь</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>November</source>
-        <translation>Novembro</translation>
+        <translation>Ноябрь</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>December</source>
-        <translation>Dezembro</translation>
+        <translation>Декабрь</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>WEC Ranking</source>
-        <translation>Ranking WEC</translation>
+        <translation>Рейтинг WEC</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Year:</source>
-        <translation>Ano:</translation>
+        <translation>Год:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Month:</source>
-        <translation>Mês:</translation>
+        <translation>Месяц:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>All-Year</source>
-        <translation>Ano Todo</translation>
+        <translation>За весь год</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>All-Time</source>
-        <translation>Todos os Tempos</translation>
+        <translation>За всё время</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Search nickname</source>
-        <translation>Buscar apelido</translation>
+        <translation>Поиск по нику</translation>
     </message>
 </context>
 <context>
@@ -4792,143 +4794,143 @@ prévia</translation>
     <message>
         <location line="+287"/>
         <source>Back</source>
-        <translation>Voltar</translation>
+        <translation>Назад</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Menu</source>
-        <translation>Menu</translation>
+        <translation>Меню</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>Private messages</source>
-        <translation>Mensagens privadas</translation>
+        <translation>Личные сообщения</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Forum news</source>
-        <translation>Novidades do fórum</translation>
+        <translation>Новости форума</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Community / Ranking</source>
-        <translation>Comunidade / Ranking</translation>
+        <translation>Сообщество / рейтинг</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Settings</source>
-        <translation>Configurações</translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location line="+192"/>
         <source>Timeout Warning</source>
-        <translation>Aviso tempo esgotado</translation>
+        <translation>Предупреждение об истечении времени ожидания</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Timeout expired. You are being removed from the game.</source>
-        <translation>O tempo expirou. Você está sendo removido do jogo.</translation>
+        <translation>Время ожидания истекло. Вы удаляетесь из игры.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Timeout expired. You will be disconnected.</source>
-        <translation>O tempo expirou. Você será desconectado.</translation>
+        <translation>Время ожидания истекло. Соединение будет разорвано.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You are game-admin of an open game which will time out in %1 seconds.</source>
-        <translation>Você é o admin do jogo aberto, onde o tempo se acabará em %1 segundos.</translation>
+        <translation>Вы администратор открытой игры, время которой истечёт через %1 с.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>You did not act in the game recently. You will be removed from the game in %1 seconds.</source>
-        <translation>Você não fez nenhuma ação no jogo recentemente. Você será removido fo jogo em %1 segundos.</translation>
+        <translation>Вы давно не совершали действий в игре. Вы будете удалены из игры через %1 с.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your connection is about to time out due to inactivity in %1 seconds.</source>
-        <translation>Sua conexão está prestes ser encerrada devido a inatividade em %1 segundos.</translation>
+        <translation>Из-за бездействия ваше соединение будет закрыто через %1 с.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Please click &quot;OK&quot; to stop the countdown!</source>
-        <translation>Por favor clique em &quot;OK&quot; para parar o contador!</translation>
+        <translation>Нажмите «ОК», чтобы остановить обратный отсчёт!</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+285"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>ОК</translation>
     </message>
     <message>
         <location line="-250"/>
         <source>Server Message</source>
-        <translation>Servidor de Mensagem</translation>
+        <translation>Сообщение сервера</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Close</source>
-        <translation>Fechar</translation>
+        <translation>Закрыть</translation>
     </message>
     <message>
         <location line="+156"/>
         <source>Connection interrupted</source>
-        <translation>Conexão interrompida</translation>
+        <translation>Соединение прервано</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Reconnecting to the server… (attempt %1 of %2)</source>
-        <translation>Reconectando ao servidor… (tentativa %1 de %2)</translation>
+        <translation>Повторное подключение к серверу… (попытка %1 из %2)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reconnecting to the server…</source>
-        <translation>Reconectando ao servidor…</translation>
+        <translation>Повторное подключение к серверу…</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Your seat at the table stays reserved for a few minutes.</source>
-        <translation>Seu lugar na mesa fica reservado por alguns minutos.</translation>
+        <translation>Ваше место за столом сохранится ещё несколько минут.</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Connection lost</source>
-        <translation>Conexão perdida</translation>
+        <translation>Соединение потеряно</translation>
     </message>
     <message>
         <location line="-734"/>
         <location line="+545"/>
         <location line="+22"/>
         <source>Leave Game</source>
-        <translation>Deixar o Jogo</translation>
+        <translation>Покинуть игру</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
-        <translation>Atenção! Você realmente quer sair do jogo atual
-e voltar ao lobby?</translation>
+        <translation>Внимание! Вы действительно хотите покинуть текущую игру
+и вернуться в лобби?</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+57"/>
         <location line="+74"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location line="-693"/>
         <location line="+602"/>
         <location line="+22"/>
         <source>Leave Lobby</source>
-        <translation>Sair do Lobby</translation>
+        <translation>Покинуть лобби</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Attention! Do you really want to leave the lobby
 and disconnect from the server?</source>
-        <translation>Atenção! Você realmente deseja sair do lobby
-e se desconectar do servidor?</translation>
+        <translation>Внимание! Вы действительно хотите покинуть лобби
+и отключиться от сервера?</translation>
     </message>
 </context>
 </TS>

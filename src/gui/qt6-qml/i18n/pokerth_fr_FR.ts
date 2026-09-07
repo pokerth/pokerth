@@ -775,7 +775,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+510"/>
+        <location filename="../components/GamePlayerBox.qml" line="+514"/>
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
@@ -2597,7 +2597,7 @@ Veuillez ressaisir le mot de passe et réessayer.</translation>
     <message>
         <location line="+15"/>
         <source>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</source>
-        <translation>S'applique aux parties locales. Dans les parties en réseau, c'est le serveur qui détermine le niveau de ses joueurs ordinateur.</translation>
+        <translation>S&apos;applique aux parties locales. Dans les parties en réseau, c&apos;est le serveur qui détermine le niveau de ses joueurs ordinateur.</translation>
     </message>
 </context>
 <context>
@@ -4525,7 +4525,7 @@ Veuillez vérifier votre nom d&apos;utilisateur et mot de passe.</translation>
 <context>
     <name>StaticData</name>
     <message>
-        <location filename="../config/StaticData.qml" line="+93"/>
+        <location filename="../config/StaticData.qml" line="+96"/>
         <source>Fold</source>
         <translation>Se coucher</translation>
     </message>

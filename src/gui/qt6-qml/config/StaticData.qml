@@ -27,6 +27,7 @@ QtObject {
             { langName: "Spanish (Español)", code: "es_ES"},
             { langName: "Portuguese (Português)", code: "pt_PT"},
             { langName: "Portuguese, Brazil (Português do Brasil)", code: "pt_BR"},
+            { langName: "Russian (Русский)", code: "ru_RU"},
             { langName: "Chinese, Simplified (简体中文)", code: "zh_CN"}
         ]
 
@@ -55,7 +56,8 @@ QtObject {
     // Widgets-Client seine .qm nicht mehr (pokerth.cpp lädt ungestrippt).
     readonly property var languageConfigCodes: ({
         "de_DE": "de", "en_US": "en", "es_ES": "es", "fr_FR": "fr",
-        "it_IT": "it", "pt_BR": "ptbr", "pt_PT": "ptpt", "zh_CN": "zhcn"
+        "it_IT": "it", "pt_BR": "ptbr", "pt_PT": "ptpt", "ru_RU": "ru",
+        "zh_CN": "zhcn"
     })
 
     // QML-Locale -> Config-Kurzcode (zum Schreiben).

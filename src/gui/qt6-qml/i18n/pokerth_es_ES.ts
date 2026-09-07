@@ -775,7 +775,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+510"/>
+        <location filename="../components/GamePlayerBox.qml" line="+514"/>
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
@@ -4525,7 +4525,7 @@ Compruebe el nombre de usuario y contraseña.</translation>
 <context>
     <name>StaticData</name>
     <message>
-        <location filename="../config/StaticData.qml" line="+93"/>
+        <location filename="../config/StaticData.qml" line="+96"/>
         <source>Fold</source>
         <translation>Fold</translation>
     </message>
