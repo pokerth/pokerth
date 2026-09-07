@@ -37,6 +37,20 @@
 
 class SessionData;
 
+/* Beobachtungswerte ueber einen Spieler, gesammelt ueber die bisherigen Haende
+ * derselben Partie. Grundlage des Gegnermodells der AI-Engine 4: wer selten
+ * freiwillig einsteigt, haelt beim Einsteigen im Schnitt bessere Karten.
+ */
+struct PlayerStatistics {
+	int hands;          // Haende, in denen der Spieler eine Entscheidung hatte
+	int voluntary;      // davon mit freiwilligem Einsatz vor dem Flop (VPIP)
+	int preflopRaises;  // davon mit Erhoehung vor dem Flop (PFR)
+	int aggressive;     // Einsaetze und Erhoehungen nach dem Flop
+	int passive;        // Mitgehen nach dem Flop
+
+	PlayerStatistics() : hands(0), voluntary(0), preflopRaises(0), aggressive(0), passive(0) {}
+};
+
 class PlayerInterface
 {
 public:
@@ -116,6 +130,11 @@ public:
 
 	virtual void setMyAggressive(bool theValue) =0;
 	virtual int getMyAggressive() const =0;
+
+	// Gegnermodell der AI-Engine 4
+	virtual const PlayerStatistics& getMyStatistics() const =0;
+	virtual void beginStatisticsHand() =0;
+	virtual void recordStatisticsAction(int round, PlayerAction action) =0;
 
 	virtual void setSBluff ( int theValue ) =0;
 	virtual int getSBluff() const =0;

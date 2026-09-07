@@ -27,33 +27,33 @@
 <context>
     <name>CardDeckStyleReader</name>
     <message>
-        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="86"/>
-        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="170"/>
+        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="92"/>
+        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="178"/>
         <source>Card Deck Style Error</source>
         <translation>Errore sullo stile del mazzo di carte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="198"/>
+        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="206"/>
         <source>Everything OK!</source>
         <translation>Tutto OK!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="201"/>
+        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="209"/>
         <source>Some cards pictures are missing, please contact style maintainer for this issue.</source>
         <translation>Mancano alcune immagini delle carte da gioco, si prega di contattare il responsabile dello stile.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="204"/>
+        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="212"/>
         <source>Some style fields are missing, please contact style maintainer for this issue.</source>
         <translation>Mancano alcuni campi, per favore contatta il responsabile dello stile.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="207"/>
+        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="215"/>
         <source>This style is outdated, please contact style maintainer for this issue.</source>
         <translation>Questo stile è obsoleto, si prega di contattare il responsabile dello stile.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="224"/>
+        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="232"/>
         <source>Selected card deck style &quot;%1&quot; seems to be incomplete or defective. 
 
 The value(s) of: 
@@ -74,12 +74,12 @@ Puoi comunque utilizzare questo mazzo, il contenuto mancante sarà sostituito da
 Contatta il responsabile dello stile via &quot;%3&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="224"/>
+        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="232"/>
         <source>Card Deck Style Error - Fields content missing</source>
         <translation>Errore sullo stile del mazzo di carte - Contenuto campi mancante</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="238"/>
+        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="246"/>
         <source>One or more pictures from current card deck style &quot;%1&quot; were not found: 
 
 %2 
@@ -92,12 +92,12 @@ Please contact the card deck style builder via &quot;%3&quot;.</source>
 Please contact the card deck style builder via &quot;%3&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="238"/>
+        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="246"/>
         <source>Card Deck Style Error - Pictures missing</source>
         <translation>Errore sullo stile del mazzo di carte - Immagini mancanti</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="250"/>
+        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="258"/>
         <source>Selected card deck style &quot;%1&quot; seems to be outdated. 
 The current PokerTH card deck style version is &quot;%2&quot;, but this deck has version &quot;%3&quot; set. 
 
@@ -112,7 +112,7 @@ Puoi comunque utilizzare questo mazzo, il contenuto mancante sarà sostituito da
 Contatta il responsabile dello stile via &quot;%4&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="250"/>
+        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="258"/>
         <source>Card Deck Style Error - Outdated</source>
         <translation>Errore sullo stile del mazzo di carte - Obsoleto</translation>
     </message>
@@ -148,7 +148,7 @@ Please contact the game table style builder %4.</source>
 Contatta il responsabile dello stile, %4.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="171"/>
+        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="179"/>
         <source>Cannot load card deck style file: %1 
 
 Please check the style file or choose another style!</source>
@@ -179,7 +179,7 @@ Le immagini delle carte &quot;%2&quot; non sono disponibili.
 Contatta il responsabile dello stile del mazzo, %3.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="87"/>
+        <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="93"/>
         <source>A game table style was selected instead of a card deck style.
 Please select a card deck style and try again!</source>
         <translation>È stato selezionato uno stile per il tavolo da gioco al posto di uno stile per il mazzo di carte.
@@ -200,12 +200,22 @@ Seleziona uno stile appropriato e riprova!</translation>
 <context>
     <name>ChatTools</name>
     <message>
-        <location filename="../src/gui/qt/chattools/chattools.cpp" line="68"/>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="317"/>
+        <source>Insert emoji</source>
+        <translation>Inserisci emoji</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="795"/>
+        <source>Guests cannot receive private messages.</source>
+        <translation>Gli ospiti non possono ricevere messaggi privati.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="819"/>
         <source>private message sent to player: %1</source>
         <translation>messaggio privato inviato a: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/chattools/chattools.cpp" line="1024"/>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="1061"/>
         <source>Translation is currently unavailable. Please try again later.</source>
         <translation>La traduzione non è al momento disponibile. Riprova più tardi.</translation>
     </message>
@@ -213,13 +223,13 @@ Seleziona uno stile appropriato e riprova!</translation>
 <context>
     <name>GameTableStyleReader</name>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="145"/>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1271"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="154"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1283"/>
         <source>Game Table Style Error</source>
         <translation>Errore sullo stile del tavolo da gioco</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1303"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1315"/>
         <source>Selected game table style &quot;%1&quot; seems to be incomplete or defective. 
 
 The value(s) of: 
@@ -240,12 +250,12 @@ Puoi comunque utilizzare lo stile, ma i contenuti mancanti saranno attinti dallo
 Per favore, contatta il responsabile dello stile via &quot;%3&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1303"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1315"/>
         <source>Game Table Style Error - Fields content missing</source>
         <translation>Errore sullo Stile del Tavolo da Gioco - Contenuto dei campi assente</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1317"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1329"/>
         <source>One or more pictures from current game table style &quot;%1&quot; were not found: 
 
 %2 
@@ -262,12 +272,12 @@ Puoi comunque utilizzarlo, ma i contenuti mancanti saranno attinti dallo stile d
 Per favore, contatta il responsabile dello stile via &quot;%3&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1317"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1329"/>
         <source>Game Table Style Error - Pictures missing</source>
         <translation>Errore sullo Stile del Tavolo da Gioco - Immagini mancanti</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1329"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1341"/>
         <source>Selected game table style &quot;%1&quot; seems to be outdated. 
 The current PokerTH game table style version is &quot;%2&quot;, but this style has version &quot;%3&quot; set. 
 
@@ -282,27 +292,27 @@ Puoi comunque utilizzarlo, ma i contenuti mancanti saranno attinti dallo stile d
 Per favore, contatta il responsabile dello stile via &quot;%4&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1329"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1341"/>
         <source>Game Table Style Error - Outdated</source>
         <translation>Errore sullo Stile del Tavolo da Gioco - Obsoleto</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1734"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1817"/>
         <source>Everything OK!</source>
         <translation>Tutto OK!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1737"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1820"/>
         <source>Some pictures are missing, please contact style maintainer for this issue.</source>
         <translation>Mancano alcune immagini, per favore contatta il responsabile dello stile.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1740"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1823"/>
         <source>Some style fields are missing, please contact style maintainer for this issue.</source>
         <translation>Mancano alcuni campi, per favore contatta il responsabile dello stile.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1743"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1826"/>
         <source>This style is outdated, please contact style maintainer for this issue.</source>
         <translation>Questo stile è obsoleto, si prega di contattare il responsabile dello stile.</translation>
     </message>
@@ -317,7 +327,7 @@ Please contact the game table style builder %4.</source>
 Contatta il responsabile dello stile, %4.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1272"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1284"/>
         <source>Cannot load game table style file: %1 
 
 Please check the style file or choose another style!</source>
@@ -338,7 +348,7 @@ I valori di &quot;%2&quot; sono mancanti.
 Contatta il responsabile dello stile, %3.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="146"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="155"/>
         <source>A card deck style was selected instead of a game table style.
 Please select a game table style and try again!</source>
         <translation>È stato selezionato uno stile per il mazzo di carte al posto di uno stile per il tavolo da gioco.
@@ -415,31 +425,31 @@ Contatta il responsabile dello stile, %3.</translation>
         <translation>Messaggio</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="120"/>
+        <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="114"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="107"/>
         <source>Export as HTML</source>
         <translation>Esporta in HTML</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="137"/>
+        <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="131"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="118"/>
         <source>Export as txt</source>
         <translation>Esporta in txt</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="154"/>
+        <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="148"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="129"/>
         <source>Save as ...</source>
         <translation>Salva con nome...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="171"/>
+        <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="165"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="140"/>
         <source>Delete</source>
         <translation>Elimina</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="97"/>
+        <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="91"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="84"/>
         <source>Preview:</source>
         <translation>Anteprima:</translation>
@@ -451,100 +461,100 @@ Contatta il responsabile dello stile, %3.</translation>
         <translation>Partita:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="85"/>
+        <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="79"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="72"/>
         <source>Log File</source>
         <translation>File di registro</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="205"/>
+        <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="199"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="168"/>
         <source>Analyse Logfile ...</source>
         <translation>Esamina file di registro ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="134"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="137"/>
         <source>PokerTH - Delete log files</source>
         <translation>PokerTH - Elimina file di registro</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="135"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="138"/>
         <source>Do you really want to delete the selected log files?</source>
         <translation>Desideri veramente cancellare i file di registro selezionati?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="143"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="146"/>
         <source>Remove log file</source>
         <translation>Rimuovi il file di registro</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="143"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="146"/>
         <source>PokerTH cannot remove this log file, please verify that you have write access to this file!</source>
         <translation>Impossibile rimuovere questo file di registro, controllare di avere i permessi necessari!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="158"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="161"/>
         <source>Export PokerTH log file to HTML</source>
         <translation>Esporta il file di registro di PokerTH in HTML</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="160"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="163"/>
         <source>PokerTH HTML log (*.html)</source>
         <translation>Registro di PokerTH in formato HTML (*.html)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="174"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="178"/>
         <source>Export PokerTH log file to plain text</source>
         <translation>Esporta il file di registro di PokerTH in formato testo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="176"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="180"/>
         <source>PokerTH plain text log (*.txt)</source>
         <translation>Registro di PokerTH in formato testo (*.html)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="190"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="195"/>
         <source>Save PokerTH log file</source>
         <translation>Salva il file di registro di PokerTH</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="192"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="197"/>
         <source>PokerTH SQL log (*.pdb)</source>
         <translation>Registro PokerTH SQL (*.pdb)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="293"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="298"/>
         <source>No file received.</source>
         <translation>Nessun file ricevuto.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="296"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="301"/>
         <source>File rejected because of too many uploads.</source>
         <translation>Il file è stato rifiutato a causa di troppi upload.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="299"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="304"/>
         <source>File rejected because of too many recent uploads. Please try again later.</source>
         <translation>Il file è stato rifiutato a causa di troppi upload recenti. Riprovare più tardi.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="302"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="307"/>
         <source>The file is too large.</source>
         <translation>Il file è troppo grande.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="306"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="311"/>
         <source>This file is not a valid and current PokerTH log file.</source>
         <translation>Questo file non contiene un registro di PokerTH valido e aggiornato.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="313"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="318"/>
         <source>Internal error. Please try again later. ID: </source>
         <translation>Errore interno. Riprovare più tardi. ID: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="318"/>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="329"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="323"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="334"/>
         <source>Uploading log file</source>
         <translation>Caricamento del file di registro</translation>
     </message>
@@ -553,22 +563,22 @@ Contatta il responsabile dello stile, %3.</translation>
         <translation type="obsolete">Upload in corso</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="326"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="331"/>
         <source>Upload failed. Please check your internet connection!
 Uploading log files may fail if you are using an http proxy.</source>
         <translation>Upload non riuscito. Controlla la connessione a Internet!
 L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un proxy http.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="286"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="291"/>
         <source>Processing of the log file on the web server failed.
 Please verify that you are uploading a valid PokerTH log file.</source>
         <translation>Elaborazione del file di registro sul server web non riuscita.
 Controlla di stare caricando un file di registro di PokerTH valido.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="290"/>
-        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="327"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="295"/>
+        <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="332"/>
         <source>Failure reason: </source>
         <translation>Causa dell&apos;errore: </translation>
     </message>
@@ -609,51 +619,51 @@ Controlla di stare caricando un file di registro di PokerTH valido.</translation
         <translation>Segnala avatar non appropriato</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="450"/>
+        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="465"/>
         <source>Server response times</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="451"/>
+        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="466"/>
         <source>Average: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="451"/>
-        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="452"/>
-        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="453"/>
+        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="466"/>
+        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="467"/>
+        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="468"/>
         <source>ms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="452"/>
+        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="467"/>
         <source>Minimum: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="453"/>
+        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="468"/>
         <source>Maximum: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="487"/>
+        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="501"/>
         <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
         <translation>Non riceverai più messaggi di chat o inviti a partite da questo utente.&lt;br&gt;Vuoi veramente inserire l&apos;utente &lt;b&gt;%1&lt;/b&gt; nella lista degli utenti ignorati?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="487"/>
-        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="509"/>
-        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="534"/>
+        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="501"/>
+        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="522"/>
+        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="546"/>
         <source>PokerTH - Question</source>
         <translation>PokerTH - Domanda</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="509"/>
+        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="522"/>
         <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="535"/>
+        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="547"/>
         <source>Are you sure you want to report the avatar of &quot;%1&quot; as inappropriate?</source>
         <translation>Desideri veramente segnalare l&apos;avatar di &quot;%1&quot; come non appropriato?</translation>
     </message>
@@ -661,13 +671,13 @@ Controlla di stare caricando un file di registro di PokerTH valido.</translation
 <context>
     <name>ServerListDialog</name>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/serverlistdialog_800x480.ui" line="26"/>
+        <location filename="../src/gui/qt/gui_800x480/serverlistdialog_800x480.ui" line="20"/>
         <location filename="../src/gui/qt/serverlistdialog.ui" line="14"/>
         <source>Server List</source>
         <translation>Lista dei server</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/serverlistdialog_800x480.ui" line="58"/>
+        <location filename="../src/gui/qt/gui_800x480/serverlistdialog_800x480.ui" line="52"/>
         <location filename="../src/gui/qt/serverlistdialog.ui" line="27"/>
         <source>Server Name</source>
         <translation>Nome del server</translation>
@@ -677,7 +687,7 @@ Controlla di stare caricando un file di registro di PokerTH valido.</translation
         <translation type="obsolete">Paese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/serverlistdialog_800x480.ui" line="63"/>
+        <location filename="../src/gui/qt/gui_800x480/serverlistdialog_800x480.ui" line="57"/>
         <location filename="../src/gui/qt/serverlistdialog.ui" line="32"/>
         <source>Country/Region</source>
         <translation>Paese/regione</translation>
@@ -693,13 +703,19 @@ Controlla di stare caricando un file di registro di PokerTH valido.</translation
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="40"/>
-        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="64"/>
+        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="58"/>
         <source>About</source>
         <translation>Informazioni</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="135"/>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="210"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="97"/>
+        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="115"/>
+        <source>&lt;a href=&quot;https://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</source>
+        <translation>&lt;a href=&quot;https://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="149"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="224"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -712,7 +728,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="171"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="185"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -731,8 +747,8 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt;&quot;&gt;Emiliano Volta - emiliano.volta@gmail.com&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="263"/>
-        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="294"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="277"/>
+        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="302"/>
         <source>Third party libs</source>
         <translation>Librerie di terze parti</translation>
     </message>
@@ -749,10 +765,8 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Informazioni su PokerTH 0.6-beta</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="97"/>
-        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="121"/>
         <source>&lt;a href=&quot;http://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</source>
-        <translation>&lt;a href=&quot;http://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</translation>
+        <translation type="vanished">&lt;a href=&quot;http://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -871,7 +885,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    - per il lavoro di moderazione sul forum, l&apos;organizzazione del bugtracker e la gestione delle richieste di nuove feature&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="306"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="320"/>
         <source>Close</source>
         <translation>Chiudi</translation>
     </message>
@@ -1884,8 +1898,8 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pagina progetto: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Autori: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Felix Hammer (&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - idea iniziale, achitettura di base, implementazione gui, pacchetto linux&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Florian Thauer (&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - idea iniziale, architettura di base, sviluppo motore&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Lothar May (&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - sviluppo di rete, pacchetto windows&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Oskar Lindqvist (&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - grafica gui, webdesign&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Erhard List (&lt;a href=&quot;mailto:dunkanx@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;dunkanx@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - pacchetto MacOS&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="231"/>
-        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="262"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="245"/>
+        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="270"/>
         <source>License</source>
         <translation>Licenza</translation>
     </message>
@@ -1982,8 +1996,8 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;© 2006-2011, Felix Hammer, Florian Thauer, Lothar May&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="111"/>
-        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="148"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="125"/>
+        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="156"/>
         <source>Project</source>
         <translation>Progetto</translation>
     </message>
@@ -2052,8 +2066,8 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Emiliano Volta - emiliano.volta@gmail.com&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="189"/>
-        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="226"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="203"/>
+        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="234"/>
         <source>Thanks to</source>
         <translation>Ringraziamenti a</translation>
     </message>
@@ -2126,8 +2140,8 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - per i nuovi suoni del tavolo di gioco&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="150"/>
-        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="187"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="164"/>
+        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="195"/>
         <source>Translation</source>
         <translation>Traduzione</translation>
     </message>
@@ -2671,8 +2685,8 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="172"/>
-        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="247"/>
+        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="180"/>
+        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="255"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2685,7 +2699,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="208"/>
+        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="216"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2712,97 +2726,97 @@ p, li { white-space: pre-wrap; }
         <translation>Nessun registro delle modifiche disponibile.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="88"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="90"/>
         <source>PokerTH %1 for Android (API%2)</source>
         <translation>PokerTH %1 per Android (API%2)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="92"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="94"/>
         <source>About PokerTH %1</source>
         <translation>Informazioni su PokerTH %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="96"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="98"/>
         <source>- Wikimedia Commons: for different popular avatar picture resources</source>
         <translation>- Wikimedia Commons: per le diverse gallerie di avatar</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="97"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="99"/>
         <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
         <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: per gli avatar raffiguranti persone</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="98"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="100"/>
         <source>- ZeiZei: for misc avatar pictures</source>
         <translation>- ZeiZei: per gli avatar vari</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="99"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="101"/>
         <source>- kde-look.org: for different gpl licensed sounds</source>
         <translation>- kde-look.org: per diversi suoni rilasciati sotto licenza GPL</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="100"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="102"/>
         <source>- doc_dos: for self recorded chip sounds</source>
         <translation>- doc_dos: per la registrazione del suono delle fiches</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="101"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="103"/>
         <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
         <translation>- thiger, dunkanx, BerndA, coldz, drull: per diverse patch</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="102"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="104"/>
         <source>- kraut: for internet-game-server hosting and administration</source>
         <translation>- kraut: per l&apos;hosting e l&apos;amministrazione del server per il gioco su internet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="103"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="105"/>
         <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
         <translation>- danuxi: per gli sfondi della schermata di avvio e dello stile danuxi1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="104"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="106"/>
         <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
         <translation>- heyn: per il lavoro di moderazione sul forum, l&apos;organizzazione del bugtracker e la gestione delle richieste di nuove feature</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="105"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="107"/>
         <source>- texas_outlaw: for new table sounds</source>
         <translation>- texas_outlaw: per i nuovi suoni del tavolo di gioco</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="109"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="111"/>
         <source>- Poker engine for the popular Texas Hold&apos;em Poker</source>
         <translation>- Motore per il popolare Poker &quot;Texas Holdem&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="110"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="112"/>
         <source>- Singleplayer games with up to 9 computer-opponents</source>
         <translation>- Giocatore singolo: possibilità di affrontare fino a 9 avversari IA</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="111"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="113"/>
         <source>- Multiplayer network games</source>
         <translation>- Partite multigiocatore in rete</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="112"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="114"/>
         <source>- Internet online games</source>
         <translation>- Partite multigiocatore su Internet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="113"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="115"/>
         <source>- Changeable gui with online style gallery</source>
         <translation>- Interfaccia personalizzabile con galleria online di temi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="114"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="116"/>
         <source>- Online ranking website with result tables</source>
         <translation>- Ranking online con tabelle dei risultati</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="121"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="123"/>
         <source>Project page:</source>
         <translation>Pagina progetto:</translation>
     </message>
@@ -2842,7 +2856,7 @@ p, li { white-space: pre-wrap; }
         <translation>sviluppo del client web</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="90"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="92"/>
         <source>PokerTH %1</source>
         <translation>PokerTH %1</translation>
     </message>
@@ -2971,12 +2985,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>changeCompleteBlindsDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="69"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="71"/>
         <source>Manual Blinds Order</source>
         <translation>Ordine manuale dei blind</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="70"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="72"/>
         <source>You cannot set more than 30 manual blinds.</source>
         <translation>Non puoi impostare più di 30 blind manuali.</translation>
     </message>
@@ -3010,40 +3024,40 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>changeContentDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="53"/>
+        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="58"/>
         <source>You cannot join Internet-Game-Lobby with &quot;Human Player&quot; as nickname.
 Please choose another one.</source>
         <translation>Impossibile accedere alla chat prepartita di una partita in rete col nickname &quot;Giocatore Umano&quot;.
 Si prega di sceglierne un altro.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="54"/>
-        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="63"/>
-        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="70"/>
+        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="59"/>
+        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="68"/>
+        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="75"/>
         <source>Nick name:</source>
         <translation>Nickname:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="62"/>
+        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="67"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
         <translation>Il tuo nome è già in uso da un altro giocatore.
 Scegliere un nome diverso.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="69"/>
+        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="74"/>
         <source>The player name is too short, too long or invalid. Please choose another one.</source>
         <translation>Il nome del giocatore è troppo corto, troppo lungo o non valido. Si prega di sceglierne un altro.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="76"/>
+        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="81"/>
         <source>There is already a game with your chosen game name.
 Please choose another one!</source>
         <translation>Esiste già una partita col nome che hai scelto.
 Scegli un nome diverso!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="83"/>
+        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="88"/>
         <source>There is a forbidden word in your chosen game name.
 Please choose another one!</source>
         <translation>Nel nome che hai scelto per la partita compare una parola proibita.
@@ -3056,8 +3070,8 @@ Please choose another one!</source>
 Scegli un nome diverso!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="77"/>
-        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="84"/>
+        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="82"/>
+        <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="89"/>
         <source>Game name:</source>
         <translation>Nome partita:</translation>
     </message>
@@ -3071,12 +3085,14 @@ Scegli un nome diverso!</translation>
 <context>
     <name>changeHumanPlayerNameDialog</name>
     <message>
+        <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="35"/>
         <source>Name:</source>
-        <translation type="obsolete">Nome:</translation>
+        <translation>Nome:</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="13"/>
         <source>Network Error</source>
-        <translation type="obsolete">Errore di rete</translation>
+        <translation>Errore di rete</translation>
     </message>
 </context>
 <context>
@@ -3102,27 +3118,27 @@ Scegli un nome diverso!</translation>
 <context>
     <name>connectToServerDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="70"/>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="72"/>
         <source>Connecting to server...</source>
         <translation>Connessione al server...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="78"/>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="80"/>
         <source>Connection established!</source>
         <translation>Connessione stabilita!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="62"/>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="64"/>
         <source>Resolving address...</source>
         <translation>Risoluzione indirizzo...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="74"/>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="76"/>
         <source>Starting session...</source>
         <translation>Inizio sessione...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="66"/>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="68"/>
         <source>Reading server list...</source>
         <translation>Lettura della lista dei server...</translation>
     </message>
@@ -3131,7 +3147,7 @@ Scegli un nome diverso!</translation>
     <name>createInternetGameDialog</name>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="184"/>
-        <location filename="../src/gui/qt/gui_800x480/createinternetgamedialog_800x480.ui" line="430"/>
+        <location filename="../src/gui/qt/gui_800x480/createinternetgamedialog_800x480.ui" line="424"/>
         <source>$</source>
         <translation>$</translation>
     </message>
@@ -3196,13 +3212,13 @@ Scegli un nome diverso!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="296"/>
-        <location filename="../src/gui/qt/gui_800x480/createinternetgamedialog_800x480.ui" line="451"/>
+        <location filename="../src/gui/qt/gui_800x480/createinternetgamedialog_800x480.ui" line="445"/>
         <source>Allow spectators to watch the game</source>
         <translation>Consenti agli spettatori di osservare la partita</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="336"/>
-        <location filename="../src/gui/qt/gui_800x480/createinternetgamedialog_800x480.ui" line="522"/>
+        <location filename="../src/gui/qt/gui_800x480/createinternetgamedialog_800x480.ui" line="516"/>
         <source>Create Game</source>
         <translation>Crea Partita</translation>
     </message>
@@ -3247,7 +3263,7 @@ Scegli un nome diverso!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="171"/>
-        <location filename="../src/gui/qt/gui_800x480/createinternetgamedialog_800x480.ui" line="408"/>
+        <location filename="../src/gui/qt/gui_800x480/createinternetgamedialog_800x480.ui" line="402"/>
         <source>Start Cash:</source>
         <translation>Contante iniziale:</translation>
     </message>
@@ -3271,17 +3287,27 @@ Scegli un nome diverso!</translation>
 <context>
     <name>createInternetGameDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="57"/>
+        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="67"/>
         <source>&lt;i&gt;First small blind: $%1&lt;/i&gt;</source>
         <translation>&lt;i&gt;Primo small blind: $%1&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="58"/>
+        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="68"/>
         <source>&lt;i&gt;Double blinds every %1&apos;th hand&lt;/i&gt;</source>
         <translation>&lt;i&gt;Raddoppia i blind ogni %1a mano &lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="108"/>
+        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="87"/>
+        <source>Community template:</source>
+        <translation>Modello della community:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="89"/>
+        <source>Own settings</source>
+        <translation>Impostazioni personali</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="153"/>
         <source>%1&apos;s game</source>
         <translation>Partita di %1</translation>
     </message>
@@ -3707,13 +3733,13 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Partita di %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="757"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="925"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="992"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1161"/>
         <source>connected players: %1</source>
         <translation>giocatori connessi: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1302"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1572"/>
         <source>double blinds</source>
         <translation>raddoppia blind</translation>
     </message>
@@ -3722,51 +3748,52 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">partita</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="491"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="856"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1227"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1265"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="695"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="947"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1091"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1497"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1535"/>
         <source>Game Info</source>
         <translation>Informazioni partita</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1297"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1567"/>
         <source>hands</source>
         <translation>mani</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="409"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="601"/>
         <source>Joining a private Game</source>
         <translation>Accesso a partita privata in corso</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1306"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1576"/>
         <source>manual blinds order</source>
         <translation>ordine manuale dei blind</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1299"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1569"/>
         <source>minutes</source>
         <translation>minuti</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="137"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="431"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="888"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="174"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="623"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1123"/>
         <source>Game</source>
         <translation>Partita</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="137"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="431"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="888"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="174"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="623"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1123"/>
         <source>Players</source>
         <translation>Giocatori</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="137"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="431"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="888"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="174"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="623"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1123"/>
         <source>State</source>
         <translation>Stato</translation>
     </message>
@@ -3775,13 +3802,13 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Privato</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="616"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="820"/>
         <source>open</source>
         <translation>aperta</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="750"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="927"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="985"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1163"/>
         <source>open games: %1</source>
         <translation>partite aperte: %1</translation>
     </message>
@@ -3790,7 +3817,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">giocatori in chat: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="613"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="817"/>
         <source>running</source>
         <translation>iniziata</translation>
     </message>
@@ -3799,93 +3826,98 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">R</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="137"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="431"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="888"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="174"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="623"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1123"/>
         <source>P</source>
         <translation>P</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="137"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="431"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="888"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="174"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="623"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1123"/>
         <source>Time</source>
         <translation>Tempo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="191"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="451"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="915"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="240"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="643"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1150"/>
         <source>Available Players</source>
         <translation>Giocatori Disponibili</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="198"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="249"/>
+        <source>Suggest players</source>
+        <translation>Suggerisci giocatori</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="273"/>
         <source>Invite player</source>
         <translation>Invita giocatore</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="200"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="275"/>
         <source>Ignore player</source>
         <translation>Ignora giocatore</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="202"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="277"/>
         <source>Unignore player</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="204"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="279"/>
         <source>Player infos ...</source>
         <translation>Dettagli giocatore ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="209"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="220"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="284"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="295"/>
         <source>Admin action ...</source>
         <translation>Azione amministratore ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="210"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="285"/>
         <source>Total kickban</source>
         <translatorcomment>Lasciato in inglese perchè &quot;espulsione e messa al bando&quot; risultava troppo lungo</translatorcomment>
         <translation>Kickban totale</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="218"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="293"/>
         <source>Report inappropriate game name</source>
         <translation>Segnala nome di partita offensivo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="221"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="296"/>
         <source>Close game</source>
         <translation>Chiudi partita</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="363"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="499"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1232"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="555"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="703"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1502"/>
         <source>Standard</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="368"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="504"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1237"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="560"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="708"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1507"/>
         <source>Registered players only</source>
         <translation>Solo utenti registrati</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="373"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="509"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1242"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="565"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="713"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1512"/>
         <source>Invited players only</source>
         <translation>Solo utenti invitati</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="378"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="514"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1247"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="570"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="718"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1517"/>
         <source>Ranking game</source>
         <translation>Valida per la classifica</translation>
     </message>
@@ -3894,20 +3926,20 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Giocatori connessi - max. %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="137"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="431"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="888"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="174"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="623"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1123"/>
         <source>T</source>
         <translation>T</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="76"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="113"/>
         <source>Waiting for the start of the next hand to rejoin the game ...</source>
         <translation>Attesa dell&apos;inizio della prossima mano per unirsi alla partita...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="207"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="214"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="282"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="289"/>
         <source>Show player stats</source>
         <translation>Mostra statistiche giocatore</translation>
     </message>
@@ -3924,8 +3956,8 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Giocatori connessi - Max. %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="749"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="926"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="984"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1162"/>
         <source>running games: %1</source>
         <translation>partite in corso: %1</translation>
     </message>
@@ -3934,1426 +3966,1435 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Giocatori connessi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1358"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1628"/>
         <source>Server Error</source>
         <translation>Errore del server</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1410"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1708"/>
         <source>search for player ...</source>
         <translation>Ricerca giocatore ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1639"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1978"/>
         <source>Chat is only available to registered players.</source>
         <translation>La chat è disponibile solamente ai giocatori registrati.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1653"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2010"/>
         <source>Invite %1</source>
         <translation>Invita %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1662"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2019"/>
         <source>Ignore %1</source>
         <translation>Ignora %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1670"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2027"/>
         <source>Unignore %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1673"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2030"/>
         <source>Unignore player ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1679"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2036"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
         <translation>%1 sta giocando in &quot;%2&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1681"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2038"/>
         <source>%1 is not playing at the moment.</source>
         <translation>%1 non sta giocando in questo momento.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1773"/>
         <source>&lt;span style=&apos;color:blue;&apos;&gt;%1 has been invited to %2 by %3.&lt;/span&gt;</source>
-        <translation>&lt;span style=&apos;color:blue;&apos;&gt;%1 è stato invitato a %2 da %3.&lt;/span&gt;</translation>
+        <translation type="vanished">&lt;span style=&apos;color:blue;&apos;&gt;%1 è stato invitato a %2 da %3.&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1780"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2156"/>
         <source>&lt;span style=&apos;color:red;&apos;&gt;%1 has rejected the invitation to %2.&lt;/span&gt;</source>
         <translation>&lt;span style=&apos;color:red;&apos;&gt;%1 ha rifiutato l&apos;invito a %2.&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1782"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2158"/>
         <source>&lt;span style=&apos;color:red;&apos;&gt;%1 cannot join %2 because he is busy.&lt;/span&gt;</source>
         <translation>&lt;span style=&apos;color:red;&apos;&gt;%1 non può partecipare %2 perchè risulta occupato.&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1826"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2201"/>
         <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1849"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1866"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2223"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2240"/>
         <source>The game will start in&lt;br&gt;&lt;b&gt;%1&lt;/b&gt; seconds.</source>
         <translation>La partita inizierà tra&lt;br&gt;&lt;b&gt;%1&lt;/b&gt; secondi.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1925"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2299"/>
         <source>Afghanistan</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1926"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2300"/>
         <source>ALand Islands</source>
         <translation>Isole ALand</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1927"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2301"/>
         <source>Albania</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1928"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2302"/>
         <source>Algeria</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1929"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2303"/>
         <source>American Samoa</source>
         <translation>Samoa Americane</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1930"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2304"/>
         <source>Andorra</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1931"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2305"/>
         <source>Angola</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1932"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2306"/>
         <source>Anguilla</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1933"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2307"/>
         <source>Antarctica</source>
         <translation>Antartide</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1934"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2308"/>
         <source>Antigua And Barbuda</source>
         <translation>Antigua e Barbuda</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1935"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2309"/>
         <source>Argentina</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1936"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2310"/>
         <source>Armenia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1937"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2311"/>
         <source>Aruba</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1938"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2312"/>
         <source>Australia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1939"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2313"/>
         <source>Austria</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1940"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2314"/>
         <source>Azerbaijan</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1941"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2315"/>
         <source>Bahamas</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1942"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2316"/>
         <source>Bahrain</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1943"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2317"/>
         <source>Bangladesh</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1944"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2318"/>
         <source>Barbados</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1945"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2319"/>
         <source>Belarus</source>
         <translation>Bielorussia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1946"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2320"/>
         <source>Belgium</source>
         <translation>Belgio</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1947"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2321"/>
         <source>Belize</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1948"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2322"/>
         <source>Benin</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1949"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2323"/>
         <source>Bermuda</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1950"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2324"/>
         <source>Bhutan</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1951"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2325"/>
         <source>Bolivia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1952"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2326"/>
         <source>Bosnia And Herzegovina</source>
         <translation>Bosnia Herzegovina</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1953"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2327"/>
         <source>Botswana</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1954"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2328"/>
         <source>Bouvet Island</source>
         <translation>Isola Bouvet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1955"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2329"/>
         <source>Brazil</source>
         <translation>Brasile</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1956"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2330"/>
         <source>British Indian Ocean Territory</source>
         <translation>Territorio britannico dell&apos;oceano Indiano</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1957"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2331"/>
         <source>Brunei Darussalam</source>
         <translation>Sultanato del Brunei</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1958"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2332"/>
         <source>Bulgaria</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1959"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2333"/>
         <source>Burkina Faso</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1960"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2334"/>
         <source>Burundi</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1961"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2335"/>
         <source>Cambodia</source>
         <translation>Cambogia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1962"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2336"/>
         <source>Cameroon</source>
         <translation>Camerun</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1963"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2337"/>
         <source>Canada</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1964"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2338"/>
         <source>Cape Verde</source>
         <translation>Capo Verde</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1965"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2339"/>
         <source>Cayman Islands</source>
         <translation>Isole Cayman</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1966"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2340"/>
         <source>Central African Republic</source>
         <translation>Repubblica Centrafricana</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1967"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2341"/>
         <source>Chad</source>
         <translation>Ciad</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1968"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2342"/>
         <source>Chile</source>
         <translation>Cile</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1969"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2343"/>
         <source>China</source>
         <translation>Cina</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1970"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2344"/>
         <source>Christmas Island</source>
         <translation>Isola di Natale</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1971"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2345"/>
         <source>Cocos (Keeling) Islands</source>
         <translation>Isole Cocos e Keeling</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1972"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2346"/>
         <source>Colombia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1973"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2347"/>
         <source>Comoros</source>
         <translation>Comore</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1974"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2348"/>
         <source>Congo</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1975"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2349"/>
         <source>Congo, The Democratic Republic Of The</source>
         <translation>Repubblica Democratica del Congo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1976"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2350"/>
         <source>Cook Islands</source>
         <translation>Isole Cook</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1977"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2351"/>
         <source>Costa Rica</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1978"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2352"/>
         <source>Cote D&apos;Ivoire</source>
         <translation>Costa D&apos;Avorio</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1979"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2353"/>
         <source>Croatia</source>
         <translation>Croazia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1980"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2354"/>
         <source>Cuba</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1981"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2355"/>
         <source>Cyprus</source>
         <translation>Cipro</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1982"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2356"/>
         <source>Czech Republic</source>
         <translation>Repubblica Ceca</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1983"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2357"/>
         <source>Denmark</source>
         <translation>Danimarca</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1984"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2358"/>
         <source>Djibouti</source>
         <translation>Gibuti</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1985"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2359"/>
         <source>Dominica</source>
         <translation>Dominica</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1986"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2360"/>
         <source>Dominican Republic</source>
         <translation>Repubblica Dominicana</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1987"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2361"/>
         <source>Ecuador</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1988"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2362"/>
         <source>Egypt</source>
         <translation>Egitto</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1989"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2363"/>
         <source>El Salvador</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1990"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2364"/>
         <source>Equatorial Guinea</source>
         <translation>Guinea Equatoriale</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1991"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2365"/>
         <source>Eritrea</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1992"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2366"/>
         <source>Estonia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1993"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2367"/>
         <source>Ethiopia</source>
         <translation>Etiopia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1994"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2368"/>
         <source>Falkland Islands (Malvinas)</source>
         <translation>Isole Falkland (Malvine)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1995"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2369"/>
         <source>Faroe Islands</source>
         <translation>Isole Faroe</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1996"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2370"/>
         <source>Fiji</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1997"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2371"/>
         <source>Finland</source>
         <translation>Finlandia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1998"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2372"/>
         <source>France</source>
         <translation>Francia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1999"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2373"/>
         <source>French Guiana</source>
         <translation>Guiana Francese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2000"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2374"/>
         <source>French Polynesia</source>
         <translation>Polinesia Francese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2001"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2375"/>
         <source>French Southern Territories</source>
         <translation>Territori Francesi del Sud</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2002"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2376"/>
         <source>Gabon</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2003"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2377"/>
         <source>Gambia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2004"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2378"/>
         <source>Georgia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2005"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2379"/>
         <source>Germany</source>
         <translation>Germania</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2006"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2380"/>
         <source>Ghana</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2007"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2381"/>
         <source>Gibraltar</source>
         <translation>Gibilterra</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2008"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2382"/>
         <source>Greece</source>
         <translation>Grecia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2009"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2383"/>
         <source>Greenland</source>
         <translation>Groenlandia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2010"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2384"/>
         <source>Grenada</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2011"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2385"/>
         <source>Guadeloupe</source>
         <translation>Guadalupa</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2012"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2386"/>
         <source>Guam</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2013"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2387"/>
         <source>Guatemala</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2014"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2388"/>
         <source>Guernsey</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2015"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2389"/>
         <source>Guinea</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2016"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2390"/>
         <source>Guinea-Bissau</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2017"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2391"/>
         <source>Guyana</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2018"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2392"/>
         <source>Haiti</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2019"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2393"/>
         <source>Heard Island And Mcdonald Islands</source>
         <translation>Isole Heard e McDonald</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2020"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2394"/>
         <source>Holy See (Vatican City State)</source>
         <translation>Santa Sede (Città Del Vaticano)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2021"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2395"/>
         <source>Honduras</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2022"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2396"/>
         <source>Hong Kong</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2023"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2397"/>
         <source>Hungary</source>
         <translation>Ungheria</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2024"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2398"/>
         <source>Iceland</source>
         <translation>Islanda</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2025"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2399"/>
         <source>India</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2026"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2400"/>
         <source>Indonesia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2027"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2401"/>
         <source>Iran, Islamic Republic Of</source>
         <translation>Iran</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2028"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2402"/>
         <source>Iraq</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2029"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2403"/>
         <source>Ireland</source>
         <translation>Irlanda</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2030"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2404"/>
         <source>Isle Of Man</source>
         <translation>Isola di Man</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2031"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2405"/>
         <source>Israel</source>
         <translation>Israele</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2032"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2406"/>
         <source>Italy</source>
         <translation>Italia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2033"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2407"/>
         <source>Jamaica</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2034"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2408"/>
         <source>Japan</source>
         <translation>Giappone</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2035"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2409"/>
         <source>Jersey</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2036"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2410"/>
         <source>Jordan</source>
         <translation>Giordania</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2037"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2411"/>
         <source>Kazakhstan</source>
         <translation>Kazakistan</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2038"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2412"/>
         <source>Kenya</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2039"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2413"/>
         <source>Kiribati</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2040"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2414"/>
         <source>Korea, Democratic People&apos;S Republic Of</source>
         <translation>Corea del Nord</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2041"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2415"/>
         <source>Korea, Republic Of</source>
         <translation>Corea del Sud</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2042"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2416"/>
         <source>Kuwait</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2043"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2417"/>
         <source>Kyrgyzstan</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2044"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2418"/>
         <source>Lao People&apos;S Democratic Republic</source>
         <translation>Laos</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2045"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2419"/>
         <source>Latvia</source>
         <translation>Lettonia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2046"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2420"/>
         <source>Lebanon</source>
         <translation>Libano</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2047"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2421"/>
         <source>Lesotho</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2048"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2422"/>
         <source>Liberia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2049"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2423"/>
         <source>Libyan Arab Jamahiriya</source>
         <translation>Libia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2050"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2424"/>
         <source>Liechtenstein</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2051"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2425"/>
         <source>Lithuania</source>
         <translation>Lituania</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2052"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2426"/>
         <source>Luxembourg</source>
         <translation>Lussemburgo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2053"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2427"/>
         <source>Macao</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2054"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2428"/>
         <source>Macedonia, The Former Yugoslav Republic Of</source>
         <translation>Macedonia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2055"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2429"/>
         <source>Madagascar</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2056"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2430"/>
         <source>Malawi</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2057"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2431"/>
         <source>Malaysia</source>
         <translation>Malesia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2058"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2432"/>
         <source>Maldives</source>
         <translation>Maldive</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2059"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2433"/>
         <source>Mali</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2060"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2434"/>
         <source>Malta</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2061"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2435"/>
         <source>Marshall Islands</source>
         <translation>Isole Marshall</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2062"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2436"/>
         <source>Martinique</source>
         <translation>Martinica</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2063"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2437"/>
         <source>Mauritania</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2064"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2438"/>
         <source>Mauritius</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2065"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2439"/>
         <source>Mayotte</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2066"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2440"/>
         <source>Mexico</source>
         <translation>Messico</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2067"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2441"/>
         <source>Micronesia, Federated States Of</source>
         <translation>Micronesia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2068"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2442"/>
         <source>Moldova, Republic Of</source>
         <translation>Moldavia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2069"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2443"/>
         <source>Monaco</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2070"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2444"/>
         <source>Mongolia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2071"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2445"/>
         <source>Montserrat</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2072"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2446"/>
         <source>Morocco</source>
         <translation>Marocco</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2073"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2447"/>
         <source>Mozambique</source>
         <translation>Mozambico</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2074"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2448"/>
         <source>Myanmar</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2075"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2449"/>
         <source>Namibia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2076"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2450"/>
         <source>Nauru</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2077"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2451"/>
         <source>Nepal</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2078"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2452"/>
         <source>Netherlands</source>
         <translation>Olanda</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2079"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2453"/>
         <source>Netherlands Antilles</source>
         <translation>Antille Olandesi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2080"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2454"/>
         <source>New Caledonia</source>
         <translation>Nuova Caledonia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2081"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2455"/>
         <source>New Zealand</source>
         <translation>Nuova Zelanda</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2082"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2456"/>
         <source>Nicaragua</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2083"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2457"/>
         <source>Niger</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2084"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2458"/>
         <source>Nigeria</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2085"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2459"/>
         <source>Niue</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2086"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2460"/>
         <source>Norfolk Island</source>
         <translation>Isole Norfolk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2087"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2461"/>
         <source>Northern Mariana Islands</source>
         <translation>Isole Marianne Settentrionali</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2088"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2462"/>
         <source>Norway</source>
         <translation>Norvegia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2089"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2463"/>
         <source>Oman</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2090"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2464"/>
         <source>Pakistan</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2091"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2465"/>
         <source>Palau</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2092"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2466"/>
         <source>Palestinian Territory, Occupied</source>
         <translation>Palestina</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2093"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2467"/>
         <source>Panama</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2094"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2468"/>
         <source>Papua New Guinea</source>
         <translation>Papua Nuova Guinea</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2095"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2469"/>
         <source>Paraguay</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2096"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2470"/>
         <source>Peru</source>
         <translation>Perù</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2097"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2471"/>
         <source>Philippines</source>
         <translation>Filippine</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2098"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2472"/>
         <source>Pitcairn</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2099"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2473"/>
         <source>Poland</source>
         <translation>Polonia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2100"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2474"/>
         <source>Portugal</source>
         <translation>Portogallo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2101"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2475"/>
         <source>Puerto Rico</source>
         <translation>Porto Rico</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2102"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2476"/>
         <source>Qatar</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2103"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2477"/>
         <source>Reunion</source>
         <translation>Riunione</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2104"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2478"/>
         <source>Romania</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2105"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2479"/>
         <source>Russian Federation</source>
         <translation>Federazione Russa</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2106"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2480"/>
         <source>Rwanda</source>
         <translation>Ruanda</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2107"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2481"/>
         <source>Saint Helena</source>
         <translation>Sant&apos;Elena</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2108"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2482"/>
         <source>Saint Kitts And Nevis</source>
         <translation>Saint Kitts e Nevis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2109"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2483"/>
         <source>Saint Lucia</source>
         <translation>Santa Lucia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2110"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2484"/>
         <source>Saint Pierre And Miquelon</source>
         <translation>Saint-Pierre e Miquelon</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2111"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2485"/>
         <source>Saint Vincent And The Grenadines</source>
         <translation>Saint Vincent e Grenadine</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2112"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2486"/>
         <source>Samoa</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2113"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2487"/>
         <source>San Marino</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2114"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2488"/>
         <source>Sao Tome And Principe</source>
         <translation>Sao Tome e Principe</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2115"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2489"/>
         <source>Saudi Arabia</source>
         <translation>Arabia Saudita</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2116"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2490"/>
         <source>Senegal</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2117"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2491"/>
         <source>Serbia And Montenegro</source>
         <translation>Serbia E Montenegro</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2118"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2492"/>
         <source>Seychelles</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2119"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2493"/>
         <source>Sierra Leone</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2120"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2494"/>
         <source>Singapore</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2121"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2495"/>
         <source>Slovakia</source>
         <translation>Slovacchia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2122"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2496"/>
         <source>Slovenia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2123"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2497"/>
         <source>Solomon Islands</source>
         <translation>Isole Salomone</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2124"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2498"/>
         <source>Somalia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2125"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2499"/>
         <source>South Africa</source>
         <translation>Sudafrica</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2126"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2500"/>
         <source>South Georgia And The South Sandwich Islands</source>
         <translation>Georgia del Sud e isole Sandwich meridionali</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2127"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2501"/>
         <source>Spain</source>
         <translation>Spagna</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2128"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2502"/>
         <source>Sri Lanka</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2129"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2503"/>
         <source>Sudan</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2130"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2504"/>
         <source>Suriname</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2131"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2505"/>
         <source>Svalbard And Jan Mayen</source>
         <translation>Svalbard e Jan Mayen</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2132"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2506"/>
         <source>Swaziland</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2133"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2507"/>
         <source>Sweden</source>
         <translation>Svezia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2134"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2508"/>
         <source>Switzerland</source>
         <translation>Svizzera</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2135"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2509"/>
         <source>Syrian Arab Republic</source>
         <translation>Siria</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2136"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2510"/>
         <source>Taiwan, Province Of China</source>
         <translation>Taiwan</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2137"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2511"/>
         <source>Tajikistan</source>
         <translation>Tagikistan</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2138"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2512"/>
         <source>Tanzania, United Republic Of</source>
         <translation>Tanzania</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2139"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2513"/>
         <source>Thailand</source>
         <translation>Thailandia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2140"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2514"/>
         <source>Timor-Leste</source>
         <translation>Timor Est</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2141"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2515"/>
         <source>Togo</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2142"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2516"/>
         <source>Tokelau</source>
         <translation>Tokelau</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2143"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2517"/>
         <source>Tonga</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2144"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2518"/>
         <source>Trinidad And Tobago</source>
         <translation>Trinidad e Tobago</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2145"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2519"/>
         <source>Tunisia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2146"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2520"/>
         <source>Turkey</source>
         <translation>Tuchia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2147"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2521"/>
         <source>Turkmenistan</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2148"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2522"/>
         <source>Turks And Caicos Islands</source>
         <translation>Turks e Caicos</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2149"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2523"/>
         <source>Tuvalu</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2150"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2524"/>
         <source>Uganda</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2151"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2525"/>
         <source>Ukraine</source>
         <translation>Ucraina</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2152"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2526"/>
         <source>United Arab Emirates</source>
         <translation>Emirati Arabi Uniti</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2153"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2527"/>
         <source>United Kingdom</source>
         <translation>Regno Unito</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2154"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2528"/>
         <source>United States</source>
         <translation>Stati Uniti</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2155"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2529"/>
         <source>United States Minor Outlying Islands</source>
         <translation>Isole minori esterne degli Stati Uniti d&apos;America</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2156"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2530"/>
         <source>Uruguay</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2157"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2531"/>
         <source>Uzbekistan</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2158"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2532"/>
         <source>Vanuatu</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2159"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2533"/>
         <source>Venezuela</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2160"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2534"/>
         <source>Viet Nam</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2161"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2535"/>
         <source>Virgin Islands, British</source>
         <translation>Isole Vergini britanniche</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2162"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2536"/>
         <source>Virgin Islands, U.S.</source>
         <translation>Isole Vergini americane</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2163"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2537"/>
         <source>Wallis And Futuna</source>
         <translation>Wallis e Futuna</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2164"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2538"/>
         <source>Western Sahara</source>
         <translation>Sahara Occidentale</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2165"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2539"/>
         <source>Yemen</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2166"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2540"/>
         <source>Zambia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2167"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2541"/>
         <source>Zimbabwe</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2200"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2542"/>
+        <source>Catalonia</source>
+        <translation>Catalogna</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2575"/>
         <source>Are you sure you want to report the game name:
 &quot;%1&quot; as inappropriate?</source>
         <translation>Sei sicuro di voler segnalare il nome della partita:
 &quot;%1&quot; come offensivo?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2217"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2592"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
         <translation>Sei sicuro di voler chiudere la partita:
 &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2233"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2608"/>
         <source>Are you sure you want to total kickban the player: &quot;%1&quot;?</source>
         <translation>Sei sicuro di voler effettuare un kickban totale del giocatore: &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1656"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2013"/>
         <source>Invite player ...</source>
         <translation>Invita giocatore ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="89"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="126"/>
         <source>Click here to view the online rankings</source>
         <translation>Clicca qui per visualizzare le statistiche</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="90"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="127"/>
         <source>Spectate</source>
         <translation>Osserva</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="388"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="525"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1256"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="580"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="729"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1526"/>
         <source>sec (action)</source>
         <translation>secondi (azione)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="388"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="525"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1256"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="580"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="729"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1526"/>
         <source>sec (hand delay)</source>
         <translation>sec (ritardo mani)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="934"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1451"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1170"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1765"/>
         <source>Players (%1)</source>
         <translation>Giocatori (%1)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1056"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1130"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1452"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1293"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1367"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1766"/>
         <source>Spectators (%1)</source>
         <translation>Spettatori (%1)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1665"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2022"/>
         <source>Ignore player ...</source>
         <translation>Ignora giocatore ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1740"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2110"/>
         <source>You have entered a game with type &quot;invite-only&quot;.
 Feel free to invite other players by right-clicking on their nick in the available players list.</source>
         <translation>Sei entrato in una partita &quot;su invito&quot;.
 Sentiti libero di invitare altri giocatori cliccando col tasto destro sul nickname nella lista dei giocatori disponibili.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1759"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2129"/>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
         <translation>Sei stato invitato alla partita &lt;b&gt;%1&lt;/b&gt; da &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Desideri partecipare alla partita?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1809"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2145"/>
+        <source>%1 has been invited to %2 by %3.</source>
+        <translation>%1 è stato invitato a %2 da %3.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2185"/>
         <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on your ignore list?</source>
         <translation>Non riceverai più messaggi di chat o inviti a partite da questo utente.&lt;br&gt;Vuoi veramente inserire l&apos;utente &lt;b&gt;%1&lt;/b&gt; nella lista degli utenti ignorati?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1740"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1759"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2110"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2129"/>
         <source>PokerTH - Info Message</source>
         <translation>PokerTH - Informazione</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1809"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1826"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2199"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2216"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2232"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2185"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2201"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2574"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2591"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2607"/>
         <source>PokerTH - Question</source>
         <translation>PokerTH - Domanda</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="65"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="102"/>
         <source>Starting game. Please wait ...</source>
         <translation>Avvio partita. Attendere prego...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="410"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="602"/>
         <source>You are about to join a private game. Please enter the password!</source>
         <translation>Stai per unirti ad una partita privata. Inserisci la password!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1359"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1629"/>
         <source>You should not kick yourself from this game!</source>
         <translation>Non puoi auto-espellerti da questa partita!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="267"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="271"/>
         <source>Send private message</source>
         <translation>Invia messaggio privato</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1947"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2002"/>
         <source>Send private message to %1</source>
         <translation>Invia messaggio privato a %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1950"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2005"/>
         <source>Send private message ...</source>
         <translation>Invia messaggio privato ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2037"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2092"/>
         <source>Private message</source>
         <translation>Messaggio privato</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2038"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2093"/>
         <source>Message to %1:</source>
         <translation>Messaggio per %1:</translation>
     </message>
@@ -5361,8 +5402,8 @@ Sentiti libero di invitare altri giocatori cliccando col tasto destro sul nickna
 <context>
     <name>gameTable</name>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4634"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4698"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4714"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4747"/>
         <source>About PokerTH ...</source>
         <translation>Informazioni su PokerTH...</translation>
     </message>
@@ -5371,17 +5412,17 @@ Sentiti libero di invitare altri giocatori cliccando col tasto destro sul nickna
         <translation type="obsolete">All In</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4316"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4396"/>
         <source>Auto-Check / Auto-Call-Any</source>
         <translation>Auto-Check / Auto-Call (sempre)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4306"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4386"/>
         <source>Auto-Check / Auto-Fold</source>
         <translation>Auto-Check / Auto-Fold</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4284"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4364"/>
         <source>Away</source>
         <translation>Away</translation>
     </message>
@@ -5394,78 +5435,78 @@ Sentiti libero di invitare altri giocatori cliccando col tasto destro sul nickna
         <translation type="obsolete">⌘C</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3672"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3679"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4644"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4708"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4724"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4757"/>
         <source>Create Network Game ...</source>
         <translation>Crea partita in rete...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4713"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4777"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4793"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4826"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4667"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4731"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4747"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4780"/>
         <source>Ctrl+F</source>
         <translation>Ctrl+F</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3893"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3900"/>
         <source>Save</source>
         <translation>Salva</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4689"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4753"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4769"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4802"/>
         <source>Ctrl+H</source>
         <translation>Ctrl+H</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4705"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4769"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4785"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4818"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4655"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4719"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4735"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4768"/>
         <source>Ctrl+J</source>
         <translation>Ctrl+J</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4697"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4761"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4777"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4810"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4621"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4685"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4701"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4734"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4647"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4711"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4727"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4760"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4629"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4693"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4709"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4742"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4675"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4739"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4755"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4788"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
@@ -5474,9 +5515,9 @@ Sentiti libero di invitare altri giocatori cliccando col tasto destro sul nickna
         <translation type="obsolete">⌘F</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4664"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4474"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4728"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4744"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4463"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4777"/>
         <source>Fullscreen</source>
         <translation>Tutto schermo</translation>
     </message>
@@ -5489,19 +5530,19 @@ Sentiti libero di invitare altri giocatori cliccando col tasto destro sul nickna
         <translation type="obsolete">⌘H</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3643"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3650"/>
         <source>Hands</source>
         <translation>Mani</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4702"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4766"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4782"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4815"/>
         <source>Internet Game ...</source>
         <translation>Partita in Internet...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4652"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4716"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4732"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4765"/>
         <source>Join Network Game ...</source>
         <translation>Unisciti a una partita in rete...</translation>
     </message>
@@ -5510,12 +5551,12 @@ Sentiti libero di invitare altri giocatori cliccando col tasto destro sul nickna
         <translation type="obsolete">⌘L</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4249"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4329"/>
         <source>Log</source>
         <translation>Registro</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4293"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4373"/>
         <source>Manual Action (default)</source>
         <translation>Azione manuale (predefinito)</translation>
     </message>
@@ -5545,53 +5586,53 @@ Sentiti libero di invitare altri giocatori cliccando col tasto destro sul nickna
         <translation type="obsolete">QMainWindow { background-image: url(:/guiv2/resources/guiv2/table.png); background-position: bottom center; background-origin: content; }</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4626"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4690"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4706"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4739"/>
         <source>Quit</source>
         <translation>Esci</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4639"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4703"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4719"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4752"/>
         <source>Settings ...</source>
         <translation>Impostazioni...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4710"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4774"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4790"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4823"/>
         <source>Show/Hide Away Window</source>
         <translation>Mostra/Nascondi finestra away</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4672"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4736"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4752"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4785"/>
         <source>Show/Hide Chat Window</source>
         <translation>Mostra/Nascondi finestra di chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4680"/>
-        <location filename="../src/gui/qt/gametable.ui" line="4683"/>
-        <location filename="../src/gui/qt/gametable.ui" line="4686"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4744"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4747"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4750"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4760"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4763"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4766"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4793"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4796"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4799"/>
         <source>Show/Hide Hands Window</source>
         <translation>Mostra/Nascondi finestra mani</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4694"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4758"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4774"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4807"/>
         <source>Show/Hide Log Window</source>
         <translation>Mostra/Nascondi finestra registro</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4450"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4530"/>
         <source>Speed:</source>
         <translation>Velocità:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4618"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4682"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4698"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4731"/>
         <source>Start Local Game ...</source>
         <translation>Inizia una partita locale...</translation>
     </message>
@@ -5604,91 +5645,109 @@ Sentiti libero di invitare altri giocatori cliccando col tasto destro sul nickna
         <translation type="obsolete">Visualizza</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3713"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3720"/>
         <source>Kick</source>
         <translation>Espelli</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3774"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3781"/>
         <source>Vote Timeout:</source>
         <translation>Timeout voto:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3819"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3826"/>
         <source>Yes</source>
         <translation>Sì</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3832"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3839"/>
         <source>No</source>
         <translation>No</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3862"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3869"/>
         <source>Player info</source>
         <translation>Info giocatore</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4337"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4067"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4574"/>
+        <source>33%</source>
+        <translation>33%</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="4089"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4596"/>
+        <source>50%</source>
+        <translation>50%</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="4111"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4618"/>
+        <source>100%</source>
+        <translation>100%</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="4417"/>
         <source>Chance</source>
         <translation>Probabilità</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4674"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4723"/>
         <source>Settings</source>
         <translation>Impostazioni</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4786"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4835"/>
         <source>Configure PokerTH</source>
         <translation>Configura PokerTH</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4722"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4802"/>
         <source>Configure PokerTH ...</source>
         <translation>Configura PokerTH...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4731"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4795"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4811"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4844"/>
         <source>Close</source>
         <translation>Chiudi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4734"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4798"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4814"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4847"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3747"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3754"/>
         <source>Vote started by:</source>
         <translation>Voto iniziato da:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4739"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4803"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4819"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4852"/>
         <source>Show/Hide Chance Window</source>
         <translation>Mostra/Nascondi Finestra Probabilità</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4742"/>
-        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4806"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4822"/>
+        <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4855"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4597"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4677"/>
         <source>&amp;View</source>
         <translation>&amp;Visualizza</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4609"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4689"/>
         <source>&amp;Settings</source>
         <translation>&amp;Impostazioni</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="4571"/>
+        <location filename="../src/gui/qt/gametable.ui" line="4651"/>
         <source>Shortcut: &lt;Shift&gt;</source>
         <translation>Scorciatoia: &lt;Shift&gt;</translation>
     </message>
@@ -5728,7 +5787,7 @@ Assicurarsi che tutti i giocatori abbiano la stessa versione di PokerTH.</transl
         <translation type="obsolete">E&apos; stata specificata una porta non valida (le porte 0-1023 non sono permesse).</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3844"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4377"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>Attenzione! Vuoi veramente abbandonare la partita corrente
@@ -5747,13 +5806,13 @@ e tornare al prepartita?</translation>
         <translation type="obsolete">Bind fallito - selezionare una porta diversa.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3557"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3565"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4055"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4064"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3745"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4245"/>
         <source>Closing PokerTH during network game</source>
         <translation>Si sta chiudendo PokerTH durante una partita in rete</translation>
     </message>
@@ -5852,11 +5911,11 @@ Please reenter the password and try again.</source>
 Reinserire la password e riprovare.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3080"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3097"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3588"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3590"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3594"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3433"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3450"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4088"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4090"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4094"/>
         <source>Lobby</source>
         <translation>Prepartita</translation>
     </message>
@@ -5873,12 +5932,12 @@ Reinserire la password e riprovare.</translation>
         <translation type="obsolete">Notifica in Rete</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="915"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="1124"/>
         <source>PokerTH %1 - The Open-Source Texas Holdem Engine</source>
         <translation>PokerTH %1 - Il Motore Texas Holdem Open-Source</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3844"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4377"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>PokerTH - Messaggio partita su Internet</translation>
     </message>
@@ -5899,31 +5958,31 @@ Reinserire la password e riprovare.</translation>
         <translation type="obsolete">Spiacente, il server è già al completo.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2816"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2819"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2822"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2915"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2918"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2921"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3083"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3099"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3142"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3145"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3148"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3241"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3243"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3246"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3436"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3452"/>
         <source>Start</source>
         <translation>Inizio</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="482"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2995"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2998"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3001"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3077"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3089"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3092"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3094"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3105"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3108"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3525"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3527"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3530"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="531"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3346"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3349"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3352"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3430"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3442"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3445"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3447"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3458"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3461"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4023"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4025"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4028"/>
         <source>Stop</source>
         <translation>Ferma</translation>
     </message>
@@ -6013,7 +6072,7 @@ Visitare l&apos;URL &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;
         <translation type="obsolete">Impossibile partecipare - la partita è già iniziata.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3746"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4246"/>
         <source>You are the hosting server. Do you want to close PokerTH anyway?</source>
         <translation>Stai facendo da server. Vuoi comunque chiudere PokerTH?</translation>
     </message>
@@ -6092,33 +6151,37 @@ Assicurarsi di essere connessi direttamente ad internet.</translation>
         <translation type="obsolete">Impossibile aprire il file di destinazione durante il download della lista server.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="897"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="1106"/>
         <source>PokerTH %1</source>
         <translation>PokerTH %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="720"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="742"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="914"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="936"/>
         <source>Chance</source>
         <translation>Probabilità</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3761"/>
         <source>Really want to exit?</source>
-        <translation>Desideri veramente uscire?</translation>
+        <translation type="vanished">Desideri veramente uscire?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3761"/>
         <source>PokerTH - Close Table?</source>
-        <translation>PokerTH - Chiudere il tavolo?</translation>
+        <translation type="vanished">PokerTH - Chiudere il tavolo?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="596"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="616"/>
+        <source>Send reaction</source>
+        <translation>Invia reazione</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4268"/>
         <source>PokerTH - Leave Game?</source>
         <translation>PokerTH - Lasciare la partita?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4268"/>
         <source>Note: Closing this window will leave the current game and return you to the lobby.
 PokerTH itself will NOT be closed.
 
@@ -6129,43 +6192,43 @@ PokerTH stesso NON verrà chiuso.
 Vuoi davvero lasciare la partita?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3869"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3878"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4409"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4418"/>
         <source>Kick</source>
         <translation>Espelli</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3913"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3917"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4453"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4457"/>
         <source>Do you want to kick &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;from this game?</source>
         <translation>Vuoi espellere &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;da questa partita?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3978"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3980"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3984"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3986"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4518"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4520"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4524"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4526"/>
         <source>&lt;b&gt;%1&lt;/b&gt; secs left</source>
         <translation>&lt;b&gt;%1&lt;/b&gt; sec. rimasti</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3993"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4533"/>
         <source>vote</source>
         <translation>voto</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3994"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4534"/>
         <source>votes</source>
         <translation>voti</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4344"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4347"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4959"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4962"/>
         <source>Chat is only available to registered players.</source>
         <translation>La chat è disponibile solamente ai giocatori registrati.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4480"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="5177"/>
         <source>Spectators</source>
         <translation>Spettatori</translation>
     </message>
@@ -6192,14 +6255,14 @@ Se sei temporaneamente assente, puoi utilizzare l&apos;apposito strumento &quot;
         <translation type="obsolete">Hai &lt;b&gt;%1&lt;/b&gt; %2 contro di te.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; voti necessari per essere espulso.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3999"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4001"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4539"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4541"/>
         <source>Player &lt;b&gt;%1&lt;/b&gt; has &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;against him. &lt;b&gt;%4&lt;/b&gt; vote(s) needed to kick.</source>
         <translation>Il giocatore &lt;b&gt;%1&lt;/b&gt; ha &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;contro di lui. &lt;b&gt;%4&lt;/b&gt; voto/i necessari all&apos;espulsione.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4005"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4007"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4545"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4547"/>
         <source>You have &lt;b&gt;%1&lt;/b&gt; %2 against you.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; vote(s) needed to kick.</source>
         <translation>Hai &lt;b&gt;%1&lt;/b&gt; %2 contro di te.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; voto/i necessari all&apos;espulsione.</translation>
     </message>
@@ -6275,7 +6338,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>internetGameLoginDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.cpp" line="46"/>
+        <location filename="../src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.cpp" line="54"/>
         <source>Create new user account</source>
         <translation>Crea un nuovo account utente</translation>
     </message>
@@ -6440,7 +6503,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Un profilo chiamato: &quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="227"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="255"/>
         <source>A profile with the name: %1 already exists.
 Would you like to overwrite ?</source>
         <translation>Esiste già un profilo chiamato %1.
@@ -6453,7 +6516,7 @@ Desideri sovrascriverlo?</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="265"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="293"/>
         <source>Could not read server-profiles list</source>
         <translation>Impossibile leggere la lista dei profili server</translation>
     </message>
@@ -6464,44 +6527,44 @@ Desideri sovrascriverlo?</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="135"/>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="186"/>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="213"/>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="283"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="155"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="202"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="236"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="318"/>
         <source>Load Server-Profile-File Error</source>
         <translation>Errore nel caricamento del profilo server</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="136"/>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="187"/>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="214"/>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="284"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="156"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="203"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="237"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="319"/>
         <source>Could not load server-profiles-file:
 %1</source>
         <translation>Impossibile caricare il file dei profili server:
 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="264"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="292"/>
         <source>Read Server-Profile List Error</source>
         <translation>Errore nella lettura della lista dei profili server</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="271"/>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="297"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="302"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="338"/>
         <source>Could not save server-profiles-file:
 %1</source>
         <translation>Impossibile salvare il file dei profili server:
 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="226"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="254"/>
         <source>Save Server Profile Error</source>
         <translation>Errore nel salvataggio del profilo server</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="270"/>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="296"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="301"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="337"/>
         <source>Save Server-Profile-File Error</source>
         <translation>Errore nel salvataggio del file dei profili server</translation>
     </message>
@@ -6579,12 +6642,12 @@ Desideri sovrascriverlo?</translation>
 <context>
     <name>manualBlindsOrderDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="63"/>
+        <location filename="../src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="65"/>
         <source>Manual Blinds Order</source>
         <translation>Ordine manuale dei blind</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="64"/>
+        <location filename="../src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="66"/>
         <source>You cannot set more than 30 manual blinds.</source>
         <translation>Non puoi impostare più di 30 blind manuali.</translation>
     </message>
@@ -6719,9 +6782,9 @@ Desideri sovrascriverlo?</translation>
 <context>
     <name>selectAvatarDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="254"/>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="269"/>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="278"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="261"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="276"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="285"/>
         <source>Avatar File Error</source>
         <translation>Errore nel file dell&apos;avatar</translation>
     </message>
@@ -6730,22 +6793,22 @@ Desideri sovrascriverlo?</translation>
         <translation type="obsolete">Immagini (*.png)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="302"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="309"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Immagini (*.png *.jpg *.gif)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="255"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="262"/>
         <source>Please select an avatar from the list!</source>
         <translation>Scegli un avatar dalla lista!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="302"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="309"/>
         <source>Select external avatar picture</source>
         <translation>Scegli l&apos;immagine avatar esterna</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="279"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="286"/>
         <source>The entered avatar picture doesn&apos;t exist.
 Please enter an valid picture!</source>
         <translation>L&apos;avatar indicato non esiste.
@@ -6758,7 +6821,7 @@ Please enter an valid picture!</source>
 Inserite un&apos;immagine valida!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="270"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="277"/>
         <source>The file size of the chosen picture is too big. (max. 30KB)
 Please choose a smaller picture!</source>
         <translation>La dimensione file dell&apos;immagine selezionata è troppo grande (max. 30KB)
@@ -6776,17 +6839,17 @@ Scegli un&apos;immagine più piccola!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="393"/>
         <source>Shows a globe symbol next to incoming chat messages. Tapping it translates that message into your selected language using an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap it.</source>
-        <translation>Mostra un'icona a forma di globo accanto ai messaggi in arrivo nella chat. Toccandola, il messaggio viene tradotto nella lingua selezionata tramite un servizio esterno (Google Traduttore o, in alternativa, MyMemory). Non viene inviato nulla finché non la tocchi.</translation>
+        <translation>Mostra un&apos;icona a forma di globo accanto ai messaggi in arrivo nella chat. Toccandola, il messaggio viene tradotto nella lingua selezionata tramite un servizio esterno (Google Traduttore o, in alternativa, MyMemory). Non viene inviato nulla finché non la tocchi.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1182"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1212"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1476"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1506"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="984"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1014"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1280"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1310"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1148"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1178"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1480"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1510"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1113"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1143"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1447"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1477"/>
         <source>$</source>
         <translation>$</translation>
     </message>
@@ -6795,38 +6858,38 @@ Scegli un&apos;immagine più piccola!</translation>
         <translation type="obsolete">0.4 (corrente)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="936"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="840"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="902"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="969"/>
         <source>10</source>
         <translation>10</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3828"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3733"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3669"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3918"/>
         <source>action (high frequent disc access)</source>
         <translation>azione (elevato - accesso frequente al disco)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1796"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1995"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1601"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1977"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1788"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1987"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1768"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2144"/>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://it.wikipedia.org/wiki/Ipv6&quot;&gt;Che cos&apos;è?&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1813"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2025"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1618"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2007"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1805"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2017"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1785"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2192"/>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://it.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;Che cos&apos;è?&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1332"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1649"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1134"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1460"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1298"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1641"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1263"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1627"/>
         <source>Always double blinds</source>
         <translation>Raddoppia sempre i blind</translation>
     </message>
@@ -6843,8 +6906,8 @@ Scegli un&apos;immagine più piccola!</translation>
         <translation type="obsolete">chat.freenode.net</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2328"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2228"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2331"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2413"/>
         <source>Computer Engine</source>
         <translation>Computer</translation>
     </message>
@@ -6857,10 +6920,10 @@ Scegli un&apos;immagine più piccola!</translation>
         <translation type="obsolete">Defaut</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1352"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1669"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1154"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1480"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1318"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1661"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1283"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1647"/>
         <source>Edit ...</source>
         <translation>Modifica...</translation>
     </message>
@@ -6869,8 +6932,8 @@ Scegli un&apos;immagine più piccola!</translation>
         <translation type="obsolete">Abilita Chat prepartita (server IRC)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3778"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3657"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3619"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3842"/>
         <source>Enable/Disable Logging</source>
         <translation>Ablita/Disabilita il registro</translation>
     </message>
@@ -6883,22 +6946,22 @@ Scegli un&apos;immagine più piccola!</translation>
         <translation type="obsolete">Versione del motore per gli avversari AI:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1244"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1274"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1553"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1583"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1046"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1076"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1354"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1384"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1210"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1240"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1551"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1581"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1175"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1205"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1521"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1551"/>
         <source>Every:</source>
         <translation>Ogni:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1202"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1496"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1004"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1300"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1168"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1500"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1133"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1467"/>
         <source>First small blind:</source>
         <translation>Primo small blind:</translation>
     </message>
@@ -6907,14 +6970,14 @@ Scegli un&apos;immagine più piccola!</translation>
         <translation type="obsolete">Dorso delle carte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3838"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3743"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3679"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3928"/>
         <source>game (low disc access)</source>
         <translation>partita (basso - accesso ridotto al disco)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1366"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1168"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1332"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1297"/>
         <source>Game Speed:</source>
         <translation>Velocità:</translation>
     </message>
@@ -6923,16 +6986,16 @@ Scegli un&apos;immagine più piccola!</translation>
         <translation type="obsolete">Velocità di gioco per il computer:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3833"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3738"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3674"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3923"/>
         <source>hand (medium disc access)</source>
         <translation>mano (media - accesso normale al disco)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1267"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1576"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1069"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1377"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1233"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1574"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1198"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1544"/>
         <source>hands</source>
         <translation>mani</translation>
     </message>
@@ -6978,18 +7041,28 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;N.b.: Le &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Impostazioni di Gioco&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; predefinite come &quot;Numero Massimo di Giocatori&quot;, &quot;Contante Iniziale&quot; e &quot;Small Blind&quot; saranno usate &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;nelle impostazioni del gioco in rete. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1088"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="898"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1054"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1027"/>
         <source>Play blind raise notification</source>
         <translation>Emetti un suono all&apos;aumento dei blind</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="350"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="379"/>
         <source>Show network state color in the corner of the avatar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1786"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="403"/>
+        <source>Enables the official community tournament templates (BBC Steps, Monthly Cup, WEC) in the create-game dialog and the &quot;Suggest players&quot; button in the waiting room of your own BBC/WEC invite game. Only relevant for the few BBC/WEC hosts.</source>
+        <translation>Attiva i modelli ufficiali dei tornei della community (BBC Steps, Monthly Cup, WEC) nella finestra di creazione della partita e il pulsante «Suggerisci giocatori» nella sala d'attesa della propria partita a invito BBC/WEC. Utile solo ai pochi organizzatori BBC/WEC.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="406"/>
+        <source>Community tournaments (BBC/WEC templates + player suggestion)</source>
+        <translation>Tornei della community (modelli BBC/WEC + suggerimento giocatori)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1953"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal;&quot;&gt;
@@ -6997,7 +7070,7 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;N.b.: Le &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Impostazioni di gioco&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; predefinite come &quot;Numero massimo di giocatori&quot;, &quot;Contante iniziale&quot; e &quot;Small blind&quot; saranno usate &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;nelle impostazioni del gioco in rete. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3610"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3795"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -7012,7 +7085,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;N.B.: Migliore qualità con un rapporto di &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;larghezza=100, altezza=140.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2263"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2272"/>
         <source>Human Player:</source>
         <translation>Giocatore umano:</translation>
     </message>
@@ -7024,7 +7097,7 @@ p, li { white-space: pre-wrap; }
         <translation>Interfaccia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1651"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1818"/>
         <source>Internet Game Settings</source>
         <translation>Impostazioni partita su Internet</translation>
     </message>
@@ -7047,47 +7120,47 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Parametri locali predefiniti</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="931"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1060"/>
         <source>Local Game Settings</source>
         <translation>Impostazioni locali</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3852"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3757"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3693"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3942"/>
         <source>Log File Directory: </source>
         <translation>Percorso file di registro:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="131"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="116"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3643"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3828"/>
         <source>Log Messages</source>
         <translation>Registro messaggi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="830"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="796"/>
         <source>Note: Best quality with image ratio like width=48, height=76.</source>
         <translation>N.B.: Migliore qualità con un rapporto di larghezza=48, altezza=76.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1342"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1659"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1144"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1470"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1308"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1651"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1273"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1637"/>
         <source>Manual blinds order:</source>
         <translation>Ordine manuale dei blind:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1439"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1243"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1443"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1410"/>
         <source>Maximum number of players:</source>
         <translation>Numero massimo di giocatori:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1294"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1603"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1096"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1404"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1260"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1601"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1225"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1571"/>
         <source>minutes</source>
         <translation>minuti</translation>
     </message>
@@ -7096,66 +7169,69 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Impostazioni rete predefinite</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1227"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1394"/>
         <source>Network Game Settings</source>
         <translation>Impostazioni di rete</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="291"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="289"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="298"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="325"/>
         <source>Network / Internet Game</source>
         <translation>Partita in rete/su Internet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1744"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1555"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1736"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1722"/>
         <source>Network Server Settings</source>
         <translation>Impostazioni server di rete</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1145"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="947"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1111"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1076"/>
         <source>Number of players:</source>
         <translation>Numero di giocatori:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="140"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="125"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3823"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="4008"/>
         <source>Factory Settings</source>
         <translation>Impostazioni predefinite</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="338"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="308"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="344"/>
         <source>Show country flag in the corner of avatar</source>
         <translation>Visualizza la nazione in un angolo dell&apos;avatar</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="538"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="708"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="503"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="633"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="528"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="680"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="559"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="689"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="755"/>
         <source>Description</source>
         <translation>Descrizione</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="543"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="713"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="508"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="638"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="533"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="685"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="564"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="694"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="760"/>
         <source>Maintainer</source>
         <translation>Responsabile</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="548"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="513"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="643"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="538"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="569"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="699"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="765"/>
         <source>State</source>
         <translation>Stato</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="741"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="870"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -7174,20 +7250,20 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;N.B.: Migliore qualità con un rapporto di &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;larghezza=48, altezza=76.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1683"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1494"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1675"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1661"/>
         <source>Delay between hands:</source>
         <translation>Intervallo una mano e l&apos;altra:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1849"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1669"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1841"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1836"/>
         <source>Server</source>
         <translation>Server</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2051"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1780"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2060"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1947"/>
         <source>Game</source>
         <translation>Partita</translation>
     </message>
@@ -7204,73 +7280,85 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-style:italic;&quot;&gt;Note: Le &lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;Impostazioni&lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-style:italic;&quot;&gt; predefinite di: &amp;quot;Numero massimo di giocatori&amp;quot;, &amp;quot;Contante Iniziale&amp;quot; e &amp;quot;Small Blind&amp;quot; saranno prese &lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;dalle impostazioni delle partite in rete.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2072"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1801"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2081"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1968"/>
         <source>Default game name:</source>
         <translation>Nome partita predefinito:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2104"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1815"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2113"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1982"/>
         <source>Default game type:</source>
         <translation>Tipo partita predefinito:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2118"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1829"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2127"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1996"/>
         <source>Standard</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2127"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1838"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2136"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2005"/>
         <source>Registered players only</source>
         <translation>Solo utenti registrati</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2136"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1847"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2145"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2014"/>
         <source>Invited players only</source>
         <translation>Solo utenti invitati</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2145"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1856"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2154"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2023"/>
         <source>Ranking game</source>
         <translation>Valida per la classifica</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2088"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="315"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2097"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="351"/>
         <source>Show lobby chat</source>
         <translation>Mostra chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2095"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1911"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2027"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2167"/>
+        <source>Use TLS</source>
+        <translation>Usa TLS</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2034"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2174"/>
+        <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Transport_Layer_Security&quot;&gt;What is this?&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;http://en.wikipedia.org/wiki/Transport_Layer_Security&quot;&gt;Che cos'è?&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2104"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2078"/>
         <source>Automatically leave the table after the game finished</source>
         <translation>Abbandona il tavolo automaticamente non appena la partita termina</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2195"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1926"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2204"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2093"/>
         <source>Ignored Players</source>
         <translation>Giocatori Ignorati</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2214"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1945"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2223"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2112"/>
         <source>Player</source>
         <translation>Giocatore</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2222"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1953"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2231"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2120"/>
         <source>Remove Player</source>
         <translation>Rimuovi Giocatore</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2093"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2278"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -7283,43 +7371,43 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Giocatore umano:&lt;br /&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;(Questo nickname sarà utilizzato anche per l&apos;accesso alle partite online)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2414"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2302"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2405"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2487"/>
         <source>Opponent 1:</source>
         <translation>Giocatore 1:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2568"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2453"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2541"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2638"/>
         <source>Opponent 2:</source>
         <translation>Giocatore 2:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2694"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2579"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2655"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2764"/>
         <source>Opponent 3:</source>
         <translation>Giocatore 3:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2876"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2755"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2813"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2940"/>
         <source>Opponent 4:</source>
         <translation>Giocatore 4:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3002"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2881"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2927"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3066"/>
         <source>Opponent 5:</source>
         <translation>Giocatore 5:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3267"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3140"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3162"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3325"/>
         <source>Opponent 6:</source>
         <translation>Giocatore 6:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3746"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3587"/>
         <source>Note: Best avatar quality with image ratio like width=50, height=50.</source>
         <translation>N.B.: Migliore qualità degli avatar con un rapporto di larghezza=50, altezza=50.</translation>
     </message>
@@ -7344,14 +7432,14 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Esporta in HTML</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="4017"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3873"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3852"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="4058"/>
         <source>Reset all settings to default ...</source>
         <translation>Ripristina tutte le impostazioni predefinite ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="4060"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3920"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3895"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="4105"/>
         <source>Note: You can not reset all settings to default during a running game!</source>
         <translation>Nota: non è possibile ripristinare le impostazioni di default durante una partita!</translation>
     </message>
@@ -7380,8 +7468,8 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Immagine del dorso delle carte:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1391"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1193"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1357"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1322"/>
         <source>Pause between hands (press &quot;start&quot; button to go on)</source>
         <translation>Pausa tra una mano e l&apos;altra (premere start per proseguire)</translation>
     </message>
@@ -7390,31 +7478,31 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Nomi dei giocatori</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2061"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2246"/>
         <source>Player Nicks/Avatars</source>
         <translation>Nick/Avatar dei giocatori</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1064"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="874"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1030"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1003"/>
         <source>Play game actions sounds like &quot;check&quot;, &quot;call&quot;, &quot;raise&quot;</source>
         <translation>Suoni per le azioni di gioco ( &quot;check&quot;, &quot;call&quot;, &quot;raise&quot;, ecc.)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1071"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="881"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1037"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1010"/>
         <source>Play lobby chat notifications</source>
         <translation>Notifiche chat di gioco</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1078"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="888"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1044"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1017"/>
         <source>Play network/internet game notifications like &quot;player joined the game&quot;</source>
         <translation>Notifiche partite in rete/Internet (Es. &quot;il giocatore si è unito alla partita&quot;)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="894"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="798"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="860"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="927"/>
         <source>Play sound effects</source>
         <translation>Abilita gli effetti sonori</translation>
     </message>
@@ -7427,18 +7515,18 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">QLabel { font-weight: bold;  }</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1229"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1532"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1031"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1333"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1195"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1530"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1160"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1500"/>
         <source>Raise blinds:</source>
         <translation>Aumenta blind:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1323"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1628"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1125"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1439"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1289"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1620"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1254"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1606"/>
         <source>Raise mode:</source>
         <translation>Modalità aumento:</translation>
     </message>
@@ -7447,35 +7535,35 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Inverti l&apos;ordine dei tasti funzione (F1 - F3)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="217"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="246"/>
         <source>Reverse order of F-Keys (F1 - F4)</source>
         <translation>Inverti l&apos;ordine dei tasti funzione (F1 - F4)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1693"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1726"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1504"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1537"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1685"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1718"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1671"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1704"/>
         <source> s</source>
         <translation> s</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1936"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1719"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1928"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1886"/>
         <source>Server Address:</source>
         <translation>Indirizzo del server:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1956"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1712"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1948"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1879"/>
         <source>Server Password:</source>
         <translation>Password del server:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1758"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1899"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1563"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1743"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1750"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1891"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1730"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1910"/>
         <source>Server Port:</source>
         <translation>Porta del server:</translation>
     </message>
@@ -7491,28 +7579,78 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="233"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="224"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="253"/>
         <source>Show buttons for small blind and big blind</source>
         <translation>Visualizza i bottoni per small e big blind</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="226"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="210"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="239"/>
         <source>Show fade-out animation for non-winning cards</source>
         <translation>Visualizza la dissolvenza per le carte non vincenti</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="268"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="252"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="275"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="288"/>
         <source>Show flip-card animation</source>
         <translation>Visualizza l&apos;animazione delle carte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1398"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1200"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="352"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="386"/>
+        <source>Disable emoji reactions</source>
+        <translation>Disattiva le reazioni emoji</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="483"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="520"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://gtstyles.pokerth.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Get new PokerTH game table styles ...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://gtstyles.pokerth.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Scarica nuovi stili per il tavolo da gioco di PokerTH ...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="647"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="656"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://cdstyles.pokerth.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Get new PokerTH card deck styles ...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://cdstyles.pokerth.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Scarica nuovi stili per il mazzo di carte di PokerTH ...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1364"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1329"/>
         <source>Show game settings dialog on every new game</source>
         <translation>Visualizza la finestra delle impostazioni di gioco
 all&apos;inizio di ogni nuova partita</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1373"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1338"/>
+        <source>Computer player strength:</source>
+        <translation>Livello dei giocatori del computer:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1384"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1349"/>
+        <source>Classic</source>
+        <translation>Classico</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1389"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1354"/>
+        <source>Strong</source>
+        <translation>Forte</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1399"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1364"/>
+        <source>Applies to local games. In network games the server decides how strong its computer players are.</source>
+        <translation>Vale per le partite locali. Nelle partite in rete è il server a determinare la forza dei suoi giocatori del computer.</translation>
     </message>
     <message>
         <source>Show intro on startup</source>
@@ -7524,7 +7662,7 @@ all&apos;inizio di ogni nuova partita</translation>
         <translation>Aspetto:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="203"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="232"/>
         <source>Show right toolbox</source>
         <translation>Visualizza il toolbox a destra</translation>
     </message>
@@ -7544,11 +7682,12 @@ all&apos;inizio di ogni nuova partita</translation>
         <translation>Scuro</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="259"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="295"/>
         <source>Show left toolbox</source>
         <translation>Visualizza il toolbox a sinistra</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="240"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="260"/>
         <source>Show 33%/50%/100% pot bet sizing buttons</source>
         <translation>Mostra pulsanti di puntata 33%/50%/100% del piatto</translation>
@@ -7564,27 +7703,27 @@ all&apos;inizio di ogni nuova partita</translation>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="86"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="71"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="784"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="913"/>
         <source>Sound</source>
         <translation>Suono</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1055"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="865"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1021"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="994"/>
         <source>Sound Categories </source>
         <translation>Categorie suoni </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="923"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="827"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="889"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="956"/>
         <source>Sound Volume:</source>
         <translation>Volume effetti sonori:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1172"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1466"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="974"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1270"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1138"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1470"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1103"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1437"/>
         <source>Start Cash:</source>
         <translation>Contante iniziale:</translation>
     </message>
@@ -7594,13 +7733,13 @@ all&apos;inizio di ogni nuova partita</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="324"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="322"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="358"/>
         <source>Switch keyboard focus to bet-input-field if it&apos;s your turn</source>
         <translation>Passa il focus della tastiera sull&apos;area di puntata al proprio turno</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1716"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1527"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1708"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1694"/>
         <source>Timeout for player action:</source>
         <translation>Tempo limite per l&apos;azione del giocatore:</translation>
     </message>
@@ -7609,36 +7748,36 @@ all&apos;inizio di ogni nuova partita</translation>
         <translation type="obsolete">Tempo limite per l&apos;azione del giocatore (in secondi):</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1789"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1988"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1594"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1970"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1781"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1980"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1761"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2137"/>
         <source>Use IPv6</source>
         <translation>Utilizza IPv6</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2164"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1875"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2173"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2042"/>
         <source>Use password for private game:</source>
         <translation>Utilizza password per partita privata:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1806"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2018"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1611"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2000"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1798"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2010"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1778"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2185"/>
         <source>Use SCTP</source>
         <translation>Utilizza SCTP</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3808"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3713"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3649"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3898"/>
         <source>Write log after every: </source>
         <translation>Scrivi sul file di registro ogni: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1855"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1675"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1847"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1842"/>
         <source>Automatic Server Configuration URL</source>
         <translation>URL configurazione automatica server</translation>
     </message>
@@ -7661,14 +7800,14 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;N.B.: Migliore qualità con un rapporto di &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;larghezza=48, altezza=76.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1864"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1687"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1856"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1854"/>
         <source>Serverlist Address:</source>
         <translation>Indirizzo lista server:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1887"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1700"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1879"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1867"/>
         <source>Manual Server Configuration</source>
         <translation>Configurazione manuale del server</translation>
     </message>
@@ -7685,14 +7824,14 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Giocatore umano:&lt;br /&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;(Questo nickname sarà utilizzato anche per l&apos;accesso alle partite online)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3902"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3675"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3737"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3860"/>
         <source>Store log files for:</source>
         <translation>Memorizza file di registro per:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3918"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3691"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3753"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3876"/>
         <source> Day(s)</source>
         <translation> Giorno(i)</translation>
     </message>
@@ -7727,34 +7866,38 @@ p, li { white-space: pre-wrap; }
         <translation>Generale</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="247"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="238"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="254"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="274"/>
         <source>Show cards chance monitor</source>
         <translation>Mostra finestra probabilità</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="261"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="266"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="281"/>
+        <source>Show own cards only on mouse click</source>
+        <translation>Mostra le proprie carte solo con un clic del mouse</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="268"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="302"/>
         <source>Disable splashscreen on startup</source>
         <translation>Disabilita la schermata d&apos;avvio</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="331"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="329"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="365"/>
         <source>Activate the &quot;accidentally call after big raise&quot; blocker</source>
         <translation>Attivare il blocco del &quot;call involontario dopo un grosso rilancio&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="297"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="336"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="304"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="372"/>
         <source>Do not hide avatars of players which are on the ignore list</source>
         <translation>Non nascondere gli avatar dei giocatori nella lista ignorati</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="317"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="343"/>
         <source>Disable emoticons in the chat</source>
-        <translation>Disabilita emoticons nella chat</translation>
+        <translation type="vanished">Disabilita emoticons nella chat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="345"/>
@@ -7762,48 +7905,48 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="382"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="386"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="396"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="442"/>
         <source>Game Table</source>
         <translation>Tavolo di gioco</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="570"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="522"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="560"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="578"/>
         <source>Card Deck</source>
         <translation>Mazzo di carte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="735"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="652"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="707"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="708"/>
         <source>Card Back</source>
         <translation>Dorso delle carte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="741"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="658"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="713"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="714"/>
         <source>Use card back from card style</source>
         <translation>Prendi il dorso delle carte dallo stile</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="714"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="724"/>
         <source>Use separate card back style:</source>
         <translation>Utilizza uno stile dorso separato:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="785"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="702"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="757"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="831"/>
         <source>Use custom card back picture:</source>
         <translation>Utilizza un dorso personalizzato:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2187"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1918"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2196"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2085"/>
         <source>Allow spectators to watch the game</source>
         <translation>Consenti agli spettatori di osservare la partita</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="4094"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3929"/>
         <source> OK </source>
         <translation> OK </translation>
     </message>
@@ -7833,21 +7976,21 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Password:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1922"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1736"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1914"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1903"/>
         <source>Avatar Server:</source>
         <translation>Server Avatar:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="77"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="62"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="368"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="424"/>
         <source>Style</source>
         <translation>Stile</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="240"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="231"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="247"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="267"/>
         <source>Don&apos;t translate poker strings like check, call, raise from game table style</source>
         <translation>Non tradurre le stringhe check, call e raise dallo stile del tavolo da gioco</translation>
     </message>
@@ -7860,72 +8003,68 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Attiva</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="390"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="578"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="394"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="530"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="404"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="568"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="450"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="586"/>
         <source>Add ...</source>
         <translation>Aggiungi...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="397"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="585"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="401"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="537"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="411"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="575"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="457"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="593"/>
         <source>Remove</source>
         <translation>Rimuovi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="431"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="619"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="423"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="559"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="439"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="603"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="479"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="615"/>
         <source>Preview - Information:</source>
         <translation>Anteprima - Informazioni:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="487"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="464"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://gtstyles.pokerth.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Get new PokerTH game table styles ...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://gtstyles.pokerth.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Scarica nuovi stili per il tavolo da gioco di PokerTH ...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://gtstyles.pokerth.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Scarica nuovi stili per il tavolo da gioco di PokerTH ...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Card Deck Styles</source>
         <translation type="obsolete">Stili mazzo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="675"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="600"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://cdstyles.pokerth.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Get new PokerTH card deck styles ...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://cdstyles.pokerth.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Scarica nuovi stili per il mazzo di carte di PokerTH ...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://cdstyles.pokerth.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Scarica nuovi stili per il mazzo di carte di PokerTH ...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2057"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2066"/>
         <source>Note: Default Game Settings like &quot;Maximum number of players&quot;, &quot;Start Cash&quot; and &quot;Small Blind&quot; will be used from Network Game Settings.</source>
         <translation>N.B.: Le Impostazioni Predefinite di Gioco come &quot;Numero Massimo di Giocatori&quot;, &quot;Contante Iniziale&quot; e &quot;Small Blind&quot; saranno utilizzate nelle impostazioni del gioco in rete.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2319"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2322"/>
         <source>(This nick will also be used for the online game login)</source>
         <translation>(Questo nick sarà utilizzato anche comel login delle partite online)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3421"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3291"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3298"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3476"/>
         <source>Opponent 7:</source>
         <translation>Giocatore 7:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3575"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3442"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3434"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3627"/>
         <source>Opponent 8:</source>
         <translation>Giocatore 8:</translation>
     </message>
@@ -7934,8 +8073,8 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Giocatore 10:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3729"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3593"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3570"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3778"/>
         <source>Opponent 9:</source>
         <translation>Giocatore 9:</translation>
     </message>
@@ -7943,67 +8082,58 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>settingsDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1095"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1105"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1331"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1341"/>
         <source>Blinds Error</source>
         <translation>Errore relativo ai blind</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="78"/>
         <source>Dutch</source>
-        <translation>Olandese</translation>
+        <translation type="vanished">Olandese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="72"/>
         <source>Afrikaans</source>
-        <translation>Afrikaans</translation>
+        <translation type="vanished">Afrikaans</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="74"/>
         <source>Catalan</source>
-        <translation>Catalano</translation>
+        <translation type="vanished">Catalano</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="76"/>
         <source>Czech</source>
-        <translation>Ceco</translation>
+        <translation type="vanished">Ceco</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="79"/>
         <source>English</source>
-        <translation>Inglese</translation>
+        <translation type="vanished">Inglese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="81"/>
         <source>French</source>
-        <translation>Francese</translation>
+        <translation type="vanished">Francese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="83"/>
         <source>German</source>
-        <translation>Tedesco</translation>
+        <translation type="vanished">Tedesco</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="85"/>
         <source>Hungarian</source>
-        <translation>Ungherese</translation>
+        <translation type="vanished">Ungherese</translation>
     </message>
     <message>
         <source>Images (*.png)</source>
         <translation type="obsolete">Immmagine (*.png)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="869"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1103"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Immagini (*.png *.jpg *.gif)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="86"/>
         <source>Italian</source>
-        <translation>Italiano</translation>
+        <translation type="vanished">Italiano</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="848"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1082"/>
         <source>Language Changed</source>
         <translation>La lingua è stata cambiata</translation>
     </message>
@@ -8012,12 +8142,11 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Norvegese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="89"/>
         <source>Norwegian</source>
-        <translation>Norvegese</translation>
+        <translation type="vanished">Norvegese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="977"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1212"/>
         <source>Open Directory</source>
         <translation>Apri cartella</translation>
     </message>
@@ -8026,56 +8155,49 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Portoghese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="93"/>
         <source>Russian</source>
-        <translation>Russo</translation>
+        <translation type="vanished">Russo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="867"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1101"/>
         <source>Select your flipside picture</source>
         <translation>Seleziona un&apos;immagine per il dorso delle carte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="610"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="691"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="758"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="818"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="823"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="906"/>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="992"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1052"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1228"/>
         <source>Settings Error</source>
         <translation>Errore nelle impostazioni</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="88"/>
         <source>Lithuania</source>
-        <translation>Lituano</translation>
+        <translation type="vanished">Lituano</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="91"/>
         <source>Portuguese-Brazilian</source>
-        <translation>Portoghese-Brasiliano</translation>
+        <translation type="vanished">Portoghese-Brasiliano</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="92"/>
         <source>Portuguese-Portuguese</source>
-        <translation>Portoghese-Portoghese</translation>
+        <translation type="vanished">Portoghese-Portoghese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="95"/>
         <source>Slovak</source>
-        <translation>Slovacco</translation>
+        <translation type="vanished">Slovacco</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="96"/>
         <source>Spanish</source>
-        <translation>Spagnolo</translation>
+        <translation type="vanished">Spagnolo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="98"/>
         <source>Tamil</source>
-        <translation>Tamil</translation>
+        <translation type="vanished">Tamil</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="759"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="993"/>
         <source>The entered flipside picture doesn&apos;t exist.
 Please enter an valid picture!</source>
         <translation>L&apos;immagine selezionata per il dorso delle carte non esiste.
@@ -8088,8 +8210,8 @@ Please enter an valid picture!</source>
 Inserite un&apos;immagine valida!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1096"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1106"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1332"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1342"/>
         <source>The first element in your manual-blinds-list 
 is smaller than current first-small-blind!
 This first-small-blind-value will be set to maximum allowed value.</source>
@@ -8098,8 +8220,8 @@ This first-small-blind-value will be set to maximum allowed value.</source>
 Il valore del primo small blind verrà impostato al massimo consentito.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="819"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="993"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1053"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1229"/>
         <source>The log file directory doesn&apos;t exist.
 Please select an valid directory!</source>
         <translation>La cartella per il file di registro non esiste.
@@ -8112,214 +8234,219 @@ Please select an valid directory!</source>
 Inserite una directory valida!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="99"/>
         <source>Turkish</source>
-        <translation>Turco</translation>
+        <translation type="vanished">Turco</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="849"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1083"/>
         <source>You have changed application language to %1.
 Please restart PokerTH to load new language!</source>
         <translation>Hai cambiato la lingua dell&apos;applicazione in  %1.
 Riavvia PokerTH per caricare la nuova lingua!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="73"/>
         <source>Bulgarian</source>
-        <translation>Bulgaro</translation>
+        <translation type="vanished">Bulgaro</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="90"/>
         <source>Polish</source>
-        <translation>Polacco</translation>
+        <translation type="vanished">Polacco</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="75"/>
         <source>Chinese</source>
-        <translation>Cinese</translation>
+        <translation type="vanished">Cinese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="84"/>
         <source>Greek</source>
-        <translation>Greco</translation>
+        <translation type="vanished">Greco</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="97"/>
         <source>Swedish</source>
-        <translation>Svedese</translation>
+        <translation type="vanished">Svedese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="692"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="907"/>
         <source>The entered server list address is not a valid URL.
 Please enter a valid server list address!</source>
         <translation>L&apos;indirizzo della lista server immesso non è un URL valido.
 Inserisci un indirizzo valido!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="80"/>
         <source>Finnish</source>
-        <translation>Finlandese</translation>
+        <translation type="vanished">Finlandese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="77"/>
         <source>Danish</source>
-        <translation>Danese</translation>
+        <translation type="vanished">Danese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="82"/>
         <source>Galician</source>
-        <translation>Galiziano</translation>
+        <translation type="vanished">Galiziano</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="87"/>
         <source>Japanese</source>
-        <translation>Giapponese</translation>
+        <translation type="vanished">Giapponese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="94"/>
         <source>Scottish Gaelic</source>
-        <translation>Gaelico Scozzese</translation>
+        <translation type="vanished">Gaelico Scozzese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="100"/>
         <source>Vietnamese</source>
-        <translation>Vietnamita</translation>
+        <translation type="vanished">Vietnamita</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="611"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="218"/>
+        <source>UI Scale (0 = Auto):</source>
+        <translation>Scala dell'interfaccia (0 = automatica):</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="223"/>
+        <source>Auto</source>
+        <translation>Automatica</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="224"/>
+        <source>0 = automatic scaling to fit screen.
+50-150 = manual percentage (requires restart).</source>
+        <translation>0 = adattamento automatico allo schermo.
+50-150 = percentuale manuale (richiede il riavvio).</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="824"/>
         <source>The opponent names are not unique.
 Please choose different names for each Opponent!</source>
         <translation>I nomi degli avversari non sono univoci.
 Scegli un nome diverso per ogni Avversario!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="987"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1223"/>
         <source>Settings Information</source>
         <translation>Informazioni</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="988"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1224"/>
         <source>You have changed the log file directory.
 Please restart PokerTH to use the new directory for the log files!</source>
         <translation>Hai modificato la cartella del file di registro.
 Occorre riavviare PokerTH per utilizzare la nuova cartella!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1147"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1287"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1383"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1524"/>
         <source>Maintainer Name</source>
         <translation>Nome responsabile</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1148"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1288"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1384"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1525"/>
         <source>Maintainer EMail</source>
         <translation>E-mail responsabile</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1149"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1289"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1385"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1526"/>
         <source>Create Date</source>
         <translation>Data creazione</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1150"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1386"/>
         <source>Windows Behaviour</source>
         <translation>Comportamento finestra</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1151"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1387"/>
         <source>scaleable</source>
         <translation>scalabile</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1152"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1388"/>
         <source>fixed</source>
         <translation>fissa</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1153"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1389"/>
         <source>Minimum Size</source>
         <translation>Dimensione minima</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1154"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1390"/>
         <source>Maximum Size</source>
         <translation>Dimensione massima</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1155"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1391"/>
         <source>Fixed Size</source>
         <translation>Dimensione fissa</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1156"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1392"/>
         <source>State</source>
         <translation>Stato</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1208"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1445"/>
         <source>Please select your game table style</source>
         <translation>Seleziona lo stile del tavolo da gioco</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1210"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1447"/>
         <source>PokerTH game table styles (*.xml)</source>
         <translation>Stili tavolo da gioco di PokerTH (*.xml)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1223"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1461"/>
         <source>Game Table Style Error</source>
         <translation>Errore sullo stile del tavolo da gioco</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1224"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1462"/>
         <source>Selected game table style file is already in the list. 
 Please select another one to add!</source>
         <translation>Lo stile del tavolo da gioco selezionato è già presente nella lista.
 Selezionane un altro!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1246"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1483"/>
         <source>Game Table Style File Error</source>
         <translation>Errore sul file dello stile del tavolo da gioco</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1247"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1484"/>
         <source>Could not load game table style file correctly. 
 Style will not be placed into list!</source>
         <translation>Impossibile caricare correttamente il file contenente lo stile.
 Lo stile non verrà aggiunto alla lista!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1334"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1592"/>
         <source>Please select your card deck style</source>
         <translation>Seleziona lo stile del mazzo di carte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1336"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1594"/>
         <source>PokerTH card deck styles (*.xml)</source>
         <translation>Stili mazzo di carte di PokerTH (*.xml)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1349"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1608"/>
         <source>Card Deck Style Error</source>
         <translation>Errore sullo stile del mazzo di carte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1350"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1609"/>
         <source>Selected card deck style file is already in the list. 
 Please select another one to add!</source>
         <translation>Lo stile del mazzo di carte selezionato è già presente nella lista.
 Selezionane un altro!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1374"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1632"/>
         <source>Card Deck Style File Error</source>
         <translation>Errore sul file dello stile del mazzo di carte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1375"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1633"/>
         <source>Could not load card deck style file correctly. 
 Style will not be placed into list!</source>
         <translation>Impossibile caricare correttamente il file contenente lo stile.
@@ -8366,12 +8493,12 @@ Lo stile non verrà aggiunto alla lista!</translation>
         <translation type="obsolete">Registro PokerTH SQL (*.pdb)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1412"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1670"/>
         <source>PokerTH - Settings</source>
         <translation>PokerTH - Impostazioni</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1413"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1671"/>
         <source>Attention: this will delete all your personal settings and close PokerTH!
 Do you really want to reset factory settings?</source>
         <translation>Attenzione: questa operazione cancellerà tuttie le impostazioni personalizzate e chiuderà PokerTH!
@@ -8389,7 +8516,7 @@ Sei sicuro di voler ripristinare le impostazioni predefinite?</translation>
 <context>
     <name>startNetworkGameDialog</name>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="117"/>
+        <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="105"/>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="59"/>
         <source>0</source>
         <translation>0</translation>
@@ -8400,19 +8527,19 @@ Sei sicuro di voler ripristinare le impostazioni predefinite?</translation>
         <translation>Annulla</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="72"/>
+        <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="60"/>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="88"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="46"/>
+        <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="40"/>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="20"/>
         <source>Connected Players</source>
         <translation>Giocatori connessi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="57"/>
+        <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="51"/>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="28"/>
         <source>Fill up with computer opponents</source>
         <translation>Completa con avversari gestiti dal computer</translation>
@@ -8422,7 +8549,7 @@ Sei sicuro di voler ripristinare le impostazioni predefinite?</translation>
         <translation type="obsolete">Espelli</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="140"/>
+        <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="128"/>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="79"/>
         <source>Kick Player</source>
         <translation>Espelli giocatore</translation>
@@ -8432,13 +8559,13 @@ Sei sicuro di voler ripristinare le impostazioni predefinite?</translation>
         <translation type="obsolete">Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="107"/>
+        <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="95"/>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="52"/>
         <source>Maximum number of players:</source>
         <translation>Numero massimo di giocatori:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="176"/>
+        <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="164"/>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="158"/>
         <source>Start Game</source>
         <translation>Inizia partita</translation>
@@ -8453,12 +8580,12 @@ Sei sicuro di voler ripristinare le impostazioni predefinite?</translation>
 <context>
     <name>startNetworkGameDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="177"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="182"/>
         <source>Server Error</source>
         <translation>Errore server</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="178"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="183"/>
         <source>You should not kick yourself from this game!</source>
         <translation>Non puoi auto-espellerti da questa partita!</translation>
     </message>
@@ -8521,104 +8648,104 @@ Sei sicuro di voler ripristinare le impostazioni predefinite?</translation>
         <translation type="obsolete">Informazioni</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="381"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="387"/>
         <location filename="../src/gui/qt/startwindow.ui" line="263"/>
         <source>Start Local Game ...</source>
         <translation>Inizia una partita locale...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="384"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="390"/>
         <location filename="../src/gui/qt/startwindow.ui" line="266"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="393"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="399"/>
         <location filename="../src/gui/qt/startwindow.ui" line="275"/>
         <source>Internet Game ...</source>
         <translation>Partita in Internet...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="396"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="402"/>
         <location filename="../src/gui/qt/startwindow.ui" line="278"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="253"/>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="401"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="259"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="407"/>
         <location filename="../src/gui/qt/startwindow.ui" line="283"/>
         <source>About PokerTH</source>
         <translation>Informazioni su PokerTH</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="82"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="88"/>
         <source>Create Network Game</source>
         <translation>Crea partita in rete</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="108"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="114"/>
         <source>Join Network Game</source>
         <translation>Unisciti a una partita in rete</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="154"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="160"/>
         <source>Start Local Game</source>
         <translation>Inizia una partita locale</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="186"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="192"/>
         <source>Configure PokerTH</source>
         <translation>Configura PokerTH</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="199"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="205"/>
         <source>Return</source>
         <translation>Indietro</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="227"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="233"/>
         <source>Internet Game</source>
         <translation>Partita in Internet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="309"/>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="448"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="315"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="454"/>
         <source>Logs</source>
         <translation>Log</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="410"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="416"/>
         <location filename="../src/gui/qt/startwindow.ui" line="292"/>
         <source>Configure PokerTH ...</source>
         <translation>Configura PokerTH...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="419"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="425"/>
         <location filename="../src/gui/qt/startwindow.ui" line="301"/>
         <source>Quit</source>
         <translation>Esci</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="443"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="449"/>
         <location filename="../src/gui/qt/startwindow.ui" line="313"/>
         <source>Create Network Game ...</source>
         <translation>Crea partita in rete...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="434"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="440"/>
         <location filename="../src/gui/qt/startwindow.ui" line="322"/>
         <source>Join Network Game ...</source>
         <translation>Unisciti a una partita in rete...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="422"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="428"/>
         <location filename="../src/gui/qt/startwindow.ui" line="304"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="20"/>
+        <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="26"/>
         <location filename="../src/gui/qt/startwindow.ui" line="26"/>
         <source>PokerTH - The Open-Source Texas Holdem Engine</source>
         <translation>PokerTH - Il Motore Texas Holdem Open-Source</translation>
@@ -8647,101 +8774,101 @@ Please choose another one.</source>
 Scegline un altro.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="717"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="723"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="729"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="735"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="741"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="747"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="753"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="759"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="765"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="771"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="777"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="783"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="789"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="796"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="802"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="808"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="814"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="821"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="827"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="833"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="841"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="847"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="853"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="861"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="867"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="873"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="889"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="895"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="901"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="907"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="913"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="919"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="926"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="933"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="940"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="947"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="953"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="959"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="966"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="972"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="978"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="984"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="990"/>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="996"/>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1002"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1008"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1014"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1020"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1026"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1032"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1038"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1044"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1050"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1056"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1062"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1068"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1075"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1081"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1087"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1093"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1100"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1106"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1112"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1120"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1126"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1132"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1140"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1146"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1152"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1168"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1174"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1180"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1186"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1192"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1198"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1205"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1212"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1219"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1226"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1232"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1238"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1245"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1251"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1257"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1263"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1269"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1275"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1281"/>
         <source>Network Error</source>
         <translation>Errore di rete</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="718"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="997"/>
         <source>Server address was not set.</source>
         <translation>Indirizzo del server mancante.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="724"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1003"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
         <translation>È stata specificata una porta non valida (le porte 0-1023 non sono permesse).</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="730"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1009"/>
         <source>Could not create a socket for TCP communication.</source>
         <translation>Impossibile creare un socket di comunicazione TCP.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="736"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1015"/>
         <source>Could not set the IP address.</source>
         <translation>Impossibile impostare l&apos;indirizzo IP.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="742"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1021"/>
         <source>Could not set the port for this type of address.</source>
         <translation>Impossibile impostare la porta per questo tipo di indirizzo.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="748"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1027"/>
         <source>The server name could not be resolved.</source>
         <translation>Impossibile risolvere il nome del server.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="754"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1033"/>
         <source>Bind failed - please choose a different port.</source>
         <translation>Bind non riuscito - seleziona una porta diversa.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="760"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1039"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
         <translation>Errore di rete interno: &quot;listen&quot; non riuscito.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="766"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1045"/>
         <source>Server execution was terminated.</source>
         <translation>L&apos;esecuzione del server è stata interrotta.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="772"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1051"/>
         <source>Could not connect to the server.
 
 The server might still be processing a previous connection attempt.
@@ -8756,7 +8883,7 @@ Attendere un momento e riprovare tra circa 1 minuto.
 Se il problema persiste, il server potrebbe essere temporaneamente non disponibile.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="778"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1057"/>
         <source>Connection timed out.
 
 The server might be busy or still processing a previous connection.
@@ -8771,12 +8898,12 @@ Attendere un momento e riprovare tra circa 1 minuto.
 Se il problema persiste, verificare l&apos;indirizzo del server o riprovare più tardi.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="784"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1063"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
         <translation>Errore di rete interno: &quot;select&quot; non riuscita.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="790"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1069"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
         <translation>Errore di rete interno: &quot;send&quot; non riuscito.</translation>
     </message>
@@ -8785,31 +8912,31 @@ Se il problema persiste, verificare l&apos;indirizzo del server o riprovare più
         <translation type="obsolete">Connessione interrotta dal server.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="797"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1076"/>
         <source>The connection to the server was lost.</source>
         <translation>La connessione al server è stata interrotta.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="803"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1082"/>
         <source>Internal network error: Duplicate TCP connection.</source>
         <translation>Errore di rete interno: connessione TCP duplicata.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="809"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1088"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>È stato ricevuto un pacchetto non valido.
 Assicurati che tutti i giocatori abbiano la stessa versione di PokerTH.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="815"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1094"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Errore di stato interno.
 Assicurati che tutti i giocatori abbiano la stessa versione di PokerTH.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="822"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1101"/>
         <source>Invalid server list URL.
 Please correct the address in the settings.</source>
         <translation>URL della lista server non valido.
@@ -8828,163 +8955,194 @@ Please make sure that the server list URL is correct.</source>
 Assicurati che l&apos;URL della lista server sia corretto.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="476"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="618"/>
         <source>Rejoin possible!</source>
         <translation>E&apos; possibile ritornare alla partita!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="477"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="619"/>
         <source>There is an existing session with a previous game.</source>
         <translation>E&apos; presente una sessione con una precedente partita.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="478"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="620"/>
         <source>Do you want to rejoin this game?</source>
         <translation>Desideri ritornare a questa partita?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="570"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="611"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="712"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="753"/>
         <source>Start Network Game</source>
         <translation>Inizia una partita in rete</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="828"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="976"/>
+        <source>Connection Lost</source>
+        <translation>Connessione persa</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="977"/>
+        <source>The connection to the server was lost.
+Please reconnect to continue.</source>
+        <translation>La connessione al server è stata persa.
+Riconnettiti per continuare.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1107"/>
         <source>The PokerTH internet server list contains invalid data.
 If you use a custom server list, please make sure its format is correct.</source>
         <translation>La lista server internet di PokerTH contiene dati non validi.
 Se utilizzi una lista server personalizzata, assicurati che il suo formato sia corretto.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="834"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1113"/>
         <source>Could not unzip the PokerTH internet server list.</source>
         <translation>Impossibile decomprimere la lista dei server Internet di PokerTH.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="842"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1121"/>
         <source>Could not download the PokerTH internet server list.
 Please make sure you are directly connected to the internet.</source>
         <translation>Impossibile scaricare la lista server internet di PokerTH.
 Assicurati di essere connesso direttamente ad internet.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="848"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1127"/>
         <source>Could not open the target file when downloading the server list.</source>
         <translation>Impossibile aprire il file di destinazione durante il download della lista server.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="854"/>
         <source>The PokerTH server does not support this version of the game.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
-        <translation>Il server di PokerTH non supporta questa versione del gioco. &lt;br&gt;Visita l&apos;URL &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; e scarica l&apos;ultima versione.</translation>
+        <translation type="vanished">Il server di PokerTH non supporta questa versione del gioco. &lt;br&gt;Visita l&apos;URL &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; e scarica l&apos;ultima versione.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="862"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1133"/>
+        <source>The PokerTH server does not support this version of the game.&lt;br&gt;Please go to &lt;a href=&quot;https://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;https://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
+        <translation>Il server di PokerTH non supporta questa versione del gioco. &lt;br&gt;Visitare l&apos;URL &lt;a href=&quot;https://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;https://www.pokerth.net&lt;/a&gt; e scaricare l&apos;ultima versione.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1141"/>
         <source>Sorry, this server is already full.</source>
         <translation>Spiacente, il server è già al completo.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="868"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1147"/>
         <source>Invalid login.
 Please check your username and password.</source>
         <translation>Accesso negato.
 Controlla username e password.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="941"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1220"/>
         <source>Your account is blocked indefinitely.</source>
         <translation>Il tuo account è bloccato a tempo indeterminato.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="979"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1258"/>
         <source>You cannot login at this time. Please try again in a few seconds.</source>
         <translation>Impossibile effettuare l&apos;accesso. Riprova fra qualche istante.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1022"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1318"/>
         <source>You cannot join this game, because another player in that game has your network address.</source>
         <translation>Non puoi unirti alla partita, è presente un altro giocatore che ha il tuo stesso indirizzo di rete.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1029"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1325"/>
         <source>Your connection to the server is very slow, the game had to start without you.</source>
         <translation>La connessione al server è molto lenta, la partita deve cominciare senza di te.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1057"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1353"/>
         <source>This game is of type invite-only. You cannot join this game without being invited.</source>
         <translation>L&apos;accesso a questa partita è concesso solo su invito. Non puoi partecipare senza essere stato invitato.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1085"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1375"/>
+        <source>You were removed due to inactivity.</source>
+        <translation>Sei stato rimosso per inattività.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1381"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>Password sbagliata per la partita selezionata.
 Reinserisci la password e riprova.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1142"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1400"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;Please go to &lt;a href=&quot;https://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;https://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
+        <translation>E&apos; disponibile una nuova release di PokerTH.&lt;br&gt;Visitare l&apos;URL &lt;a href=&quot;https://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;https://www.pokerth.net&lt;/a&gt; e scaricare l&apos;ultima versione.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1411"/>
+        <source>This beta release of PokerTH is outdated.&lt;br&gt;Please go to &lt;a href=&quot;https://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;https://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
+        <translation>Questa versione beta di PokerTH è obsoleta.&lt;br&gt;Visitare l&apos;URL &lt;a href=&quot;https://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;https://www.pokerth.net&lt;/a&gt; e scaricare l&apos;ultima versione.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1438"/>
         <source>The avatar report was accepted by the server. Thank you.</source>
         <translation>La segnalazione dell&apos;avatar è stata accettata dal server. Grazie mille.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1146"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1442"/>
         <source>This avatar was already reported by another player.</source>
         <translation>Questo avatar è già stato segnalato da un altro giocatore.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1150"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1446"/>
         <source>An error occurred while reporting the avatar.</source>
         <translation>Si è verificato un errore durante la segnalazione dell&apos;avatar.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1154"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1450"/>
         <source>The game name report was accepted by the server. Thank you.</source>
         <translation>La segnalazione sul nome della partita è stata accettata dal server. Grazie.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1158"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1454"/>
         <source>This game name was already reported by another player.</source>
         <translation>Questo nome di partita è già stato segnalato da un altro giocatore.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1162"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1458"/>
         <source>An error occurred while reporting the game name.</source>
         <translation>Si è verificato un errore durante la segnalazione del nome di partita.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1166"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1462"/>
         <source>The game was closed.</source>
         <translation>La partita è stata chiusa.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1170"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1466"/>
         <source>The game could not be closed.</source>
         <translation>Impossibile chiudere la partita.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1174"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1470"/>
         <source>The player was kicked and banned permanently.</source>
         <translation>Il giocatore è stato espulso e bandito permanentemente.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1178"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1474"/>
         <source>The player was kicked, but could not be banned because it was a guest player.</source>
         <translation>Il giocatore è stato espulso ma non è stato bandito perchè era un ospite.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1182"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1478"/>
         <source>The player was kicked, but could not be banned, 
 because the nick could not be found in the database</source>
         <translation>Il giocatore è stato espulso ma non bandito
 perchè il suo nickname non è stato trovato sul database</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1186"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1482"/>
         <source>The player could not be found.</source>
         <translation>Impossibile trovare il giocatore.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="874"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1153"/>
         <source>The password is too long. Please choose another one.</source>
         <translation>Questa password è troppo lunga. Scegline una diversa.</translation>
     </message>
@@ -8999,67 +9157,67 @@ Scegli un nome diverso.</translation>
         <translation type="obsolete">Il nome del giocatore è troppo corto, troppo lungo o non valido. Scegline un altro.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="890"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1169"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
         <translation>Il nome della partita è troppo corto o troppo lungo. Scegline un altro.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="896"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1175"/>
         <source>The game could not be found.</source>
         <translation>Impossibile trovare la partita.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="902"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1181"/>
         <source>The chat text is invalid.</source>
         <translation>Il testo nella chat non è valido.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="908"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1187"/>
         <source>The server referred to an unknown player. Aborting.</source>
         <translation>Il server ha contattato un giocatore sconosciuto. Operazione annullata.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="914"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1193"/>
         <source>Internal error: The current player could not be found.</source>
         <translation>Errore interno: Impossibile trovare il giocatore corrente. </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="920"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1199"/>
         <source>Internal error: The current player is not active.</source>
         <translation>Errore interno: Il giocatore corrente non è attivo.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="927"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1206"/>
         <source>You were kicked from the server.</source>
         <translation>Sei stato espulso dal server.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="934"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1213"/>
         <source>You were temporarily banned from the server.</source>
         <translation>Sei stato temporaneamente bandito dal server.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="948"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1227"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
         <translation>La connessione al server è andata in timeout per inattività. Riconnettiti, sei il benvenuto!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="954"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1233"/>
         <source>The client player count is invalid.</source>
         <translation>Il numero di giocatori non è valido.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="960"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1239"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
         <translation>Sono stati impostati troppi blind manuali. Devi riconfigurare i blind.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="967"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1246"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
         <translation>È stato impostato un file di avatar non valido. Scegli un avatar diverso.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="973"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1252"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
         <translation>Il file di avatar selezionato è troppo grande. Scegli un avatar diverso.</translation>
     </message>
@@ -9068,89 +9226,86 @@ Scegli un nome diverso.</translation>
         <translation type="obsolete">Non puoi caricare un nuovo avatar in questo momento. Per favore, riprova tra qualche secondo.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="985"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1264"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
         <translation>Si è verificato un errore interno sugli avatar. Per favore, riferisci l&apos;accaduto ad un admin nella chat prepartita.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="991"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1270"/>
         <source>Could not start game: Synchronization failed.</source>
         <translation>Impossibile avviare la partita: sincronizzazione non riuscita.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="997"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1276"/>
         <source>The server is down for maintenance. Please try again later.</source>
         <translation>Il server è down per manutenzione. Riprova più tardi.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1003"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1282"/>
         <source>An internal error occured.</source>
         <translation>Errore interno.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1021"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1028"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1036"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1043"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1050"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1056"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1078"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1084"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1090"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1096"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1103"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1114"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1317"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1324"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1332"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1339"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1346"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1352"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1374"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1380"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1386"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1392"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1399"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1410"/>
         <source>Network Notification</source>
         <translation>Notifica di rete</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1037"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1333"/>
         <source>You were kicked from the game.</source>
         <translation>Sei stato espulso dalla partita.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1044"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1340"/>
         <source>Sorry, this game is already full.</source>
         <translation>Spiacente, la partita è già al completo.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1051"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1347"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation>Impossibile partecipare - la partita è già iniziata.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1079"/>
         <source>Your admin state timed out due to inactivity. Feel free to create a new game!</source>
-        <translation>Il tuo status di admin è andato in timeout per inattività. Sentiti libero di creare una nuova partita!</translation>
+        <translation type="vanished">Il tuo status di admin è andato in timeout per inattività. Sentiti libero di creare una nuova partita!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1091"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1387"/>
         <source>You cannot join this type of game as guest.</source>
         <translation>Non puoi accedere a questa partita come ospite.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1097"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1393"/>
         <source>The settings are invalid for this type of game.</source>
         <translation>Impostazioni non valide per questo tipo di partita.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1104"/>
         <source>A new release of PokerTH is available.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
-        <translation>È disponibile una nuova release di PokerTH.&lt;br&gt;Visita l&apos;URL &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; e scarica l&apos;ultima versione.</translation>
+        <translation type="vanished">È disponibile una nuova release di PokerTH.&lt;br&gt;Visita l&apos;URL &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; e scarica l&apos;ultima versione.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1115"/>
         <source>This beta release of PokerTH is outdated.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
-        <translation>Questa versione beta di PokerTH è obsoleta.&lt;br&gt;Visitare l&apos;URL &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; e scaricare l&apos;ultima versione.</translation>
+        <translation type="vanished">Questa versione beta di PokerTH è obsoleta.&lt;br&gt;Visitare l&apos;URL &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; e scaricare l&apos;ultima versione.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1128"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1195"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1424"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1491"/>
         <source>Server Message</source>
         <translation>Messaggio del server</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="89"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="97"/>
         <source>PokerTH %1</source>
         <translation>PokerTH %1</translation>
     </message>
@@ -9163,87 +9318,87 @@ Scegli un nome diverso.</translation>
         <translation>Inizia una partita locale</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="103"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="130"/>
         <source>Hands</source>
         <translation>Mani</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="123"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="159"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="159"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="204"/>
         <source>Kick</source>
         <translation>Espelli</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="184"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="238"/>
         <source>Vote started by:</source>
         <translation>Voto iniziato da:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="211"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="265"/>
         <source>Vote Timeout:</source>
         <translation>Timeout voto:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="256"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="310"/>
         <source>Yes</source>
         <translation>Sì</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="269"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="323"/>
         <source>No</source>
         <translation>No</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="312"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="366"/>
         <source>Player info</source>
         <translation>Info giocatore</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="334"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="397"/>
         <source>Save</source>
         <translation>Salva</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="385"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="457"/>
         <source>Log</source>
         <translation>Registro</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="411"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="492"/>
         <source>Away</source>
         <translation>Away</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="420"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="501"/>
         <source>Manual Action (default)</source>
         <translation>Azione manuale (predefinito)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="433"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="514"/>
         <source>Auto-Check / Auto-Fold</source>
         <translation>Auto-Check / Auto-Fold</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="443"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="524"/>
         <source>Auto-Check / Auto-Call-Any</source>
         <translation>Auto-Check / Auto-Call (sempre)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="503"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="584"/>
         <source>Chance</source>
         <translation>Probabilità</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="608"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="733"/>
         <source>Speed:</source>
         <translation>Velocità:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="769"/>
+        <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="894"/>
         <source>Shortcut: &lt;Shift&gt;</source>
         <translation>Scorciatoia: &lt;Shift&gt;</translation>
     </message>
@@ -9251,27 +9406,37 @@ Scegli un nome diverso.</translation>
 <context>
     <name>timeoutMsgBoxImpl</name>
     <message>
-        <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="39"/>
+        <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="40"/>
         <source>Timeout Warning</source>
         <translation>Avviso di timeout</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="41"/>
+        <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="42"/>
         <source>Please click &quot;OK&quot; to stop the countdown!</source>
         <translation>Premi &quot;OK&quot; per fermare il conto alla rovescia!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="76"/>
+        <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="91"/>
+        <source>Timeout expired. You are being removed from the game.</source>
+        <translation>Tempo scaduto. Verrai rimosso dalla partita.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="95"/>
+        <source>Timeout expired. You will be disconnected.</source>
+        <translation>Tempo scaduto. La connessione verrà chiusa.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="103"/>
         <source>You are game-admin of an open game which will time out in %1 seconds.</source>
         <translation>Sei amministratore di una partita aperta che scadrà tra %1 secondi.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="79"/>
+        <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="106"/>
         <source>You did not act in the game recently. You will be removed from the game in %1 seconds.</source>
         <translation>Non hai effettuato azioni di gioco da un po&apos; di tempo. Verrai rimosso dalla partita in %1 secondi.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="82"/>
+        <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="109"/>
         <source>Your connection is about to time out due to inactivity in %1 seconds.</source>
         <translation>La tua connessione scadrà per inattività fra %1 secondi.</translation>
     </message>

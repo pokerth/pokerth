@@ -1331,6 +1331,44 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
+          <layout class="QHBoxLayout">
+           <item>
+            <widget class="QLabel" name="label_botStrength">
+             <property name="text">
+              <string>Computer player strength:</string>
+             </property>
+             <property name="buddy">
+              <cstring>comboBox_botStrength</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="comboBox_botStrength">
+             <item>
+              <property name="text">
+               <string>Classic</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Strong</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_botStrengthHint">
+           <property name="text">
+            <string>Applies to local games. In network games the server decides how strong its computer players are.</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -4149,6 +4187,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>radioButton_manualBlindsOrder</tabstop>
   <tabstop>pushButton_editManualBlindsOrder</tabstop>
   <tabstop>spinBox_gameSpeed</tabstop>
+  <tabstop>comboBox_botStrength</tabstop>
   <tabstop>checkBox_pauseBetweenHands</tabstop>
   <tabstop>checkBox_showGameSettingsDialogOnNewGame</tabstop>
   <tabstop>spinBox_netQuantityPlayers</tabstop>

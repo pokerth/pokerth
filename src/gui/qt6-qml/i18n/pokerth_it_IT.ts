@@ -775,7 +775,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+511"/>
+        <location filename="../components/GamePlayerBox.qml" line="+510"/>
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
@@ -2574,6 +2574,31 @@ Reinserire la password e riprovare.</translation>
         <source>Pause zwischen den Händen</source>
         <translation>Pausa tra le mani</translation>
     </message>
+    <message>
+        <location line="+16"/>
+        <source>Computerspieler</source>
+        <translation>Giocatori del computer</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Spielstärke:</source>
+        <translation>Livello di gioco:</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Klassisch</source>
+        <translation>Classico</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Stark</source>
+        <translation>Forte</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</source>
+        <translation>Vale per le partite locali. Nelle partite in rete è il server a determinare la forza dei suoi giocatori del computer.</translation>
+    </message>
 </context>
 <context>
     <name>LogHandler</name>
@@ -3296,7 +3321,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <translation>Valutazione:</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+34"/>
         <source>Your private note about this player ...</source>
         <translation>La tua nota privata su questo giocatore...</translation>
     </message>

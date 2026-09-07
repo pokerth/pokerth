@@ -30,6 +30,7 @@
  *****************************************************************************/
 
 #include "localplayer.h"
+#include "aiengine4.h"
 #include "handinterface.h"
 #include "tools.h"
 #include "cardsvalue.h"
@@ -862,7 +863,7 @@ LocalPlayer::LocalPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType ty
 	: PlayerInterface(), myConfig(c), currentHand(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar),
 	  myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), logHoleCardsDone(false), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(PLAYER_ACTION_NONE),
 	  myButton(mB), myActiveStatus(aS), myStayOnTableStatus(sotS), myTurn(0), myCardsFlip(0), myRoundStartCash(0), lastMoneyWon(0),
-	  sBluff(0), sBluffStatus(false), m_actionTimeoutCounter(0), m_isSessionActive(false), m_isKicked(false), m_isMuted(false)
+	  sBluff(0), sBluffStatus(false), myVoluntaryThisHand(false), myPreflopRaiseThisHand(false), m_actionTimeoutCounter(0), m_isSessionActive(false), m_isKicked(false), m_isMuted(false)
 {
 
 	// !!!!!!!!!!!!!!!!!!!!!!!! testing !!!!!!!!!!!!!!!!!!!!!!!!
@@ -1025,6 +1026,50 @@ void LocalPlayer::action()
 	// 	int oldMinimumRaise = currentHand->getCurrentBeRo()->getMinimumRaise();
 	// 	int myOldSet = mySet;
 
+	// Engine 4 bearbeitet alle Setzrunden in einer Routine. Die aelteren
+	// Engines bleiben unveraendert erreichbar, damit sich beide vergleichen
+	// lassen.
+	if(myConfig->readConfigInt("EngineVersion") >= 4) {
+
+		engine4();
+
+		currentHand->getBoard()->collectSets();
+		currentHand->getGuiInterface()->refreshPot();
+
+	} else {
+
+		legacyAction();
+
+	}
+
+
+	//        cout << currentHand->getCurrentBeRo()->getMinimumRaise() << endl;
+
+	// 	cout << checkMyAction(myAction, mySet - myOldSet, myOldSet, myOldCash, oldHighestSet, oldMinimumRaise, currentHand->getSmallBlind()) << endl;
+
+
+	myTurn = 0;
+	// 	cout << "jetzt" << endl;
+
+	// Gegnermodell: hier steht die Aktion des Computerspielers endgueltig fest
+	// (evaluation() kann aus einer Erhoehung noch ein All-in gemacht haben).
+	if(myType == PLAYER_TYPE_COMPUTER) {
+		recordStatisticsAction(currentHand->getCurrentRound(), myAction);
+	}
+
+	//set that i was the last active player. need this for unhighlighting groupbox
+	currentHand->setPreviousPlayerID(myID);
+
+	currentHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, myLastRelativeSet);
+	currentHand->getGuiInterface()->nextPlayerAnimation();
+
+	// 	cout << "playerID in action(): " << (*(currentHand->getCurrentBeRo()->getCurrentPlayersTurnIt()))->getMyID() << endl;
+}
+
+
+// Rundenauswahl der Engines 1 und 3, unveraendert uebernommen.
+void LocalPlayer::legacyAction()
+{
 	switch(currentHand->getCurrentRound()) {
 	case 0: {
 
@@ -1069,23 +1114,119 @@ void LocalPlayer::action()
 	default: {
 	}
 	}
-
-	//        cout << currentHand->getCurrentBeRo()->getMinimumRaise() << endl;
-
-	// 	cout << checkMyAction(myAction, mySet - myOldSet, myOldSet, myOldCash, oldHighestSet, oldMinimumRaise, currentHand->getSmallBlind()) << endl;
-
-
-	myTurn = 0;
-	// 	cout << "jetzt" << endl;
-
-	//set that i was the last active player. need this for unhighlighting groupbox
-	currentHand->setPreviousPlayerID(myID);
-
-	currentHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, myLastRelativeSet);
-	currentHand->getGuiInterface()->nextPlayerAnimation();
-
-	// 	cout << "playerID in action(): " << (*(currentHand->getCurrentBeRo()->getCurrentPlayersTurnIt()))->getMyID() << endl;
 }
+
+/* Stellt die aktuelle Lage fuer AiEngine4 zusammen und verbucht deren
+ * Entscheidung. Alles, was mit Chips, Mindesterhoehung und Full-Bet-Rule zu
+ * tun hat, bleibt in evaluation() -- die Engine selbst rechnet nur.
+ */
+void LocalPlayer::engine4()
+{
+	AiSituation situation;
+
+	situation.holeCards[0] = myCards[0];
+	situation.holeCards[1] = myCards[1];
+
+	const GameState round = currentHand->getCurrentRound();
+	switch(round) {
+	case GAME_STATE_FLOP:  situation.boardSize = 3; break;
+	case GAME_STATE_TURN:  situation.boardSize = 4; break;
+	case GAME_STATE_RIVER: situation.boardSize = 5; break;
+	default:               situation.boardSize = 0; break;
+	}
+
+	int boardCards[5];
+	currentHand->getBoard()->getMyCards(boardCards);
+	for(int i = 0; i < 5; i++) {
+		situation.boardCards[i] = (i < situation.boardSize) ? boardCards[i] : -1;
+	}
+	situation.round = round;
+
+	situation.myCash = myCash;
+	situation.mySet = mySet;
+	situation.highestSet = currentHand->getCurrentBeRo()->getHighestSet();
+	situation.minimumRaise = currentHand->getCurrentBeRo()->getMinimumRaise();
+	situation.smallBlind = currentHand->getSmallBlind();
+	situation.potBefore = currentHand->getBoard()->getPot();
+	situation.setsThisRound = currentHand->getBoard()->getSets();
+
+	PlayerListConstIterator it_c;
+
+	/* Gegner, die noch in der Hand sind. Die activePlayerList behaelt auch
+	 * ausgestiegene Spieler, deshalb wird ueber die Aktion gefiltert; wer all
+	 * in ist, zaehlt dagegen mit, denn er ist beim Showdown dabei.
+	 */
+	int opponents = 0;
+	int strongestOpponent = 0;
+	for(it_c = currentHand->getActivePlayerList()->begin(); it_c != currentHand->getActivePlayerList()->end(); ++it_c) {
+		if((*it_c)->getMyUniqueID() == myUniqueID) continue;
+		if((*it_c)->getMyAction() == PLAYER_ACTION_FOLD) continue;
+		++opponents;
+		const int stack = (*it_c)->getMyCash() + (*it_c)->getMySet();
+		if(stack > strongestOpponent) strongestOpponent = stack;
+	}
+	situation.opponents = opponents;
+	situation.effectiveOpponentCash = strongestOpponent;
+
+	/* Wer diese Setzrunde noch nicht gehandelt hat, kommt nach uns an die
+	 * Reihe -- daraus ergibt sich unsere Position. Die Aktionen werden zu
+	 * jedem Rundenbeginn zurueckgesetzt.
+	 */
+	int opponentsBehind = 0;
+	int raisesThisRound = 0;
+	for(it_c = currentHand->getRunningPlayerList()->begin(); it_c != currentHand->getRunningPlayerList()->end(); ++it_c) {
+		if((*it_c)->getMyUniqueID() == myUniqueID) continue;
+		if((*it_c)->getMyAction() == PLAYER_ACTION_NONE) ++opponentsBehind;
+	}
+	for(it_c = currentHand->getActivePlayerList()->begin(); it_c != currentHand->getActivePlayerList()->end(); ++it_c) {
+		const PlayerAction action = (*it_c)->getMyAction();
+		if(action == PLAYER_ACTION_BET || action == PLAYER_ACTION_RAISE) ++raisesThisRound;
+	}
+	situation.opponentsBehind = opponentsBehind;
+	situation.raisesThisRound = raisesThisRound;
+	situation.amBigBlind = currentHand->getCurrentBeRo()->getBigBlindPositionId() == myUniqueID;
+
+	/* Gegnermodell: gemittelt ueber die Gegner, die noch in der Hand sind und
+	 * von denen genug Haende vorliegen. Wer erst wenige Haende gespielt hat,
+	 * bleibt aussen vor -- eine Quote aus drei Haenden waere Rauschen.
+	 */
+	int vpipCounted = 0;
+	double vpipSum = 0.0;
+	int aggressionCounted = 0;
+	double aggressionSum = 0.0;
+	for(it_c = currentHand->getActivePlayerList()->begin(); it_c != currentHand->getActivePlayerList()->end(); ++it_c) {
+		if((*it_c)->getMyUniqueID() == myUniqueID) continue;
+		if((*it_c)->getMyAction() == PLAYER_ACTION_FOLD) continue;
+
+		const PlayerStatistics& stats = (*it_c)->getMyStatistics();
+		if(stats.hands >= 12) {
+			vpipSum += (100.0 * stats.voluntary) / stats.hands;
+			++vpipCounted;
+		}
+		const int postflopActions = stats.aggressive + stats.passive;
+		if(postflopActions >= 15) {
+			aggressionSum += (100.0 * stats.aggressive) / postflopActions;
+			++aggressionCounted;
+		}
+	}
+	situation.opponentVpipPercent = vpipCounted ? static_cast<int>(vpipSum / vpipCounted) : -1;
+	situation.opponentAggressionPercent = aggressionCounted ? static_cast<int>(aggressionSum / aggressionCounted) : -1;
+
+	/* Die vorhandenen Zufallswerte myDude und myDude4 bleiben als Spielernatur
+	 * erhalten, wirken jetzt aber als massvolle Verschiebung auf einer
+	 * EV-Grundlage statt als Zuschlag auf einen Schwellenwert.
+	 */
+	AiPersonality personality;
+	personality.looseness = 1.0 + myDude4 / 40.0;
+	personality.aggression = 1.0 + (myDude - 4) / 8.0;
+	personality.bluffRate = 1.0 + myDude4 / 30.0;
+
+	const AiDecision decision = AiEngine4::decide(situation, personality);
+
+	myAction = decision.action;
+	evaluation(decision.bet, decision.raise);
+}
+
 
 int LocalPlayer::checkMyAction(int targetAction, int targetBet, int highestSet, int minimumRaise, int smallBlind)
 {

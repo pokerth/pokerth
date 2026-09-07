@@ -457,6 +457,50 @@ Rectangle {
                     }
                 }
 
+                // Computerspieler
+                GroupBox {
+                    Layout.fillWidth: true
+                    title: qsTr("Computerspieler")
+
+                    GridLayout {
+                        anchors.fill: parent
+                        columns: 2
+                        columnSpacing: 12
+                        rowSpacing: 8
+
+                        Label {
+                            Layout.fillWidth: true
+                            wrapMode: Text.WordWrap
+                            text: qsTr("Spielstärke:")
+                            color: Config.StaticData.palette.secondary.col200
+                        }
+
+                        ComboBox {
+                            id: botStrengthSelector
+                            // Index 0 = klassische Engine (Config 0),
+                            // Index 1 = EV-basierte Engine 4 (Config 4)
+                            model: [qsTr("Klassisch"), qsTr("Stark")]
+                            Component.onCompleted: {
+                                if (SettingsManager)
+                                    currentIndex = (SettingsManager.readConfigInt("EngineVersion") >= 4) ? 1 : 0
+                            }
+                            onActivated: {
+                                if (SettingsManager)
+                                    SettingsManager.writeConfigInt("EngineVersion", currentIndex === 1 ? 4 : 0)
+                            }
+                        }
+
+                        Label {
+                            Layout.columnSpan: 2
+                            Layout.fillWidth: true
+                            wrapMode: Text.WordWrap
+                            text: qsTr("Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.")
+                            font.pixelSize: 12
+                            color: Config.StaticData.palette.secondary.col300
+                        }
+                    }
+                }
+
                 Item {
                     Layout.fillHeight: true
                 }

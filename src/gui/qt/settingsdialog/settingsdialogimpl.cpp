@@ -319,6 +319,8 @@ void settingsDialogImpl::prepareDialog()
 	spinBox_gameSpeed->setValue(myConfig->readConfigInt("GameSpeed"));
 	checkBox_pauseBetweenHands->setChecked(myConfig->readConfigInt("PauseBetweenHands"));
 	checkBox_showGameSettingsDialogOnNewGame->setChecked(myConfig->readConfigInt("ShowGameSettingsDialogOnNewGame"));
+	// Engine 0 = klassisch, ab 4 = EV-basierte Engine 4
+	comboBox_botStrength->setCurrentIndex(myConfig->readConfigInt("EngineVersion") >= 4 ? 1 : 0);
 
 	//Network Game Settings
 	spinBox_netQuantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
@@ -869,6 +871,7 @@ void settingsDialogImpl::isAccepted()
 	myConfig->writeConfigInt("GameSpeed", spinBox_gameSpeed->value());
 	myConfig->writeConfigInt("PauseBetweenHands", checkBox_pauseBetweenHands->isChecked());
 	myConfig->writeConfigInt("ShowGameSettingsDialogOnNewGame", checkBox_showGameSettingsDialogOnNewGame->isChecked());
+	myConfig->writeConfigInt("EngineVersion", comboBox_botStrength->currentIndex() == 1 ? 4 : 0);
 
 	//Network Game Settings
 	myConfig->writeConfigInt("NetNumberOfPlayers", spinBox_netQuantityPlayers->value());

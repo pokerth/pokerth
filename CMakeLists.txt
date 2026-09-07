@@ -125,6 +125,10 @@ set(POKERTH_LIB_SRC
     src/core/avatarmanager.cpp 
     src/core/pokerthexception.cpp 
     src/engine/local_engine/cardsvalue.cpp 
+    src/engine/local_engine/handevaluator.cpp 
+    src/engine/local_engine/holecardsrange.cpp 
+    src/engine/local_engine/equitycalculator.cpp 
+    src/engine/local_engine/aiengine4.cpp 
     src/engine/local_engine/localboard.cpp 
     src/engine/local_engine/localenginefactory.cpp 
     src/engine/local_engine/localhand.cpp 

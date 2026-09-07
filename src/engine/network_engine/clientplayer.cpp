@@ -600,3 +600,20 @@ bool ClientPlayer::checkIfINeedToShowCards()
 
 	return false;
 }
+
+const PlayerStatistics&
+ClientPlayer::getMyStatistics() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return myStatistics;
+}
+
+void
+ClientPlayer::beginStatisticsHand()
+{
+}
+
+void
+ClientPlayer::recordStatisticsAction(int /*round*/, PlayerAction /*action*/)
+{
+}

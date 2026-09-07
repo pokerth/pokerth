@@ -119,6 +119,13 @@ public:
 	void setMyAggressive(bool theValue);
 	int getMyAggressive() const;
 
+	/* Der Netzwerk-Client fuehrt keine Computerspieler aus -- die Statistik
+	 * bleibt hier leer und wird nur der Schnittstelle wegen bereitgestellt.
+	 */
+	const PlayerStatistics& getMyStatistics() const;
+	void beginStatisticsHand();
+	void recordStatisticsAction(int round, PlayerAction action);
+
 	void setSBluff (int theValue);
 	int getSBluff() const;
 
@@ -200,6 +207,7 @@ private:
 
 	int myAverageSets[4];
 	bool myAggressive[7];
+	PlayerStatistics myStatistics;
 
 	int sBluff;
 	bool sBluffStatus;

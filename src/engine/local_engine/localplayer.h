@@ -152,6 +152,14 @@ public:
 		myAction = theValue;
 		// logging for seat 0
 		if(myAction && human) currentHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, myLastRelativeSet);
+		/* Gegnermodell: Aktionen menschlicher Spieler laufen ausschliesslich
+		 * ueber diesen Setter -- lokal aus der Oberflaeche, im Netzwerkspiel
+		 * aus PerformPlayerAction(). Computerspieler setzen myAction dagegen
+		 * direkt in ihren Engines und werden am Ende von action() erfasst.
+		 */
+		if(myAction != PLAYER_ACTION_NONE && myType == PLAYER_TYPE_HUMAN && currentHand) {
+			recordStatisticsAction(currentHand->getCurrentRound(), myAction);
+		}
 	}
 	PlayerAction getMyAction() const
 	{
@@ -290,6 +298,42 @@ public:
 		return (myAverageSets[0]+myAverageSets[1]+myAverageSets[2]+myAverageSets[3])/4;
 	}
 
+	const PlayerStatistics& getMyStatistics() const
+	{
+		return myStatistics;
+	}
+	void beginStatisticsHand()
+	{
+		// Zaehlt nur, wer die Hand ueberhaupt mitspielt.
+		if(myActiveStatus) ++myStatistics.hands;
+		myVoluntaryThisHand = false;
+		myPreflopRaiseThisHand = false;
+	}
+	void recordStatisticsAction(int round, PlayerAction action)
+	{
+		if(round == GAME_STATE_PREFLOP) {
+			// Die Blinds sind erzwungen und zaehlen nicht als freiwilliger Einsatz.
+			if(action == PLAYER_ACTION_CALL || action == PLAYER_ACTION_BET
+			   || action == PLAYER_ACTION_RAISE || action == PLAYER_ACTION_ALLIN) {
+				if(!myVoluntaryThisHand) {
+					++myStatistics.voluntary;
+					myVoluntaryThisHand = true;
+				}
+			}
+			if(action == PLAYER_ACTION_BET || action == PLAYER_ACTION_RAISE
+			   || action == PLAYER_ACTION_ALLIN) {
+				if(!myPreflopRaiseThisHand) {
+					++myStatistics.preflopRaises;
+					myPreflopRaiseThisHand = true;
+				}
+			}
+		} else {
+			if(action == PLAYER_ACTION_BET || action == PLAYER_ACTION_RAISE
+			   || action == PLAYER_ACTION_ALLIN) ++myStatistics.aggressive;
+			else if(action == PLAYER_ACTION_CALL) ++myStatistics.passive;
+		}
+	}
+
 	void setMyAggressive(bool theValue)
 	{
 		int i;
@@ -338,6 +382,14 @@ public:
 	void flopEngine3();
 	void turnEngine3();
 	void riverEngine3();
+
+	// Rundenauswahl der aelteren Engines.
+	void legacyAction();
+
+	// Engine 4 deckt alle Setzrunden in einer Routine ab: sie stellt die Lage
+	// zusammen, laesst AiEngine4 entscheiden und verbucht das Ergebnis ueber
+	// die bewaehrte evaluation().
+	void engine4();
 
 	int flopCardsValue(int*);
 	int turnCardsValue(int*);
@@ -396,6 +448,11 @@ private:
 
 	int myAverageSets[4];
 	bool myAggressive[7];
+
+	// Gegnermodell: Beobachtungswerte und Merker fuer die laufende Hand
+	PlayerStatistics myStatistics;
+	bool myVoluntaryThisHand;
+	bool myPreflopRaiseThisHand;
 
 	int sBluff;
 	bool sBluffStatus;
