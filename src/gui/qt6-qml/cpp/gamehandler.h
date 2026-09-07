@@ -12,7 +12,10 @@
 #include <QStringList>
 #include <QElapsedTimer>
 #include <QSet>
+#include <QPointer>
 #include <vector>
+
+#include "chatcolors.h"
 #include <boost/shared_ptr.hpp>
 
 class ConfigFile;
@@ -21,6 +24,7 @@ class Game;
 class SoundEvents;
 class QTimer;
 class ChatTranslator;
+class StyleProvider;
 
 // Inkrementelles Listenmodell für den Spielverlauf (Log). Bewusst KEIN
 // QStringList-Property: ein QStringList ist für QML ein Werttyp, der bei jeder
@@ -43,7 +47,26 @@ public:
 
     explicit GameLogModel(QObject *parent = nullptr) : QAbstractListModel(parent) {}
 
-    QString html() const { return m_lines.join(QStringLiteral("<br>")); }
+    // Die gespeicherten Zeilen tragen statt fertiger Hex-Werte nur Farb-Rollen
+    // (chatcolors.h). Erst hier – beim Ausliefern – werden sie mit den Farben
+    // des aktuellen Tisch-Themes gefüllt; ein Theme-Wechsel färbt damit auch den
+    // bereits vorhandenen Verlauf um, statt weißen Text auf hellem Grund zu
+    // hinterlassen.
+    QString html() const
+    {
+        return TableChatColors::expand(m_lines.join(QStringLiteral("<br>")), m_palette);
+    }
+
+    // Farbpalette des Tisch-Themes setzen; ändert sie sich, gilt das gesamte
+    // Dokument als neu (htmlChanged + dataChanged über alle Zeilen).
+    void setPalette(const TableChatColors::Palette &palette)
+    {
+        m_palette = palette;
+        if (m_lines.isEmpty())
+            return;
+        emit dataChanged(index(0), index(m_lines.size() - 1), { LineRole });
+        emit htmlChanged();
+    }
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override
     {
@@ -54,7 +77,7 @@ public:
         if (index.row() < 0 || index.row() >= m_lines.size())
             return QVariant();
         if (role == LineRole || role == Qt::DisplayRole)
-            return m_lines.at(index.row());
+            return TableChatColors::expand(m_lines.at(index.row()), m_palette);
         return QVariant();
     }
     QHash<int, QByteArray> roleNames() const override
@@ -90,7 +113,8 @@ signals:
     void htmlChanged();
 
 private:
-    QStringList m_lines;
+    QStringList m_lines;                 // roh, mit Farb-Rollen-Platzhaltern
+    TableChatColors::Palette m_palette;  // Farben des aktuellen Tisch-Themes
 };
 
 class GameHandler : public QObject
@@ -190,6 +214,9 @@ public:
     // Game-Handler gemeinsam benutzt (nicht besessen): jede SoundEvents-
     // Instanz hält einen eigenen Audio-Stream.
     void setSoundEvents(SoundEvents *soundEvents);
+    // Tisch-Theme anmelden: Chat und Spielverlauf beziehen ihre Schriftfarben
+    // von dort und färben sich bei jedem Stilwechsel neu ein.
+    void setStyleProvider(StyleProvider *styleProvider);
 
     // Called from QML to start a local game
     Q_INVOKABLE void startLocalGame();
@@ -232,7 +259,16 @@ public:
     int timeoutSeatId() const { return m_timeoutSeatId; }
     int timeoutSec() const { return m_timeoutSec; }
     GameLogModel* gameLog() { return &m_gameLogModel; }
-    QStringList chatLog() const { return m_chatLog; }
+    // Wie beim Verlauf stehen in m_chatLog nur Farb-Rollen; die Tisch-Theme-
+    // Farben kommen erst beim Ausliefern dazu (siehe chatcolors.h).
+    QStringList chatLog() const
+    {
+        QStringList out;
+        out.reserve(m_chatLog.size());
+        for (const QString &line : m_chatLog)
+            out.append(TableChatColors::expand(line, m_tableChatPalette));
+        return out;
+    }
     QObject* chatTranslator() const;
     bool hasHumanOpponents() const { return m_hasHumanOpponents; }
     bool canShowCards() const { return m_canShowCards; }
@@ -411,6 +447,9 @@ private:
     void notifyChatLogChanged();
     bool localGameCallbacksBlocked() const;
     void playYourTurnTimeoutSound();
+    // Farben aus dem Tisch-Theme in m_tableChatPalette übernehmen und Chat wie
+    // Verlauf als geändert melden.
+    void refreshTableChatPalette();
     void refreshPlayerData();
     void refreshBoardCards();
     // Chancen (CardsValue::calcCardsChance) + aktuell bestes Blatt des eigenen
@@ -509,7 +548,11 @@ private:
     int m_timeoutSeatId = -1;   // Sitz mit laufendem Action-Timeout (−1 = keiner)
     int m_timeoutSec = 0;       // Dauer des Action-Timeouts in Sekunden
     GameLogModel m_gameLogModel; // Live-Aktions-Log (Spielverlauf) für das Overlay
-    QStringList m_chatLog;      // In-Game-Chat-Verlauf
+    QStringList m_chatLog;      // In-Game-Chat-Verlauf (roh, mit Farb-Rollen)
+    // Tisch-Theme, das die Farben von Chat und Verlauf liefert. Der StyleProvider
+    // lebt in main() und kann vor diesem Handler sterben → QPointer.
+    QPointer<StyleProvider> m_styleProvider;
+    TableChatColors::Palette m_tableChatPalette;
     // Läuft bereits eine gebündelte chatLogChanged-Meldung? (notifyChatLogChanged)
     bool m_chatLogNotifyPending = false;
     ChatTranslator *m_chatTranslator = nullptr; // hängt Übersetzen-Symbole an und übersetzt sie

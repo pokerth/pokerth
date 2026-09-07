@@ -66,9 +66,9 @@ class StyleProvider : public QObject
     Q_PROPERTY(QString betRaiseButtonTextColor READ betRaiseButtonTextColor NOTIFY changed)
     Q_PROPERTY(QString allInButtonTextColor READ allInButtonTextColor NOTIFY changed)
     // Farben der Chat- und Log-Box (schwebende Seiten-Panels am Tisch). Bewusst
-    // unabhängig vom Hell/Dunkel-Modus der übrigen App: der Tisch behält immer
-    // dieses (dunkle) Aussehen. Per Tisch-Theme-XML überschreibbar, sonst gelten
-    // die hier gebündelten Dunkel-Defaults. Solide Hex-Farben – die Transluzenz
+    // unabhängig vom Hell/Dunkel-Modus der übrigen App: maßgeblich ist allein
+    // das Tisch-Theme. Per Tisch-Theme-XML überschreibbar, sonst gelten die
+    // gebündelten Defaults (dunkel). Solide Hex-Farben – die Transluzenz
     // (withAlpha) macht der QML-Client.
     Q_PROPERTY(QString chatLogBackground READ chatLogBackground NOTIFY changed)
     Q_PROPERTY(QString chatLogSurface READ chatLogSurface NOTIFY changed)
@@ -76,6 +76,18 @@ class StyleProvider : public QObject
     Q_PROPERTY(QString chatLogText READ chatLogText NOTIFY changed)
     Q_PROPERTY(QString chatLogTextSecondary READ chatLogTextSecondary NOTIFY changed)
     Q_PROPERTY(QString chatLogTextMuted READ chatLogTextMuted NOTIFY changed)
+    // Inhaltsfarben derselben Boxen: Akzent (Panel-Titel, aktiver Tab,
+    // Selektion, Erwähnung im Chat, Chancen-Balken), Schrift AUF dem Akzent,
+    // die drei Rollen des Spielverlaufs und das Senden-Symbol. Auch sie sind
+    // per XML setzbar (<ChatLogAccent> …); fehlt ein Tag, greift der zur
+    // Helligkeit von <ChatLogBackground> passende Default – sonst stünde z. B.
+    // bei einem hellen Tisch-Theme Weiß/Gold auf hellem Grund.
+    Q_PROPERTY(QString chatLogAccent READ chatLogAccent NOTIFY changed)
+    Q_PROPERTY(QString chatLogAccentText READ chatLogAccentText NOTIFY changed)
+    Q_PROPERTY(QString chatLogWinner READ chatLogWinner NOTIFY changed)
+    Q_PROPERTY(QString chatLogWinnerSide READ chatLogWinnerSide NOTIFY changed)
+    Q_PROPERTY(QString chatLogBoard READ chatLogBoard NOTIFY changed)
+    Q_PROPERTY(QString chatLogSend READ chatLogSend NOTIFY changed)
     // Kartenstapel-Stil (52 Vorderseiten)
     Q_PROPERTY(QString cardDeckName READ cardDeckName NOTIFY changed)
     Q_PROPERTY(QString cardDeckDir READ cardDeckDir NOTIFY changed)
@@ -109,6 +121,12 @@ public:
     QString chatLogText() const { return m_chatLogText; }
     QString chatLogTextSecondary() const { return m_chatLogTextSecondary; }
     QString chatLogTextMuted() const { return m_chatLogTextMuted; }
+    QString chatLogAccent() const { return m_chatLogAccent; }
+    QString chatLogAccentText() const { return m_chatLogAccentText; }
+    QString chatLogWinner() const { return m_chatLogWinner; }
+    QString chatLogWinnerSide() const { return m_chatLogWinnerSide; }
+    QString chatLogBoard() const { return m_chatLogBoard; }
+    QString chatLogSend() const { return m_chatLogSend; }
     QString cardDeckName() const { return m_cardDeckName; }
     QString cardDeckDir() const { return m_cardDeckDir; }
     QString cardBackName() const { return m_cardBackName; }
@@ -132,6 +150,18 @@ private:
     // Liefert eine gut lesbare Schriftfarbe (#1A1A1A oder #FFFFFF) anhand der
     // gemittelten Helligkeit der Gradient-Farben einer Action-Button-SVG.
     QString contrastTextColor(const QString &svgAbsPath) const;
+    // Gut lesbare Schriftfarbe (#101010 oder #FFFFFF) auf einer gegebenen
+    // Flächenfarbe – für die Schrift auf dem Akzent (Selektion).
+    static QString contrastTextOn(const QString &color);
+
+    // Rohe <ChatLog*>-Werte, wie sie im Theme-XML stehen (leer = nicht gesetzt).
+    struct ChatLogTags {
+        QString background, surface, border, text, textSecondary, textMuted;
+        QString accent, accentText, winner, winnerSide, board, send;
+    };
+    // Setzt die m_chatLog*-Member: gesetzte Tags gewinnen, für den Rest gilt
+    // der zur Helligkeit des Panel-Hintergrunds passende Default-Satz.
+    void applyChatLogColors(const ChatLogTags &tags);
 
     boost::shared_ptr<ConfigFile> m_config;
 
@@ -160,6 +190,12 @@ private:
     QString m_chatLogText;
     QString m_chatLogTextSecondary;
     QString m_chatLogTextMuted;
+    QString m_chatLogAccent;
+    QString m_chatLogAccentText;
+    QString m_chatLogWinner;
+    QString m_chatLogWinnerSide;
+    QString m_chatLogBoard;
+    QString m_chatLogSend;
 
     QString m_cardDeckName;
     QString m_cardDeckDir;

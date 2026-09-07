@@ -13,12 +13,22 @@ TabBar {
     property int tabHeight: 24
     property real tabFontPointSize: 10
 
+    // ── Farb-Tokens (überschreibbar) ────────────────────────────────────────
+    // Default = globale Palette (Hell/Dunkel-Modus der App). Leisten, die auf
+    // einer fremden Fläche liegen – etwa das Info-Panel am Tisch, das dem
+    // Tisch-Theme folgt – setzen sie auf dessen Farben um; sonst stünde bei
+    // einem hellen Tisch-Theme die helle Dunkelmodus-Schrift auf hellem Grund.
+    property color colTextActive: Config.StaticData.palette.secondary.col100
+    property color colTextIdle:   Config.StaticData.palette.secondary.col200
+    property color colTabActive:  Config.StaticData.palette.secondary.col500
+    property color colTabIdle:    Config.StaticData.palette.secondary.col600
+
     Layout.fillWidth: true
     padding: 0
     currentIndex: 0
 
     background: Rectangle {
-        color: Config.StaticData.palette.secondary.col600
+        color: customTabBar.colTabIdle
     }
 
     Repeater {
@@ -45,12 +55,12 @@ TabBar {
                 wrapMode: Text.WordWrap
                 maximumLineCount: 2
                 elide: Text.ElideRight
-                color: customTabBar.currentIndex === index || tabButton.isHovered ? Config.StaticData.palette.secondary.col100 : Config.StaticData.palette.secondary.col200
+                color: customTabBar.currentIndex === index || tabButton.isHovered ? customTabBar.colTextActive : customTabBar.colTextIdle
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
             }
             background: Rectangle {
-                color: customTabBar.currentIndex === index || tabButton.isHovered ? Config.StaticData.palette.secondary.col500 : Config.StaticData.palette.secondary.col600
+                color: customTabBar.currentIndex === index || tabButton.isHovered ? customTabBar.colTabActive : customTabBar.colTabIdle
             }
 
             MouseArea {

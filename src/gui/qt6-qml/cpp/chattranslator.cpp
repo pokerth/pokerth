@@ -256,11 +256,11 @@ void ChatTranslator::postFailureNote()
 		return;
 	m_lastFailNoteMs = now;
 
-	// Bewusst OHNE ChatColors-Platzhalter und ohne Zeitstempel: dieselbe Zeile
-	// landet im Lobby-Verlauf (Platzhalter werden dort expandiert) UND im
-	// Tisch-Chat (feste Themenfarben, keine Expansion). Ein neutrales Grau ist
-	// in beiden lesbar. Eine Zeile = ein Eintrag – die Zuordnung, über die
-	// setHoveredLine die Symbole findet, bleibt damit unberührt.
+	// Bewusst OHNE Farb-Platzhalter und ohne Zeitstempel: dieselbe Zeile landet
+	// im Lobby-Verlauf UND im Tisch-Chat, und beide expandieren ihre Rollen aus
+	// unterschiedlichen Quellen (App-Palette bzw. Tisch-Theme). Ein neutrales
+	// Grau ist in beiden lesbar. Eine Zeile = ein Eintrag – die Zuordnung, über
+	// die setHoveredLine die Symbole findet, bleibt damit unberührt.
 	m_chatLog->append(QStringLiteral("<i><span style=\"color:#9e9e9e;\">")
 	                  + tr("Translation is currently unavailable. Please try again later.").toHtmlEscaped()
 	                  + QStringLiteral("</span></i>"));

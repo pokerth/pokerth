@@ -349,6 +349,10 @@ int main(int argc, char *argv[])
     lobbyHandler->setTextTranslator(&textTranslator);
     engine.rootContext()->setContextProperty("SettingsManager", &settingsMgr);
     engine.rootContext()->setContextProperty("StyleProvider", &styleProvider);
+    // Chat und Spielverlauf am Tisch beziehen ihre Schriftfarben aus dem
+    // Tisch-Theme (helle Themes brauchen dunkle Schrift) und färben sich bei
+    // jedem Stilwechsel neu ein.
+    gameHandler->setStyleProvider(&styleProvider);
     engine.rootContext()->setContextProperty("LanguageManager", &langMgr);
     engine.rootContext()->setContextProperty("ScreenHelper", &screenHelper);
     engine.rootContext()->setContextProperty("Translator", &textTranslator);

@@ -38,8 +38,8 @@ Item {
 
     // ── Farb-Tokens (überschreibbar) ────────────────────────────────────────
     // Default = globale Palette, damit Lobby/GameWait weiter dem Hell/Dunkel-
-    // Modus folgen. Am Tisch werden diese mit den (festen, dunklen) Farben des
-    // Tisch-Themes (StyleProvider.chatLog*) überschrieben.
+    // Modus folgen. Am Tisch werden diese mit den Farben des Tisch-Themes
+    // (StyleProvider.chatLog*) überschrieben – dort zählt allein das Theme.
     property color colText:          Config.StaticData.palette.secondary.col100
     property color colTextSecondary: Config.StaticData.palette.secondary.col200
     property color colTextMuted:     Config.StaticData.palette.secondary.col400
@@ -47,6 +47,12 @@ Item {
     property color colSurface:       Config.StaticData.palette.secondary.col600
     property color colBackground:    Config.StaticData.palette.secondary.col700
     property color colAccent:        Config.Theme.colorAccent
+    // Schrift AUF dem Akzent (markierter Text). Muss mit dem Akzent mitgehen:
+    // ist der bei einem hellen Tisch-Theme dunkel, braucht die Selektion helle
+    // Schrift statt der dunklen der Gold-Variante.
+    property color colAccentText:    "#101010"
+    // Senden-Symbol (Grün). Am Tisch aus dem Tisch-Theme, sonst App-Modus.
+    property color colSend:          Config.Theme.colorChatSend
 
     signal sendRequested(string text)
 
@@ -437,7 +443,7 @@ Item {
                 activeFocusOnPress: false
                 color: root.colText
                 selectionColor: root.colAccent
-                selectedTextColor: "#101010"
+                selectedTextColor: root.colAccentText
                 font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: root.messageFontSize
                 // WICHTIG: Links NICHT über onLinkActivated öffnen. Das TextEdit
@@ -681,7 +687,7 @@ Item {
                     layer.enabled: true
                     layer.effect: MultiEffect {
                         colorization: 1.0
-                        colorizationColor: Config.Theme.colorChatSend
+                        colorizationColor: root.colSend
                     }
                 }
             }

@@ -23,7 +23,7 @@ Item {
     property bool wide: false
     signal closeRequested()
 
-    // Tisch-Theme-Farben (fest/dunkel, unabhängig vom Hell/Dunkel-Modus der App).
+    // Tisch-Theme-Farben (unabhängig vom Hell/Dunkel-Modus der App).
     // StyleProvider liefert immer gültige Werte; der Fallback deckt nur den Fall
     // ab, dass die Context-Property mal nicht gesetzt ist (z. B. Vorschau).
     readonly property color colBackground:
@@ -32,6 +32,10 @@ Item {
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogBorder : "#576378"
     readonly property color colTextSecondary:
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogTextSecondary : "#cdd3e0"
+    // Titelfarbe: der Akzent des TISCH-Themes, nicht der App-Akzent – auf einem
+    // hellen Panel wäre das App-Gold kaum zu lesen.
+    readonly property color colAccent:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogAccent : "#E3C800"
 
     // Default-Inhalt landet unter Header + Trennlinie im Body-Layout.
     default property alias content: bodyLayout.data
@@ -88,7 +92,7 @@ Item {
                 AppText {
                     Layout.fillWidth: true
                     text: root.title
-                    color: Config.Theme.colorAccent
+                    color: root.colAccent
                     font.pixelSize: 15
                     font.bold: true
                     font.letterSpacing: 0.4

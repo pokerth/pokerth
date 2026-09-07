@@ -27,6 +27,9 @@
 #include <QFileInfo>
 #include <QDateTime>
 #include <QRegularExpression>
+#include "chatcolors.h"
+#include "styleprovider.h"
+
 #include <QCoreApplication>
 #include <QEvent>
 #include <algorithm>
@@ -45,27 +48,36 @@ QString logCard(int code)
     return QString::fromLatin1(ranks[code % 13]) + QString(suits[code / 13]);
 }
 
-// Spielverlauf-Zeile als HTML einfärben – Farben/Stil 1:1 wie der Qt-Widgets-
-// Client (Default-Tischstil): normal #F0F0F0, Gewinner Hauptpot #FFFF00, Side-Pot
-// #FFFFCC, Sit-out/Board #FF6633.
+// Spielverlauf-Zeile als HTML einfärben. Statt fester Hex-Werte stehen in der
+// Zeile Farb-ROLLEN (chatcolors.h); die konkrete Farbe liefert erst beim
+// Ausliefern das Tisch-Theme. Rollen wie im Qt-Widgets-Client: normal =
+// Haupttext, Gewinner Hauptpot / Side-Pot in Gold, Sit-out und Board in der
+// Signalfarbe.
 QString formatLogLine(const QString &text, int type)
 {
-    const QString esc = text.toHtmlEscaped();
+    // chatEscape statt toHtmlEscaped: entfernt zusätzlich die Steuerzeichen der
+    // Farb-Platzhalter, damit kein Spielername eine Farbe einschleusen kann.
+    const QString esc = ChatColors::chatEscape(text);
+    auto span = [&esc](TableChatColors::Role role, const QString &extraStyle = QString()) {
+        return QStringLiteral("<span style=\"") + TableChatColors::colorStyle(role)
+               + QStringLiteral(";") + extraStyle + QStringLiteral("\">") + esc
+               + QStringLiteral("</span>");
+    };
     switch (type) {
     case GameHandler::LogHeader:
-        return QStringLiteral("<span style=\"color:#F0F0F0; font-weight:bold;\">") + esc + QStringLiteral("</span>");
+        return span(TableChatColors::Text, QStringLiteral(" font-weight:bold;"));
     case GameHandler::LogWinnerMain:
-        return QStringLiteral("<span style=\"color:#FFFF00;\">") + esc + QStringLiteral("</span>");
+        return span(TableChatColors::Winner);
     case GameHandler::LogWinnerSide:
-        return QStringLiteral("<span style=\"color:#FFFFCC;\">") + esc + QStringLiteral("</span>");
+        return span(TableChatColors::WinnerSide);
     case GameHandler::LogSitOut:
-        return QStringLiteral("<i><span style=\"color:#FF6633;\">") + esc + QStringLiteral("</span></i>");
+        return QStringLiteral("<i>") + span(TableChatColors::Board) + QStringLiteral("</i>");
     case GameHandler::LogBoard:
-        return QStringLiteral("<span style=\"color:#FF6633;\">") + esc + QStringLiteral("</span>");
+        return span(TableChatColors::Board);
     case GameHandler::LogGameWin:
-        return QStringLiteral("<b><i><span style=\"color:#F0F0F0;\">") + esc + QStringLiteral("</span></i></b>");
+        return QStringLiteral("<b><i>") + span(TableChatColors::Text) + QStringLiteral("</i></b>");
     default:
-        return QStringLiteral("<span style=\"color:#F0F0F0;\">") + esc + QStringLiteral("</span>");
+        return span(TableChatColors::Text);
     }
 }
 
@@ -196,6 +208,35 @@ void GameHandler::setConfig(ConfigFile *config)
 void GameHandler::setSoundEvents(SoundEvents *soundEvents)
 {
     m_soundEventHandler = soundEvents;
+}
+
+void GameHandler::setStyleProvider(StyleProvider *styleProvider)
+{
+    m_styleProvider = styleProvider;
+    if (!styleProvider)
+        return;
+    // Stilwechsel im laufenden Spiel: Palette übernehmen und den bereits
+    // vorhandenen Verlauf/Chat neu einfärben (die Zeilen selbst bleiben roh).
+    connect(styleProvider, &StyleProvider::changed,
+            this, &GameHandler::refreshTableChatPalette);
+    refreshTableChatPalette();
+}
+
+void GameHandler::refreshTableChatPalette()
+{
+    if (!m_styleProvider)
+        return;
+    TableChatColors::Palette palette;
+    palette.color[TableChatColors::Text]       = m_styleProvider->chatLogText();
+    palette.color[TableChatColors::Accent]     = m_styleProvider->chatLogAccent();
+    palette.color[TableChatColors::Winner]     = m_styleProvider->chatLogWinner();
+    palette.color[TableChatColors::WinnerSide] = m_styleProvider->chatLogWinnerSide();
+    palette.color[TableChatColors::Board]      = m_styleProvider->chatLogBoard();
+    m_tableChatPalette = palette;
+    m_gameLogModel.setPalette(palette);
+    // chatLog() liefert ab jetzt die neuen Farben – die Boxen bauen ihr
+    // RichText-Dokument neu auf.
+    emit chatLogChanged();
 }
 
 QObject* GameHandler::chatTranslator() const
@@ -387,7 +428,9 @@ void GameHandler::appendChat(const QString &playerName, const QString &message)
     const bool isAction = message.startsWith(QStringLiteral("/me "));
     const QString rawDisplay = isAction ? message.mid(4) : message;
 
-    QString escapedMsg = rawDisplay.toHtmlEscaped();
+    // chatEscape: entfernt neben dem HTML-Escaping auch die Steuerzeichen der
+    // Farb-Platzhalter – sonst könnte eine Nachricht ihre eigene Farbe setzen.
+    QString escapedMsg = ChatColors::chatEscape(rawDisplay);
     // ASCII-Kürzel (":-)", "8-)", "<3", …) auf dem rohen Text umsetzen, bevor
     // Link-/Style-Markup hinzukommt – so kollidieren kurze Kürzel nie mit
     // unserem eigenen HTML (z. B. "color:#...").
@@ -396,14 +439,16 @@ void GameHandler::appendChat(const QString &playerName, const QString &message)
     escapedMsg.replace(urlRe, QStringLiteral("<a href=\"\\1\">\\1</a>"));
 
     const bool isMention = !myNick.isEmpty() && rawDisplay.contains(myNick, Qt::CaseInsensitive);
-    const QString color = isMention ? QStringLiteral("#E3C800") : QStringLiteral("#e6e6e6");
-    QString styledMsg = QStringLiteral("<span style=\"color:") + color
+    // Farb-Rolle statt Hex-Wert – die Farbe kommt vom Tisch-Theme (chatcolors.h).
+    const TableChatColors::Role role =
+        isMention ? TableChatColors::Accent : TableChatColors::Text;
+    QString styledMsg = QStringLiteral("<span style=\"") + TableChatColors::colorStyle(role)
                         + (isMention ? QStringLiteral("; font-weight:bold") : QString())
                         + QStringLiteral(";\">") + escapedMsg + QStringLiteral("</span>");
     styledMsg = enlargeEmojis(styledMsg);
 
     const QString tsPrefix = chatTimestampPrefix(m_config);
-    const QString name = playerName.toHtmlEscaped();
+    const QString name = ChatColors::chatEscape(playerName);
     QString line;
     if (isAction)
         line = tsPrefix + QStringLiteral("<i>* ") + name + QStringLiteral(" ") + styledMsg + QStringLiteral(" *</i>");

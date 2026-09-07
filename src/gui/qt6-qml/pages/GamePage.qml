@@ -14,8 +14,8 @@ Rectangle {
     color: "transparent"
 
     // ── Tisch-Theme-Farben für Chat-/Log-Box ──────────────────────────────────
-    // Fest (dunkel), unabhängig vom Hell/Dunkel-Modus der übrigen App. Quelle ist
-    // das Tisch-Theme (StyleProvider.chatLog*, per XML überschreibbar); der
+    // Unabhängig vom Hell/Dunkel-Modus der übrigen App: Quelle ist allein das
+    // Tisch-Theme (StyleProvider.chatLog*, per XML überschreibbar); der
     // Fallback greift nur, falls die Context-Property mal nicht gesetzt ist.
     readonly property color tblChatBackground:
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogBackground : "#1d222b"
@@ -29,6 +29,12 @@ Rectangle {
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogTextSecondary : "#cdd3e0"
     readonly property color tblChatTextMuted:
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogTextMuted : "#7787a3"
+    readonly property color tblChatAccent:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogAccent : "#E3C800"
+    readonly property color tblChatAccentText:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogAccentText : "#101010"
+    readonly property color tblChatSend:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogSend : "#4ade80"
 
     // Spielmodus umschalten – die eigentliche Logik (inkl. verzögerter
     // Auto-Aktion) lebt in der GameActionBar; hier nur als Weiterleitung für
@@ -2322,13 +2328,16 @@ Rectangle {
                     id: overlayChat
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    // Feste Tisch-Theme-Farben (dunkel, modus-unabhängig).
+                    // Farben des Tisch-Themes (unabhängig vom App-Modus).
                     colText: gamePage.tblChatText
                     colTextSecondary: gamePage.tblChatTextSecondary
                     colTextMuted: gamePage.tblChatTextMuted
                     colBorder: gamePage.tblChatBorder
                     colSurface: gamePage.tblChatSurface
                     colBackground: gamePage.tblChatBackground
+                    colAccent: gamePage.tblChatAccent
+                    colAccentText: gamePage.tblChatAccentText
+                    colSend: gamePage.tblChatSend
                     chatModel: (typeof GameTable !== "undefined" && GameTable) ? GameTable.chatLog : []
                     chatTranslator: (typeof GameTable !== "undefined" && GameTable) ? GameTable.chatTranslator : null
                     nickList: gamePage.gameNickList()
@@ -2459,8 +2468,8 @@ Rectangle {
                 height: 3
                 radius: 2
                 color: resizeDragArea.containsMouse || resizeDragArea.pressed
-                       ? Config.Theme.colorAccent
-                       : Qt.rgba(1, 1, 1, 0.22)
+                       ? gamePage.tblChatAccent
+                       : Config.Theme.withAlpha(gamePage.tblChatTextMuted, 0.55)
                 Behavior on color { ColorAnimation { duration: 120 } }
             }
 
@@ -2492,13 +2501,16 @@ Rectangle {
             anchors.fill: parent
             anchors.margins: 6
             anchors.topMargin: 12   // Platz für den Resize-Handle
-            // Feste Tisch-Theme-Farben (dunkel, modus-unabhängig).
+            // Farben des Tisch-Themes (unabhängig vom App-Modus).
             colText: gamePage.tblChatText
             colTextSecondary: gamePage.tblChatTextSecondary
             colTextMuted: gamePage.tblChatTextMuted
             colBorder: gamePage.tblChatBorder
             colSurface: gamePage.tblChatSurface
             colBackground: gamePage.tblChatBackground
+            colAccent: gamePage.tblChatAccent
+            colAccentText: gamePage.tblChatAccentText
+            colSend: gamePage.tblChatSend
             chatModel: (typeof GameTable !== "undefined" && GameTable) ? GameTable.chatLog : []
             chatTranslator: (typeof GameTable !== "undefined" && GameTable) ? GameTable.chatTranslator : null
             nickList: gamePage.gameNickList()
@@ -2563,8 +2575,8 @@ Rectangle {
                 height: 3
                 radius: 2
                 color: infoResizeDrag.containsMouse || infoResizeDrag.pressed
-                       ? Config.Theme.colorAccent
-                       : Qt.rgba(1, 1, 1, 0.22)
+                       ? gamePage.tblChatAccent
+                       : Config.Theme.withAlpha(gamePage.tblChatTextMuted, 0.55)
                 Behavior on color { ColorAnimation { duration: 120 } }
             }
 

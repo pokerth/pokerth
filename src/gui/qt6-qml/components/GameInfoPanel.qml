@@ -16,9 +16,10 @@ ColumnLayout {
     id: root
     spacing: 8
 
-    // Tisch-Theme-Farben (fest/dunkel, unabhängig vom Hell/Dunkel-Modus der App).
-    // Der Spielverlauf-Text selbst ist serverseitig bereits hell eingefärbt
-    // (GameHandler::formatLogLine) – hier nur die Chancen-Balken/-Texte.
+    // Tisch-Theme-Farben (unabhängig vom Hell/Dunkel-Modus der App – maßgeblich
+    // ist allein das Tisch-Theme). Auch der Spielverlauf-Text folgt ihnen: seine
+    // Zeilen tragen nur Farb-Rollen, die GameHandler mit genau diesen Werten
+    // füllt (chatcolors.h).
     readonly property color colText:
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogText : "#eff1f5"
     readonly property color colTextMuted:
@@ -29,7 +30,12 @@ ColumnLayout {
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogSurface : "#394150"
     readonly property color colBackground:
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogBackground : "#1d222b"
-    readonly property color colAccent: Config.Theme.colorAccent
+    readonly property color colAccent:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogAccent : "#E3C800"
+    // Schrift AUF dem Akzent (markierter Text) – der Akzent ist bei hellen
+    // Themes dunkel, "#101010" wäre dort unlesbar.
+    readonly property color colAccentText:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogAccentText : "#101010"
 
     // Aktiver Tab von außen steuerbar (Shortcuts/Toggle): 0 Verlauf · 1 Chancen
     property alias currentIndex: tabs.currentIndex
@@ -84,6 +90,12 @@ ColumnLayout {
         Layout.preferredHeight: implicitHeight
         tabHeight: 18
         tabFontPointSize: 8
+        // Die Leiste sitzt auf der Panel-Fläche des Tisch-Themes – ihre Farben
+        // müssen von dort kommen, nicht aus der App-Palette.
+        colTextActive: root.colText
+        colTextIdle:   root.colTextMuted
+        colTabActive:  root.colSurface
+        colTabIdle:    Config.Theme.withAlpha(root.colBorder, 0.20)
         model: [qsTr("Verlauf"), qsTr("Chancen")]
     }
 
@@ -194,7 +206,7 @@ ColumnLayout {
                 persistentSelection: true
                 color: root.colText
                 selectionColor: root.colAccent
-                selectedTextColor: "#101010"
+                selectedTextColor: root.colAccentText
                 font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: root.logFontSize
                 TapHandler {
@@ -250,7 +262,7 @@ ColumnLayout {
                                 anchors.bottom: parent.bottom
                                 width: parent.width * Math.max(0, Math.min(100, prob)) / 100
                                 color: possible
-                                       ? Config.Theme.withAlpha(Config.Theme.colorAccent, 0.30)
+                                       ? Config.Theme.withAlpha(root.colAccent, 0.30)
                                        : Config.Theme.withAlpha(root.colBorder, 0.22)
                             }
                         }

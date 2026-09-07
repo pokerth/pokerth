@@ -22,8 +22,9 @@
  * Die Werte entsprechen 1:1 der QML-Palette (StaticData _dark/_light bzw.
  * Theme.colorAccent…), damit der Chat zum Rest der Oberfläche passt.
  *
- * Nicht für den Spiel-Chat/-Verlauf: der liegt auf dem Tisch-Theme
- * (StyleProvider.chatLog*), das unabhängig vom App-Modus immer dunkel ist.
+ * Der Spiel-Chat/-Verlauf am Tisch arbeitet nach demselben Muster, bezieht
+ * seine Hex-Werte aber nicht aus der App-Palette, sondern aus dem Tisch-Theme
+ * (StyleProvider.chatLog*) – siehe TableChatColors weiter unten.
  */
 namespace ChatColors {
 
@@ -91,5 +92,63 @@ inline QString chatEscape(const QString &raw)
 }
 
 } // namespace ChatColors
+
+/* Rollen-Farben des Spiel-Chats und des Spielverlaufs AM TISCH.
+ *
+ * Gleiches Prinzip wie ChatColors, andere Quelle: die Hex-Werte kommen nicht
+ * aus der App-Palette (Hell/Dunkel), sondern aus dem gerade gewählten
+ * Tisch-Theme (StyleProvider.chatLog*). Ohne Platzhalter stünden die Farben
+ * fest in der einmal gebauten Zeile – ein helles Tisch-Theme (z. B.
+ * "Ivoire - Chene") bekäme dann weißen Text auf hellem Grund, und ein
+ * Theme-Wechsel im laufenden Spiel färbte den bereits vorhandenen Verlauf
+ * nie um.
+ *
+ * Die Zeilen bleiben deshalb roh (mit Platzhalter) gespeichert; GameHandler
+ * expandiert sie beim Ausliefern an QML und meldet bei jedem Theme-Wechsel
+ * einfach die Liste als geändert.
+ */
+namespace TableChatColors {
+
+enum Role {
+    Text = 0,    // normale Chat-Nachricht / normale Verlaufszeile
+    Accent,      // Erwähnung des eigenen Nicks
+    Winner,      // Gewinner des Hauptpots
+    WinnerSide,  // Gewinner eines Side-Pots
+    Board,       // "--- Flop ---" / "… sits out"
+    RoleCount
+};
+
+// Dieselben Steuerzeichen wie ChatColors: die beiden Verläufe (Lobby / Tisch)
+// liegen in getrennten Listen und werden jeweils von ihrem eigenen Handler
+// expandiert, können sich also nicht in die Quere kommen.
+inline QString token(Role role)
+{
+    return QChar(ChatColors::kTokenStart) + QString::number(int(role))
+           + QChar(ChatColors::kTokenEnd);
+}
+
+// Fertiges Style-Fragment für den Zeilenaufbau: "color:<platzhalter>".
+inline QString colorStyle(Role role)
+{
+    return QStringLiteral("color:") + token(role);
+}
+
+// Die Hex-Werte einer Rolle, wie sie das aktuelle Tisch-Theme liefert.
+struct Palette {
+    QString color[RoleCount];
+    bool isEmpty() const { return color[Text].isEmpty(); }
+};
+
+// Platzhalter -> Hex. Wird beim Ausliefern jeder Zeile an QML angewandt.
+inline QString expand(QString line, const Palette &palette)
+{
+    if (palette.isEmpty() || !line.contains(QChar(ChatColors::kTokenStart)))
+        return line;
+    for (int r = 0; r < RoleCount; ++r)
+        line.replace(token(Role(r)), palette.color[r]);
+    return line;
+}
+
+} // namespace TableChatColors
 
 #endif // CHATCOLORS_H
