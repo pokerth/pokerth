@@ -246,7 +246,7 @@
         <translation>Message …</translation>
     </message>
     <message>
-        <location line="+791"/>
+        <location line="+797"/>
         <source>Link öffnen</source>
         <translation>Ouvrir le lien</translation>
     </message>
@@ -616,7 +616,7 @@
 <context>
     <name>GameInfoPanel</name>
     <message>
-        <location filename="../components/GameInfoPanel.qml" line="+56"/>
+        <location filename="../components/GameInfoPanel.qml" line="+62"/>
         <source>Höchste Karte</source>
         <translation>Carte haute</translation>
     </message>
@@ -666,7 +666,7 @@
         <translation>Quinte flush royale</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+28"/>
         <source>Verlauf</source>
         <translation>Historique</translation>
     </message>
@@ -732,12 +732,12 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+2304"/>
+        <location filename="../pages/GamePage.qml" line="+2310"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>Historique et chances</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+55"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
@@ -747,7 +747,7 @@
         <translation>Réactions emoji</translation>
     </message>
     <message>
-        <location line="+311"/>
+        <location line="+314"/>
         <source>Game Over</source>
         <translation>Partie terminée</translation>
     </message>
@@ -4525,7 +4525,7 @@ Veuillez vérifier votre nom d&apos;utilisateur et mot de passe.</translation>
 <context>
     <name>StaticData</name>
     <message>
-        <location filename="../config/StaticData.qml" line="+109"/>
+        <location filename="../config/StaticData.qml" line="+114"/>
         <source>Fold</source>
         <translation>Se coucher</translation>
     </message>

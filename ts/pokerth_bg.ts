@@ -319,7 +319,7 @@ Please select a game table style and try again!</source>
         <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="165"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="140"/>
         <source>Delete</source>
-        <translation type="unfinished">Изтрйи</translation>
+        <translation type="unfinished">Изтрий</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="91"/>
@@ -944,7 +944,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="168"/>
         <location filename="../src/gui/qt/gui_800x480/changecompleteblindsdialog_800x480.ui" line="254"/>
         <source>Delete</source>
-        <translation>Изтрйи</translation>
+        <translation>Изтрий</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="195"/>
@@ -4079,7 +4079,7 @@ Do you really want to leave the game?</source>
         <location filename="../src/gui/qt/gui_800x480/joinnetworkgamedialog_800x480.ui" line="336"/>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="296"/>
         <source>Delete</source>
-        <translation>Изтрйи</translation>
+        <translation>Изтрий</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/joinnetworkgamedialog_800x480.ui" line="212"/>
@@ -4638,7 +4638,7 @@ and go back to the lobby?</source>
         <location filename="../src/gui/qt/gui_800x480/manualblindsorderdialog_800x480.ui" line="55"/>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="28"/>
         <source>Delete</source>
-        <translation>Изтрйи</translation>
+        <translation>Изтрий</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/manualblindsorderdialog_800x480.ui" line="75"/>
@@ -5336,7 +5336,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Delete</source>
-        <translation type="obsolete">Изтрйи</translation>
+        <translation type="obsolete">Изтрий</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3852"/>

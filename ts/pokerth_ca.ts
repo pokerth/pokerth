@@ -502,7 +502,7 @@ Please verify that you are uploading a valid PokerTH log file.</source>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="57"/>
         <source>Report inappropriate avatar</source>
-        <translation>Denuncieu un avatar offensiu</translation>
+        <translation>Denuncieu un avatar ofensiu</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="465"/>
@@ -544,7 +544,7 @@ Please verify that you are uploading a valid PokerTH log file.</source>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="547"/>
         <source>Are you sure you want to report the avatar of &quot;%1&quot; as inappropriate?</source>
-        <translation>Esteu segur que voleu denunciar l&apos;avatar de &quot;%1&quot; com a offensiu?</translation>
+        <translation>Esteu segur que voleu denunciar l&apos;avatar de &quot;%1&quot; com a ofensiu?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="501"/>
@@ -1782,7 +1782,7 @@ Si us plau, trieu-ne un altre!</translation>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="469"/>
         <location filename="../src/gui/qt/gui_800x480/gamelobbydialog_800x480.ui" line="541"/>
         <source>Connected Players</source>
-        <translation>Jugadors conectats</translation>
+        <translation>Jugadors connectats</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="62"/>
@@ -1878,7 +1878,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="327"/>
         <location filename="../src/gui/qt/gui_800x480/gamelobbydialog_800x480.ui" line="1004"/>
         <source>Sort by country</source>
-        <translation>Ordena per païs</translation>
+        <translation>Ordena per país</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="332"/>
@@ -2151,7 +2151,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players - max. %1</source>
-        <translation type="vanished">Jugadors conectats - màxim %1</translation>
+        <translation type="vanished">Jugadors connectats - màxim %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="174"/>
@@ -2206,7 +2206,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players - Max. %1</source>
-        <translation type="vanished">Jugadors conectats - Màxim %1</translation>
+        <translation type="vanished">Jugadors connectats - Màxim %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="817"/>
@@ -2217,7 +2217,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="984"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1162"/>
         <source>running games: %1</source>
-        <translation>partides a marxa:%1</translation>
+        <translation>partides en marxa: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="985"/>
@@ -3561,11 +3561,11 @@ Podeu invitar més jugadors fent clic dret al seus noms d&apos;usuari a la llist
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="992"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1161"/>
         <source>connected players: %1</source>
-        <translation>jugadors conectats: %1</translation>
+        <translation>jugadors connectats: %1</translation>
     </message>
     <message>
         <source>Connected players</source>
-        <translation type="vanished">Jugadors conectats</translation>
+        <translation type="vanished">Jugadors connectats</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1567"/>
@@ -4110,7 +4110,7 @@ Esteu segur que voleu abandonar la partida?</translation>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4377"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
-        <translation>Atenció! Realment voleu abandonar la pardia actual
+        <translation>Atenció! Realment voleu abandonar la partida actual
 i tornar a la sala?</translation>
     </message>
     <message>
@@ -6162,7 +6162,7 @@ Realment voleu reinicialitzar als valors per defecte?</translation>
         <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="40"/>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="20"/>
         <source>Connected Players</source>
-        <translation>Jugadors conectats</translation>
+        <translation>Jugadors connectats</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="51"/>
@@ -6468,7 +6468,7 @@ Si us plau, trieu-ne un altre.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1033"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>Comunicació ha fallat. Seleccioneu un altre port.</translation>
+        <translation>La vinculació del port ha fallat. Seleccioneu un altre port.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1039"/>
@@ -6563,7 +6563,7 @@ Si utilitzeu una llista personalitzada de servidors, si us plau, comproveu que e
         <source>Could not download the PokerTH internet server list.
 Please make sure you are directly connected to the internet.</source>
         <translation>No s&apos;ha pogut descarregar la llista de servidors d&apos;internet de PokerTH.
-Si us plau, comproveu que esteu directament conectat a l&apos;internet.</translation>
+Si us plau, comproveu que esteu directament connectat a l&apos;internet.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1127"/>
@@ -6584,7 +6584,7 @@ Si us plau, comproveu que esteu directament conectat a l&apos;internet.</transla
         <source>Invalid login.
 Please check your username and password.</source>
         <translation>Entrada no vàlida.
-Si us plau, comproveu el vostre nom d&apos;usuari i la constrasenya.</translation>
+Si us plau, comproveu el vostre nom d&apos;usuari i la contrasenya.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1220"/>
@@ -6604,7 +6604,7 @@ Si us plau, comproveu el vostre nom d&apos;usuari i la constrasenya.</translatio
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1325"/>
         <source>Your connection to the server is very slow, the game had to start without you.</source>
-        <translation>La vostra conexió al servidor és molt lent. La partida s&apos;havia de començar sense vos.</translation>
+        <translation>La vostra connexió al servidor és molt lent. La partida s&apos;havia de començar sense vos.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1353"/>
@@ -6718,7 +6718,7 @@ If the problem persists, please check the server address or try again later.</so
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1076"/>
         <source>The connection to the server was lost.</source>
-        <translation>La conexió al servidor s&apos;ha perdut.</translation>
+        <translation>La connexió al servidor s&apos;ha perdut.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1133"/>
@@ -6768,7 +6768,7 @@ If the problem persists, please check the server address or try again later.</so
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1227"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation>La vostra connexió al servidor ha fallat a causa d&apos;inactivitat. Podeu tornar a conectar-vos!</translation>
+        <translation>La vostra connexió al servidor ha fallat a causa d&apos;inactivitat. Podeu tornar a connectar-vos!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1233"/>
@@ -6778,7 +6778,7 @@ If the problem persists, please check the server address or try again later.</so
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1239"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
-        <translation>S&apos;han configurat masses cegues manuals. Si us plau, torneu a configurar les cegues manuals.</translation>
+        <translation>S&apos;han configurat massa cegues manuals. Si us plau, torneu a configurar les cegues manuals.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1246"/>
@@ -6803,7 +6803,7 @@ If the problem persists, please check the server address or try again later.</so
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1276"/>
         <source>The server is down for maintenance. Please try again later.</source>
-        <translation>Aquest servidor està desconectat per manteniment. Si us plau, torneu-ho a provar més tard.</translation>
+        <translation>Aquest servidor està desconnectat per manteniment. Si us plau, torneu-ho a provar més tard.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1282"/>
@@ -7049,7 +7049,7 @@ because the nick could not be found in the database</source>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="109"/>
         <source>Your connection is about to time out due to inactivity in %1 seconds.</source>
-        <translation>La vostra conexió s&apos;aturarà a causa d&apos;inactivitat en %1 segons.</translation>
+        <translation>La vostra connexió s&apos;aturarà a causa d&apos;inactivitat en %1 segons.</translation>
     </message>
 </context>
 </TS>

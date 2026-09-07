@@ -25,14 +25,18 @@ QtObject {
     readonly property var languages: [
             { langName: "Deutsch (Deutsch)", code: "de_DE"},
             { langName: "English (English)", code: "en_US"},
+            { langName: "Bulgarian (Български)", code: "bg_BG"},
+            { langName: "Catalan (Català)", code: "ca_ES"},
             { langName: "Chinese, Simplified (简体中文)", code: "zh_CN"},
             { langName: "Czech (Čeština)", code: "cs_CZ"},
             { langName: "Danish (Dansk)", code: "da_DK"},
             { langName: "Dutch (Nederlands)", code: "nl_NL"},
+            { langName: "Finnish (Suomi)", code: "fi_FI"},
             { langName: "French (Français)", code: "fr_FR"},
             { langName: "Greek (Ελληνικά)", code: "el_GR"},
             { langName: "Hungarian (Magyar)", code: "hu_HU"},
             { langName: "Italian (Italiano)", code: "it_IT"},
+            { langName: "Norwegian (Norsk bokmål)", code: "nb_NO"},
             { langName: "Polish (Polski)", code: "pl_PL"},
             { langName: "Portuguese (Português)", code: "pt_PT"},
             { langName: "Portuguese, Brazil (Português do Brasil)", code: "pt_BR"},
@@ -70,6 +74,7 @@ QtObject {
         "it_IT": "it", "pt_BR": "ptbr", "pt_PT": "ptpt", "ru_RU": "ru",
         "cs_CZ": "cz", "da_DK": "dk", "el_GR": "gr", "hu_HU": "hu",
         "nl_NL": "nl", "pl_PL": "pl", "sv_SE": "sv", "tr_TR": "tr",
+        "bg_BG": "bg", "ca_ES": "ca", "fi_FI": "fi", "nb_NO": "no",
         "zh_CN": "zhcn"
     })
 

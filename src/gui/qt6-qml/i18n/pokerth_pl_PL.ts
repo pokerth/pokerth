@@ -246,7 +246,7 @@
         <translation>Wiadomość …</translation>
     </message>
     <message>
-        <location line="+791"/>
+        <location line="+797"/>
         <source>Link öffnen</source>
         <translation>Otwórz odnośnik</translation>
     </message>
@@ -616,7 +616,7 @@
 <context>
     <name>GameInfoPanel</name>
     <message>
-        <location filename="../components/GameInfoPanel.qml" line="+56"/>
+        <location filename="../components/GameInfoPanel.qml" line="+62"/>
         <source>Höchste Karte</source>
         <translation>Wysoka karta</translation>
     </message>
@@ -666,7 +666,7 @@
         <translation>Poker królewski</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+28"/>
         <source>Verlauf</source>
         <translation>Historia</translation>
     </message>
@@ -732,12 +732,12 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+2304"/>
+        <location filename="../pages/GamePage.qml" line="+2310"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>Historia i szanse</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+55"/>
         <source>Chat</source>
         <translation>Czat</translation>
     </message>
@@ -747,7 +747,7 @@
         <translation>Reakcje emoji</translation>
     </message>
     <message>
-        <location line="+311"/>
+        <location line="+314"/>
         <source>Game Over</source>
         <translation>Koniec gry</translation>
     </message>
@@ -4525,7 +4525,7 @@ Sprawdź nazwę użytkownika i hasło.</translation>
 <context>
     <name>StaticData</name>
     <message>
-        <location filename="../config/StaticData.qml" line="+109"/>
+        <location filename="../config/StaticData.qml" line="+114"/>
         <source>Fold</source>
         <translation>Pas</translation>
     </message>

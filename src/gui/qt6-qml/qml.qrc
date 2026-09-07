@@ -102,6 +102,10 @@
         <file>i18n/pokerth_cs_CZ.ts</file>
         <file>i18n/pokerth_sv_SE.ts</file>
         <file>i18n/pokerth_da_DK.ts</file>
+        <file>i18n/pokerth_ca_ES.ts</file>
+        <file>i18n/pokerth_bg_BG.ts</file>
+        <file>i18n/pokerth_fi_FI.ts</file>
+        <file>i18n/pokerth_nb_NO.ts</file>
         <file>i18n/pokerth_zh_CN.ts</file>
         <file>pages/AboutPage.qml</file>
         <file>pages/GamePage.qml</file>

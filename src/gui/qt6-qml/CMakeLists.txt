@@ -220,6 +220,10 @@ set(TS_FILES
     i18n/pokerth_cs_CZ.ts
     i18n/pokerth_sv_SE.ts
     i18n/pokerth_da_DK.ts
+    i18n/pokerth_ca_ES.ts
+    i18n/pokerth_bg_BG.ts
+    i18n/pokerth_fi_FI.ts
+    i18n/pokerth_nb_NO.ts
     i18n/pokerth_zh_CN.ts
 )
 

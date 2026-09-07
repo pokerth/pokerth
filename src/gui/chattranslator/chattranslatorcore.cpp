@@ -61,6 +61,7 @@ QString ChatTranslatorCore::normalizeLangCode(const QString &raw)
 		{ QStringLiteral("dk"), QStringLiteral("da") },  // Dänisch
 		{ QStringLiteral("gr"), QStringLiteral("el") },  // Griechisch
 		{ QStringLiteral("jp"), QStringLiteral("ja") },  // Japanisch
+		{ QStringLiteral("nb"), QStringLiteral("no") },  // Norwegisch (Bokmål)
 		{ QStringLiteral("se"), QStringLiteral("sv") },  // Schwedisch
 		{ QStringLiteral("ua"), QStringLiteral("uk") },  // Ukrainisch
 	};

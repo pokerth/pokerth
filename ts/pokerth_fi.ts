@@ -1622,7 +1622,7 @@ Valitse toinen nimi!</translation>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="69"/>
         <location filename="../src/gui/qt/gui_800x480/createinternetgamedialog_800x480.ui" line="172"/>
         <source>Registered players only</source>
-        <translation>Vain rekistöröityneet pelaajat</translation>
+        <translation>Vain rekisteröityneet pelaajat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="78"/>
@@ -2242,7 +2242,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="708"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1507"/>
         <source>Registered players only</source>
-        <translation>Vain rekistöröityneet pelaajat</translation>
+        <translation>Vain rekisteröityneet pelaajat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="565"/>
@@ -2401,7 +2401,7 @@ Olet vapaa kutsumaan muita pelaajia klikkaamalla heidän nimimerkkiänsä vapaid
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2129"/>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
-        <translation>Sinut on kutsuttu peliin&lt;b&gt;%1&lt;/b&gt; pelaajan &lt;b&gt;%2&lt;/b&gt; toimesta.&lt;br&gt;Haluatko liittyä tähän peliin?</translation>
+        <translation>Sinut on kutsuttu peliin &lt;b&gt;%1&lt;/b&gt; pelaajan &lt;b&gt;%2&lt;/b&gt; toimesta.&lt;br&gt;Haluatko liittyä tähän peliin?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2185"/>
@@ -4186,7 +4186,7 @@ Valitse toinen nimi.</translation>
     </message>
     <message>
         <source>Bind failed - please choose a different port.</source>
-        <translation type="obsolete">Sokkopanos epäonnistui - valitse toinen portti.</translation>
+        <translation type="obsolete">Portin varaus epäonnistui - valitse toinen portti.</translation>
     </message>
     <message>
         <source>Internal network error: &quot;listen&quot; failed.</source>
@@ -4268,7 +4268,7 @@ Valitse toinen nimi.</translation>
     </message>
     <message>
         <source>The game name is either too short or too long. Please choose another one.</source>
-        <translation type="obsolete">Pelin nimi on joko liian lyhyt ja tai pitkä. Valitse toinen nimi.</translation>
+        <translation type="obsolete">Pelin nimi on joko liian lyhyt tai liian pitkä. Valitse toinen nimi.</translation>
     </message>
     <message>
         <source>The game could not be found.</source>
@@ -4284,7 +4284,7 @@ Valitse toinen nimi.</translation>
     </message>
     <message>
         <source>Internal error: The current player could not be found.</source>
-        <translation type="obsolete">Sisäinen virhe: Nykyistä pelaaja ei löydetä.</translation>
+        <translation type="obsolete">Sisäinen virhe: Nykyistä pelaajaa ei löytynyt.</translation>
     </message>
     <message>
         <source>Internal error: The current player is not active.</source>
@@ -4312,7 +4312,7 @@ Valitse toinen nimi.</translation>
     </message>
     <message>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation type="obsolete">Tapahtui sisäinen avatarivirhe. Ilmoita asiasta ylläpitäjälle chattiaulassa.</translation>
+        <translation type="obsolete">Tapahtui sisäinen avatarivirhe. Ilmoita asiasta ylläpitäjälle aulan chatissa.</translation>
     </message>
     <message>
         <source>Could not start game: Synchronization failed.</source>
@@ -4392,11 +4392,11 @@ ja palata aulaan?</translation>
     </message>
     <message>
         <source>You were temporarily banned from the server.</source>
-        <translation type="obsolete">Sinut pannattiin väliaikaisesti palvelimelta.</translation>
+        <translation type="obsolete">Sinut estettiin väliaikaisesti palvelimelta.</translation>
     </message>
     <message>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation type="obsolete">Yhteytesi palvelimeen katkaistiin toimettomuun vuoksi. Olet tervetullut palaamaan takaisin!</translation>
+        <translation type="obsolete">Yhteytesi palvelimeen katkaistiin toimettomuuden vuoksi. Olet tervetullut palaamaan takaisin!</translation>
     </message>
     <message>
         <source>You cannot upload a new avatar file at this time. Please try again in a few seconds.</source>
@@ -4428,7 +4428,7 @@ Varmista, että palvelinlistan URL on oikein.</translation>
         <source>The PokerTH internet server list contains invalid data.
 If you use a custom server list, please make sure its format is correct.</source>
         <translation type="obsolete">PokerTH:n internetpalvelinlista sisältää kelvotonta dataa.
-Jos käytät kustomoitua palvelinlistaa, varmita sen muodon oikeellisuus.</translation>
+Jos käytät kustomoitua palvelinlistaa, varmista sen muodon oikeellisuus.</translation>
     </message>
     <message>
         <source>Could not unzip the PokerTH internet server list.</source>
@@ -4437,7 +4437,7 @@ Jos käytät kustomoitua palvelinlistaa, varmita sen muodon oikeellisuus.</trans
     <message>
         <source>Could not download the PokerTH internet server list.
 Please make sure you are directly connected to the internet.</source>
-        <translation type="obsolete">PokerTH: internetpalvelinlistaa ei voitu ladata.
+        <translation type="obsolete">PokerTH:n internetpalvelinlistaa ei voitu ladata.
 Varmista, että olet yhdistetty suoraan internetiin.</translation>
     </message>
     <message>
@@ -5941,7 +5941,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2136"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2005"/>
         <source>Registered players only</source>
-        <translation>Vain rekistöröityneet pelaajat</translation>
+        <translation>Vain rekisteröityneet pelaajat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2145"/>
@@ -6903,7 +6903,7 @@ Valitse toinen nimi.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1033"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>Sokkopanos epäonnistui - valitse toinen portti.</translation>
+        <translation>Portin varaus epäonnistui - valitse toinen portti.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1039"/>
@@ -7043,7 +7043,7 @@ If the problem persists, please check the server address or try again later.</so
         <source>The PokerTH internet server list contains invalid data.
 If you use a custom server list, please make sure its format is correct.</source>
         <translation>PokerTH:n internetpalvelinlista sisältää kelvotonta dataa.
-Jos käytät kustomoitua palvelinlistaa, varmita sen muodon oikeellisuus.</translation>
+Jos käytät kustomoitua palvelinlistaa, varmista sen muodon oikeellisuus.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1113"/>
@@ -7054,7 +7054,7 @@ Jos käytät kustomoitua palvelinlistaa, varmita sen muodon oikeellisuus.</trans
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1121"/>
         <source>Could not download the PokerTH internet server list.
 Please make sure you are directly connected to the internet.</source>
-        <translation>PokerTH: internetpalvelinlistaa ei voitu ladata.
+        <translation>PokerTH:n internetpalvelinlistaa ei voitu ladata.
 Varmista, että olet yhdistetty suoraan internetiin.</translation>
     </message>
     <message>
@@ -7106,7 +7106,7 @@ Tarkista käyttäjänimesi ja salasanasi.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1353"/>
         <source>This game is of type invite-only. You cannot join this game without being invited.</source>
-        <translation>Tähän peli on vain kutsutuille. Et voi liittyä tähän peliin kutsutta.</translation>
+        <translation>Tämä peli on vain kutsutuille. Et voi liittyä tähän peliin kutsutta.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1375"/>
@@ -7209,7 +7209,7 @@ Valitse toinen nimi.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1169"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
-        <translation>Pelin nimi on joko liian lyhyt ja tai pitkä. Valitse toinen nimi.</translation>
+        <translation>Pelin nimi on joko liian lyhyt tai liian pitkä. Valitse toinen nimi.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1175"/>
@@ -7229,7 +7229,7 @@ Valitse toinen nimi.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1193"/>
         <source>Internal error: The current player could not be found.</source>
-        <translation>Sisäinen virhe: Nykyistä pelaaja ei löydetä.</translation>
+        <translation>Sisäinen virhe: Nykyistä pelaajaa ei löytynyt.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1199"/>
@@ -7244,12 +7244,12 @@ Valitse toinen nimi.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1213"/>
         <source>You were temporarily banned from the server.</source>
-        <translation>Sinut pannattiin väliaikaisesti palvelimelta.</translation>
+        <translation>Sinut estettiin väliaikaisesti palvelimelta.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1227"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation>Yhteytesi palvelimeen katkaistiin toimettomuun vuoksi. Olet tervetullut palaamaan takaisin!</translation>
+        <translation>Yhteytesi palvelimeen katkaistiin toimettomuuden vuoksi. Olet tervetullut palaamaan takaisin!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1233"/>
@@ -7278,7 +7278,7 @@ Valitse toinen nimi.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1264"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation>Tapahtui sisäinen avatarivirhe. Ilmoita asiasta ylläpitäjälle chattiaulassa.</translation>
+        <translation>Tapahtui sisäinen avatarivirhe. Ilmoita asiasta ylläpitäjälle aulan chatissa.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1270"/>
@@ -7463,7 +7463,7 @@ Valitse toinen nimi.</translation>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="42"/>
         <source>Please click &quot;OK&quot; to stop the countdown!</source>
-        <translation>Klikkaa &quot;OK&quot; pysäyttääkesi laskenta!</translation>
+        <translation>Napsauta &quot;OK&quot; pysäyttääksesi laskennan!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="91"/>
