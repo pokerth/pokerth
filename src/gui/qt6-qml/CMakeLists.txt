@@ -146,6 +146,9 @@ set(QML_FILES
     components/PlayerBetStrip.qml
     components/PlayerBoxBackground.qml
     components/PlayerListItem.qml
+    components/PlayerNoteBadge.qml
+    components/PlayerNoteDialog.qml
+    components/PlayerRatingStars.qml
     components/PlayerSeasonCard.qml
     components/PlayerTimeoutBar.qml
     components/PlayerTurnGlow.qml

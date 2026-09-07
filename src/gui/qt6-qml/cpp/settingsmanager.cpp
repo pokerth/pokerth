@@ -207,6 +207,101 @@ void SettingsManager::saveConfig()
     m_config->writeBuffer();
 }
 
+// ── Spieler-Notizen und -Bewertungen ────────────────────────────────────────
+// Format der Config-Liste "PlayerTooltips" (geteilt mit dem Qt-Widgets-Client,
+// MyAvatarLabel): Name(!#$%)Notiz(!#$%)Sterne(!#$%)
+namespace
+{
+const QString kPlayerNotesKey = QStringLiteral("PlayerTooltips");
+const QString kPlayerNotesSep = QStringLiteral("(!#$%)");
+
+// Ein Listeneintrag zerlegt. Liefert false, wenn die Zeile nicht dem Format
+// entspricht (zu wenige Felder) – solche Zeilen werden unverändert übernommen,
+// damit ein fremder/kaputter Eintrag nicht stillschweigend verschwindet.
+bool splitNoteEntry(const QString &line, QString &name, QString &note, int &rating)
+{
+    const QStringList f = line.split(kPlayerNotesSep, Qt::KeepEmptyParts);
+    if (f.size() < 3)
+        return false;
+    name = f.at(0);
+    note = f.at(1);
+    rating = f.at(2).toInt();
+    return true;
+}
+
+QString joinNoteEntry(const QString &name, const QString &note, int rating)
+{
+    return name + kPlayerNotesSep + note + kPlayerNotesSep
+           + QString::number(rating) + kPlayerNotesSep;
+}
+}
+
+int SettingsManager::playerRating(const QString &playerName) const
+{
+    if (playerName.isEmpty())
+        return 0;
+    const QStringList lines = readConfigStringList(kPlayerNotesKey);
+    for (const QString &line : lines) {
+        QString name, note;
+        int rating = 0;
+        if (splitNoteEntry(line, name, note, rating) && name == playerName)
+            return qBound(0, rating, 5);
+    }
+    return 0;
+}
+
+QString SettingsManager::playerNote(const QString &playerName) const
+{
+    if (playerName.isEmpty())
+        return QString();
+    const QStringList lines = readConfigStringList(kPlayerNotesKey);
+    for (const QString &line : lines) {
+        QString name, note;
+        int rating = 0;
+        if (splitNoteEntry(line, name, note, rating) && name == playerName)
+            return note;
+    }
+    return QString();
+}
+
+void SettingsManager::setPlayerNote(const QString &playerName, const QString &note, int rating)
+{
+    if (playerName.isEmpty())
+        return;
+
+    // Das Trennzeichen darf nicht im Nutzertext landen – es würde den Eintrag
+    // beim nächsten Lesen (hier wie im Qt-Widgets-Client) in Stücke reißen.
+    QString cleanNote = note;
+    cleanNote.remove(kPlayerNotesSep);
+    const int cleanRating = qBound(0, rating, 5);
+    const bool empty = cleanNote.isEmpty() && cleanRating == 0;
+
+    QStringList result;
+    bool found = false;
+    const QStringList lines = readConfigStringList(kPlayerNotesKey);
+    for (const QString &line : lines) {
+        QString name, oldNote;
+        int oldRating = 0;
+        if (!splitNoteEntry(line, name, oldNote, oldRating)) {
+            result << line;
+            continue;
+        }
+        if (name != playerName) {
+            result << joinNoteEntry(name, oldNote, oldRating);
+            continue;
+        }
+        found = true;
+        if (!empty)
+            result << joinNoteEntry(name, cleanNote, cleanRating);
+    }
+    if (!found && !empty)
+        result << joinNoteEntry(playerName, cleanNote, cleanRating);
+
+    writeConfigStringList(kPlayerNotesKey, result);
+    ++m_playerNotesRevision;
+    emit playerNotesChanged();
+}
+
 void SettingsManager::resetToDefaults()
 {
     m_config->resetToDefaults();
@@ -217,6 +312,10 @@ void SettingsManager::resetToDefaults()
     emit myNameChanged();
     emit myAvatarChanged();
     bumpConfigRevision();
+    // Die Spieler-Notizen hängen an derselben Config und sind danach ebenfalls
+    // zurückgesetzt – die Sitz-Bindungen müssen das mitbekommen.
+    ++m_playerNotesRevision;
+    emit playerNotesChanged();
 }
 
 QString SettingsManager::pickImageFile(const QString &title)

@@ -47,6 +47,11 @@ class SettingsManager : public QObject
     // darkmode.h. Ändert der Nutzer das System-Theme im laufenden Betrieb,
     // meldet sich die Property neu und die Oberfläche zieht mit.
     Q_PROPERTY(bool systemDark READ systemDark NOTIFY systemDarkChanged)
+    // Wird bei jeder Änderung an den Spieler-Notizen/-Bewertungen erhöht
+    // (siehe playerNote()/playerRating()). Bewusst getrennt von
+    // configRevision: die Notizen hängen an den Sitzen am Tisch, und jede
+    // beliebige andere Einstellung soll deren Bindungen nicht neu auswerten.
+    Q_PROPERTY(int playerNotesRevision READ playerNotesRevision NOTIFY playerNotesChanged)
 
 public:
     explicit SettingsManager(boost::shared_ptr<ConfigFile> config, QObject *parent = nullptr);
@@ -59,6 +64,7 @@ public:
     QString myName() const;
     QString myAvatar() const;
     int configRevision() const { return m_configRevision; }
+    int playerNotesRevision() const { return m_playerNotesRevision; }
     bool systemDark() const;
 
     // Property setters
@@ -79,6 +85,21 @@ public:
     Q_INVOKABLE QList<int> readConfigIntList(const QString &key) const;
     Q_INVOKABLE void writeConfigIntList(const QString &key, const QList<int> &list);
     Q_INVOKABLE void saveConfig();
+
+    // ── Spieler-Notizen und -Bewertungen ─────────────────────────────────
+    // Gemeinsamer Speicher mit dem Qt-Widgets-Client: Config-Liste
+    // "PlayerTooltips", ein Eintrag je Spieler im Format
+    //   Name(!#$%)Notiz(!#$%)Sterne(!#$%)
+    // (Trennzeichen und abschließendes Trennzeichen wie in MyAvatarLabel).
+    // Die Zerlegung liegt hier in C++ statt in QML, damit beide Clients
+    // dasselbe Format schreiben und ein Eintrag nicht durch String-Bastelei
+    // in der Oberfläche zerfällt.
+    Q_INVOKABLE int playerRating(const QString &playerName) const;
+    Q_INVOKABLE QString playerNote(const QString &playerName) const;
+    // Notiz und Bewertung eines Spielers in EINEM Schreibvorgang setzen (der
+    // Dialog ändert beides gemeinsam). Ein Eintrag ohne Notiz und mit 0
+    // Sternen wird entfernt, statt als Leereintrag stehen zu bleiben.
+    Q_INVOKABLE void setPlayerNote(const QString &playerName, const QString &note, int rating);
     Q_INVOKABLE void resetToDefaults();
     Q_INVOKABLE QString pickImageFile(const QString &title);
 
@@ -155,6 +176,7 @@ signals:
     void myAvatarChanged();
     void configRevisionChanged();
     void systemDarkChanged();
+    void playerNotesChanged();
 
 private:
     // Scannt <AppDataDir>/gfx/qml/<category>/* und <UserDataDir>/gfx/qml/<category>/*
@@ -191,6 +213,7 @@ private:
 
     boost::shared_ptr<ConfigFile> m_config;
     int m_configRevision = 0;  // hochgezählt bei jedem Schreiben (Live-Reaktivität)
+    int m_playerNotesRevision = 0;  // hochgezählt bei jeder Notiz-/Sterne-Änderung
 
     // Erhöht m_configRevision und meldet die Änderung → reaktive QML-Bindungen.
     void bumpConfigRevision();

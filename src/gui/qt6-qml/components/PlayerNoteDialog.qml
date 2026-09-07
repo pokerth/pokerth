@@ -1,0 +1,139 @@
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+
+import "../config" as Config
+
+// Notiz + Bewertung zu einem Mitspieler bearbeiten (Port des Sterne-/Tooltip-
+// Systems aus dem Qt-Widgets-Client, MyAvatarLabel). Gespeichert wird über
+// SettingsManager in der Config-Liste "PlayerTooltips" – demselben Speicher,
+// den auch der Widgets-Client liest und schreibt.
+Popup {
+    id: root
+
+    parent: Overlay.overlay
+    anchors.centerIn: parent
+    modal: true
+    padding: 20
+    width: Math.min((parent ? parent.width : 420) * 0.9, 420)
+    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+    // Spieler, dessen Notiz bearbeitet wird (Schlüssel im Speicher ist der Name).
+    property string playerName: ""
+
+    // Notizlänge begrenzen: der Eintrag landet als eine Zeile in der config.xml.
+    readonly property int maxNoteLength: 500
+
+    // Bestehende Notiz/Bewertung laden und öffnen.
+    function openFor(name) {
+        playerName = name
+        var sm = (typeof SettingsManager !== "undefined") ? SettingsManager : null
+        stars.rating = sm ? sm.playerRating(name) : 0
+        noteInput.text = sm ? sm.playerNote(name) : ""
+        open()
+    }
+
+    function save() {
+        if (typeof SettingsManager !== "undefined" && SettingsManager)
+            SettingsManager.setPlayerNote(root.playerName, noteInput.text, stars.rating)
+        close()
+    }
+
+    onOpened: noteInput.forceActiveFocus()
+
+    background: Rectangle {
+        color: Config.Theme.colorBox
+        border.color: Config.StaticData.palette.secondary.col400
+        border.width: 1
+        radius: 8
+    }
+
+    ColumnLayout {
+        spacing: 12
+        width: root.availableWidth
+
+        AppLabel {
+            Layout.fillWidth: true
+            text: qsTr("Note about \"%1\"").arg(root.playerName)
+            color: Config.StaticData.palette.secondary.col100
+            font.pixelSize: 15
+            font.bold: true
+            elide: Text.ElideRight
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: 10
+
+            AppLabel {
+                text: qsTr("Rating:")
+                color: Config.StaticData.palette.secondary.col300
+                font.pixelSize: 13
+            }
+
+            PlayerRatingStars {
+                id: stars
+                starSize: 22
+            }
+
+            Item { Layout.fillWidth: true }
+        }
+
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 110
+            color: Config.StaticData.palette.secondary.col700
+            border.color: noteInput.activeFocus ? Config.Theme.colorAccent
+                                                : Config.StaticData.palette.secondary.col500
+            border.width: 1
+            radius: Config.Theme.radiusSmall
+
+            ScrollView {
+                anchors.fill: parent
+                anchors.margins: 6
+                clip: true
+
+                TextArea {
+                    id: noteInput
+                    background: null
+                    selectByMouse: true
+                    wrapMode: TextArea.Wrap
+                    color: Config.StaticData.palette.secondary.col100
+                    placeholderTextColor: Config.Theme.colorTextMuted
+                    placeholderText: qsTr("Your private note about this player ...")
+                    font.pixelSize: 13
+                    // Nur die eigene Notiz – der Text wird nie übertragen.
+                    onTextChanged: {
+                        if (length > root.maxNoteLength)
+                            remove(root.maxNoteLength, length)
+                    }
+                }
+            }
+        }
+
+        AppLabel {
+            Layout.fillWidth: true
+            text: qsTr("Notes and ratings are stored locally and are only visible to you.")
+            color: Config.Theme.colorTextMuted
+            font.pixelSize: 11
+            wrapMode: Text.WordWrap
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: 8
+
+            CustomButton {
+                text: qsTr("Cancel")
+                Layout.fillWidth: true
+                onClicked: root.close()
+            }
+
+            CustomButton {
+                text: qsTr("Save")
+                Layout.fillWidth: true
+                onClicked: root.save()
+            }
+        }
+    }
+}

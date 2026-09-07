@@ -9,6 +9,9 @@
         <file>components/PlayerActionBadge.qml</file>
         <file>components/PlayerTimeoutBar.qml</file>
         <file>components/PlayerBetStrip.qml</file>
+        <file>components/PlayerNoteBadge.qml</file>
+        <file>components/PlayerNoteDialog.qml</file>
+        <file>components/PlayerRatingStars.qml</file>
         <file>components/PlayerBoxBackground.qml</file>
         <file>components/PlayerTurnGlow.qml</file>
         <file>components/PlayerWinnerOverlay.qml</file>

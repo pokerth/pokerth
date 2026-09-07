@@ -105,15 +105,13 @@ Item {
     readonly property string countryCode:
         seatData && seatData.countryCode !== undefined ? seatData.countryCode : ""
 
-    // ── Kontextaktionen (nur Desktop) ────────────────────────────────────────
-    // Rechtsklick auf eine Gegnerbox öffnet ein Kontextmenü mit „Ignore Player",
-    // „Unignore Player" und „Show player stats" – wie der Qt-Widgets-Client
-    // (MyAvatarLabel) bzw. die Lobby-Spielerliste (PlayerListItem). Die Aktionen
-    // greifen nur im Netzwerkspiel: nur dort trägt seatData eine playerId (für
-    // lokale Spiele/CPU-Gegner 0 → kein Menü). Touch-Geräte bleiben vorerst
-    // außen vor.
-    readonly property bool desktopMode:
-        typeof Config.Responsive !== "undefined" && !Config.Responsive.isMobile
+    // ── Kontextaktionen ──────────────────────────────────────────────────────
+    // Rechtsklick (Desktop) bzw. langer Druck (Touch) auf eine Gegnerbox öffnet
+    // ein Kontextmenü mit „Ignore Player", „Unignore Player", „Show player
+    // stats" und der Spieler-Notiz – wie der Qt-Widgets-Client (MyAvatarLabel)
+    // bzw. die Lobby-Spielerliste (PlayerListItem). Die Aktionen greifen nur im
+    // Netzwerkspiel: nur dort trägt seatData eine playerId (für lokale
+    // Spiele/CPU-Gegner 0 → kein Menü).
     readonly property bool targetIsComputer:
         seatData && seatData.isComputer !== undefined ? seatData.isComputer : false
     readonly property int targetPlayerId:
@@ -138,8 +136,30 @@ Item {
         && (typeof GameTable !== "undefined" && GameTable && GameTable.isInternetGameRunning())
         && !!(seatData && seatData.avatar && seatData.avatar !== "")
     readonly property bool hasContextActions:
-        desktopMode && targetPlayerId !== 0 && !targetIsComputer
-        && (canIgnore || canUnignore || canShowStats || canReportAvatar)
+        targetPlayerId !== 0 && !targetIsComputer
+        && (canIgnore || canUnignore || canShowStats || canReportAvatar || canEditNote)
+
+    // ── Spieler-Notiz und -Bewertung ─────────────────────────────────────────
+    // Eigene, rein lokale Notiz (Sterne + Text) zu einem Mitspieler, gespeichert
+    // im selben Config-Eintrag wie im Qt-Widgets-Client (siehe
+    // SettingsManager::setPlayerNote). Wie dort nur im Internet-Spiel: nur da
+    // steht hinter dem Namen ein dauerhaft registriertes Konto, an dem eine
+    // namensbasierte Notiz überhaupt hängen bleiben kann.
+    readonly property bool canEditNote:
+        !targetIsGuest && !targetIsSelf && !targetIsComputer
+        && (typeof GameTable !== "undefined" && GameTable && GameTable.isInternetGameRunning())
+    readonly property int playerRating: {
+        var _rev = (typeof SettingsManager !== "undefined" && SettingsManager)
+                   ? SettingsManager.playerNotesRevision : 0
+        return (canEditNote && typeof SettingsManager !== "undefined" && SettingsManager)
+            ? SettingsManager.playerRating(root.targetPlayerName) : 0
+    }
+    readonly property string playerNote: {
+        var _rev = (typeof SettingsManager !== "undefined" && SettingsManager)
+                   ? SettingsManager.playerNotesRevision : 0
+        return (canEditNote && typeof SettingsManager !== "undefined" && SettingsManager)
+            ? SettingsManager.playerNote(root.targetPlayerName) : ""
+    }
 
     // Widescreen-Layout: Box ist groß genug für 2-zeilige Info (Name + Flagge/Cash).
     // Nutzt height >= 76 als Proxy für tableZone.wide (oppBaseHeight = wide ? 84 : 71).
@@ -203,8 +223,10 @@ Item {
             playerActive: root.isActive
         }
 
-        // Portrait: Name + Stack einzeilig
-        Row {
+        // Portrait: Name + (Notiz-Badge) + Stack einzeilig. Anker statt fester
+        // Hälften, damit das Badge nur den Platz nimmt, den es wirklich braucht,
+        // und der Name um genau diesen Betrag früher elidiert.
+        Item {
             visible: !root.wideLayout
             width: parent.width - 2 * playerBox.hMargin
             height: 15
@@ -212,7 +234,10 @@ Item {
             y: root.bodyH - height - 4
 
             AppText {
-                width: parent.width / 2
+                anchors.left: parent.left
+                anchors.right: compactBadge.visible ? compactBadge.left : compactStack.left
+                anchors.rightMargin: 4
+                anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: Text.AlignLeft
                 color: "#eff1f5"
                 font.pixelSize: 12
@@ -222,8 +247,20 @@ Item {
                 text: root.seatData && root.seatData.name !== "" ? root.seatData.name : "---"
             }
 
+            PlayerNoteBadge {
+                id: compactBadge
+                anchors.right: compactStack.left
+                anchors.rightMargin: 4
+                anchors.verticalCenter: parent.verticalCenter
+                rating: root.playerRating
+                note: root.playerNote
+                glyphSize: 11
+            }
+
             AppText {
-                width: parent.width / 2
+                id: compactStack
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: Text.AlignRight
                 color: Config.Theme.colorAccent
                 font.pixelSize: 12
@@ -256,6 +293,7 @@ Item {
             }
 
             Image {
+                id: flagImage
                 visible: root.countryCode !== ""
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
@@ -265,6 +303,16 @@ Item {
                     ? "qrc:/resources/cflags/" + root.countryCode + ".svg" : ""
                 fillMode: Image.PreserveAspectFit
                 smooth: true
+            }
+
+            // Notiz/Bewertung neben der Flagge – der Stack bleibt rechtsbündig.
+            PlayerNoteBadge {
+                anchors.left: flagImage.visible ? flagImage.right : parent.left
+                anchors.leftMargin: flagImage.visible ? 6 : 0
+                anchors.bottom: parent.bottom
+                rating: root.playerRating
+                note: root.playerNote
+                glyphSize: 13
             }
 
             AppText {
@@ -397,11 +445,21 @@ Item {
     MouseArea {
         // Nur über dem Boxkörper – die darunter reservierte Sockelhöhe ist
         // leerer Tisch, dort darf kein Kontextmenü aufgehen.
+        id: contextArea
         anchors.fill: playerBox
         z: 30
         enabled: root.hasContextActions
         acceptedButtons: Qt.RightButton
         onClicked: (mouse) => contextMenu.popup(mouse.x, mouse.y)
+
+        // Touch hat keine rechte Maustaste: dort öffnet ein langer Druck
+        // dasselbe Menü. Bewusst auf Touch-Geräte beschränkt, damit ein
+        // gehaltener Linksklick mit der Maus weiterhin nichts auslöst.
+        TapHandler {
+            acceptedDevices: PointerDevice.TouchScreen
+            enabled: root.hasContextActions
+            onLongPressed: contextMenu.popup(point.position.x, point.position.y)
+        }
     }
 
     // Einheitlich gestylter Menüeintrag (dunkles Theme, kollabiert wenn unsichtbar).
@@ -468,7 +526,14 @@ Item {
             visible: root.canReportAvatar
             onTriggered: root.confirmReportAvatar()
         }
+        CtxItem {
+            text: qsTr("Note about player ...")
+            visible: root.canEditNote
+            onTriggered: notePopup.openFor(root.targetPlayerName)
+        }
     }
+
+    PlayerNoteDialog { id: notePopup }
 
     readonly property string targetPlayerName: root.seatData ? (root.seatData.name || "") : ""
 

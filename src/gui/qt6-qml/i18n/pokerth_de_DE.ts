@@ -246,7 +246,7 @@
         <translation>Nachricht …</translation>
     </message>
     <message>
-        <location line="+781"/>
+        <location line="+791"/>
         <source>Link öffnen</source>
         <translation>Link öffnen</translation>
     </message>
@@ -544,7 +544,7 @@
         <translation>Keine Einträge.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+22"/>
         <source>Mark all as read</source>
         <translation>Alles als gelesen markieren</translation>
     </message>
@@ -732,7 +732,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+2126"/>
+        <location filename="../pages/GamePage.qml" line="+2304"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>Verlauf &amp; Chancen</translation>
     </message>
@@ -775,32 +775,37 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+452"/>
-        <location line="+26"/>
+        <location filename="../components/GamePlayerBox.qml" line="+511"/>
+        <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
         <translation>Spieler ignorieren</translation>
     </message>
     <message>
-        <location line="-23"/>
-        <location line="+29"/>
+        <location line="-30"/>
+        <location line="+36"/>
         <location line="+2"/>
         <source>Unignore player</source>
         <translation>Spieler nicht mehr ignorieren</translation>
     </message>
     <message>
-        <location line="-26"/>
+        <location line="-33"/>
         <source>Show player stats</source>
         <translation>Spielerstatistik anzeigen</translation>
     </message>
     <message>
         <location line="+5"/>
-        <location line="+28"/>
+        <location line="+35"/>
         <source>Report inappropriate avatar</source>
         <translation>Unpassenden Avatar melden</translation>
     </message>
     <message>
-        <location line="-16"/>
+        <location line="-30"/>
+        <source>Note about player ...</source>
+        <translation>Notiz zum Spieler …</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Are you sure you want to ignore &quot;%1&quot;?</source>
         <translation>Möchten Sie „%1“ wirklich ignorieren?&gt;</translation>
     </message>
@@ -1004,7 +1009,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+231"/>
+        <location filename="../pages/GameWaitPage.qml" line="+241"/>
         <source>Players</source>
         <translation>Spieler</translation>
     </message>
@@ -1562,7 +1567,7 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+307"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+314"/>
         <source>← Zurück</source>
         <translation>← Zurück</translation>
     </message>
@@ -1578,12 +1583,12 @@
         <translation>Spielname</translation>
     </message>
     <message>
-        <location line="-198"/>
+        <location line="-205"/>
         <source>%1&apos;s game</source>
         <translation>%1s Spiel</translation>
     </message>
     <message>
-        <location line="+207"/>
+        <location line="+214"/>
         <source>Spielname eingeben …</source>
         <translation>Spielname eingeben …</translation>
     </message>
@@ -1712,19 +1717,19 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1393"/>
-        <location line="+1239"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1441"/>
+        <location line="+1347"/>
         <source>Guests cannot send chat messages</source>
         <translation>Gäste können keine Chat-Nachrichten senden</translation>
     </message>
     <message>
-        <location line="-1220"/>
-        <location line="+1214"/>
+        <location line="-1328"/>
+        <location line="+1322"/>
         <source>Private messages are not available at the table.</source>
         <translation>Private Nachrichten sind am Tisch nicht verfügbar.</translation>
     </message>
     <message>
-        <location line="-1208"/>
+        <location line="-1316"/>
         <source>Player not found</source>
         <translation>Spieler nicht gefunden</translation>
     </message>
@@ -1878,15 +1883,15 @@ Bitte geben Sie das Passwort erneut ein und versuchen Sie es noch einmal.</trans
         <translation>Sie wurden wegen Inaktivität aus dem Spiel entfernt.</translation>
     </message>
     <message>
-        <location line="+488"/>
+        <location line="+581"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 ist gerade nicht in der Lobby.</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+86"/>
         <location line="+39"/>
         <location line="+9"/>
-        <location line="+161"/>
+        <location line="+160"/>
         <location line="+9"/>
         <location line="+185"/>
         <location line="+9"/>
@@ -1965,7 +1970,7 @@ Bitte geben Sie das Passwort erneut ein und versuchen Sie es noch einmal.</trans
 <context>
     <name>LobbyPage</name>
     <message>
-        <location filename="../pages/LobbyPage.qml" line="+1536"/>
+        <location filename="../pages/LobbyPage.qml" line="+1545"/>
         <source>Game invitation</source>
         <translation>Spiel-Einladung</translation>
     </message>
@@ -3279,6 +3284,39 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</translati
     </message>
 </context>
 <context>
+    <name>PlayerNoteDialog</name>
+    <message>
+        <location filename="../components/PlayerNoteDialog.qml" line="+57"/>
+        <source>Note about &quot;%1&quot;</source>
+        <translation>Notiz zu „%1“</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Rating:</source>
+        <translation>Bewertung:</translation>
+    </message>
+    <message>
+        <location line="+35"/>
+        <source>Your private note about this player ...</source>
+        <translation>Ihre private Notiz zu diesem Spieler …</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Notes and ratings are stored locally and are only visible to you.</source>
+        <translation>Notizen und Bewertungen werden lokal gespeichert und sind nur für Sie sichtbar.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Save</source>
+        <translation>Speichern</translation>
+    </message>
+</context>
+<context>
     <name>PlayerSeasonCard</name>
     <message>
         <location filename="../components/PlayerSeasonCard.qml" line="+157"/>
@@ -3398,7 +3436,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</translati
 <context>
     <name>PrivateMessageDialog</name>
     <message>
-        <location filename="../components/PrivateMessageDialog.qml" line="+182"/>
+        <location filename="../components/PrivateMessageDialog.qml" line="+190"/>
         <source>Private messages</source>
         <translation>Private Nachrichten</translation>
     </message>
@@ -4144,7 +4182,7 @@ Bitte prüfen Sie Ihren Benutzernamen und Ihr Kennwort.</translation>
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+228"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+327"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
         <translation>Bilder (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
@@ -4350,7 +4388,7 @@ Bitte prüfen Sie Ihren Benutzernamen und Ihr Kennwort.</translation>
 <context>
     <name>SideMenu</name>
     <message>
-        <location filename="../components/SideMenu.qml" line="+35"/>
+        <location filename="../components/SideMenu.qml" line="+37"/>
         <source>PokerTH - v2.1.8</source>
         <translation>PokerTH - v2.1.8</translation>
     </message>
@@ -4729,7 +4767,7 @@ Vorschau</translation>
         <translation>PokerTH - v2.1.8</translation>
     </message>
     <message>
-        <location line="+255"/>
+        <location line="+287"/>
         <source>Back</source>
         <translation>Zurück</translation>
     </message>
