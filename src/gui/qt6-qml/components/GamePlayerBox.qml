@@ -254,7 +254,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 rating: root.playerRating
                 note: root.playerNote
-                glyphSize: 11
+                glyphSize: 10
             }
 
             AppText {
@@ -281,8 +281,8 @@ Item {
             AppText {
                 anchors.left: parent.left
                 anchors.top: parent.top
-                anchors.right: parent.right
-                anchors.rightMargin: 2
+                anchors.right: wideBadge.visible ? wideBadge.left : parent.right
+                anchors.rightMargin: wideBadge.visible ? 4 : 2
                 horizontalAlignment: Text.AlignLeft
                 color: "#eff1f5"
                 font.pixelSize: 15
@@ -292,8 +292,22 @@ Item {
                 text: root.seatData && root.seatData.name !== "" ? root.seatData.name : "---"
             }
 
+            // Notiz/Bewertung in die NAMENSZEILE, nicht in die untere Zeile: dort
+            // stehen bereits Flagge (22+6) und Stack (bis ~55 px bei sechs
+            // Stellen) – zusammen mit dem Badge wäre das mehr als die 106 px
+            // Innenbreite der Box (oppBaseWidth 114 − 2×hMargin). Hier oben
+            // konkurriert es nur mit dem Namen, der ohnehin elidiert.
+            PlayerNoteBadge {
+                id: wideBadge
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.topMargin: 2
+                rating: root.playerRating
+                note: root.playerNote
+                glyphSize: 13
+            }
+
             Image {
-                id: flagImage
                 visible: root.countryCode !== ""
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
@@ -303,16 +317,6 @@ Item {
                     ? "qrc:/resources/cflags/" + root.countryCode + ".svg" : ""
                 fillMode: Image.PreserveAspectFit
                 smooth: true
-            }
-
-            // Notiz/Bewertung neben der Flagge – der Stack bleibt rechtsbündig.
-            PlayerNoteBadge {
-                anchors.left: flagImage.visible ? flagImage.right : parent.left
-                anchors.leftMargin: flagImage.visible ? 6 : 0
-                anchors.bottom: parent.bottom
-                rating: root.playerRating
-                note: root.playerNote
-                glyphSize: 13
             }
 
             AppText {
