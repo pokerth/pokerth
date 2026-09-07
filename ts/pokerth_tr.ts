@@ -258,7 +258,7 @@ Please select a game table style and try again!</source>
     </message>
     <message>
         <source>You were kicked from the server.</source>
-        <translation type="obsolete">Sunucu tarafından tekmelendiniz.</translation>
+        <translation type="obsolete">Sunucudan atıldınız.</translation>
     </message>
     <message>
         <source>was kicked from the server by</source>
@@ -4075,7 +4075,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     </message>
     <message>
         <source>Internal network error: Duplicate TCP connection.</source>
-        <translation type="obsolete">Dahili ağ hatası: TCP bağlantısını çoğaltın.</translation>
+        <translation type="obsolete">Dahili ağ hatası: yinelenen TCP bağlantısı.</translation>
     </message>
     <message>
         <source>An invalid network packet was received.
@@ -4143,11 +4143,11 @@ Eğer sunucu bir NAT-Router arkasındaysa, sunucu tarafındaki bağlantı noktas
     </message>
     <message>
         <source>The server referred to an unknown player. Aborting.</source>
-        <translation type="obsolete">Sunucu, bilinmeyen bir oyuncuya devredildi. Çıkılıyor.</translation>
+        <translation type="obsolete">Sunucu bilinmeyen bir oyuncuya atıfta bulundu. İptal ediliyor.</translation>
     </message>
     <message>
         <source>You were kicked from the server.</source>
-        <translation type="obsolete">Sunucu tarafından tekmelendiniz.</translation>
+        <translation type="obsolete">Sunucudan atıldınız.</translation>
     </message>
     <message>
         <source>The client player count is invalid.</source>
@@ -4155,7 +4155,7 @@ Eğer sunucu bir NAT-Router arkasındaysa, sunucu tarafındaki bağlantı noktas
     </message>
     <message>
         <source>The game name is either too short or too long. Please choose another one.</source>
-        <translation type="obsolete">Oyun ismi ya çok uzun yada öok kısa. Lütfen başka birini seçiniz.</translation>
+        <translation type="obsolete">Oyun ismi ya çok uzun ya da çok kısa. Lütfen başka birini seçiniz.</translation>
     </message>
     <message>
         <source>The game could not be found.</source>
@@ -4211,7 +4211,7 @@ Lütfen başka bir tane seçiniz.</translation>
     </message>
     <message>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
-        <translation type="obsolete">Çok fazla elle teklif ayarlı. Lütfen elle teklifleri eniden yapılandırınız.</translation>
+        <translation type="obsolete">Çok fazla elle teklif ayarlı. Lütfen elle teklifleri yeniden yapılandırınız.</translation>
     </message>
     <message>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
@@ -4227,7 +4227,7 @@ Lütfen başka bir tane seçiniz.</translation>
     </message>
     <message>
         <source>Could not start game: Synchronization failed.</source>
-        <translation type="obsolete">Oyun başlatılamadı: Eş zamalama yapılamadı.</translation>
+        <translation type="obsolete">Oyun başlatılamadı: Eşzamanlama yapılamadı.</translation>
     </message>
     <message>
         <source>F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In</source>
@@ -4301,7 +4301,7 @@ Lütfen &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;
     </message>
     <message>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation type="obsolete">İçsel bir simge hatası algılandı. Lütfen bunu kulis söyleşisinde yöneticiye iletin.</translation>
+        <translation type="obsolete">Dahili bir avatar hatası oluştu. Lütfen bunu lobi sohbetinde bir yöneticiye bildirin.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4377"/>
@@ -4313,7 +4313,7 @@ Lütfen &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>Dikkat! Bu oyunu gerçekten bırakmak 
-ve lobiye dönmek istiyormusunuz?</translation>
+ve lobiye dönmek istiyor musunuz?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="914"/>
@@ -6767,7 +6767,7 @@ Eğer sunucu bir NAT-Router arkasındaysa, sunucu tarafındaki bağlantı noktas
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1082"/>
         <source>Internal network error: Duplicate TCP connection.</source>
-        <translation>Dahili ağ hatası: TCP bağlantısını çoğaltın.</translation>
+        <translation>Dahili ağ hatası: yinelenen TCP bağlantısı.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1088"/>
@@ -7024,7 +7024,7 @@ Lütfen farklı bir isim seçiniz.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1169"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
-        <translation>Oyun ismi ya çok uzun yada öok kısa. Lütfen başka birini seçiniz.</translation>
+        <translation>Oyun ismi ya çok uzun ya da çok kısa. Lütfen başka birini seçiniz.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1175"/>
@@ -7039,7 +7039,7 @@ Lütfen farklı bir isim seçiniz.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1187"/>
         <source>The server referred to an unknown player. Aborting.</source>
-        <translation>Sunucu, bilinmeyen bir oyuncuya devredildi. Çıkılıyor.</translation>
+        <translation>Sunucu bilinmeyen bir oyuncuya atıfta bulundu. İptal ediliyor.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1193"/>
@@ -7054,12 +7054,12 @@ Lütfen farklı bir isim seçiniz.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1206"/>
         <source>You were kicked from the server.</source>
-        <translation>Sunucu tarafından tekmelendiniz.</translation>
+        <translation>Sunucudan atıldınız.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1213"/>
         <source>You were temporarily banned from the server.</source>
-        <translation>Sunucuya erişiminz geçici olarak yasaklandı.</translation>
+        <translation>Sunucuya erişiminiz geçici olarak yasaklandı.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1227"/>
@@ -7074,7 +7074,7 @@ Lütfen farklı bir isim seçiniz.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1239"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
-        <translation>Çok fazla elle teklif ayarlı. Lütfen elle teklifleri eniden yapılandırınız.</translation>
+        <translation>Çok fazla elle teklif ayarlı. Lütfen elle teklifleri yeniden yapılandırınız.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1246"/>
@@ -7093,12 +7093,12 @@ Lütfen farklı bir isim seçiniz.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1264"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation>İçsel bir simge hatası algılandı. Lütfen bunu kulis söyleşisinde yöneticiye iletin.</translation>
+        <translation>Dahili bir avatar hatası oluştu. Lütfen bunu lobi sohbetinde bir yöneticiye bildirin.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1270"/>
         <source>Could not start game: Synchronization failed.</source>
-        <translation>Oyun başlatılamadı: Eş zamalama yapılamadı.</translation>
+        <translation>Oyun başlatılamadı: Eşzamanlama yapılamadı.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1276"/>
@@ -7278,7 +7278,7 @@ Lütfen farklı bir isim seçiniz.</translation>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="42"/>
         <source>Please click &quot;OK&quot; to stop the countdown!</source>
-        <translation>Gerisayımı durudurmak için lütfen &quot;TAMAM&quot; a basın!</translation>
+        <translation>Geri sayımı durdurmak için lütfen &quot;TAMAM&quot; düğmesine basın!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="91"/>

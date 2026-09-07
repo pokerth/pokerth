@@ -1198,7 +1198,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="99"/>
         <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
-        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: ze avatary przedstawiające ludzi</translation>
+        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: za avatary przedstawiające ludzi</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="100"/>
@@ -1248,7 +1248,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="112"/>
         <source>- Singleplayer games with up to 9 computer-opponents</source>
-        <translation>- gra lokalna z aż 9 graczamia komputerowymi</translation>
+        <translation>- gra lokalna z aż 9 graczami komputerowymi</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="113"/>
@@ -1551,7 +1551,7 @@ Proszę wybrać inną nazwę!</translation>
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="72"/>
         <source>Connecting to server...</source>
-        <translation>Łączenie z serwererem ...</translation>
+        <translation>Łączenie z serwerem ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="76"/>
@@ -1925,7 +1925,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="332"/>
         <location filename="../src/gui/qt/gui_800x480/gamelobbydialog_800x480.ui" line="1009"/>
         <source>Display idle players</source>
-        <translation>Tylko nieaktywni gracze</translation>
+        <translation>Pokaż nieaktywnych graczy</translation>
     </message>
     <message>
         <source>Start Game</source>
@@ -2300,7 +2300,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="293"/>
         <source>Report inappropriate game name</source>
-        <translation>Zgłoś nieodpowiednią nazwę gracza</translation>
+        <translation>Zgłoś nieodpowiednią nazwę gry</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="296"/>
@@ -3563,7 +3563,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2575"/>
         <source>Are you sure you want to report the game name:
 &quot;%1&quot; as inappropriate?</source>
-        <translation>Czy na pewno chcesz zgłosić nieodpowiednią nazwę gracza: &quot;%1&quot;?</translation>
+        <translation>Czy na pewno chcesz zgłosić nieodpowiednią nazwę gry: &quot;%1&quot;?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2592"/>
@@ -3611,7 +3611,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="985"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1163"/>
         <source>open games: %1</source>
-        <translation>otwarte gry : %1</translation>
+        <translation>otwarte gry: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2010"/>
@@ -4227,7 +4227,7 @@ Jeśli serwer jest w sieci z routerem NAT, to upewnij się, że &quot;port forwa
     <message>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation type="obsolete">Została wyslana niepoprawna informacja sieciowa.
+        <translation type="obsolete">Otrzymano niepoprawny pakiet sieciowy.
 Proszę upewnij się, że wszyscy gracze używają tej samej wersji PokerTH.</translation>
     </message>
     <message>
@@ -4294,11 +4294,11 @@ Proszę wybrać inny nick.</translation>
     </message>
     <message>
         <source>You were kicked from the game.</source>
-        <translation type="obsolete">Zostałeś wyrzucony z serwera.</translation>
+        <translation type="obsolete">Zostałeś wyrzucony z gry.</translation>
     </message>
     <message>
         <source>Sorry, this game is already full.</source>
-        <translation type="obsolete">Niestety ten serwer jest w tej chwili pełny.</translation>
+        <translation type="obsolete">Niestety ta gra jest już pełna.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4055"/>
@@ -4326,7 +4326,7 @@ Proszę wybrierz inny nick.</translation>
     </message>
     <message>
         <source>Internal error: The current player could not be found.</source>
-        <translation type="obsolete">Błąd wewnętrzny: Aktualny gracz nie mógł zostać odnależniony.</translation>
+        <translation type="obsolete">Błąd wewnętrzny: Aktualny gracz nie mógł zostać odnaleziony.</translation>
     </message>
     <message>
         <source>Internal error: The current player is not active.</source>
@@ -4338,7 +4338,7 @@ Proszę wybrierz inny nick.</translation>
     </message>
     <message>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
-        <translation type="obsolete">Został ustawiony nieoprawny plik avataru. Proszę wybrać inny.</translation>
+        <translation type="obsolete">Został ustawiony niepoprawny plik avataru. Proszę wybrać inny.</translation>
     </message>
     <message>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
@@ -4350,7 +4350,7 @@ Proszę wybrierz inny nick.</translation>
     </message>
     <message>
         <source>Could not start game: Synchronization failed.</source>
-        <translation type="obsolete">Nie udało się rozpoczać gry. Synchronizacja zakończona niepowodzeniem.</translation>
+        <translation type="obsolete">Nie udało się rozpocząć gry. Synchronizacja zakończona niepowodzeniem.</translation>
     </message>
     <message>
         <source>F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In</source>
@@ -6991,7 +6991,7 @@ Jeśli problem się utrzymuje, proszę sprawdzić adres serwera lub spróbować 
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1088"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation>Została wyslana niepoprawna informacja sieciowa.
+        <translation>Otrzymano niepoprawny pakiet sieciowy.
 Proszę upewnij się, że wszyscy gracze używają tej samej wersji PokerTH.</translation>
     </message>
     <message>
@@ -7202,7 +7202,7 @@ Please reconnect to continue.</source>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1193"/>
         <source>Internal error: The current player could not be found.</source>
-        <translation>Błąd wewnętrzny: Aktualny gracz nie mógł zostać odnależniony.</translation>
+        <translation>Błąd wewnętrzny: Aktualny gracz nie mógł zostać odnaleziony.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1199"/>
@@ -7237,7 +7237,7 @@ Please reconnect to continue.</source>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1246"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
-        <translation>Został ustawiony nieoprawny plik avataru. Proszę wybrać inny.</translation>
+        <translation>Został ustawiony niepoprawny plik avataru. Proszę wybrać inny.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1252"/>
@@ -7252,7 +7252,7 @@ Please reconnect to continue.</source>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1270"/>
         <source>Could not start game: Synchronization failed.</source>
-        <translation>Nie udało się rozpoczać gry. Synchronizacja zakończona niepowodzeniem.</translation>
+        <translation>Nie udało się rozpocząć gry. Synchronizacja zakończona niepowodzeniem.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1276"/>
@@ -7283,12 +7283,12 @@ Please reconnect to continue.</source>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1333"/>
         <source>You were kicked from the game.</source>
-        <translation>Zostałeś wyrzucony z serwera.</translation>
+        <translation>Zostałeś wyrzucony z gry.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1340"/>
         <source>Sorry, this game is already full.</source>
-        <translation>Niestety ten serwer jest w tej chwili pełny.</translation>
+        <translation>Niestety ta gra jest już pełna.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1347"/>
@@ -7331,7 +7331,7 @@ Please reconnect to continue.</source>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1454"/>
         <source>This game name was already reported by another player.</source>
-        <translation>Ta nazwa gra została już uprzednio zgłoszona przez innego gracza.</translation>
+        <translation>Ta nazwa gry została już uprzednio zgłoszona przez innego gracza.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1458"/>

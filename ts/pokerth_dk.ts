@@ -6345,12 +6345,12 @@ Vælg venligst et andet.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1027"/>
         <source>The server name could not be resolved.</source>
-        <translation>Servernavnet kunne ikke blive besluttet.</translation>
+        <translation>Servernavnet kunne ikke slås op.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1033"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>Blind fejlet - vælg venligst en andet port.</translation>
+        <translation>Binding af porten mislykkedes - vælg venligst en anden port.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1039"/>
@@ -6360,7 +6360,7 @@ Vælg venligst et andet.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1045"/>
         <source>Server execution was terminated.</source>
-        <translation>Server-lukning blev afsluttet.</translation>
+        <translation>Serverkørslen blev afbrudt.</translation>
     </message>
     <message>
         <source>Could not connect to the server.</source>
@@ -6690,12 +6690,12 @@ Vælg venligst et andet navn.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1213"/>
         <source>You were temporarily banned from the server.</source>
-        <translation>Du var midlertidigt blokeret fra serveren.</translation>
+        <translation>Du er blevet midlertidigt udelukket fra serveren.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1227"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation>Din servertilslutning udløb pga. interaktivitet. Du er meget velkommen til at tilslutte igen!</translation>
+        <translation>Din servertilslutning udløb pga. inaktivitet. Du er meget velkommen til at tilslutte igen!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1233"/>
@@ -6710,7 +6710,7 @@ Vælg venligst et andet navn.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1246"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
-        <translation>En invalid avatarfil var konfigureret. Vælge venligst en anden avatar.</translation>
+        <translation>En ugyldig avatarfil var konfigureret. Vælg venligst en anden avatar.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1252"/>

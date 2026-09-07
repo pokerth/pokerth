@@ -365,7 +365,7 @@ Vedd fel a kapcsolatot a készítőjével: %3.</translation>
     </message>
     <message>
         <source>You were kicked from the server.</source>
-        <translation type="obsolete">A kiszolgáló kidobott a játékból. </translation>
+        <translation type="obsolete">Kidobtak a kiszolgálóról.</translation>
     </message>
     <message>
         <source>was kicked from the server by</source>
@@ -3751,7 +3751,7 @@ Lehetőséged van bárkit meghívni, csak kattints a játékos nevére jobb gomb
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2129"/>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
-        <translation>&lt;b&gt;%1&lt;/b&gt; meghívott a(z) &lt;b&gt;%2&lt;/b&gt; nevű játékba.&lt;br&gt;Szeretnél csatlakozni?</translation>
+        <translation>&lt;b&gt;%2&lt;/b&gt; meghívott a(z) &lt;b&gt;%1&lt;/b&gt; nevű játékba.&lt;br&gt;Szeretnél csatlakozni?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2185"/>
@@ -4380,7 +4380,7 @@ Ha a szerver NAT router mögött van, akkor bizonyosodj meg róla hogy a port to
     </message>
     <message>
         <source>You were kicked from the server.</source>
-        <translation type="obsolete">A kiszolgáló kidobott a játékból. </translation>
+        <translation type="obsolete">Kidobtak a kiszolgálóról.</translation>
     </message>
     <message>
         <source>The client player count is invalid.</source>
@@ -7019,7 +7019,7 @@ Please reconnect to continue.</source>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1033"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>Kapcsolódás sikertelen – kérlek válassz másik portot.</translation>
+        <translation>A port lefoglalása sikertelen – kérlek válassz másik portot.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1039"/>
@@ -7280,8 +7280,7 @@ Kérlek válassz egy másik nevet.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1169"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
-        <translation>A játék nevet vagy túl rövid vagy túl hosszú.
-Kérlek válassz egy másik nevet.</translation>
+        <translation>A játék neve vagy túl rövid, vagy túl hosszú. Kérlek válassz egy másik nevet.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1175"/>
@@ -7311,7 +7310,7 @@ Kérlek válassz egy másik nevet.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1206"/>
         <source>You were kicked from the server.</source>
-        <translation>A kiszolgáló kidobott a játékból. </translation>
+        <translation>Kidobtak a kiszolgálóról.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1213"/>

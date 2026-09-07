@@ -5187,7 +5187,7 @@ Andere spelers kunnen worden uitgenodigd door op hun naam te rechtsklikken in de
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2129"/>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
-        <translation>Uitnodiging ontvanger van &lt;b&gt;%2&lt;/b&gt; voor spel &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Meedoen met dit spel?</translation>
+        <translation>Uitnodiging ontvangen van &lt;b&gt;%2&lt;/b&gt; voor spel &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Meedoen met dit spel?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2145"/>
@@ -5689,7 +5689,7 @@ Andere spelers kunnen worden uitgenodigd door op hun naam te rechtsklikken in de
     </message>
     <message>
         <source>Bind failed - please choose a different port.</source>
-        <translation type="obsolete">Kan niet verbinden - kies een andere poort.</translation>
+        <translation type="obsolete">Binden van de poort is mislukt - kies een andere poort.</translation>
     </message>
     <message>
         <source>Internal network error: &quot;listen&quot; failed.</source>
@@ -5814,7 +5814,7 @@ Als de server zich achter een NAT-router bevindt, controleer dan daar of port fo
     </message>
     <message>
         <source>The server referred to an unknown player. Aborting.</source>
-        <translation type="obsolete">De server verwees naar een onbekende speler. Verbinding verbroken.</translation>
+        <translation type="obsolete">De server verwees naar een onbekende speler. Wordt afgebroken.</translation>
     </message>
     <message>
         <source>You were kicked from the server.</source>
@@ -8679,7 +8679,7 @@ Kies een andere naam.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1033"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>Kan niet verbinden - kies een andere poort.</translation>
+        <translation>Binden van de poort is mislukt - kies een andere poort.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1039"/>
@@ -8996,7 +8996,7 @@ Kies een andere naam.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1187"/>
         <source>The server referred to an unknown player. Aborting.</source>
-        <translation>De server verwees naar een onbekende speler. Verbinding verbroken.</translation>
+        <translation>De server verwees naar een onbekende speler. Wordt afgebroken.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1193"/>

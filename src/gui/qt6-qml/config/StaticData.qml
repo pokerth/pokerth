@@ -19,16 +19,27 @@ QtObject {
     // 0=Hell → false, 1=Dunkel → true, 2=Automatisch → dem System folgen.
     readonly property bool isDark: darkMode === 2 ? systemDark : darkMode !== 0
 
+    // Deutsch und English zuerst (Projektsprache bzw. Rückfall), der Rest
+    // alphabetisch nach dem englischen Namen. Die Reihenfolge ist reine
+    // Anzeige: gelesen und geschrieben wird ausschließlich über code.
     readonly property var languages: [
             { langName: "Deutsch (Deutsch)", code: "de_DE"},
             { langName: "English (English)", code: "en_US"},
+            { langName: "Chinese, Simplified (简体中文)", code: "zh_CN"},
+            { langName: "Czech (Čeština)", code: "cs_CZ"},
+            { langName: "Danish (Dansk)", code: "da_DK"},
+            { langName: "Dutch (Nederlands)", code: "nl_NL"},
             { langName: "French (Français)", code: "fr_FR"},
+            { langName: "Greek (Ελληνικά)", code: "el_GR"},
+            { langName: "Hungarian (Magyar)", code: "hu_HU"},
             { langName: "Italian (Italiano)", code: "it_IT"},
-            { langName: "Spanish (Español)", code: "es_ES"},
+            { langName: "Polish (Polski)", code: "pl_PL"},
             { langName: "Portuguese (Português)", code: "pt_PT"},
             { langName: "Portuguese, Brazil (Português do Brasil)", code: "pt_BR"},
             { langName: "Russian (Русский)", code: "ru_RU"},
-            { langName: "Chinese, Simplified (简体中文)", code: "zh_CN"}
+            { langName: "Spanish (Español)", code: "es_ES"},
+            { langName: "Swedish (Svenska)", code: "sv_SE"},
+            { langName: "Turkish (Türkçe)", code: "tr_TR"}
         ]
 
     function findSupportedLocale(systemName) {
@@ -57,6 +68,8 @@ QtObject {
     readonly property var languageConfigCodes: ({
         "de_DE": "de", "en_US": "en", "es_ES": "es", "fr_FR": "fr",
         "it_IT": "it", "pt_BR": "ptbr", "pt_PT": "ptpt", "ru_RU": "ru",
+        "cs_CZ": "cz", "da_DK": "dk", "el_GR": "gr", "hu_HU": "hu",
+        "nl_NL": "nl", "pl_PL": "pl", "sv_SE": "sv", "tr_TR": "tr",
         "zh_CN": "zhcn"
     })
 

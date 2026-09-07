@@ -4525,7 +4525,7 @@ Verifoque o nome de utilizador e senha.</translation>
 <context>
     <name>StaticData</name>
     <message>
-        <location filename="../config/StaticData.qml" line="+96"/>
+        <location filename="../config/StaticData.qml" line="+109"/>
         <source>Fold</source>
         <translation>Fold</translation>
     </message>

@@ -4525,7 +4525,7 @@ Please check your username and password.</source>
 <context>
     <name>StaticData</name>
     <message>
-        <location filename="../config/StaticData.qml" line="+96"/>
+        <location filename="../config/StaticData.qml" line="+109"/>
         <source>Fold</source>
         <translation>弃牌</translation>
     </message>

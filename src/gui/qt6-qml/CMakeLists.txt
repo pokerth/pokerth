@@ -212,6 +212,14 @@ set(TS_FILES
     i18n/pokerth_pt_PT.ts
     i18n/pokerth_pt_BR.ts
     i18n/pokerth_ru_RU.ts
+    i18n/pokerth_pl_PL.ts
+    i18n/pokerth_tr_TR.ts
+    i18n/pokerth_nl_NL.ts
+    i18n/pokerth_el_GR.ts
+    i18n/pokerth_hu_HU.ts
+    i18n/pokerth_cs_CZ.ts
+    i18n/pokerth_sv_SE.ts
+    i18n/pokerth_da_DK.ts
     i18n/pokerth_zh_CN.ts
 )
 

@@ -4525,7 +4525,7 @@ Veuillez vérifier votre nom d&apos;utilisateur et mot de passe.</translation>
 <context>
     <name>StaticData</name>
     <message>
-        <location filename="../config/StaticData.qml" line="+96"/>
+        <location filename="../config/StaticData.qml" line="+109"/>
         <source>Fold</source>
         <translation>Se coucher</translation>
     </message>

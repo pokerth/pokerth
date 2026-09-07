@@ -552,7 +552,7 @@ Please verify that you are uploading a valid PokerTH log file.</source>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="40"/>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="58"/>
         <source>About</source>
-        <translation>About</translation>
+        <translation>Σχετικά</translation>
     </message>
     <message>
         <source>- Poker engine for the popular &quot;Texas Hold&apos;em&quot; Poker
@@ -583,7 +583,7 @@ Please verify that you are uploading a valid PokerTH log file.</source>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="125"/>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="156"/>
         <source>Project</source>
-        <translation>Project</translation>
+        <translation>Έργο</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="149"/>
@@ -617,13 +617,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/aboutpokerth.ui" line="203"/>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="234"/>
         <source>Thanks to</source>
-        <translation>Thanks to</translation>
+        <translation>Ευχαριστίες</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="245"/>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="270"/>
         <source>License</source>
-        <translation>License</translation>
+        <translation>Άδεια χρήσης</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="277"/>
