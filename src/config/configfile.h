@@ -56,6 +56,7 @@ struct ConfigInfo {
 
 class QtToolsInterface;
 class QString;
+class QDomElement;
 
 class ConfigFile
 {
@@ -91,6 +92,11 @@ private:
 	// configFileName correctly and logging a clear error on failure instead of
 	// silently dropping the user's settings. Returns true on success.
 	bool writeConfigDocument(const QString &xmlContent) const;
+
+	// Biegt in einem geladenen Konfigurations-Dokument alle gespeicherten Pfade
+	// vom alten auf das neue Datenverzeichnis um (Stile, Avatare, ...). Gibt
+	// true zurueck, wenn etwas geaendert wurde.
+	static bool remapAppDataPaths(QDomElement &config, const QString &oldPath, const QString &newPath);
 
 
 	mutable boost::recursive_mutex m_configMutex;

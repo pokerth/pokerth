@@ -503,7 +503,6 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 
 			// Check if config revision and AppDataDir is ok. Otherwise --> update()
 			int tempRevision = 0;
-			string tempAppDataPath("");
 
 			QDomElement confRevision = xmlDoc.documentElement().firstChildElement("Configuration").firstChildElement("ConfigRevision");
 			if (!confRevision.isNull())
@@ -512,23 +511,23 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 				tempRevision = confRevision.attribute("value").toInt();
 			}
 
-			QDomElement confAppDataPath = xmlDoc.documentElement().firstChildElement("Configuration").firstChildElement("AppDataDir");
+			QDomElement configElement = xmlDoc.documentElement().firstChildElement("Configuration");
+			QDomElement confAppDataPath = configElement.firstChildElement("AppDataDir");
 
 			if (!confAppDataPath.isNull())
 			{
-				// const char *tmpStr = confAppDataPath.attribute("value");
-				// if (tmpStr) tempAppDataPath = tmpStr;
-				QString tempAppDataPath = confAppDataPath.attribute("value");
-				// if appdatapath changes directly update it here not in UpdateConfig()
+				const QString oldAppDataPath = confAppDataPath.attribute("value");
 #ifdef ANDROID
-				if (tempAppDataPath != ":/android/android-data/")
-				{
-					confAppDataPath.setAttribute("value", ":/android/android-data/");
+				const QString newAppDataPath(":/android/android-data/");
 #else
-				if (tempAppDataPath != QString::fromStdString(myQtToolsInterface->getDataPathStdString(myArgv0)))
-				{
-					confAppDataPath.setAttribute("value", QString::fromStdString(myQtToolsInterface->getDataPathStdString(myArgv0)));
+				const QString newAppDataPath = QString::fromStdString(myQtToolsInterface->getDataPathStdString(myArgv0));
 #endif
+				// if appdatapath changes directly update it here not in UpdateConfig()
+				if (oldAppDataPath != newAppDataPath)
+				{
+					confAppDataPath.setAttribute("value", newAppDataPath);
+					// Gespeicherte Pfade in das alte Datenverzeichnis mitziehen.
+					remapAppDataPaths(configElement, oldAppDataPath, newAppDataPath);
 					writeConfigDocument(xmlDoc.toString());
 				}
 			}
@@ -548,6 +547,45 @@ ConfigFile::~ConfigFile()
 {
 	delete myQtToolsInterface;
 	myQtToolsInterface = 0;
+}
+
+bool ConfigFile::remapAppDataPaths(QDomElement &config, const QString &oldPath, const QString &newPath)
+{
+	// Einige Einstellungen speichern volle Pfade in das Datenverzeichnis
+	// (CurrentGameTableStyle, CurrentCardDeckStyle, FlipsideStyleFile, MyAvatar,
+	// Opponent*Avatar, ...). Wandert dieses Verzeichnis, zeigen sie ins Leere und
+	// der Client faellt stillschweigend auf seine Vorgaben zurueck. Beim AppImage
+	// passiert das bei jedem Start, weil es unter einem neuen Mountpunkt
+	// (/tmp/.mount_PokerTH<zufall>/) haengt; genauso nach einem Wechsel des
+	// Installationsorts oder des Paketformats. Deshalb hier alle Werte, die mit
+	// dem alten Datenverzeichnis beginnen, auf das neue umbiegen.
+	if (oldPath.length() < 2 || oldPath == newPath)
+		return false;
+
+	bool changed = false;
+
+	auto remapValue = [&oldPath, &newPath, &changed](QDomElement element) {
+		const QString value = element.attribute("value");
+		if (!value.startsWith(oldPath))
+			return;
+		element.setAttribute("value", newPath + value.mid(oldPath.length()));
+		changed = true;
+	};
+
+	for (QDomElement el = config.firstChildElement(); !el.isNull(); el = el.nextSiblingElement())
+	{
+		// AppDataDir selbst wurde vom Aufrufer bereits gesetzt.
+		if (el.tagName() == "AppDataDir")
+			continue;
+
+		remapValue(el);
+		// Listen (GameTableStylesList, CardDeckStylesList) halten ihre Werte in
+		// Unterelementen.
+		for (QDomElement sub = el.firstChildElement(); !sub.isNull(); sub = sub.nextSiblingElement())
+			remapValue(sub);
+	}
+
+	return changed;
 }
 
 bool ConfigFile::writeConfigDocument(const QString &xmlContent) const
