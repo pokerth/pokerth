@@ -81,6 +81,8 @@ public:
 								 const std::string &ip);
 	virtual void LogSessionEnd(unsigned sessionNo, unsigned gameId, const std::string &closeReason);
 
+	virtual void UpdateLiveStats(unsigned playersOnline, unsigned tablesRunning, unsigned playersWaiting);
+
 	bool IsConnected() const;
 
 protected:
@@ -98,6 +100,8 @@ protected:
 	bool PrepareActivityStatements();
 	bool IsActivityLoggingEnabled() const;
 	void SetActivityLoggingEnabled(bool enabled);
+	bool IsLiveStatsEnabled() const;
+	void SetLiveStatsEnabled(bool enabled);
 	void HandleNextQuery();
 
 	// Queue handling. The queue itself is the only source of truth for
@@ -127,6 +131,10 @@ private:
 	// Optimistic on purpose: sessions may need logging before the first
 	// database connection exists. Only a failing PREPARE turns it off.
 	bool m_activityLogging{true};
+	// Tracked separately from m_activityLogging: server_live_stats was added
+	// later, and a database which only lacks that table must still log
+	// sessions.
+	bool m_liveStats{true};
 
 	mutable boost::mutex m_isConnectedMutex;
 	bool m_isConnected;

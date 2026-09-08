@@ -68,6 +68,7 @@ public:
 								 unsigned /*clientBuildId*/, unsigned /*clientPlatform*/, const std::string &/*country*/,
 								 const std::string &/*ip*/) {}
 	virtual void LogSessionEnd(unsigned /*sessionNo*/, unsigned /*gameId*/, const std::string &/*closeReason*/) {}
+	virtual void UpdateLiveStats(unsigned /*playersOnline*/, unsigned /*tablesRunning*/, unsigned /*playersWaiting*/) {}
 };
 
 #endif // _SERVERDBNOACTION_H_

@@ -137,3 +137,8 @@ void
 ServerDBGeneric::LogSessionEnd(unsigned /*sessionNo*/, unsigned /*gameId*/, const std::string &/*closeReason*/)
 {
 }
+
+void
+ServerDBGeneric::UpdateLiveStats(unsigned /*playersOnline*/, unsigned /*tablesRunning*/, unsigned /*playersWaiting*/)
+{
+}

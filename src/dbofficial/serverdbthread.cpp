@@ -44,6 +44,7 @@
 #include <dbofficial/asyncdbplayerlastgames.h>
 #include <dbofficial/asyncdbsessionstart.h>
 #include <dbofficial/asyncdbsessionend.h>
+#include <dbofficial/asyncdblivestats.h>
 #include <dbofficial/compositeasyncdbquery.h>
 #include <dbofficial/db_table_defs.h>
 #include <game_defs.h>
@@ -89,6 +90,7 @@
 #define QUERY_PLAYER_LASTGAMES_PREPARE	"player_lastgames_template"
 #define QUERY_SESSION_START_PREPARE		"session_start_template"
 #define QUERY_SESSION_END_PREPARE		"session_end_template"
+#define QUERY_LIVE_STATS_PREPARE		"live_stats_template"
 
 using namespace std;
 
@@ -293,6 +295,43 @@ ServerDBThread::LogSessionEnd(unsigned sessionNo, unsigned gameId, const string 
 		new AsyncDBSessionEnd(
 			sessionNo,
 			QUERY_SESSION_END_PREPARE,
+			params));
+
+	EnqueueQuery(asyncQuery);
+}
+
+void
+ServerDBThread::UpdateLiveStats(unsigned playersOnline, unsigned tablesRunning, unsigned playersWaiting)
+{
+	if (!IsActivityLoggingEnabled() || !IsLiveStatsEnabled())
+		return;
+
+	// Unlike a session row, a snapshot is worthless once it is old, so it is
+	// not queued while the database is away: a backlog replayed after the
+	// reconnect would overwrite the row several times with counts nobody wants
+	// to see any more. Nothing is lost by skipping - a website which cannot be
+	// told the numbers cannot read them from this database either.
+	if (!IsConnected())
+		return;
+
+	// The run id is prepended in AsyncDBLiveStats::Init().
+	list<string> params;
+	ostringstream paramStream;
+	paramStream << playersOnline;
+	params.push_back(paramStream.str());
+	paramStream.str("");
+	paramStream << tablesRunning;
+	params.push_back(paramStream.str());
+	paramStream.str("");
+	paramStream << playersWaiting;
+	params.push_back(paramStream.str());
+	// Server-local wall clock, the same time base as server_session.connected_at:
+	// the reader compares both against the same clock.
+	params.push_back(mysqlpp::DateTime(time(NULL)));
+
+	boost::shared_ptr<AsyncDBQuery> asyncQuery(
+		new AsyncDBLiveStats(
+			QUERY_LIVE_STATS_PREPARE,
 			params));
 
 	EnqueueQuery(asyncQuery);
@@ -644,6 +683,25 @@ ServerDBThread::PrepareActivityStatements()
 			<< prepareSessionStart.error() << prepareSessionEnd.error() << ")");
 		return false;
 	}
+
+	// Outside the all-or-nothing check above for the same reason that check is
+	// outside the one for the login statements: the live snapshot is the
+	// website's, and a database which has not seen the newer schema yet must
+	// still log sessions. The row is a singleton, hence the fixed id 1 and the
+	// upsert - it is created once and overwritten from then on.
+	mysqlpp::Query prepareLiveStats = m_connData->conn.query();
+	prepareLiveStats
+			<< "PREPARE " QUERY_LIVE_STATS_PREPARE " FROM " << mysqlpp::quote
+			<< "INSERT INTO " DB_TABLE_SERVER_LIVE_STATS " (" DB_TABLE_SERVER_LIVE_STATS_COL_ID ", " DB_TABLE_SERVER_LIVE_STATS_COL_RUNID ", " DB_TABLE_SERVER_LIVE_STATS_COL_ONLINE ", " DB_TABLE_SERVER_LIVE_STATS_COL_TABLES ", " DB_TABLE_SERVER_LIVE_STATS_COL_WAITING ", " DB_TABLE_SERVER_LIVE_STATS_COL_UPDATED ") VALUES (1, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE " DB_TABLE_SERVER_LIVE_STATS_COL_RUNID " = VALUES(" DB_TABLE_SERVER_LIVE_STATS_COL_RUNID "), " DB_TABLE_SERVER_LIVE_STATS_COL_ONLINE " = VALUES(" DB_TABLE_SERVER_LIVE_STATS_COL_ONLINE "), " DB_TABLE_SERVER_LIVE_STATS_COL_TABLES " = VALUES(" DB_TABLE_SERVER_LIVE_STATS_COL_TABLES "), " DB_TABLE_SERVER_LIVE_STATS_COL_WAITING " = VALUES(" DB_TABLE_SERVER_LIVE_STATS_COL_WAITING "), " DB_TABLE_SERVER_LIVE_STATS_COL_UPDATED " = VALUES(" DB_TABLE_SERVER_LIVE_STATS_COL_UPDATED ")";
+
+	// Set either way: a reconnect after the table was finally created should
+	// switch the heartbeat back on.
+	const bool liveStatsReady = prepareLiveStats.exec();
+	if (!liveStatsReady)
+		LOG_ERROR("Live statistics disabled: cannot prepare statement, is "
+			DB_TABLE_SERVER_LIVE_STATS " missing? (" << prepareLiveStats.error() << ")");
+	SetLiveStatsEnabled(liveStatsReady);
+
 	return true;
 }
 
@@ -659,6 +717,20 @@ ServerDBThread::SetActivityLoggingEnabled(bool enabled)
 {
 	boost::mutex::scoped_lock lock(m_activityLoggingMutex);
 	m_activityLogging = enabled;
+}
+
+bool
+ServerDBThread::IsLiveStatsEnabled() const
+{
+	boost::mutex::scoped_lock lock(m_activityLoggingMutex);
+	return m_liveStats;
+}
+
+void
+ServerDBThread::SetLiveStatsEnabled(bool enabled)
+{
+	boost::mutex::scoped_lock lock(m_activityLoggingMutex);
+	m_liveStats = enabled;
 }
 
 void
@@ -740,6 +812,26 @@ ServerDBThread::CloseServerRun()
 			<< " AND " DB_TABLE_SERVER_SESSION_COL_DISCONNECTED " IS NULL";
 	if (!closeSessions.exec())
 		LOG_ERROR("Could not close open sessions on shutdown (" << closeSessions.error() << ").");
+
+	// Zero the live snapshot in the same breath, so that the website shows the
+	// server as gone immediately instead of waiting for the row to age out. The
+	// queued heartbeats are discarded with the rest of the queue right after
+	// this, so it has to be written here, on the connection which is still up.
+	if (IsLiveStatsEnabled()) {
+		mysqlpp::Query clearLiveStats = m_connData->conn.query();
+		clearLiveStats
+				<< "INSERT INTO " DB_TABLE_SERVER_LIVE_STATS
+				" (" DB_TABLE_SERVER_LIVE_STATS_COL_ID ", " DB_TABLE_SERVER_LIVE_STATS_COL_RUNID ", "
+				DB_TABLE_SERVER_LIVE_STATS_COL_ONLINE ", " DB_TABLE_SERVER_LIVE_STATS_COL_TABLES ", "
+				DB_TABLE_SERVER_LIVE_STATS_COL_WAITING ", " DB_TABLE_SERVER_LIVE_STATS_COL_UPDATED
+				") VALUES (1, " << runId << ", 0, 0, 0, " << mysqlpp::quote << now
+				<< ") ON DUPLICATE KEY UPDATE " DB_TABLE_SERVER_LIVE_STATS_COL_RUNID " = VALUES(" DB_TABLE_SERVER_LIVE_STATS_COL_RUNID "), "
+				DB_TABLE_SERVER_LIVE_STATS_COL_ONLINE " = 0, " DB_TABLE_SERVER_LIVE_STATS_COL_TABLES " = 0, "
+				DB_TABLE_SERVER_LIVE_STATS_COL_WAITING " = 0, " DB_TABLE_SERVER_LIVE_STATS_COL_UPDATED
+				" = VALUES(" DB_TABLE_SERVER_LIVE_STATS_COL_UPDATED ")";
+		if (!clearLiveStats.exec())
+			LOG_ERROR("Could not zero " DB_TABLE_SERVER_LIVE_STATS " on shutdown (" << clearLiveStats.error() << ").");
+	}
 
 	mysqlpp::Query closeRun = m_connData->conn.query();
 	closeRun

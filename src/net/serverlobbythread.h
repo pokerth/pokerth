@@ -237,6 +237,7 @@ protected:
 	void SendPlayerList(boost::shared_ptr<SessionData> s);
 	void SendGameList(boost::shared_ptr<SessionData> s);
 	void UpdateStatisticsNumberOfPlayers();
+	void UpdateLiveStats();
 	void BroadcastStatisticsUpdate(const ServerStats &stats);
 
 	void ReadStatisticsFile();

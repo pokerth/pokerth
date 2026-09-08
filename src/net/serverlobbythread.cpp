@@ -2734,6 +2734,26 @@ ServerLobbyThread::UpdateStatisticsNumberOfPlayers()
 }
 
 void
+ServerLobbyThread::UpdateLiveStats()
+{
+	// Same two counters the "players on server" figure is built from, see
+	// UpdateStatisticsNumberOfPlayers(): sessions waiting in the lobby plus
+	// those which moved on into a game. Counted here rather than read from
+	// m_statData so that the waiting count and the total cannot disagree -
+	// they come from the same look at the session managers.
+	unsigned playersWaiting = m_sessionManager.GetSessionCountWithState(SessionData::Established);
+	unsigned playersOnline = playersWaiting + m_gameSessionManager.GetRawSessionCount();
+	unsigned tablesRunning;
+	{
+		boost::mutex::scoped_lock lock(m_statMutex);
+		// All open games, which is what the lobby game list shows - a table
+		// which is still filling up is a table too.
+		tablesRunning = m_statData.numberOfGamesOpen;
+	}
+	m_database->UpdateLiveStats(playersOnline, tablesRunning, playersWaiting);
+}
+
+void
 ServerLobbyThread::BroadcastStatisticsUpdate(const ServerStats &stats)
 {
 	if (stats.numberOfPlayersOnServer) {
@@ -2802,7 +2822,13 @@ ServerLobbyThread::TimerSaveStatisticsFile(const boost::system::error_code &ec)
 		heartbeatStats.numberOfPlayersOnServer = m_statData.numberOfPlayersOnServer;
 		lock.unlock();
 		BroadcastStatisticsUpdate(heartbeatStats);
-		
+
+		// Refresh the live snapshot the website reads. Written on every tick
+		// and not throttled to a full minute: the reader treats the row as
+		// stale after a couple of minutes, and at this interval an extra
+		// condition would only push the writes to 90 s apart.
+		UpdateLiveStats();
+
 		// Restart timer
 		m_saveStatisticsTimer.expires_after(seconds(SERVER_SAVE_STATISTICS_INTERVAL_SEC));
 		m_saveStatisticsTimer.async_wait(

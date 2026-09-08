@@ -74,6 +74,11 @@ public:
 								 unsigned clientBuildId, unsigned clientPlatform, const std::string &country,
 								 const std::string &ip) = 0;
 	virtual void LogSessionEnd(unsigned sessionNo, unsigned gameId, const std::string &closeReason) = 0;
+
+	// Live lobby snapshot for the website: one row, overwritten. Fire and
+	// forget like the session logging above - a lost heartbeat only makes the
+	// website show a snapshot which is one tick older.
+	virtual void UpdateLiveStats(unsigned playersOnline, unsigned tablesRunning, unsigned playersWaiting) = 0;
 };
 
 #endif

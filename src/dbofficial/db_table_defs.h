@@ -101,4 +101,14 @@
 #define DB_TABLE_SERVER_SESSION_COL_GAMEID			"last_game_id"
 #define DB_TABLE_SERVER_SESSION_COL_CLOSEREASON		"close_reason"
 
+// Live lobby snapshot for the website, see docs/server_live_stats_schema.sql.
+// Exactly one row, id 1, overwritten by every heartbeat.
+#define DB_TABLE_SERVER_LIVE_STATS					"server_live_stats"
+#define DB_TABLE_SERVER_LIVE_STATS_COL_ID			"id"
+#define DB_TABLE_SERVER_LIVE_STATS_COL_RUNID		"run_id"
+#define DB_TABLE_SERVER_LIVE_STATS_COL_ONLINE		"players_online"
+#define DB_TABLE_SERVER_LIVE_STATS_COL_TABLES		"tables_running"
+#define DB_TABLE_SERVER_LIVE_STATS_COL_WAITING		"players_waiting"
+#define DB_TABLE_SERVER_LIVE_STATS_COL_UPDATED		"updated_at"
+
 #endif // DB_TABLE_DEFS_H
