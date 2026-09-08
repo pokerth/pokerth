@@ -480,6 +480,7 @@ Rectangle {
                             // Index 0 = klassische Engine (Config 0),
                             // Index 1 = EV-basierte Engine 4 (Config 4)
                             model: [qsTr("Klassisch"), qsTr("Stark")]
+                            currentIndex: 1   // entspricht dem Standardwert der Konfiguration
                             Component.onCompleted: {
                                 if (SettingsManager)
                                     currentIndex = (SettingsManager.readConfigInt("EngineVersion") >= 4) ? 1 : 0

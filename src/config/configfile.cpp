@@ -270,13 +270,14 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("ShowChatTimestamp", CONFIG_TYPE_INT, "1")); // Zeitstempel [HH:mm:ss] vor Chatzeilen
 	configList.push_back(ConfigInfo("DarkMode", CONFIG_TYPE_INT, "2")); // 0=Light, 1=Dark, 2=Auto/System
 	configList.push_back(ConfigInfo("AntiPeekMode", CONFIG_TYPE_INT, "0"));
-	/* Welche Engine die Computerspieler steuert. 0 = die urspruengliche
-	 * Engine, 4 = die EV-basierte Engine 4 (Equity gegen alle Gegner, Pot
-	 * Odds, Position, Push-or-Fold). Der Wert gilt fuer beide Seiten: im
-	 * lokalen Spiel liest ihn der Client, bei Netzwerkspielen mit
-	 * Computergegnern der Server aus seiner eigenen config.xml.
+	/* Welche Engine die Computerspieler steuert. 4 ist der Standard: die
+	 * EV-basierte Engine 4 (Equity gegen alle Gegner, Pot Odds, Position,
+	 * Push-or-Fold, Gegnermodell). 0 schaltet auf die urspruengliche Engine
+	 * zurueck. Der Wert gilt fuer beide Seiten: im lokalen Spiel liest ihn der
+	 * Client, bei Netzwerkspielen mit Computergegnern der Server aus seiner
+	 * eigenen config.xml.
 	 */
-	configList.push_back(ConfigInfo("EngineVersion", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("EngineVersion", CONFIG_TYPE_INT, "4"));
 	configList.push_back(ConfigInfo("AlternateFKeysUserActionMode", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("EnableBetInputFocusSwitch", CONFIG_TYPE_INT, "0"));
 	// Widget-Client, Kartenrückseite: entweder die flipside.png des gewählten
