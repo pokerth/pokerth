@@ -1516,6 +1516,15 @@ ServerLobbyThread::HandleNetPacketAvatarEnd(boost::shared_ptr<SessionData> sessi
 				string avatarFileName;
 				if (GetAvatarManager().GetAvatarFileName(avatarMD5, avatarFileName))
 					session->GetPlayerData()->SetAvatarFile(avatarFileName);
+				else {
+					// Hash ohne Datei ist kein gueltiger Zustand: der Hash
+					// wuerde in jede Spielerauskunft wandern, ohne dass ein
+					// Avatar-Typ dazu ermittelbar waere. Lieber ohne Avatar
+					// weitermachen, als den Spieler unauffindbar zu machen.
+					session->GetPlayerData()->SetAvatarMD5(MD5Buf());
+					LOG_ERROR("Avatar of session #" << session->GetId()
+						<< " was stored but cannot be resolved - continuing without avatar.");
+				}
 				// Init finished - start session.
 				EstablishSession(session);
 				LOG_VERBOSE("Client \"" << session->GetClientAddr() << "\" uploaded avatar \""
@@ -1562,10 +1571,26 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(boost::shared_ptr<SessionDa
 			if (!tmpPlayer->GetCountry().empty()) {
 				data->set_countrycode(tmpPlayer->GetCountry());
 			}
+			// Der Avatar-Typ ergibt sich aus dem Dateinamen. Ist keine Datei
+			// bekannt, waere er AVATAR_FILE_TYPE_UNKNOWN - und ein Wert
+			// ausserhalb von NetAvatarType laesst beim Empfaenger das
+			// required-Feld durchfallen, womit die *gesamte* Antwort
+			// unlesbar wird und kommentarlos verworfen wird: der Spieler
+			// bliebe in jedem Client dauerhaft als "#<id>" stehen. Ohne
+			// gueltigen Typ also lieber ohne Avatar antworten - die Clients
+			// holen Avatare ohnehin separat. Denselben Schutz hat
+			// AvatarManager::AvatarFileToNetPackets bereits.
 			if (!tmpPlayer->GetAvatarMD5().IsZero()) {
-				PlayerInfoReplyMessage::PlayerInfoData::AvatarData *avatarData = data->mutable_avatardata();
-				avatarData->set_avatartype(static_cast<NetAvatarType>(AvatarManager::GetAvatarFileType(tmpPlayer->GetAvatarFile())));
-				avatarData->set_avatarhash(tmpPlayer->GetAvatarMD5().GetData(), MD5_DATA_SIZE);
+				const AvatarFileType avatarFileType =
+					AvatarManager::GetAvatarFileType(tmpPlayer->GetAvatarFile());
+				if (avatarFileType == AVATAR_FILE_TYPE_UNKNOWN) {
+					LOG_ERROR("Player id " << playerId << " has an avatar hash but no usable avatar file (\""
+						<< tmpPlayer->GetAvatarFile() << "\") - sending player info without avatar.");
+				} else {
+					PlayerInfoReplyMessage::PlayerInfoData::AvatarData *avatarData = data->mutable_avatardata();
+					avatarData->set_avatartype(static_cast<NetAvatarType>(avatarFileType));
+					avatarData->set_avatarhash(tmpPlayer->GetAvatarMD5().GetData(), MD5_DATA_SIZE);
+				}
 			}
 		} else {
 			// Unknown player id - do not set any data.
