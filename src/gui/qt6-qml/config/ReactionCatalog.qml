@@ -153,6 +153,13 @@ QtObject {
     readonly property real pxPerPercent: 1.6
     // Grundgröße des großen Emojis (Skalierung 1.0).
     readonly property real baseSize: 34
+    // Die Keyframe-Dauern unten sind die des Web-Clients (1400–1700 ms) und
+    // damit spürbar knapper als die feste Flugzeit von 2000 ms in 2.1.7.
+    // Dieser Faktor streckt sie wieder auf das gewohnte Tempo (Standard-
+    // Choreografie "pop": 1600 ms * 1.25 = 2000 ms) – er gilt für die
+    // Choreografie und für alle daran ausgerichteten Verzögerungen
+    // (scaled(), z. B. der Aufschlag der Bombe).
+    readonly property real durationScale: 1.25
 
     // ── Die 16 Choreografien (CSS-Keyframes rfx*) ──
     //   dur = Dauer in ms, e = Timing-Function als kubische Bézier-Kontroll-
@@ -263,6 +270,16 @@ QtObject {
 
     function animFor(name) {
         return anims[name] || anims["pop"]
+    }
+
+    // Laufzeit einer Choreografie in ms (Keyframe-Dauer * durationScale).
+    function durationOf(a) {
+        return Math.round(a.dur * durationScale)
+    }
+
+    // Eine an der Choreografie ausgerichtete Zeitangabe mitstrecken.
+    function scaled(ms) {
+        return Math.round(ms * durationScale)
     }
 
     // Kubische Bézier-Timing-Function (wie CSS cubic-bezier): Newton-Iteration

@@ -30,6 +30,13 @@ namespace
 const qreal kPxPerPercent = 1.6;
 // Grundgröße des großen Emojis bei Skalierung 1.0.
 const qreal kBaseSize = 34.0;
+// Die Keyframe-Dauern unten sind die des Web-Clients (1400–1700 ms) und damit
+// spürbar knapper als die feste Flugzeit von 2000 ms in 2.1.7. Dieser Faktor
+// streckt sie wieder auf das gewohnte Tempo (Standard-Choreografie "pop":
+// 1600 ms * 1.25 = 2000 ms) – er gilt für die Choreografie und für alle daran
+// ausgerichteten Verzögerungen. Identisch in ReactionCatalog.qml
+// (durationScale).
+const qreal kDurationScale = 1.25;
 
 const ReactionBezier kLinear  = {0.0,  0.0, 1.0,  1.0};
 const ReactionBezier kEaseOut = {0.0,  0.0, 0.58, 1.0};
@@ -82,7 +89,7 @@ qreal sample(const ReactionAnim &a, const QVector<ReactionKey> &kf, qreal t, qre
 ReactionAnim mk(int dur, const ReactionBezier &ease)
 {
 	ReactionAnim a;
-	a.dur = dur;
+	a.dur = qRound(dur * kDurationScale);
 	a.ease = ease;
 	return a;
 }
@@ -500,18 +507,19 @@ void ReactionFxOverlay::buildBurst(Burst &burst)
 	} else if (spec.preset == QLatin1String("boom")) {
 		// 💣: Die Bombe fällt zuerst ("drop"), erst beim Aufschlag explodiert
 		// sie – daher der Versatz von 420 ms; der zweite Ring folgt 120 ms
-		// später.
+		// später. Beide Zeiten sind an der Choreografie ausgerichtet und
+		// werden mit ihr gestreckt (kDurationScale).
 		Ring r;
 		r.dur = 900;
 		r.color = QColor("#ff9040");
 		r.width = 4;
 		r.to = 6.5;
-		r.delay = 420;
+		r.delay = qRound(420 * kDurationScale);
 		burst.rings.append(r);
-		r.delay = 540;
+		r.delay = qRound(540 * kDurationScale);
 		burst.rings.append(r);
 		spec = glyphs({"💥", "🔥", "✦"}, 14, 18, 0, 360, 95, 0, 950, true);
-		delay = 420;
+		delay = qRound(420 * kDurationScale);
 	} else if (spec.preset == QLatin1String("confetti")) {
 		static const QColor cols[] = {
 			QColor("#9b59b6"), QColor("#e84393"), QColor("#27ae60"),

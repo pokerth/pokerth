@@ -45,10 +45,11 @@ Item {
                      a0: 0, a1: 360, dist: 70, life: 800 }
         else if (spec === "boom") {
             // 💣: Die Bombe fällt zuerst ("drop"), erst beim Aufschlag
-            // explodiert sie – daher der Versatz von 420 ms.
+            // explodiert sie – daher der Versatz von 420 ms, der mit der
+            // Choreografie gestreckt wird (durationScale).
             spec = { chars: ["💥", "🔥", "✦"], count: 14, size: 18,
                      a0: 0, a1: 360, dist: 95, life: 950, rot: true }
-            delay = 420
+            delay = catalog.scaled(420)
         } else if (spec === "confetti") {
             var cols = ["#9b59b6", "#e84393", "#27ae60", "#c0392b", "#7ec8e3", "#e67e22", "#ffffff"]
             var conf = []
@@ -126,8 +127,8 @@ Item {
         if (spec === "shock")
             return [{ delay: 0, dur: 800, color: "#FFE066", width: 3, to: 4 }]
         if (spec === "boom")
-            return [{ delay: 420, dur: 900, color: "#ff9040", width: 4, to: 6.5 },
-                    { delay: 540, dur: 900, color: "#ff9040", width: 4, to: 6.5 }]
+            return [{ delay: catalog.scaled(420), dur: 900, color: "#ff9040", width: 4, to: 6.5 },
+                    { delay: catalog.scaled(540), dur: 900, color: "#ff9040", width: 4, to: 6.5 }]
         return []
     }
 
@@ -145,6 +146,7 @@ Item {
             property var rings: []
 
             readonly property real k: Config.ReactionCatalog.pxPerPercent
+            readonly property int animDur: Config.ReactionCatalog.durationOf(anim)
 
             // Fortschritt der Choreografie (0..1, linear). Die Timing-Function
             // steckt – wie in CSS – in der Auswertung jedes Keyframe-Abschnitts.
@@ -152,7 +154,7 @@ Item {
 
             // Lebensdauer = längste Teilanimation (Emoji, Partikel, Ringe).
             readonly property int lifeMs: {
-                var m = anim.dur
+                var m = animDur
                 for (var i = 0; i < particles.length; i++)
                     m = Math.max(m, particles[i].delay + particles[i].life)
                 for (var r = 0; r < rings.length; r++)
@@ -165,7 +167,7 @@ Item {
 
             NumberAnimation on prog {
                 from: 0; to: 1
-                duration: burst.anim.dur
+                duration: burst.animDur
                 running: true
             }
 
