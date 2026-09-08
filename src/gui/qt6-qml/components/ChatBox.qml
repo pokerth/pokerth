@@ -544,12 +544,22 @@ Item {
                 // sonst sendet Enter nach dem Auf-/Zuklappen nicht mehr.
                 focusPolicy: Qt.NoFocus
                 onClicked: root.showEmojiPicker = !root.showEmojiPicker
+                // Quadratische Box wie das Eingabefeld daneben (gleiche Füllung,
+                // gleicher Rahmen, gleicher Radius): das Emoji ist ein farbiges
+                // Glyph ohne eigenen Rand und ging auf hellen Tisch-Themes sonst
+                // im Untergrund unter. Der Ruhezustand hebt sich über die eigene
+                // Fläche ab, aufgeklappt/überfahren wird die Box kräftiger.
                 background: Rectangle {
                     radius: 6
-                    color: root.showEmojiPicker
-                           ? root.colBorder : "transparent"
+                    color: Config.Theme.withAlpha(root.colSurface,
+                                                  root.showEmojiPicker ? 0.95
+                                                  : (emojiHover.hovered ? 0.8 : 0.6))
+                    border.width: 1
+                    border.color: root.showEmojiPicker || emojiHover.hovered
+                                  ? root.colTextSecondary
+                                  : Config.Theme.withAlpha(root.colTextMuted, 0.6)
                 }
-                HoverHandler { cursorShape: Qt.PointingHandCursor }
+                HoverHandler { id: emojiHover; cursorShape: Qt.PointingHandCursor }
                 contentItem: Text {
                     text: "🙂"
                     font.family: Config.StaticData.emojiFamily

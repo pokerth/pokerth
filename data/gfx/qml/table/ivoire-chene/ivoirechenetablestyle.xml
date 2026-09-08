@@ -36,21 +36,24 @@
      <BetRaiseButton value="actionRaise.svg" />
      <AllInButton value="actionAllIn.svg" />
 
-     <ChatLogBackground value="#f5eee1" />
-     <ChatLogSurface value="#e9dcc4" />
-     <ChatLogBorder value="#c6ac82" />
+     <!-- Der Panel-Grund ist etwas tiefer als das Filz-Elfenbein des Tisches:
+          die Boxen setzen sich so vom Tisch ab, und helle Elemente darin
+          (Emoji-Symbole, Avatare) bekommen eine Kante. -->
+     <ChatLogBackground value="#ece0c9" />
+     <ChatLogSurface value="#ddceb0" />
+     <ChatLogBorder value="#b89a6c" />
      <ChatLogText value="#3a2c1a" />
      <ChatLogTextSecondary value="#5d4a30" />
-     <ChatLogTextMuted value="#8a755a" />
+     <ChatLogTextMuted value="#6f5a3c" />
 
      <!-- Inhaltsfarben derselben Boxen. Ohne diese Tags wuerde der Client die
           zur Hintergrundhelligkeit passenden Vorgaben nehmen; hier sind sie auf
-          Eiche/Elfenbein abgestimmt (Kontrast >= 4,3:1 auf #f5eee1). -->
+          Eiche/Elfenbein abgestimmt (Kontrast >= 4,5:1 auf #ece0c9). -->
      <ChatLogAccent value="#7a5a12" />       <!-- Titel, aktiver Tab, Erwaehnung -->
      <ChatLogWinner value="#6b4e0a" />       <!-- Gewinner Hauptpot -->
-     <ChatLogWinnerSide value="#8a6a2a" />   <!-- Gewinner Side-Pot -->
+     <ChatLogWinnerSide value="#7d5e20" />   <!-- Gewinner Side-Pot -->
      <ChatLogBoard value="#a8431a" />        <!-- Flop/Turn/River, sits out -->
-     <ChatLogSend value="#0e7a37" />         <!-- Senden-Symbol -->
+     <ChatLogSend value="#0c6b30" />         <!-- Senden-Symbol -->
 
   </TableStyle>
 </PokerTH>

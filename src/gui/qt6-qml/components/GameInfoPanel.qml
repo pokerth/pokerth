@@ -36,6 +36,12 @@ ColumnLayout {
     // Themes dunkel, "#101010" wäre dort unlesbar.
     readonly property color colAccentText:
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogAccentText : "#101010"
+    // Zurückgenommene, aber noch klar lesbare Schrift für die unmöglichen
+    // Chancen-Zeilen. colTextMuted ist die Farbe für Platzhalter/Nebensachen –
+    // auf zehn Zeilen angewandt wirkte damit die ganze Liste ausgegraut.
+    // Mitte zwischen Haupt- und gedämpftem Text: dimmt, ohne zu verschlucken.
+    readonly property color colTextDim: Qt.tint(root.colTextMuted,
+                                                Config.Theme.withAlpha(root.colText, 0.45))
 
     // Aktiver Tab von außen steuerbar (Shortcuts/Toggle): 0 Verlauf · 1 Chancen
     property alias currentIndex: tabs.currentIndex
@@ -255,15 +261,15 @@ ColumnLayout {
                         // einheitliche Fläche; nur der Füllbalken hebt sich ab.
                         Rectangle {
                             anchors.fill: parent
-                            color: Config.Theme.withAlpha(root.colBorder, 0.14)
+                            color: Config.Theme.withAlpha(root.colBorder, 0.22)
                             Rectangle {
                                 anchors.left: parent.left
                                 anchors.top: parent.top
                                 anchors.bottom: parent.bottom
                                 width: parent.width * Math.max(0, Math.min(100, prob)) / 100
                                 color: possible
-                                       ? Config.Theme.withAlpha(root.colAccent, 0.30)
-                                       : Config.Theme.withAlpha(root.colBorder, 0.22)
+                                       ? Config.Theme.withAlpha(root.colAccent, 0.42)
+                                       : Config.Theme.withAlpha(root.colBorder, 0.34)
                             }
                         }
 
@@ -279,7 +285,10 @@ ColumnLayout {
                                 Layout.alignment: Qt.AlignVCenter
                                 fillMode: Image.PreserveAspectFit
                                 smooth: true
-                                opacity: possible ? 1.0 : 0.32
+                                // Unmögliche Kategorien bleiben zurückgenommen, aber
+                                // lesbar – bei 0.32 verschwanden sie auf hellen
+                                // Tisch-Themes fast völlig.
+                                opacity: possible ? 1.0 : 0.5
                                 source: root.handIcon(cat)
                                 sourceSize.width: Math.ceil(38 * Screen.devicePixelRatio)
                                 sourceSize.height: Math.ceil(22 * Screen.devicePixelRatio)
@@ -292,7 +301,7 @@ ColumnLayout {
                                 // Eine Zeile pro Kategorie – kompakt; bei Platzmangel „…".
                                 elide: Text.ElideRight
                                 font.pixelSize: root.messageFontSize
-                                color: possible ? root.colText : root.colTextMuted
+                                color: possible ? root.colText : root.colTextDim
                             }
 
                             AppText {
@@ -302,7 +311,7 @@ ColumnLayout {
                                 text: prob + "%"
                                 font.pixelSize: root.messageFontSize
                                 font.bold: possible && prob >= 50
-                                color: possible ? root.colText : root.colTextMuted
+                                color: possible ? root.colText : root.colTextDim
                             }
                         }
                     }
