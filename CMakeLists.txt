@@ -183,11 +183,7 @@ set(POKERTH_LIB_SRC
     src/gui/generic/serverguiwrapper.cpp 
     src/gui/qttoolsinterface.cpp)
 
-if(ANDROID)
-    list(APPEND POKERTH_LIB_SRC "src/engine/local_engine/tools_android.cpp")
-else()
-    list(APPEND POKERTH_LIB_SRC "src/engine/local_engine/tools.cpp")
-endif()
+list(APPEND POKERTH_LIB_SRC "src/engine/local_engine/tools.cpp")
 
 add_library(pokerth_lib STATIC ${POKERTH_LIB_SRC})
 
