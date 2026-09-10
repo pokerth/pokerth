@@ -1557,7 +1557,6 @@ Rectangle {
         // Nutzer evtl. gerade tippt. Startfokus deshalb auf ABLEHNEN – dieselbe
         // Wirkung wie Escape; zum Beitreten einmal Tab drücken.
         focus: true
-        onOpened: inviteDeclineButton.forceActiveFocus()
         anchors.centerIn: parent
         modal: true
         padding: 20
@@ -1625,6 +1624,7 @@ Rectangle {
         }
         onOpened: {
             // console.log("[INVITE QML] popup opened: gameId=" + inviteGameId + " game=" + inviteGameName + " from=" + inviteFromName)
+            inviteDeclineButton.forceActiveFocus()
         }
         onClosed: {
             // console.log("[INVITE QML] popup closed: answered=" + answered + " gameId=" + inviteGameId)
