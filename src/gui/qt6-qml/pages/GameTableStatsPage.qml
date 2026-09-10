@@ -399,6 +399,25 @@ Rectangle {
 
             ListView {
                 id: statsList
+                // Lesen ohne Maus: Tab führt in die Tabelle, Pfeile scrollen
+                // zeilenweise (ListView selbst), Bild-auf/ab und Pos1/Ende hier.
+                activeFocusOnTab: true
+                Keys.onPressed: (event) => {
+                    var maxY = Math.max(0, statsList.contentHeight - statsList.height)
+                    if (event.key === Qt.Key_PageDown) {
+                        statsList.contentY = Math.min(maxY, statsList.contentY + statsList.height * 0.9)
+                        event.accepted = true
+                    } else if (event.key === Qt.Key_PageUp) {
+                        statsList.contentY = Math.max(0, statsList.contentY - statsList.height * 0.9)
+                        event.accepted = true
+                    } else if (event.key === Qt.Key_Home) {
+                        statsList.contentY = 0
+                        event.accepted = true
+                    } else if (event.key === Qt.Key_End) {
+                        statsList.contentY = maxY
+                        event.accepted = true
+                    }
+                }
                 anchors.fill: parent
                 anchors.margins: 1
                 clip: true

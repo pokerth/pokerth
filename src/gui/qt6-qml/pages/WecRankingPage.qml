@@ -17,6 +17,13 @@ Rectangle {
 
     readonly property bool compact: Config.Responsive.compact
 
+    // Startfokus ins Suchfeld (filtert live) – auf Mobilgeräten NICHT, das zöge
+    // ungefragt die Bildschirmtastatur hoch.
+    StackView.onActivated: {
+        if (!Config.Responsive.isMobile)
+            Qt.callLater(searchField.forceActiveFocus)
+    }
+
     property var yearModel: []        // [{ value, label }]
     property var monthModel: [
         { value: 1,  label: qsTr("January") },   { value: 2,  label: qsTr("February") },
@@ -119,6 +126,7 @@ Rectangle {
             Item { Layout.fillWidth: true; visible: !wecPage.compact }
 
             TextField {
+                id: searchField
                 Layout.fillWidth: wecPage.compact
                 Layout.preferredWidth: 180
                 Layout.columnSpan: wecPage.compact ? 2 : 1

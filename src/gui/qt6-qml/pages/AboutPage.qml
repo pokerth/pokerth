@@ -16,6 +16,10 @@ Rectangle {
     Layout.fillWidth: true
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
+    // Der Lesebereich bekommt beim Öffnen den Fokus, damit die Seite ohne
+    // Mausklick scrollbar ist (Qt.callLater: während der Stack-Animation greift
+    // der Fokus nicht).
+    StackView.onActivated: Qt.callLater(panelScroll.forceActiveFocus)
 
     // Öffnet einen Link im externen Browser. NICHT direkt Qt.openUrlExternally:
     // Im AppImage/Bundle erbt QDesktopServices das gebundelte LD_LIBRARY_PATH →
@@ -83,6 +87,31 @@ Rectangle {
         ScrollView {
             id: panelScroll
             anchors.fill: parent
+            // Lesen ohne Maus: Pfeil hoch/runter scrollt die Flickable
+            // selbst, Bild-auf/ab und Pos1/Ende kennt sie nicht – die kommen
+            // hier dazu. Bewusst ein einzelner Keys.onPressed statt mehrerer
+            // Einzelhandler: Sobald ein Item einen speziellen Tastenhandler
+            // hat, sieht sein onPressed die betreffende Taste nicht mehr.
+            Keys.onPressed: (event) => {
+                var f = panelScroll.contentItem
+                if (!f)
+                    return
+                var maxY = Math.max(0, f.contentHeight - f.height)
+                if (event.key === Qt.Key_PageDown) {
+                    f.contentY = Math.min(maxY, f.contentY + f.height * 0.9)
+                    event.accepted = true
+                } else if (event.key === Qt.Key_PageUp) {
+                    f.contentY = Math.max(0, f.contentY - f.height * 0.9)
+                    event.accepted = true
+                } else if (event.key === Qt.Key_Home) {
+                    f.contentY = 0
+                    event.accepted = true
+                } else if (event.key === Qt.Key_End) {
+                    f.contentY = maxY
+                    event.accepted = true
+                }
+            }
+
             anchors.margins: 8
             clip: true
             contentWidth: availableWidth

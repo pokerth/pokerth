@@ -130,6 +130,21 @@ Rectangle {
 
                 ListView {
                     id: fileList
+                    // Tastaturbedienung: Tab führt in die Liste, Pfeile wechseln
+                    // die Datei. keyNavigationEnabled bleibt AUS, weil es
+                    // currentIndex direkt zuweisen würde – das zerstörte die
+                    // Bindung an selectedIndex unten. Stattdessen ändern die
+                    // Pfeile die Auswahl der Seite, der currentIndex folgt.
+                    activeFocusOnTab: true
+                    keyNavigationEnabled: false
+                    Keys.onUpPressed: {
+                        if (logsPage.selectedIndex > 0)
+                            logsPage.selectedIndex = logsPage.selectedIndex - 1
+                    }
+                    Keys.onDownPressed: {
+                        if (logsPage.selectedIndex < logsPage.files.length - 1)
+                            logsPage.selectedIndex = logsPage.selectedIndex + 1
+                    }
                     anchors.fill: parent
                     anchors.margins: 1
                     clip: true
@@ -289,9 +304,17 @@ Rectangle {
         modal: true
         title: qsTr("PokerTH - Delete log files")
         standardButtons: Dialog.Yes | Dialog.No
+        // Ohne focus:true bleibt der Dialog für die Tastatur unerreichbar.
+        // Qt Quick kennt keinen Default-Button: Ein fokussierter Standard-Button
+        // reagiert nur auf Space, deshalb nimmt der Inhalt Enter entgegen.
+        focus: true
+        onOpened: deleteDialogLabel.forceActiveFocus()
         AppLabel {
+            id: deleteDialogLabel
             text: qsTr("Do you really want to delete the selected log files?")
             color: Config.StaticData.palette.secondary.col100
+            Keys.onReturnPressed: deleteDialog.accept()
+            Keys.onEnterPressed: deleteDialog.accept()
         }
         onAccepted: {
             if (typeof LogStore !== "undefined" && LogStore && logsPage.selectedPath !== "")
@@ -305,11 +328,18 @@ Rectangle {
         modal: true
         title: qsTr("Uploading log file")
         standardButtons: Dialog.Close
+        // Ohne focus:true bleibt der Dialog für die Tastatur unerreichbar.
+        // Qt Quick kennt keinen Default-Button: Ein fokussierter Standard-Button
+        // reagiert nur auf Space, deshalb nimmt der Inhalt Enter entgegen.
+        focus: true
+        onOpened: messageLabel.forceActiveFocus()
         AppLabel {
             id: messageLabel
             wrapMode: Text.WordWrap
             width: 360
             color: Config.StaticData.palette.secondary.col100
+            Keys.onReturnPressed: messageDialog.close()
+            Keys.onEnterPressed: messageDialog.close()
         }
     }
 
@@ -321,14 +351,22 @@ Rectangle {
         modal: true
         title: qsTr("Debug log")
         standardButtons: Dialog.Close
+        // Escape schließt (Popup), Enter ebenfalls – der Inhalt ist nur Lesestoff.
+        // Die Keys-Handler müssen am Inhalt hängen: Keys auf einem Dialog/Popup
+        // ist stillschweigend wirkungslos (das ist kein Item).
+        focus: true
+        onOpened: debugLogDialogContent.forceActiveFocus()
         width: Math.min(logsPage.width * 0.92, 680)
         height: Math.min(logsPage.height * 0.88, 680)
 
         property alias text: debugLogView.text
 
         ColumnLayout {
+            id: debugLogDialogContent
             anchors.fill: parent
             spacing: 8
+            Keys.onReturnPressed: debugLogDialog.close()
+            Keys.onEnterPressed: debugLogDialog.close()
 
             Rectangle {
                 Layout.fillWidth: true

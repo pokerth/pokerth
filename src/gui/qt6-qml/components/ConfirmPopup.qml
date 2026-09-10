@@ -19,6 +19,14 @@ Popup {
     padding: 20
     width: Math.min((parent ? parent.width : 360) * 0.85, 340)
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+    // Ohne focus:true bekommt das Popup keine Tastatureingaben: Escape würde
+    // geschluckt (Popup bleibt offen, der Escape-Shortcut des Fensters greift
+    // ebenfalls nicht) und Enter liefe ins Leere.
+    focus: true
+
+    // Startfokus auf den Bestätigen-Button, wie bei einer Windows-MessageBox:
+    // Enter bestätigt, Tab wechselt zu Abbrechen, Escape schließt.
+    onOpened: confirmButton.forceActiveFocus()
 
     property string title: ""
     property string message: ""
@@ -69,6 +77,7 @@ Popup {
             spacing: 8
 
             CustomButton {
+                id: cancelButton
                 visible: root.showCancel
                 text: qsTr("Cancel")
                 Layout.fillWidth: true
@@ -76,6 +85,7 @@ Popup {
             }
 
             CustomButton {
+                id: confirmButton
                 text: root.confirmText
                 Layout.fillWidth: true
                 onClicked: {

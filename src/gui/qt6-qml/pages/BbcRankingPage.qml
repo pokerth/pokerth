@@ -17,6 +17,13 @@ Rectangle {
 
     readonly property bool compact: Config.Responsive.compact
 
+    // Startfokus ins Suchfeld (filtert live) – auf Mobilgeräten NICHT, das zöge
+    // ungefragt die Bildschirmtastatur hoch.
+    StackView.onActivated: {
+        if (!Config.Responsive.isMobile)
+            Qt.callLater(searchField.forceActiveFocus)
+    }
+
     property var seasonModel: []      // [{ value, label }]
     property int currentSeason: 0
     property bool alltime: false
@@ -74,6 +81,7 @@ Rectangle {
             Item { Layout.fillWidth: true; visible: !bbcPage.compact }
 
             TextField {
+                id: searchField
                 Layout.fillWidth: bbcPage.compact
                 Layout.preferredWidth: 180
                 Layout.columnSpan: bbcPage.compact ? 2 : 1

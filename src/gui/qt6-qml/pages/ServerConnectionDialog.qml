@@ -25,6 +25,35 @@ Rectangle {
         fillMode: Image.PreserveAspectCrop
     }
 
+    // Zurück-Schritt innerhalb der Seite, gefragt von navigateBackFromTopBar()
+    // in pokerth.qml (Escape, Android-Back, Pfeil in der Kopfzeile). true = hier
+    // erledigt, die Seite bleibt stehen. Ein eigener Keys.onEscapePressed wäre
+    // wirkungslos: Der Escape-Shortcut am Fenster greift vorher.
+    function handleBack() {
+        if (mainStack.currentIndex === 1) {       // Formular → Auswahl
+            mainStack.currentIndex = 0
+            return true
+        }
+        if (mainStack.currentIndex === 2) {       // Verbindungsaufbau → abbrechen
+            cancelButton.clicked()
+            return true
+        }
+        return false
+    }
+
+    // Login absenden – gemeinsam genutzt vom Login-Button und der Enter-Taste
+    // in den Eingabefeldern.
+    function submitLogin() {
+        if (usernameInput.text.length === 0) {
+            usernameInput.forceActiveFocus()
+            return
+        }
+        usernameLabel.text = usernameInput.text
+        connectionProgress.value = 0
+        mainStack.currentIndex = 2
+        ServerConnection.connectToServer(usernameInput.text, passwordInput.text, false, rememberMeCheckbox.checked)
+    }
+
     Component.onCompleted: {
         // Load saved credentials from config
         usernameInput.text = ServerConnection.savedUsername
@@ -144,9 +173,18 @@ Rectangle {
                     id: initialChoicesView
                     spacing: 18
 
+                    // Startfokus auf den ersten Button – wie beim Öffnen eines
+                    // Dialogs. Ohne Fokusgrund (Qt.OtherFocusReason) bleibt der
+                    // Fokusrahmen aus; er erscheint erst beim ersten Tab.
+                    onVisibleChanged: {
+                        if (visible)
+                            loginAsUserButton.forceActiveFocus()
+                    }
+
                     Item { Layout.fillHeight: true }
 
                     CustomButton {
+                        id: loginAsUserButton
                         text: qsTr("Login as User")
                         Layout.fillWidth: true
                         onClicked: mainStack.currentIndex = 1
@@ -178,6 +216,24 @@ Rectangle {
                     id: loginFormView
                     spacing: 12
 
+                    // Beim Aufblenden gleich in das erste noch leere Feld
+                    // fokussieren – sonst greift die Enter-Taste erst nach einem
+                    // Mausklick ins Feld.
+                    // Auf Mobilgeräten NICHT automatisch fokussieren – das zöge
+                    // ungefragt die Bildschirmtastatur hoch.
+                    onVisibleChanged: {
+                        if (visible && !Config.Responsive.isMobile)
+                            (usernameInput.text.length > 0 ? passwordInput : usernameInput).forceActiveFocus()
+                    }
+
+                    // Default-Button des Formulars: Enter schickt den Login ab,
+                    // egal in welchem Feld der Fokus steht (Passwort, CheckBox …).
+                    // Ein fokussierter Button verbraucht Return selbst und behält
+                    // damit Vorrang – Enter auf "Back" geht also zurück.
+                    // Escape läuft nicht hierher, sondern über handleBack().
+                    Keys.onReturnPressed: serverConnectionPage.submitLogin()
+                    Keys.onEnterPressed: serverConnectionPage.submitLogin()
+
                     Item { Layout.fillHeight: true }
 
                     AppLabel {
@@ -197,6 +253,25 @@ Rectangle {
                     TextField {
                         id: usernameInput
                         placeholderText: qsTr("Username")
+                        // Enter springt ins Passwortfeld, solange dort nichts steht;
+                        // bei gespeichertem Passwort direkt einloggen. Das Event
+                        // wird verbraucht, sonst liefe zusätzlich der
+                        // Default-Button des Formulars und schickte den Login mit
+                        // leerem Passwort ab.
+                        Keys.onReturnPressed: (event) => {
+                            if (passwordInput.text.length === 0)
+                                passwordInput.forceActiveFocus()
+                            else
+                                serverConnectionPage.submitLogin()
+                            event.accepted = true
+                        }
+                        Keys.onEnterPressed: (event) => {
+                            if (passwordInput.text.length === 0)
+                                passwordInput.forceActiveFocus()
+                            else
+                                serverConnectionPage.submitLogin()
+                            event.accepted = true
+                        }
                         Layout.fillWidth: true
                         Layout.preferredHeight: Config.Theme.touchTarget
                         font.family: Config.StaticData.loadedFont.font.family
@@ -231,6 +306,8 @@ Rectangle {
                         id: rememberMeCheckbox
                         text: qsTr("Remember me")
                         checked: false
+                        // Space schaltet um (AbstractButton), Enter schickt ab –
+                        // das erledigt der Default-Button des Formulars.
                     }
 
                     RowLayout {
@@ -246,13 +323,7 @@ Rectangle {
                         CustomButton {
                             text: qsTr("Login")
                             Layout.fillWidth: true
-                            onClicked: {
-                                // console.log("Login clicked. Username:", usernameInput.text, "Remember me:", rememberMeCheckbox.checked)
-                                usernameLabel.text = usernameInput.text
-                                connectionProgress.value = 0
-                                mainStack.currentIndex = 2
-                                ServerConnection.connectToServer(usernameInput.text, passwordInput.text, false, rememberMeCheckbox.checked)
-                            }
+                            onClicked: serverConnectionPage.submitLogin()
                         }
                     }
 
@@ -263,6 +334,13 @@ Rectangle {
                 ColumnLayout {
                     id: guestLoginView
                     spacing: 20
+
+                    // Während des Verbindungsaufbaus ist Abbrechen die einzige
+                    // Aktion: Startfokus darauf, Escape genauso.
+                    onVisibleChanged: {
+                        if (visible)
+                            cancelButton.forceActiveFocus()
+                    }
 
                     Item { Layout.fillHeight: true }
 
@@ -332,6 +410,7 @@ Rectangle {
                     Item { Layout.fillHeight: true }
 
                     CustomButton {
+                        id: cancelButton
                         text: qsTr("Cancel")
                         Layout.fillWidth: true
                         onClicked: {

@@ -22,6 +22,13 @@ Rectangle {
     readonly property bool compact: Config.Responsive.compact
     readonly property string baseUrl: "https://www.pokerth.net"
 
+    // Startfokus ins Suchfeld – auf Mobilgeräten NICHT, das zöge ungefragt die
+    // Bildschirmtastatur hoch.
+    StackView.onActivated: {
+        if (!Config.Responsive.isMobile)
+            Qt.callLater(searchField.forceActiveFocus)
+    }
+
     // ── Zustand ───────────────────────────────────────────────────────────────
     property var rows: []
     property var seasons: ["current"]
@@ -194,6 +201,13 @@ Rectangle {
                 id: searchField
                 Layout.fillWidth: true
                 placeholderText: qsTr("Username")
+                // Enter sucht sofort, statt die 400 ms der Entprellung
+                // abzuwarten – wie in jedem Suchfeld.
+                onAccepted: {
+                    searchTimer.stop()
+                    rankingPage.currentPage = 1
+                    rankingPage.loadData()
+                }
                 onTextChanged: {
                     rankingPage.searchQuery = text.trim()
                     // Beim Wiederherstellen kein Timer/Seiten-Reset auslösen.

@@ -321,6 +321,16 @@ ApplicationWindow {
             return true
         }
 
+        // Seiten mit einem eigenen Zurück-Schritt (z. B. Login-Formular →
+        // Auswahl) bekommen den Vorrang vor dem Verlassen der Seite. Escape
+        // erreicht die Seiten nicht selbst: Der Shortcut oben greift VOR den
+        // Keys-Handlern der Items, ein Keys.onEscapePressed auf einer Seite
+        // würde nie feuern. Deshalb fragt die Navigation hier nach.
+        // qmllint disable missing-property
+        if (current && typeof current.handleBack === "function" && current.handleBack())
+            return true
+        // qmllint enable missing-property
+
         mainStackView.pop()
         return true
     }
@@ -870,6 +880,12 @@ ApplicationWindow {
     // (resetNetworkTimeout). Der Beep kommt aus LobbyHandler::onTimeoutWarning.
     Popup {
         id: timeoutWarningPopup
+        // Ohne focus:true bekäme das Popup keine Tastatureingaben: Escape würde
+        // geschluckt (Popup bliebe offen, und der Escape-Shortcut des Fensters
+        // greift bei offenem Popup ebenfalls nicht) und Enter liefe ins Leere.
+        focus: true
+        // Startfokus auf OK – Enter stoppt den Countdown.
+        onOpened: timeoutOkButton.forceActiveFocus()
         parent: Overlay.overlay
         anchors.centerIn: parent
         modal: true
@@ -948,6 +964,7 @@ ApplicationWindow {
                 wrapMode: Text.WordWrap
             }
             CustomButton {
+                id: timeoutOkButton
                 Layout.fillWidth: true
                 text: qsTr("OK")
                 enabled: !timeoutWarningPopup.expired
@@ -962,6 +979,12 @@ ApplicationWindow {
     // ── Server-Meldung (Port von startWindowImpl::networkMessage) ──────────
     Popup {
         id: networkMessagePopup
+        // Ohne focus:true bekäme das Popup keine Tastatureingaben: Escape würde
+        // geschluckt (Popup bliebe offen, und der Escape-Shortcut des Fensters
+        // greift bei offenem Popup ebenfalls nicht) und Enter liefe ins Leere.
+        focus: true
+        // Startfokus auf Schließen – Enter quittiert die Meldung.
+        onOpened: networkMessageCloseButton.forceActiveFocus()
         parent: Overlay.overlay
         anchors.centerIn: parent
         modal: true
@@ -998,6 +1021,7 @@ ApplicationWindow {
                 wrapMode: Text.WordWrap
             }
             CustomButton {
+                id: networkMessageCloseButton
                 Layout.fillWidth: true
                 text: qsTr("Close")
                 onClicked: networkMessagePopup.close()
@@ -1011,6 +1035,15 @@ ApplicationWindow {
     // ungewollt das laufende Spiel beendet.
     Popup {
         id: leaveGameConfirmPopup
+        // Ohne focus:true bekäme das Popup keine Tastatureingaben: Escape würde
+        // geschluckt (Popup bliebe offen, und der Escape-Shortcut des Fensters
+        // greift bei offenem Popup ebenfalls nicht) und Enter liefe ins Leere.
+        focus: true
+        // Startfokus bewusst auf ABBRECHEN: Diese Abfrage existiert laut
+        // navigateBackFromTopBar() genau deshalb, damit ein versehentlicher
+        // Tastendruck das Spiel nicht verlässt. Enter darf das nicht aushebeln;
+        // zum Verlassen einmal Tab drücken.
+        onOpened: leaveGameCancelButton.forceActiveFocus()
         parent: Overlay.overlay
         anchors.centerIn: parent
         modal: true
@@ -1047,6 +1080,7 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 spacing: 12
                 CustomButton {
+                    id: leaveGameCancelButton
                     Layout.fillWidth: true
                     text: qsTr("Cancel")
                     onClicked: leaveGameConfirmPopup.close()
@@ -1068,6 +1102,13 @@ ApplicationWindow {
     // Lobby befindet. Bei Bestätigung wird die Server-Verbindung getrennt.
     Popup {
         id: leaveLobbyConfirmPopup
+        // Ohne focus:true bekäme das Popup keine Tastatureingaben: Escape würde
+        // geschluckt (Popup bliebe offen, und der Escape-Shortcut des Fensters
+        // greift bei offenem Popup ebenfalls nicht) und Enter liefe ins Leere.
+        focus: true
+        // Startfokus bewusst auf ABBRECHEN – wie beim Verlassen des Spiels:
+        // Enter soll die Verbindung nicht versehentlich trennen.
+        onOpened: leaveLobbyCancelButton.forceActiveFocus()
         parent: Overlay.overlay
         anchors.centerIn: parent
         modal: true
@@ -1104,6 +1145,7 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 spacing: 12
                 CustomButton {
+                    id: leaveLobbyCancelButton
                     Layout.fillWidth: true
                     text: qsTr("Cancel")
                     onClicked: leaveLobbyConfirmPopup.close()
@@ -1130,6 +1172,13 @@ ApplicationWindow {
     // denn niemand soll gegen seinen Willen festgehalten werden.
     Popup {
         id: reconnectPopup
+        // Ohne focus:true bekäme das Popup keine Tastatureingaben: Escape würde
+        // geschluckt (Popup bliebe offen, und der Escape-Shortcut des Fensters
+        // greift bei offenem Popup ebenfalls nicht) und Enter liefe ins Leere.
+        focus: true
+        // Einzige Aktion während des Wiederverbindens: Startfokus auf Abbrechen.
+        // (closePolicy NoAutoClose – Escape schließt hier absichtlich nicht.)
+        onOpened: reconnectCancelButton.forceActiveFocus()
         parent: Overlay.overlay
         anchors.centerIn: parent
         modal: true
@@ -1178,6 +1227,7 @@ ApplicationWindow {
                 wrapMode: Text.WordWrap
             }
             CustomButton {
+                id: reconnectCancelButton
                 Layout.fillWidth: true
                 text: qsTr("Cancel")
                 onClicked: {
@@ -1198,6 +1248,12 @@ ApplicationWindow {
     // Greift jetzt erst, wenn die automatische Wiederverbindung aufgegeben hat.
     Popup {
         id: connectionLostPopup
+        // Ohne focus:true bekäme das Popup keine Tastatureingaben: Escape würde
+        // geschluckt (Popup bliebe offen, und der Escape-Shortcut des Fensters
+        // greift bei offenem Popup ebenfalls nicht) und Enter liefe ins Leere.
+        focus: true
+        // Startfokus auf OK – Enter quittiert.
+        onOpened: connectionLostOkButton.forceActiveFocus()
         parent: Overlay.overlay
         anchors.centerIn: parent
         modal: true
@@ -1233,6 +1289,7 @@ ApplicationWindow {
                 wrapMode: Text.WordWrap
             }
             CustomButton {
+                id: connectionLostOkButton
                 Layout.fillWidth: true
                 text: qsTr("OK")
                 onClicked: connectionLostPopup.close()

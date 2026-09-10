@@ -491,6 +491,9 @@ Rectangle {
         modal: true
         dim: true
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        // Reine Bildanzeige – ohne focus:true schluckt das Popup Escape, ohne
+        // sich zu schließen.
+        focus: true
         padding: 0
         background: null
 

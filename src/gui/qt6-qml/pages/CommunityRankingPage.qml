@@ -17,6 +17,11 @@ Rectangle {
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
 
+    // Startfokus auf die Hauptaktion – wie beim Öffnen eines Dialogs. Qt.callLater,
+    // weil der Fokus während der Stack-Animation sonst verpufft. Ohne Fokusgrund
+    // bleibt der Fokusrahmen aus; er erscheint erst beim ersten Tab.
+    StackView.onActivated: Qt.callLater(pokerthRankingButton.forceActiveFocus)
+
     Flickable {
         anchors.fill: parent
         contentWidth: width
@@ -46,6 +51,7 @@ Rectangle {
                 }
 
                 CustomButton {
+                    id: pokerthRankingButton
                     text: qsTr("PokerTH Ranking")
                     Layout.fillWidth: true
                     Layout.preferredHeight: Config.Theme.touchTarget

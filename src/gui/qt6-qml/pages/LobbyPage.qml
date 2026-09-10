@@ -814,6 +814,24 @@ Rectangle {
                             clip: true
                             model: Lobby ? Lobby.gameListProxyModel : null
 
+                            // Tastaturbedienung: Tab führt in die Liste, Pfeile
+                            // wechseln die Zeile, Enter tritt bei (wie der
+                            // Doppelklick). Die Auswahl wird nur nachgeführt,
+                            // solange die Liste den Fokus hat – sonst würde schon
+                            // das Betreten der Lobby eine Zeile auswählen.
+                            activeFocusOnTab: true
+                            keyNavigationEnabled: true
+                            onCurrentItemChanged: {
+                                if (activeFocus && currentItem)
+                                    currentItem.selectRow()
+                            }
+                            onActiveFocusChanged: {
+                                if (activeFocus && currentItem)
+                                    currentItem.selectRow()
+                            }
+                            Keys.onReturnPressed: if (currentItem) currentItem.activateRow()
+                            Keys.onEnterPressed: if (currentItem) currentItem.activateRow()
+
                             delegate: ItemDelegate {
                                 id: gameRow
                                 width: gameListView.width
@@ -941,8 +959,9 @@ Rectangle {
                                     }
                                 }
 
-                                onClicked: {
-                                    gameListView.currentIndex = index
+                                // Auswahl übernehmen – von Mausklick und
+                                // Tastaturnavigation gemeinsam genutzt.
+                                function selectRow() {
                                     lobbyPage.selectedGame = {
                                         gameId: model.gameId,
                                         gameName: model.gameName,
@@ -961,18 +980,18 @@ Rectangle {
                                         playerActionTimeoutSec: model.playerActionTimeoutSec,
                                         delayBetweenHandsSec: model.delayBetweenHandsSec
                                     }
-
-                                    if (Config.Responsive.compact) {
-                                        lobbyPage.showingGameInfo = true
-                                    }
                                 }
 
-                                // Desktop-Lobby: Doppelklick auf eine Spielzeile
-                                // tritt dem Spiel direkt bei (wie der "Join Game"-
-                                // Button). selectedGame ist durch onClicked oben
-                                // bereits auf die geklickte Zeile gesetzt.
-                                onDoubleClicked: {
-                                    if (Config.Responsive.compact) return
+                                // Zeile aktivieren – von Doppelklick (Desktop)
+                                // und der Enter-Taste gemeinsam genutzt.
+                                function activateRow() {
+                                    // Kompaktlayout: Aktivieren zeigt die
+                                    // Spielinfos (wie ein Tippen), beigetreten
+                                    // wird von dort aus.
+                                    if (Config.Responsive.compact) {
+                                        lobbyPage.showingGameInfo = true
+                                        return
+                                    }
                                     if (!Lobby || Lobby.isInGame) return
                                     if (!lobbyPage.selectedGame || !lobbyPage.selectedGameJoinable) return
                                     if (lobbyPage.selectedGame.isPrivate) {
@@ -983,6 +1002,18 @@ Rectangle {
                                     }
                                     lobbyPage.showingGameInfo = false
                                 }
+
+                                onClicked: {
+                                    gameListView.currentIndex = index
+                                    gameRow.selectRow()
+                                    if (Config.Responsive.compact)
+                                        lobbyPage.showingGameInfo = true
+                                }
+
+                                // Desktop-Lobby: Doppelklick tritt direkt bei
+                                // (wie der "Join Game"-Button). selectedGame ist
+                                // durch onClicked oben bereits gesetzt.
+                                onDoubleClicked: gameRow.activateRow()
                             }
                         }
                     }
@@ -1438,6 +1469,9 @@ Rectangle {
         modal: true
         padding: 20
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        // Ohne focus:true lief der Startfokus aus onOpened ins Leere und das
+        // Popup schluckte Escape, ohne sich zu schließen.
+        focus: true
 
         property int pendingGameId: 0
 
@@ -1519,6 +1553,11 @@ Rectangle {
     // (Escape) = ablehnen, damit der Einladende eine Antwort erhält.
     Popup {
         id: inviteGamePopup
+        // Dieses Popup erscheint unaufgefordert (jemand lädt ein), während der
+        // Nutzer evtl. gerade tippt. Startfokus deshalb auf ABLEHNEN – dieselbe
+        // Wirkung wie Escape; zum Beitreten einmal Tab drücken.
+        focus: true
+        onOpened: inviteDeclineButton.forceActiveFocus()
         anchors.centerIn: parent
         modal: true
         padding: 20
@@ -1562,6 +1601,7 @@ Rectangle {
                 Layout.fillWidth: true
                 spacing: 8
                 CustomButton {
+                    id: inviteDeclineButton
                     text: qsTr("Decline")
                     Layout.fillWidth: true
                     onClicked: inviteGamePopup.respond(false)
@@ -1617,6 +1657,10 @@ Rectangle {
     // zum Qt-Widgets-Client (callRejoinPossibleDialog).
     Popup {
         id: rejoinGamePopup
+        // Erscheint direkt nach dem Login als Frage an den Nutzer: Startfokus auf
+        // die naheliegende Antwort (Wiedereinstieg), Escape/Nein bleibt daneben.
+        focus: true
+        onOpened: rejoinButton.forceActiveFocus()
         anchors.centerIn: parent
         modal: true
         padding: 20
@@ -1660,6 +1704,7 @@ Rectangle {
                     onClicked: rejoinGamePopup.respond(false)
                 }
                 CustomButton {
+                    id: rejoinButton
                     text: qsTr("Rejoin")
                     Layout.fillWidth: true
                     onClicked: rejoinGamePopup.respond(true)

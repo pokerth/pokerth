@@ -14,6 +14,11 @@ Rectangle {
     height: mainStackView.height
     color: "transparent"
 
+    // Startfokus auf die Hauptaktion – wie beim Öffnen eines Dialogs. Qt.callLater,
+    // weil der Fokus während der Stack-Animation sonst verpufft. Ohne Fokusgrund
+    // bleibt der Fokusrahmen aus; er erscheint erst beim ersten Tab.
+    StackView.onActivated: Qt.callLater(internetGameButton.forceActiveFocus)
+
     Image {
         id: preLoaderBackground
         anchors.fill: parent
@@ -152,6 +157,7 @@ Rectangle {
                         rowSpacing: startPage.innerSpacing
 
                         CustomButton {
+                            id: internetGameButton
                             text: qsTr("Internetspiel")
                             Layout.fillWidth: true
                             Layout.preferredWidth: 100

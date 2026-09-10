@@ -17,6 +17,9 @@ Popup {
     padding: 20
     width: Math.min((parent ? parent.width : 420) * 0.9, 420)
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+    // Ohne focus:true blieb der Startfokus aus onOpened wirkungslos und das
+    // Popup schluckte Escape, ohne sich zu schließen.
+    focus: true
 
     // Spieler, dessen Notiz bearbeitet wird (Schlüssel im Speicher ist der Name).
     property string playerName: ""
@@ -95,6 +98,20 @@ Popup {
 
                 TextArea {
                     id: noteInput
+                    // Mehrzeiliges Feld: Enter macht einen Absatz, gespeichert
+                    // wird mit Strg+Enter (wie in Chat-/Notizfeldern üblich).
+                    Keys.onReturnPressed: (event) => {
+                        if (event.modifiers & Qt.ControlModifier)
+                            root.save()
+                        else
+                            event.accepted = false
+                    }
+                    Keys.onEnterPressed: (event) => {
+                        if (event.modifiers & Qt.ControlModifier)
+                            root.save()
+                        else
+                            event.accepted = false
+                    }
                     background: null
                     selectByMouse: true
                     wrapMode: TextArea.Wrap

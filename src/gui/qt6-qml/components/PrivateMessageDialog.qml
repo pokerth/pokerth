@@ -21,6 +21,9 @@ Popup {
     modal: true
     padding: 0
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+    // Ohne focus:true blieb der Startfokus aus onOpened wirkungslos und das
+    // Popup schluckte Escape, ohne sich zu schließen.
+    focus: true
 
     width: Math.min((parent ? parent.width : 600) * 0.92, 600)
     height: Math.min((parent ? parent.height : 520) * 0.85, 520)

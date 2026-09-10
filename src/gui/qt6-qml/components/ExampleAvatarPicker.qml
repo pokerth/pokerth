@@ -16,6 +16,8 @@ Popup {
     modal: true
     padding: 0
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+    // Ohne focus:true schluckt das Popup Escape, ohne sich zu schließen.
+    focus: true
 
     // Verfügbarer Platz (Fenster-Overlay). Im Kompakt-/Mobile-Modus füllt das
     // Popup nahezu den ganzen Bildschirm, sonst eine feste, zentrierte Box.

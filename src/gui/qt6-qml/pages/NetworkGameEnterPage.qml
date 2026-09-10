@@ -20,6 +20,30 @@ Rectangle {
     property string statusMessage: ""
     property string selectedProfile: ""
 
+    // Default-Button der Seite: Enter verbindet, egal in welchem Feld der Fokus
+    // steht. Ein fokussierter Button verbraucht Return selbst und behält Vorrang;
+    // das Profilnamen-Feld hat seine eigene Aktion (Speichern). Während des
+    // Verbindungsaufbaus liegt die Wartesicht darüber – dann nicht.
+    Keys.onReturnPressed: if (!networkGameEnterPage.connecting) connectButton.clicked()
+    Keys.onEnterPressed: if (!networkGameEnterPage.connecting) connectButton.clicked()
+
+    // Startfokus in das Adressfeld – auf Mobilgeräten NICHT, das zöge ungefragt
+    // die Bildschirmtastatur hoch.
+    StackView.onActivated: {
+        if (!Config.Responsive.isMobile)
+            Qt.callLater(addressField.forceActiveFocus)
+    }
+
+    // Zurück-Schritt: Läuft der Verbindungsaufbau, bricht Escape/Android-Back ihn
+    // ab, statt die Seite zu verlassen. Gefragt von navigateBackFromTopBar().
+    function handleBack() {
+        if (networkGameEnterPage.connecting) {
+            cancelConnectButton.clicked()
+            return true
+        }
+        return false
+    }
+
     readonly property var profiles: (typeof NetworkGame !== "undefined" && NetworkGame)
         ? NetworkGame.serverProfiles : []
 
@@ -227,6 +251,19 @@ Rectangle {
                     }
                     TextField {
                         id: profileNameField
+                        // Eigene Aktion des Teilformulars: Enter speichert das
+                        // Profil, statt die Seite abzuschicken. Event verbrauchen,
+                        // sonst liefe zusätzlich der Default-Button (Verbinden).
+                        Keys.onReturnPressed: (event) => {
+                            if (saveProfileButton.enabled)
+                                saveProfileButton.clicked()
+                            event.accepted = true
+                        }
+                        Keys.onEnterPressed: (event) => {
+                            if (saveProfileButton.enabled)
+                                saveProfileButton.clicked()
+                            event.accepted = true
+                        }
                         Layout.fillWidth: true
                         placeholderText: qsTr("Name des Profils")
                         font.family: Config.StaticData.loadedFont.font.family
@@ -253,6 +290,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     CustomButton {
+                        id: saveProfileButton
                         text: qsTr("Speichern")
                         Layout.fillWidth: true
                         enabled: profileNameField.text.trim().length > 0
@@ -364,6 +402,7 @@ Rectangle {
                         onClicked: mainStackView.pop()
                     }
                     CustomButton {
+                        id: connectButton
                         text: qsTr("Verbinden")
                         Layout.fillWidth: true
                         enabled: addressField.text.trim().length > 0
@@ -395,6 +434,7 @@ Rectangle {
             font.bold: true
         }
         CustomButton {
+            id: cancelConnectButton
             text: qsTr("Abbrechen")
             Layout.fillWidth: true
             onClicked: {

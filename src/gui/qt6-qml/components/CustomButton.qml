@@ -11,6 +11,19 @@ AbstractButton {
     implicitWidth:  Config.Theme.buttonWidth < 0 ? 160 : Config.Theme.buttonWidth
     implicitHeight: Config.Theme.touchTarget
 
+    // Fokusrahmen des Universal-Stils: Die ApplicationWindow des Stils zeichnet
+    // ihn zentral für jedes Control mit dieser Eigenschaft – und nur bei
+    // Tastaturfokus (visualFocus), nicht nach einem Mausklick. Ein eigener
+    // Rahmen wäre eine Sonderlocke gegenüber allen anderen Controls.
+    property bool useSystemFocusVisuals: true
+
+    // Tastaturbedienung wie in Web-Formularen und Win32-Dialogen: Space löst
+    // AbstractButton bereits selbst aus, Return/Enter kommt hier dazu. Das Event
+    // ist damit verbraucht, sodass ein fokussierter Button Vorrang vor dem
+    // Default-Button des umgebenden Formulars hat.
+    Keys.onReturnPressed: customButton.clicked()
+    Keys.onEnterPressed: customButton.clicked()
+
     // Visual feedback state
     background: Rectangle {
         radius: Config.Theme.radiusSmall

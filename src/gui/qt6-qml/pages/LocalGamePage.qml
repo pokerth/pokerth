@@ -12,6 +12,17 @@ Rectangle {
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
 
+    // Default-Button der Seite: Enter startet das Spiel, egal in welchem Feld der
+    // Fokus steht. Ein fokussierter Button verbraucht Return selbst und behält
+    // Vorrang (Enter auf "Abbrechen" bricht also ab).
+    Keys.onReturnPressed: startGameButton.clicked()
+    Keys.onEnterPressed: startGameButton.clicked()
+
+    // Startfokus auf die Hauptaktion – wie beim Öffnen eines Dialogs. Qt.callLater,
+    // weil der Fokus während der Stack-Animation sonst verpufft. Ohne Fokusgrund
+    // bleibt der Fokusrahmen aus; er erscheint erst beim ersten Tab.
+    StackView.onActivated: Qt.callLater(startGameButton.forceActiveFocus)
+
     // Gibt eine lesbare Zusammenfassung der aktuellen Blinds-Einstellungen zurück
     function blindsSummary() {
         if (!SettingsManager) return ""
@@ -314,6 +325,7 @@ Rectangle {
             }
 
             CustomButton {
+                id: startGameButton
                 text: qsTr("Spiel starten")
                 Layout.fillWidth: true
                 onClicked: {

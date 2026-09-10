@@ -22,6 +22,18 @@ Rectangle {
     // Zugang über die Einladung.
     readonly property bool passwordAllowed: !isRanking && !isInviteOnly
     property string nameError: ""
+
+    // Default-Button der Seite: Enter erstellt das Spiel, egal wo der Fokus steht.
+    // Ein fokussierter Button verbraucht Return selbst und behält Vorrang.
+    Keys.onReturnPressed: createBtn.clicked()
+    Keys.onEnterPressed: createBtn.clicked()
+
+    // Startfokus in das Spielnamen-Feld – auf Mobilgeräten NICHT, das zöge
+    // ungefragt die Bildschirmtastatur hoch. Gäste dürfen den Namen nicht ändern.
+    StackView.onActivated: {
+        if (!Config.Responsive.isMobile && !lobbyCreateGamePage.isGuest)
+            Qt.callLater(gameNameField.forceActiveFocus)
+    }
     // Erst nach dem Befüllen des Formulars reagieren die Eingabefelder
     // aufeinander (ComboBox-Signale feuern schon beim Seitenaufbau).
     property bool formReady: false

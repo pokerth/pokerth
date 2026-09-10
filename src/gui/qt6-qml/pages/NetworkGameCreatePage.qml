@@ -21,6 +21,26 @@ Rectangle {
     property bool connecting: false
     property string statusMessage: ""
 
+    // Default-Button der Seite: Enter erstellt das Spiel, egal wo der Fokus steht.
+    // Ein fokussierter Button verbraucht Return selbst und behält Vorrang.
+    // Während der Server startet, liegt die Wartesicht darüber – dann nicht.
+    Keys.onReturnPressed: if (!networkGameCreatePage.connecting) createGameButton.clicked()
+    Keys.onEnterPressed: if (!networkGameCreatePage.connecting) createGameButton.clicked()
+
+    // Startfokus auf die Hauptaktion (Qt.callLater: während der Stack-Animation
+    // greift der Fokus sonst nicht).
+    StackView.onActivated: Qt.callLater(createGameButton.forceActiveFocus)
+
+    // Zurück-Schritt: Läuft der Serverstart, bricht Escape/Android-Back ihn ab,
+    // statt die Seite zu verlassen. Gefragt von navigateBackFromTopBar().
+    function handleBack() {
+        if (networkGameCreatePage.connecting) {
+            cancelHostingButton.clicked()
+            return true
+        }
+        return false
+    }
+
     function cfgInt(key, dflt) {
         if (typeof SettingsManager !== "undefined" && SettingsManager) {
             var v = SettingsManager.readConfigInt(key)
@@ -377,6 +397,7 @@ Rectangle {
                         onClicked: mainStackView.pop()
                     }
                     CustomButton {
+                        id: createGameButton
                         text: qsTr("Spiel erstellen")
                         Layout.fillWidth: true
                         onClicked: networkGameCreatePage.startHosting()
@@ -407,6 +428,7 @@ Rectangle {
             font.bold: true
         }
         CustomButton {
+            id: cancelHostingButton
             text: qsTr("Abbrechen")
             Layout.fillWidth: true
             onClicked: {

@@ -85,6 +85,21 @@ Rectangle {
                 clip: true
                 model: Config.ForumNews.posts
                 boundsBehavior: Flickable.StopAtBounds
+
+                // Tastaturbedienung: Tab führt in die Liste, Pfeile wechseln die
+                // Zeile, Enter öffnet den Beitrag (wie ein Klick).
+                activeFocusOnTab: true
+                keyNavigationEnabled: true
+                // Direkt aus dem Modell statt über currentItem: Eine ListView
+                // erzeugt nur die sichtbaren Delegates, currentItem kann also
+                // null sein.
+                function openCurrent() {
+                    var post = Config.ForumNews.posts[postList.currentIndex]
+                    if (post)
+                        forumPage.openPost(post)
+                }
+                Keys.onReturnPressed: postList.openCurrent()
+                Keys.onEnterPressed: postList.openCurrent()
                 ScrollBar.vertical: ScrollBar {
                     policy: postList.contentHeight > postList.height + 4
                             ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
@@ -107,13 +122,29 @@ Rectangle {
                     height: Math.max(forumPage.compact ? 58 : 50,
                                      textColumn.implicitHeight + 16)
 
+                    // Aktuelle Zeile der Tastaturnavigation – nur solange die
+                    // Liste den Fokus hat, sonst sähe der Mausnutzer eine
+                    // Markierung, die er nie angefasst hat.
+                    readonly property bool keyboardCurrent: ListView.isCurrentItem
+                                                            && postList.activeFocus
+
                     Rectangle {
                         anchors.fill: parent
-                        color: rowHover.hovered
+                        color: rowHover.hovered || postDelegate.keyboardCurrent
                                ? Config.Theme.colorHover
                                : (postDelegate.index % 2 === 0
                                   ? Config.Theme.colorBox
                                   : Config.StaticData.palette.secondary.col600)
+
+                        // Akzentstreifen links markiert die Tastaturauswahl.
+                        Rectangle {
+                            anchors.left: parent.left
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            width: 3
+                            visible: postDelegate.keyboardCurrent
+                            color: Config.Theme.colorAccent
+                        }
 
                         Rectangle {
                             anchors.left: parent.left

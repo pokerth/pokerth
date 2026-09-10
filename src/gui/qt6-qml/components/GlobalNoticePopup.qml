@@ -16,6 +16,9 @@ Popup {
     padding: 20
     width: Math.min((parent ? parent.width : 420) * 0.85, 420)
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+    // Ohne focus:true blieb der Startfokus aus onOpened wirkungslos und das
+    // Popup schluckte Escape, ohne sich zu schließen.
+    focus: true
 
     readonly property int maxBytes: 128
     // UTF-8-Länge (nicht Zeichen), weil der Server in Bytes begrenzt.

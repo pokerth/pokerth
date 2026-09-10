@@ -18,6 +18,19 @@ Rectangle {
     // Aktuelle Kategorie für den Compact-Strip
     property int currentCategoryIndex: 0
 
+    // Kategoriewechsel – gemeinsam für Kompaktleiste, Kategorieliste und
+    // Tastatur. Vorher hing das Laden der Seite in den beiden Maus-Handlern:
+    // Die Pfeiltasten hätten die Auswahl bewegt, ohne dass der Inhalt folgt.
+    function showCategory(index) {
+        if (index < 0 || index >= settingsMenuListItems.count)
+            return
+        settingsPage.currentCategoryIndex = index
+        settingsMenuList.currentIndex = index
+        settingsStackView.replaceCurrentItem(
+            "qrc:/components/" + settingsMenuListItems.get(index).source + "Settings.qml",
+            {}, StackView.Immediate)
+    }
+
     // Compact: horizontale Icon-Tabs für Kategorien
     Rectangle {
         id: compactCategoryStrip
@@ -73,12 +86,7 @@ Rectangle {
                     }
 
                     TapHandler {
-                        onTapped: {
-                            settingsPage.currentCategoryIndex = index
-                            settingsStackView.replaceCurrentItem(
-                                "qrc:/components/" + source + "Settings.qml",
-                                {}, StackView.Immediate)
-                        }
+                        onTapped: settingsPage.showCategory(index)
                     }
                 }
             }
@@ -133,7 +141,12 @@ Rectangle {
                 anchors.centerIn: parent
                 currentIndex: 0
 
-                property int prevIndex: 0
+                // Tastaturbedienung der Kategorieliste: Tab führt hierher, Pfeile
+                // wechseln die Kategorie (der Inhalt folgt über showCategory),
+                // Pos1/Ende springen an den Rand.
+                activeFocusOnTab: true
+                keyNavigationEnabled: true
+                onCurrentIndexChanged: settingsPage.showCategory(currentIndex)
 
                 delegate: Rectangle {
                     id: settingsMenuListItem
@@ -205,10 +218,7 @@ Rectangle {
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            settingsMenuList.currentIndex = index;
-                            settingsStackView.replaceCurrentItem("qrc:/components/" + source + "Settings.qml", {}, StackView.Immediate);
-                        }
+                        onClicked: settingsPage.showCategory(index)
                     }
                 }
         }

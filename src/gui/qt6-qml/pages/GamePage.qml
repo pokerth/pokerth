@@ -2670,6 +2670,11 @@ Rectangle {
 
     Popup {
         id: gameOverPopup
+        // Erscheint am Spielende von selbst. Startfokus auf "Neues Spiel" – die
+        // Aktion, die auf der Seite bleibt; "Zurück zum Menü" ist einen Tab
+        // entfernt, Escape schließt.
+        focus: true
+        onOpened: newGameButton.forceActiveFocus()
         parent: Overlay.overlay
         anchors.centerIn: parent
         modal: true
@@ -2719,6 +2724,7 @@ Rectangle {
                     }
                 }
                 CustomButton {
+                    id: newGameButton
                     Layout.fillWidth: true
                     text: qsTr("New Game")
                     onClicked: {
