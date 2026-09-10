@@ -11,12 +11,6 @@ AbstractButton {
     implicitWidth:  Config.Theme.buttonWidth < 0 ? 160 : Config.Theme.buttonWidth
     implicitHeight: Config.Theme.touchTarget
 
-    // Fokusrahmen des Universal-Stils: Die ApplicationWindow des Stils zeichnet
-    // ihn zentral für jedes Control mit dieser Eigenschaft – und nur bei
-    // Tastaturfokus (visualFocus), nicht nach einem Mausklick. Ein eigener
-    // Rahmen wäre eine Sonderlocke gegenüber allen anderen Controls.
-    property bool useSystemFocusVisuals: true
-
     // Tastaturbedienung wie in Web-Formularen und Win32-Dialogen: Space löst
     // AbstractButton bereits selbst aus, Return/Enter kommt hier dazu. Das Event
     // ist damit verbraucht, sodass ein fokussierter Button Vorrang vor dem
@@ -32,12 +26,23 @@ AbstractButton {
                : customButton.hovered
                  ? Config.StaticData.palette.secondary.col600
                  : Config.Theme.colorBox
-        border.color: customButton.hovered || customButton.pressed
-                      ? Config.Theme.colorTextPrimary
-                      : Config.Theme.colorTextSecondary
-        border.width: 1
+
+        // Fokusrahmen selbst zeichnen statt über den Universal-Stil
+        // (useSystemFocusVisuals): Dessen FocusRectangle hängt an der
+        // ApplicationWindow und erscheint nur auf Seiten – in Popups blieb der
+        // Tastaturfokus unsichtbar (im echten Client nachgemessen: Tab in der
+        // "Spiel verlassen"-Abfrage wechselte den Button ohne jede Anzeige).
+        // visualFocus statt activeFocus: nur bei Tastaturfokus, nicht nach
+        // einem Mausklick – wie :focus-visible im Web.
+        border.color: customButton.visualFocus
+                      ? Config.Theme.colorAccent
+                      : (customButton.hovered || customButton.pressed
+                         ? Config.Theme.colorTextPrimary
+                         : Config.Theme.colorTextSecondary)
+        border.width: customButton.visualFocus ? 2 : 1
 
         Behavior on color { ColorAnimation { duration: 100 } }
+        Behavior on border.color { ColorAnimation { duration: 100 } }
     }
 
     contentItem: AppText {

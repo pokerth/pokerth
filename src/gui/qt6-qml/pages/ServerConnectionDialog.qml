@@ -176,9 +176,13 @@ Rectangle {
                     // Startfokus auf den ersten Button – wie beim Öffnen eines
                     // Dialogs. Ohne Fokusgrund (Qt.OtherFocusReason) bleibt der
                     // Fokusrahmen aus; er erscheint erst beim ersten Tab.
+                    // Qt.callLater ist Pflicht: Diese Ansicht wird schon während
+                    // des Seitenaufbaus sichtbar, da hat die Seite im StackView
+                    // noch keinen Fokus – der Aufruf verpuffte sonst (im echten
+                    // Client nachgemessen: Enter tat danach nichts).
                     onVisibleChanged: {
                         if (visible)
-                            loginAsUserButton.forceActiveFocus()
+                            Qt.callLater(loginAsUserButton.forceActiveFocus)
                     }
 
                     Item { Layout.fillHeight: true }
@@ -223,7 +227,8 @@ Rectangle {
                     // ungefragt die Bildschirmtastatur hoch.
                     onVisibleChanged: {
                         if (visible && !Config.Responsive.isMobile)
-                            (usernameInput.text.length > 0 ? passwordInput : usernameInput).forceActiveFocus()
+                            Qt.callLater((usernameInput.text.length > 0
+                                          ? passwordInput : usernameInput).forceActiveFocus)
                     }
 
                     // Default-Button des Formulars: Enter schickt den Login ab,
@@ -339,7 +344,7 @@ Rectangle {
                     // Aktion: Startfokus darauf, Escape genauso.
                     onVisibleChanged: {
                         if (visible)
-                            cancelButton.forceActiveFocus()
+                            Qt.callLater(cancelButton.forceActiveFocus)
                     }
 
                     Item { Layout.fillHeight: true }
