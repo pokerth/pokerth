@@ -1,0 +1,240 @@
+name: Build Windows Installer (combined QML + Widget)
+
+# Manual only: a cold run cross-compiles boost/openssl/protobuf for MinGW via
+# vcpkg and pulls two full Qt kits (win64_mingw plus the linux_gcc_64 host Qt
+# the cross build needs), which takes well over an hour. With the vcpkg cache
+# warm a repeat run is roughly 40-60 minutes.
+#
+# This is docker/windows/Dockerfile.windows-combined without Docker: same vcpkg
+# ports, same Qt modules, same build_windows.sh (SKIP_NSIS=1) and the same
+# installer_combined.nsi, so the artifact is the installer that build script
+# produces locally. No Docker because every other workflow here builds natively
+# on the runner, and a docker build would re-do Qt and vcpkg from scratch on
+# every run — layer caching does not survive between jobs.
+on:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+
+    env:
+      # Matches the ARG in Dockerfile.windows-combined.
+      QT_VERSION: "6.9.3"
+      # build_windows.sh passes ${TARGET} unquoted to `cmake --build --target`,
+      # so both GUI clients come out of one configure. The string contains
+      # "qml", which is what makes the script collect the superset (all Qt6
+      # DLLs + the qml/ import tree) both clients share.
+      TARGET: "pokerth_client pokerth_qml-client"
+      # The combined installer is assembled below with installer_combined.nsi.
+      SKIP_NSIS: "1"
+      # Only cosmetic: the installer file name carries a build timestamp, and
+      # local builds stamp it in Berlin time.
+      TZ: Europe/Berlin
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Two Qt kits with the full module set plus the vcpkg build trees do not
+      # fit next to the runner's preinstalled toolchains.
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup \
+                      /usr/local/lib/android /opt/hostedtoolcache/CodeQL \
+                      /usr/local/share/boost
+          df -h /
+
+      - name: Install cross toolchain and packaging tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            mingw-w64 \
+            cmake git wget curl \
+            zip unzip p7zip-full \
+            build-essential pkg-config \
+            autoconf automake libtool \
+            nsis imagemagick \
+            python3 python3-pip python3-venv jq
+          # Qt needs std::thread, which only the POSIX threading variant of the
+          # Debian/Ubuntu MinGW packages provides. Which variant the plain
+          # x86_64-w64-mingw32-g++ alternative points at has changed between
+          # releases, so pin it instead of inheriting the default.
+          for tool in gcc g++; do
+            if [ -e "/usr/bin/x86_64-w64-mingw32-${tool}-posix" ]; then
+              sudo update-alternatives --set "x86_64-w64-mingw32-${tool}" \
+                   "/usr/bin/x86_64-w64-mingw32-${tool}-posix"
+            fi
+          done
+          x86_64-w64-mingw32-g++ -v 2>&1 | tail -3
+
+      # build_windows.sh works in ${ROOT}/pokerth and derives every Qt and vcpkg
+      # path from ${ROOT}; actions/checkout cannot place the tree outside the
+      # workspace, so ${ROOT}/pokerth becomes a symlink to it.
+      - name: Set up build root
+        run: |
+          set -euo pipefail
+          echo "ROOT=$HOME/pokerth-windows" >> "$GITHUB_ENV"
+          mkdir -p "$HOME/pokerth-windows/Qt"
+          ln -sfn "$GITHUB_WORKSPACE" "$HOME/pokerth-windows/pokerth"
+
+      # Only vcpkg is cached, not Qt: the two kits are several GB and would push
+      # everything else out of the repository's 10 GB cache budget, while
+      # aqtinstall re-downloads them in a few minutes. vcpkg is the expensive
+      # half (boost/openssl/protobuf built from source for x64-mingw-static).
+      # Keyed per run and restored from the newest matching prefix, so a run
+      # that fails in the compile step still hands its vcpkg tree to the next.
+      - name: Restore vcpkg
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/pokerth-windows/vcpkg
+          key: windows-vcpkg-${{ github.run_id }}
+          restore-keys: |
+            windows-vcpkg-
+
+      - name: Build vcpkg dependencies
+        run: |
+          set -euo pipefail
+          if [ ! -x "$ROOT/vcpkg/vcpkg" ]; then
+            git clone https://github.com/Microsoft/vcpkg.git "$ROOT/vcpkg"
+            "$ROOT/vcpkg/bootstrap-vcpkg.sh"
+          fi
+          "$ROOT/vcpkg/vcpkg" install --triplet=x64-mingw-static \
+              boost-system \
+              boost-thread \
+              boost-program-options \
+              boost-filesystem \
+              boost-chrono \
+              boost-date-time \
+              boost-asio \
+              boost-interprocess \
+              boost-iostreams \
+              boost-lambda \
+              boost-foreach \
+              boost-uuid \
+              protobuf \
+              openssl
+          # Host protoc for the cross build.
+          "$ROOT/vcpkg/vcpkg" install protobuf:x64-linux
+
+      # installed/ is all the next run needs; the rest is build scratch and
+      # would multiply the cache entry. if: always() so an aborted port build
+      # does not leave its (huge) buildtrees in the saved cache either.
+      - name: Trim vcpkg tree for the cache
+        if: always()
+        run: |
+          # ROOT is unset if the job died before "Set up build root".
+          [ -n "${ROOT:-}" ] || exit 0
+          rm -rf "$ROOT/vcpkg/buildtrees" "$ROOT/vcpkg/packages" "$ROOT/vcpkg/downloads"
+          df -h /
+
+      # Saved right after the ports are built rather than at the end of the job:
+      # a failure further down must not cost the hour it took to get here.
+      - name: Save vcpkg
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ~/pokerth-windows/vcpkg
+          key: windows-vcpkg-${{ github.run_id }}
+
+      # Same module list as the Dockerfile, deliberately: build_windows.sh ships
+      # every Qt6*.dll and the whole qml/ tree of the Windows kit, so trimming
+      # modules here would silently change what the installer contains.
+      - name: Install Qt (win64_mingw target + linux host)
+        run: |
+          set -euo pipefail
+          python3 -m venv "$ROOT/venv"
+          "$ROOT/venv/bin/pip" install --upgrade pip
+          "$ROOT/venv/bin/pip" install aqtinstall
+
+          QT_MODULES="qt3d qt5compat qtcharts qtconnectivity qtdatavis3d
+                      qtgraphs qtgrpc qthttpserver qtimageformats qtlocation
+                      qtlottie qtmultimedia qtnetworkauth qtpositioning
+                      qtquick3d qtquick3dphysics qtquicktimeline
+                      qtremoteobjects qtscxml qtsensors qtserialbus
+                      qtserialport qtshadertools qtspeech qtvirtualkeyboard
+                      qtwebchannel qtwebsockets qtwebview"
+
+          "$ROOT/venv/bin/aqt" install-qt windows desktop "$QT_VERSION" win64_mingw \
+              --outputdir "$ROOT/Qt" --autodesktop --modules $QT_MODULES
+          "$ROOT/venv/bin/aqt" install-qt linux desktop "$QT_VERSION" linux_gcc_64 \
+              --outputdir "$ROOT/Qt" --modules $QT_MODULES
+
+          test -d "$ROOT/Qt/$QT_VERSION/mingw_64"
+          test -x "$ROOT/Qt/$QT_VERSION/gcc_64/bin/qt-cmake"
+          df -h /
+
+      # Builds both clients and collects DLLs, qml/, plugins and data into
+      # build/deploy — SKIP_NSIS=1 leaves the installer to the steps below.
+      - name: Build both clients and collect the deploy tree
+        run: bash docker/windows/build_windows.sh
+
+      # Normally produced by the NSIS section of build_windows.sh, which
+      # SKIP_NSIS=1 skips — but installer_combined.nsi needs the icon.
+      - name: Create installer icon
+        run: |
+          set -euo pipefail
+          if [ -f pokerth.svg ]; then
+            convert -background none -density 256 pokerth.svg \
+                    -define icon:auto-resize=256,128,64,48,32,16 \
+                    docker/windows/pokerth.ico
+          else
+            convert pokerth.png -resize 256x256 \
+                    -define icon:auto-resize=256,128,64,48,32,16 \
+                    docker/windows/pokerth.ico
+          fi
+          cp -f docker/windows/pokerth.ico build/deploy/
+
+      # A missing exe would otherwise turn into an installer that is quietly
+      # short one client.
+      - name: Verify both clients are in the deploy tree
+        run: |
+          set -euo pipefail
+          ls -lh build/deploy/*.exe
+          test -f build/deploy/pokerth_client.exe
+          test -f build/deploy/pokerth_qml-client.exe
+
+      - name: Build combined installer
+        id: nsis
+        run: |
+          set -euo pipefail
+          cd docker/windows
+          VERSION=$(grep -oP '(?<=PRODUCT_VERSION ")[^"]+' installer_combined.nsi | head -1)
+          OUTFILE="PokerTH-Combined-${VERSION}-$(date +%Y%m%d_%H%M%S)-Setup.exe"
+          # -NOCD: the File/license paths in the script are relative to
+          # docker/windows, so makensis must stay in this directory.
+          makensis -NOCD -DOUTFILE="$OUTFILE" installer_combined.nsi
+          echo "installer=docker/windows/$OUTFILE" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Summarise
+        run: |
+          INSTALLER="${{ steps.nsis.outputs.installer }}"
+          {
+            echo "### Windows installer (Widget + QML)"
+            echo ""
+            echo "- \`$(basename "$INSTALLER")\` — $(du -h "$INSTALLER" | cut -f1)"
+            echo "- version ${{ steps.nsis.outputs.version }}, commit \`${GITHUB_SHA::7}\`"
+            echo "- Qt ${QT_VERSION} win64_mingw, cross-compiled with $(x86_64-w64-mingw32-g++ -dumpversion)"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: PokerTH-windows-combined-${{ github.sha }}
+          path: docker/windows/PokerTH-Combined-*-Setup.exe
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload CMake logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-cmake-logs
+          path: |
+            build/CMakeFiles/CMakeError.log
+            build/CMakeFiles/CMakeOutput.log
+            build/CMakeCache.txt
+          if-no-files-found: ignore
+          retention-days: 7
