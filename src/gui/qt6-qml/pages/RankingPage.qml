@@ -236,7 +236,7 @@ Rectangle {
                     sortKey: "rank_pos"
                     activeKey: rankingPage.sortProp
                     sortOrder: rankingPage.sortOrder
-                    onSortRequested: rankingPage.requestSort(key)
+                    onSortRequested: function(key) { rankingPage.requestSort(key) }
                 }
                 RankingHeaderCell {
                     label: qsTr("Player")
@@ -244,7 +244,7 @@ Rectangle {
                     sortKey: "username"
                     activeKey: rankingPage.sortProp
                     sortOrder: rankingPage.sortOrder
-                    onSortRequested: rankingPage.requestSort(key)
+                    onSortRequested: function(key) { rankingPage.requestSort(key) }
                 }
                 RankingHeaderCell {
                     label: qsTr("Games")
@@ -254,7 +254,7 @@ Rectangle {
                     sortKey: "season_games"
                     activeKey: rankingPage.sortProp
                     sortOrder: rankingPage.sortOrder
-                    onSortRequested: rankingPage.requestSort(key)
+                    onSortRequested: function(key) { rankingPage.requestSort(key) }
                 }
                 RankingHeaderCell {
                     label: qsTr("Avg")
@@ -264,7 +264,7 @@ Rectangle {
                     sortKey: "average_score"
                     activeKey: rankingPage.sortProp
                     sortOrder: rankingPage.sortOrder
-                    onSortRequested: rankingPage.requestSort(key)
+                    onSortRequested: function(key) { rankingPage.requestSort(key) }
                 }
                 RankingHeaderCell {
                     label: qsTr("Score")
@@ -273,7 +273,7 @@ Rectangle {
                     sortKey: "final_score"
                     activeKey: rankingPage.sortProp
                     sortOrder: rankingPage.sortOrder
-                    onSortRequested: rankingPage.requestSort(key)
+                    onSortRequested: function(key) { rankingPage.requestSort(key) }
                 }
             }
         }

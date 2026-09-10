@@ -239,7 +239,7 @@ Rectangle {
                         visible: !playerPage.compact
                         Layout.alignment: Qt.AlignTop
                         current: "pokerth"
-                        onSelected: playerPage.switchCommunity(community)
+                        onSelected: function(community) { playerPage.switchCommunity(community) }
                     }
                 }
 
@@ -250,7 +250,7 @@ Rectangle {
                     Item { Layout.fillWidth: true }
                     CommunitySwitch {
                         current: "pokerth"
-                        onSelected: playerPage.switchCommunity(community)
+                        onSelected: function(community) { playerPage.switchCommunity(community) }
                     }
                 }
             }

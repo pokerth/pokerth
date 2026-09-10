@@ -27,6 +27,7 @@
         <file>components/CustomToggle.qml</file>
         <file>components/GamePlayerBox.qml</file>
         <file>components/GamePlayerSelfBox.qml</file>
+        <file>components/SeatBox.qml</file>
         <file>components/GameReactionFx.qml</file>
         <file>components/EmojiPicker.qml</file>
         <file>components/ChatBox.qml</file>
@@ -117,6 +118,7 @@
         <file>i18n/pokerth_zh_CN.ts</file>
         <file>pages/AboutPage.qml</file>
         <file>pages/GamePage.qml</file>
+        <file>pages/seatlayout.js</file>
         <file>pages/GameTableStatsPage.qml</file>
         <file>pages/InternetGamePage.qml</file>
         <file>pages/LocalGamePage.qml</file>

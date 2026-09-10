@@ -345,7 +345,7 @@ Rectangle {
                     sortKey: "rank_pos"
                     activeKey: tableStatsPage.sortKey
                     sortOrder: tableStatsPage.sortOrder
-                    onSortRequested: tableStatsPage.requestSort(key)
+                    onSortRequested: function(key) { tableStatsPage.requestSort(key) }
                 }
                 RankingHeaderCell {
                     label: qsTr("Player")
@@ -353,7 +353,7 @@ Rectangle {
                     sortKey: "username"
                     activeKey: tableStatsPage.sortKey
                     sortOrder: tableStatsPage.sortOrder
-                    onSortRequested: tableStatsPage.requestSort(key)
+                    onSortRequested: function(key) { tableStatsPage.requestSort(key) }
                 }
                 RankingHeaderCell {
                     label: qsTr("Games")
@@ -363,7 +363,7 @@ Rectangle {
                     sortKey: "games"
                     activeKey: tableStatsPage.sortKey
                     sortOrder: tableStatsPage.sortOrder
-                    onSortRequested: tableStatsPage.requestSort(key)
+                    onSortRequested: function(key) { tableStatsPage.requestSort(key) }
                 }
                 RankingHeaderCell {
                     // PokerTH: Saison-Durchschnitt; BBC/WEC: Punkte.
@@ -374,7 +374,7 @@ Rectangle {
                     sortKey: "mid"
                     activeKey: tableStatsPage.sortKey
                     sortOrder: tableStatsPage.sortOrder
-                    onSortRequested: tableStatsPage.requestSort(key)
+                    onSortRequested: function(key) { tableStatsPage.requestSort(key) }
                 }
                 RankingHeaderCell {
                     label: qsTr("Score")
@@ -383,7 +383,7 @@ Rectangle {
                     sortKey: "score"
                     activeKey: tableStatsPage.sortKey
                     sortOrder: tableStatsPage.sortOrder
-                    onSortRequested: tableStatsPage.requestSort(key)
+                    onSortRequested: function(key) { tableStatsPage.requestSort(key) }
                 }
             }
         }

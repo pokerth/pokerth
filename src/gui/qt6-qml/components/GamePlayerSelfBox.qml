@@ -2,26 +2,14 @@ import QtQuick
 
 import "../config" as Config
 
-Rectangle {
+SeatBox {
     id: root
 
-    property bool up: false
     property int maxAvatarSize: 60
 
-    // Effektive Tisch-Skalierung dieser Box (boxScale × Zoom), an die Karten
-    // weitergereicht, damit ihr SVG-Raster die echte Bildschirmgröße trifft.
-    property real cardRenderScale: 1.0
+    // Der eigene Sitz ist Sitz 0 - alle Ableitungen daraus liefert SeatBox.
+    seatIndex: 0
 
-    // Eigene Spielerdaten aus GameTable (Sitz 0 = Human Player)
-    readonly property var selfData: (typeof GameTable !== "undefined" && GameTable && GameTable.players.length > 0)
-        ? GameTable.players[0] : null
-
-    readonly property int card0: selfData && selfData.card0 !== undefined ? selfData.card0 : -1
-    readonly property int card1: selfData && selfData.card1 !== undefined ? selfData.card1 : -1
-    // Showdown-Spotlight: eigene Hole-Card abblenden, wenn sie nicht zum
-    // Siegerblatt zählt (vom GameHandler gesetzt).
-    readonly property bool fade0: selfData && selfData.fade0 !== undefined ? selfData.fade0 : false
-    readonly property bool fade1: selfData && selfData.fade1 !== undefined ? selfData.fade1 : false
     // Anti-Peek (Config-Key AntiPeekMode): eigene Hole-Cards verdeckt halten,
     // nur per Hover/Drücken kurz aufdecken. readConfigInt ist nicht reaktiv –
     // greift ab der nächsten Instanziierung der Self-Box (Spielstart).
@@ -40,56 +28,16 @@ Rectangle {
                                      : pingState === 2 ? "#fbc02d"   // gelb
                                      : pingState === 3 ? "#e53935"   // rot
                                      : "transparent"
-    // Länderflagge: wie die Gegnerbox (GamePlayerBox) direkt aus den Sitzdaten –
-    // der GameHandler löst sie im Netzwerkspiel über die eindeutige Spieler-Id
-    // der Session auf.
-    readonly property string countryCode:
-        selfData && selfData.countryCode !== undefined ? selfData.countryCode : ""
 
-    readonly property bool isMyTurn: selfData ? selfData.myTurn : false
-    // Am Zug: lokal über myTurn, im Netzwerk-Spiel über den Action-Timeout
-    // (timeoutSeatId === 0). Beides, damit der Highlight in BEIDEN Modi erscheint.
-    readonly property bool isAtTurn: root.isMyTurn
-        || ((typeof GameTable !== "undefined" && GameTable) ? GameTable.timeoutSeatId === 0 : false)
-    readonly property bool isWinner: typeof GameTable !== "undefined" && GameTable && GameTable.winnerSeatIds.indexOf(0) !== -1
-    readonly property int button: selfData && selfData.button !== undefined ? selfData.button : 0
-    readonly property int bet: selfData && selfData.bet !== undefined ? selfData.bet : 0
-    // Einstellung „Symbole für Small/Big Blind anzeigen" (Config-Key
-    // ShowBlindButtons). Dealer-Button (1) immer; Small-(2)/Big-Blind (3)
-    // abschaltbar – wie im Qt-Widgets-Client.
-    readonly property bool showBlindButtons:
-        (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
-            ? SettingsManager.readConfigInt("ShowBlindButtons") !== 0 : true
-    readonly property bool buttonVisible:
-        button === 1 || ((button === 2 || button === 3) && showBlindButtons)
-
-    // Letzte Aktion (0=keine,1=Fold,2=Check,3=Call,4=Bet,5=Raise,6=All-In)
-    readonly property int action: selfData && selfData.action !== undefined ? selfData.action : 0
-    // Einstellung „Internationale Pokerausdrücke nicht übersetzen" (Config-Key
-    // DontTranslateInternationalPokerStringsFromStyle): Aktions-Begriffe fest auf
-    // Englisch statt lokalisiert. qsTr()-Literale bleiben für die Extraktion.
-    readonly property bool dontTranslatePokerTerms:
-        (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
-            ? SettingsManager.readConfigInt("DontTranslateInternationalPokerStringsFromStyle") !== 0 : false
-    readonly property string actionText: Config.StaticData.pokerActionWord(root.action, dontTranslatePokerTerms)
-
-    // Ich habe gefoldet → eigene Karten durchscheinend (wie im Qt-Widgets-Client)
-    readonly property bool folded: selfData && selfData.folded !== undefined ? selfData.folded : false
     // Spieler im Spiel? Wer kein Geld mehr für die nächste Hand hat, ist inaktiv.
-    readonly property bool playerActive: selfData && selfData.active !== undefined ? selfData.active : true
-    // Gesetzter Avatar (file://-URL) bzw. "" → Platzhalter
-    readonly property string avatarSource: selfData && selfData.avatar !== undefined ? selfData.avatar : ""
+    // Eigener Default (true) gegenüber der Gegnerbox.
+    readonly property bool playerActive: seatData && seatData.active !== undefined ? seatData.active : true
 
     // Im Landscape-Modus: 2-zeiliger Info-Bereich wie bei den Gegnerboxen
     // (Name oben / Stack rechts unten). Im Portrait bleibt es 1-zeilig.
     readonly property bool twoLineInfo: Config.Responsive.landscape
 
-    // Einsatz-Sockel im Sitz-Stil "inset" (Config.SeatStyle): der Einsatz steht
-    // IN der Box statt darüber, die Box wächst dafür genau um diese Höhe.
-    // Der Sockel ist immer instanziiert – im Stil "classic" mit Höhe 0, sodass
-    // betStrip.top exakt auf parent.bottom liegt und der Info-Bereich darüber
-    // unverändert sitzt.
-    readonly property bool betInset: Config.SeatStyle.betInset
+    // Einsatz-Sockel (betInset/betStripH) und Sockel-Aufklappen: siehe SeatBox.
     // Horizontale Abstände einheitlich: linker Außenrand = Abstand Avatar↔Karten
     // = rechter Außenrand = hMargin. Gleiches Maß (4) wie bei den Gegnerboxen
     // (GamePlayerBox.hMargin), damit Außenränder visuell konsistent sind.
@@ -97,12 +45,6 @@ Rectangle {
     // Vertikale Abstände einheitlich: oberer Außenrand = Abstand Karten↔Text
     // = unterer Außenrand = vMargin.
     readonly property int vMargin: 4
-
-    // Höhe des Box-KÖRPERS (ohne Sockel) und Aufklapp-Zustand – s. bodyBox.
-    readonly property int bodyH: height - Config.SeatStyle.betStripExtra
-    readonly property bool stripOpen: betInset && root.bet > 0
-
-    color: "transparent"
 
     // Informationsdichte: gefoldet → dezent zurücknehmen, raus aus dem Spiel →
     // deutlich abdunkeln (analog zu den Gegnerboxen).
@@ -206,7 +148,7 @@ Rectangle {
                     font.weight: Font.DemiBold
                     font.letterSpacing: 0.3
                     elide: Text.ElideRight
-                    text: root.selfData && root.selfData.name !== "" ? root.selfData.name : qsTr("Du")
+                    text: root.seatData && root.seatData.name !== "" ? root.seatData.name : qsTr("Du")
                 }
 
                 AppText {
@@ -216,7 +158,7 @@ Rectangle {
                     color: Config.Theme.colorAccent
                     font.pixelSize: 15
                     font.bold: true
-                    text: root.selfData ? "$" + root.selfData.stack : "$0"
+                    text: root.seatData ? "$" + root.seatData.stack : "$0"
                 }
             }
 
@@ -239,7 +181,7 @@ Rectangle {
                     font.weight: Font.DemiBold
                     font.letterSpacing: 0.3
                     elide: Text.ElideRight
-                    text: root.selfData && root.selfData.name !== "" ? root.selfData.name : qsTr("Du")
+                    text: root.seatData && root.seatData.name !== "" ? root.seatData.name : qsTr("Du")
                 }
 
                 Image {
@@ -261,7 +203,7 @@ Rectangle {
                     color: Config.Theme.colorAccent
                     font.pixelSize: 15
                     font.bold: true
-                    text: root.selfData ? "$" + root.selfData.stack : "$0"
+                    text: root.seatData ? "$" + root.seatData.stack : "$0"
                 }
             }
         }
@@ -290,7 +232,6 @@ Rectangle {
             hPadding: 14
         }
     }
-
 
     // ── Strip OBERHALB der Box: Action-Indikator (Badge bzw. Timeout-Balken)
     //    rechtsbündig, Einsatz links davon. So werden die eigenen Hole-Cards
@@ -328,7 +269,7 @@ Rectangle {
         PlayerTimeoutBar {
             id: timeoutBar
             readonly property bool atTurn: (typeof GameTable !== "undefined" && GameTable)
-                                           && GameTable.timeoutSeatId === 0
+                                           && GameTable.timeoutSeatId === root.seatIndex
             active: atTurn
             visible: atTurn && !root.isWinner && root.actionText === ""
             fillColor: Config.Theme.colorTimeoutSelf

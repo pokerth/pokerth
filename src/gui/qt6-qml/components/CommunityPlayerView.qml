@@ -205,7 +205,7 @@ Rectangle {
                         visible: !playerView.compact
                         Layout.alignment: Qt.AlignTop
                         current: playerView.community
-                        onSelected: playerView.switchCommunity(community)
+                        onSelected: function(community) { playerView.switchCommunity(community) }
                     }
                 }
 
@@ -216,7 +216,7 @@ Rectangle {
                     Item { Layout.fillWidth: true }
                     CommunitySwitch {
                         current: playerView.community
-                        onSelected: playerView.switchCommunity(community)
+                        onSelected: function(community) { playerView.switchCommunity(community) }
                     }
                 }
             }

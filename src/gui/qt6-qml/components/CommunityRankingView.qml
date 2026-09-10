@@ -238,7 +238,7 @@ Rectangle {
                     sortKey: "nickname"
                     activeKey: view.sortKey
                     sortOrder: view.sortOrder
-                    onSortRequested: view.requestSort(key)
+                    onSortRequested: function(key) { view.requestSort(key) }
                 }
                 RankingHeaderCell {
                     label: qsTr("Games")
@@ -248,7 +248,7 @@ Rectangle {
                     sortKey: "games"
                     activeKey: view.sortKey
                     sortOrder: view.sortOrder
-                    onSortRequested: view.requestSort(key)
+                    onSortRequested: function(key) { view.requestSort(key) }
                 }
                 Repeater {
                     model: view.extraColumns
@@ -261,7 +261,7 @@ Rectangle {
                         sortKey: modelData.field
                         activeKey: view.sortKey
                         sortOrder: view.sortOrder
-                        onSortRequested: view.requestSort(key)
+                        onSortRequested: function(key) { view.requestSort(key) }
                     }
                 }
                 RankingHeaderCell {
@@ -271,7 +271,7 @@ Rectangle {
                     sortKey: "score"
                     activeKey: view.sortKey
                     sortOrder: view.sortOrder
-                    onSortRequested: view.requestSort(key)
+                    onSortRequested: function(key) { view.requestSort(key) }
                 }
             }
         }

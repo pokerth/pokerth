@@ -126,6 +126,7 @@ set(QML_FILES
     components/GameListItem.qml
     components/GamePlayerBox.qml
     components/GamePlayerSelfBox.qml
+    components/SeatBox.qml
     components/GameReactionFx.qml
     components/GameRoundIconButton.qml
     components/GameSidePanel.qml
