@@ -1,0 +1,206 @@
+name: Build Linux Binary ZIP (Ubuntu 24.04)
+
+# Manual only. Mirrors docker/linux/Dockerfile.binary-ubuntu24 step by step:
+# same base image, same apt list, Qt via aqtinstall, Boost/Protobuf from
+# source, both clients in one tree, then create_binary_deploy.sh.
+#
+# Why the job runs in an ubuntu:24.04 container and not on the runner:
+#   The tarball bundles no glibc (SKIP_PATTERN in create_binary_deploy.sh), so
+#   the build system's glibc is the floor for every target system — 24.04
+#   (glibc 2.39) is the oldest LTS still supported, and it is what makes the
+#   bundled audio codec libs (libFLAC.so.12 & co.) match the host's PulseAudio
+#   client. The runner image would work today, but it drags a few hundred
+#   preinstalled -dev packages along, and the deploy script bundles whatever
+#   ldd resolves — the pristine base image is what the local build uses.
+on:
+  workflow_dispatch:
+    inputs:
+      qt_version:
+        description: "Qt version to pull via aqtinstall"
+        type: string
+        default: "6.8.1"
+
+jobs:
+  build-zip:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+
+    container:
+      image: ubuntu:24.04
+
+    # Same reason as in appimage.yml: the runner resolves the step shell from
+    # what the container image provides, so pin bash and let the apt step that
+    # installs it declare sh for itself.
+    defaults:
+      run:
+        shell: bash
+
+    env:
+      DEBIAN_FRONTEND: noninteractive
+      TZ: Europe/Berlin
+      QT_VERSION: ${{ inputs.qt_version }}
+      QT6_ROOT: /opt/Qt/${{ inputs.qt_version }}/gcc_64
+
+    steps:
+      # Before the checkout: without git, actions/checkout falls back to
+      # downloading a source tarball. The xcb/wayland runtime packages are not
+      # build dependencies — create_binary_deploy.sh bundles what ldd resolves,
+      # and it aborts if the xcb platform plugin stays unresolved.
+      - name: Install build dependencies
+        shell: sh
+        run: |
+          apt-get update && apt-get upgrade -y
+          apt-get install -y \
+            bash \
+            build-essential cmake ninja-build \
+            git wget curl ca-certificates file zip zstd \
+            python3 python3-pip python3-venv \
+            libssl-dev libwebsocketpp-dev \
+            libgl-dev libx11-dev libxkbcommon-dev \
+            libglib2.0-dev libfontconfig-dev libfreetype-dev \
+            libegl-dev libpulse-dev \
+            libx11-xcb1 libxkbcommon-x11-0 \
+            libxcb-cursor0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 \
+            libxcb-randr0 libxcb-render0 libxcb-render-util0 libxcb-shape0 \
+            libxcb-shm0 libxcb-sync1 libxcb-xfixes0 libxcb-xkb1 libxcb-xinput0 \
+            libxcb-glx0 libxcb-util1 \
+            libwayland-client0 libwayland-cursor0 libwayland-egl1
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Boost and Protobuf are built from source into /usr/local, which nothing
+      # else in this image writes to — so the whole prefix is the cache entry.
+      # Keyed per distro: this tree is not interchangeable with the 26.04 one
+      # the AppImage workflow caches. Bump -r<n> when a version below changes.
+      - name: Restore Boost/Protobuf
+        id: deps-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: /usr/local
+          key: binary-ubuntu24-deps-boost1.88-protobuf21.12-r1
+
+      - name: Build Boost 1.88 and Protobuf 3.21.12
+        run: |
+          set -euo pipefail
+          ldconfig
+          # Checked by artefact, not by the cache-hit flag, so a partially
+          # restored prefix still gets rebuilt.
+          if [ -d /usr/local/include/boost ] && [ -f /usr/local/lib/libprotobuf.so.32 ]; then
+            echo "Boost and Protobuf restored from cache."
+            exit 0
+          fi
+
+          # 1.88 because 24.04 only ships 1.83.
+          wget -q https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz
+          tar xzf boost_1_88_0.tar.gz
+          cd boost_1_88_0
+          ./bootstrap.sh --prefix=/usr/local
+          ./b2 -j$(nproc) install \
+              --with-iostreams --with-random --with-thread \
+              --with-filesystem --with-program_options \
+              --with-system --with-date_time
+          cd ..
+          rm -rf boost_1_88_0 boost_1_88_0.tar.gz
+
+          # 3.21.12 provides libprotobuf.so.32, the SONAME the rest of the
+          # deployment is built against.
+          wget -q https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protobuf-all-21.12.tar.gz
+          mkdir protobuf-src
+          tar xzf protobuf-all-21.12.tar.gz -C protobuf-src --strip-components=1
+          cmake -G Ninja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX=/usr/local \
+              -Dprotobuf_BUILD_TESTS=OFF \
+              -Dprotobuf_BUILD_SHARED_LIBS=ON \
+              -S protobuf-src -B protobuf-build
+          cmake --build protobuf-build -j$(nproc)
+          cmake --install protobuf-build
+          rm -rf protobuf-src protobuf-all-21.12.tar.gz protobuf-build
+          ldconfig
+
+      # Saved before the client build so a compile error does not cost the ~20
+      # minutes Boost and Protobuf just took. Not if: always() — a prefix left
+      # half-built by a failed dependency step must never reach the cache.
+      - name: Save Boost/Protobuf
+        if: steps.deps-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: /usr/local
+          key: binary-ubuntu24-deps-boost1.88-protobuf21.12-r1
+
+      # aqtinstall rather than the distro Qt: the project needs Qt >= 6.7 and
+      # 24.04 ships 6.4.2. The official prebuilds are linked against a much
+      # older glibc, so they do not raise the tarball's floor above 2.39.
+      - name: Install Qt via aqtinstall
+        run: |
+          set -euo pipefail
+          python3 -m venv /opt/aqtvenv
+          /opt/aqtvenv/bin/pip install --no-cache-dir -U pip aqtinstall
+          /opt/aqtvenv/bin/aqt install-qt --outputdir /opt/Qt \
+              linux desktop "$QT_VERSION" linux_gcc_64 \
+              -m qtmultimedia qtwebsockets qtshadertools qt5compat qtimageformats
+          test -d "$QT6_ROOT/lib"
+
+      - name: Build both clients
+        run: |
+          set -euo pipefail
+          ldconfig
+          rm -f cmake/FindBoost.cmake
+          rm -rf ./build
+          cmake -G Ninja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_PREFIX_PATH="$QT6_ROOT" \
+              -DCMAKE_POLICY_DEFAULT_CMP0144=NEW \
+              -S . -B ./build
+          cmake --build ./build \
+              --target pokerth_client pokerth_qml-client pokerth_lib pokerth_db pokerth_protocol zlib_compress \
+              -j$(nproc)
+
+      # QT6_ROOT steers the plugin/QML collection to the aqtinstall Qt instead
+      # of a system one. The script names the archive itself (timestamped).
+      - name: Create binary deploy ZIP
+        id: deploy
+        run: |
+          set -euo pipefail
+          chmod +x docker/linux/create_binary_deploy.sh
+          QT6_ROOT="$QT6_ROOT" docker/linux/create_binary_deploy.sh
+          ZIP=$(ls docker/linux/pokerth-linux-*.zip | tail -1)
+          echo "path=$ZIP" >> "$GITHUB_OUTPUT"
+          echo "name=$(basename "$ZIP")" >> "$GITHUB_OUTPUT"
+
+      # Checked against the deploy directory the script leaves behind, so no
+      # unpacking tool is needed. The script itself already aborts on an
+      # unresolved xcb platform plugin; this covers the parts it only warns about.
+      - name: Verify deploy tree
+        run: |
+          set -euo pipefail
+          D=docker/linux/pokerth-linux-binary
+          test -x "$D/bin/pokerth_client"
+          test -x "$D/bin/pokerth_qml-client"
+          test -x "$D/pokerth"
+          test -x "$D/pokerth-qml"
+          test -f "$D/bin/qt.conf"
+          test -f "$D/plugins/platforms/libqxcb.so"
+          test -d "$D/qml/QtQuick"
+          test -d "$D/data/gfx"
+          echo "bundled libs: $(find "$D/lib" -name '*.so*' | wc -l)"
+
+      - name: Summarise
+        run: |
+          VERSION=$(grep 'POKERTH_BETA_RELEASE_STRING' src/game_defs.h | grep -oP '"\K[^"]+')
+          {
+            echo "### Linux binary ZIP"
+            echo ""
+            echo "- \`${{ steps.deploy.outputs.name }}\` — $(du -h '${{ steps.deploy.outputs.path }}' | cut -f1)"
+            echo "- version ${VERSION}, commit \`${GITHUB_SHA::7}\`"
+            echo "- built on ubuntu:24.04 (glibc $(ldd --version | awk 'NR==1{print $NF}')) with Qt ${QT_VERSION}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: PokerTH-linux-zip-${{ github.sha }}
+          path: ${{ steps.deploy.outputs.path }}
+          if-no-files-found: error
+          retention-days: 30
