@@ -25,8 +25,13 @@ FROM ubuntu:24.04
 #   sehr altes glibc gebaut sind → sie heben den glibc-Floor NICHT an; dieser
 #   bleibt bei 24.04 (2.39). Auf 24.04/normalem Kernel laufen die aqt-Prebuilds
 #   stabil (der bekannte SIGABRT-Crash betrifft nur Ubuntu 26.04 / Kernel 7+).
+#
+# Warum genau diese Qt-Version?
+#   Frei wählbar (aqt-Prebuilds sind distro-unabhängig und heben den glibc-Floor
+#   nicht an) — gepinnt auf dieselbe Version wie Windows/Android, damit alle
+#   Ziele gegen dasselbe Qt bauen. Überschreibbar per --build-arg QT_VERSION=…
 
-ARG QT_VERSION=6.8.1
+ARG QT_VERSION=6.9.3
 ENV TZ=Europe/Berlin
 ENV DEBIAN_FRONTEND=noninteractive
 ENV QT6_ROOT=/opt/Qt/${QT_VERSION}/gcc_64

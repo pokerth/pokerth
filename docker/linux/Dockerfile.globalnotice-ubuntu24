@@ -18,7 +18,7 @@ FROM ubuntu:24.04
 #   Qt-Module (Quick, Widgets, Multimedia, ...), auch wenn hier nur ein einziges
 #   Konsolen-Target gebaut wird. Deshalb bleibt die volle Qt-/Dev-Installation.
 
-ARG QT_VERSION=6.8.1
+ARG QT_VERSION=6.9.3
 ENV TZ=Europe/Berlin
 ENV DEBIAN_FRONTEND=noninteractive
 ENV QT6_ROOT=/opt/Qt/${QT_VERSION}/gcc_64

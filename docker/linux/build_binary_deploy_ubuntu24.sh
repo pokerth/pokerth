@@ -17,14 +17,14 @@ set -e
 #   cd <projekt-root>
 #   bash docker/linux/build_binary_deploy_ubuntu24.sh
 #   # optional andere Qt-Version:
-#   QT_VERSION=6.8.3 bash docker/linux/build_binary_deploy_ubuntu24.sh
+#   QT_VERSION=6.9.2 bash docker/linux/build_binary_deploy_ubuntu24.sh
 #   # optional Cache umgehen:
 #   bash docker/linux/build_binary_deploy_ubuntu24.sh --no-cache
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 IMAGE_NAME="pokerth-binary-ubuntu24:latest"
-QT_VERSION="${QT_VERSION:-6.8.1}"
+QT_VERSION="${QT_VERSION:-6.9.3}"
 NO_CACHE="${1:-}"
 
 echo "=== PokerTH ZIP-Binary-Deploy – Docker-Build (Ubuntu 24.04, Qt ${QT_VERSION}) ==="

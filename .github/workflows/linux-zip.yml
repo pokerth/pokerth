@@ -18,7 +18,7 @@ on:
       qt_version:
         description: "Qt version to pull via aqtinstall"
         type: string
-        default: "6.8.1"
+        default: "6.9.3"
 
 jobs:
   build-zip:
