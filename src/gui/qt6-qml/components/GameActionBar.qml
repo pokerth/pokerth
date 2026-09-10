@@ -714,7 +714,14 @@ Item {
                         id: raiseAmountInput
                         anchors { fill: parent; leftMargin: 6; rightMargin: 6 }
                         enabled: actionBar.raiseAvailable
-                        text: actionBar.raiseAmount.toString()
+                        // KEINE Bindung auf raiseAmount: onTextChanged unten schreibt
+                        // raiseAmount zurück (Live-Update des Bet/Raise-Buttons), eine
+                        // Bindung wäre damit eine Bindungsschleife. Außerdem darf der
+                        // Text während der Eingabe gerade NICHT nachgezogen werden –
+                        // genau das leistet der Connections-Block weiter unten
+                        // (nur wenn das Feld keinen activeFocus hat). Hier nur den
+                        // Startwert setzen.
+                        Component.onCompleted: text = actionBar.raiseAmount.toString()
                         color: enabled ? "#FFFFFF" : "#8a8a8a"
                         font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
