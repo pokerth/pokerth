@@ -1,17 +1,17 @@
-name: Build Linux Binary ZIP (Ubuntu 24.04)
+name: Build Global Notice Tool ZIP (Ubuntu 24.04)
 
-# Manual only. Mirrors docker/linux/Dockerfile.binary-ubuntu24 step by step:
-# same base image, same apt list, Qt via aqtinstall, Boost/Protobuf from
-# source, both clients in one tree, then create_binary_deploy.sh.
+# Manual only. Mirrors docker/linux/Dockerfile.globalnotice-ubuntu24: same base
+# image, same apt list, Qt via aqtinstall, Boost/Protobuf from source, then
+# create_globalnotice_deploy.sh around the single CLI target.
 #
-# Why the job runs in an ubuntu:24.04 container and not on the runner:
-#   The tarball bundles no glibc (SKIP_PATTERN in create_binary_deploy.sh), so
-#   the build system's glibc is the floor for every target system — 24.04
-#   (glibc 2.39) is the oldest LTS still supported, and it is what makes the
-#   bundled audio codec libs (libFLAC.so.12 & co.) match the host's PulseAudio
-#   client. The runner image would work today, but it drags a few hundred
-#   preinstalled -dev packages along, and the deploy script bundles whatever
-#   ldd resolves — the pristine base image is what the local build uses.
+# Same ubuntu:24.04 container and the same reasoning as linux-zip.yml: the ZIP
+# bundles no glibc, so the build system's glibc (2.39) is the floor for every
+# machine an admin runs this on.
+#
+# The toolchain steps are deliberately identical to linux-zip.yml — the two
+# Dockerfiles keep their RUN lines word-for-word identical so Docker shares the
+# expensive Boost/Protobuf layers, and here the two workflows share one cache
+# entry for the same reason. Keep changes in step.
 on:
   workflow_dispatch:
     inputs:
@@ -21,16 +21,15 @@ on:
         default: "6.9.3"
 
 jobs:
-  build-zip:
+  build-globalnotice:
     runs-on: ubuntu-24.04
     timeout-minutes: 120
 
     container:
       image: ubuntu:24.04
 
-    # Same reason as in appimage.yml: the runner resolves the step shell from
-    # what the container image provides, so pin bash and let the apt step that
-    # installs it declare sh for itself.
+    # The runner resolves the step shell from what the container image provides,
+    # so pin bash and let the apt step that installs it declare sh for itself.
     defaults:
       run:
         shell: bash
@@ -43,9 +42,9 @@ jobs:
 
     steps:
       # Before the checkout: without git, actions/checkout falls back to
-      # downloading a source tarball. The xcb/wayland runtime packages are not
-      # build dependencies — create_binary_deploy.sh bundles what ldd resolves,
-      # and it aborts if the xcb platform plugin stays unresolved.
+      # downloading a source tarball. The full Qt/dev install stays even though
+      # only one console target is built — the project's find_package pulls in
+      # every Qt module during configure.
       - name: Install build dependencies
         shell: sh
         run: |
@@ -69,19 +68,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Boost and Protobuf are built from source into /usr/local, which nothing
-      # else in this image writes to — so the whole prefix is the cache entry.
-      # Keyed per distro: this tree is not interchangeable with the 26.04 one
-      # the AppImage workflow caches, but it is shared with globalnotice.yml,
-      # which builds the identical prefix in the identical container. The key
-      # suffix only keeps two concurrent runs from writing the same entry.
+      # Shared with linux-zip.yml: identical distro, identical source builds.
+      # The key suffix only keeps two concurrent runs from writing the same
+      # entry; restore-keys lets either workflow reuse the other's tree.
       # Bump -r<n> when a version below changes.
       - name: Restore Boost/Protobuf
         id: deps-cache
         uses: actions/cache/restore@v4
         with:
           path: /usr/local
-          key: ubuntu24-deps-boost1.88-protobuf21.12-r1-binaryzip
+          key: ubuntu24-deps-boost1.88-protobuf21.12-r1-globalnotice
           restore-keys: |
             ubuntu24-deps-boost1.88-protobuf21.12-r1-
 
@@ -132,7 +128,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: /usr/local
-          key: ubuntu24-deps-boost1.88-protobuf21.12-r1-binaryzip
+          key: ubuntu24-deps-boost1.88-protobuf21.12-r1-globalnotice
 
       # aqtinstall rather than the distro Qt: the project needs Qt >= 6.7 and
       # 24.04 ships 6.4.2. The official prebuilds are linked against a much
@@ -147,7 +143,8 @@ jobs:
               -m qtmultimedia qtwebsockets qtshadertools qt5compat qtimageformats
           test -d "$QT6_ROOT/lib"
 
-      - name: Build both clients
+      # pokerth_lib and pokerth_protocol come along as dependencies of the CLI.
+      - name: Build pokerth_globalnotice
         run: |
           set -euo pipefail
           ldconfig
@@ -158,44 +155,39 @@ jobs:
               -DCMAKE_PREFIX_PATH="$QT6_ROOT" \
               -DCMAKE_POLICY_DEFAULT_CMP0144=NEW \
               -S . -B ./build
-          cmake --build ./build \
-              --target pokerth_client pokerth_qml-client pokerth_lib pokerth_db pokerth_protocol zlib_compress \
-              -j$(nproc)
+          cmake --build ./build --target pokerth_globalnotice -j$(nproc)
 
-      # QT6_ROOT steers the plugin/QML collection to the aqtinstall Qt instead
-      # of a system one. The script names the archive itself (timestamped).
-      - name: Create binary deploy ZIP
+      # QT6_ROOT steers the plugin collection to the aqtinstall Qt. The script
+      # names the archive itself, verifies that nothing in bin/ or plugins/tls/
+      # is unresolved and runs the launcher with --help as a smoke test.
+      - name: Create global notice deploy ZIP
         id: deploy
         run: |
           set -euo pipefail
-          chmod +x docker/linux/create_binary_deploy.sh
-          QT6_ROOT="$QT6_ROOT" docker/linux/create_binary_deploy.sh
-          ZIP=$(ls docker/linux/pokerth-linux-*.zip | tail -1)
+          chmod +x docker/linux/create_globalnotice_deploy.sh
+          QT6_ROOT="$QT6_ROOT" docker/linux/create_globalnotice_deploy.sh
+          ZIP=$(ls docker/linux/pokerth-globalnotice-linux-*.zip | tail -1)
           echo "path=$ZIP" >> "$GITHUB_OUTPUT"
           echo "name=$(basename "$ZIP")" >> "$GITHUB_OUTPUT"
 
-      # Checked against the deploy directory the script leaves behind, so no
-      # unpacking tool is needed. The script itself already aborts on an
-      # unresolved xcb platform plugin; this covers the parts it only warns about.
+      # Structure only — the script already covers the runtime side.
       - name: Verify deploy tree
         run: |
           set -euo pipefail
-          D=docker/linux/pokerth-linux-binary
-          test -x "$D/bin/pokerth_client"
-          test -x "$D/bin/pokerth_qml-client"
-          test -x "$D/pokerth"
-          test -x "$D/pokerth-qml"
+          D=docker/linux/pokerth-globalnotice-linux-binary
+          test -x "$D/pokerth-globalnotice"
+          test -x "$D/bin/pokerth_globalnotice"
           test -f "$D/bin/qt.conf"
-          test -f "$D/plugins/platforms/libqxcb.so"
-          test -d "$D/qml/QtQuick"
-          test -d "$D/data/gfx"
+          test -f "$D/README.md"
+          test -f "$D/COPYING"
+          ls "$D/plugins/tls/"*.so >/dev/null
           echo "bundled libs: $(find "$D/lib" -name '*.so*' | wc -l)"
 
       - name: Summarise
         run: |
           VERSION=$(grep 'POKERTH_BETA_RELEASE_STRING' src/game_defs.h | grep -oP '"\K[^"]+')
           {
-            echo "### Linux binary ZIP"
+            echo "### Global notice tool ZIP"
             echo ""
             echo "- \`${{ steps.deploy.outputs.name }}\` — $(du -h '${{ steps.deploy.outputs.path }}' | cut -f1)"
             echo "- version ${VERSION}, commit \`${GITHUB_SHA::7}\`"
@@ -205,7 +197,7 @@ jobs:
       - name: Upload ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: PokerTH-linux-zip-${{ github.sha }}
+          name: PokerTH-globalnotice-zip-${{ github.sha }}
           path: ${{ steps.deploy.outputs.path }}
           if-no-files-found: error
           retention-days: 30
