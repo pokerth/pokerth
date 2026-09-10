@@ -1,0 +1,208 @@
+name: Build AppImages (QML and/or Widget)
+
+# Manual only. One matrix leg per client, each leg mirroring one of the two
+# Dockerfiles in docker/linux — same base image, same apt list, same
+# Boost/Protobuf from source, same create_appimage_deploy*.sh:
+#   qml    -> Dockerfile.appimage-qml-ubuntu26
+#   widget -> Dockerfile.appimage-widget-ubuntu26
+#
+# Why a container instead of a plain runner:
+#   The AppImage bundles glibc + ld-linux, and the bundled glibc must be at
+#   least as new as the newest target system (Ubuntu 26.04 / glibc 2.43) —
+#   building on the 24.04 runner image would ship a glibc too old for host libs
+#   on 26.04 systems. jobs.<id>.container runs every step inside ubuntu:26.04,
+#   which is exactly the base image the local Docker build uses.
+#
+# Why one leg per client and not one shared build directory:
+#   create_appimage_deploy.sh (widget) picks up build/bin/pokerth_qml-client if
+#   it happens to exist and bundles it — but it bundles no QML modules, so the
+#   widget AppImage would carry a second binary that cannot start. Each leg
+#   therefore builds only its own target, exactly like its Dockerfile.
+on:
+  workflow_dispatch:
+    inputs:
+      client:
+        description: "Which AppImage(s) to build"
+        type: choice
+        default: both
+        options: [both, qml, widget]
+
+jobs:
+  build-appimage:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+
+    strategy:
+      # One client failing must not cancel the other one's build.
+      fail-fast: false
+      matrix:
+        client: ${{ fromJSON(inputs.client == 'both' && '["qml","widget"]' || format('["{0}"]', inputs.client)) }}
+
+    container:
+      image: ubuntu:26.04
+
+    env:
+      DEBIAN_FRONTEND: noninteractive
+      TZ: Europe/Berlin
+      CMAKE_TARGET: ${{ matrix.client == 'qml' && 'pokerth_qml-client' || 'pokerth_client' }}
+      DEPLOY_SCRIPT: ${{ matrix.client == 'qml' && 'create_appimage_deploy_qml.sh' || 'create_appimage_deploy.sh' }}
+      # Name prefix the local Docker builds use; the artifacts stay recognisable.
+      NAME_PREFIX: ${{ matrix.client == 'qml' && 'PokerTH-QML' || 'PokerTH-Widget' }}
+
+    steps:
+      # Before the checkout on purpose: without git in the container,
+      # actions/checkout falls back to downloading a source tarball.
+      # libxcb-cursor0 only for the QML leg — create_appimage_deploy_qml.sh
+      # bundles it for Qt's xcb plugin, and the widget Dockerfile does not
+      # install it, so installing it everywhere would change what the widget
+      # AppImage contains.
+      - name: Install build dependencies
+        run: |
+          apt-get update && apt-get upgrade -y
+          apt-get install -y \
+            build-essential cmake ninja-build \
+            git wget ca-certificates file zstd \
+            libssl-dev libwebsocketpp-dev \
+            libgl-dev libx11-dev libxkbcommon-dev \
+            libglib2.0-dev libfontconfig-dev libfreetype-dev \
+            libegl-dev libpulse-dev libfuse2 desktop-file-utils \
+            qt6-base-dev qt6-declarative-dev \
+            qt6-websockets-dev qt6-multimedia-dev \
+            qt6-shadertools-dev qt6-tools-dev \
+            libqt6opengl6-dev \
+            ${{ matrix.client == 'qml' && 'libxcb-cursor0' || '' }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Boost and Protobuf are built from source and land in /usr/local, which
+      # nothing else in this image writes to — so the whole prefix is the cache
+      # entry. Both legs build the identical tree; the key carries the client
+      # only so two parallel legs never write the same key, while restore-keys
+      # still lets either leg reuse the other's.
+      # Bump -r<n> when the versions below change.
+      - name: Restore Boost/Protobuf
+        id: deps-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: /usr/local
+          key: appimage-ubuntu26-deps-boost1.88-protobuf21.12-r1-${{ matrix.client }}
+          restore-keys: |
+            appimage-ubuntu26-deps-boost1.88-protobuf21.12-r1-
+
+      - name: Build Boost 1.88 and Protobuf 3.21.12
+        run: |
+          set -euo pipefail
+          ldconfig
+          # Restored prefix: nothing to do. Checked by artefact, not by the
+          # cache hit flag, so a partially restored tree still gets rebuilt.
+          if [ -d /usr/local/include/boost ] && [ -f /usr/local/lib/libprotobuf.so.32 ]; then
+            echo "Boost and Protobuf restored from cache."
+            exit 0
+          fi
+
+          wget -q https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz
+          tar xzf boost_1_88_0.tar.gz
+          cd boost_1_88_0
+          ./bootstrap.sh --prefix=/usr/local
+          ./b2 -j$(nproc) install \
+              --with-iostreams --with-random --with-thread \
+              --with-filesystem --with-program_options \
+              --with-system --with-date_time
+          cd ..
+          rm -rf boost_1_88_0 boost_1_88_0.tar.gz
+
+          # 3.21.12 on purpose: it provides libprotobuf.so.32, the SONAME the
+          # rest of the deployment (and the deb package) is built against.
+          wget -q https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protobuf-all-21.12.tar.gz
+          mkdir protobuf-src
+          tar xzf protobuf-all-21.12.tar.gz -C protobuf-src --strip-components=1
+          cmake -G Ninja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX=/usr/local \
+              -Dprotobuf_BUILD_TESTS=OFF \
+              -Dprotobuf_BUILD_SHARED_LIBS=ON \
+              -S protobuf-src -B protobuf-build
+          cmake --build protobuf-build -j$(nproc)
+          cmake --install protobuf-build
+          rm -rf protobuf-src protobuf-all-21.12.tar.gz protobuf-build
+          ldconfig
+
+      # Saved before the client build: a compile error must not cost the ~20
+      # minutes Boost and Protobuf just took. Deliberately not if: always() —
+      # a prefix left half-built by a failed dependency step must never end up
+      # in the cache.
+      - name: Save Boost/Protobuf
+        if: steps.deps-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: /usr/local
+          key: appimage-ubuntu26-deps-boost1.88-protobuf21.12-r1-${{ matrix.client }}
+
+      # System Qt via apt, not aqtinstall: the aqtinstall prebuilds (old CentOS
+      # toolchain) abort in the Qt6Core static initialiser on Ubuntu 26.04.
+      - name: Build the ${{ matrix.client }} client
+        run: |
+          set -euo pipefail
+          ldconfig
+          rm -f cmake/FindBoost.cmake
+          rm -rf ./build
+          cmake -G Ninja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_PREFIX_PATH="/usr/lib/x86_64-linux-gnu" \
+              -DCMAKE_POLICY_DEFAULT_CMP0144=NEW \
+              -S . -B ./build
+          cmake --build ./build \
+              --target "$CMAKE_TARGET" pokerth_lib pokerth_db pokerth_protocol zlib_compress \
+              -j$(nproc)
+
+      # The glibc version goes into the file name because it is the AppImage's
+      # actual compatibility floor — it is the glibc bundled from this image.
+      - name: Create AppImage
+        id: appimage
+        run: |
+          set -euo pipefail
+          GLIBC=$(ldd --version | awk 'NR==1{print $NF}')
+          export APPIMAGE_NAME="${NAME_PREFIX}-glibc${GLIBC}-$(uname -m)-$(date +%Y%m%d_%H%M%S).AppImage"
+          chmod +x "docker/linux/$DEPLOY_SCRIPT"
+          "docker/linux/$DEPLOY_SCRIPT"
+          echo "path=docker/linux/$APPIMAGE_NAME" >> "$GITHUB_OUTPUT"
+          echo "name=$APPIMAGE_NAME" >> "$GITHUB_OUTPUT"
+
+      # Unpacks the finished image (no FUSE needed) and checks the parts that
+      # decide whether it starts at all on a foreign system.
+      - name: Verify AppImage contents
+        run: |
+          set -euo pipefail
+          cd docker/linux
+          rm -rf squashfs-root
+          "./${{ steps.appimage.outputs.name }}" --appimage-extract >/dev/null
+          test -x squashfs-root/AppRun
+          test -f squashfs-root/usr/lib/libc.so.6
+          ls squashfs-root/usr/lib/ld-linux-*.so.2
+          test -d squashfs-root/usr/share/pokerth/data
+          test -x "squashfs-root/usr/bin/$CMAKE_TARGET"
+          if [ "${{ matrix.client }}" = "qml" ]; then
+            test -d squashfs-root/usr/qml/QtQuick
+          fi
+          echo "bundled libs: $(find squashfs-root/usr/lib -name '*.so*' | wc -l)"
+          rm -rf squashfs-root
+
+      - name: Summarise
+        run: |
+          VERSION=$(grep 'POKERTH_BETA_RELEASE_STRING' src/game_defs.h | grep -oP '"\K[^"]+')
+          {
+            echo "### ${{ matrix.client }} AppImage"
+            echo ""
+            echo "- \`${{ steps.appimage.outputs.name }}\` — $(du -h '${{ steps.appimage.outputs.path }}' | cut -f1)"
+            echo "- version ${VERSION}, commit \`${GITHUB_SHA::7}\`"
+            echo "- built on ubuntu:26.04 with system Qt $(qmake6 -query QT_VERSION 2>/dev/null || echo 'n/a')"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v4
+        with:
+          name: PokerTH-appimage-${{ matrix.client }}-${{ github.sha }}
+          path: ${{ steps.appimage.outputs.path }}
+          if-no-files-found: error
+          retention-days: 30
