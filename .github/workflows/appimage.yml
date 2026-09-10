@@ -41,6 +41,15 @@ jobs:
     container:
       image: ubuntu:26.04
 
+    # The runner picks a step's shell by what it finds in the container, and the
+    # pristine ubuntu:26.04 image has no bash — every run block would silently
+    # execute under dash, where bash syntax dies with "Bad substitution". So:
+    # bash for all steps, and the apt step below (which installs it) declares
+    # sh for itself.
+    defaults:
+      run:
+        shell: bash
+
     env:
       DEBIAN_FRONTEND: noninteractive
       TZ: Europe/Berlin
@@ -57,9 +66,11 @@ jobs:
       # install it, so installing it everywhere would change what the widget
       # AppImage contains.
       - name: Install build dependencies
+        shell: sh
         run: |
           apt-get update && apt-get upgrade -y
           apt-get install -y \
+            bash \
             build-essential cmake ninja-build \
             git wget ca-certificates file zstd \
             libssl-dev libwebsocketpp-dev \
