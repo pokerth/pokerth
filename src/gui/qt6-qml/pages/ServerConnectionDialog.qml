@@ -25,6 +25,27 @@ Rectangle {
         fillMode: Image.PreserveAspectCrop
     }
 
+    // Startfokus beim Öffnen der Seite. Er MUSS am Seiten-Root hängen: Der
+    // onVisibleChanged der ersten StackLayout-Ansicht feuert schon während des
+    // Seitenaufbaus, wenn die Seite im StackView noch keinen Fokus hat – im
+    // echten Client war das ein Rennen (mal griff der Fokus, mal nicht, und
+    // Enter tat dann nichts). StackView.onActivated feuert erst, wenn die Seite
+    // wirklich vorne liegt; Qt.callLater überspringt zusätzlich die Animation.
+    StackView.onActivated: Qt.callLater(serverConnectionPage.applyInitialFocus)
+
+    // Fokus auf das jeweils sinnvolle Element der aktuellen Ansicht.
+    function applyInitialFocus() {
+        if (mainStack.currentIndex === 0) {
+            loginAsUserButton.forceActiveFocus()
+        } else if (mainStack.currentIndex === 1) {
+            // Auf Mobilgeräten nicht: das zöge die Bildschirmtastatur hoch.
+            if (!Config.Responsive.isMobile)
+                (usernameInput.text.length > 0 ? passwordInput : usernameInput).forceActiveFocus()
+        } else {
+            cancelButton.forceActiveFocus()
+        }
+    }
+
     // Zurück-Schritt innerhalb der Seite, gefragt von navigateBackFromTopBar()
     // in pokerth.qml (Escape, Android-Back, Pfeil in der Kopfzeile). true = hier
     // erledigt, die Seite bleibt stehen. Ein eigener Keys.onEscapePressed wäre
@@ -173,13 +194,9 @@ Rectangle {
                     id: initialChoicesView
                     spacing: 18
 
-                    // Startfokus auf den ersten Button – wie beim Öffnen eines
-                    // Dialogs. Ohne Fokusgrund (Qt.OtherFocusReason) bleibt der
-                    // Fokusrahmen aus; er erscheint erst beim ersten Tab.
-                    // Qt.callLater ist Pflicht: Diese Ansicht wird schon während
-                    // des Seitenaufbaus sichtbar, da hat die Seite im StackView
-                    // noch keinen Fokus – der Aufruf verpuffte sonst (im echten
-                    // Client nachgemessen: Enter tat danach nichts).
+                    // Zurückwechsel aus dem Formular: Der Fokus kommt auf den
+                    // ersten Button. Der ERSTE Aufbau läuft dagegen über
+                    // StackView.onActivated am Seiten-Root (siehe oben).
                     onVisibleChanged: {
                         if (visible)
                             Qt.callLater(loginAsUserButton.forceActiveFocus)
@@ -223,8 +240,9 @@ Rectangle {
                     // Beim Aufblenden gleich in das erste noch leere Feld
                     // fokussieren – sonst greift die Enter-Taste erst nach einem
                     // Mausklick ins Feld.
-                    // Auf Mobilgeräten NICHT automatisch fokussieren – das zöge
-                    // ungefragt die Bildschirmtastatur hoch.
+                    // Beim Aufblenden in das erste noch leere Feld fokussieren.
+                    // Auf Mobilgeräten NICHT – das zöge ungefragt die
+                    // Bildschirmtastatur hoch.
                     onVisibleChanged: {
                         if (visible && !Config.Responsive.isMobile)
                             Qt.callLater((usernameInput.text.length > 0
