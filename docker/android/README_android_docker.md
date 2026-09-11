@@ -2,31 +2,36 @@
 
 Builds the PokerTH QML APK for Android arm64 directly from the terminal, without entering the dev container.
 
+> Release builds do **not** go this way any more — they are produced by the
+> GitHub Actions workflows (`android-apk.yml` for a single APK, `android.yml`
+> for the Play App Bundle), see [README_android.md](README_android.md). This
+> local Docker path is for quick test builds on your own machine.
+
 ### Prerequisites
 
 - Docker installed and running
-- Branch `qt6-qml` checked out
 - Keystore for signing (one-time setup, see below)
 
 ### Usage
 
 ```bash
 cd <project-root>
-bash docker/android/build_android_arm64_docker.sh
+bash docker/android/build_android_qml_arm64_docker.sh
 ```
 
 Skip the Docker layer cache with `--no-cache`:
 
 ```bash
-bash docker/android/build_android_arm64_docker.sh --no-cache
+bash docker/android/build_android_qml_arm64_docker.sh --no-cache
 ```
 
 ### Output
 
-The unsigned APK is placed in `docker/android/`:
+The unsigned APK is placed in `docker/android/`, with the ABI and a build
+timestamp in its name:
 
 ```
-docker/android/android-build-release-unsigned.apk
+docker/android/pokerth-qml_arm64-v8a_<timestamp>.apk
 ```
 
 ### First Run – Build Time
@@ -61,14 +66,14 @@ Keep the keystore in a safe place — it is required for every future update.
 
 ```bash
 cd docker/android/
-apksigner sign --ks my.keystore --ks-key-alias app android-build-release-unsigned.apk
+apksigner sign --ks my.keystore --ks-key-alias app pokerth-qml_arm64-v8a_<timestamp>.apk
 ```
 
 ### Optional: zipalign before signing
 
 ```bash
 cd docker/android/
-zipalign -v 4 android-build-release-unsigned.apk PokerTH-arm64-release.apk
+zipalign -v 4 pokerth-qml_arm64-v8a_<timestamp>.apk PokerTH-arm64-release.apk
 apksigner sign --ks my.keystore --ks-key-alias app PokerTH-arm64-release.apk
 ```
 
@@ -78,7 +83,7 @@ apksigner sign --ks my.keystore --ks-key-alias app PokerTH-arm64-release.apk
 
 **Rebuild the image from scratch:**
 ```bash
-bash docker/android/build_android_arm64_docker.sh --no-cache
+bash docker/android/build_android_qml_arm64_docker.sh --no-cache
 ```
 
 **Clean the build directory:**

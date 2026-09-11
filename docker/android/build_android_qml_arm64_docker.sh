@@ -9,9 +9,9 @@ set -e
 #
 # Usage:
 #   cd <project-root>
-#   bash docker/android/build_android_arm64_docker.sh
+#   bash docker/android/build_android_qml_arm64_docker.sh
 #   # or without the image cache:
-#   bash docker/android/build_android_arm64_docker.sh --no-cache
+#   bash docker/android/build_android_qml_arm64_docker.sh --no-cache
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"

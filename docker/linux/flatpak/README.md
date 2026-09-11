@@ -1,47 +1,36 @@
-# Flatpak-Paket für PokerTH
+# Flatpak package for PokerTH
 
-Dieses Verzeichnis enthält das Flatpak-Manifest für PokerTH (v2.0.8).
+This directory holds the Flatpak manifest for PokerTH (currently 2.1.8).
 
-## Übersicht
+## Overview
 
-- **App-ID:** `net.pokerth.PokerTH`
-- **Runtime:** org.kde.Platform 6.9 (liefert Qt 6.9.x, PulseAudio, GStreamer)
+- **App ID:** `net.pokerth.PokerTH`
+- **Runtime:** org.kde.Platform 6.9 (provides Qt 6.9.x, PulseAudio, GStreamer)
 - **SDK:** org.kde.Sdk 6.9
-- **Boost:** 1.88 (aus Source)
-- **Protobuf:** 3.21.12 (aus Source)
-- **WebSocket++:** 0.8.2 (aus Source)
-- **Nimbus Sans L Font:** aus altem gsfonts-Paket (Ubuntu)
+- **Boost:** 1.88 (from source)
+- **Protobuf:** 3.21.12 (from source)
+- **WebSocket++:** 0.8.2 (from source)
+- **Nimbus Sans L font:** from the old gsfonts package (Ubuntu)
 - **Target:** `pokerth_client` (Qt Widgets)
 
 ## Build via GitHub Actions
 
-Der Flatpak wird über [`.github/workflows/flatpak.yml`](../../../.github/workflows/flatpak.yml) gebaut.
+The Flatpak is built by
+[`.github/workflows/flatpak.yml`](../../../.github/workflows/flatpak.yml).
 
-### Manuell
+The workflow is manual only: GitHub → Actions → **Build & Publish Flatpak** →
+**Run workflow**. It always checks out the `stable` branch.
 
-GitHub → Actions → **Build & Publish Flatpak** → **Run workflow**
+The `.flatpak` bundle can be downloaded under Actions → build run → Artifacts.
 
-Der Build checkt immer den `stable`-Branch aus.
-
-Das `.flatpak`-Bundle kann unter Actions → Build-Run → Artifacts heruntergeladen werden.
-
-### Lokal installieren
+## Install locally
 
 ```bash
-# Bundle aus den GitHub Actions Artifacts herunterladen, dann:
+# download the bundle from the GitHub Actions artifacts, then:
 flatpak install --user pokerth.flatpak
 flatpak run net.pokerth.PokerTH
 ```
 
-## Lokal installieren
+## Publishing on Flathub
 
-```bash
-# Bundle herunterladen, dann:
-flatpak install --user pokerth.flatpak
-flatpak run net.pokerth.PokerTH
-```
-
-## Flathub-Veröffentlichung
-
-Für die Veröffentlichung auf Flathub siehe:
-https://docs.flathub.org/docs/for-app-authors/submission
+See https://docs.flathub.org/docs/for-app-authors/submission

@@ -1,28 +1,35 @@
-## Prerequisites
+# Android builds
 
-- Docker
-- VS Code with Dev Containers extension (ms-vscode-remote.remote-containers)
+Release builds run on **GitHub Actions**, not on a local machine:
 
-## Build Instructions
+| Workflow | Result |
+| --- | --- |
+| [`android-apk.yml`](../../.github/workflows/android-apk.yml) | one directly installable APK per variant (client, ABI, Qt version); [`fdroid.yml`](../../.github/workflows/fdroid.yml) publishes the QML ones in the F-Droid repo |
+| [`android.yml`](../../.github/workflows/android.yml) | the Play App Bundle (`.aab`) with every ABI at once |
 
-Best practice is to use the VS Code Dev-Container feature.
+Both are started manually under GitHub → Actions → *Run workflow*; the signing
+secrets are listed further down.
 
-Before building the container image, edit Dockerfile in `.devcontainer` folder and set architecture and target to build for.
-Supported architectures: `arm64-v8a`, `armeabi-v7a`, `x86_64`
+For a quick test build on your own machine there are two local paths, neither
+of which is used for releases:
 
-You might also need to edit docker-compose.yml for network settings.
+- from the terminal, without entering the container:
+  [README_android_docker.md](README_android_docker.md)
+  (`bash docker/android/build_android_qml_arm64_docker.sh`)
+- inside the VS Code dev container (Docker + the Dev Containers extension):
+  set architecture and target in the Dockerfile in the `.devcontainer` folder
+  (`arm64-v8a`, `armeabi-v7a`, `x86_64`; `docker-compose.yml` carries the
+  network settings), then
 
-Inside the running container:
+  ```bash
+  cd ${ROOT}/pokerth
+  bash docker/android/build_android.sh
+  ```
 
-```bash
-cd ${ROOT}/pokerth
-bash docker/android/build_android.sh
-```
+  The unsigned APK ends up at
+  `${ROOT}/pokerth/build-android-${ANDROID_ARCH}/android-build/build/outputs/apk/release/android-build-release-unsigned.apk`
 
-The unsigned APK will be available at:
-`${ROOT}/pokerth/build-android-${ANDROID_ARCH}/android-build/build/outputs/apk/release/android-build-release-unsigned.apk`
-
-## Sign the APK
+## Sign a locally built APK
 
 Generate keystore (first time only):
 ```bash

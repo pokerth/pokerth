@@ -9,14 +9,15 @@ files – the corresponding references are given in parentheses.
 |-----|--------|
 | `Esc` | Back (close the active top-bar section); otherwise close the side menu |
 | `Alt+S` | Toggle settings |
+| `F11` | Toggle fullscreen (also active for spectators) |
 | `Back` (Android/browser back) | Navigate back |
 
-Source: [pokerth.qml](../src/gui/qt6-qml/pokerth.qml#L488-L514)
+Source: [pokerth.qml](../src/gui/qt6-qml/pokerth.qml#L823-L857)
 
 ## At the game table
 
 The following shortcuts apply while the game page is visible
-(context `Qt.ApplicationShortcut`). Source: [pages/GamePage.qml](../src/gui/qt6-qml/pages/GamePage.qml#L227-L318)
+(context `Qt.ApplicationShortcut`). Source: [pages/GamePage.qml](../src/gui/qt6-qml/pages/GamePage.qml#L260-L364)
 
 ### Toggle panels
 
@@ -25,9 +26,9 @@ The following shortcuts apply while the game page is visible
 | `Alt+L` | Toggle history tab |
 | `Alt+I` | Toggle info panel (odds) |
 | `Alt+C` | Toggle chat |
-| `F11` | Toggle fullscreen |
 
-> Panel shortcuts are disabled for spectators.
+> Panel shortcuts are disabled for spectators. Fullscreen (`F11`) deliberately
+> sits on the ApplicationWindow instead, see above.
 
 ### Game actions – function keys
 
@@ -51,7 +52,7 @@ the order of F1–F4 is reversed:
 | `F3` | Call / Check |
 | `F4` | Fold |
 
-Source: [pages/GamePage.qml](../src/gui/qt6-qml/pages/GamePage.qml#L212-L225)
+Source: [pages/GamePage.qml](../src/gui/qt6-qml/pages/GamePage.qml#L216-L229)
 
 ### Switch playing mode
 
@@ -66,13 +67,14 @@ There are two equivalent key sets for the automatic playing mode:
 ## Chat input field
 
 Only active while the chat input field has focus.
-Source: [components/ChatBox.qml](../src/gui/qt6-qml/components/ChatBox.qml#L414-L490)
+Source: [components/ChatBox.qml](../src/gui/qt6-qml/components/ChatBox.qml#L611-L669)
 
 | Key | Action |
 |-----|--------|
 | `Enter` / `Return` | Send message |
 | `Tab` | Nickname completion |
 | `↑` / `↓` | Browse the input history |
+| `Ctrl+C` | Copy; with nothing selected in the input field, it copies the selection in the chat history |
 
 ### Emote suggestion list (`:` + at least 2 letters)
 

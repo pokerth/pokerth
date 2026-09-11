@@ -363,10 +363,10 @@ endif()
 # discarded). That way the [ACTDBG] lines end up in pokerth-debug.log and on
 # stderr (on iOS live in Console.app). Only switch it on for
 # troubleshooting: the instrumentation writes synchronously per player action.
-option(POKERTH_DIAG_LOG "Diagnose-Build: [ACTDBG]-qDebug-Instrumentierung aktiv" OFF)
+option(POKERTH_DIAG_LOG "Diagnostic build: [ACTDBG] qDebug instrumentation active" OFF)
 if(POKERTH_DIAG_LOG)
     target_compile_definitions(pokerth_qml-client PRIVATE POKERTH_DIAG_LOG)
-    message(STATUS "PokerTH: Diagnose-Logging AKTIV ([ACTDBG] qDebug wird geloggt)")
+    message(STATUS "PokerTH: diagnostic logging ACTIVE ([ACTDBG] qDebug is logged)")
 else()
     target_compile_definitions(pokerth_qml-client PRIVATE QT_NO_DEBUG_OUTPUT)
 endif()
@@ -400,9 +400,9 @@ if(IOS)
     # works. Note: officially Apple only allows A–Z a–z 0–9 . and - in the
     # CFBundleIdentifier — for a real App Store submission the
     # "_" would have to become a "-" (net.pokerth.PokerTH-QML).
-    set(POKERTH_IOS_BUNDLE_ID "net.pokerth.PokerTH_QML" CACHE STRING "CFBundleIdentifier der iOS-App")
-    set(POKERTH_IOS_VERSION   "2.1.8"           CACHE STRING "CFBundleShortVersionString der iOS-App")
-    set(POKERTH_IOS_BUILD     "28"              CACHE STRING "CFBundleVersion (Build-Nummer) der iOS-App")
+    set(POKERTH_IOS_BUNDLE_ID "net.pokerth.PokerTH_QML" CACHE STRING "CFBundleIdentifier of the iOS app")
+    set(POKERTH_IOS_VERSION   "2.1.8"           CACHE STRING "CFBundleShortVersionString of the iOS app")
+    set(POKERTH_IOS_BUILD     "28"              CACHE STRING "CFBundleVersion (build number) of the iOS app")
 
     # An asset catalogue with the app icon (a 1024 PNG, without alpha – actool rejects
     # transparent iOS app icons). Xcode compiles it into Assets.car.
@@ -448,9 +448,9 @@ if(IOS)
     # is left out.
     if(NOT TARGET Qt6::QDarwinMediaPlugin)
         message(FATAL_ERROR
-            "Qt6::QDarwinMediaPlugin nicht gefunden. Ohne das AVFoundation-Backend "
-            "wuerde das FFmpeg-Plugin gelinkt, dessen Bibliotheken die Qt-iOS-"
-            "Installation nicht enthaelt. Qt mit dem Modul qtmultimedia installieren.")
+            "Qt6::QDarwinMediaPlugin not found. Without the AVFoundation backend "
+            "the FFmpeg plugin would be linked, whose libraries the Qt iOS "
+            "installation does not contain. Install Qt with the qtmultimedia module.")
     endif()
     qt_import_plugins(pokerth_qml-client
         INCLUDE_BY_TYPE multimedia Qt6::QDarwinMediaPlugin)

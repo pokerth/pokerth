@@ -1,39 +1,38 @@
-TEST USER CREATION - SICHERHEITSHINWEISE
-=========================================
+TEST USER CREATION - SECURITY NOTES
+===================================
 
-WICHTIG: AES Encryption Key NIEMALS ins Repository committen!
+IMPORTANT: NEVER commit the AES encryption key into the repository!
 
-SICHERE NUTZUNG
-===============
+SAFE USAGE
+==========
 
-1. AES Key als Umgebungsvariable setzen:
+1. Set the AES key as an environment variable:
    export POKERTH_AES_KEY="your_key_here"
 
-2. Script aufrufen:
+2. Call the script:
    ./create_test_users.sh localhost pokerth root 100 "$POKERTH_AES_KEY"
 
-3. Oder Key direkt (nicht in History):
+3. Or enter the key directly (keeps it out of the shell history):
    read -s POKERTH_AES_KEY
    ./create_test_users.sh localhost pokerth root 100 "$POKERTH_AES_KEY"
 
-PARAMETER
-=========
-$1 - DB Host (default: localhost)
-$2 - DB Name (default: pokerth)  
-$3 - DB User (default: root)
-$4 - Anzahl User (default: 100)
-$5 - AES Encryption Key (REQUIRED!)
+PARAMETERS
+==========
+$1 - DB host (default: localhost)
+$2 - DB name (default: pokerth)
+$3 - DB user (default: root)
+$4 - number of users (default: 100)
+$5 - AES encryption key (REQUIRED!)
 
-BEISPIELE
-=========
-# Lokal mit 100 Test-Usern:
+EXAMPLES
+========
+# Locally, with 100 test users:
 ./create_test_users.sh localhost pokerth root 100 "YOUR_KEY"
 
-# Remote Server:
-./create_test_users.sh pthsrv.inquies.de pokerth dbuser 100 "YOUR_KEY"
+# Remote server:
+./create_test_users.sh pthsrv.pokerth.net pokerth dbuser 100 "YOUR_KEY"
 
 SQL TEMPLATE
 ============
-Die Datei create_test_users.sql enthält ein Template.
-Ersetze 'YOUR_AES_KEY_HERE' mit deinem Key vor der Nutzung!
-
+The file create_test_users.sql contains a template.
+Replace 'YOUR_AES_KEY_HERE' with your key before using it!

@@ -3,7 +3,7 @@ Requirements
 
 To compile PokerTH you need following libs: 
 
-- Qt version >= 6.7.0, 6.9.2 LTS recommended  --> http://qtsoftware.com/
+- Qt version >= 6.7.0, 6.9.2 LTS recommended  --> https://www.qt.io/
 - libboost_thread, libboost_filesystem, libboost_datetime, libboost_program_options,
   libboost_iostreams, libboost_asio, libboost_regex, libboost_random, libboost_uuid
   (version >= 1.83, latest always recommended)  --> http://www.boost.org/
@@ -24,7 +24,8 @@ Linux:
 
   2. Type `cmake --build ./build --config Release --target all --` to compile all targets.
       ... you can specify the following binary build targets instead:
-      `pokerth_client`, `pokerth_qml-client` (not yet finished!), `pokerth_dedicated_server`, `pokerth_official_server`, `pokerth_chatcleaner`
+      `pokerth_qml-client` (the current client), `pokerth_client` (the classic Qt Widgets client),
+      `pokerth_dedicated_server`, `pokerth_official_server`, `pokerth_chatcleaner`
 
   3. Become root (typing "su" or "sudo -s") and type 
       `cmake --install ./build`
@@ -33,7 +34,13 @@ Windows:
 see ./docker/windows folder
 
 Android:
-see ./docker/android folder
+see ./docker/android/README_android.md
 
 MacOS:
-see ./build_macos.sh
+see ./build_macos_combined.sh (both clients), ./build_macos_qml.sh, ./build_macos_widget.sh
+
+iOS:
+see ./build_ios_qml.sh
+
+All release builds also exist as manually triggered GitHub Actions workflows
+in ./.github/workflows.
