@@ -11,7 +11,7 @@
 [![Qt](https://img.shields.io/badge/Qt-6.7%2B-41cd52.svg)](https://www.qt.io/)
 [![C++](https://img.shields.io/badge/C%2B%2B-23-00599c.svg)](CMakeLists.txt)
 
-[Website](https://www.pokerth.net) · [Download](https://www.pokerth.net/download) · [Forum](https://www.pokerth.net/forum) · [Issues](https://github.com/pokerth/pokerth/issues) · [ChangeLog](ChangeLog)
+[Website & Forum](https://www.pokerth.net) · [Download](https://www.pokerth.net/download) · [Issues](https://github.com/pokerth/pokerth/issues) · [ChangeLog](ChangeLog)
 
 <img src="data/gfx/qml/table/mile_high_club/preview.png" alt="PokerTH table" width="820">
 
@@ -179,7 +179,7 @@ requests.
 
 Bug reports and feature requests belong in the
 [issue tracker](https://github.com/pokerth/pokerth/issues); questions and
-discussion are best placed in the [forum](https://www.pokerth.net/forum).
+discussion are best placed in the [forum](https://www.pokerth.net).
 
 For pull requests:
 
