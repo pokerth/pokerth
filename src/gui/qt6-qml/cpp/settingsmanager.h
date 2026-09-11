@@ -115,6 +115,29 @@ public:
     // nicht mit "/").
     Q_INVOKABLE QUrl avatarDisplayUrl(const QString &path) const;
 
+    // Prüft eine Avatar-Datei mit genau der Funktion, die auch der Upload zum
+    // Server benutzt (AvatarManager::OpenAvatarFileForChunkRead): Dateigröße,
+    // Format und seit 2.1.8 auch die Bildabmessungen. Nur so bleiben Warnung
+    // und Server-Prüfung dieselbe Regel. Ein leerer Pfad gilt als in Ordnung
+    // (kein Avatar gewählt ist kein Fehler).
+    Q_INVOKABLE bool isAvatarUsable(const QString &path) const;
+
+    // Einmal je Programmlauf true, wenn der eingestellte eigene Avatar von der
+    // Engine abgelehnt würde: Die Datei liegt dann zwar lokal vor und ist auch
+    // in der eigenen Vorschau zu sehen, andere Spieler bekommen sie aber nicht
+    // mehr (der Server lehnt sie beim Ausliefern ab). Betroffen sind vor allem
+    // großflächige Grafiken: klein in Kilobyte, aber über der zulässigen
+    // Pixelzahl. Die Lobby fragt beim Betreten danach; das Merken verhindert,
+    // dass die Warnung nach jeder Rückkehr aus einem Spiel erneut aufgeht.
+    Q_INVOKABLE bool takeMyAvatarWarning();
+
+    // Rechnet den eingestellten eigenen Avatar auf ein zulässiges Format
+    // herunter (wie beim Import einer zu großen Datei) und trägt die neue
+    // Datei als MyAvatar ein. false, wenn nichts zu tun war oder die
+    // Umwandlung fehlschlug. Wirksam wird der neue Avatar erst bei der
+    // nächsten Anmeldung - der Hash geht beim Verbindungsaufbau raus.
+    Q_INVOKABLE bool fixMyAvatar();
+
     // Für die Über-Seite: Versionsstring (POKERTH_BETA_RELEASE_STRING) sowie
     // die mitgelieferten Texte aus <AppDataDir>/misc/ (leer, wenn nicht gefunden).
     Q_INVOKABLE QString appVersion() const;
@@ -214,6 +237,7 @@ private:
     boost::shared_ptr<ConfigFile> m_config;
     int m_configRevision = 0;  // hochgezählt bei jedem Schreiben (Live-Reaktivität)
     int m_playerNotesRevision = 0;  // hochgezählt bei jeder Notiz-/Sterne-Änderung
+    bool m_myAvatarWarningTaken = false;  // Avatar-Warnung nur einmal je Programmlauf
 
     // Erhöht m_configRevision und meldet die Änderung → reaktive QML-Bindungen.
     void bumpConfigRevision();

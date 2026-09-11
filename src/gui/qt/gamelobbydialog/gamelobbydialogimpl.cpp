@@ -39,6 +39,7 @@
 #include <QHBoxLayout>
 #include "darkmodehelper.h"
 #include "core/appimage_utils.h"
+#include "core/avatarimport.h"
 #include <QScreen>
 #include "changecompleteblindsdialogimpl.h"
 #include "session.h"
@@ -56,7 +57,7 @@ using namespace std;
 
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
-	: QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), myCreateInternetGameDialog(NULL), mySuggest(NULL), pushButton_suggestPlayers(NULL), currentGameName(""), myPlayerId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0), infoMsgToShowId(0), currentInvitationGameId(0), inviteDialogIsCurrentlyShown(false), autoStartTimerCounter(0), lastNickListFilterState(0)
+	: QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), myCreateInternetGameDialog(NULL), mySuggest(NULL), pushButton_suggestPlayers(NULL), currentGameName(""), myPlayerId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0), infoMsgToShowId(0), currentInvitationGameId(0), inviteDialogIsCurrentlyShown(false), autoStartTimerCounter(0), lastNickListFilterState(0), myAvatarWarningShown(false)
 {
 
 	setupUi(this);
@@ -1732,6 +1733,48 @@ void gameLobbyDialogImpl::showEvent(QShowEvent *e)
 		}
 	});
 #endif
+	// Erst wenn die Lobby wirklich steht, sonst liegt die Messagebox vor
+	// einem noch leeren Fenster.
+	QTimer::singleShot(0, this, [this]() {
+		checkMyAvatar();
+	});
+}
+
+void gameLobbyDialogImpl::checkMyAvatar()
+{
+	if(myAvatarWarningShown || !myConfig) return;
+
+	const QString path = QString::fromUtf8(myConfig->readConfigString("MyAvatar").c_str());
+	// Ein leerer oder toter Pfad ist ein anderer Fall (kein Avatar gewählt)
+	// und wird wie bisher stillschweigend hingenommen.
+	if(path.isEmpty() || !QFile::exists(path) || AvatarImport::isUsable(path)) return;
+
+	myAvatarWarningShown = true;
+
+	int ret = MyMessageBox::question(this, tr("Your avatar is no longer shown"),
+									 tr("Other players do not see your avatar any more: the image exceeds "
+										"what the server accepts - either in file size or in image dimensions.\n\n"
+										"Shall PokerTH scale it down for you? The new avatar becomes active "
+										"the next time you log in."),
+									 QMessageBox::Yes | QMessageBox::No);
+	if(ret != QMessageBox::Yes) return;
+
+	const QString converted = AvatarImport::importImage(
+								  path, QString::fromUtf8(myConfig->readConfigString("UserDataDir").c_str()));
+	if(converted.isEmpty() || converted == path) {
+		MyMessageBox::warning(this, tr("Avatar File Error"),
+							  tr("The picture could not be converted.\n"
+								 "Please choose a different avatar in the settings!"),
+							  QMessageBox::Ok);
+		return;
+	}
+
+	myConfig->writeConfigString("MyAvatar", converted.toUtf8().constData());
+	myConfig->writeBuffer();
+	MyMessageBox::information(this, tr("Avatar adjusted"),
+							  tr("Your avatar has been scaled down. Other players will see it again "
+								 "after your next login."),
+							  QMessageBox::Ok);
 }
 
 bool gameLobbyDialogImpl::event ( QEvent * event )

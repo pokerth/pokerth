@@ -3271,6 +3271,42 @@ Feel free to invite other players by right-clicking on their nick in the availab
         <source>Message to %1:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1754"/>
+        <source>Your avatar is no longer shown</source>
+        <translation>Аватарът ти вече не се показва</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1755"/>
+        <source>Other players do not see your avatar any more: the image exceeds what the server accepts - either in file size or in image dimensions.
+
+Shall PokerTH scale it down for you? The new avatar becomes active the next time you log in.</source>
+        <translation>Другите играчи вече не виждат аватара ти: изображението надвишава приеманото от сървъра – по размер на файла или по размери.
+
+Да го намали ли PokerTH вместо теб? Новият аватар ще влезе в сила при следващото влизане.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1765"/>
+        <source>Avatar File Error</source>
+        <translation>Грешка във файла на аватара</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1766"/>
+        <source>The picture could not be converted.
+Please choose a different avatar in the settings!</source>
+        <translation>Изображението не можа да бъде преобразувано.
+Избери друг аватар в настройките!</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1774"/>
+        <source>Avatar adjusted</source>
+        <translation>Аватарът е променен</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1775"/>
+        <source>Your avatar has been scaled down. Other players will see it again after your next login.</source>
+        <translation>Аватарът ти беше намален. Другите играчи ще го виждат отново след следващото ти влизане.</translation>
+    </message>
 </context>
 <context>
     <name>gameTable</name>
@@ -4853,6 +4889,27 @@ Please enter an valid picture!</source>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="309"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Картинки (*.png *.jpg *.gif)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="282"/>
+        <source>Avatar picture not usable</source>
+        <translation>Изображението за аватар не може да се използва</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="283"/>
+        <source>The chosen picture exceeds what the server accepts - either in file size or in image dimensions. Other players would not see it.
+
+Shall PokerTH scale it down for you?</source>
+        <translation>Избраното изображение надвишава приеманото от сървъра – по размер на файла или по размери. Другите играчи не биха го виждали.
+
+Да го намали ли PokerTH вместо теб?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="299"/>
+        <source>The picture could not be converted.
+Please choose a smaller picture!</source>
+        <translation>Изображението не можа да бъде преобразувано.
+Избери по-малко изображение!</translation>
     </message>
 </context>
 <context>

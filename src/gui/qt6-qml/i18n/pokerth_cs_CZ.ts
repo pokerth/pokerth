@@ -4,12 +4,12 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../pages/AboutPage.qml" line="+45"/>
+        <location filename="../pages/AboutPage.qml" line="+49"/>
         <source>No changelog available.</source>
         <translation>Není k dispozici žádný seznam změn.</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+114"/>
         <source>About PokerTH</source>
         <translation>O hře PokerTH</translation>
     </message>
@@ -208,7 +208,7 @@
 <context>
     <name>BbcRankingPage</name>
     <message>
-        <location filename="../pages/BbcRankingPage.qml" line="+36"/>
+        <location filename="../pages/BbcRankingPage.qml" line="+43"/>
         <source>BBC Ranking</source>
         <translation>Žebříček BBC</translation>
     </message>
@@ -223,7 +223,7 @@
         <translation>Celkově</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Search nickname</source>
         <translation>Hledat přezdívku</translation>
     </message>
@@ -246,7 +246,7 @@
         <translation>Zpráva …</translation>
     </message>
     <message>
-        <location line="+797"/>
+        <location line="+807"/>
         <source>Link öffnen</source>
         <translation>Otevřít odkaz</translation>
     </message>
@@ -388,12 +388,12 @@
 <context>
     <name>CommunityRankingPage</name>
     <message>
-        <location filename="../pages/CommunityRankingPage.qml" line="+40"/>
+        <location filename="../pages/CommunityRankingPage.qml" line="+45"/>
         <source>Community / Ranking</source>
         <translation>Komunita / žebříček</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>PokerTH Ranking</source>
         <translation>Žebříček PokerTH</translation>
     </message>
@@ -481,12 +481,12 @@
 <context>
     <name>ConfirmPopup</name>
     <message>
-        <location filename="../components/ConfirmPopup.qml" line="+25"/>
+        <location filename="../components/ConfirmPopup.qml" line="+33"/>
         <source>Yes</source>
         <translation>Ano</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
@@ -502,7 +502,7 @@
 <context>
     <name>ExampleAvatarPicker</name>
     <message>
-        <location filename="../components/ExampleAvatarPicker.qml" line="+68"/>
+        <location filename="../components/ExampleAvatarPicker.qml" line="+70"/>
         <source>Beispiel-Avatar wählen</source>
         <translation>Vybrat ukázkový avatar</translation>
     </message>
@@ -539,7 +539,7 @@
         <translation>Novinky z fóra</translation>
     </message>
     <message>
-        <location line="+141"/>
+        <location line="+172"/>
         <source>No entries.</source>
         <translation>Žádné záznamy.</translation>
     </message>
@@ -557,7 +557,7 @@
 <context>
     <name>ForumPostPage</name>
     <message>
-        <location filename="../pages/ForumPostPage.qml" line="+78"/>
+        <location filename="../pages/ForumPostPage.qml" line="+81"/>
         <source>Translation failed.</source>
         <translation>Překlad selhal.</translation>
     </message>
@@ -572,7 +572,7 @@
         <translation>Přeložit příspěvek</translation>
     </message>
     <message>
-        <location line="+147"/>
+        <location line="+172"/>
         <source>Open in the forum</source>
         <translation>Otevřít na fóru</translation>
     </message>
@@ -580,7 +580,7 @@
 <context>
     <name>GameActionBar</name>
     <message>
-        <location filename="../components/GameActionBar.qml" line="+997"/>
+        <location filename="../components/GameActionBar.qml" line="+1004"/>
         <source>Show</source>
         <translation>Ukázat</translation>
     </message>
@@ -616,7 +616,7 @@
 <context>
     <name>GameInfoPanel</name>
     <message>
-        <location filename="../components/GameInfoPanel.qml" line="+62"/>
+        <location filename="../components/GameInfoPanel.qml" line="+68"/>
         <source>Höchste Karte</source>
         <translation>Vysoká karta</translation>
     </message>
@@ -676,7 +676,7 @@
         <translation>Šance</translation>
     </message>
     <message>
-        <location line="+245"/>
+        <location line="+248"/>
         <source>Kopieren</source>
         <translation>Kopírovat</translation>
     </message>
@@ -732,7 +732,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+2310"/>
+        <location filename="../pages/GamePage.qml" line="+1581"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>Historie a šance</translation>
     </message>
@@ -747,7 +747,7 @@
         <translation>Emoji reakce</translation>
     </message>
     <message>
-        <location line="+314"/>
+        <location line="+319"/>
         <source>Game Over</source>
         <translation>Konec hry</translation>
     </message>
@@ -767,7 +767,7 @@
         <translation>Zpět do nabídky</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>New Game</source>
         <translation>Nová hra</translation>
     </message>
@@ -775,7 +775,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+514"/>
+        <location filename="../components/GamePlayerBox.qml" line="+443"/>
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
@@ -828,7 +828,7 @@
 <context>
     <name>GamePlayerSelfBox</name>
     <message>
-        <location filename="../components/GamePlayerSelfBox.qml" line="+209"/>
+        <location filename="../components/GamePlayerSelfBox.qml" line="+151"/>
         <location line="+33"/>
         <source>Du</source>
         <translation>Vy</translation>
@@ -1001,7 +1001,7 @@
         <translation>Skóre</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+157"/>
         <source>No ranking data for the players at this table yet.</source>
         <translation>Zatím nejsou k dispozici data žebříčku pro hráče u tohoto stolu.</translation>
     </message>
@@ -1218,7 +1218,7 @@
 <context>
     <name>GlobalNoticePopup</name>
     <message>
-        <location filename="../components/GlobalNoticePopup.qml" line="+58"/>
+        <location filename="../components/GlobalNoticePopup.qml" line="+61"/>
         <source>Global notice</source>
         <translation>Obecné oznámení</translation>
     </message>
@@ -1567,7 +1567,7 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+314"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+326"/>
         <source>← Zurück</source>
         <translation>← Zpět</translation>
     </message>
@@ -1970,7 +1970,7 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
 <context>
     <name>LobbyPage</name>
     <message>
-        <location filename="../pages/LobbyPage.qml" line="+1545"/>
+        <location filename="../pages/LobbyPage.qml" line="+1621"/>
         <source>Game invitation</source>
         <translation>Pozvánka do hry</translation>
     </message>
@@ -1980,7 +1980,7 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
         <translation>Hráč &lt;b&gt;%2&lt;/b&gt; vás pozval do hry &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Přijmete jeho pozvání?</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Decline</source>
         <translation>Odmítnout</translation>
     </message>
@@ -1990,29 +1990,29 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
         <translation>Připojit se</translation>
     </message>
     <message>
-        <location line="-502"/>
+        <location line="-535"/>
         <source>Create Game</source>
         <translation>Vytvořit hru</translation>
     </message>
     <message>
-        <location line="-746"/>
-        <location line="+804"/>
+        <location line="-777"/>
+        <location line="+835"/>
         <source>Game Info</source>
         <translation>Info o hře</translation>
     </message>
     <message>
-        <location line="-534"/>
-        <location line="+483"/>
+        <location line="-565"/>
+        <location line="+514"/>
         <source>Join Game</source>
         <translation>Připojit se ke hře</translation>
     </message>
     <message>
-        <location line="-273"/>
+        <location line="-304"/>
         <source>Game List</source>
         <translation>Seznam her</translation>
     </message>
     <message>
-        <location line="+73"/>
+        <location line="+91"/>
         <source>Time: %1s/%2s</source>
         <translation>Čas: %1 s/%2 s</translation>
     </message>
@@ -2032,38 +2032,38 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
         <translation>Žebříček</translation>
     </message>
     <message>
-        <location line="+115"/>
+        <location line="+128"/>
         <location line="+287"/>
         <source>Lobby Chat</source>
         <translation>Chat lobby</translation>
     </message>
     <message>
-        <location line="-613"/>
+        <location line="-644"/>
         <source>No game list filter</source>
         <translation>Bez filtru seznamu her</translation>
     </message>
     <message>
-        <location line="+375"/>
+        <location line="+406"/>
         <source>Player: %1</source>
         <translation>Hráč: %1</translation>
     </message>
     <message>
-        <location line="-896"/>
+        <location line="-927"/>
         <source>Players</source>
         <translation>Hráči</translation>
     </message>
     <message>
-        <location line="+1010"/>
+        <location line="+1041"/>
         <source>Select a game to see details</source>
         <translation>Vyberte hru pro zobrazení podrobností</translation>
     </message>
     <message>
-        <location line="-486"/>
+        <location line="-517"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Zobrazit otevřené, nezaplněné a veřejné hry</translation>
     </message>
     <message>
-        <location line="-627"/>
+        <location line="-640"/>
         <source>Report game name</source>
         <translation>Nahlásit název hry</translation>
     </message>
@@ -2098,7 +2098,26 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
 „%1“?</translation>
     </message>
     <message>
-        <location line="+169"/>
+        <location line="+13"/>
+        <source>Your avatar is no longer shown</source>
+        <translation>Tvůj avatar se už nezobrazuje</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Other players do not see your avatar any more: the image exceeds the dimensions the server accepts.
+
+PokerTH can scale it down for you. The new avatar becomes active the next time you log in.</source>
+        <translation>Ostatní hráči tvůj avatar už nevidí: obrázek překračuje rozměry, které server přijímá.
+
+PokerTH ho může zmenšit. Nový avatar se projeví při příštím přihlášení.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Scale down now</source>
+        <translation>Zmenšit nyní</translation>
+    </message>
+    <message>
+        <location line="+167"/>
         <location line="+510"/>
         <source>Sort alphabetically</source>
         <translation>Seřadit podle abecedy</translation>
@@ -2117,18 +2136,18 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
     </message>
     <message>
         <location line="-423"/>
-        <location line="+799"/>
+        <location line="+830"/>
         <source>Report inappropriate game name</source>
         <translation>Nahlásit nevhodný název hry</translation>
     </message>
     <message>
-        <location line="-791"/>
-        <location line="+798"/>
+        <location line="-822"/>
+        <location line="+829"/>
         <source>Close game (admin)</source>
         <translation>Ukončit hru (správce)</translation>
     </message>
     <message>
-        <location line="-761"/>
+        <location line="-792"/>
         <source>Players: %1 / %2</source>
         <translation>Hráči: %1 / %2</translation>
     </message>
@@ -2139,12 +2158,12 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
     </message>
     <message>
         <location line="+33"/>
-        <location line="+742"/>
+        <location line="+773"/>
         <source>Type: %1</source>
         <translation>Typ: %1</translation>
     </message>
     <message>
-        <location line="-731"/>
+        <location line="-762"/>
         <source>Small blind: %1</source>
         <translation>Malý blind: %1</translation>
     </message>
@@ -2192,18 +2211,18 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <location line="+690"/>
+        <location line="+721"/>
         <source>Players in game (%1)</source>
         <translation>Hráči ve hře (%1)</translation>
     </message>
     <message>
-        <location line="-605"/>
-        <location line="+483"/>
+        <location line="-636"/>
+        <location line="+514"/>
         <source>Leave Game</source>
         <translation>Opustit hru</translation>
     </message>
     <message>
-        <location line="-386"/>
+        <location line="-417"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Zobrazit otevřené, nezaplněné a soukromé hry</translation>
     </message>
@@ -2218,20 +2237,20 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
         <translation>Připojení hráči</translation>
     </message>
     <message>
-        <location line="-658"/>
-        <location line="+846"/>
+        <location line="-671"/>
+        <location line="+877"/>
         <source>Spectate game</source>
         <translation>Přihlížet hře</translation>
     </message>
     <message>
-        <location line="-845"/>
+        <location line="-876"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
         <translation>Opravdu chcete přihlížet hře:
 „%1“?</translation>
     </message>
     <message>
-        <location line="+950"/>
+        <location line="+994"/>
         <location line="+287"/>
         <source>Global notice (admin)</source>
         <translation>Obecné oznámení (správce)</translation>
@@ -2242,7 +2261,33 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
         <translation>MB: %1 | Počáteční kapitál: %2</translation>
     </message>
     <message>
-        <location line="+272"/>
+        <location line="+257"/>
+        <source>Avatar adjusted</source>
+        <translation>Avatar upraven</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your avatar has been scaled down. Other players will see it again after your next login.</source>
+        <translation>Tvůj avatar byl zmenšen. Ostatní hráči ho po příštím přihlášení znovu uvidí.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+5"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Avatar not adjusted</source>
+        <translation>Avatar nebyl upraven</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The image could not be converted. Please pick a different avatar in the settings.</source>
+        <translation>Obrázek se nepodařilo převést. Vyber v nastavení jiný avatar.</translation>
+    </message>
+    <message>
+        <location line="+37"/>
         <source>Privates Spiel</source>
         <translation>Soukromá hra</translation>
     </message>
@@ -2267,7 +2312,7 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
         <translation>Připojit se</translation>
     </message>
     <message>
-        <location line="+141"/>
+        <location line="+151"/>
         <source>Rejoin possible</source>
         <translation>Návrat do hry je možný</translation>
     </message>
@@ -2282,12 +2327,12 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
         <translation>Ne</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Rejoin</source>
         <translation>Vrátit se</translation>
     </message>
     <message>
-        <location line="-976"/>
+        <location line="-1046"/>
         <source>Show open &amp; non-full games</source>
         <translation>Zobrazit otevřené a nezaplněné hry</translation>
     </message>
@@ -2334,7 +2379,7 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
 <context>
     <name>LocalGamePage</name>
     <message>
-        <location filename="../pages/LocalGamePage.qml" line="+27"/>
+        <location filename="../pages/LocalGamePage.qml" line="+38"/>
         <source>alle %1 Hände</source>
         <translation>každých %1 rozdání</translation>
     </message>
@@ -2447,7 +2492,7 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Spiel starten</source>
         <translation>Začít hru</translation>
     </message>
@@ -2595,7 +2640,7 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
         <translation>Silná</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</source>
         <translation>Platí pro místní hry. U síťových her určuje sílu svých počítačových hráčů server.</translation>
     </message>
@@ -2716,7 +2761,7 @@ Nahrávání záznamů může selhat, pokud jste za http proxy.</translation>
         <translation>Hra:</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+100"/>
         <source>Preview:</source>
         <translation>Náhled:</translation>
     </message>
@@ -2732,12 +2777,12 @@ Nahrávání záznamů může selhat, pokud jste za http proxy.</translation>
     </message>
     <message>
         <location line="+6"/>
-        <location line="+133"/>
+        <location line="+156"/>
         <source>Save as ...</source>
         <translation>Uložit jako ...</translation>
     </message>
     <message>
-        <location line="-127"/>
+        <location line="-150"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
@@ -2757,22 +2802,22 @@ Nahrávání záznamů může selhat, pokud jste za http proxy.</translation>
         <translation>PokerTH - Smazání záznamů</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+9"/>
         <source>Do you really want to delete the selected log files?</source>
         <translation>Opravdu chcete smazat zvolené soubory záznamů?</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+15"/>
         <source>Uploading log file</source>
         <translation>Nahrává se soubor záznamu</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+23"/>
         <source>Debug log</source>
         <translation>Ladicí záznam</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+50"/>
         <source>Refresh</source>
         <translation>Obnovit</translation>
     </message>
@@ -2855,7 +2900,7 @@ Restartujte prosím PokerTH, aby se soubory záznamů ukládaly tam.</translatio
 <context>
     <name>NetworkGameCreatePage</name>
     <message>
-        <location filename="../pages/NetworkGameCreatePage.qml" line="+113"/>
+        <location filename="../pages/NetworkGameCreatePage.qml" line="+133"/>
         <source>← Zurück</source>
         <translation>← Zpět</translation>
     </message>
@@ -2932,12 +2977,12 @@ Restartujte prosím PokerTH, aby se soubory záznamů ukládaly tam.</translatio
     </message>
     <message>
         <location line="+37"/>
-        <location line="+35"/>
+        <location line="+37"/>
         <source>Abbrechen</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location line="-30"/>
+        <location line="-31"/>
         <source>Spiel erstellen</source>
         <translation>Vytvořit hru</translation>
     </message>
@@ -2950,7 +2995,7 @@ Restartujte prosím PokerTH, aby se soubory záznamů ukládaly tam.</translatio
 <context>
     <name>NetworkGameEnterPage</name>
     <message>
-        <location filename="../pages/NetworkGameEnterPage.qml" line="+97"/>
+        <location filename="../pages/NetworkGameEnterPage.qml" line="+121"/>
         <source>← Zurück</source>
         <translation>← Zpět</translation>
     </message>
@@ -3000,12 +3045,12 @@ Restartujte prosím PokerTH, aby se soubory záznamů ukládaly tam.</translatio
         <translation>Název profilu</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+22"/>
         <source>Name des Profils</source>
         <translation>Název tohoto profilu</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Speichern</source>
         <translation>Uložit</translation>
     </message>
@@ -3016,12 +3061,12 @@ Restartujte prosím PokerTH, aby se soubory záznamů ukládaly tam.</translatio
     </message>
     <message>
         <location line="+92"/>
-        <location line="+36"/>
+        <location line="+38"/>
         <source>Abbrechen</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location line="-31"/>
+        <location line="-32"/>
         <source>Verbinden</source>
         <translation>Připojit</translation>
     </message>
@@ -3311,7 +3356,7 @@ Restartujte prosím PokerTH, aby se soubory záznamů ukládaly tam.</translatio
 <context>
     <name>PlayerNoteDialog</name>
     <message>
-        <location filename="../components/PlayerNoteDialog.qml" line="+57"/>
+        <location filename="../components/PlayerNoteDialog.qml" line="+60"/>
         <source>Note about &quot;%1&quot;</source>
         <translation>Poznámka o hráči „%1“</translation>
     </message>
@@ -3321,7 +3366,7 @@ Restartujte prosím PokerTH, aby se soubory záznamů ukládaly tam.</translatio
         <translation>Hodnocení:</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+48"/>
         <source>Your private note about this player ...</source>
         <translation>Vaše soukromá poznámka o tomto hráči ...</translation>
     </message>
@@ -3375,7 +3420,7 @@ Restartujte prosím PokerTH, aby se soubory záznamů ukládaly tam.</translatio
 <context>
     <name>PokerthPlayerPage</name>
     <message>
-        <location filename="../pages/PokerthPlayerPage.qml" line="+81"/>
+        <location filename="../pages/PokerthPlayerPage.qml" line="+107"/>
         <source>Could not load player (HTTP %1).</source>
         <translation>Nelze načíst data hráče (HTTP %1).</translation>
     </message>
@@ -3461,7 +3506,7 @@ Restartujte prosím PokerTH, aby se soubory záznamů ukládaly tam.</translatio
 <context>
     <name>PrivateMessageDialog</name>
     <message>
-        <location filename="../components/PrivateMessageDialog.qml" line="+190"/>
+        <location filename="../components/PrivateMessageDialog.qml" line="+193"/>
         <source>Private messages</source>
         <translation>Soukromé zprávy</translation>
     </message>
@@ -3620,7 +3665,7 @@ Restartujte prosím PokerTH, aby se soubory záznamů ukládaly tam.</translatio
 <context>
     <name>RankingPage</name>
     <message>
-        <location filename="../pages/RankingPage.qml" line="+90"/>
+        <location filename="../pages/RankingPage.qml" line="+97"/>
         <source>Could not load ranking (HTTP %1).</source>
         <translation>Nelze načíst žebříček (HTTP %1).</translation>
     </message>
@@ -3650,7 +3695,7 @@ Restartujte prosím PokerTH, aby se soubory záznamů ukládaly tam.</translatio
         <translation>Uživatelské jméno</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+31"/>
         <source>#</source>
         <translation>#</translation>
     </message>
@@ -3759,57 +3804,57 @@ Restartujte prosím PokerTH, aby se soubory záznamů ukládaly tam.</translatio
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+241"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+341"/>
         <source>Back</source>
         <translation>Zpět</translation>
     </message>
     <message>
-        <location line="+94"/>
+        <location line="+96"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location line="-65"/>
+        <location line="-66"/>
         <source>Connecting as...</source>
         <translation>Připojování jako...</translation>
     </message>
     <message>
-        <location line="-108"/>
+        <location line="-150"/>
         <source>Continue as Guest</source>
         <translation>Pokračovat jako host</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+201"/>
         <source>Initializing connection...</source>
         <translation>Inicializace připojení...</translation>
     </message>
     <message>
-        <location line="-74"/>
+        <location line="-75"/>
         <source>Login</source>
         <translation>Přihlásit se</translation>
     </message>
     <message>
-        <location line="-97"/>
+        <location line="-138"/>
         <source>Login as User</source>
         <translation>Přihlásit se jako uživatel</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+104"/>
         <source>Password</source>
         <translation>Heslo</translation>
     </message>
     <message>
-        <location line="-59"/>
+        <location line="-98"/>
         <source>Register</source>
         <translation>Registrovat</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+115"/>
         <source>Remember me</source>
         <translation>Zapamatovat si mě</translation>
     </message>
     <message>
-        <location line="-48"/>
+        <location line="-67"/>
         <source>User Login</source>
         <translation>Přihlášení uživatele</translation>
     </message>
@@ -3819,7 +3864,7 @@ Restartujte prosím PokerTH, aby se soubory záznamů ukládaly tam.</translatio
         <translation>Uživatelské jméno</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+101"/>
         <source>Username/Guest</source>
         <translation>Uživatelské jméno/host</translation>
     </message>
@@ -4207,12 +4252,12 @@ Prosím, zkontrolujte své uživatelské jméno a heslo.</translation>
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+327"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+328"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
         <translation>Obrázky (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+236"/>
+        <location line="+302"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Vybrat styl herního stolu</translation>
     </message>
@@ -4365,7 +4410,7 @@ Prosím, zkontrolujte své uživatelské jméno a heslo.</translation>
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../pages/SettingsPage.qml" line="+254"/>
+        <location filename="../pages/SettingsPage.qml" line="+264"/>
         <source>Benutzeroberfläche</source>
         <translation>Uživatelské rozhraní</translation>
     </message>
@@ -4492,7 +4537,7 @@ Prosím, zkontrolujte své uživatelské jméno a heslo.</translation>
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../pages/StartPage.qml" line="+155"/>
+        <location filename="../pages/StartPage.qml" line="+161"/>
         <source>Internetspiel</source>
         <translation>Internetová hra</translation>
     </message>
@@ -4694,7 +4739,7 @@ náhledu</translation>
 <context>
     <name>WecRankingPage</name>
     <message>
-        <location filename="../pages/WecRankingPage.qml" line="+22"/>
+        <location filename="../pages/WecRankingPage.qml" line="+29"/>
         <source>January</source>
         <translation>Leden</translation>
     </message>
@@ -4779,7 +4824,7 @@ náhledu</translation>
         <translation>Celkově</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Search nickname</source>
         <translation>Hledat přezdívku</translation>
     </message>
@@ -4792,7 +4837,7 @@ náhledu</translation>
         <translation>PokerTH - v2.1.8</translation>
     </message>
     <message>
-        <location line="+287"/>
+        <location line="+297"/>
         <source>Back</source>
         <translation>Zpět</translation>
     </message>
@@ -4822,7 +4867,7 @@ náhledu</translation>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+198"/>
         <source>Timeout Warning</source>
         <translation>Varování o vypršení času</translation>
     </message>
@@ -4857,23 +4902,23 @@ náhledu</translation>
         <translation>Pro ukončení odpočítávání stiskněte „OK“!</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <location line="+285"/>
+        <location line="+8"/>
+        <location line="+325"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location line="-250"/>
+        <location line="-284"/>
         <source>Server Message</source>
         <translation>Zpráva serveru</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Close</source>
         <translation>Zavřít</translation>
     </message>
     <message>
-        <location line="+156"/>
+        <location line="+181"/>
         <source>Connection interrupted</source>
         <translation>Spojení přerušeno</translation>
     </message>
@@ -4893,40 +4938,40 @@ náhledu</translation>
         <translation>Vaše místo u stolu zůstane ještě několik minut rezervováno.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+55"/>
         <source>Connection lost</source>
         <translation>Spojení ztraceno</translation>
     </message>
     <message>
-        <location line="-734"/>
-        <location line="+545"/>
-        <location line="+22"/>
+        <location line="-780"/>
+        <location line="+568"/>
+        <location line="+23"/>
         <source>Leave Game</source>
         <translation>Opustit hru</translation>
     </message>
     <message>
-        <location line="-15"/>
+        <location line="-16"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>Pozor! Opravdu chcete opustit současnou hru
 a vrátit se zpět do lobby?</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <location line="+57"/>
-        <location line="+74"/>
+        <location line="+11"/>
+        <location line="+65"/>
+        <location line="+82"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location line="-693"/>
-        <location line="+602"/>
-        <location line="+22"/>
+        <location line="-733"/>
+        <location line="+633"/>
+        <location line="+23"/>
         <source>Leave Lobby</source>
         <translation>Opustit lobby</translation>
     </message>
     <message>
-        <location line="-15"/>
+        <location line="-16"/>
         <source>Attention! Do you really want to leave the lobby
 and disconnect from the server?</source>
         <translation>Pozor! Opravdu chcete opustit lobby

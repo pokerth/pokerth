@@ -4,12 +4,12 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../pages/AboutPage.qml" line="+45"/>
+        <location filename="../pages/AboutPage.qml" line="+49"/>
         <source>No changelog available.</source>
         <translation>மாற்றப் பதிவு எதுவும் இல்லை.</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+114"/>
         <source>About PokerTH</source>
         <translation>PokerTH பற்றி</translation>
     </message>
@@ -208,7 +208,7 @@
 <context>
     <name>BbcRankingPage</name>
     <message>
-        <location filename="../pages/BbcRankingPage.qml" line="+36"/>
+        <location filename="../pages/BbcRankingPage.qml" line="+43"/>
         <source>BBC Ranking</source>
         <translation>BBC தரவரிசை</translation>
     </message>
@@ -223,7 +223,7 @@
         <translation>எல்லா காலமும்</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Search nickname</source>
         <translation>புனைபெயரைத் தேடு</translation>
     </message>
@@ -246,7 +246,7 @@
         <translation>செய்தி …</translation>
     </message>
     <message>
-        <location line="+797"/>
+        <location line="+807"/>
         <source>Link öffnen</source>
         <translation>இணைப்பைத் திற</translation>
     </message>
@@ -388,12 +388,12 @@
 <context>
     <name>CommunityRankingPage</name>
     <message>
-        <location filename="../pages/CommunityRankingPage.qml" line="+40"/>
+        <location filename="../pages/CommunityRankingPage.qml" line="+45"/>
         <source>Community / Ranking</source>
         <translation>சமூகம் / தரவரிசை</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>PokerTH Ranking</source>
         <translation>PokerTH தரவரிசை</translation>
     </message>
@@ -481,12 +481,12 @@
 <context>
     <name>ConfirmPopup</name>
     <message>
-        <location filename="../components/ConfirmPopup.qml" line="+25"/>
+        <location filename="../components/ConfirmPopup.qml" line="+33"/>
         <source>Yes</source>
         <translation>ஆம்</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>Cancel</source>
         <translation>நிறுத்திவிடு</translation>
     </message>
@@ -502,7 +502,7 @@
 <context>
     <name>ExampleAvatarPicker</name>
     <message>
-        <location filename="../components/ExampleAvatarPicker.qml" line="+68"/>
+        <location filename="../components/ExampleAvatarPicker.qml" line="+70"/>
         <source>Beispiel-Avatar wählen</source>
         <translation>மாதிரி அவதாரைத் தேர்ந்தெடு</translation>
     </message>
@@ -539,7 +539,7 @@
         <translation>மன்றச் செய்திகள்</translation>
     </message>
     <message>
-        <location line="+141"/>
+        <location line="+172"/>
         <source>No entries.</source>
         <translation>பதிவுகள் இல்லை.</translation>
     </message>
@@ -557,7 +557,7 @@
 <context>
     <name>ForumPostPage</name>
     <message>
-        <location filename="../pages/ForumPostPage.qml" line="+78"/>
+        <location filename="../pages/ForumPostPage.qml" line="+81"/>
         <source>Translation failed.</source>
         <translation>மொழிபெயர்ப்பு தோல்வியடைந்தது.</translation>
     </message>
@@ -572,7 +572,7 @@
         <translation>பதிவை மொழிபெயர்</translation>
     </message>
     <message>
-        <location line="+147"/>
+        <location line="+172"/>
         <source>Open in the forum</source>
         <translation>மன்றத்தில் திற</translation>
     </message>
@@ -580,7 +580,7 @@
 <context>
     <name>GameActionBar</name>
     <message>
-        <location filename="../components/GameActionBar.qml" line="+997"/>
+        <location filename="../components/GameActionBar.qml" line="+1004"/>
         <source>Show</source>
         <translation>காட்டு</translation>
     </message>
@@ -616,7 +616,7 @@
 <context>
     <name>GameInfoPanel</name>
     <message>
-        <location filename="../components/GameInfoPanel.qml" line="+62"/>
+        <location filename="../components/GameInfoPanel.qml" line="+68"/>
         <source>Höchste Karte</source>
         <translation>உயர் சீட்டு</translation>
     </message>
@@ -676,7 +676,7 @@
         <translation>வாய்ப்புகள்</translation>
     </message>
     <message>
-        <location line="+245"/>
+        <location line="+248"/>
         <source>Kopieren</source>
         <translation>நகலெடு</translation>
     </message>
@@ -732,7 +732,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+2310"/>
+        <location filename="../pages/GamePage.qml" line="+1581"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>வரலாறும் வாய்ப்புகளும்</translation>
     </message>
@@ -747,7 +747,7 @@
         <translation>எமோஜி எதிர்வினைகள்</translation>
     </message>
     <message>
-        <location line="+314"/>
+        <location line="+319"/>
         <source>Game Over</source>
         <translation>விளையாட்டு முடிந்தது</translation>
     </message>
@@ -767,7 +767,7 @@
         <translation>பட்டிக்குத் திரும்பு</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>New Game</source>
         <translation>புதிய விளையாட்டு</translation>
     </message>
@@ -775,7 +775,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+514"/>
+        <location filename="../components/GamePlayerBox.qml" line="+443"/>
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
@@ -828,7 +828,7 @@
 <context>
     <name>GamePlayerSelfBox</name>
     <message>
-        <location filename="../components/GamePlayerSelfBox.qml" line="+209"/>
+        <location filename="../components/GamePlayerSelfBox.qml" line="+151"/>
         <location line="+33"/>
         <source>Du</source>
         <translation>நீங்கள்</translation>
@@ -1001,7 +1001,7 @@
         <translation>மதிப்பெண்</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+157"/>
         <source>No ranking data for the players at this table yet.</source>
         <translation>இந்த மேசையின் வீரர்களுக்கு இன்னும் தரவரிசைத் தரவு இல்லை.</translation>
     </message>
@@ -1218,7 +1218,7 @@
 <context>
     <name>GlobalNoticePopup</name>
     <message>
-        <location filename="../components/GlobalNoticePopup.qml" line="+58"/>
+        <location filename="../components/GlobalNoticePopup.qml" line="+61"/>
         <source>Global notice</source>
         <translation>பொது அறிவிப்பு</translation>
     </message>
@@ -1567,7 +1567,7 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+314"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+326"/>
         <source>← Zurück</source>
         <translation>← பின்செல்</translation>
     </message>
@@ -1970,7 +1970,7 @@ Please reenter the password and try again.</source>
 <context>
     <name>LobbyPage</name>
     <message>
-        <location filename="../pages/LobbyPage.qml" line="+1545"/>
+        <location filename="../pages/LobbyPage.qml" line="+1621"/>
         <source>Game invitation</source>
         <translation>விளையாட்டு அழைப்பு</translation>
     </message>
@@ -1980,7 +1980,7 @@ Please reenter the password and try again.</source>
         <translation>&lt;b&gt;%2&lt;/b&gt; உங்களை &lt;b&gt;%1&lt;/b&gt; விளையாட்டுக்கு அழைத்துள்ளார்.&lt;br&gt;இந்த விளையாட்டில் சேர விரும்புகிறீர்களா?</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Decline</source>
         <translation>நிராகரி</translation>
     </message>
@@ -1990,29 +1990,29 @@ Please reenter the password and try again.</source>
         <translation>சேர்</translation>
     </message>
     <message>
-        <location line="-502"/>
+        <location line="-535"/>
         <source>Create Game</source>
         <translation>விளையாட்டை உருவாக்குக</translation>
     </message>
     <message>
-        <location line="-746"/>
-        <location line="+804"/>
+        <location line="-777"/>
+        <location line="+835"/>
         <source>Game Info</source>
         <translation>விளையாட்டை பற்றிய செய்தி</translation>
     </message>
     <message>
-        <location line="-534"/>
-        <location line="+483"/>
+        <location line="-565"/>
+        <location line="+514"/>
         <source>Join Game</source>
         <translation>விளையாட்டில் சேர்</translation>
     </message>
     <message>
-        <location line="-273"/>
+        <location line="-304"/>
         <source>Game List</source>
         <translation>விளையாட்டுப் பட்டியல்</translation>
     </message>
     <message>
-        <location line="+73"/>
+        <location line="+91"/>
         <source>Time: %1s/%2s</source>
         <translation>நேரம்: %1 வி/%2 வி</translation>
     </message>
@@ -2032,38 +2032,38 @@ Please reenter the password and try again.</source>
         <translation>தரவரிசை</translation>
     </message>
     <message>
-        <location line="+115"/>
+        <location line="+128"/>
         <location line="+287"/>
         <source>Lobby Chat</source>
         <translation>வரவேற்பறை உரையாடல்</translation>
     </message>
     <message>
-        <location line="-613"/>
+        <location line="-644"/>
         <source>No game list filter</source>
         <translation>விளையாட்டுப் பட்டியல் வடிகட்டி இல்லை</translation>
     </message>
     <message>
-        <location line="+375"/>
+        <location line="+406"/>
         <source>Player: %1</source>
         <translation>வீரர்: %1</translation>
     </message>
     <message>
-        <location line="-896"/>
+        <location line="-927"/>
         <source>Players</source>
         <translation>விளையாட்டு வீரர்கள்</translation>
     </message>
     <message>
-        <location line="+1010"/>
+        <location line="+1041"/>
         <source>Select a game to see details</source>
         <translation>விவரங்களைக் காண ஒரு விளையாட்டைத் தேர்ந்தெடுக்கவும்</translation>
     </message>
     <message>
-        <location line="-486"/>
+        <location line="-517"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>திறந்த, நிரம்பாத, பொது விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
-        <location line="-627"/>
+        <location line="-640"/>
         <source>Report game name</source>
         <translation>விளையாட்டுப் பெயரைப் புகாரளி</translation>
     </message>
@@ -2098,7 +2098,26 @@ Please reenter the password and try again.</source>
 „%1“ ஐ நிச்சயம் மூட வேண்டுமா?</translation>
     </message>
     <message>
-        <location line="+169"/>
+        <location line="+13"/>
+        <source>Your avatar is no longer shown</source>
+        <translation>உங்கள் அவதார் இனி காட்டப்படாது</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Other players do not see your avatar any more: the image exceeds the dimensions the server accepts.
+
+PokerTH can scale it down for you. The new avatar becomes active the next time you log in.</source>
+        <translation>மற்ற வீரர்களுக்கு உங்கள் அவதார் இனி தெரியாது: படத்தின் அளவு சேவையகம் அனுமதிக்கும் அளவை மீறுகிறது.
+
+PokerTH அதைச் சிறிதாக்க முடியும். புதிய அவதார் அடுத்த முறை உள்நுழையும்போது செயல்படும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Scale down now</source>
+        <translation>இப்போது சிறிதாக்கு</translation>
+    </message>
+    <message>
+        <location line="+167"/>
         <location line="+510"/>
         <source>Sort alphabetically</source>
         <translation>அகர வரிசையில் அடுக்கு</translation>
@@ -2117,18 +2136,18 @@ Please reenter the password and try again.</source>
     </message>
     <message>
         <location line="-423"/>
-        <location line="+799"/>
+        <location line="+830"/>
         <source>Report inappropriate game name</source>
         <translation>பொருத்தமற்ற விளையாட்டுப் பெயரைப் புகாரளி</translation>
     </message>
     <message>
-        <location line="-791"/>
-        <location line="+798"/>
+        <location line="-822"/>
+        <location line="+829"/>
         <source>Close game (admin)</source>
         <translation>விளையாட்டை மூடு (நிர்வாகி)</translation>
     </message>
     <message>
-        <location line="-761"/>
+        <location line="-792"/>
         <source>Players: %1 / %2</source>
         <translation>வீரர்கள்: %1 / %2</translation>
     </message>
@@ -2139,12 +2158,12 @@ Please reenter the password and try again.</source>
     </message>
     <message>
         <location line="+33"/>
-        <location line="+742"/>
+        <location line="+773"/>
         <source>Type: %1</source>
         <translation>வகை: %1</translation>
     </message>
     <message>
-        <location line="-731"/>
+        <location line="-762"/>
         <source>Small blind: %1</source>
         <translation>சிறிய பந்தயத்தொகை: %1</translation>
     </message>
@@ -2192,18 +2211,18 @@ Please reenter the password and try again.</source>
     </message>
     <message>
         <location line="+12"/>
-        <location line="+690"/>
+        <location line="+721"/>
         <source>Players in game (%1)</source>
         <translation>விளையாட்டில் உள்ள வீரர்கள் (%1)</translation>
     </message>
     <message>
-        <location line="-605"/>
-        <location line="+483"/>
+        <location line="-636"/>
+        <location line="+514"/>
         <source>Leave Game</source>
         <translation>விளையாட்டை விட்டு விலகு</translation>
     </message>
     <message>
-        <location line="-386"/>
+        <location line="-417"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>திறந்த, நிரம்பாத, தனிப்பட்ட விளையாட்டுகளைக் காட்டு</translation>
     </message>
@@ -2218,20 +2237,20 @@ Please reenter the password and try again.</source>
         <translation>தொடர்பில் இருக்கும் விளையாட்டு வீரர்கள்</translation>
     </message>
     <message>
-        <location line="-658"/>
-        <location line="+846"/>
+        <location line="-671"/>
+        <location line="+877"/>
         <source>Spectate game</source>
         <translation>விளையாட்டைப் பார்வையிடு</translation>
     </message>
     <message>
-        <location line="-845"/>
+        <location line="-876"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
         <translation>விளையாட்டு:
 „%1“ ஐ நிச்சயம் பார்வையிட வேண்டுமா?</translation>
     </message>
     <message>
-        <location line="+950"/>
+        <location line="+994"/>
         <location line="+287"/>
         <source>Global notice (admin)</source>
         <translation>பொது அறிவிப்பு (நிர்வாகி)</translation>
@@ -2242,7 +2261,33 @@ Please reenter the password and try again.</source>
         <translation>சிறிய பந்தயம்: %1 | தொடக்க பணம்: %2</translation>
     </message>
     <message>
-        <location line="+272"/>
+        <location line="+257"/>
+        <source>Avatar adjusted</source>
+        <translation>அவதார் சரிசெய்யப்பட்டது</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your avatar has been scaled down. Other players will see it again after your next login.</source>
+        <translation>உங்கள் அவதார் சிறிதாக்கப்பட்டது. அடுத்த முறை உள்நுழைந்த பிறகு மற்ற வீரர்கள் அதை மீண்டும் பார்ப்பார்கள்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+5"/>
+        <source>OK</source>
+        <translation>சரி</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Avatar not adjusted</source>
+        <translation>அவதார் சரிசெய்யப்படவில்லை</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The image could not be converted. Please pick a different avatar in the settings.</source>
+        <translation>படத்தை மாற்ற முடியவில்லை. அமைப்புகளில் வேறு அவதாரைத் தேர்ந்தெடுக்கவும்.</translation>
+    </message>
+    <message>
+        <location line="+37"/>
         <source>Privates Spiel</source>
         <translation>தனிப்பட்ட விளையாட்டு</translation>
     </message>
@@ -2267,7 +2312,7 @@ Please reenter the password and try again.</source>
         <translation>சேர்</translation>
     </message>
     <message>
-        <location line="+141"/>
+        <location line="+151"/>
         <source>Rejoin possible</source>
         <translation>விளையாட்டுக்குத் திரும்ப முடியும்</translation>
     </message>
@@ -2282,12 +2327,12 @@ Please reenter the password and try again.</source>
         <translation>இல்லை</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Rejoin</source>
         <translation>திரும்பு</translation>
     </message>
     <message>
-        <location line="-976"/>
+        <location line="-1046"/>
         <source>Show open &amp; non-full games</source>
         <translation>திறந்த, நிரம்பாத விளையாட்டுகளைக் காட்டு</translation>
     </message>
@@ -2334,7 +2379,7 @@ Please reenter the password and try again.</source>
 <context>
     <name>LocalGamePage</name>
     <message>
-        <location filename="../pages/LocalGamePage.qml" line="+27"/>
+        <location filename="../pages/LocalGamePage.qml" line="+38"/>
         <source>alle %1 Hände</source>
         <translation>ஒவ்வொரு %1 கைகளுக்கும்</translation>
     </message>
@@ -2447,7 +2492,7 @@ Please reenter the password and try again.</source>
         <translation>நிறுத்திவிடு</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Spiel starten</source>
         <translation>விளையாட்டைத் தொடங்கு</translation>
     </message>
@@ -2595,7 +2640,7 @@ Please reenter the password and try again.</source>
         <translation>வலிமையான</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</source>
         <translation>உள்ளூர் விளையாட்டுகளுக்குப் பொருந்தும். வலைப்பின்னல் விளையாட்டுகளில் தனது கணினி வீரர்களின் வலிமையை வழங்கியே தீர்மானிக்கிறது.</translation>
     </message>
@@ -2716,7 +2761,7 @@ HTTP ப்ராக்ஸி பயன்படுத்தினால் ப�
         <translation>விளையாட்டு:</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+100"/>
         <source>Preview:</source>
         <translation>முன்னோட்டம்:</translation>
     </message>
@@ -2732,12 +2777,12 @@ HTTP ப்ராக்ஸி பயன்படுத்தினால் ப�
     </message>
     <message>
         <location line="+6"/>
-        <location line="+133"/>
+        <location line="+156"/>
         <source>Save as ...</source>
         <translation>இப்படிச் சேமி ...</translation>
     </message>
     <message>
-        <location line="-127"/>
+        <location line="-150"/>
         <source>Delete</source>
         <translation>அழித்துவிடுக</translation>
     </message>
@@ -2757,22 +2802,22 @@ HTTP ப்ராக்ஸி பயன்படுத்தினால் ப�
         <translation>PokerTH - பதிவுக் கோப்புகளை அழி</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+9"/>
         <source>Do you really want to delete the selected log files?</source>
         <translation>தேர்ந்தெடுத்த பதிவுக் கோப்புகளை நிச்சயம் அழிக்க வேண்டுமா?</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+15"/>
         <source>Uploading log file</source>
         <translation>பதிவுக் கோப்பு பதிவேற்றப்படுகிறது</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+23"/>
         <source>Debug log</source>
         <translation>வழுநீக்கப் பதிவு</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+50"/>
         <source>Refresh</source>
         <translation>புதுப்பி</translation>
     </message>
@@ -2855,7 +2900,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>NetworkGameCreatePage</name>
     <message>
-        <location filename="../pages/NetworkGameCreatePage.qml" line="+113"/>
+        <location filename="../pages/NetworkGameCreatePage.qml" line="+133"/>
         <source>← Zurück</source>
         <translation>← பின்செல்</translation>
     </message>
@@ -2932,12 +2977,12 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     </message>
     <message>
         <location line="+37"/>
-        <location line="+35"/>
+        <location line="+37"/>
         <source>Abbrechen</source>
         <translation>நிறுத்திவிடு</translation>
     </message>
     <message>
-        <location line="-30"/>
+        <location line="-31"/>
         <source>Spiel erstellen</source>
         <translation>விளையாட்டை உருவாக்கு</translation>
     </message>
@@ -2950,7 +2995,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>NetworkGameEnterPage</name>
     <message>
-        <location filename="../pages/NetworkGameEnterPage.qml" line="+97"/>
+        <location filename="../pages/NetworkGameEnterPage.qml" line="+121"/>
         <source>← Zurück</source>
         <translation>← பின்செல்</translation>
     </message>
@@ -3000,12 +3045,12 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
         <translation>விவரக்குறிப்பின் பெயர்</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+22"/>
         <source>Name des Profils</source>
         <translation>இந்த விவரக்குறிப்பின் பெயர்</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Speichern</source>
         <translation>சேமி</translation>
     </message>
@@ -3016,12 +3061,12 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     </message>
     <message>
         <location line="+92"/>
-        <location line="+36"/>
+        <location line="+38"/>
         <source>Abbrechen</source>
         <translation>நிறுத்திவிடு</translation>
     </message>
     <message>
-        <location line="-31"/>
+        <location line="-32"/>
         <source>Verbinden</source>
         <translation>இணை</translation>
     </message>
@@ -3311,7 +3356,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>PlayerNoteDialog</name>
     <message>
-        <location filename="../components/PlayerNoteDialog.qml" line="+57"/>
+        <location filename="../components/PlayerNoteDialog.qml" line="+60"/>
         <source>Note about &quot;%1&quot;</source>
         <translation>„%1“ பற்றிய குறிப்பு</translation>
     </message>
@@ -3321,7 +3366,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
         <translation>மதிப்பீடு:</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+48"/>
         <source>Your private note about this player ...</source>
         <translation>இந்த வீரரைப் பற்றிய உங்கள் தனிப்பட்ட குறிப்பு ...</translation>
     </message>
@@ -3375,7 +3420,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>PokerthPlayerPage</name>
     <message>
-        <location filename="../pages/PokerthPlayerPage.qml" line="+81"/>
+        <location filename="../pages/PokerthPlayerPage.qml" line="+107"/>
         <source>Could not load player (HTTP %1).</source>
         <translation>விளையாட்டு வீரரின் தரவை ஏற்ற இயலவில்லை (HTTP %1).</translation>
     </message>
@@ -3461,7 +3506,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>PrivateMessageDialog</name>
     <message>
-        <location filename="../components/PrivateMessageDialog.qml" line="+190"/>
+        <location filename="../components/PrivateMessageDialog.qml" line="+193"/>
         <source>Private messages</source>
         <translation>தனிப்பட்ட செய்திகள்</translation>
     </message>
@@ -3620,7 +3665,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>RankingPage</name>
     <message>
-        <location filename="../pages/RankingPage.qml" line="+90"/>
+        <location filename="../pages/RankingPage.qml" line="+97"/>
         <source>Could not load ranking (HTTP %1).</source>
         <translation>தரவரிசையை ஏற்ற இயலவில்லை (HTTP %1).</translation>
     </message>
@@ -3650,7 +3695,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
         <translation>பயனர் பெயர்</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+31"/>
         <source>#</source>
         <translation>#</translation>
     </message>
@@ -3759,57 +3804,57 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+241"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+341"/>
         <source>Back</source>
         <translation>பின்செல்</translation>
     </message>
     <message>
-        <location line="+94"/>
+        <location line="+96"/>
         <source>Cancel</source>
         <translation>நிறுத்திவிடு</translation>
     </message>
     <message>
-        <location line="-65"/>
+        <location line="-66"/>
         <source>Connecting as...</source>
         <translation>இவ்வாறு இணைக்கிறது...</translation>
     </message>
     <message>
-        <location line="-108"/>
+        <location line="-150"/>
         <source>Continue as Guest</source>
         <translation>விருந்தினராகத் தொடர்</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+201"/>
         <source>Initializing connection...</source>
         <translation>இணைப்பு தயாராகிறது...</translation>
     </message>
     <message>
-        <location line="-74"/>
+        <location line="-75"/>
         <source>Login</source>
         <translation>நுழைவு</translation>
     </message>
     <message>
-        <location line="-97"/>
+        <location line="-138"/>
         <source>Login as User</source>
         <translation>பயனராக நுழை</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+104"/>
         <source>Password</source>
         <translation>கடவுச்சொல்</translation>
     </message>
     <message>
-        <location line="-59"/>
+        <location line="-98"/>
         <source>Register</source>
         <translation>பதிவு செய்</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+115"/>
         <source>Remember me</source>
         <translation>என்னை நினைவில் வை</translation>
     </message>
     <message>
-        <location line="-48"/>
+        <location line="-67"/>
         <source>User Login</source>
         <translation>பயனர் நுழைவு</translation>
     </message>
@@ -3819,7 +3864,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
         <translation>பயனர் பெயர்</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+101"/>
         <source>Username/Guest</source>
         <translation>பயனர் பெயர்/விருந்தினர்</translation>
     </message>
@@ -4207,12 +4252,12 @@ Please check your username and password.</source>
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+327"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+328"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
         <translation>படங்கள் (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+236"/>
+        <location line="+302"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>மேசைப் பாணியைத் தேர்ந்தெடு</translation>
     </message>
@@ -4365,7 +4410,7 @@ Please check your username and password.</source>
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../pages/SettingsPage.qml" line="+254"/>
+        <location filename="../pages/SettingsPage.qml" line="+264"/>
         <source>Benutzeroberfläche</source>
         <translation>பயனர் இடைமுகம்</translation>
     </message>
@@ -4492,7 +4537,7 @@ Please check your username and password.</source>
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../pages/StartPage.qml" line="+155"/>
+        <location filename="../pages/StartPage.qml" line="+161"/>
         <source>Internetspiel</source>
         <translation>இணைய விளையாட்டு</translation>
     </message>
@@ -4694,7 +4739,7 @@ Vorschau</source>
 <context>
     <name>WecRankingPage</name>
     <message>
-        <location filename="../pages/WecRankingPage.qml" line="+22"/>
+        <location filename="../pages/WecRankingPage.qml" line="+29"/>
         <source>January</source>
         <translation>ஜனவரி</translation>
     </message>
@@ -4779,7 +4824,7 @@ Vorschau</source>
         <translation>எல்லா காலமும்</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Search nickname</source>
         <translation>புனைபெயரைத் தேடு</translation>
     </message>
@@ -4792,7 +4837,7 @@ Vorschau</source>
         <translation>PokerTH - v2.1.8</translation>
     </message>
     <message>
-        <location line="+287"/>
+        <location line="+297"/>
         <source>Back</source>
         <translation>பின்செல்</translation>
     </message>
@@ -4822,7 +4867,7 @@ Vorschau</source>
         <translation>அமைப்பு</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+198"/>
         <source>Timeout Warning</source>
         <translation>எச்சரிக்கை, காலம் நிறைவடையப்போகிறது</translation>
     </message>
@@ -4857,23 +4902,23 @@ Vorschau</source>
         <translation>கவுண்ட்டவுனை நிறுத்த „சரி“ பொத்தானை அழுத்தவும்!</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <location line="+285"/>
+        <location line="+8"/>
+        <location line="+325"/>
         <source>OK</source>
         <translation>சரி</translation>
     </message>
     <message>
-        <location line="-250"/>
+        <location line="-284"/>
         <source>Server Message</source>
         <translation>வழங்கியின் செய்தி</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Close</source>
         <translation>மூடு</translation>
     </message>
     <message>
-        <location line="+156"/>
+        <location line="+181"/>
         <source>Connection interrupted</source>
         <translation>இணைப்பு தடைபட்டது</translation>
     </message>
@@ -4893,40 +4938,40 @@ Vorschau</source>
         <translation>மேசையில் உங்கள் இடம் இன்னும் சில நிமிடங்களுக்கு ஒதுக்கப்பட்டிருக்கும்.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+55"/>
         <source>Connection lost</source>
         <translation>இணைப்பு துண்டிக்கப்பட்டது</translation>
     </message>
     <message>
-        <location line="-734"/>
-        <location line="+545"/>
-        <location line="+22"/>
+        <location line="-780"/>
+        <location line="+568"/>
+        <location line="+23"/>
         <source>Leave Game</source>
         <translation>விளையாட்டை விட்டு விலகு</translation>
     </message>
     <message>
-        <location line="-15"/>
+        <location line="-16"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>கவனிக்க! தற்போதைய விளையாட்டிலிருந்து விலகி
 வரவேற்பறைக்குத் திரும்ப நிச்சயமாக விரும்புகிறீர்களா?</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <location line="+57"/>
-        <location line="+74"/>
+        <location line="+11"/>
+        <location line="+65"/>
+        <location line="+82"/>
         <source>Cancel</source>
         <translation>நிறுத்திவிடு</translation>
     </message>
     <message>
-        <location line="-693"/>
-        <location line="+602"/>
-        <location line="+22"/>
+        <location line="-733"/>
+        <location line="+633"/>
+        <location line="+23"/>
         <source>Leave Lobby</source>
         <translation>வரவேற்பறையை விட்டு விலகு</translation>
     </message>
     <message>
-        <location line="-15"/>
+        <location line="-16"/>
         <source>Attention! Do you really want to leave the lobby
 and disconnect from the server?</source>
         <translation>கவனிக்க! வரவேற்பறையை விட்டு விலகி

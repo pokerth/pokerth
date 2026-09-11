@@ -4180,6 +4180,42 @@ Môžete pozývať ďalších hráčov kliknutím pravým tlačidlom na ich prie
         <source>Message to %1:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1754"/>
+        <source>Your avatar is no longer shown</source>
+        <translation>Tvoj avatar sa už nezobrazuje</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1755"/>
+        <source>Other players do not see your avatar any more: the image exceeds what the server accepts - either in file size or in image dimensions.
+
+Shall PokerTH scale it down for you? The new avatar becomes active the next time you log in.</source>
+        <translation>Ostatní hráči tvoj avatar už nevidia: obrázok prekračuje to, čo server prijíma – veľkosťou súboru alebo rozmermi.
+
+Má ho PokerTH zmenšiť? Nový avatar sa prejaví pri najbližšom prihlásení.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1765"/>
+        <source>Avatar File Error</source>
+        <translation>Chyba súboru s avatarom</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1766"/>
+        <source>The picture could not be converted.
+Please choose a different avatar in the settings!</source>
+        <translation>Obrázok sa nepodarilo previesť.
+Vyber v nastaveniach iného avatara!</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1774"/>
+        <source>Avatar adjusted</source>
+        <translation>Avatar upravený</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1775"/>
+        <source>Your avatar has been scaled down. Other players will see it again after your next login.</source>
+        <translation>Tvoj avatar bol zmenšený. Ostatní hráči ho po najbližšom prihlásení znova uvidia.</translation>
+    </message>
 </context>
 <context>
     <name>gameTable</name>
@@ -5587,6 +5623,27 @@ Prosím vyberte menší obrázok!</translation>
 Please enter an valid picture!</source>
         <translation>Zadaný obrázok s avatarom neexistuje.
 Prosím zadajte platný obrázok!</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="282"/>
+        <source>Avatar picture not usable</source>
+        <translation>Obrázok avatara sa nedá použiť</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="283"/>
+        <source>The chosen picture exceeds what the server accepts - either in file size or in image dimensions. Other players would not see it.
+
+Shall PokerTH scale it down for you?</source>
+        <translation>Vybraný obrázok prekračuje to, čo server prijíma – veľkosťou súboru alebo rozmermi. Ostatní hráči by ho nevideli.
+
+Má ho PokerTH zmenšiť?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="299"/>
+        <source>The picture could not be converted.
+Please choose a smaller picture!</source>
+        <translation>Obrázok sa nepodarilo previesť.
+Vyber menší obrázok!</translation>
     </message>
 </context>
 <context>

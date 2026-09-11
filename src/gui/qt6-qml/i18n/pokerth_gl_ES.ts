@@ -4,12 +4,12 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../pages/AboutPage.qml" line="+45"/>
+        <location filename="../pages/AboutPage.qml" line="+49"/>
         <source>No changelog available.</source>
         <translation>Non hai ningún rexistro de cambios dispoñíbel.</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+114"/>
         <source>About PokerTH</source>
         <translation>Sobre PokerTH</translation>
     </message>
@@ -208,7 +208,7 @@
 <context>
     <name>BbcRankingPage</name>
     <message>
-        <location filename="../pages/BbcRankingPage.qml" line="+36"/>
+        <location filename="../pages/BbcRankingPage.qml" line="+43"/>
         <source>BBC Ranking</source>
         <translation>Clasificación BBC</translation>
     </message>
@@ -223,7 +223,7 @@
         <translation>De sempre</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Search nickname</source>
         <translation>Buscar un alcume</translation>
     </message>
@@ -246,7 +246,7 @@
         <translation>Mensaxe …</translation>
     </message>
     <message>
-        <location line="+797"/>
+        <location line="+807"/>
         <source>Link öffnen</source>
         <translation>Abrir a ligazón</translation>
     </message>
@@ -388,12 +388,12 @@
 <context>
     <name>CommunityRankingPage</name>
     <message>
-        <location filename="../pages/CommunityRankingPage.qml" line="+40"/>
+        <location filename="../pages/CommunityRankingPage.qml" line="+45"/>
         <source>Community / Ranking</source>
         <translation>Comunidade / clasificación</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>PokerTH Ranking</source>
         <translation>Clasificación de PokerTH</translation>
     </message>
@@ -481,12 +481,12 @@
 <context>
     <name>ConfirmPopup</name>
     <message>
-        <location filename="../components/ConfirmPopup.qml" line="+25"/>
+        <location filename="../components/ConfirmPopup.qml" line="+33"/>
         <source>Yes</source>
         <translation>Si</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -502,7 +502,7 @@
 <context>
     <name>ExampleAvatarPicker</name>
     <message>
-        <location filename="../components/ExampleAvatarPicker.qml" line="+68"/>
+        <location filename="../components/ExampleAvatarPicker.qml" line="+70"/>
         <source>Beispiel-Avatar wählen</source>
         <translation>Escoller unha imaxe de usuario de exemplo</translation>
     </message>
@@ -539,7 +539,7 @@
         <translation>Novas do foro</translation>
     </message>
     <message>
-        <location line="+141"/>
+        <location line="+172"/>
         <source>No entries.</source>
         <translation>Non hai ningunha entrada.</translation>
     </message>
@@ -557,7 +557,7 @@
 <context>
     <name>ForumPostPage</name>
     <message>
-        <location filename="../pages/ForumPostPage.qml" line="+78"/>
+        <location filename="../pages/ForumPostPage.qml" line="+81"/>
         <source>Translation failed.</source>
         <translation>Non foi posíbel traducir.</translation>
     </message>
@@ -572,7 +572,7 @@
         <translation>Traducir a mensaxe</translation>
     </message>
     <message>
-        <location line="+147"/>
+        <location line="+172"/>
         <source>Open in the forum</source>
         <translation>Abrir no foro</translation>
     </message>
@@ -580,7 +580,7 @@
 <context>
     <name>GameActionBar</name>
     <message>
-        <location filename="../components/GameActionBar.qml" line="+997"/>
+        <location filename="../components/GameActionBar.qml" line="+1004"/>
         <source>Show</source>
         <translation>Amosar</translation>
     </message>
@@ -616,7 +616,7 @@
 <context>
     <name>GameInfoPanel</name>
     <message>
-        <location filename="../components/GameInfoPanel.qml" line="+62"/>
+        <location filename="../components/GameInfoPanel.qml" line="+68"/>
         <source>Höchste Karte</source>
         <translation>Carta alta</translation>
     </message>
@@ -676,7 +676,7 @@
         <translation>Posibilidades</translation>
     </message>
     <message>
-        <location line="+245"/>
+        <location line="+248"/>
         <source>Kopieren</source>
         <translation>Copiar</translation>
     </message>
@@ -732,7 +732,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+2310"/>
+        <location filename="../pages/GamePage.qml" line="+1581"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>Historial e posibilidades</translation>
     </message>
@@ -747,7 +747,7 @@
         <translation>Reaccións con emoji</translation>
     </message>
     <message>
-        <location line="+314"/>
+        <location line="+319"/>
         <source>Game Over</source>
         <translation>Fin da partida</translation>
     </message>
@@ -767,7 +767,7 @@
         <translation>Volver ao menú</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>New Game</source>
         <translation>Nova partida</translation>
     </message>
@@ -775,7 +775,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+514"/>
+        <location filename="../components/GamePlayerBox.qml" line="+443"/>
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
@@ -828,7 +828,7 @@
 <context>
     <name>GamePlayerSelfBox</name>
     <message>
-        <location filename="../components/GamePlayerSelfBox.qml" line="+209"/>
+        <location filename="../components/GamePlayerSelfBox.qml" line="+151"/>
         <location line="+33"/>
         <source>Du</source>
         <translation>Vostede</translation>
@@ -1001,7 +1001,7 @@
         <translation>Puntuación</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+157"/>
         <source>No ranking data for the players at this table yet.</source>
         <translation>Aínda non hai datos de clasificación dos xogadores deste taboleiro.</translation>
     </message>
@@ -1218,7 +1218,7 @@
 <context>
     <name>GlobalNoticePopup</name>
     <message>
-        <location filename="../components/GlobalNoticePopup.qml" line="+58"/>
+        <location filename="../components/GlobalNoticePopup.qml" line="+61"/>
         <source>Global notice</source>
         <translation>Aviso xeral</translation>
     </message>
@@ -1567,7 +1567,7 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+314"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+326"/>
         <source>← Zurück</source>
         <translation>← Volver</translation>
     </message>
@@ -1970,7 +1970,7 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
 <context>
     <name>LobbyPage</name>
     <message>
-        <location filename="../pages/LobbyPage.qml" line="+1545"/>
+        <location filename="../pages/LobbyPage.qml" line="+1621"/>
         <source>Game invitation</source>
         <translation>Invitación a unha partida</translation>
     </message>
@@ -1980,7 +1980,7 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
         <translation>&lt;b&gt;%2&lt;/b&gt; convidouno á partida &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Quere unirse?</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Decline</source>
         <translation>Rexeitar</translation>
     </message>
@@ -1990,29 +1990,29 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
         <translation>Unirse</translation>
     </message>
     <message>
-        <location line="-502"/>
+        <location line="-535"/>
         <source>Create Game</source>
         <translation>Crear a partida</translation>
     </message>
     <message>
-        <location line="-746"/>
-        <location line="+804"/>
+        <location line="-777"/>
+        <location line="+835"/>
         <source>Game Info</source>
         <translation>Información da partida</translation>
     </message>
     <message>
-        <location line="-534"/>
-        <location line="+483"/>
+        <location line="-565"/>
+        <location line="+514"/>
         <source>Join Game</source>
         <translation>Unirse á partida</translation>
     </message>
     <message>
-        <location line="-273"/>
+        <location line="-304"/>
         <source>Game List</source>
         <translation>Lista de partidas</translation>
     </message>
     <message>
-        <location line="+73"/>
+        <location line="+91"/>
         <source>Time: %1s/%2s</source>
         <translation>Tempo: %1 s/%2 s</translation>
     </message>
@@ -2032,38 +2032,38 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
         <translation>Clasificación</translation>
     </message>
     <message>
-        <location line="+115"/>
+        <location line="+128"/>
         <location line="+287"/>
         <source>Lobby Chat</source>
         <translation>Conversa da sala de espera</translation>
     </message>
     <message>
-        <location line="-613"/>
+        <location line="-644"/>
         <source>No game list filter</source>
         <translation>Sen filtro na lista de partidas</translation>
     </message>
     <message>
-        <location line="+375"/>
+        <location line="+406"/>
         <source>Player: %1</source>
         <translation>Xogador: %1</translation>
     </message>
     <message>
-        <location line="-896"/>
+        <location line="-927"/>
         <source>Players</source>
         <translation>Xogadores</translation>
     </message>
     <message>
-        <location line="+1010"/>
+        <location line="+1041"/>
         <source>Select a game to see details</source>
         <translation>Escolla unha partida para ver os detalles</translation>
     </message>
     <message>
-        <location line="-486"/>
+        <location line="-517"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Amosar as partidas abertas, non completas e públicas</translation>
     </message>
     <message>
-        <location line="-627"/>
+        <location line="-640"/>
         <source>Report game name</source>
         <translation>Informar sobre o nome da partida</translation>
     </message>
@@ -2098,7 +2098,26 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
 «%1»?</translation>
     </message>
     <message>
-        <location line="+169"/>
+        <location line="+13"/>
+        <source>Your avatar is no longer shown</source>
+        <translation>A túa imaxe de usuario xa non se amosa</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Other players do not see your avatar any more: the image exceeds the dimensions the server accepts.
+
+PokerTH can scale it down for you. The new avatar becomes active the next time you log in.</source>
+        <translation>Os demais xogadores xa non ven a túa imaxe de usuario: a imaxe supera as dimensións que acepta o servidor.
+
+O PokerTH pode reducila por ti. A nova imaxe activarase no seguinte inicio de sesión.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Scale down now</source>
+        <translation>Reducir agora</translation>
+    </message>
+    <message>
+        <location line="+167"/>
         <location line="+510"/>
         <source>Sort alphabetically</source>
         <translation>Orde alfabética</translation>
@@ -2117,18 +2136,18 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
     </message>
     <message>
         <location line="-423"/>
-        <location line="+799"/>
+        <location line="+830"/>
         <source>Report inappropriate game name</source>
         <translation>Informar de que o nome non é axeitado</translation>
     </message>
     <message>
-        <location line="-791"/>
-        <location line="+798"/>
+        <location line="-822"/>
+        <location line="+829"/>
         <source>Close game (admin)</source>
         <translation>Pechar a partida (administrador)</translation>
     </message>
     <message>
-        <location line="-761"/>
+        <location line="-792"/>
         <source>Players: %1 / %2</source>
         <translation>Xogadores: %1 / %2</translation>
     </message>
@@ -2139,12 +2158,12 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
     </message>
     <message>
         <location line="+33"/>
-        <location line="+742"/>
+        <location line="+773"/>
         <source>Type: %1</source>
         <translation>Tipo: %1</translation>
     </message>
     <message>
-        <location line="-731"/>
+        <location line="-762"/>
         <source>Small blind: %1</source>
         <translation>Aposta obrigatoria pequena: %1</translation>
     </message>
@@ -2192,18 +2211,18 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <location line="+690"/>
+        <location line="+721"/>
         <source>Players in game (%1)</source>
         <translation>Xogadores na partida (%1)</translation>
     </message>
     <message>
-        <location line="-605"/>
-        <location line="+483"/>
+        <location line="-636"/>
+        <location line="+514"/>
         <source>Leave Game</source>
         <translation>Saír da partida</translation>
     </message>
     <message>
-        <location line="-386"/>
+        <location line="-417"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Amosar as partidas abertas, non completas e privadas</translation>
     </message>
@@ -2218,20 +2237,20 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
         <translation>Xogadores conectados</translation>
     </message>
     <message>
-        <location line="-658"/>
-        <location line="+846"/>
+        <location line="-671"/>
+        <location line="+877"/>
         <source>Spectate game</source>
         <translation>Espectar a partida</translation>
     </message>
     <message>
-        <location line="-845"/>
+        <location line="-876"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
         <translation>Está seguro de que quere espectar a partida:
 «%1»?</translation>
     </message>
     <message>
-        <location line="+950"/>
+        <location line="+994"/>
         <location line="+287"/>
         <source>Global notice (admin)</source>
         <translation>Aviso xeral (administrador)</translation>
@@ -2242,7 +2261,33 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
         <translation>AOP: %1 | Capital inicial: %2</translation>
     </message>
     <message>
-        <location line="+272"/>
+        <location line="+257"/>
+        <source>Avatar adjusted</source>
+        <translation>Imaxe axustada</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your avatar has been scaled down. Other players will see it again after your next login.</source>
+        <translation>A túa imaxe de usuario reduciuse. Os demais xogadores volverán vela tras o seguinte inicio de sesión.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+5"/>
+        <source>OK</source>
+        <translation>Aceptar</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Avatar not adjusted</source>
+        <translation>Imaxe non axustada</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The image could not be converted. Please pick a different avatar in the settings.</source>
+        <translation>Non foi posible converter a imaxe. Escolle outra imaxe de usuario na configuración.</translation>
+    </message>
+    <message>
+        <location line="+37"/>
         <source>Privates Spiel</source>
         <translation>Partida privada</translation>
     </message>
@@ -2267,7 +2312,7 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
         <translation>Unirse</translation>
     </message>
     <message>
-        <location line="+141"/>
+        <location line="+151"/>
         <source>Rejoin possible</source>
         <translation>É posíbel volver á partida</translation>
     </message>
@@ -2282,12 +2327,12 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
         <translation>Non</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Rejoin</source>
         <translation>Volver</translation>
     </message>
     <message>
-        <location line="-976"/>
+        <location line="-1046"/>
         <source>Show open &amp; non-full games</source>
         <translation>Amosar as partidas abertas e non completas</translation>
     </message>
@@ -2334,7 +2379,7 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
 <context>
     <name>LocalGamePage</name>
     <message>
-        <location filename="../pages/LocalGamePage.qml" line="+27"/>
+        <location filename="../pages/LocalGamePage.qml" line="+38"/>
         <source>alle %1 Hände</source>
         <translation>cada %1 mans</translation>
     </message>
@@ -2447,7 +2492,7 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Spiel starten</source>
         <translation>Comezar a partida</translation>
     </message>
@@ -2595,7 +2640,7 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
         <translation>Forte</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</source>
         <translation>Aplícase ás partidas locais. Nas partidas en rede, o servidor determina o nivel dos seus xogadores artificiais.</translation>
     </message>
@@ -2716,7 +2761,7 @@ O envío de ficheiros de historial pode non funcionar se está a empregar un pro
         <translation>Partida:</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+100"/>
         <source>Preview:</source>
         <translation>Vista previa:</translation>
     </message>
@@ -2732,12 +2777,12 @@ O envío de ficheiros de historial pode non funcionar se está a empregar un pro
     </message>
     <message>
         <location line="+6"/>
-        <location line="+133"/>
+        <location line="+156"/>
         <source>Save as ...</source>
         <translation>Gardar como…</translation>
     </message>
     <message>
-        <location line="-127"/>
+        <location line="-150"/>
         <source>Delete</source>
         <translation>Eliminar</translation>
     </message>
@@ -2757,22 +2802,22 @@ O envío de ficheiros de historial pode non funcionar se está a empregar un pro
         <translation>PokerTH — Eliminar os ficheiros de historial</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+9"/>
         <source>Do you really want to delete the selected log files?</source>
         <translation>Está seguro de que quere eliminar os ficheiros de historial seleccionados? </translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+15"/>
         <source>Uploading log file</source>
         <translation>Enviando o ficheiro de historial…</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+23"/>
         <source>Debug log</source>
         <translation>Historial de depuración</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+50"/>
         <source>Refresh</source>
         <translation>Actualizar</translation>
     </message>
@@ -2855,7 +2900,7 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
 <context>
     <name>NetworkGameCreatePage</name>
     <message>
-        <location filename="../pages/NetworkGameCreatePage.qml" line="+113"/>
+        <location filename="../pages/NetworkGameCreatePage.qml" line="+133"/>
         <source>← Zurück</source>
         <translation>← Volver</translation>
     </message>
@@ -2932,12 +2977,12 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
     </message>
     <message>
         <location line="+37"/>
-        <location line="+35"/>
+        <location line="+37"/>
         <source>Abbrechen</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location line="-30"/>
+        <location line="-31"/>
         <source>Spiel erstellen</source>
         <translation>Crear a partida</translation>
     </message>
@@ -2950,7 +2995,7 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
 <context>
     <name>NetworkGameEnterPage</name>
     <message>
-        <location filename="../pages/NetworkGameEnterPage.qml" line="+97"/>
+        <location filename="../pages/NetworkGameEnterPage.qml" line="+121"/>
         <source>← Zurück</source>
         <translation>← Volver</translation>
     </message>
@@ -3000,12 +3045,12 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
         <translation>Nome do perfil</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+22"/>
         <source>Name des Profils</source>
         <translation>O nome do perfil</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Speichern</source>
         <translation>Gardar</translation>
     </message>
@@ -3016,12 +3061,12 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
     </message>
     <message>
         <location line="+92"/>
-        <location line="+36"/>
+        <location line="+38"/>
         <source>Abbrechen</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location line="-31"/>
+        <location line="-32"/>
         <source>Verbinden</source>
         <translation>Conectar</translation>
     </message>
@@ -3311,7 +3356,7 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
 <context>
     <name>PlayerNoteDialog</name>
     <message>
-        <location filename="../components/PlayerNoteDialog.qml" line="+57"/>
+        <location filename="../components/PlayerNoteDialog.qml" line="+60"/>
         <source>Note about &quot;%1&quot;</source>
         <translation>Nota sobre «%1»</translation>
     </message>
@@ -3321,7 +3366,7 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
         <translation>Valoración:</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+48"/>
         <source>Your private note about this player ...</source>
         <translation>A súa nota privada sobre este xogador ...</translation>
     </message>
@@ -3375,7 +3420,7 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
 <context>
     <name>PokerthPlayerPage</name>
     <message>
-        <location filename="../pages/PokerthPlayerPage.qml" line="+81"/>
+        <location filename="../pages/PokerthPlayerPage.qml" line="+107"/>
         <source>Could not load player (HTTP %1).</source>
         <translation>Non foi posíbel cargar os datos do xogador (HTTP %1).</translation>
     </message>
@@ -3461,7 +3506,7 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
 <context>
     <name>PrivateMessageDialog</name>
     <message>
-        <location filename="../components/PrivateMessageDialog.qml" line="+190"/>
+        <location filename="../components/PrivateMessageDialog.qml" line="+193"/>
         <source>Private messages</source>
         <translation>Mensaxes privadas</translation>
     </message>
@@ -3620,7 +3665,7 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
 <context>
     <name>RankingPage</name>
     <message>
-        <location filename="../pages/RankingPage.qml" line="+90"/>
+        <location filename="../pages/RankingPage.qml" line="+97"/>
         <source>Could not load ranking (HTTP %1).</source>
         <translation>Non foi posíbel cargar a clasificación (HTTP %1).</translation>
     </message>
@@ -3650,7 +3695,7 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
         <translation>Nome de usuario</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+31"/>
         <source>#</source>
         <translation>#</translation>
     </message>
@@ -3759,57 +3804,57 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+241"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+341"/>
         <source>Back</source>
         <translation>Volver</translation>
     </message>
     <message>
-        <location line="+94"/>
+        <location line="+96"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location line="-65"/>
+        <location line="-66"/>
         <source>Connecting as...</source>
         <translation>Conectándose como...</translation>
     </message>
     <message>
-        <location line="-108"/>
+        <location line="-150"/>
         <source>Continue as Guest</source>
         <translation>Continuar como convidado</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+201"/>
         <source>Initializing connection...</source>
         <translation>Preparando a conexión...</translation>
     </message>
     <message>
-        <location line="-74"/>
+        <location line="-75"/>
         <source>Login</source>
         <translation>Acceder</translation>
     </message>
     <message>
-        <location line="-97"/>
+        <location line="-138"/>
         <source>Login as User</source>
         <translation>Acceder como usuario</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+104"/>
         <source>Password</source>
         <translation>Contrasinal</translation>
     </message>
     <message>
-        <location line="-59"/>
+        <location line="-98"/>
         <source>Register</source>
         <translation>Rexistrarse</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+115"/>
         <source>Remember me</source>
         <translation>Lembrarme</translation>
     </message>
     <message>
-        <location line="-48"/>
+        <location line="-67"/>
         <source>User Login</source>
         <translation>Acceso de usuario</translation>
     </message>
@@ -3819,7 +3864,7 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
         <translation>Nome de usuario</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+101"/>
         <source>Username/Guest</source>
         <translation>Nome de usuario/convidado</translation>
     </message>
@@ -4207,12 +4252,12 @@ Comprobe o seu nome de usuario e o contrasinal.</translation>
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+327"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+328"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
         <translation>Imaxes (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+236"/>
+        <location line="+302"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Escoller un estilo de taboleiro</translation>
     </message>
@@ -4365,7 +4410,7 @@ Comprobe o seu nome de usuario e o contrasinal.</translation>
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../pages/SettingsPage.qml" line="+254"/>
+        <location filename="../pages/SettingsPage.qml" line="+264"/>
         <source>Benutzeroberfläche</source>
         <translation>Interface de usuario</translation>
     </message>
@@ -4492,7 +4537,7 @@ Comprobe o seu nome de usuario e o contrasinal.</translation>
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../pages/StartPage.qml" line="+155"/>
+        <location filename="../pages/StartPage.qml" line="+161"/>
         <source>Internetspiel</source>
         <translation>Partida en internet</translation>
     </message>
@@ -4694,7 +4739,7 @@ vista previa</translation>
 <context>
     <name>WecRankingPage</name>
     <message>
-        <location filename="../pages/WecRankingPage.qml" line="+22"/>
+        <location filename="../pages/WecRankingPage.qml" line="+29"/>
         <source>January</source>
         <translation>Xaneiro</translation>
     </message>
@@ -4779,7 +4824,7 @@ vista previa</translation>
         <translation>De sempre</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Search nickname</source>
         <translation>Buscar un alcume</translation>
     </message>
@@ -4792,7 +4837,7 @@ vista previa</translation>
         <translation>PokerTH - v2.1.8</translation>
     </message>
     <message>
-        <location line="+287"/>
+        <location line="+297"/>
         <source>Back</source>
         <translation>Volver</translation>
     </message>
@@ -4822,7 +4867,7 @@ vista previa</translation>
         <translation>Configuración</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+198"/>
         <source>Timeout Warning</source>
         <translation>Aviso de tempo límite</translation>
     </message>
@@ -4857,23 +4902,23 @@ vista previa</translation>
         <translation>Prema «Aceptar» para deter a conta atrás.</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <location line="+285"/>
+        <location line="+8"/>
+        <location line="+325"/>
         <source>OK</source>
         <translation>Aceptar</translation>
     </message>
     <message>
-        <location line="-250"/>
+        <location line="-284"/>
         <source>Server Message</source>
         <translation>Mensaxe do servidor</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Close</source>
         <translation>Pechar</translation>
     </message>
     <message>
-        <location line="+156"/>
+        <location line="+181"/>
         <source>Connection interrupted</source>
         <translation>Interrompeuse a conexión</translation>
     </message>
@@ -4893,40 +4938,40 @@ vista previa</translation>
         <translation>O seu posto no taboleiro queda reservado uns minutos.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+55"/>
         <source>Connection lost</source>
         <translation>Perdeuse a conexión</translation>
     </message>
     <message>
-        <location line="-734"/>
-        <location line="+545"/>
-        <location line="+22"/>
+        <location line="-780"/>
+        <location line="+568"/>
+        <location line="+23"/>
         <source>Leave Game</source>
         <translation>Saír da partida</translation>
     </message>
     <message>
-        <location line="-15"/>
+        <location line="-16"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>Atención! Está seguro de que quere saír da partida actual
 e volver á sala de espera?</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <location line="+57"/>
-        <location line="+74"/>
+        <location line="+11"/>
+        <location line="+65"/>
+        <location line="+82"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location line="-693"/>
-        <location line="+602"/>
-        <location line="+22"/>
+        <location line="-733"/>
+        <location line="+633"/>
+        <location line="+23"/>
         <source>Leave Lobby</source>
         <translation>Saír da sala de espera</translation>
     </message>
     <message>
-        <location line="-15"/>
+        <location line="-16"/>
         <source>Attention! Do you really want to leave the lobby
 and disconnect from the server?</source>
         <translation>Atención! Está seguro de que quere saír da sala de espera

@@ -21,11 +21,8 @@
 #include "darkmode.h"
 #include "game_defs.h"
 #include "ziputils.h"
-#include <QBuffer>
-#include <QCryptographicHash>
 #include <QDirIterator>
 #include <QFileDialog>
-#include <QImage>
 #include <QTemporaryDir>
 #include <QTextStream>
 #include <QDir>
@@ -37,6 +34,7 @@
 #include <QVariantMap>
 #include <QXmlStreamReader>
 #include <core/appimage_utils.h>
+#include <core/avatarimport.h>
 
 SettingsManager::SettingsManager(boost::shared_ptr<ConfigFile> config, QObject *parent)
     : QObject(parent), m_config(config)
@@ -350,99 +348,52 @@ QString SettingsManager::pickDirectory(const QString &title, const QString &star
     return QDir(picked).absolutePath();
 }
 
-namespace
+bool SettingsManager::isAvatarUsable(const QString &path) const
 {
-// Obergrenze der Engine für Avatar-Dateien (MAX_AVATAR_FILE_SIZE in
-// core/avatarmanager.h, dort nicht ohne schwere Includes erreichbar);
-// größere Dateien verwirft der Upload stillschweigend.
-const qint64 kMaxAvatarFileSize = 30720;
-} // namespace
+    return AvatarImport::isUsable(path);
+}
+
+bool SettingsManager::takeMyAvatarWarning()
+{
+    if (m_myAvatarWarningTaken)
+        return false;
+
+    const QString path = myAvatar();
+    // Ein fehlender Pfad ist ein anderer Fall (kein Avatar gewählt) und wird
+    // wie bisher stillschweigend hingenommen – gewarnt wird nur, wenn eine
+    // Datei da ist, die niemand mehr zu sehen bekommt.
+    if (path.isEmpty() || !QFileInfo::exists(path) || isAvatarUsable(path))
+        return false;
+
+    m_myAvatarWarningTaken = true;
+    return true;
+}
+
+bool SettingsManager::fixMyAvatar()
+{
+    const QString path = myAvatar();
+    if (path.isEmpty() || isAvatarUsable(path))
+        return false;
+
+    // importPickedImage() kodiert die Datei neu, skaliert sie herunter und
+    // legt sie unter <UserDataDir>/gfx/avatars/user/ ab.
+    const QString fixed = importPickedImage(path);
+    if (fixed.isEmpty() || fixed == path || !isAvatarUsable(fixed))
+        return false;
+
+    setMyAvatar(fixed);
+    return true;
+}
 
 QString SettingsManager::importPickedImage(const QString &picked) const
 {
     if (picked.isEmpty() || !m_config)
         return picked;
 
-    // Lokale Dateien in Engine-tauglicher Größe direkt verwenden (wie der
-    // Widget-Client, der Pfade unverändert speichert).
-    const bool isContentUri = picked.startsWith(QLatin1String("content:"));
-    if (!isContentUri && QFileInfo(picked).size() <= kMaxAvatarFileSize)
-        return picked;
-
-    // Zwei Fälle, in denen die Auswahl so nicht verwendbar wäre:
-    //  - Android-content://-URIs sind nur für die laufende Sitzung lesbar und
-    //    weder von der file://-Vorschau noch von der Engine (std::ifstream
-    //    beim Avatar-Upload) zu öffnen.
-    //  - Dateien über dem Engine-Limit (typisch für Fotos aus der Galerie).
-    // Beides wird in eine echte Datei unter <UserDataDir>/gfx/avatars/user/
-    // überführt, bei Bedarf herunterskaliert. Dateiname = MD5 des Inhalts
-    // (Namenskonvention des AvatarManagers), so entstehen bei wiederholter
-    // Auswahl keine Duplikate.
-    QFile src(picked);
-    if (!src.open(QIODevice::ReadOnly))
-        return QString();
-    QByteArray data = src.readAll();
-    if (data.isEmpty())
-        return QString();
-
-    // Dateiendung anhand des Dateikopfs bestimmen (content://-URIs haben
-    // keine; die Engine erkennt den Avatar-Typ an der Endung).
-    QString ext;
-    if (data.startsWith("\x89PNG"))
-        ext = QStringLiteral(".png");
-    else if (data.startsWith("\xFF\xD8\xFF"))
-        ext = QStringLiteral(".jpg");
-    else if (data.startsWith("GIF8"))
-        ext = QStringLiteral(".gif");
-    else
-        return QString();
-
-    if (data.size() > kMaxAvatarFileSize) {
-        // Neu kodieren und stufenweise verkleinern, bis die Datei unter das
-        // Engine-Limit fällt (Avatare werden ohnehin klein dargestellt).
-        // Animierte GIFs über dem Limit werden dabei zum Standbild.
-        const QImage img = QImage::fromData(data);
-        if (img.isNull())
-            return QString();
-        const char *format = img.hasAlphaChannel() ? "PNG" : "JPG";
-        ext = img.hasAlphaChannel() ? QStringLiteral(".png") : QStringLiteral(".jpg");
-        QByteArray scaledData;
-        for (const int edge : { 192, 128, 96, 64 }) {
-            const QImage scaled = (img.width() > edge || img.height() > edge)
-                ? img.scaled(edge, edge, Qt::KeepAspectRatio, Qt::SmoothTransformation)
-                : img;
-            QByteArray out;
-            QBuffer buffer(&out);
-            buffer.open(QIODevice::WriteOnly);
-            if (!scaled.save(&buffer, format, 85))
-                return QString();
-            if (out.size() <= kMaxAvatarFileSize) {
-                scaledData = out;
-                break;
-            }
-        }
-        if (scaledData.isEmpty())
-            return QString();
-        data = scaledData;
-    }
-
-    // UserDataDir endet bereits mit einem Verzeichnis-Trennzeichen.
-    const QString dirPath = QString::fromStdString(m_config->readConfigString("UserDataDir"))
-                            + "gfx/avatars/user";
-    if (!QDir().mkpath(dirPath))
-        return QString();
-
-    const QString target = dirPath + "/"
-        + QString::fromLatin1(QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex())
-        + ext;
-    if (!QFile::exists(target)) {
-        QFile dst(target);
-        if (!dst.open(QIODevice::WriteOnly) || dst.write(data) != data.size()) {
-            dst.remove();
-            return QString();
-        }
-    }
-    return target;
+    // Auswahl, Prüfung und Umwandlung liegen in core/avatarimport.h, damit
+    // der Qt-Widgets-Client exakt dasselbe tut.
+    return AvatarImport::importImage(
+        picked, QString::fromStdString(m_config->readConfigString("UserDataDir")));
 }
 
 QUrl SettingsManager::avatarDisplayUrl(const QString &path) const

@@ -1779,7 +1779,22 @@ ClientStateWaitSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cli
 		if (!avatarError) {
 			client->GetSender().Send(client->GetContext().GetSessionData(), tmpList);
 		} else {
-			throw ClientException(__FILE__, __LINE__, avatarError, 0);
+			// Der eigene Avatar ist nicht uebertragbar - seit die Engine auch
+			// die Bildabmessungen begrenzt, betrifft das aeltere Avatare, die
+			// jahrelang in Ordnung waren. Frueher flog der Spieler hier mit
+			// einer Exception aus dem Login und kam gar nicht erst in die
+			// Lobby, um seinen Avatar zu wechseln. Stattdessen dem Server
+			// melden, dass wir den Avatar nicht liefern koennen: Er stellt die
+			// Sitzung ohne Avatar her (und laesst den in der Datenbank
+			// eingetragenen Hash in Ruhe), die Lobby weist beim Betreten
+			// darauf hin.
+			LOG_ERROR("Own avatar file \"" << client->GetContext().GetAvatarFile()
+					  << "\" cannot be sent (error " << avatarError << ") - continuing without avatar.");
+			boost::shared_ptr<NetPacket> unknownAvatar(new NetPacket);
+			unknownAvatar->GetMsg()->set_messagetype(PokerTHMessage::Type_UnknownAvatarMessage);
+			UnknownAvatarMessage *netUnknownAvatar = unknownAvatar->GetMsg()->mutable_unknownavatarmessage();
+			netUnknownAvatar->set_requestid(netAvatarRequest.requestid());
+			client->GetSender().Send(client->GetContext().GetSessionData(), unknownAvatar);
 		}
 	} else {
 	}

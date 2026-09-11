@@ -83,6 +83,19 @@ Rectangle {
             qsTr("Close game"))
     }
 
+    // Hinweis auf einen eigenen Avatar, den der Server nicht mehr ausliefert.
+    // Die eigene Vorschau zeigt ihn weiterhin, die Mitspieler sehen aber
+    // nichts – ohne diesen Hinweis merkt das niemand. SettingsManager gibt die
+    // Warnung nur einmal je Programmlauf heraus.
+    function checkMyAvatar() {
+        if (!SettingsManager || !SettingsManager.takeMyAvatarWarning())
+            return
+        myAvatarWarningPopup.openWith(
+            qsTr("Your avatar is no longer shown"),
+            qsTr("Other players do not see your avatar any more: the image exceeds the dimensions the server accepts.\n\nPokerTH can scale it down for you. The new avatar becomes active the next time you log in."),
+            qsTr("Scale down now"))
+    }
+
     function resetPlayerListDelegates() {
         playerListCollapseResetCounter += 1
         playerPanelList.currentIndex = -1
@@ -1462,6 +1475,31 @@ Rectangle {
         }
     }
 
+    // Avatar zu groß (siehe checkMyAvatar): Umrechnen anbieten und danach
+    // sagen, was daraus geworden ist. Das Ergebnis kommt per Qt.callLater,
+    // damit sich die beiden modalen Popups nicht um den Fokus streiten.
+    ConfirmPopup {
+        id: myAvatarWarningPopup
+        onConfirmed: Qt.callLater(function() {
+            if (SettingsManager && SettingsManager.fixMyAvatar()) {
+                myAvatarResultPopup.openWith(
+                    qsTr("Avatar adjusted"),
+                    qsTr("Your avatar has been scaled down. Other players will see it again after your next login."),
+                    qsTr("OK"))
+            } else {
+                myAvatarResultPopup.openWith(
+                    qsTr("Avatar not adjusted"),
+                    qsTr("The image could not be converted. Please pick a different avatar in the settings."),
+                    qsTr("OK"))
+            }
+        })
+    }
+
+    ConfirmPopup {
+        id: myAvatarResultPopup
+        showCancel: false
+    }
+
     // ── Passwort-Popup für private Spiele ────────────────────────────────────
     Popup {
         id: joinPasswordPopup
@@ -1746,6 +1784,11 @@ Rectangle {
         if (Lobby.rejoinOfferGameId !== 0) {
             rejoinGamePopup.answered = false
             Qt.callLater(function() { rejoinGamePopup.open() })
+        } else {
+            // Nur ohne Rejoin-Angebot: zwei modale Popups übereinander wären
+            // nicht zu bedienen. Die Warnung bleibt bis zum nächsten Betreten
+            // der Lobby stehen, sie wird erst beim Anzeigen "verbraucht".
+            Qt.callLater(checkMyAvatar)
         }
         // console.log("LobbyPage loaded")
         // console.log("My player name:", Lobby.myPlayerName)

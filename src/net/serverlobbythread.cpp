@@ -1412,6 +1412,10 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 		new PlayerData(GetNextUniquePlayerId(), 0, PLAYER_TYPE_HUMAN, validGuest ? PLAYER_RIGHTS_GUEST : PLAYER_RIGHTS_NORMAL, false));
 	tmpPlayerData->SetName(playerName);
 	tmpPlayerData->SetAvatarMD5(avatarMD5);
+	// Merken, was der Client angekuendigt hat: die Fehlerpfade leeren
+	// SetAvatarMD5(), und ohne diesen Wert waere danach nicht mehr zu
+	// unterscheiden, ob der Spieler gar keinen Avatar hat.
+	tmpPlayerData->SetAnnouncedAvatarMD5(avatarMD5);
 	if (initMessage.has_mylastsessionid()) {
 		tmpPlayerData->SetOldGuid(initMessage.mylastsessionid());
 	}
@@ -2109,7 +2113,22 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 		if (!tmpAvatarType.empty())
 			tmpAvatarType.erase(0, 1); // Only store extension without the "."
 	}
-	m_database->PlayerPostLogin(session->GetPlayerData()->GetDBId(), tmpAvatarHash, tmpAvatarType);
+	// Der Client hat einen Avatar angekuendigt, verwertbar ist er hier aber
+	// nicht (Upload abgelehnt, Datei nicht aufloesbar, Client kennt sie nicht
+	// mehr). Dann bleiben die Avatar-Spalten, wie sie sind: Der eingetragene
+	// Hash gehoert nach wie vor zu diesem Spieler - das per Upload auf den
+	// Webserver gelegte Bild liegt dort weiterhin, und die Webseite findet es
+	// nur ueber diesen Hash. Ihn hier zu leeren, waere nicht rueckholbar, denn
+	// kein Client schickt den alten Hash je wieder. Ohne Avatar spielt der
+	// Spieler in dieser Sitzung trotzdem weiter.
+	if (tmpAvatarHash.empty() && !session->GetPlayerData()->GetAnnouncedAvatarMD5().IsZero()) {
+		LOG_MSG("Player \"" << session->GetPlayerData()->GetName()
+			<< "\" announced avatar " << session->GetPlayerData()->GetAnnouncedAvatarMD5().ToString()
+			<< " which could not be used - keeping the stored avatar in the database.");
+		m_database->PlayerPostLoginKeepAvatar(session->GetPlayerData()->GetDBId());
+	} else {
+		m_database->PlayerPostLogin(session->GetPlayerData()->GetDBId(), tmpAvatarHash, tmpAvatarType);
+	}
 
 	// Generate a new GUID.
 	boost::uuids::uuid sessionGuid(m_sessionIdGenerator());

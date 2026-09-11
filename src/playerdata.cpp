@@ -42,7 +42,8 @@ PlayerData::PlayerData(unsigned uniqueId, int number, PlayerType type, PlayerRig
 PlayerData::PlayerData(const PlayerData &other)
 	: m_uniqueId(other.GetUniqueId()), m_dbId(other.GetDBId()), m_number(other.GetNumber()), m_startCash(other.GetStartCash()),
 	  m_guid(other.GetGuid()), m_oldGuid(other.GetOldGuid()), m_name(other.GetName()), m_password(), m_country(other.GetCountry()),
-	  m_avatarFile(other.GetAvatarFile()), m_avatarMD5(other.GetAvatarMD5()), m_type(other.GetType()), m_rights(other.GetRights()),
+	  m_avatarFile(other.GetAvatarFile()), m_avatarMD5(other.GetAvatarMD5()),
+	  m_announcedAvatarMD5(other.GetAnnouncedAvatarMD5()), m_type(other.GetType()), m_rights(other.GetRights()),
 	  m_isGameAdmin(other.IsGameAdmin()), m_netAvatarFile(), m_dataMutex()
 {
 }
@@ -104,6 +105,19 @@ PlayerData::SetAvatarMD5(const MD5Buf &avatarMD5)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	m_avatarMD5 = avatarMD5;
+}
+
+MD5Buf
+PlayerData::GetAnnouncedAvatarMD5() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_announcedAvatarMD5;
+}
+void
+PlayerData::SetAnnouncedAvatarMD5(const MD5Buf &avatarMD5)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_announcedAvatarMD5 = avatarMD5;
 }
 
 boost::shared_ptr<AvatarFile>

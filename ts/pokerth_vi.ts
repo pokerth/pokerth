@@ -3403,6 +3403,42 @@ Hãy mời những người chơi khác bằng cách chọn chuột phải vào 
         <source>Message to %1:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1754"/>
+        <source>Your avatar is no longer shown</source>
+        <translation>Hình đại diện của bạn không còn được hiển thị</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1755"/>
+        <source>Other players do not see your avatar any more: the image exceeds what the server accepts - either in file size or in image dimensions.
+
+Shall PokerTH scale it down for you? The new avatar becomes active the next time you log in.</source>
+        <translation>Người chơi khác không còn thấy hình đại diện của bạn: ảnh vượt quá mức máy chủ chấp nhận – về dung lượng tệp hoặc kích thước ảnh.
+
+PokerTH thu nhỏ ảnh giúp bạn nhé? Hình đại diện mới sẽ có hiệu lực trong lần đăng nhập tới.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1765"/>
+        <source>Avatar File Error</source>
+        <translation>Lỗi đối với tập tin hình đại diện</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1766"/>
+        <source>The picture could not be converted.
+Please choose a different avatar in the settings!</source>
+        <translation>Không thể chuyển đổi ảnh.
+Vui lòng chọn hình đại diện khác trong phần cài đặt!</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1774"/>
+        <source>Avatar adjusted</source>
+        <translation>Đã chỉnh hình đại diện</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1775"/>
+        <source>Your avatar has been scaled down. Other players will see it again after your next login.</source>
+        <translation>Hình đại diện của bạn đã được thu nhỏ. Người chơi khác sẽ thấy lại sau lần đăng nhập tới.</translation>
+    </message>
 </context>
 <context>
     <name>gameTable</name>
@@ -4366,6 +4402,27 @@ Hãy chọn một hình đại diện đúng kiểu với hệ thống!</transla
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="309"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Hình ảnh (có kiểu tập tin là *png *jpg *gif)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="282"/>
+        <source>Avatar picture not usable</source>
+        <translation>Không dùng được ảnh đại diện</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="283"/>
+        <source>The chosen picture exceeds what the server accepts - either in file size or in image dimensions. Other players would not see it.
+
+Shall PokerTH scale it down for you?</source>
+        <translation>Ảnh đã chọn vượt quá mức máy chủ chấp nhận – về dung lượng tệp hoặc kích thước ảnh. Người chơi khác sẽ không thấy ảnh này.
+
+PokerTH thu nhỏ ảnh giúp bạn nhé?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="299"/>
+        <source>The picture could not be converted.
+Please choose a smaller picture!</source>
+        <translation>Không thể chuyển đổi ảnh.
+Vui lòng chọn ảnh nhỏ hơn!</translation>
     </message>
 </context>
 <context>

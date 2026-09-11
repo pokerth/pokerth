@@ -138,6 +138,11 @@ public slots:
 	void clearDialog();
 	void keyPressEvent(QKeyEvent * keyEvent) override;
 	void showEvent(QShowEvent *event) override;
+	// Warnt einmal je Programmlauf, wenn der eingestellte eigene Avatar von
+	// der Engine abgelehnt wird: lokal ist er weiterhin zu sehen, die
+	// Mitspieler bekommen ihn aber nicht mehr - ohne Hinweis merkt das
+	// niemand. Auf Wunsch wird das Bild gleich verkleinert.
+	void checkMyAvatar();
 	bool event(QEvent * event) override;
 	void showGameDescription(bool show);
 	void showWaitStartGameMsgBox();
@@ -255,6 +260,7 @@ private:
 	QLabel *autoStartTimerOverlay;
 	int autoStartTimerCounter;
 	int lastNickListFilterState;
+	bool myAvatarWarningShown;
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;

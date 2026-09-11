@@ -63,6 +63,7 @@ public:
 	virtual void AsyncPlayerLogin(unsigned requestId, const std::string &playerName);
 	virtual void AsyncCheckAvatarBlacklist(unsigned requestId, const std::string &avatarHash);
 	virtual void PlayerPostLogin(DB_id playerId, const std::string &avatarHash, const std::string &avatarType);
+	virtual void PlayerPostLoginKeepAvatar(DB_id playerId);
 	virtual void PlayerLogout(DB_id playerId);
 
 	virtual void AsyncCreateGame(unsigned requestId, const std::string &gameName);

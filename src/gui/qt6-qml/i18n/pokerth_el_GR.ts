@@ -4,12 +4,12 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../pages/AboutPage.qml" line="+45"/>
+        <location filename="../pages/AboutPage.qml" line="+49"/>
         <source>No changelog available.</source>
         <translation>Δεν υπάρχει διαθέσιμο ιστορικό αλλαγών.</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+114"/>
         <source>About PokerTH</source>
         <translation>Σχετικά με το PokerTH</translation>
     </message>
@@ -208,7 +208,7 @@
 <context>
     <name>BbcRankingPage</name>
     <message>
-        <location filename="../pages/BbcRankingPage.qml" line="+36"/>
+        <location filename="../pages/BbcRankingPage.qml" line="+43"/>
         <source>BBC Ranking</source>
         <translation>Κατάταξη BBC</translation>
     </message>
@@ -223,7 +223,7 @@
         <translation>Όλων των εποχών</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Search nickname</source>
         <translation>Αναζήτηση ψευδωνύμου</translation>
     </message>
@@ -246,7 +246,7 @@
         <translation>Μήνυμα …</translation>
     </message>
     <message>
-        <location line="+797"/>
+        <location line="+807"/>
         <source>Link öffnen</source>
         <translation>Άνοιγμα συνδέσμου</translation>
     </message>
@@ -388,12 +388,12 @@
 <context>
     <name>CommunityRankingPage</name>
     <message>
-        <location filename="../pages/CommunityRankingPage.qml" line="+40"/>
+        <location filename="../pages/CommunityRankingPage.qml" line="+45"/>
         <source>Community / Ranking</source>
         <translation>Κοινότητα / κατάταξη</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>PokerTH Ranking</source>
         <translation>Κατάταξη PokerTH</translation>
     </message>
@@ -481,12 +481,12 @@
 <context>
     <name>ConfirmPopup</name>
     <message>
-        <location filename="../components/ConfirmPopup.qml" line="+25"/>
+        <location filename="../components/ConfirmPopup.qml" line="+33"/>
         <source>Yes</source>
         <translation>Ναι</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>Cancel</source>
         <translation>Ακύρωση</translation>
     </message>
@@ -502,7 +502,7 @@
 <context>
     <name>ExampleAvatarPicker</name>
     <message>
-        <location filename="../components/ExampleAvatarPicker.qml" line="+68"/>
+        <location filename="../components/ExampleAvatarPicker.qml" line="+70"/>
         <source>Beispiel-Avatar wählen</source>
         <translation>Επιλογή δείγματος άβαταρ</translation>
     </message>
@@ -539,7 +539,7 @@
         <translation>Νέα φόρουμ</translation>
     </message>
     <message>
-        <location line="+141"/>
+        <location line="+172"/>
         <source>No entries.</source>
         <translation>Δεν υπάρχουν καταχωρίσεις.</translation>
     </message>
@@ -557,7 +557,7 @@
 <context>
     <name>ForumPostPage</name>
     <message>
-        <location filename="../pages/ForumPostPage.qml" line="+78"/>
+        <location filename="../pages/ForumPostPage.qml" line="+81"/>
         <source>Translation failed.</source>
         <translation>Η μετάφραση απέτυχε.</translation>
     </message>
@@ -572,7 +572,7 @@
         <translation>Μετάφραση δημοσίευσης</translation>
     </message>
     <message>
-        <location line="+147"/>
+        <location line="+172"/>
         <source>Open in the forum</source>
         <translation>Άνοιγμα στο φόρουμ</translation>
     </message>
@@ -580,7 +580,7 @@
 <context>
     <name>GameActionBar</name>
     <message>
-        <location filename="../components/GameActionBar.qml" line="+997"/>
+        <location filename="../components/GameActionBar.qml" line="+1004"/>
         <source>Show</source>
         <translation>Εμφάνιση</translation>
     </message>
@@ -616,7 +616,7 @@
 <context>
     <name>GameInfoPanel</name>
     <message>
-        <location filename="../components/GameInfoPanel.qml" line="+62"/>
+        <location filename="../components/GameInfoPanel.qml" line="+68"/>
         <source>Höchste Karte</source>
         <translation>Υψηλό φύλλο</translation>
     </message>
@@ -676,7 +676,7 @@
         <translation>Πιθανότητες</translation>
     </message>
     <message>
-        <location line="+245"/>
+        <location line="+248"/>
         <source>Kopieren</source>
         <translation>Αντιγραφή</translation>
     </message>
@@ -732,7 +732,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+2310"/>
+        <location filename="../pages/GamePage.qml" line="+1581"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>Ιστορικό και πιθανότητες</translation>
     </message>
@@ -747,7 +747,7 @@
         <translation>Αντιδράσεις emoji</translation>
     </message>
     <message>
-        <location line="+314"/>
+        <location line="+319"/>
         <source>Game Over</source>
         <translation>Τέλος παιχνιδιού</translation>
     </message>
@@ -767,7 +767,7 @@
         <translation>Πίσω στο μενού</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>New Game</source>
         <translation>Νέο παιχνίδι</translation>
     </message>
@@ -775,7 +775,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+514"/>
+        <location filename="../components/GamePlayerBox.qml" line="+443"/>
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
@@ -828,7 +828,7 @@
 <context>
     <name>GamePlayerSelfBox</name>
     <message>
-        <location filename="../components/GamePlayerSelfBox.qml" line="+209"/>
+        <location filename="../components/GamePlayerSelfBox.qml" line="+151"/>
         <location line="+33"/>
         <source>Du</source>
         <translation>Εσείς</translation>
@@ -1001,7 +1001,7 @@
         <translation>Σκορ</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+157"/>
         <source>No ranking data for the players at this table yet.</source>
         <translation>Δεν υπάρχουν ακόμη δεδομένα κατάταξης για τους παίκτες σε αυτό το τραπέζι.</translation>
     </message>
@@ -1218,7 +1218,7 @@
 <context>
     <name>GlobalNoticePopup</name>
     <message>
-        <location filename="../components/GlobalNoticePopup.qml" line="+58"/>
+        <location filename="../components/GlobalNoticePopup.qml" line="+61"/>
         <source>Global notice</source>
         <translation>Γενική ανακοίνωση</translation>
     </message>
@@ -1567,7 +1567,7 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+314"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+326"/>
         <source>← Zurück</source>
         <translation>← Πίσω</translation>
     </message>
@@ -1970,7 +1970,7 @@ Please reenter the password and try again.</source>
 <context>
     <name>LobbyPage</name>
     <message>
-        <location filename="../pages/LobbyPage.qml" line="+1545"/>
+        <location filename="../pages/LobbyPage.qml" line="+1621"/>
         <source>Game invitation</source>
         <translation>Πρόσκληση σε παιχνίδι</translation>
     </message>
@@ -1980,7 +1980,7 @@ Please reenter the password and try again.</source>
         <translation>Ο/Η &lt;b&gt;%2&lt;/b&gt; σας προσκάλεσε στο παιχνίδι &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Θέλετε να μπείτε σε αυτό το παιχνίδι;</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Decline</source>
         <translation>Απόρριψη</translation>
     </message>
@@ -1990,29 +1990,29 @@ Please reenter the password and try again.</source>
         <translation>Είσοδος</translation>
     </message>
     <message>
-        <location line="-502"/>
+        <location line="-535"/>
         <source>Create Game</source>
         <translation>Δημιουργία Παιχνιδιού</translation>
     </message>
     <message>
-        <location line="-746"/>
-        <location line="+804"/>
+        <location line="-777"/>
+        <location line="+835"/>
         <source>Game Info</source>
         <translation>Πληροφορίες Παιχνιδιού</translation>
     </message>
     <message>
-        <location line="-534"/>
-        <location line="+483"/>
+        <location line="-565"/>
+        <location line="+514"/>
         <source>Join Game</source>
         <translation>Είσοδος σε παιχνίδι</translation>
     </message>
     <message>
-        <location line="-273"/>
+        <location line="-304"/>
         <source>Game List</source>
         <translation>Λίστα παιχνιδιών</translation>
     </message>
     <message>
-        <location line="+73"/>
+        <location line="+91"/>
         <source>Time: %1s/%2s</source>
         <translation>Χρόνος: %1 δ/%2 δ</translation>
     </message>
@@ -2032,38 +2032,38 @@ Please reenter the password and try again.</source>
         <translation>Κατάταξη</translation>
     </message>
     <message>
-        <location line="+115"/>
+        <location line="+128"/>
         <location line="+287"/>
         <source>Lobby Chat</source>
         <translation>Συνομιλία λόμπι</translation>
     </message>
     <message>
-        <location line="-613"/>
+        <location line="-644"/>
         <source>No game list filter</source>
         <translation>Χωρίς φίλτρο λίστας παιχνιδιών</translation>
     </message>
     <message>
-        <location line="+375"/>
+        <location line="+406"/>
         <source>Player: %1</source>
         <translation>Παίκτης: %1</translation>
     </message>
     <message>
-        <location line="-896"/>
+        <location line="-927"/>
         <source>Players</source>
         <translation>Παίκτες</translation>
     </message>
     <message>
-        <location line="+1010"/>
+        <location line="+1041"/>
         <source>Select a game to see details</source>
         <translation>Επιλέξτε ένα παιχνίδι για λεπτομέρειες</translation>
     </message>
     <message>
-        <location line="-486"/>
+        <location line="-517"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Εμφάνιση ανοιχτών, μη γεμάτων και δημόσιων παιχνιδιών</translation>
     </message>
     <message>
-        <location line="-627"/>
+        <location line="-640"/>
         <source>Report game name</source>
         <translation>Αναφορά ονόματος παιχνιδιού</translation>
     </message>
@@ -2098,7 +2098,26 @@ Please reenter the password and try again.</source>
 «%1»;</translation>
     </message>
     <message>
-        <location line="+169"/>
+        <location line="+13"/>
+        <source>Your avatar is no longer shown</source>
+        <translation>Το άβαταρ σου δεν εμφανίζεται πλέον</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Other players do not see your avatar any more: the image exceeds the dimensions the server accepts.
+
+PokerTH can scale it down for you. The new avatar becomes active the next time you log in.</source>
+        <translation>Οι άλλοι παίκτες δεν βλέπουν πια το άβαταρ σου: η εικόνα ξεπερνά τις διαστάσεις που δέχεται ο διακομιστής.
+
+Το PokerTH μπορεί να τη σμικρύνει για σένα. Το νέο άβαταρ θα ισχύσει από την επόμενη σύνδεση.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Scale down now</source>
+        <translation>Σμίκρυνση τώρα</translation>
+    </message>
+    <message>
+        <location line="+167"/>
         <location line="+510"/>
         <source>Sort alphabetically</source>
         <translation>Ταξινόμηση αλφαβητικά</translation>
@@ -2117,18 +2136,18 @@ Please reenter the password and try again.</source>
     </message>
     <message>
         <location line="-423"/>
-        <location line="+799"/>
+        <location line="+830"/>
         <source>Report inappropriate game name</source>
         <translation>Αναφορά ακατάλληλου ονόματος παιχνιδιού</translation>
     </message>
     <message>
-        <location line="-791"/>
-        <location line="+798"/>
+        <location line="-822"/>
+        <location line="+829"/>
         <source>Close game (admin)</source>
         <translation>Κλείσιμο παιχνιδιού (διαχειριστής)</translation>
     </message>
     <message>
-        <location line="-761"/>
+        <location line="-792"/>
         <source>Players: %1 / %2</source>
         <translation>Παίκτες: %1 / %2</translation>
     </message>
@@ -2139,12 +2158,12 @@ Please reenter the password and try again.</source>
     </message>
     <message>
         <location line="+33"/>
-        <location line="+742"/>
+        <location line="+773"/>
         <source>Type: %1</source>
         <translation>Τύπος: %1</translation>
     </message>
     <message>
-        <location line="-731"/>
+        <location line="-762"/>
         <source>Small blind: %1</source>
         <translation>Μικρό τυφλό: %1</translation>
     </message>
@@ -2192,18 +2211,18 @@ Please reenter the password and try again.</source>
     </message>
     <message>
         <location line="+12"/>
-        <location line="+690"/>
+        <location line="+721"/>
         <source>Players in game (%1)</source>
         <translation>Παίκτες στο παιχνίδι (%1)</translation>
     </message>
     <message>
-        <location line="-605"/>
-        <location line="+483"/>
+        <location line="-636"/>
+        <location line="+514"/>
         <source>Leave Game</source>
         <translation>Αποχώρηση από το παιχνίδι</translation>
     </message>
     <message>
-        <location line="-386"/>
+        <location line="-417"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Εμφάνιση ανοιχτών, μη γεμάτων και ιδιωτικών παιχνιδιών</translation>
     </message>
@@ -2218,20 +2237,20 @@ Please reenter the password and try again.</source>
         <translation>Συνδεδεμένοι παίκτες</translation>
     </message>
     <message>
-        <location line="-658"/>
-        <location line="+846"/>
+        <location line="-671"/>
+        <location line="+877"/>
         <source>Spectate game</source>
         <translation>Παρακολούθηση παιχνιδιού</translation>
     </message>
     <message>
-        <location line="-845"/>
+        <location line="-876"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
         <translation>Θέλετε σίγουρα να παρακολουθήσετε το παιχνίδι:
 «%1»;</translation>
     </message>
     <message>
-        <location line="+950"/>
+        <location line="+994"/>
         <location line="+287"/>
         <source>Global notice (admin)</source>
         <translation>Γενική ανακοίνωση (διαχειριστής)</translation>
@@ -2242,7 +2261,33 @@ Please reenter the password and try again.</source>
         <translation>ΜΤ: %1 | Αρχικό κεφάλαιο: %2</translation>
     </message>
     <message>
-        <location line="+272"/>
+        <location line="+257"/>
+        <source>Avatar adjusted</source>
+        <translation>Το άβαταρ προσαρμόστηκε</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your avatar has been scaled down. Other players will see it again after your next login.</source>
+        <translation>Το άβαταρ σου σμικρύνθηκε. Οι άλλοι παίκτες θα το δουν ξανά μετά την επόμενη σύνδεσή σου.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+5"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Avatar not adjusted</source>
+        <translation>Το άβαταρ δεν προσαρμόστηκε</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The image could not be converted. Please pick a different avatar in the settings.</source>
+        <translation>Η εικόνα δεν ήταν δυνατό να μετατραπεί. Επίλεξε άλλο άβαταρ στις ρυθμίσεις.</translation>
+    </message>
+    <message>
+        <location line="+37"/>
         <source>Privates Spiel</source>
         <translation>Ιδιωτικό παιχνίδι</translation>
     </message>
@@ -2267,7 +2312,7 @@ Please reenter the password and try again.</source>
         <translation>Είσοδος</translation>
     </message>
     <message>
-        <location line="+141"/>
+        <location line="+151"/>
         <source>Rejoin possible</source>
         <translation>Δυνατή η επιστροφή στο παιχνίδι</translation>
     </message>
@@ -2282,12 +2327,12 @@ Please reenter the password and try again.</source>
         <translation>Όχι</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Rejoin</source>
         <translation>Επιστροφή</translation>
     </message>
     <message>
-        <location line="-976"/>
+        <location line="-1046"/>
         <source>Show open &amp; non-full games</source>
         <translation>Εμφάνιση ανοιχτών και μη γεμάτων παιχνιδιών</translation>
     </message>
@@ -2334,7 +2379,7 @@ Please reenter the password and try again.</source>
 <context>
     <name>LocalGamePage</name>
     <message>
-        <location filename="../pages/LocalGamePage.qml" line="+27"/>
+        <location filename="../pages/LocalGamePage.qml" line="+38"/>
         <source>alle %1 Hände</source>
         <translation>κάθε %1 χέρια</translation>
     </message>
@@ -2447,7 +2492,7 @@ Please reenter the password and try again.</source>
         <translation>Ακύρωση</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Spiel starten</source>
         <translation>Έναρξη παιχνιδιού</translation>
     </message>
@@ -2595,7 +2640,7 @@ Please reenter the password and try again.</source>
         <translation>Δυνατό</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</source>
         <translation>Ισχύει για τοπικά παιχνίδια. Στα δικτυακά παιχνίδια το επίπεδο των παικτών υπολογιστή το καθορίζει ο διακομιστής.</translation>
     </message>
@@ -2716,7 +2761,7 @@ Uploading log files may fail if you are using an http proxy.</source>
         <translation>Παιχνίδι:</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+100"/>
         <source>Preview:</source>
         <translation>Προεπισκόπηση:</translation>
     </message>
@@ -2732,12 +2777,12 @@ Uploading log files may fail if you are using an http proxy.</source>
     </message>
     <message>
         <location line="+6"/>
-        <location line="+133"/>
+        <location line="+156"/>
         <source>Save as ...</source>
         <translation>Αποθήκευση ως ...</translation>
     </message>
     <message>
-        <location line="-127"/>
+        <location line="-150"/>
         <source>Delete</source>
         <translation>Διαγραφή</translation>
     </message>
@@ -2757,22 +2802,22 @@ Uploading log files may fail if you are using an http proxy.</source>
         <translation>PokerTH - Διαγραφή αρχείων καταγραφής</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+9"/>
         <source>Do you really want to delete the selected log files?</source>
         <translation>Θέλετε πραγματικά να διαγράψετε τα επιλεγμένα αρχεία καταγραφής;</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+15"/>
         <source>Uploading log file</source>
         <translation>Αποστολή αρχείου καταγραφής</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+23"/>
         <source>Debug log</source>
         <translation>Αρχείο εντοπισμού σφαλμάτων</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+50"/>
         <source>Refresh</source>
         <translation>Ανανέωση</translation>
     </message>
@@ -2855,7 +2900,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>NetworkGameCreatePage</name>
     <message>
-        <location filename="../pages/NetworkGameCreatePage.qml" line="+113"/>
+        <location filename="../pages/NetworkGameCreatePage.qml" line="+133"/>
         <source>← Zurück</source>
         <translation>← Πίσω</translation>
     </message>
@@ -2932,12 +2977,12 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     </message>
     <message>
         <location line="+37"/>
-        <location line="+35"/>
+        <location line="+37"/>
         <source>Abbrechen</source>
         <translation>Ακύρωση</translation>
     </message>
     <message>
-        <location line="-30"/>
+        <location line="-31"/>
         <source>Spiel erstellen</source>
         <translation>Δημιουργία παιχνιδιού</translation>
     </message>
@@ -2950,7 +2995,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>NetworkGameEnterPage</name>
     <message>
-        <location filename="../pages/NetworkGameEnterPage.qml" line="+97"/>
+        <location filename="../pages/NetworkGameEnterPage.qml" line="+121"/>
         <source>← Zurück</source>
         <translation>← Πίσω</translation>
     </message>
@@ -3000,12 +3045,12 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
         <translation>Όνομα προφίλ</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+22"/>
         <source>Name des Profils</source>
         <translation>Το όνομα του προφίλ</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Speichern</source>
         <translation>Αποθήκευση</translation>
     </message>
@@ -3016,12 +3061,12 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     </message>
     <message>
         <location line="+92"/>
-        <location line="+36"/>
+        <location line="+38"/>
         <source>Abbrechen</source>
         <translation>Ακύρωση</translation>
     </message>
     <message>
-        <location line="-31"/>
+        <location line="-32"/>
         <source>Verbinden</source>
         <translation>Σύνδεση</translation>
     </message>
@@ -3311,7 +3356,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>PlayerNoteDialog</name>
     <message>
-        <location filename="../components/PlayerNoteDialog.qml" line="+57"/>
+        <location filename="../components/PlayerNoteDialog.qml" line="+60"/>
         <source>Note about &quot;%1&quot;</source>
         <translation>Σημείωση για τον/την «%1»</translation>
     </message>
@@ -3321,7 +3366,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
         <translation>Βαθμολογία:</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+48"/>
         <source>Your private note about this player ...</source>
         <translation>Η προσωπική σας σημείωση για αυτόν τον παίκτη ...</translation>
     </message>
@@ -3375,7 +3420,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>PokerthPlayerPage</name>
     <message>
-        <location filename="../pages/PokerthPlayerPage.qml" line="+81"/>
+        <location filename="../pages/PokerthPlayerPage.qml" line="+107"/>
         <source>Could not load player (HTTP %1).</source>
         <translation>Δεν ήταν δυνατή η φόρτωση των στοιχείων του παίκτη (HTTP %1).</translation>
     </message>
@@ -3461,7 +3506,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>PrivateMessageDialog</name>
     <message>
-        <location filename="../components/PrivateMessageDialog.qml" line="+190"/>
+        <location filename="../components/PrivateMessageDialog.qml" line="+193"/>
         <source>Private messages</source>
         <translation>Προσωπικά μηνύματα</translation>
     </message>
@@ -3620,7 +3665,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>RankingPage</name>
     <message>
-        <location filename="../pages/RankingPage.qml" line="+90"/>
+        <location filename="../pages/RankingPage.qml" line="+97"/>
         <source>Could not load ranking (HTTP %1).</source>
         <translation>Δεν ήταν δυνατή η φόρτωση της κατάταξης (HTTP %1).</translation>
     </message>
@@ -3650,7 +3695,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
         <translation>Όνομα χρήστη</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+31"/>
         <source>#</source>
         <translation>#</translation>
     </message>
@@ -3759,57 +3804,57 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+241"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+341"/>
         <source>Back</source>
         <translation>Πίσω</translation>
     </message>
     <message>
-        <location line="+94"/>
+        <location line="+96"/>
         <source>Cancel</source>
         <translation>Ακύρωση</translation>
     </message>
     <message>
-        <location line="-65"/>
+        <location line="-66"/>
         <source>Connecting as...</source>
         <translation>Σύνδεση ως...</translation>
     </message>
     <message>
-        <location line="-108"/>
+        <location line="-150"/>
         <source>Continue as Guest</source>
         <translation>Συνέχεια ως επισκέπτης</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+201"/>
         <source>Initializing connection...</source>
         <translation>Προετοιμασία σύνδεσης...</translation>
     </message>
     <message>
-        <location line="-74"/>
+        <location line="-75"/>
         <source>Login</source>
         <translation>Σύνδεση</translation>
     </message>
     <message>
-        <location line="-97"/>
+        <location line="-138"/>
         <source>Login as User</source>
         <translation>Σύνδεση ως χρήστης</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+104"/>
         <source>Password</source>
         <translation>Κωδικός</translation>
     </message>
     <message>
-        <location line="-59"/>
+        <location line="-98"/>
         <source>Register</source>
         <translation>Εγγραφή</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+115"/>
         <source>Remember me</source>
         <translation>Να με θυμάσαι</translation>
     </message>
     <message>
-        <location line="-48"/>
+        <location line="-67"/>
         <source>User Login</source>
         <translation>Σύνδεση χρήστη</translation>
     </message>
@@ -3819,7 +3864,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
         <translation>Όνομα χρήστη</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+101"/>
         <source>Username/Guest</source>
         <translation>Όνομα χρήστη/επισκέπτης</translation>
     </message>
@@ -4207,12 +4252,12 @@ Please check your username and password.</source>
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+327"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+328"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
         <translation>Εικόνες (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+236"/>
+        <location line="+302"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Επιλογή στυλ τραπεζιού</translation>
     </message>
@@ -4365,7 +4410,7 @@ Please check your username and password.</source>
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../pages/SettingsPage.qml" line="+254"/>
+        <location filename="../pages/SettingsPage.qml" line="+264"/>
         <source>Benutzeroberfläche</source>
         <translation>Διεπαφή χρήστη</translation>
     </message>
@@ -4492,7 +4537,7 @@ Please check your username and password.</source>
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../pages/StartPage.qml" line="+155"/>
+        <location filename="../pages/StartPage.qml" line="+161"/>
         <source>Internetspiel</source>
         <translation>Διαδικτυακό παιχνίδι</translation>
     </message>
@@ -4694,7 +4739,7 @@ Vorschau</source>
 <context>
     <name>WecRankingPage</name>
     <message>
-        <location filename="../pages/WecRankingPage.qml" line="+22"/>
+        <location filename="../pages/WecRankingPage.qml" line="+29"/>
         <source>January</source>
         <translation>Ιανουάριος</translation>
     </message>
@@ -4779,7 +4824,7 @@ Vorschau</source>
         <translation>Όλων των εποχών</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Search nickname</source>
         <translation>Αναζήτηση ψευδωνύμου</translation>
     </message>
@@ -4792,7 +4837,7 @@ Vorschau</source>
         <translation>PokerTH - v2.1.8</translation>
     </message>
     <message>
-        <location line="+287"/>
+        <location line="+297"/>
         <source>Back</source>
         <translation>Πίσω</translation>
     </message>
@@ -4822,7 +4867,7 @@ Vorschau</source>
         <translation>Ρυθμίσεις</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+198"/>
         <source>Timeout Warning</source>
         <translation>Προειδοποίηση λήξης χρόνου</translation>
     </message>
@@ -4857,23 +4902,23 @@ Vorschau</source>
         <translation>Πατήστε «OK» για να σταματήσει η αντίστροφη μέτρηση!</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <location line="+285"/>
+        <location line="+8"/>
+        <location line="+325"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location line="-250"/>
+        <location line="-284"/>
         <source>Server Message</source>
         <translation>Μήνυμα διακομιστή</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Close</source>
         <translation>Κλείσιμο</translation>
     </message>
     <message>
-        <location line="+156"/>
+        <location line="+181"/>
         <source>Connection interrupted</source>
         <translation>Η σύνδεση διακόπηκε</translation>
     </message>
@@ -4893,40 +4938,40 @@ Vorschau</source>
         <translation>Η θέση σας στο τραπέζι παραμένει δεσμευμένη για μερικά λεπτά.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+55"/>
         <source>Connection lost</source>
         <translation>Η σύνδεση χάθηκε</translation>
     </message>
     <message>
-        <location line="-734"/>
-        <location line="+545"/>
-        <location line="+22"/>
+        <location line="-780"/>
+        <location line="+568"/>
+        <location line="+23"/>
         <source>Leave Game</source>
         <translation>Αποχώρηση από το παιχνίδι</translation>
     </message>
     <message>
-        <location line="-15"/>
+        <location line="-16"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>Προσοχή! Θέλετε πράγματι να εγκαταλείψετε το τρέχον παιχνίδι
 και να επιστρέψετε στο λόμπι;</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <location line="+57"/>
-        <location line="+74"/>
+        <location line="+11"/>
+        <location line="+65"/>
+        <location line="+82"/>
         <source>Cancel</source>
         <translation>Ακύρωση</translation>
     </message>
     <message>
-        <location line="-693"/>
-        <location line="+602"/>
-        <location line="+22"/>
+        <location line="-733"/>
+        <location line="+633"/>
+        <location line="+23"/>
         <source>Leave Lobby</source>
         <translation>Αποχώρηση από το λόμπι</translation>
     </message>
     <message>
-        <location line="-15"/>
+        <location line="-16"/>
         <source>Attention! Do you really want to leave the lobby
 and disconnect from the server?</source>
         <translation>Προσοχή! Θέλετε πράγματι να αποχωρήσετε από το λόμπι

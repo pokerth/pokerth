@@ -96,6 +96,16 @@ public:
 	void SetAvatarFile(const std::string &avatarFile);
 	MD5Buf GetAvatarMD5() const;
 	void SetAvatarMD5(const MD5Buf &avatarMD5);
+	// Der beim Login angekündigte Avatar-Hash. Anders als m_avatarMD5 wird er
+	// nie zurückgesetzt: Scheitert die Übernahme des Avatars (Upload
+	// abgelehnt, Client kennt ihn nicht mehr), leert der Server m_avatarMD5,
+	// damit die Spielerauskunft ohne Avatar rausgeht. Für die Datenbank muss
+	// aber unterscheidbar bleiben, ob der Spieler gar keinen Avatar hat oder
+	// ob nur die Übernahme misslang - sonst löscht ein einziger fehlgeschlagener
+	// Upload den seit Jahren eingetragenen Hash (und damit das Bild auf der
+	// Webseite) unwiederbringlich.
+	MD5Buf GetAnnouncedAvatarMD5() const;
+	void SetAnnouncedAvatarMD5(const MD5Buf &avatarMD5);
 	boost::shared_ptr<AvatarFile> GetNetAvatarFile() const;
 	void SetNetAvatarFile(boost::shared_ptr<AvatarFile> AvatarFile);
 	PlayerType GetType() const;
@@ -136,6 +146,7 @@ private:
 	std::string						m_country;
 	std::string						m_avatarFile;
 	MD5Buf							m_avatarMD5;
+	MD5Buf							m_announcedAvatarMD5;
 	PlayerType						m_type;
 	PlayerRights					m_rights;
 	bool							m_isGameAdmin;

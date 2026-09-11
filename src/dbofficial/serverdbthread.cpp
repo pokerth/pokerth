@@ -78,6 +78,7 @@
 
 #define QUERY_NICK_PREPARE				"nick_template"
 #define QUERY_LOGIN_PREPARE				"login_template"
+#define QUERY_LOGIN_KEEPAVATAR_PREPARE	"login_keepavatar_template"
 #define QUERY_AVATAR_BLACKLIST_PREPARE	"avatar_blacklist_template"
 #define QUERY_CREATE_GAME_PREPARE		"create_game_template"
 #define QUERY_END_GAME_PREPARE			"end_game_template"
@@ -196,6 +197,23 @@ ServerDBThread::PlayerPostLogin(DB_id playerId, const std::string &avatarHash, c
 		new AsyncDBLogin(
 			playerId,
 			QUERY_LOGIN_PREPARE,
+			params));
+
+	EnqueueQuery(asyncQuery);
+}
+
+void
+ServerDBThread::PlayerPostLoginKeepAvatar(DB_id playerId)
+{
+	list<string> params;
+	params.push_back(mysqlpp::DateTime(time(NULL)));
+	ostringstream paramStream;
+	paramStream << playerId;
+	params.push_back(paramStream.str());
+	boost::shared_ptr<AsyncDBQuery> asyncQuery(
+		new AsyncDBLogin(
+			playerId,
+			QUERY_LOGIN_KEEPAVATAR_PREPARE,
 			params));
 
 	EnqueueQuery(asyncQuery);
@@ -878,6 +896,12 @@ ServerDBThread::EstablishDBConnection()
 		prepareLogin
 				<< "PREPARE " QUERY_LOGIN_PREPARE " FROM " << mysqlpp::quote
 				<< "UPDATE " DB_TABLE_PLAYER " SET " DB_TABLE_PLAYER_COL_LASTLOGIN " = ?, " DB_TABLE_PLAYER_COL_AVATARHASH " = ?, " DB_TABLE_PLAYER_COL_AVATARTYPE " = ? WHERE " DB_TABLE_PLAYER_COL_ID " = ?";
+		// Nur den Login-Zeitpunkt fortschreiben: die Avatar-Spalten bleiben
+		// stehen, wenn der angekuendigte Avatar nicht uebernommen werden konnte.
+		mysqlpp::Query prepareLoginKeepAvatar = m_connData->conn.query();
+		prepareLoginKeepAvatar
+				<< "PREPARE " QUERY_LOGIN_KEEPAVATAR_PREPARE " FROM " << mysqlpp::quote
+				<< "UPDATE " DB_TABLE_PLAYER " SET " DB_TABLE_PLAYER_COL_LASTLOGIN " = ? WHERE " DB_TABLE_PLAYER_COL_ID " = ?";
 		mysqlpp::Query prepareCreateGame = m_connData->conn.query();
 		prepareCreateGame
 				<< "PREPARE " QUERY_CREATE_GAME_PREPARE " FROM " << mysqlpp::quote
@@ -918,10 +942,12 @@ ServerDBThread::EstablishDBConnection()
 		preparePlayerLastGames
 				<< "PREPARE " QUERY_PLAYER_LASTGAMES_PREPARE " FROM " << mysqlpp::quote
 				<< "UPDATE " DB_TABLE_PLAYER " SET " DB_TABLE_PLAYER_COL_LASTGAMES " = ?, " DB_TABLE_PLAYER_COL_LASTIP " = ? WHERE " DB_TABLE_PLAYER_COL_ID " = ?";
-		if (!prepareNick.exec() || !prepareAvatarBlacklist.exec() || !prepareLogin.exec() || !prepareCreateGame.exec()
+		if (!prepareNick.exec() || !prepareAvatarBlacklist.exec() || !prepareLogin.exec()
+				|| !prepareLoginKeepAvatar.exec() || !prepareCreateGame.exec()
 				|| !prepareEndGame.exec() || !prepareRelation.exec() || !prepareScore.exec() || !prepareReportAvatar.exec()
 				|| !prepareReportGame.exec() || !prepareAdminPlayer.exec() || !prepareBlockPlayer.exec() || !preparePlayerLastGames.exec()) {
-			string tmpError = string(prepareNick.error()) + prepareAvatarBlacklist.error() + prepareLogin.error() + prepareCreateGame.error() +
+			string tmpError = string(prepareNick.error()) + prepareAvatarBlacklist.error() + prepareLogin.error() +
+							  prepareLoginKeepAvatar.error() + prepareCreateGame.error() +
 							  prepareEndGame.error() + prepareRelation.error() + prepareScore.error() + prepareReportAvatar.error() +
 							  prepareReportGame.error() + prepareAdminPlayer.error() + prepareBlockPlayer.error() + preparePlayerLastGames.error();
 			m_connData->conn.disconnect();

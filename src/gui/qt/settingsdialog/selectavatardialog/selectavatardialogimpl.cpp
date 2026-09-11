@@ -30,6 +30,7 @@
  *****************************************************************************/
 #include "selectavatardialogimpl.h"
 #include "core/appimage_utils.h"
+#include "core/avatarimport.h"
 #include "myavatarlistitem.h"
 #include <QScreen>
 #include "mymessagebox.h"
@@ -269,17 +270,39 @@ void selectAvatarDialogImpl::isAccepted()
 		QFile lineEditFile(lineEdit->text());
 		if(lineEditFile.exists()) {
 
-			if(lineEditFile.size() <= 30720 ) {
+			// Ob das Bild taugt, entscheidet die Engine (Dateigröße, Format
+			// und seit 2.1.8 auch die Bildabmessungen) - dieselbe Prüfung, die
+			// der Server beim Ausliefern anwendet. Die reine Dateigröße genügt
+			// nicht: ein flächiges 2000x2000-PNG bleibt unter 30 KB, wird aber
+			// abgelehnt, und der Avatar wäre für alle anderen unsichtbar.
+			if(AvatarImport::isUsable(lineEdit->text())) {
 				externalAvatar = lineEdit->text();
 				settingsCorrect = true;
 			} else {
-				MyMessageBox::warning(this, tr("Avatar File Error"),
-									  tr("The file size of the chosen picture is too big. (max. 30KB)\n"
-										 "Please choose a smaller picture!"),
-									  QMessageBox::Ok);
-				settingsCorrect = false;
-				externalAvatar = "";
-
+				int ret = MyMessageBox::question(this, tr("Avatar picture not usable"),
+												 tr("The chosen picture exceeds what the server accepts - either in file size "
+													"or in image dimensions. Other players would not see it.\n\n"
+													"Shall PokerTH scale it down for you?"),
+												 QMessageBox::Yes | QMessageBox::No);
+				const QString converted = (ret == QMessageBox::Yes)
+										  ? AvatarImport::importImage(
+											  lineEdit->text(),
+											  QString::fromUtf8(myConfig->readConfigString("UserDataDir").c_str()))
+										  : QString();
+				if(!converted.isEmpty()) {
+					lineEdit->setText(converted);
+					externalAvatar = converted;
+					settingsCorrect = true;
+				} else {
+					if(ret == QMessageBox::Yes) {
+						MyMessageBox::warning(this, tr("Avatar File Error"),
+											  tr("The picture could not be converted.\n"
+												 "Please choose a smaller picture!"),
+											  QMessageBox::Ok);
+					}
+					settingsCorrect = false;
+					externalAvatar = "";
+				}
 			}
 		} else {
 			MyMessageBox::warning(this, tr("Avatar File Error"),

@@ -78,6 +78,11 @@ ServerDBGeneric::PlayerPostLogin(DB_id /*playerId*/, const std::string &/*avatar
 }
 
 void
+ServerDBGeneric::PlayerPostLoginKeepAvatar(DB_id /*playerId*/)
+{
+}
+
+void
 ServerDBGeneric::PlayerLogout(DB_id /*playerId*/)
 {
 }

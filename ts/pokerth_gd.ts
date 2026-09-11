@@ -3564,6 +3564,42 @@ Faodaidh tu cuireadh a thoirt dha chluicheadair eile le briogadh deas air fhar-a
         <source>Message to %1:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1754"/>
+        <source>Your avatar is no longer shown</source>
+        <translation>Cha tèid an t-avatar agad a shealltainn tuilleadh</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1755"/>
+        <source>Other players do not see your avatar any more: the image exceeds what the server accepts - either in file size or in image dimensions.
+
+Shall PokerTH scale it down for you? The new avatar becomes active the next time you log in.</source>
+        <translation>Chan fhaic cluicheadairean eile an t-avatar agad tuilleadh: tha an dealbh nas motha na ghabhas am frithealaiche ris – ann am meud faidhle no ann am meudan an deilbh.
+
+Am bu chòir dha PokerTH a lughdachadh dhut? Bidh an t-avatar ùr an sàs an ath-thuras a chlàraicheas tu a-steach.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1765"/>
+        <source>Avatar File Error</source>
+        <translation>Mearachd le faidhle an avatar</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1766"/>
+        <source>The picture could not be converted.
+Please choose a different avatar in the settings!</source>
+        <translation>Cha b' urrainn dhuinn an dealbh iompachadh.
+Tagh avatar eile anns na roghainnean!</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1774"/>
+        <source>Avatar adjusted</source>
+        <translation>Chaidh an t-avatar atharrachadh</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1775"/>
+        <source>Your avatar has been scaled down. Other players will see it again after your next login.</source>
+        <translation>Chaidh an t-avatar agad a lughdachadh. Chì cluicheadairean eile e a-rithist às dèidh dhut clàradh a-steach an ath-thuras.</translation>
+    </message>
 </context>
 <context>
     <name>gameTable</name>
@@ -4508,6 +4544,27 @@ Feuch an cuir thu a-steach dealbh dligheach!</translation>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="309"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Dealbhan (*.png *.jpg *.gif)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="282"/>
+        <source>Avatar picture not usable</source>
+        <translation>Cha ghabh dealbh an avatar a chleachdadh</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="283"/>
+        <source>The chosen picture exceeds what the server accepts - either in file size or in image dimensions. Other players would not see it.
+
+Shall PokerTH scale it down for you?</source>
+        <translation>Tha an dealbh a thagh thu nas motha na ghabhas am frithealaiche ris – ann am meud faidhle no ann am meudan an deilbh. Chan fhaiceadh cluicheadairean eile e.
+
+Am bu chòir dha PokerTH a lughdachadh dhut?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="299"/>
+        <source>The picture could not be converted.
+Please choose a smaller picture!</source>
+        <translation>Cha b' urrainn dhuinn an dealbh iompachadh.
+Tagh dealbh nas lugha!</translation>
     </message>
 </context>
 <context>
