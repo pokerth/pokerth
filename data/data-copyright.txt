@@ -1,129 +1,202 @@
-// Copyright information for files in data/* shipped with PokerTH //
+================================================================================
+ Copyright and source information for the data files shipped with PokerTH
+================================================================================
+
+This file lists where the material below data/ comes from. Every entry names
+the files, their source and, where one applies, the license.
+
+Styles contributed by their authors carry the author in their own style XML
+(StyleMaintainerName / StyleMaintainerEMail); see docs/gui_styling_howto.txt.
 
 
->> Items <<					>> Sources <<		
-_________________________________________________________________________________________________________________________________
+--------------------------------------------------------------------------------
+ fonts/
+--------------------------------------------------------------------------------
 
-fonts: 
-	- c059013l.pfb, n019003l.pfb 		--> http://sourceforge.net/project/showfiles.php?group_id=3498
-	- VeraBd.ttf 				--> http://ftp.gnome.org/pub/GNOME/sources/ttf-bitstream-vera/1.10/
+  DejaVuSans-Bold.ttf (DejaVu Sans Bold, version 2.34)
+      Bitstream Vera Fonts, (c) Bitstream Inc.; the DejaVu changes are in the
+      public domain, glyphs imported from the Arev fonts are (c) Tavmjung Bah
+      http://dejavu.sourceforge.net/wiki/index.php/License
+      https://dejavu-fonts.github.io/
 
-
-sounds/default:
-
-	- yourturn.wav 				--> http://websvn.kde.org/trunk/KDE/kdebase/runtime/knotify/sounds/KDE_Beep_Connect.ogg
-	- lobbychatnotify.wav			--> http://websvn.kde.org/trunk/KDE/kdebase/runtime/knotify/sounds/KDE_Beep.ogg
-	- onlinegameready.wav			--> http://kde-look.org/content/show.php/kJazz?content=5099
-	
-	- allin.wav, bet.wav, 
-	raise.wav, check.wav, 
-	call.wav, dealtwocards.waw 		--> donated by pokerth.net user: doc_dos
-        - blinds_raises_level1-3                --> donated by pokerth.net user: texas_outlaw
+  NotoColorEmoji.ttf (Noto Color Emoji, version 2.051)
+      (c) Google, SIL Open Font License 1.1
+      https://fonts.google.com/noto/specimen/Noto+Color+Emoji
+      https://github.com/googlefonts/noto-emoji
 
 
-gfx/cards/default: 
+--------------------------------------------------------------------------------
+ sounds/default/
+--------------------------------------------------------------------------------
 
-	- 0.png - 52.png			--> http://commons.wikimedia.org/wiki/Poker_(cards_deck)
+  yourturn.wav
+      http://websvn.kde.org/trunk/KDE/kdebase/runtime/knotify/sounds/KDE_Beep_Connect.ogg
 
+  lobbychatnotify.wav
+      http://websvn.kde.org/trunk/KDE/kdebase/runtime/knotify/sounds/KDE_Beep.ogg
 
-gfx/qml/backside/star_trek:
+  onlinegameready.wav
+      http://kde-look.org/content/show.php/kJazz?content=5099
 
-	- backside.svg (Emblem)			--> https://icons8.com (icon "Next Generation Badge")
+  allin.wav, bet.wav, raise.wav, check.wav, call.wav, dealtwocards.wav
+      donated by pokerth.net user: doc_dos
 
-
-gfx/qml/cards/discworld:
-
-	- 0.svg - 51.svg (Rang-Glyphen,		--> aus gfx/qml/cards/default übernommen
-	  Farbsymbole im Index)
-	- 0.svg - 12.svg (Nobby Nobbs)		--> generiert mit ChatGPT (OpenAI),
-	- 13.svg - 25.svg (Nanny Ogg)		    vektorisiert mit vectorise.ai;
-	- 26.svg - 38.svg (Zauberer)		    Motive angelehnt an
-	- 39.svg - 51.svg (Der Tod der Ratten)	    Terry Pratchetts "Scheibenwelt"
-
-
-gfx/qml/backside/discworld:
-
-	- backside.svg (Great A'Tuin)		--> generiert mit ChatGPT (OpenAI),
-						    vektorisiert mit vectorise.ai
+  blinds_raises_level1.wav - blinds_raises_level3.wav
+      donated by pokerth.net user: texas_outlaw
 
 
-gfx/qml/table/star_trek:
+--------------------------------------------------------------------------------
+ gfx/cards/ - card decks of the Qt Widgets client
+--------------------------------------------------------------------------------
 
-	- table.png				--> generiert mit ChatGPT (OpenAI)
-
-
-gfx/qml/table/saloon:
-
-	- table.png				--> generiert mit ChatGPT (OpenAI)
-
-
-gfx/qml/cards/star_trek:
-
-	- 0.svg - 51.svg (Rang-Glyphen)		--> PT Serif Bold, (c) ParaType Ltd, SIL Open Font License 1.1
-						    https://fonts.google.com/specimen/PT+Serif
+  default/
+    0.png - 51.png
+        http://commons.wikimedia.org/wiki/Poker_(cards_deck)
 
 
-gfx/qml/cards/stardust_dark:
-gfx/qml/cards/stardust_light:
+--------------------------------------------------------------------------------
+ gfx/qml/cards/ - card decks of the QML client
+--------------------------------------------------------------------------------
 
-	- 0.svg - 51.svg (Rang-Glyphen)		--> Orbitron, (c) The Orbitron Project Authors, SIL Open Font License 1.1
-						    https://fonts.google.com/specimen/Orbitron
-	  (Suit-Symbole aus gfx/qml/cards/default übernommen)
+  blacklight_4c/
+    0.svg - 51.svg
+        geometry (rank glyphs, suit symbols, layout) taken from
+        gfx/qml/cards/default4c; black light colours and glow are own work
+        (PokerTH Development Team)
 
+  discworld/
+    0.svg - 51.svg (rank glyphs, suit symbols in the index)
+        taken from gfx/qml/cards/default
+    0.svg - 12.svg  (Nobby Nobbs)
+    13.svg - 25.svg (Nanny Ogg)
+    26.svg - 38.svg (the wizard)
+    39.svg - 51.svg (the Death of Rats)
+        generated with ChatGPT (OpenAI), vectorised with vectorise.ai;
+        motifs inspired by Terry Pratchett's "Discworld"
 
-gfx/qml/cards/lemming:
+  lemming/
+    0.svg - 51.svg
+        SVG rebuild of the deck LEMMING-CARDS-01, (c) lemming (2021)
+        https://www.pokerth.net/download/styles/cards/LEMMING-CARDS-01.zip
+    0.svg - 51.svg (rank glyphs)
+        Montserrat Bold, (c) The Montserrat Project Authors,
+        SIL Open Font License 1.1
+        https://fonts.google.com/specimen/Montserrat
+        (suit symbols taken from gfx/qml/cards/default)
 
-	- 0.svg - 51.svg			--> SVG-Nachbau des Decks LEMMING-CARDS-01, (c) lemming (2021)
-						    https://www.pokerth.net/download/styles/cards/LEMMING-CARDS-01.zip
-	- 0.svg - 51.svg (Rang-Glyphen)		--> Montserrat Bold, (c) The Montserrat Project Authors, SIL Open Font License 1.1
-						    https://fonts.google.com/specimen/Montserrat
-	  (Suit-Symbole aus gfx/qml/cards/default übernommen)
+  star_trek/
+    0.svg - 51.svg (rank glyphs)
+        PT Serif Bold, (c) ParaType Ltd, SIL Open Font License 1.1
+        https://fonts.google.com/specimen/PT+Serif
 
-
-gfx/qml/backside/stardust:
-
-	- backside.svg				--> eigenes Werk (PokerTH Development Team)
-
-
-gfx/qml/backside/matrix:
-
-	- backside.svg (Zeichen-Glyphen)	--> Halfwidth-Katakana: Droid Sans Fallback, (c) Google/Android, Apache License 2.0
-						    Ziffern: DejaVu Sans Mono (Bitstream Vera / DejaVu-Lizenz, frei)
-	  (Rahmen/Layout eigenes Werk, PokerTH Development Team)
-
-
-gfx/qml/cards/blacklight_4c:
-
-	- 0.svg - 51.svg			--> Geometrie (Rang-Glyphen, Farbsymbole, Layout)
-						    aus gfx/qml/cards/default4c übernommen;
-						    Schwarzlichtfarben und Glow eigenes Werk
-						    (PokerTH Development Team)
-
-
-gfx/qml/backside/disco:
-
-	- backside.svg (Spiegelkugel)		--> eigenes Werk (PokerTH Development Team)
-
-
-gfx/avatars/default/misc:			--> donated by pokerth.net user: ZeiZei
+  stardust_dark/, stardust_light/
+    0.svg - 51.svg (rank glyphs)
+        Orbitron, (c) The Orbitron Project Authors,
+        SIL Open Font License 1.1
+        https://fonts.google.com/specimen/Orbitron
+        (suit symbols taken from gfx/qml/cards/default)
 
 
-gfx/avatars/default/people:
+--------------------------------------------------------------------------------
+ gfx/qml/backside/ - card backs of the QML client
+--------------------------------------------------------------------------------
 
-	- 0c04318e6fa54534935e3e6cfe12c4a1.png	--> http://commons.wikimedia.org/wiki/Image:Goethe_(Stieler_1828).jpg
-	- 14e3f39cc775608bcecf5597248b3558.png	--> http://commons.wikimedia.org/wiki/Image:Wolfgang-amadeus-mozart_1.jpg
-	- 490ed3a748f6f4d6c261436198f2368f.png	--> http://commons.wikimedia.org/wiki/Image:Cath2russia.jpg
-	- 95df673e5ee4d02f0f95d5c7ff091cfb.png 	--> http://commons.wikimedia.org/wiki/Image:La_gioconda.jpg
-	- 9f49fc3d6062ddc08dc6bbd9ef9b399d.png 	--> http://commons.wikimedia.org/wiki/Image:Hyacinthe_Rigaud-_Louis_XIV;_Roi_de_France.jpg
-	- bc28d08c451a775f9e332c14a397096b.png	--> http://commons.wikimedia.org/wiki/Image:Martin_Luther_King_Jr_NYWTS.jpg
-	- bed234c6672d512bdb4c2768f0b3f90c.png	--> http://commons.wikimedia.org/wiki/Image:Empress_Elisabeth_of_Austria2.jpg
-	- cbd2e0c6ee579fb8e0f3942639cf988d.png	--> http://commons.wikimedia.org/wiki/Image:PopeInnocentX.jpg
-	- d66940c138c207c68a338769d683e691.png	--> http://commons.wikimedia.org/wiki/Image:Pope_Clement_VII.JPG
-	- d21268e1d2ec969367ee5b54bd34738b.png	--> http://commons.wikimedia.org/wiki/Image:Johann_Sebastian_Bach.jpg
-	- d6f8a45e9243b7e7e4e2c8e41df1c9f5.png	--> http://commons.wikimedia.org/wiki/Image:CristobalColon.jpg
-	- e3e1ae15f7d808fce16c26c049e2cbe9.png	--> http://commons.wikimedia.org/wiki/Image:El_bieta_I_lat_13.jpg
-	- ef0975f38a367a45cb8042b438957304.png	--> http://commons.wikimedia.org/wiki/Image:Napoleon_crop.jpg
+  disco/
+    backside.svg (mirror ball)
+        own work (PokerTH Development Team)
 
-	- other avatar pics			--> donated by friends and family
-	
-	
+  discworld/
+    backside.svg (Great A'Tuin)
+        generated with ChatGPT (OpenAI), vectorised with vectorise.ai
+
+  matrix/
+    backside.svg (character glyphs)
+        halfwidth katakana: Droid Sans Fallback, (c) Google/Android,
+        Apache License 2.0
+        digits: DejaVu Sans Mono (Bitstream Vera / DejaVu license, free)
+        (frame and layout are own work, PokerTH Development Team)
+
+  pirates/
+    backside.svg (skull emblem)
+        generated with ChatGPT (OpenAI), vectorised with vectorise.ai
+
+  star_trek/
+    backside.svg (emblem)
+        https://icons8.com (icon "Next Generation Badge")
+
+  stardust/
+    backside.svg
+        own work (PokerTH Development Team)
+
+
+--------------------------------------------------------------------------------
+ gfx/qml/table/ - game tables of the QML client
+--------------------------------------------------------------------------------
+
+  disco/
+    table.png
+        generated with ChatGPT (OpenAI)
+
+  discworld/
+    table.png
+        generated with ChatGPT (OpenAI)
+
+  greencasino/, ivoire-chene/
+    table.png
+        contributed by narmod, generated with ChatGPT (OpenAI)
+
+  matrix/
+    table.png
+        generated with ChatGPT (OpenAI)
+
+  pirates/
+    table.png
+        generated with ChatGPT (OpenAI)
+
+  saloon/
+    table.png
+        generated with ChatGPT (OpenAI)
+
+  star_trek/
+    table.png
+        generated with ChatGPT (OpenAI)
+
+
+--------------------------------------------------------------------------------
+ gfx/avatars/default/
+--------------------------------------------------------------------------------
+
+  misc/
+    all pictures
+        donated by pokerth.net user: ZeiZei
+
+  people/
+    0c04318e6fa54534935e3e6cfe12c4a1.png
+        http://commons.wikimedia.org/wiki/Image:Goethe_(Stieler_1828).jpg
+    14e3f39cc775608bcecf5597248b3558.png
+        http://commons.wikimedia.org/wiki/Image:Wolfgang-amadeus-mozart_1.jpg
+    490ed3a748f6f4d6c261436198f2368f.png
+        http://commons.wikimedia.org/wiki/Image:Cath2russia.jpg
+    95df673e5ee4d02f0f95d5c7ff091cfb.png
+        http://commons.wikimedia.org/wiki/Image:La_gioconda.jpg
+    9f49fc3d6062ddc08dc6bbd9ef9b399d.png
+        http://commons.wikimedia.org/wiki/Image:Hyacinthe_Rigaud-_Louis_XIV;_Roi_de_France.jpg
+    bc28d08c451a775f9e332c14a397096b.png
+        http://commons.wikimedia.org/wiki/Image:Martin_Luther_King_Jr_NYWTS.jpg
+    bed234c6672d512bdb4c2768f0b3f90c.png
+        http://commons.wikimedia.org/wiki/Image:Empress_Elisabeth_of_Austria2.jpg
+    cbd2e0c6ee579fb8e0f3942639cf988d.png
+        http://commons.wikimedia.org/wiki/Image:PopeInnocentX.jpg
+    d21268e1d2ec969367ee5b54bd34738b.png
+        http://commons.wikimedia.org/wiki/Image:Johann_Sebastian_Bach.jpg
+    d66940c138c207c68a338769d683e691.png
+        http://commons.wikimedia.org/wiki/Image:Pope_Clement_VII.JPG
+    d6f8a45e9243b7e7e4e2c8e41df1c9f5.png
+        http://commons.wikimedia.org/wiki/Image:CristobalColon.jpg
+    e3e1ae15f7d808fce16c26c049e2cbe9.png
+        http://commons.wikimedia.org/wiki/Image:El_bieta_I_lat_13.jpg
+    ef0975f38a367a45cb8042b438957304.png
+        http://commons.wikimedia.org/wiki/Image:Napoleon_crop.jpg
+
+    all other avatar pictures
+        donated by friends and family
