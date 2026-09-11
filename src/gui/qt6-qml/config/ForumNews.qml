@@ -20,7 +20,7 @@ import QtCore
 //
 // The read status stays local (a settings category of its own, no server):
 //   readBase  the watermark of "mark everything as read" (ms)
-//   readIds   individually read posts, limited to maxReadIds
+//   readIds   individually read topics, limited to maxReadIds
 //
 // NO reference to other config singletons: inside the module Config,
 // `import Config` is a circular dependency in Qt 6 (see Theme.qml). What comes from
@@ -69,8 +69,8 @@ QtObject {
         property string readIds: ""
     }
 
-    // Read post IDs as a list (the order = the age, for the limiting)
-    // and as a map (fast lookup).
+    // Read topics as a list of topic keys (the order = the age, for the
+    // limiting) and as a map (fast lookup).
     property var _readList: []
     property var _readMap: ({})
 
@@ -90,8 +90,13 @@ QtObject {
         var list = []
         try {
             var parsed = JSON.parse(_store.readIds || "[]")
-            if (Array.isArray(parsed))
-                list = parsed
+            if (Array.isArray(parsed)) {
+                // Up to 2.1.8 the post link was stored instead of the topic key;
+                // such entries can never match again - drop them.
+                for (var k = 0; k < parsed.length; ++k)
+                    if (String(parsed[k]).indexOf("://") < 0)
+                        list.push(parsed[k])
+            }
         } catch (e) {
             list = []
         }
@@ -102,21 +107,28 @@ QtObject {
         _readMap = map
     }
 
-    // ── Gelesen-Status ───────────────────────────────────────────────────────
+    // ── Read status ──────────────────────────────────────────────────────────
+    // The read status is kept per topic, not per post: the list holds one
+    // entry per topic (see _dedup) and which post represents it changes with
+    // every reply. Keyed by post ID an already read topic would jump back to
+    // "unread" as soon as the feed delivers a newer post of it.
     function isUnread(post) {
         if (!post)
             return false
         if (post.ts <= _store.readBase)
             return false
-        return !_readMap[post.id]
+        return !_readMap[_topicKey(post)]
     }
 
     function markRead(post) {
-        if (!post || _readMap[post.id])
+        if (!post)
             return
-        _readMap[post.id] = true
+        var key = _topicKey(post)
+        if (_readMap[key])
+            return
+        _readMap[key] = true
         var list = _readList.slice()
-        list.push(post.id)
+        list.push(key)
         if (list.length > maxReadIds) {
             var dropped = list.splice(0, list.length - maxReadIds)
             for (var i = 0; i < dropped.length; ++i)
@@ -128,7 +140,7 @@ QtObject {
     }
 
     // "Mark everything as read": set the watermark to the most recent post
-    // (at least now), individual IDs below it become superfluous.
+    // (at least now), individual topic keys below it become superfluous.
     function markAllRead() {
         var mx = Date.now()
         for (var i = 0; i < posts.length; ++i)
@@ -158,7 +170,7 @@ QtObject {
                 return
             forumNews.loading = false
             if (xhr.status !== 200 || xhr.responseText.length === 0) {
-                console.warn("ForumNews: Abruf fehlgeschlagen, Status", xhr.status)
+                console.warn("ForumNews: fetch failed, status", xhr.status)
                 if (forumNews.posts.length === 0)
                     forumNews.errorText = qsTr("The forum feed could not be loaded.")
                 return
@@ -167,7 +179,7 @@ QtObject {
             try {
                 parsed = forumNews._dedup(forumNews._parseFeed(xhr.responseText))
             } catch (e) {
-                console.warn("ForumNews: Feed nicht lesbar:", e)
+                console.warn("ForumNews: feed not readable:", e)
             }
             if (parsed.length === 0) {
                 if (forumNews.posts.length === 0)
@@ -229,13 +241,22 @@ QtObject {
         var out = []
         for (var i = 0; i < list.length; ++i) {
             var p = list[i]
-            var key = p.forum + "|" + p.title.replace(/^Re:\s*/i, "").trim().toLowerCase()
+            var key = _topicKey(p)
             if (seen[key])
                 continue
             seen[key] = true
             out.push(p)
         }
         return out
+    }
+
+    // The identity of a topic: forum + title without the reply prefix. The
+    // same key for the deduplication and for the read status.
+    function _topicKey(post) {
+        if (!post)
+            return ""
+        return String(post.forum || "") + "|"
+             + String(post.title || "").replace(/^Re:\s*/i, "").trim().toLowerCase()
     }
 
     function _group(text, re) {
@@ -423,7 +444,7 @@ QtObject {
             t = (0.55 - lum) / (1 - lum)          // Brighten towards white
             target = 1
         } else if (!dark && lum > 0.62) {
-            t = 1 - 0.45 / Math.max(lum, 0.0001)  // Richtung Schwarz abdunkeln
+            t = 1 - 0.45 / Math.max(lum, 0.0001)  // Darken towards black
             target = 0
         } else {
             return value
