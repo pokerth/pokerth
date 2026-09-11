@@ -3,13 +3,13 @@ import QtQuick.Layouts
 
 import "../config" as Config
 
-// Season-Stats-Block der Spielerseite – Nachbau der pokerth.net-Grafiken
-// (Chart.js/Vue) mit Bordmitteln: Positions-Tabelle, Kreis- und Balken-
-// diagramm der Platzierungs-Verteilung. `counts` = Häufigkeit je Platz
-// (Index 0 = Platz 1, entspricht bar_stats der API), `stats` = das rohe
-// stats-Feld der API. Farben 1:1 wie die Website über
-// Config.StaticData.placementColors. `showTitle` aus, wenn der Aufrufer den
-// Block bereits selbst überschreibt (aufgeklappte Saison-Ergebnisse).
+// Season stats block of the player page – a rebuild of the pokerth.net
+// graphics (Chart.js/Vue) with on-board means: position table, pie and bar
+// chart of the placement distribution. `counts` = frequency per place
+// (index 0 = place 1, corresponds to bar_stats of the API), `stats` = the raw
+// stats field of the API. Colours 1:1 like the website via
+// Config.StaticData.placementColors. Turn `showTitle` off if the caller
+// already writes the heading itself (expanded season results).
 ColumnLayout {
     id: section
 
@@ -17,8 +17,8 @@ ColumnLayout {
     property var stats: []
     property bool showTitle: true
 
-    // stats[1] ist ein Objekt {"1":"8.3%",…}; nach Platz 1–10 geordnet
-    // auflösen, damit die Prozent-Zeile direkt per Index zugreifen kann.
+    // stats[1] is an object {"1":"8.3%",…}; resolve it ordered by place 1–10 so
+    // that the percentage row can access it directly by index.
     readonly property var percents: {
         var pct = (stats && stats.length > 1) ? stats[1] : null
         var arr = []
@@ -42,7 +42,7 @@ ColumnLayout {
     spacing: 10
     visible: total > 0
 
-    // ── Überschrift ─────────────────────────────────────────────────────────
+    // ── Heading ─────────────────────────────────────────────────────────────
     AppLabel {
         text: qsTr("Season Stats")
         visible: section.showTitle
@@ -51,7 +51,7 @@ ColumnLayout {
         font.bold: true
     }
 
-    // ── Positions-Tabelle (bei Bedarf horizontal scrollbar) ─────────────────
+    // ── Position table (horizontally scrollable if needed) ──────────────────
     Rectangle {
         Layout.fillWidth: true
         Layout.preferredHeight: tableCol.implicitHeight + 2
@@ -97,7 +97,7 @@ ColumnLayout {
                 Rectangle { width: tableCol.labelW + 10 * tableCol.cellW; height: 1
                             color: Config.StaticData.palette.secondary.col500 }
 
-                // Anzahl-Zeile
+                // Count row
                 Row {
                     Item {
                         width: tableCol.labelW; height: tableCol.rowH
@@ -125,7 +125,7 @@ ColumnLayout {
                     }
                 }
 
-                // Prozent-Zeile
+                // Percentage row
                 Row {
                     Item {
                         width: tableCol.labelW; height: tableCol.rowH

@@ -8,8 +8,8 @@ import "../config" as Config
 Drawer {
     id: sideMenu
     width: Config.Responsive.compact ? mainWindow.width : mainWindow.width / 3
-    // Unter der Kopfzeile beginnen – die sitzt bei randloser Anzeige um den
-    // oberen Sicherheitsabstand tiefer (s. pokerth.qml).
+    // Start below the header – with an edge-to-edge display it sits lower by the
+    // top safe area inset (see pokerth.qml).
     y: 38 + mainWindow.safeAreaTop
     height: mainWindow.height - y - mainWindow.safeAreaBottom
 
@@ -78,11 +78,11 @@ Drawer {
                         Layout.preferredHeight: 24
                         Layout.preferredWidth: 24
 
-                        // Einfärbung per layer.effect: VectorImage (Qt >= 6.8)
-                        // ist kein Texture-Provider, daher darf MultiEffect es
-                        // nicht per source referenzieren (sonst schwarz). Der
-                        // Layer rendert das Icon in ein FBO, das der Effekt
-                        // sampeln kann.
+                        // Colourising via layer.effect: VectorImage (Qt >= 6.8)
+                        // is not a texture provider, so MultiEffect must not
+                        // reference it via source (it would turn black). The
+                        // layer renders the icon into an FBO that the effect
+                        // can sample.
                         property color colorizationColor: Config.StaticData.palette.secondary.col200
                         layer.enabled: true
                         layer.effect: MultiEffect {

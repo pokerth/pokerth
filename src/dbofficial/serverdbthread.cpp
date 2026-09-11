@@ -896,8 +896,8 @@ ServerDBThread::EstablishDBConnection()
 		prepareLogin
 				<< "PREPARE " QUERY_LOGIN_PREPARE " FROM " << mysqlpp::quote
 				<< "UPDATE " DB_TABLE_PLAYER " SET " DB_TABLE_PLAYER_COL_LASTLOGIN " = ?, " DB_TABLE_PLAYER_COL_AVATARHASH " = ?, " DB_TABLE_PLAYER_COL_AVATARTYPE " = ? WHERE " DB_TABLE_PLAYER_COL_ID " = ?";
-		// Nur den Login-Zeitpunkt fortschreiben: die Avatar-Spalten bleiben
-		// stehen, wenn der angekuendigte Avatar nicht uebernommen werden konnte.
+		// Only advance the login timestamp: the avatar columns stay as they are
+		// if the announced avatar could not be accepted.
 		mysqlpp::Query prepareLoginKeepAvatar = m_connData->conn.query();
 		prepareLoginKeepAvatar
 				<< "PREPARE " QUERY_LOGIN_KEEPAVATAR_PREPARE " FROM " << mysqlpp::quote

@@ -5,14 +5,14 @@ import QtQuick.Effects
 
 import "../config" as Config
 
-// Posteingang für private Nachrichten: links die Gesprächspartner, rechts der
-// Verlauf mit Eingabefeld. Anders als der Chat-Verlauf (in dem PMs zusätzlich
-// als Zeile stehen) bleibt hier jedes Gespräch für sich lesbar und lässt sich
-// fortsetzen.
+// Inbox for private messages: on the left the conversation partners, on the right the
+// history with an input field. Unlike the chat history (in which PMs additionally
+// appear as a line), every conversation stays readable on its own here and can be
+// continued.
 //
-// Die Instanz gehört dem Hauptfenster (pokerth.qml), damit sie über die Seiten
-// hinweg dieselbe ist: Icon in der Kopfzeile und Brief-Symbol in der
-// Spielerliste öffnen denselben Dialog.
+// The instance belongs to the main window (pokerth.qml), so that it is the same
+// across the pages: the icon in the header and the letter symbol in the
+// player list open the same dialog.
 Popup {
     id: root
 
@@ -21,14 +21,14 @@ Popup {
     modal: true
     padding: 0
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-    // Ohne focus:true blieb der Startfokus aus onOpened wirkungslos und das
-    // Popup schluckte Escape, ohne sich zu schließen.
+    // Without focus:true the initial focus from onOpened had no effect and the
+    // popup swallowed Escape without closing.
     focus: true
 
     width: Math.min((parent ? parent.width : 600) * 0.92, 600)
     height: Math.min((parent ? parent.height : 520) * 0.85, 520)
 
-    // Aktueller Gesprächspartner (Spielername).
+    // Current conversation partner (player name).
     property string activePartner: ""
 
     readonly property int pmRevision: (typeof Lobby !== "undefined" && Lobby)
@@ -45,7 +45,7 @@ Popup {
         return (typeof Lobby !== "undefined" && Lobby && activePartner !== "")
                 ? Lobby.privateConversation(activePartner) : []
     }
-    // 0 = Partner ist gerade nicht in der Lobby (dann kann nichts gesendet werden).
+    // 0 = the partner is currently not in the lobby (then nothing can be sent).
     readonly property int activePartnerId: {
         var _pm = pmRevision, _pl = playerRevision
         return (typeof Lobby !== "undefined" && Lobby && activePartner !== "")
@@ -53,29 +53,29 @@ Popup {
     }
     readonly property bool guestMode: (typeof Lobby !== "undefined" && Lobby)
                                       ? Lobby.isMyPlayerGuest : false
-    // Gäste können serverseitig gar nicht chatten und empfangen daher auch keine
-    // privaten Nachrichten – ein bestehendes Gespräch bleibt lesbar, aber tot.
+    // Guests cannot chat at all on the server side and therefore receive no
+    // private messages either – an existing conversation stays readable, but dead.
     readonly property bool partnerIsGuest: {
         var _pm = pmRevision, _pl = playerRevision
         return (typeof Lobby !== "undefined" && Lobby && activePartnerId !== 0)
                 ? Lobby.isPlayerGuest(activePartnerId) : false
     }
-    // Am laufenden Tisch sind PMs bewusst gesperrt (Absprachen); der Server
-    // stellt sie dorthin ohnehin nicht zu.
+    // At a running table PMs are deliberately blocked (collusion); the server
+    // does not deliver them there anyway.
     readonly property bool atTable: (typeof Lobby !== "undefined" && Lobby)
                                     ? Lobby.atRunningTable : false
 
-    // ── Übersetzung eingehender Nachrichten ──────────────────────────────────
-    // Aufgeteilt wie beim Chat-Verlauf: Der ZUSTAND (Übersetzung, läuft gerade,
-    // ein-/ausgeblendet, fehlgeschlagen) liegt im Handler und reist in den
-    // Nachrichten-Einträgen mit; QML rendert nur neu, sobald der Handler seine
-    // Revision hochzählt. Hier steht deshalb nur noch die Sichtbarkeit des
-    // Symbols – der Schalter ist derselbe wie im Chat ("AllowChatTranslation").
+    // ── Translation of incoming messages ─────────────────────────────────────
+    // Split up as with the chat history: the STATE (translation, currently running,
+    // shown/hidden, failed) lives in the handler and travels along in the
+    // message entries; QML only re-renders as soon as the handler increments its
+    // revision. So only the visibility of the symbol stands here – the switch is
+    // the same one as in the chat ("AllowChatTranslation").
     readonly property bool canTranslate: (typeof Translator !== "undefined" && Translator)
                                          ? Translator.enabled : false
 
     readonly property int maxBytes: 128
-    // UTF-8-Länge (nicht Zeichen), weil der Server in Bytes begrenzt.
+    // UTF-8 length (not characters), because the server limits in bytes.
     readonly property int usedBytes: {
         var s = messageInput.text
         var b = 0
@@ -93,10 +93,10 @@ Popup {
                                     && messageInput.text.trim() !== ""
                                     && usedBytes <= maxBytes
 
-    // Schmale Fenster (Portrait/Handy): Partnerliste weicht einer Auswahlbox.
+    // Narrow windows (portrait/phone): the partner list gives way to a selection box.
     readonly property bool wideLayout: width > 430
 
-    // playerName leer => zuletzt aktives Gespräch öffnen.
+    // An empty playerName => open the conversation that was active last.
     function openWith(playerName) {
         if (playerName && playerName !== "") {
             if (Lobby) Lobby.ensurePrivateConversation(playerName)
@@ -120,9 +120,9 @@ Popup {
             Lobby.markPrivateConversationRead(activePartner)
     }
 
-    // Der Posteingang gehört zum angemeldeten Konto: meldet man sich mit einem
-    // anderen Benutzer an, verschwinden die Gespräche des vorigen – ein noch
-    // ausgewähltes darf dann nicht stehen bleiben.
+    // The inbox belongs to the account you are logged in with: if you log in with a
+    // different user, the conversations of the previous one disappear – one that is
+    // still selected must not stay then.
     onPartnersChanged: {
         if (activePartner !== "" && !hasPartner(activePartner))
             activePartner = partners.length > 0 ? partners[0].name : ""
@@ -145,8 +145,8 @@ Popup {
         conversationView.positionViewAtEnd()
     }
 
-    // Trifft eine neue Nachricht des offenen Gesprächs ein, gilt sie sofort als
-    // gelesen (der Zähler oben soll nur zählen, was man NICHT sieht).
+    // If a new message of the open conversation arrives, it counts as read
+    // immediately (the counter at the top should only count what you do NOT see).
     Connections {
         target: (typeof Lobby !== "undefined") ? Lobby : null
         enabled: root.visible
@@ -156,8 +156,8 @@ Popup {
         }
     }
 
-    // Beginnt eine Hand, während der Posteingang offen steht, schließt er sich:
-    // am Tisch soll gar nicht erst privat geschrieben werden.
+    // If a hand begins while the inbox is open, it closes:
+    // at the table nobody should write privately in the first place.
     onAtTableChanged: if (atTable) close()
 
     background: Rectangle {
@@ -196,7 +196,7 @@ Popup {
                 font.bold: true
             }
 
-            // Partnerwahl auf schmalen Fenstern (statt der Liste links).
+            // Partner selection on narrow windows (instead of the list on the left).
             ComboBox {
                 id: partnerCombo
                 visible: !root.wideLayout && root.partners.length > 1
@@ -251,7 +251,7 @@ Popup {
             Layout.fillHeight: true
             spacing: 0
 
-            // ── Gesprächspartner ─────────────────────────────────────────
+            // ── Conversation partners ────────────────────────────────────
             Rectangle {
                 visible: root.wideLayout && root.partners.length > 1
                 Layout.preferredWidth: 160
@@ -335,7 +335,7 @@ Popup {
                 }
             }
 
-            // ── Verlauf + Eingabe ────────────────────────────────────────
+            // ── History + input ──────────────────────────────────────────
             ColumnLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -389,20 +389,20 @@ Popup {
                             readonly property int hPadding: 9
                             readonly property int vPadding: 6
                             readonly property real maxWidth: parent.width * 0.85
-                            // Die natürliche (ungebrochene) Textbreite wird
-                            // GEMESSEN statt am gewrappten Text abgelesen:
-                            // bubbleText hängt per Layout.fillWidth an der
-                            // Blasenbreite. Käme die ihrerseits aus dessen
-                            // implicitWidth, wäre das eine Schleife – Qt löst sie
-                            // zur kleineren Größe hin auf, übrig blieb die Breite
-                            // des Zeitstempels, und darin brach selbst "hello"
-                            // mitten im Wort um. TextMetrics hängt an nichts.
+                            // The natural (unwrapped) text width is MEASURED
+                            // instead of read off the wrapped text:
+                            // bubbleText hangs off the bubble width via
+                            // Layout.fillWidth. If that in turn came from its
+                            // implicitWidth, that would be a loop – Qt resolves it
+                            // towards the smaller size, and what was left was the width
+                            // of the timestamp, inside which even "hello" wrapped
+                            // mid-word. TextMetrics hangs off nothing.
                             readonly property real textWidth:
                                 Math.min(Math.ceil(textMetrics.advanceWidth),
                                          maxWidth - 2 * hPadding)
 
-                            // Übersetzung: nur eingehende Nachrichten, und nur
-                            // wenn die Funktion in den Optionen aktiv ist.
+                            // Translation: incoming messages only, and only
+                            // if the function is active in the options.
                             readonly property bool translationPending: !!modelData.translationPending
                             readonly property bool translationFailed: !!modelData.translationFailed
                             readonly property bool translationShown:
@@ -416,10 +416,10 @@ Popup {
                             readonly property real footerWidth: timeText.implicitWidth
                                 + (showGlobe ? globeSize + footerSpacing : 0)
 
-                            // Die Blase muss BEIDE Zeilen tragen: bei einer kurzen
-                            // Nachricht ("hey!") ist die Fußzeile aus Zeitstempel
-                            // (und ggf. Globus) das breitere Element – ohne sie zu
-                            // berücksichtigen liefe sie aus der Blase heraus.
+                            // The bubble has to carry BOTH lines: with a short
+                            // message ("hey!") the footer of timestamp
+                            // (and possibly the globe) is the wider element – without taking it
+                            // into account it would run out of the bubble.
                             readonly property real contentWidth:
                                 Math.max(textWidth, footerWidth)
 
@@ -436,9 +436,9 @@ Popup {
                                           ? Config.StaticData.chartColor(3, true)
                                           : Config.StaticData.palette.secondary.col500
 
-                            // Misst den ANGEZEIGTEN Text ohne Umbruch (siehe
-                            // textWidth oben) – also auch die Übersetzung, damit
-                            // die Blase beim Umschalten mitwächst.
+                            // Measures the DISPLAYED text without wrapping (see
+                            // textWidth above) – including the translation, so that
+                            // the bubble grows along when switching.
                             TextMetrics {
                                 id: textMetrics
                                 font: bubbleText.font
@@ -460,17 +460,17 @@ Popup {
                                     Layout.fillWidth: true
                                     text: bubble.translationShown ? modelData.translation
                                                                   : (modelData.text || "")
-                                    // Kursiv kennzeichnet die Übersetzung – wie im
-                                    // Chat-Verlauf (ChatTranslatorCore.styledTranslation).
+                                    // Italics mark the translation – as in the
+                                    // chat history (ChatTranslatorCore.styledTranslation).
                                     font.italic: bubble.translationShown
                                     font.pixelSize: 12
                                     color: Config.StaticData.palette.secondary.col100
                                     wrapMode: Text.Wrap
                                 }
 
-                                // Fußzeile: Zeitstempel, bei eingehenden
-                                // Nachrichten gefolgt vom Übersetzen-Globus in
-                                // der unteren rechten Ecke der Blase.
+                                // Footer: timestamp, for incoming
+                                // messages followed by the translate globe in
+                                // the lower right corner of the bubble.
                                 RowLayout {
                                     Layout.fillWidth: true
                                     spacing: bubble.footerSpacing
@@ -481,8 +481,8 @@ Popup {
                                         id: timeText
                                         text: modelData.time
                                         font.pixelSize: 9
-                                        // Auf der eingefärbten eigenen Blase wäre das
-                                        // feste Grau von colorTextMuted zu kontrastarm.
+                                        // On your own coloured bubble the fixed grey of
+                                        // colorTextMuted would have too little contrast.
                                         color: modelData.fromMe
                                                ? Config.StaticData.palette.secondary.col200
                                                : Config.Theme.colorTextMuted
@@ -493,8 +493,8 @@ Popup {
                                         implicitWidth: bubble.globeSize
                                         implicitHeight: bubble.globeSize
                                         Layout.alignment: Qt.AlignVCenter
-                                        // Während der Abfrage blass und tot, sonst
-                                        // hervorgehoben, solange die Übersetzung steht.
+                                        // Pale and dead during the query, otherwise
+                                        // highlighted while the translation stands.
                                         opacity: bubble.translationPending ? 0.4
                                                  : (globeArea.containsMouse || bubble.translationShown ? 1.0 : 0.75)
 
@@ -503,8 +503,8 @@ Popup {
                                             anchors.fill: parent
                                             source: "qrc:/resources/globe.svg"
                                             smooth: true
-                                            // Einfärbung per layer.effect statt MultiEffect-Kind:
-                                            // VectorImage ist kein Texture-Provider (siehe PlayerListItem).
+                                            // Colourising via layer.effect instead of a MultiEffect child:
+                                            // VectorImage is not a texture provider (see PlayerListItem).
                                             layer.enabled: true
                                             layer.effect: MultiEffect {
                                                 colorization: 1.0
@@ -523,8 +523,8 @@ Popup {
                                             hoverEnabled: true
                                             cursorShape: Qt.PointingHandCursor
                                             onClicked: {
-                                                // Eindeutige msgId des Eintrags,
-                                                // nicht der Listenindex.
+                                                // The unique msgId of the entry,
+                                                // not the list index.
                                                 if (Lobby)
                                                     Lobby.togglePrivateMessageTranslation(
                                                         root.activePartner,
@@ -547,7 +547,7 @@ Popup {
                     }
                 }
 
-                // Hinweis statt Eingabe, solange nichts gesendet werden kann.
+                // A notice instead of the input while nothing can be sent.
                 AppText {
                     Layout.fillWidth: true
                     Layout.leftMargin: 12
@@ -600,17 +600,17 @@ Popup {
                                : Config.Theme.colorTextMuted
                     }
 
-                    // Senden wie im Lobby-/Tisch-Chat (ChatBox): quadratischer
-                    // Icon-Knopf in Feldhöhe. Der beschriftete CustomButton war
-                    // hier mit 160×48 breiter als die halbe Eingabezeile.
+                    // Sending as in the lobby/table chat (ChatBox): a square
+                    // icon button in the field height. The labelled CustomButton was
+                    // wider here at 160×48 than half the input line.
                     Button {
                         Layout.preferredWidth: messageInput.implicitHeight
                         Layout.preferredHeight: messageInput.implicitHeight
                         enabled: root.canSend
                         opacity: enabled ? 1.0 : 0.5
-                        // Kein Klick-Fokus: nach dem Senden per Maus bleibt der
-                        // Cursor im Eingabefeld, die nächste Nachricht geht
-                        // direkt per Enter raus.
+                        // No click focus: after sending with the mouse the
+                        // cursor stays in the input field, the next message goes
+                        // out directly with Enter.
                         focusPolicy: Qt.NoFocus
                         onClicked: root.sendMessage()
                         background: Item {}

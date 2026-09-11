@@ -63,9 +63,9 @@ void ServerConnectionHandler::connectToServer(const QString &username, const QSt
 	m_pendingIsGuest = isGuest;
 	m_retryCount = 0;
 
-	// Manueller Login: eine ggf. noch laufende Wiederverbindung ist damit
-	// erledigt, und ein Rejoin-Angebot gehört ab hier wieder dem Spieler -
-	// ungefragt angenommen würde es ihn sonst in einen alten Tisch zwingen.
+	// Manual login: a reconnect that may still be running is thereby
+	// finished, and a rejoin offer belongs to the player again from here on -
+	// accepted unasked it would otherwise force them into an old table.
 	m_loggedIn = false;
 	endAutoReconnect();
 	emit autoRejoinArmed(false);
@@ -188,14 +188,14 @@ void ServerConnectionHandler::onNetClientConnect(int actionID)
 		m_isConnecting = false;
 		emit isConnectingChanged(false);
 		updateProgress(100, tr("Connected successfully!"));
-		// Ab hier ist ein Abbruch ein Verbindungsverlust und kein
-		// gescheiterter Verbindungsaufbau - erst das rechtfertigt die
-		// automatische Wiederverbindung.
+		// From here on an abort is a connection loss and not a
+		// failed connection attempt - only that justifies the
+		// automatic reconnect.
 		m_loggedIn = true;
 		m_retryCount = 0;
-		// Das Rejoin-Flag bleibt bewusst noch scharf: InitAck kann das
-		// Angebot auch knapp nach diesem Punkt liefern. Entschärft wird
-		// es vom LobbyHandler nach Gebrauch bzw. bei manuellem Login.
+		// The rejoin flag deliberately stays armed: InitAck can deliver the
+		// offer shortly after this point as well. It is disarmed
+		// by the LobbyHandler after use or on a manual login.
 		endAutoReconnect();
 		emit connectionSucceeded();
 		emit showLobby();
@@ -212,9 +212,9 @@ void ServerConnectionHandler::onNetClientLoginShow()
 
 QString ServerConnectionHandler::networkErrorMessage(int errorID)
 {
-	// Texte wie startWindowImpl::networkError(int) im Widgets-Client; die
-	// Codes stammen aus socket_msg.h (nicht mehr als nackte Zahlen, die
-	// sich stillschweigend gegen die Header-Werte verschieben konnten).
+	// Texts as in startWindowImpl::networkError(int) in the widgets client; the
+	// codes come from socket_msg.h (no longer as bare numbers that
+	// could silently shift against the header values).
 	switch (errorID) {
 
 	// ── Socket-/Verbindungsebene ─────────────────────────────────────────
@@ -246,10 +246,10 @@ QString ServerConnectionHandler::networkErrorMessage(int errorID)
 		return tr("Internal network error: \"select\" failed.");
 	case ERR_SOCK_SEND_FAILED:
 		return tr("Internal network error: \"send\" failed.");
-	case ERR_SOCK_RECV_FAILED:   // Windows meldet beim Schließen manchmal recv-Fehler.
+	case ERR_SOCK_RECV_FAILED:   // On closing, Windows sometimes reports recv errors.
 	case ERR_SOCK_CONN_RESET:
-		// Verbindung während der Sitzung abgebrochen (z. B. WLAN weg). Wird
-		// nach dem Login vom globalen connectionLostPopup in pokerth.qml
+		// The connection was lost during the session (e.g. WLAN gone). It is
+		// shown after the login by the global connectionLostPopup in pokerth.qml.
 		// angezeigt.
 		return tr("The connection to the server was lost.");
 	case ERR_SOCK_CONN_EXISTS:
@@ -286,8 +286,8 @@ QString ServerConnectionHandler::networkErrorMessage(int errorID)
 	case ERR_NET_INVALID_PASSWORD_STR:
 		return tr("The password is too long. Please choose another one.");
 	case ERR_NET_PLAYER_NAME_IN_USE:
-		// Der Widgets-Client öffnet hier den Nick-ändern-Dialog; hier bleibt
-		// die Login-Seite stehen, auf der der Name direkt änderbar ist.
+		// The widgets client opens the change-nickname dialog here; here the
+		// login page stays, on which the name can be changed directly.
 		return tr("This player name is already in use. Please choose a different name.");
 	case ERR_NET_INVALID_PLAYER_NAME:
 		return tr("The player name is invalid. Please choose a different name.");
@@ -349,8 +349,8 @@ QString ServerConnectionHandler::networkErrorMessage(int errorID)
 	case ERR_NET_DB_CONNECT_FAILED:
 		return tr("The server could not reach its database. Please try again later.");
 
-	// ERR_SOCK_INTERNAL und alles Unbekannte: Code mitnennen, damit eine
-	// Meldung aus dem Feld zuzuordnen bleibt (kein Log auf Mobilgeräten).
+	// ERR_SOCK_INTERNAL and everything unknown: name the code as well, so that a
+	// report from the field can still be assigned (no log on mobile devices).
 	default:
 		return tr("An internal error occured. (Error code %1)").arg(errorID);
 	}
@@ -376,8 +376,8 @@ void ServerConnectionHandler::onNetClientError(int errorID, int osErrorID)
 	qWarning() << "ServerConnectionHandler: Network error:" << errorID << "retry count:" << m_retryCount;
 
 	// ERR_SOCK_CONNECT_FAILED is often a TLS handshake issue that succeeds on retry.
-	// Nur beim Verbindungsaufbau: nach dem Login übernimmt die automatische
-	// Wiederverbindung unten, sonst liefen beide Mechanismen gegeneinander.
+	// Only while establishing the connection: after the login the automatic
+	// reconnect below takes over, otherwise both mechanisms would run against each other.
 	if (errorID == ERR_SOCK_CONNECT_FAILED && !m_loggedIn && m_retryCount < 1 && !m_pendingUsername.isEmpty()) {
 		m_retryCount++;
 		const int scheduledRetryCount = m_retryCount;
@@ -399,17 +399,17 @@ void ServerConnectionHandler::onNetClientError(int errorID, int osErrorID)
 		return;
 	}
 
-	// Verbindungsverlust im laufenden Betrieb: still wiederverbinden, statt
-	// den Spieler auf die Login-Seite zu werfen. Der Server hält den Platz am
-	// Tisch 5 Minuten (SERVER_OFFLINE_RECONNECT_TIMEOUT_SEC in servergame.cpp),
-	// die Zugangsdaten liegen noch in m_pending* - ein stiller Re-Login ist
-	// also auch ohne "Passwort merken" möglich.
+	// Connection loss during operation: reconnect silently instead of
+	// throwing the player back onto the login page. The server holds the seat at the
+	// table for 5 minutes (SERVER_OFFLINE_RECONNECT_TIMEOUT_SEC in servergame.cpp),
+	// the credentials are still in m_pending* - a silent re-login is
+	// therefore possible even without "remember password".
 	if (scheduleAutoReconnect(errorID))
 		return;
 
-	// Aufgegeben oder von vornherein aussichtslos (Kick/Bann/Timeout): die
-	// Sitzung ist endgültig vorbei, ein späteres Rejoin-Angebot darf nicht
-	// mehr automatisch angenommen werden.
+	// Given up or hopeless from the start (kick/ban/timeout): the
+	// session is over for good, a later rejoin offer must not be
+	// accepted automatically any more.
 	if (m_reconnecting)
 		qWarning() << "[RECONNECT] giving up after" << m_reconnectAttempt << "attempts";
 	endAutoReconnect();
@@ -427,9 +427,9 @@ void ServerConnectionHandler::onNetClientError(int errorID, int osErrorID)
 bool ServerConnectionHandler::isRecoverableTransportError(int errorID)
 {
 	switch (errorID) {
-	// Reine Transportfehler - die Gegenstelle hat uns nicht abgelehnt,
-	// die Leitung war weg. Genau das passiert, wenn Android den Prozess
-	// eingefroren hat oder das WLAN schlafen gegangen ist.
+	// Pure transport errors - the peer has not rejected us,
+	// the line was gone. That is exactly what happens when Android has frozen
+	// the process or the WLAN has gone to sleep.
 	case ERR_SOCK_CONNECT_FAILED:
 	case ERR_SOCK_CONNECT_TIMEOUT:
 	case ERR_SOCK_CONNECT_IPV6_FAILED:
@@ -440,27 +440,27 @@ bool ServerConnectionHandler::isRecoverableTransportError(int errorID)
 	case ERR_SOCK_CONN_RESET:
 		return true;
 	default:
-		// Alles andere ist eine Ablehnung durch den Server (118 kicked,
-		// 119 banned, 120 blocked, 121 session timed out, 104/105 falsches
-		// Passwort, 106 Name vergeben, 102 Wartung, 103 voll) oder ein
-		// Protokollfehler. Wiederholen hilft dort nicht und würde nur das
-		// Login-Rate-Limit des Servers auslösen (Token-Bucket pro IP).
+		// Everything else is a rejection by the server (118 kicked,
+		// 119 banned, 120 blocked, 121 session timed out, 104/105 wrong
+		// password, 106 name taken, 102 maintenance, 103 full) or a
+		// protocol error. Retrying does not help there and would only trigger the
+		// login rate limit of the server (token bucket per IP).
 		return false;
 	}
 }
 
 bool ServerConnectionHandler::scheduleAutoReconnect(int errorID)
 {
-	// Wenige Versuche mit wachsendem Abstand: Der Platz am Tisch ist 5 Minuten
-	// reserviert, es besteht also keine Eile - und ein enger Zyklus liefe in
-	// das Login-Rate-Limit (Burst 5 pro IP).
+	// A few attempts with a growing interval: the seat at the table is reserved
+	// for 5 minutes, so there is no hurry - and a tight cycle would run into
+	// the login rate limit (burst 5 per IP).
 #if !defined(Q_OS_ANDROID) && !defined(Q_OS_IOS)
-	// Bewusst nur mobil: Dort erzwingt das Betriebssystem den Abbruch (App im
-	// Hintergrund eingefroren), der Spieler hat ihn nicht verursacht und kann
-	// ihn auch nicht verhindern. Am Desktop bleibt es beim bisherigen
-	// Verhalten - Meldung und Login-Seite, der Nutzer entscheidet selbst.
-	// Einziger Schaltpunkt: ohne ihn wird weder das Rejoin scharf geschaltet
-	// noch der QML-Hinweis ausgelöst, die restliche Strecke bleibt inaktiv.
+	// Deliberately mobile only: there the operating system forces the abort (app frozen
+	// in the background), the player did not cause it and cannot
+	// prevent it either. On the desktop the previous behaviour stays -
+	// a message and the login page, the user decides for themselves.
+	// The only switching point: without it neither the rejoin is armed
+	// nor the QML notice triggered, the rest of the path stays inactive.
 	Q_UNUSED(errorID);
 	return false;
 #else
@@ -469,11 +469,11 @@ bool ServerConnectionHandler::scheduleAutoReconnect(int errorID)
 
 	if (!m_loggedIn || !m_session)
 		return false;
-	// Nur für die über connectToServer aufgebaute Internet-Sitzung: Nur dort
-	// liegen Zugangsdaten für den stillen Re-Login vor, und nur dort ist
-	// startInternetClient() der richtige Weg zurück. Ein LAN-Beitritt oder
-	// ein selbst gehostetes Spiel läuft über NetworkGameHandler und würde
-	// sonst fälschlich gegen den Internet-Server neu verbunden.
+	// Only for the internet session established via connectToServer: only there
+	// are credentials for the silent re-login available, and only there is
+	// startInternetClient() the right way back. A LAN join or
+	// a self-hosted game runs via the NetworkGameHandler and would
+	// otherwise wrongly be reconnected against the internet server.
 	if (m_pendingUsername.isEmpty())
 		return false;
 	if (!isRecoverableTransportError(errorID))
@@ -487,8 +487,8 @@ bool ServerConnectionHandler::scheduleAutoReconnect(int errorID)
 	if (!m_reconnecting) {
 		m_reconnecting = true;
 		emit reconnectingChanged();
-		// Vor dem Login scharf schalten: Das Rejoin-Angebot kommt mit dem
-		// InitAck und damit früher als das Ende der Wiederverbindung.
+		// Arm it before the login: the rejoin offer comes with the
+		// InitAck and thus earlier than the end of the reconnect.
 		emit autoRejoinArmed(true);
 	}
 	emit reconnectAttempt(m_reconnectAttempt, kMaxAttempts);
@@ -497,8 +497,8 @@ bool ServerConnectionHandler::scheduleAutoReconnect(int errorID)
 
 	const int scheduledAttempt = m_reconnectAttempt;
 	QTimer::singleShot(delayMs, this, [this, scheduledAttempt]() {
-		// Veraltete Timer nach Abbruch, erfolgreicher Verbindung oder einem
-		// inzwischen gestarteten weiteren Versuch verwerfen.
+		// Discard stale timers after an abort, a successful connection or a
+		// further attempt started in the meantime.
 		if (!m_session || !m_reconnecting || m_reconnectAttempt != scheduledAttempt)
 			return;
 		m_isConnecting = true;

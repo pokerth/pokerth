@@ -2,9 +2,9 @@ import QtQuick
 
 import "../config" as Config
 
-// Forums-Plakette der Neuigkeiten-Liste (BBC, WEC, BUGS, …) – Pendant zu
-// .fn-forum im Web-Client: Pillenform in der stabilen Farbe des Forums
-// (Config.ForumNews.forumColor). Lange Namen brechen um statt zu kürzen.
+// Forum badge of the news list (BBC, WEC, BUGS, …) – counterpart to
+// .fn-forum in the web client: pill shape in the stable colour of the forum
+// (Config.ForumNews.forumColor). Long names wrap instead of being elided.
 Rectangle {
     id: badge
 
@@ -13,9 +13,9 @@ Rectangle {
 
     readonly property color accent: Config.ForumNews.forumColor(forum)
 
-    // Breite über TextMetrics statt über das Label: das Label bekommt seine
-    // Breite von der Plakette, eine Bindung auf label.implicitWidth wäre eine
-    // Bindungsschleife.
+    // Width via TextMetrics instead of via the label: the label gets its width
+    // from the badge, a binding on label.implicitWidth would be a binding
+    // loop.
     TextMetrics {
         id: metrics
         font: label.font

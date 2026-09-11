@@ -38,8 +38,8 @@ class ServerConnectionHandler : public QObject
 	Q_PROPERTY(QString savedPassword READ savedPassword NOTIFY savedPasswordChanged)
 	Q_PROPERTY(bool rememberPassword READ rememberPassword NOTIFY rememberPasswordChanged)
 	Q_PROPERTY(QUrl registerUrl READ registerUrl CONSTANT)
-	// True zwischen einem Verbindungsabbruch im laufenden Betrieb und dem
-	// Ende der automatischen Wiederverbindung (erfolgreich oder aufgegeben).
+	// True between a connection loss during operation and the end of the
+	// automatic reconnect (successful or given up).
 	Q_PROPERTY(bool reconnecting READ reconnecting NOTIFY reconnectingChanged)
 
 public:
@@ -82,15 +82,15 @@ public:
 		return QUrl(QStringLiteral("https://www.pokerth.net/ucp.php?mode=register"));
 	}
 	Q_INVOKABLE bool openExternalUrl(const QUrl &url) const;
-	// Bricht eine laufende Wiederverbindung ab und beendet die Sitzung
-	// endgültig. Aus QML beim bewussten Verlassen und über den Abbrechen-
-	// Knopf des Wiederverbinden-Hinweises.
+	// Cancels a running reconnect and ends the session for good. From QML
+	// when deliberately leaving and via the cancel button of the reconnect
+	// notice.
 	Q_INVOKABLE void abortAutoReconnect();
 
-	// Klartext zu einem Fehlercode aus socket_msg.h (ERR_SOCK_*/ERR_NET_*).
-	// Pendant zu startWindowImpl::networkError(int) im Widgets-Client; dort
-	// hat jeder Code eine eigene Meldung, hier lag nur eine Handvoll Codes
-	// als Text vor (der Rest kam als nackte Nummer an).
+	// Plain text for an error code from socket_msg.h (ERR_SOCK_*/ERR_NET_*).
+	// Counterpart to startWindowImpl::networkError(int) in the widgets client;
+	// there every code has a message of its own, here only a handful of codes
+	// were available as text (the rest arrived as a bare number).
 	static QString networkErrorMessage(int errorID);
 
 public slots:
@@ -111,31 +111,31 @@ signals:
 	void savedPasswordChanged();
 	void rememberPasswordChanged();
 	void reconnectingChanged();
-	// Jeder einzelne Wiederverbindungsversuch, für die Fortschrittsanzeige.
+	// Every single reconnect attempt, for the progress display.
 	void reconnectAttempt(int attempt, int maxAttempts);
-	// Scharfschalten des automatischen Rejoins im LobbyHandler: Das Angebot
-	// des Servers (InitAck) trifft noch während des Logins ein, also VOR dem
-	// Ende der Wiederverbindung - das Flag muss vorher stehen.
+	// Arming the automatic rejoin in the LobbyHandler: the offer of the
+	// server (InitAck) already arrives during the login, i.e. BEFORE the end
+	// of the reconnect - the flag has to be set before that.
 	void autoRejoinArmed(bool armed);
 
 public slots:
 	void onNetClientConnect(int actionID);
 	void onNetClientLoginShow();
 	void onNetClientError(int errorID, int osErrorID);
-	// Fehler des eingebetteten Servers (eigenes Netzwerkspiel hosten). Ohne
-	// diesen Weg blieb z. B. ein belegter Port beim Hosten unbemerkt.
+	// Errors of the embedded server (hosting your own network game). Without
+	// this path an occupied port when hosting went unnoticed, for example.
 	void onNetServerError(int errorID, int osErrorID);
 
 private:
 	void updateProgress(int progress, const QString &message);
 	void handleLoginDialog();
-	// Nur Transportfehler rechtfertigen eine stille Wiederverbindung. Bei
-	// Kick, Bann, Sperre, Sitzungs-Timeout oder abgelehnten Zugangsdaten
-	// würde der Client sonst gegen die Ablehnung anrennen - und dabei das
-	// Login-Rate-Limit des Servers (Token-Bucket pro IP) auslösen.
+	// Only transport errors justify a silent reconnect. On kick, ban, block,
+	// session timeout or rejected credentials the client would otherwise keep
+	// running against the rejection - and would trigger the login rate limit
+	// of the server (token bucket per IP) in the process.
 	static bool isRecoverableTransportError(int errorID);
-	// Startet den nächsten Versuch oder gibt auf; liefert true, wenn ein
-	// Versuch läuft und der Fehler damit NICHT nach QML gemeldet wird.
+	// Starts the next attempt or gives up; returns true if an attempt is
+	// running and the error is therefore NOT reported to QML.
 	bool scheduleAutoReconnect(int errorID);
 	void endAutoReconnect();
 
@@ -156,10 +156,10 @@ private:
 
 	int m_retryCount;
 
-	// Automatische Wiederverbindung nach Verbindungsverlust im laufenden
-	// Betrieb (Android: App im Hintergrund; Desktop: WLAN-Schlaf).
-	bool m_loggedIn = false;      // Login abgeschlossen -> Abbruch ist ein Verlust,
-	// kein fehlgeschlagener Verbindungsaufbau
+	// Automatic reconnect after a connection loss during operation
+	// (Android: app in the background; desktop: WLAN sleep).
+	bool m_loggedIn = false;      // login finished -> an abort is a loss,
+	// not a failed connection attempt
 	bool m_reconnecting = false;
 	int  m_reconnectAttempt = 0;
 };

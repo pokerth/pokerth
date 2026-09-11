@@ -4,9 +4,9 @@ import QtQuick.Layouts
 
 import "../config" as Config
 
-// Eingabe-Popup für eine server-weite Durchsage (nur Server-Admins).
-// Der Server verteilt die Durchsage als Chat-Broadcast an alle Sessions –
-// deshalb gilt hier dieselbe 128-Byte-Grenze wie für Chat-Nachrichten.
+// Input popup for a server-wide announcement (server admins only).
+// The server distributes the announcement as a chat broadcast to all sessions –
+// so the same 128 byte limit as for chat messages applies here.
 Popup {
     id: root
 
@@ -16,12 +16,12 @@ Popup {
     padding: 20
     width: Math.min((parent ? parent.width : 420) * 0.85, 420)
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-    // Ohne focus:true blieb der Startfokus aus onOpened wirkungslos und das
-    // Popup schluckte Escape, ohne sich zu schließen.
+    // Without focus:true the initial focus from onOpened had no effect and the
+    // popup swallowed Escape without closing.
     focus: true
 
     readonly property int maxBytes: 128
-    // UTF-8-Länge (nicht Zeichen), weil der Server in Bytes begrenzt.
+    // UTF-8 length (not characters), because the server limits in bytes.
     readonly property int usedBytes: {
         var s = noticeInput.text
         var b = 0

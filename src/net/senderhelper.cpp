@@ -64,9 +64,9 @@ void
 SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
 	if (packet && session) {
-		// Prüfe ob Session noch offen ist bevor wir senden
+		// Check whether the session is still open before we send
 		if (session->GetState() == SessionData::Closed) {
-			return;  // Session bereits geschlossen, nicht mehr senden
+			return;  // Session already closed, do not send any more
 		}
 
 		bool overflow = false;
@@ -96,9 +96,9 @@ void
 SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList)
 {
 	if (!packetList.empty() && session) {
-		// Prüfe ob Session noch offen ist bevor wir senden
+		// Check whether the session is still open before we send
 		if (session->GetState() == SessionData::Closed) {
-			return;  // Session bereits geschlossen, nicht mehr senden
+			return;  // Session already closed, do not send any more
 		}
 
 		bool overflow = false;

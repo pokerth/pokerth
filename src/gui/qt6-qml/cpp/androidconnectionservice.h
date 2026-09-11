@@ -6,14 +6,14 @@
 #ifndef ANDROIDCONNECTIONSERVICE_H
 #define ANDROIDCONNECTIONSERVICE_H
 
-// Start/Stop des Android-Foreground-Service (ConnectionService.java), der
-// während einer aktiven Online-Session den App-Prozess vor Doze/App-Freezer
-// schützt, damit die Server-Verbindung Hintergrund-Phasen überlebt.
-// Auf allen anderen Plattformen sind beide Funktionen No-ops.
+// Start/stop of the Android foreground service (ConnectionService.java), which
+// protects the app process from doze/app freezer during an active online
+// session, so that the server connection survives background phases.
+// On all other platforms both functions are no-ops.
 //
-// Threading: von beliebigen Threads aufrufbar (auch vom Netzwerk-Thread,
-// z.B. aus QmlGuiInterface-Callbacks) - der JNI-Aufruf wird auf den
-// Android-UI-Thread verlagert.
+// Threading: callable from arbitrary threads (including the network thread,
+// e.g. from QmlGuiInterface callbacks) - the JNI call is moved onto the
+// Android UI thread.
 namespace AndroidConnectionService
 {
 void start();

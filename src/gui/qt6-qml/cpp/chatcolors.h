@@ -3,61 +3,61 @@
 
 #include <QString>
 
-/* Rollen-Farben der Lobby-Chatzeilen (Hell-/Dunkelmodus).
+/* Role colours of the lobby chat lines (light/dark mode).
  *
- * Eine Chatzeile wird EINMAL beim Empfang zu HTML gebaut und danach nur noch
- * punktuell verändert (der ChatTranslator hängt Globus-Anker an und tauscht
- * Nachrichtenkörper gegen Übersetzungen aus) – komplett neu erzeugt wird sie
- * nie. Stünde der Hex-Wert der Textfarbe fest in dieser Zeile, behielte der
- * gesamte bereits empfangene Verlauf nach einem Hell/Dunkel-Wechsel die alten
- * Farben: heller Text (#cdd3e0) auf hellem Grund (#f0f3f8) ist mit ~1,3:1
- * schlicht unlesbar.
+ * A chat line is built to HTML ONCE when it is received and afterwards only
+ * changed selectively (the ChatTranslator appends globe anchors and swaps
+ * message bodies for translations) – it is never created from scratch
+ * again. If the hex value of the text colour stood fixed in that line, the
+ * whole history already received would keep the old colours after a light/dark
+ * switch: light text (#cdd3e0) on a light ground (#f0f3f8) is simply
+ * unreadable at ~1.3:1.
  *
- * Deshalb steht in der gespeicherten Zeile nur ein Rollen-Platzhalter; der
- * konkrete Hex-Wert entsteht erst beim Ausliefern an QML
- * (LobbyHandler::chatLog()). Ein Themenwechsel ist damit nur noch ein
- * chatLogChanged() – ohne Neuaufbau des Verlaufs und damit ohne die Zustände
- * des ChatTranslators (Anker-Ids, eingeblendete Übersetzungen) zu verlieren.
+ * That is why the stored line only contains a role placeholder; the
+ * concrete hex value only arises when it is delivered to QML
+ * (LobbyHandler::chatLog()). A theme change is thereby only a
+ * chatLogChanged() – without rebuilding the history and thus without losing the
+ * states of the ChatTranslator (anchor ids, shown translations).
  *
- * Die Werte entsprechen 1:1 der QML-Palette (StaticData _dark/_light bzw.
- * Theme.colorAccent…), damit der Chat zum Rest der Oberfläche passt.
+ * The values correspond 1:1 to the QML palette (StaticData _dark/_light or
+ * Theme.colorAccent…), so that the chat matches the rest of the user interface.
  *
- * Der Spiel-Chat/-Verlauf am Tisch arbeitet nach demselben Muster, bezieht
- * seine Hex-Werte aber nicht aus der App-Palette, sondern aus dem Tisch-Theme
- * (StyleProvider.chatLog*) – siehe TableChatColors weiter unten.
+ * The game chat/history at the table works by the same pattern, but takes
+ * its hex values not from the app palette but from the table theme
+ * (StyleProvider.chatLog*) – see TableChatColors further below.
  */
 namespace ChatColors
 {
 
 enum Role {
-	Text = 0,   // normale Nachricht (Fließtext)
-	Accent,     // Erwähnung des eigenen Nicks (Gold)
-	Danger,     // Chatbot-Warnung an mich
-	Muted,      // private Nachricht / lokale Hinweiszeile
-	Info,       // Spiel-Einladung
-	Reject,     // abgelehnte Einladung
+	Text = 0,   // normal message (body text)
+	Accent,     // mention of your own nick (gold)
+	Danger,     // chatbot warning to me
+	Muted,      // private message / local notice line
+	Info,       // game invitation
+	Reject,     // declined invitation
 	RoleCount
 };
 
-// Steuerzeichen als Klammern des Platzhalters: sie kommen in Chat-Text nicht
-// vor und werden aus Fremdtext zusätzlich entfernt (chatEscape), können also
-// nie mit Nutzerinhalten kollidieren.
+// Control characters as the brackets of the placeholder: they do not occur in chat
+// text and are additionally removed from foreign text (chatEscape), so they can
+// never collide with user content.
 inline constexpr char16_t kTokenStart = u'\x02';
 inline constexpr char16_t kTokenEnd   = u'\x03';
 
-// Platzhalter, wie er in der gespeicherten Zeile steht ("\x02<rolle>\x03").
+// The placeholder as it stands in the stored line ("\x02<role>\x03").
 inline QString token(Role role)
 {
 	return QChar(kTokenStart) + QString::number(int(role)) + QChar(kTokenEnd);
 }
 
-// Fertiges Style-Fragment für den Zeilenaufbau: "color:<platzhalter>".
+// A ready style fragment for building the line: "color:<placeholder>".
 inline QString colorStyle(Role role)
 {
 	return QStringLiteral("color:") + token(role);
 }
 
-// Hex-Wert einer Rolle im jeweiligen Modus.
+// Hex value of a role in the respective mode.
 inline QString value(Role role, bool dark)
 {
 	switch (role) {
@@ -77,7 +77,7 @@ inline QString value(Role role, bool dark)
 	}
 }
 
-// Platzhalter -> Hex. Wird beim Ausliefern jeder Zeile an QML angewandt.
+// Placeholder -> hex. Applied when delivering every line to QML.
 inline QString expand(QString line, bool dark)
 {
 	if (!line.contains(QChar(kTokenStart)))
@@ -87,9 +87,9 @@ inline QString expand(QString line, bool dark)
 	return line;
 }
 
-// HTML-Escaping für Chat-Inhalte (Nachrichten, Spielernamen). Entfernt
-// zusätzlich die Platzhalter-Steuerzeichen, damit Fremdtext keine Farb-
-// Platzhalter einschleusen kann.
+// HTML escaping for chat content (messages, player names). It additionally
+// removes the placeholder control characters, so that foreign text cannot
+// smuggle in colour placeholders.
 inline QString chatEscape(const QString &raw)
 {
 	QString s = raw;
@@ -100,48 +100,48 @@ inline QString chatEscape(const QString &raw)
 
 } // namespace ChatColors
 
-/* Rollen-Farben des Spiel-Chats und des Spielverlaufs AM TISCH.
+/* Role colours of the game chat and the game history AT THE TABLE.
  *
- * Gleiches Prinzip wie ChatColors, andere Quelle: die Hex-Werte kommen nicht
- * aus der App-Palette (Hell/Dunkel), sondern aus dem gerade gewählten
- * Tisch-Theme (StyleProvider.chatLog*). Ohne Platzhalter stünden die Farben
- * fest in der einmal gebauten Zeile – ein helles Tisch-Theme (z. B.
- * "Ivoire - Chene") bekäme dann weißen Text auf hellem Grund, und ein
- * Theme-Wechsel im laufenden Spiel färbte den bereits vorhandenen Verlauf
- * nie um.
+ * The same principle as ChatColors, a different source: the hex values come not
+ * from the app palette (light/dark) but from the table theme currently
+ * selected (StyleProvider.chatLog*). Without placeholders the colours would stand
+ * fixed in the line once it is built – a light table theme (e.g.
+ * "Ivoire - Chene") would then get white text on a light ground, and a
+ * theme change during a running game would never recolour the history
+ * that is already there.
  *
- * Die Zeilen bleiben deshalb roh (mit Platzhalter) gespeichert; GameHandler
- * expandiert sie beim Ausliefern an QML und meldet bei jedem Theme-Wechsel
- * einfach die Liste als geändert.
+ * The lines are therefore stored raw (with the placeholder); the GameHandler
+ * expands them when delivering to QML and on every theme change simply
+ * reports the list as changed.
  */
 namespace TableChatColors
 {
 
 enum Role {
-	Text = 0,    // normale Chat-Nachricht / normale Verlaufszeile
-	Accent,      // Erwähnung des eigenen Nicks
-	Winner,      // Gewinner des Hauptpots
-	WinnerSide,  // Gewinner eines Side-Pots
+	Text = 0,    // normal chat message / normal history line
+	Accent,      // mention of your own nick
+	Winner,      // winner of the main pot
+	WinnerSide,  // winner of a side pot
 	Board,       // "--- Flop ---" / "… sits out"
 	RoleCount
 };
 
-// Dieselben Steuerzeichen wie ChatColors: die beiden Verläufe (Lobby / Tisch)
-// liegen in getrennten Listen und werden jeweils von ihrem eigenen Handler
-// expandiert, können sich also nicht in die Quere kommen.
+// The same control characters as in ChatColors: the two histories (lobby / table)
+// live in separate lists and are each expanded by their own handler,
+// so they cannot get in each other's way.
 inline QString token(Role role)
 {
 	return QChar(ChatColors::kTokenStart) + QString::number(int(role))
 		   + QChar(ChatColors::kTokenEnd);
 }
 
-// Fertiges Style-Fragment für den Zeilenaufbau: "color:<platzhalter>".
+// A ready style fragment for building the line: "color:<placeholder>".
 inline QString colorStyle(Role role)
 {
 	return QStringLiteral("color:") + token(role);
 }
 
-// Die Hex-Werte einer Rolle, wie sie das aktuelle Tisch-Theme liefert.
+// The hex values of a role as the current table theme delivers them.
 struct Palette {
 	QString color[RoleCount];
 	bool isEmpty() const
@@ -150,7 +150,7 @@ struct Palette {
 	}
 };
 
-// Platzhalter -> Hex. Wird beim Ausliefern jeder Zeile an QML angewandt.
+// Placeholder -> hex. Applied when delivering every line to QML.
 inline QString expand(QString line, const Palette &palette)
 {
 	if (palette.isEmpty() || !line.contains(QChar(ChatColors::kTokenStart)))

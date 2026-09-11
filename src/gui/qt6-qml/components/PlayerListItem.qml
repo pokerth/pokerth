@@ -24,8 +24,8 @@ ItemDelegate {
     readonly property bool guestPlayer: !!playerEntry.isGuest
     readonly property string playerCountryCode: playerEntry.countryCode || ""
 
-    // Wide-Screen → Aktionen als Icons inline rechts vom Namen, kein Collapse.
-    // Portrait → bestehendes Expand/Collapse mit gestapelten Buttons.
+    // Wide screen → actions as icons inline to the right of the name, no collapse.
+    // Portrait → the existing expand/collapse with stacked buttons.
     readonly property bool wideLayout: Config.Responsive.landscape
 
     // ── Filter (Spielersuche) ────────────────────────────────────────
@@ -40,8 +40,8 @@ ItemDelegate {
             ? ((showInGameLine || showActionColumn) ? expandedHeight : rowHeight)
             : 0
 
-    // Default-Padding des ItemDelegate (Basic-Style: 12px) schiebt den Inhalt
-    // bei fester Zeilenhöhe 30 nach unten → Name vertikal zentrieren.
+    // The default padding of the ItemDelegate (basic style: 12px) pushes the content
+    // down at a fixed row height of 30 → centre the name vertically.
     topPadding: 0
     bottomPadding: 0
 
@@ -59,7 +59,7 @@ ItemDelegate {
                                      + (canUnignore ? 1 : 0)
                                      + (canShowPlayerStats ? 1 : 0)
                                      + (canAdminModerate ? 1 : 0)
-    // Zwei Zeilen à 13 px für die "spielt gerade in ..."-Info über den Buttons.
+    // Two lines of 13 px for the "currently playing in ..." info above the buttons.
     readonly property int inGameLineHeight: 26
     readonly property int actionsBlockHeight: (actionCount * actionButtonHeight)
                                             + (Math.max(0, actionCount - 1) * actionSpacing)
@@ -67,36 +67,36 @@ ItemDelegate {
                                         + (showInGameLine ? 5 + inGameLineHeight : 0)
                                         + (showActionColumn ? actionSpacing + actionsBlockHeight : 0)
 
-    // ── Was zeigt der Aufklappbereich? ───────────────────────────────────────
-    // Portrait: die gestapelten Aktions-Buttons (die Icon-Zeile fehlt dort).
-    // Wide-Layout: die Aktionen sitzen bereits als Icons in der Zeile – aufklappen
-    // lohnt nur auf Touch-Geräten, denen der Hover-Tooltip mit der "spielt gerade
-    // in ..."-Info fehlt. Deshalb Geräte-Erkennung (Qt.platform.os) statt einer
-    // Auflösungs-Heuristik: ein Tablet im Landscape hat zwar Desktop-Geometrie,
-    // aber genauso wenig einen Mauszeiger wie ein Telefon.
+    // ── What does the expanded area show? ────────────────────────────────────
+    // Portrait: the stacked action buttons (the icon row is missing there).
+    // Wide layout: the actions already sit as icons in the row – expanding
+    // is only worthwhile on touch devices, which lack the hover tooltip with the
+    // "currently playing in ..." info. Hence device detection (Qt.platform.os) instead of a
+    // resolution heuristic: a tablet in landscape does have desktop geometry,
+    // but just as little a mouse cursor as a phone.
     readonly property bool showActionColumn: !wideLayout && expanded && hasActions
     readonly property bool showInGameLine: expanded && (wideLayout ? Config.Responsive.isMobile
                                                                   : hasActions)
     readonly property bool expandable: wideLayout ? Config.Responsive.isMobile : hasActions
 
     readonly property bool isSelf: Lobby && targetPlayerId === Lobby.myPlayerId
-    // gameListRevision als reaktive Abhängigkeit: erzwingt Neuauswertung
-    // wenn Spieler einem Spiel beitreten oder es verlassen.
+    // gameListRevision as a reactive dependency: forces a re-evaluation
+    // when players join or leave a game.
     readonly property bool canInvite: Lobby && Lobby.canInviteFromCurrentGame && !isSelf && !guestPlayer
         && (Lobby.gameListRevision >= 0 && !Lobby.isPlayerInAnyGame(targetPlayerId))
     readonly property bool canAdminModerate: Lobby && Lobby.isCurrentPlayerAdmin && !isSelf
-    // Private Nachricht: Gäste dürfen serverseitig gar nicht chatten – weder
-    // als Absender noch als EMPFÄNGER –, und der Server verwirft PMs an Spieler,
-    // die an einem LAUFENDEN Tisch sitzen. Alles drei hier ausblenden, sonst
-    // käme statt der Nachricht nur ein "Chat rejected" zurück.
-    // gameListRevision hält die Prüfung reaktiv.
+    // Private message: guests are not allowed to chat at all on the server side – neither
+    // as a sender nor as a RECIPIENT –, and the server discards PMs to players
+    // sitting at a RUNNING table. Hide all three here, otherwise
+    // only a "chat rejected" would come back instead of the message.
+    // gameListRevision keeps the check reactive.
     readonly property bool canSendPm: Lobby && !isSelf && !Lobby.isMyPlayerGuest && !guestPlayer
         && (Lobby.gameListRevision >= 0 && !Lobby.isPlayerInRunningGame(targetPlayerId))
     readonly property bool canShowPlayerStats: !guestPlayer
-    // "Spielt gerade in ..."-Info. Nur abfragen, wenn sie auch jemand sieht:
-    // Desktop beim Hovern über dem Namen, Touch im aufgeklappten Bereich
-    // (dort gibt es keinen Hover). gameListRevision als reaktive Abhängigkeit,
-    // falls der Spieler währenddessen einem Spiel bei- oder es verlässt.
+    // "Currently playing in ..." info. Only query it if somebody sees it:
+    // on the desktop when hovering over the name, on touch in the expanded area
+    // (there is no hover there). gameListRevision as a reactive dependency,
+    // in case the player joins or leaves a game meanwhile.
     readonly property string inGameName: {
         var _rev = Lobby ? Lobby.gameListRevision : 0
         return (Lobby && (nameHover.hovered || expanded))
@@ -106,13 +106,13 @@ ItemDelegate {
     readonly property bool canUnignore: !isSelf && !guestPlayer && playerIgnored
     readonly property bool hasActions: canSendPm || canInvite || canAdminModerate || canIgnore || canUnignore || canShowPlayerStats
 
-    // ── Feste Icon-Spalten (Wide-Layout) ─────────────────────────────────────
-    // Damit jedes Icon in ALLEN Zeilen an derselben x-Position sitzt, behält ein
-    // für diese Zeile nicht verfügbares Icon seinen Platz (PlayerActionIcon.active)
-    // statt aus der Row zu fallen. Eine Spalte wird aber nur dann überhaupt
-    // reserviert, wenn die Aktion für die LISTE in Frage kommt – die Kickban-
-    // Spalte etwa nur für Server-Admins, sonst bliebe sie bei allen dauerhaft leer.
-    // Ignorieren/Entignorieren schließen sich aus und teilen sich eine Spalte.
+    // ── Fixed icon columns (wide layout) ─────────────────────────────────────
+    // So that every icon sits at the same x position in ALL rows, an icon that is
+    // not available for this row keeps its place (PlayerActionIcon.active)
+    // instead of falling out of the row. A column is only reserved at all
+    // if the action comes into question for the LIST – the kickban
+    // column for instance only for server admins, otherwise it would stay empty for everyone.
+    // Ignore/unignore are mutually exclusive and share one column.
     readonly property bool slotPm: Lobby && !Lobby.isMyPlayerGuest
     readonly property bool slotInvite: Lobby && Lobby.canInviteFromCurrentGame
     readonly property bool slotIgnore: true
@@ -125,12 +125,12 @@ ItemDelegate {
     readonly property color statsColor: Config.StaticData.chartColor(9, true)
     readonly property color banColor: Config.StaticData.chartColor(5, true)
 
-    // Das Eingabe-Popup liegt bewusst in der Seite und nicht im Delegate:
-    // ein Listen-Update während des Tippens würde den Delegate (und damit den
-    // Text) verwerfen.
+    // The input popup deliberately lives in the page and not in the delegate:
+    // a list update while typing would discard the delegate (and with it the
+    // text).
     signal privateMessageRequested(int playerId, string playerName)
 
-    // Rückfrage vor dem Einladen eines Spielers ins eigene Spiel.
+    // Confirmation before inviting a player into your own game.
     function confirmInvite() {
         invitePopup.openWith(
             qsTr("Invite to Game"),
@@ -138,7 +138,7 @@ ItemDelegate {
             qsTr("Invite"))
     }
 
-    // Rückfrage vor dem Ignorieren eines Spielers (versehentlicher Klick).
+    // Confirmation before ignoring a player (an accidental click).
     function confirmIgnore() {
         ignorePopup.openWith(
             qsTr("Ignore player"),
@@ -146,7 +146,7 @@ ItemDelegate {
             qsTr("Ignore player"))
     }
 
-    // Rückfrage vor dem Aufheben der Ignorierung eines Spielers.
+    // Confirmation before unignoring a player.
     function confirmUnignore() {
         unignorePopup.openWith(
             qsTr("Unignore player"),
@@ -154,7 +154,7 @@ ItemDelegate {
             qsTr("Unignore player"))
     }
 
-    // Rückfrage vor dem endgültigen Kickban (Admin) eines Spielers.
+    // Confirmation before the final kickban (admin) of a player.
     function confirmBan() {
         banPopup.openWith(
             qsTr("Total kickban"),
@@ -175,10 +175,10 @@ ItemDelegate {
         }
     }
 
-    // Wenn das Layout in Wide-Screen wechselt, eventuell offenen Expander
-    // schließen – sonst bliebe der Item-Container unnötig hoch beim Resize.
-    // Auf Touch-Geräten bleibt er offen: dort trägt er auch im Wide-Layout
-    // noch die "spielt gerade in ..."-Zeile.
+    // When the layout switches to wide screen, close a possibly open expander
+    // – otherwise the item container would stay unnecessarily tall on a resize.
+    // On touch devices it stays open: there it still carries the
+    // "currently playing in ..." line in the wide layout as well.
     onWideLayoutChanged: {
         if (wideLayout && !expandable) {
             expanded = false
@@ -225,9 +225,9 @@ ItemDelegate {
                 Layout.alignment: Qt.AlignVCenter
                 elide: Text.ElideRight
 
-                // Desktop-Hover-Tooltip: "spielt in ..." / "spielt derzeit nicht"
-                // (Widget-Client zeigt dieselbe Info im Nickliste-Kontextmenü,
-                // Touch-Geräte im aufgeklappten Bereich – siehe unten).
+                // Desktop hover tooltip: "plays in ..." / "does not play currently"
+                // (the widget client shows the same info in the nick list context menu,
+                // touch devices in the expanded area – see below).
                 HoverHandler { id: nameHover }
 
                 ToolTip.text: playerItem.inGameName !== ""
@@ -238,10 +238,10 @@ ItemDelegate {
                 ToolTip.delay: 400
             }
 
-            // Wide-Screen: Action-Icons inline, rechtsbündig – in festen Spalten
-            // (siehe slot*-Properties oben). Die Row bleibt auch dann stehen,
-            // wenn für diese Zeile keine Aktion verfügbar ist, damit die Spalten
-            // über alle Zeilen dieselbe Breite behalten.
+            // Wide screen: action icons inline, right-aligned – in fixed columns
+            // (see the slot* properties above). The row stays even when
+            // no action is available for this row, so that the columns
+            // keep the same width across all rows.
             Row {
                 id: wideActionsRow
                 visible: playerItem.wideLayout
@@ -265,7 +265,7 @@ ItemDelegate {
                     tooltipText: qsTr("Invite to Game")
                     onTriggered: playerItem.confirmInvite()
                 }
-                // Eine Spalte für beide Zustände: ignoriert ⇄ nicht ignoriert.
+                // One column for both states: ignored ⇄ not ignored.
                 PlayerActionIcon {
                     visible: playerItem.slotIgnore
                     active: playerItem.canIgnore || playerItem.canUnignore
@@ -299,7 +299,7 @@ ItemDelegate {
                 }
             }
 
-            // Portrait: Expander-Caret (Wide-Screen blendet ihn aus).
+            // Portrait: expander caret (wide screen hides it).
             SvgIcon {
                 id: expanderCaret
                 source: "qrc:/resources/caretLeft.svg"
@@ -309,9 +309,9 @@ ItemDelegate {
                 Layout.preferredHeight: 16
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                 visible: playerItem.expandable
-                // Einfärbung per layer.effect statt MultiEffect-Kind: VectorImage
-                // (Qt >= 6.8) ist kein Texture-Provider und darf nicht per source
-                // referenziert werden (sonst schwarz/zerrissen gerendert).
+                // Colourising via layer.effect instead of a MultiEffect child: VectorImage
+                // (Qt >= 6.8) is not a texture provider and must not be referenced via
+                // source (it would render black/torn).
                 layer.enabled: true
                 layer.effect: MultiEffect {
                     colorization: 1.0
@@ -339,9 +339,9 @@ ItemDelegate {
             Layout.topMargin: 5
             spacing: 3
 
-            // Touch-Pendant zum Desktop-Hover-Tooltip über dem Namen: am
-            // Telefon gibt es keinen Hover, also steht dieselbe Info hier –
-            // gleicher Wortlaut, gleiche Quelle (playerItem.inGameName).
+            // The touch counterpart to the desktop hover tooltip above the name: on
+            // the phone there is no hover, so the same info stands here –
+            // same wording, same source (playerItem.inGameName).
             AppText {
                 visible: playerItem.showInGameLine
                 Layout.fillWidth: true
@@ -353,9 +353,9 @@ ItemDelegate {
                 font.pixelSize: 10
                 color: playerItem.inGameName !== "" ? playerItem.inviteColor
                                                     : Config.Theme.colorTextMuted
-                // Feste Höhe für zwei Zeilen: die Zeilenhöhe geht in
-                // expandedHeight ein, ein dynamischer Umbruch würde den
-                // aufgeklappten Bereich unten abschneiden.
+                // A fixed height for two lines: the line height goes into
+                // expandedHeight, a dynamic wrap would cut off the
+                // expanded area at the bottom.
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
                 elide: Text.ElideRight

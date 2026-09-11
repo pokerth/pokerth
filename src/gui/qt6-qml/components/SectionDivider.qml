@@ -3,9 +3,9 @@ import QtQuick.Layouts
 
 import "../config" as Config
 
-// Feine, zu den Rändern hin auslaufende Trennlinie unter Sektions-Überschriften
-// ("Game List", "Lobby Chat" …). Ersetzt die harte 1px-Kante durch einen
-// dezenten horizontalen Verlauf, der mittig am kräftigsten ist.
+// Fine separator line below section headings that fades out towards the
+// edges ("Game List", "Lobby Chat" …). Replaces the hard 1px edge with a
+// subtle horizontal gradient that is strongest in the middle.
 Rectangle {
     Layout.fillWidth: true
     Layout.preferredHeight: 1

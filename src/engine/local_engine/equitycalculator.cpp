@@ -41,9 +41,9 @@
 namespace
 {
 
-// Schneller Generator fuer die Simulation. Die Entropie kommt einmal pro
-// Thread aus Tools::GetRand(); dessen boost::random_device direkt zu benutzen
-// waere fuer hunderttausend Zufallszahlen je Entscheidung viel zu langsam.
+// Fast generator for the simulation. The entropy comes from Tools::GetRand()
+// once per thread; using its boost::random_device directly would be far too
+// slow for a hundred thousand random numbers per decision.
 std::mt19937& simulationRng()
 {
 	static thread_local bool seeded = false;
@@ -65,9 +65,9 @@ inline unsigned nextBelow(std::mt19937& rng, unsigned bound)
 
 typedef std::pair<signed char, signed char> CardPair;
 
-// Alle Startkarten-Kombinationen, die zu einer Range passen und keine bereits
-// bekannte Karte benutzen. Vorab aufgebaut, damit enge Ranges nicht durch
-// wiederholtes Verwerfen teuer werden.
+// All hole card combinations that match a range and do not use an already
+// known card. Built up in advance so that tight ranges do not get expensive
+// through repeated rejection.
 void buildCombos(const HoleCardsRange* range, unsigned long long knownMask, std::vector<CardPair>& out)
 {
 	out.clear();
@@ -96,7 +96,7 @@ EquityCalculator::Result EquityCalculator::equity(const int* holeCards,
 
 	HandEvaluator::init();
 
-	// Bekannte Karten sperren.
+	// Block the known cards.
 	unsigned long long knownMask = 0;
 	int known[7];
 	int knownCount = 0;
@@ -113,8 +113,8 @@ EquityCalculator::Result EquityCalculator::equity(const int* holeCards,
 	std::vector< std::vector<CardPair> > combos(opponents);
 	for(int o = 0; o < opponents; ++o) {
 		buildCombos(opponentRanges[o], knownMask, combos[o]);
-		// Eine Range, die nach Abzug der bekannten Karten leer ist, laesst sich
-		// nicht simulieren -- dann lieber beliebige Haende als gar kein Ergebnis.
+		// A range that is empty after subtracting the known cards cannot be
+		// simulated -- in that case arbitrary hands are better than no result at all.
 		if(combos[o].empty()) buildCombos(0, knownMask, combos[o]);
 		if(combos[o].empty()) return result;
 	}
@@ -138,8 +138,8 @@ EquityCalculator::Result EquityCalculator::equity(const int* holeCards,
 		for(int o = 0; o < opponents && usable; ++o) {
 			const std::vector<CardPair>& list = combos[o];
 			bool placed = false;
-			// Kollisionen mit schon vergebenen Karten werden neu gezogen. Der
-			// Deckel verhindert Endlosschleifen, wenn kaum etwas frei ist.
+			// Collisions with cards already dealt are drawn again. The cap prevents
+			// endless loops when hardly anything is free.
 			for(int attempt = 0; attempt < 200 && !placed; ++attempt) {
 				const CardPair& pick = list[nextBelow(rng, static_cast<unsigned>(list.size()))];
 				const unsigned long long bits = (1ULL << pick.first) | (1ULL << pick.second);
@@ -168,7 +168,7 @@ EquityCalculator::Result EquityCalculator::equity(const int* holeCards,
 		for(int i = 0; i < 5; ++i) myCards[2 + i] = board[i];
 		const unsigned myValue = HandEvaluator::value(myCards);
 
-		// Gegner auswerten und zaehlen, wer mit uns gleichauf liegt.
+		// Evaluate the opponents and count who is level with us.
 		int equalBest = 0;
 		bool beaten = false;
 		for(int o = 0; o < opponents; ++o) {

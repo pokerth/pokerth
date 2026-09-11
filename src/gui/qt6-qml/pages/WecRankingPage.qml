@@ -6,8 +6,8 @@ import QtQuick.Layouts
 import "../config" as Config
 import "../components"
 
-// WEC (World Elite Cup) Rangliste – https://wec.pokerth.net/results/ranking
-// Filter wie dort: Jahr + Monat, plus All-Year und All-Time.
+// WEC (World Elite Cup) ranking – https://wec.pokerth.net/results/ranking
+// Filters as there: year + month, plus all-year and all-time.
 Rectangle {
     id: wecPage
     objectName: "wecRankingPage"
@@ -17,8 +17,8 @@ Rectangle {
 
     readonly property bool compact: Config.Responsive.compact
 
-    // Startfokus ins Suchfeld (filtert live) – auf Mobilgeräten NICHT, das zöge
-    // ungefragt die Bildschirmtastatur hoch.
+    // Initial focus into the search field (filters live) – NOT on mobile devices,
+    // that would pull up the on-screen keyboard unasked.
     StackView.onActivated: {
         if (!Config.Responsive.isMobile)
             Qt.callLater(searchField.forceActiveFocus)
@@ -46,7 +46,7 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        // Jahres-Liste aufbauen: aktuelles Jahr … 2012 (wie auf der Webseite).
+        // Build the year list: current year … 2012 (as on the website).
         var now = new Date().getFullYear()
         var m = []
         for (var y = now; y >= 2012; --y)
@@ -66,9 +66,9 @@ Rectangle {
             font.bold: true
         }
 
-        // Filterleiste – Jahr + Monat + All-Year + All-Time + Suche. Im Compact-
-        // Modus (Portrait) bricht das Grid auf zwei Spalten um (Jahr|Monat,
-        // All-Year|All-Time, Suche), damit nichts abgeschnitten wird.
+        // Filter bar – year + month + all-year + all-time + search. In compact
+        // mode (portrait) the grid wraps to two columns (year|month,
+        // all-year|all-time, search) so that nothing is cut off.
         GridLayout {
             Layout.fillWidth: true
             columns: wecPage.compact ? 2 : 6
@@ -122,7 +122,7 @@ Rectangle {
                 }
             }
 
-            // Abstandshalter nur im Desktop-Layout (drückt die Suche nach rechts).
+            // Spacer only in the desktop layout (pushes the search to the right).
             Item { Layout.fillWidth: true; visible: !wecPage.compact }
 
             TextField {
@@ -160,7 +160,7 @@ Rectangle {
 
             onInitialData: function(html) {
                 if (wecPage.restoreState) {
-                    // Gemerkten Filter wiederherstellen und dessen Daten laden.
+                    // Restore the remembered filter and load its data.
                     var r = wecPage.restoreState
                     wecPage.restoreState = null
                     wecPage.currentYear = r.currentYear
@@ -180,7 +180,7 @@ Rectangle {
                     wecPage.currentMonth = mo
                     wecPage.allyear = false
                 } else {
-                    wecPage.allyear = true        // Jahr ohne Monat → ganzes Jahr
+                    wecPage.allyear = true        // Year without a month → the whole year
                 }
                 yearField.currentIndex = Math.max(0, yearField.indexOfValue(wecPage.currentYear))
                 monthField.currentIndex = Math.max(0, monthField.indexOfValue(wecPage.currentMonth))

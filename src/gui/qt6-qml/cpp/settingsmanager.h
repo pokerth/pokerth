@@ -37,20 +37,20 @@ class SettingsManager : public QObject
 	Q_PROPERTY(bool disableSplashScreen READ disableSplashScreen WRITE setDisableSplashScreen NOTIFY disableSplashScreenChanged)
 	Q_PROPERTY(QString myName READ myName WRITE setMyName NOTIFY myNameChanged)
 	Q_PROPERTY(QString myAvatar READ myAvatar WRITE setMyAvatar NOTIFY myAvatarChanged)
-	// Wird bei jedem Schreiben eines Config-Werts erhöht. QML-Bindungen, die
-	// generische Werte über readConfigInt()/readConfigString() lesen, referenzieren
-	// diese Property, um bei Änderungen sofort (ohne Client-Neustart) neu
-	// auszuwerten – analog zum Revisions-Zähler des LobbyHandlers.
+	// Incremented on every write of a config value. QML bindings that read
+	// generic values via readConfigInt()/readConfigString() reference
+	// this property in order to re-evaluate immediately on changes (without a
+	// client restart) – analogous to the revision counter of the LobbyHandler.
 	Q_PROPERTY(int configRevision READ configRevision NOTIFY configRevisionChanged)
-	// Vom Betriebssystem gemeldeter Hell/Dunkel-Zustand. Nur relevant für die
-	// Einstellung "Automatisch" (DarkMode = 2), die ihm folgt – siehe
-	// darkmode.h. Ändert der Nutzer das System-Theme im laufenden Betrieb,
-	// meldet sich die Property neu und die Oberfläche zieht mit.
+	// The light/dark state reported by the operating system. Only relevant for the
+	// setting "automatic" (DarkMode = 2), which follows it – see
+	// darkmode.h. If the user changes the system theme during operation,
+	// the property reports anew and the user interface follows.
 	Q_PROPERTY(bool systemDark READ systemDark NOTIFY systemDarkChanged)
-	// Wird bei jeder Änderung an den Spieler-Notizen/-Bewertungen erhöht
-	// (siehe playerNote()/playerRating()). Bewusst getrennt von
-	// configRevision: die Notizen hängen an den Sitzen am Tisch, und jede
-	// beliebige andere Einstellung soll deren Bindungen nicht neu auswerten.
+	// Incremented on every change to the player notes/ratings
+	// (see playerNote()/playerRating()). Deliberately separate from
+	// configRevision: the notes hang off the seats at the table, and any
+	// other setting should not make their bindings re-evaluate.
 	Q_PROPERTY(int playerNotesRevision READ playerNotesRevision NOTIFY playerNotesChanged)
 
 public:
@@ -92,108 +92,108 @@ public:
 	Q_INVOKABLE void writeConfigIntList(const QString &key, const QList<int> &list);
 	Q_INVOKABLE void saveConfig();
 
-	// ── Spieler-Notizen und -Bewertungen ─────────────────────────────────
-	// Gemeinsamer Speicher mit dem Qt-Widgets-Client: Config-Liste
-	// "PlayerTooltips", ein Eintrag je Spieler im Format
-	//   Name(!#$%)Notiz(!#$%)Sterne(!#$%)
-	// (Trennzeichen und abschließendes Trennzeichen wie in MyAvatarLabel).
-	// Die Zerlegung liegt hier in C++ statt in QML, damit beide Clients
-	// dasselbe Format schreiben und ein Eintrag nicht durch String-Bastelei
-	// in der Oberfläche zerfällt.
+	// ── Player notes and ratings ─────────────────────────────────────────
+	// Shared storage with the Qt widgets client: the config list
+	// "PlayerTooltips", one entry per player in the format
+	//   name(!#$%)note(!#$%)stars(!#$%)
+	// (the separator and the trailing separator as in MyAvatarLabel).
+	// The splitting lives here in C++ instead of in QML, so that both clients
+	// write the same format and an entry does not fall apart through string
+	// tinkering in the user interface.
 	Q_INVOKABLE int playerRating(const QString &playerName) const;
 	Q_INVOKABLE QString playerNote(const QString &playerName) const;
-	// Notiz und Bewertung eines Spielers in EINEM Schreibvorgang setzen (der
-	// Dialog ändert beides gemeinsam). Ein Eintrag ohne Notiz und mit 0
-	// Sternen wird entfernt, statt als Leereintrag stehen zu bleiben.
+	// Set the note and the rating of a player in ONE write operation (the
+	// dialog changes both together). An entry without a note and with 0
+	// stars is removed instead of staying as an empty entry.
 	Q_INVOKABLE void setPlayerNote(const QString &playerName, const QString &note, int rating);
 	Q_INVOKABLE void resetToDefaults();
 	Q_INVOKABLE QString pickImageFile(const QString &title);
 
-	// Verzeichnisauswahl (Log-Verzeichnis in den Einstellungen). Liefert den
-	// gewählten absoluten Pfad; leer bei Abbruch oder wenn die Auswahl kein
-	// existierendes lokales Verzeichnis ist.
+	// Directory selection (the log directory in the settings). It returns the
+	// chosen absolute path; empty on cancel or if the selection is no
+	// existing local directory.
 	Q_INVOKABLE QString pickDirectory(const QString &title, const QString &startDir) const;
 
-	// Avatar-Pfad aus der Config → anzeigbare Bild-URL (file:// bzw. qrc:/ für
-	// Alt-Einträge aus dem Ressourcenbundle). Leer, wenn kein Pfad gesetzt ist
-	// oder die Datei nicht existiert. Kapselt die URL-Bildung in C++, damit QML
-	// nicht selbst Pfade zusammensetzen muss (Windows-Pfade beginnen z. B.
-	// nicht mit "/").
+	// Avatar path from the config → a displayable image URL (file:// or qrc:/ for
+	// old entries from the resource bundle). Empty if no path is set
+	// or the file does not exist. It encapsulates building the URL in C++, so that QML
+	// does not have to assemble paths itself (Windows paths, for instance, do not
+	// start with "/").
 	Q_INVOKABLE QUrl avatarDisplayUrl(const QString &path) const;
 
-	// Prüft eine Avatar-Datei mit genau der Funktion, die auch der Upload zum
-	// Server benutzt (AvatarManager::OpenAvatarFileForChunkRead): Dateigröße,
-	// Format und seit 2.1.8 auch die Bildabmessungen. Nur so bleiben Warnung
-	// und Server-Prüfung dieselbe Regel. Ein leerer Pfad gilt als in Ordnung
-	// (kein Avatar gewählt ist kein Fehler).
+	// Checks an avatar file with exactly the function that the upload to the
+	// server uses as well (AvatarManager::OpenAvatarFileForChunkRead): the file size,
+	// the format and, since 2.1.8, the image dimensions too. Only that way do the warning
+	// and the server check stay the same rule. An empty path counts as fine
+	// (no avatar chosen is not an error).
 	Q_INVOKABLE bool isAvatarUsable(const QString &path) const;
 
-	// Einmal je Programmlauf true, wenn der eingestellte eigene Avatar von der
-	// Engine abgelehnt würde: Die Datei liegt dann zwar lokal vor und ist auch
-	// in der eigenen Vorschau zu sehen, andere Spieler bekommen sie aber nicht
-	// mehr (der Server lehnt sie beim Ausliefern ab). Betroffen sind vor allem
-	// großflächige Grafiken: klein in Kilobyte, aber über der zulässigen
-	// Pixelzahl. Die Lobby fragt beim Betreten danach; das Merken verhindert,
-	// dass die Warnung nach jeder Rückkehr aus einem Spiel erneut aufgeht.
+	// True once per program run if the configured own avatar would be rejected by the
+	// engine: the file is then present locally and can also be seen
+	// in your own preview, but other players do not get it
+	// any more (the server rejects it when serving it). Affected are above all
+	// large flat graphics: small in kilobytes, but above the permitted
+	// pixel count. The lobby asks for it when entering; remembering it prevents
+	// the warning from opening again after every return from a game.
 	Q_INVOKABLE bool takeMyAvatarWarning();
 
-	// Rechnet den eingestellten eigenen Avatar auf ein zulässiges Format
-	// herunter (wie beim Import einer zu großen Datei) und trägt die neue
-	// Datei als MyAvatar ein. false, wenn nichts zu tun war oder die
-	// Umwandlung fehlschlug. Wirksam wird der neue Avatar erst bei der
-	// nächsten Anmeldung - der Hash geht beim Verbindungsaufbau raus.
+	// Scales the configured own avatar down to a permitted format
+	// (as when importing a file that is too large) and enters the new
+	// file as MyAvatar. false if there was nothing to do or the
+	// conversion failed. The new avatar only takes effect at the
+	// next login - the hash goes out while the connection is established.
 	Q_INVOKABLE bool fixMyAvatar();
 
-	// Für die Über-Seite: Versionsstring (POKERTH_BETA_RELEASE_STRING) sowie
-	// die mitgelieferten Texte aus <AppDataDir>/misc/ (leer, wenn nicht gefunden).
+	// For the about page: the version string (POKERTH_BETA_RELEASE_STRING) as well as
+	// the bundled texts from <AppDataDir>/misc/ (empty if not found).
 	Q_INVOKABLE QString appVersion() const;
 	Q_INVOKABLE QString licenseHtml() const;
 	Q_INVOKABLE QString thirdPartyLibsText() const;
 	Q_INVOKABLE QString changelogText() const;
 
-	// Liste der verfügbaren QML-Stile unter <AppDataDir>/gfx/qml/<table|cards>/*
-	// sowie – für importierte Stile – <UserDataDir>/gfx/qml/<...>/*.
-	// Jeder Eintrag ist eine Map mit den Schlüsseln:
+	// List of the available QML styles under <AppDataDir>/gfx/qml/<table|cards>/*
+	// as well as – for imported styles – <UserDataDir>/gfx/qml/<...>/*.
+	// Every entry is a map with the keys:
 	//   name, description, maintainer, dir, xml,
-	//   preview, previewPortrait  (preview* sind file://-URLs, leer wenn fehlend),
-	//   userStyle (true = importiert, liegt im Benutzer-Verzeichnis, löschbar).
+	//   preview, previewPortrait  (preview* are file:// URLs, empty if missing),
+	//   userStyle (true = imported, lies in the user directory, can be deleted).
 	Q_INVOKABLE QVariantList availableTableStyles() const;
 	Q_INVOKABLE QVariantList availableCardDeckStyles() const;
 	Q_INVOKABLE QVariantList availableCardBackStyles() const;
 
-	// Stil-Import (Pendant zu "addGameTableStyle" & Co. des Widget-Clients):
-	// öffnet einen Datei-Dialog für die Stil-XML, prüft die Datei analog zum
-	// Widget-Client (XML-Syntax, Stil-Typ, Pflichtfelder, referenzierte
-	// Grafiken, Format-Version) und kopiert das komplette Stil-Verzeichnis nach
-	// <UserDataDir>/gfx/qml/<category>/<ordnername>/. Ergebnis-Map:
+	// Style import (the counterpart to "addGameTableStyle" & co. of the widget client):
+	// it opens a file dialog for the style XML, checks the file analogously to the
+	// widget client (XML syntax, style type, mandatory fields, referenced
+	// graphics, format version) and copies the complete style directory to
+	// <UserDataDir>/gfx/qml/<category>/<folder name>/. The result map:
 	//   status  "ok" | "warning" | "error" | "cancelled"
-	//           (warning = übernommen, aber unvollständig/veraltet – fehlende
-	//            Inhalte ersetzt der Client zur Laufzeit durch seine Defaults)
-	//   name    Ordnername des importierten Stils (bei ok/warning)
-	//   message menschenlesbare Meldung (leer bei ok und cancelled)
+	//           (warning = adopted, but incomplete/outdated – missing
+	//            content is replaced by the client at runtime with its defaults)
+	//   name    the folder name of the imported style (with ok/warning)
+	//   message a human readable message (empty with ok and cancelled)
 	Q_INVOKABLE QVariantMap importTableStyle();
 	Q_INVOKABLE QVariantMap importCardDeckStyle();
 	Q_INVOKABLE QVariantMap importCardBackStyle();
 
-	// Löscht einen importierten Stil – bewusst nur unterhalb von
-	// <UserDataDir>/gfx/qml/, mitgelieferte Stile sind nicht löschbar.
+	// Deletes an imported style – deliberately only below
+	// <UserDataDir>/gfx/qml/, bundled styles cannot be deleted.
 	Q_INVOKABLE bool removeUserStyle(const QString &category, const QString &name);
 
-	// Exportiert einen Stil (mitgeliefert oder importiert) als .zip zum Teilen.
-	// Öffnet einen Speichern-Dialog (Vorgabename <name>.zip) und packt den
-	// kompletten Stil-Ordner unter einem Wurzelordner <name>/ ins Archiv, sodass
-	// er anschließend per import*Style() wieder eingelesen werden kann.
-	// Ergebnis-Map: status "ok" | "error" | "cancelled", message (bei error).
+	// Exports a style (bundled or imported) as a .zip for sharing.
+	// It opens a save dialog (the default name <name>.zip) and packs the
+	// complete style folder under a root folder <name>/ into the archive, so that
+	// it can be read in again afterwards via import*Style().
+	// The result map: status "ok" | "error" | "cancelled", message (on error).
 	Q_INVOKABLE QVariantMap exportStyle(const QString &category, const QString &name);
 
-	// Liste der mitgelieferten Beispiel-Avatare unter
-	// <AppDataDir>/gfx/avatars/default/<people|misc>/*. Diese haben für die
-	// Community einen historischen Wert (wie im Widget-Client). Jeder Eintrag
-	// ist eine Map mit den Schlüsseln:
-	//   name      (Anzeigename, z. B. "No. 1"),
+	// List of the bundled example avatars under
+	// <AppDataDir>/gfx/avatars/default/<people|misc>/*. These have historical
+	// value for the community (as in the widget client). Every entry
+	// is a map with the keys:
+	//   name      (the display name, e.g. "No. 1"),
 	//   category  ("people" | "misc"),
-	//   path      (absoluter Dateipfad, wird so in MyAvatar gespeichert),
-	//   url       (file://-URL für die Bildvorschau).
+	//   path      (the absolute file path, stored like this in MyAvatar),
+	//   url       (the file:// URL for the image preview).
 	Q_INVOKABLE QVariantList availableExampleAvatars() const;
 
 signals:
@@ -208,44 +208,44 @@ signals:
 	void playerNotesChanged();
 
 private:
-	// Scannt <AppDataDir>/gfx/qml/<category>/* und <UserDataDir>/gfx/qml/<category>/*
-	// nach Unterordnern, die eine "*<xmlSuffix>"-Datei enthalten, und liefert je
-	// Stil eine Beschreibungs-Map. Bei Namensgleichheit gewinnt der mitgelieferte
-	// Stil (der Import verhindert solche Duplikate bereits).
+	// Scans <AppDataDir>/gfx/qml/<category>/* and <UserDataDir>/gfx/qml/<category>/*
+	// for subfolders that contain a "*<xmlSuffix>" file and returns a
+	// description map per style. On a name collision the bundled style
+	// wins (the import prevents such duplicates already).
 	QVariantList scanStyleDir(const QString &category, const QString &xmlSuffix) const;
 
-	// Wurzel-Verzeichnis einer Stil-Kategorie (user=true → Benutzer-Verzeichnis
-	// für importierte Stile, sonst mitgelieferte Daten). Ohne Trennzeichen am Ende.
+	// The root directory of a style category (user=true → the user directory
+	// for imported styles, otherwise the bundled data). Without a trailing separator.
 	QString stylesRootPath(bool user, const QString &category) const;
 
-	// Liest eine Textdatei aus <AppDataDir>/misc/ (leer, wenn nicht vorhanden).
+	// Reads a text file from <AppDataDir>/misc/ (empty if it is not present).
 	QString readMiscFile(const QString &fileName) const;
 
-	// Basisverzeichnis der Beispiel-Avatare (mit Trennzeichen am Ende). Auf
-	// Android liegen sie im Qt-Ressourcenbundle und werden beim ersten Zugriff
-	// nach <UserDataDir>/gfx/avatars/default/ kopiert, denn Vorschau (file://)
-	// und Engine (std::ifstream beim Avatar-Upload) brauchen echte Dateien.
+	// The base directory of the example avatars (with a trailing separator). On
+	// Android they live in the Qt resource bundle and are copied on the first access
+	// to <UserDataDir>/gfx/avatars/default/, because the preview (file://)
+	// and the engine (std::ifstream during the avatar upload) need real files.
 	QString exampleAvatarsBasePath() const;
 
-	// Übernimmt eine Dateidialog-Auswahl: content://-URIs (Android) und
-	// Dateien über dem Engine-Limit (30 KB, MAX_AVATAR_FILE_SIZE) werden als
-	// echte Datei unter <UserDataDir>/gfx/avatars/user/ abgelegt – bei Bedarf
-	// herunterskaliert –, sonst wird der Pfad unverändert zurückgegeben.
-	// Leer bei Abbruch oder Fehler.
+	// Adopts a file dialog selection: content:// URIs (Android) and
+	// files above the engine limit (30 KB, MAX_AVATAR_FILE_SIZE) are stored as
+	// a real file under <UserDataDir>/gfx/avatars/user/ – scaled down if
+	// needed –, otherwise the path is returned unchanged.
+	// Empty on cancel or error.
 	QString importPickedImage(const QString &picked) const;
 
-	// Gemeinsame Implementierung der drei import*Style()-Methoden.
+	// The shared implementation of the three import*Style() methods.
 	QVariantMap importStyle(const QString &category, const QString &sectionTag,
 							const QString &xmlSuffix, int expectedVersion,
 							const QString &lastDirKey, const QString &dialogTitle,
 							const QString &wrongTypeMessage);
 
 	boost::shared_ptr<ConfigFile> m_config;
-	int m_configRevision = 0;  // hochgezählt bei jedem Schreiben (Live-Reaktivität)
-	int m_playerNotesRevision = 0;  // hochgezählt bei jeder Notiz-/Sterne-Änderung
-	bool m_myAvatarWarningTaken = false;  // Avatar-Warnung nur einmal je Programmlauf
+	int m_configRevision = 0;  // incremented on every write (live reactivity)
+	int m_playerNotesRevision = 0;  // incremented on every note/star change
+	bool m_myAvatarWarningTaken = false;  // the avatar warning only once per program run
 
-	// Erhöht m_configRevision und meldet die Änderung → reaktive QML-Bindungen.
+	// Increments m_configRevision and reports the change → reactive QML bindings.
 	void bumpConfigRevision();
 };
 

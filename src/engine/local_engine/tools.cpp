@@ -42,21 +42,19 @@
 namespace
 {
 
-// Zufallsquelle fuer Karten und KI-Entscheidungen.
+// Source of randomness for cards and AI decisions.
 //
-// Die Karten muessen kryptografisch stark gezogen werden: mt19937 & Co. legen
-// ihren kompletten Zustand nach wenigen hundert Ausgaben offen, und ein Deck
-// besteht nun einmal aus veroeffentlichten Ausgaben. Frueher wurde deshalb pro
-// Hand ein ganzer mt19937 (624 Woerter = 2496 Byte) aus dem Betriebssystem
-// geseedet und jede einzelne Zahl aus Tools::GetRand direkt vom Zufallsgeraet
-// gelesen - ein Syscall je Zufallszahl, und die KI zieht pro Entscheidung
-// etliche.
+// The cards have to be drawn cryptographically strong: mt19937 & co. expose
+// their complete state after a few hundred outputs, and a deck simply consists
+// of published outputs. That is why a whole mt19937 (624 words = 2496 bytes)
+// used to be seeded from the operating system per hand, and every single number
+// from Tools::GetRand was read directly from the random device - one syscall per
+// random number, and the AI draws quite a few per decision.
 //
-// Statt dessen liefert der DRBG von OpenSSL den Zufall (ebenfalls
-// kryptografisch stark, aber ohne Geraetezugriff je Zahl), blockweise
-// gepuffert. Der Puffer haelt nur DRBG-Ausgabe, nie dessen Zustand - aus
-// gelesenen Werten laesst sich also weiterhin nichts ueber kommende
-// vorhersagen.
+// Instead the DRBG of OpenSSL delivers the randomness (cryptographically
+// strong as well, but without device access per number), buffered in blocks.
+// The buffer only holds DRBG output, never its state - so it is still
+// impossible to predict coming values from values that have been read.
 class RandomSource
 {
 public:
@@ -68,17 +66,17 @@ public:
 		return m_words[m_pos++];
 	}
 
-	// Gleichverteilt in [0, bound) ohne Modulo-Verzerrung (Methode von Lemire:
-	// das Produkt liefert den Wert in der oberen Haelfte, die untere entscheidet,
-	// ob der seltene Rest-Bereich verworfen werden muss).
+	// Uniformly distributed in [0, bound) without modulo bias (Lemire's method:
+	// the product delivers the value in the upper half, the lower one decides
+	// whether the rare remainder range has to be discarded).
 	uint32_t Below(uint32_t bound)
 	{
 		if(bound < 2) return 0;
 		uint64_t product = static_cast<uint64_t>(next32()) * bound;
 		uint32_t low = static_cast<uint32_t>(product);
 		if(low < bound) {
-			// 2^32 mod bound, in vorzeichenloser Arithmetik gerechnet (bound kann
-			// bis 2^31 gross sein, ein Umweg ueber int32_t waere dort undefiniert).
+			// 2^32 mod bound, computed in unsigned arithmetic (bound can be as large
+			// as 2^31, a detour via int32_t would be undefined there).
 			const uint32_t threshold = (0u - bound) % bound;
 			while(low < threshold) {
 				product = static_cast<uint64_t>(next32()) * bound;
@@ -99,9 +97,9 @@ private:
 		}
 #endif
 		if(!filled) {
-			// Nur Notnagel (OpenSSL nicht verfuegbar oder Entropie erschoepft):
-			// std::random_device ist die einzige verbleibende nichtdeterministische
-			// Quelle, dafuer mit Geraetezugriff je Wort.
+			// Only a last resort (OpenSSL unavailable or entropy exhausted):
+			// std::random_device is the only remaining non-deterministic source,
+			// but with device access per word.
 			std::random_device device;
 			for(unsigned i = 0; i < kWords; i++) {
 				m_words[i] = static_cast<uint32_t>(device());
@@ -110,7 +108,7 @@ private:
 		m_pos = 0;
 	}
 
-	static const unsigned kWords = 256; // 1 KiB, also ein DRBG-Aufruf je 256 Zahlen
+	static const unsigned kWords = 256; // 1 KiB, i.e. one DRBG call per 256 numbers
 	uint32_t m_words[kWords];
 	unsigned m_pos;
 };
@@ -127,7 +125,7 @@ void Tools::ShuffleArrayNonDeterministic(int *inout, unsigned count)
 {
 	if(!inout || count < 2) return;
 
-	// Fisher-Yates: jede der count! Reihenfolgen ist exakt gleich wahrscheinlich.
+	// Fisher-Yates: each of the count! orderings is exactly equally likely.
 	RandomSource &source = Source();
 	for(unsigned i = count - 1; i > 0; i--) {
 		const unsigned j = source.Below(i + 1);
@@ -140,7 +138,7 @@ void Tools::GetRand(int minValue, int maxValue, unsigned count, int *out)
 	if(!out || !count) return;
 	if(maxValue < minValue) std::swap(minValue, maxValue);
 
-	// Spanne als 64 Bit rechnen, damit auch [INT_MIN, INT_MAX] nicht ueberlaeuft.
+	// Compute the span as 64 bit so that even [INT_MIN, INT_MAX] does not overflow.
 	const uint64_t span = static_cast<uint64_t>(static_cast<int64_t>(maxValue) - static_cast<int64_t>(minValue)) + 1;
 	RandomSource &source = Source();
 	for(unsigned i = 0; i < count; i++) {

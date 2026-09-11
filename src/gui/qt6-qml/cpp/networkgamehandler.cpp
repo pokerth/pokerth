@@ -41,8 +41,8 @@ void NetworkGameHandler::shutdown()
 	m_serverSession.reset();
 	m_serverGui.reset();
 	m_session.reset();
-	// App-Shutdown: Foreground-Service explizit beenden (START_NOT_STICKY
-	// verhindert zwar den Neustart, aber sauber abmelden ist besser).
+	// App shutdown: stop the foreground service explicitly (START_NOT_STICKY
+	// does prevent the restart, but unregistering cleanly is better).
 	AndroidConnectionService::stop();
 	IosBackgroundSession::stop();
 }

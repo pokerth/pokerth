@@ -39,8 +39,8 @@
 SettingsManager::SettingsManager(boost::shared_ptr<ConfigFile> config, QObject *parent)
 	: QObject(parent), m_config(config)
 {
-	// System-Theme-Wechsel im laufenden Betrieb an die Oberfläche melden
-	// (wirkt nur bei DarkMode = "Automatisch", siehe darkmode.h).
+	// Report a system theme change during operation to the user interface
+	// (only effective with DarkMode = "automatic", see darkmode.h).
 	if (QStyleHints *hints = QGuiApplication::styleHints()) {
 		connect(hints, &QStyleHints::colorSchemeChanged,
 				this, &SettingsManager::systemDarkChanged);
@@ -205,17 +205,17 @@ void SettingsManager::saveConfig()
 	m_config->writeBuffer();
 }
 
-// ── Spieler-Notizen und -Bewertungen ────────────────────────────────────────
-// Format der Config-Liste "PlayerTooltips" (geteilt mit dem Qt-Widgets-Client,
-// MyAvatarLabel): Name(!#$%)Notiz(!#$%)Sterne(!#$%)
+// ── Player notes and ratings ────────────────────────────────────────────────
+// Format of the config list "PlayerTooltips" (shared with the Qt widgets client,
+// MyAvatarLabel): name(!#$%)note(!#$%)stars(!#$%)
 namespace
 {
 const QString kPlayerNotesKey = QStringLiteral("PlayerTooltips");
 const QString kPlayerNotesSep = QStringLiteral("(!#$%)");
 
-// Ein Listeneintrag zerlegt. Liefert false, wenn die Zeile nicht dem Format
-// entspricht (zu wenige Felder) – solche Zeilen werden unverändert übernommen,
-// damit ein fremder/kaputter Eintrag nicht stillschweigend verschwindet.
+// One list entry split up. Returns false if the line does not match the
+// format (too few fields) – such lines are taken over unchanged,
+// so that a foreign/broken entry does not disappear silently.
 bool splitNoteEntry(const QString &line, QString &name, QString &note, int &rating)
 {
 	const QStringList f = line.split(kPlayerNotesSep, Qt::KeepEmptyParts);
@@ -267,8 +267,8 @@ void SettingsManager::setPlayerNote(const QString &playerName, const QString &no
 	if (playerName.isEmpty())
 		return;
 
-	// Das Trennzeichen darf nicht im Nutzertext landen – es würde den Eintrag
-	// beim nächsten Lesen (hier wie im Qt-Widgets-Client) in Stücke reißen.
+	// The separator must not end up in the user text – it would tear the entry
+	// into pieces on the next read (here as well as in the Qt widgets client).
 	QString cleanNote = note;
 	cleanNote.remove(kPlayerNotesSep);
 	const int cleanRating = qBound(0, rating, 5);
@@ -310,8 +310,8 @@ void SettingsManager::resetToDefaults()
 	emit myNameChanged();
 	emit myAvatarChanged();
 	bumpConfigRevision();
-	// Die Spieler-Notizen hängen an derselben Config und sind danach ebenfalls
-	// zurückgesetzt – die Sitz-Bindungen müssen das mitbekommen.
+	// The player notes hang off the same config and are reset afterwards
+	// as well – the seat bindings have to be told about that.
 	++m_playerNotesRevision;
 	emit playerNotesChanged();
 }
@@ -329,8 +329,8 @@ QString SettingsManager::pickImageFile(const QString &title)
 
 QString SettingsManager::pickDirectory(const QString &title, const QString &startDir) const
 {
-	// Startverzeichnis: der übergebene Pfad, sonst das Home-Verzeichnis (der
-	// konfigurierte Pfad kann aus einer alten Config stammen und fehlen).
+	// Start directory: the path that was passed, otherwise the home directory (the
+	// configured path may come from an old config and be missing).
 	QString start = startDir;
 	if (start.isEmpty() || !QDir(start).exists())
 		start = QDir::home().absolutePath();
@@ -340,9 +340,9 @@ QString SettingsManager::pickDirectory(const QString &title, const QString &star
 							   QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks
 							   | AppImageUtils::fileDialogOptions());
 
-	// Der Aufrufer erwartet einen echten Dateisystempfad (das Log-Verzeichnis
-	// wird von der Engine direkt an SQLite weitergereicht), daher nur
-	// existierende lokale Verzeichnisse zurückgeben.
+	// The caller expects a real file system path (the log directory
+	// is passed on directly to SQLite by the engine), so only return
+	// local directories that exist.
 	if (picked.isEmpty() || !QDir(picked).exists())
 		return QString();
 	return QDir(picked).absolutePath();
@@ -359,9 +359,9 @@ bool SettingsManager::takeMyAvatarWarning()
 		return false;
 
 	const QString path = myAvatar();
-	// Ein fehlender Pfad ist ein anderer Fall (kein Avatar gewählt) und wird
-	// wie bisher stillschweigend hingenommen – gewarnt wird nur, wenn eine
-	// Datei da ist, die niemand mehr zu sehen bekommt.
+	// A missing path is a different case (no avatar chosen) and is
+	// silently accepted as before – a warning is only given when a
+	// file is there that nobody gets to see any more.
 	if (path.isEmpty() || !QFileInfo::exists(path) || isAvatarUsable(path))
 		return false;
 
@@ -375,8 +375,8 @@ bool SettingsManager::fixMyAvatar()
 	if (path.isEmpty() || isAvatarUsable(path))
 		return false;
 
-	// importPickedImage() kodiert die Datei neu, skaliert sie herunter und
-	// legt sie unter <UserDataDir>/gfx/avatars/user/ ab.
+	// importPickedImage() re-encodes the file, scales it down and
+	// puts it under <UserDataDir>/gfx/avatars/user/.
 	const QString fixed = importPickedImage(path);
 	if (fixed.isEmpty() || fixed == path || !isAvatarUsable(fixed))
 		return false;
@@ -390,8 +390,8 @@ QString SettingsManager::importPickedImage(const QString &picked) const
 	if (picked.isEmpty() || !m_config)
 		return picked;
 
-	// Auswahl, Prüfung und Umwandlung liegen in core/avatarimport.h, damit
-	// der Qt-Widgets-Client exakt dasselbe tut.
+	// Selection, validation and conversion live in core/avatarimport.h, so that
+	// the Qt widgets client does exactly the same.
 	return AvatarImport::importImage(
 			   picked, QString::fromStdString(m_config->readConfigString("UserDataDir")));
 }
@@ -400,8 +400,8 @@ QUrl SettingsManager::avatarDisplayUrl(const QString &path) const
 {
 	if (path.isEmpty())
 		return QUrl();
-	// Ressourcenpfade (z. B. vom Widget-Client auf Android gespeicherte
-	// Beispiel-Avatare, :/android/...).
+	// Resource paths (e.g. example avatars stored by the widget client on
+	// Android, :/android/...).
 	if (path.startsWith(QLatin1Char(':')))
 		return QUrl(QStringLiteral("qrc") + path);
 	if (!QFileInfo::exists(path))
@@ -426,14 +426,14 @@ QString SettingsManager::thirdPartyLibsText() const
 
 QString SettingsManager::changelogText() const
 {
-	// misc/ChangeLog wird von CMake aus dem ChangeLog im Projektwurzel-
-	// verzeichnis gespiegelt (siehe CMakeLists.txt).
+	// misc/ChangeLog is mirrored by CMake from the ChangeLog in the project root
+	// directory (see CMakeLists.txt).
 	return readMiscFile(QStringLiteral("ChangeLog"));
 }
 
 QString SettingsManager::readMiscFile(const QString &fileName) const
 {
-	// AppDataDir endet bereits mit einem Verzeichnis-Trennzeichen.
+	// AppDataDir already ends with a directory separator.
 	QFile file(QString::fromStdString(m_config->readConfigString("AppDataDir"))
 			   + "misc/" + fileName);
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -458,14 +458,14 @@ QVariantList SettingsManager::availableCardBackStyles() const
 
 namespace
 {
-// Format-Versionen der QML-Stil-XMLs. Tisch und Kartenstapel entsprechen den
-// vom Widget-Client unterstützten Versionen (POKERTH_GT_/POKERTH_CD_STYLE_
-// FILE_VERSION), die Kartenrückseite ist eine eigene Kategorie des QML-Clients.
+// Format versions of the QML style XMLs. The table and the card deck correspond to the
+// versions supported by the widget client (POKERTH_GT_/POKERTH_CD_STYLE_
+// FILE_VERSION), the card back is a category of its own in the QML client.
 const int QML_TABLE_STYLE_VERSION = 3;
 const int QML_CARD_DECK_STYLE_VERSION = 2;
 const int QML_CARD_BACK_STYLE_VERSION = 1;
 
-// Zählt Dateien unterhalb von path, bricht oberhalb von limit früh ab.
+// Counts files below path, aborting early above limit.
 int countFilesRecursively(const QString &path, int limit)
 {
 	QDir dir(path);
@@ -501,7 +501,7 @@ bool copyDirRecursively(const QString &srcPath, const QString &dstPath)
 
 QString SettingsManager::stylesRootPath(bool user, const QString &category) const
 {
-	// AppDataDir/UserDataDir enden bereits mit einem Verzeichnis-Trennzeichen.
+	// AppDataDir/UserDataDir already end with a directory separator.
 	const QString base = QString::fromStdString(
 							 m_config->readConfigString(user ? "UserDataDir" : "AppDataDir"));
 	return base + "gfx/qml/" + category;
@@ -547,9 +547,9 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 		return result;
 	};
 
-	// Datei-Dialog: startet im zuletzt verwendeten Verzeichnis (wie im
-	// Widget-Client über die Last*StyleDir-Config-Keys gemerkt). Akzeptiert ein
-	// .zip-Archiv ODER – auf dem Desktop – direkt die lose Stil-XML im Ordner.
+	// File dialog: starts in the directory used last (remembered as in the
+	// widget client via the Last*StyleDir config keys). It accepts a
+	// .zip archive OR – on the desktop – the loose style XML in the folder directly.
 	QString startDir = QString::fromStdString(
 						   m_config->readConfigString(lastDirKey.toStdString()));
 	if (startDir.isEmpty() || !QDir(startDir).exists())
@@ -564,19 +564,19 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 								QFileInfo(picked).absolutePath().toStdString());
 	m_config->writeBuffer();
 
-	// Ab hier wird ausschließlich mit lokalen Dateien gearbeitet: xmlPath zeigt
-	// auf die auszuwertende Stil-XML, styleDir auf deren Ordner. Ein Archiv wird
-	// dazu zuerst in ein temporäres Verzeichnis entpackt – das deckt auch den
-	// Flatpak-Portal-Fall ab, bei dem nur die gewählte Datei (nicht der Ordner
-	// mit den 52 Karten) in die Sandbox gereicht wird. tempDir lebt bis zum
-	// Funktionsende und deckt damit das spätere Kopieren mit ab.
+	// From here on only local files are worked with: xmlPath points
+	// to the style XML to be evaluated, styleDir to its folder. An archive is
+	// first extracted into a temporary directory for that – this also covers the
+	// Flatpak portal case, where only the chosen file (not the folder
+	// with the 52 cards) is passed into the sandbox. tempDir lives until the
+	// end of the function and thereby covers the later copying as well.
 	QString xmlPath;
 	QDir styleDir;
 	QString name;
 	QTemporaryDir tempDir;
 
-	// Dateikopf über QFile lesen (bedient auch content:// / Portal-Pfade) und ein
-	// ZIP am Magic "PK\x03\x04" erkennen – unabhängig von der Dateiendung.
+	// Read the file header via QFile (this serves content:// / portal paths as well) and
+	// recognise a ZIP by the magic "PK\x03\x04" – independently of the file extension.
 	QFile pickedFile(picked);
 	if (!pickedFile.open(QIODevice::ReadOnly))
 		return fail(tr("Die ausgewählte Datei kann nicht gelesen werden."));
@@ -591,15 +591,15 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 		if (!ZipUtils::extractArchive(zipData, tempDir.path(), zipError))
 			return fail(zipError);
 
-		// Die Stil-XML im entpackten Baum suchen (Konvention "*<xmlSuffix>").
+		// Look for the style XML in the extracted tree (the convention "*<xmlSuffix>").
 		QDirIterator it(tempDir.path(), QStringList() << ("*" + xmlSuffix),
 						QDir::Files, QDirIterator::Subdirectories);
 		if (!it.hasNext())
 			return fail(tr("Das Archiv enthält keine Datei \"%1\".").arg(xmlSuffix));
 		xmlPath = it.next();
 		styleDir = QFileInfo(xmlPath).dir();
-		// Stilname = Ordnername im Archiv. Liegt die XML im Archiv-Wurzelordner
-		// (ohne eigenen Ordner), als Fallback den Archiv-Dateinamen verwenden.
+		// Style name = the folder name in the archive. If the XML lies in the archive root folder
+		// (without a folder of its own), use the archive file name as a fallback.
 		name = QDir::cleanPath(styleDir.absolutePath()) == QDir::cleanPath(tempDir.path())
 			   ? QFileInfo(picked).completeBaseName()
 			   : styleDir.dirName();
@@ -610,8 +610,8 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 		name = styleDir.dirName();
 	}
 
-	// XML einlesen: <PokerTH><sectionTag><Tag value="..."/>…. Die Werte werden
-	// wie im StyleProvider über das value-Attribut transportiert.
+	// Read the XML: <PokerTH><sectionTag><Tag value="..."/>…. The values are
+	// transported via the value attribute as in the StyleProvider.
 	QFile xmlFile(xmlPath);
 	if (!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text))
 		return fail(tr("Die Stil-Datei kann nicht gelesen werden."));
@@ -641,21 +641,21 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 	if (sectionName != sectionTag)
 		return fail(wrongTypeMessage);
 
-	// Scan und StyleProvider finden Stile nur über die Namens-Konvention
-	// "*<xmlSuffix>" – eine anders benannte Datei wäre nach dem Import unsichtbar.
+	// The scan and the StyleProvider only find styles via the naming convention
+	// "*<xmlSuffix>" – a file named differently would be invisible after the import.
 	if (!xmlPath.endsWith(xmlSuffix, Qt::CaseInsensitive))
 		return fail(tr("Der Dateiname der Stil-Datei muss auf \"%1\" enden.").arg(xmlSuffix));
 
-	// Der Stil-Name ist der Ordnername (Config-Keys wie QmlGameTableStyle
-	// speichern nur Namen) – Namenskollision mit vorhandenen Stilen ablehnen.
+	// The style name is the folder name (config keys such as QmlGameTableStyle
+	// only store names) – reject a name collision with existing styles.
 	if (name.isEmpty())
 		return fail(tr("Die Stil-Datei muss in einem eigenen Ordner liegen."));
 	if (QDir(stylesRootPath(false, category) + "/" + name).exists()
 			|| QDir(stylesRootPath(true, category) + "/" + name).exists())
 		return fail(tr("Ein Stil mit dem Namen \"%1\" ist bereits vorhanden.").arg(name));
 
-	// Prüfungen analog zum Widget-Client (GameTableStyleReader):
-	// leftItems = fehlende Pflichtfelder, picsLeft = nicht gefundene Grafiken.
+	// Checks analogous to the widget client (GameTableStyleReader):
+	// leftItems = missing mandatory fields, picsLeft = graphics that were not found.
 	QStringList requiredFields = { "StyleDescription", "StyleMaintainerName",
 								   "StyleMaintainerEMail", "StyleCreateDate",
 								   "PokerTHStyleFileVersion", "Preview"
@@ -683,9 +683,9 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 			picsLeft << field + " = " + rel;
 	}
 
-	// Kartenstapel: die 52 Vorderseiten heißen 0.svg..51.svg (Engine-Index).
-	// Fehlende Karten sind – anders als beim Tisch – nicht durch Defaults
-	// ersetzbar (CardImage baut die Pfade direkt), daher harter Fehler.
+	// Card deck: the 52 front sides are named 0.svg..51.svg (the engine index).
+	// Missing cards – unlike with the table – cannot be replaced by
+	// defaults (CardImage builds the paths directly), hence a hard error.
 	if (category == "cards") {
 		QStringList missingCards;
 		for (int i = 0; i < 52; ++i) {
@@ -697,23 +697,23 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 			return fail(tr("Der Kartenstapel ist unvollständig, es fehlen: %1")
 						.arg(missingCards.join(", ")));
 	}
-	// Kartenrückseite: besteht aus genau einer Grafik – ohne sie ist der Stil
-	// funktionslos, daher ebenfalls harter Fehler.
+	// Card back: it consists of exactly one graphic – without it the style is
+	// non-functional, hence a hard error as well.
 	if (category == "backside"
 			&& (values.value("Backside").isEmpty() || !picsLeft.filter("Backside").isEmpty()))
 		return fail(tr("Die Kartenrückseiten-Grafik (Backside) fehlt."));
 
-	// Format-Version prüfen (entspricht der Outdated-Warnung des Widget-Clients).
+	// Check the format version (corresponds to the outdated warning of the widget client).
 	const QString versionValue = values.value("PokerTHStyleFileVersion");
 	const bool outdated = !versionValue.isEmpty() && versionValue.toInt() != expectedVersion;
 
-	// Stil-Verzeichnis komplett ins Benutzer-Verzeichnis kopieren – erst damit
-	// taucht er im Namens-basierten Scan (scanStyleDir/StyleProvider) auf und
-	// bleibt unabhängig von der Quelle (Download-Ordner, USB-Stick) erhalten.
-	// Vorher grob absichern, dass wirklich ein dedizierter Stil-Ordner gewählt
-	// wurde und nicht z. B. eine lose in den Download-Ordner entpackte XML –
-	// sonst würde der komplette Ordner-Inhalt mitkopiert. Der größte reguläre
-	// Stil (Kartenstapel: 52 Karten + XML + Vorschau) bleibt weit darunter.
+	// Copy the style directory completely into the user directory – only then
+	// does it show up in the name based scan (scanStyleDir/StyleProvider) and
+	// it stays independently of the source (download folder, USB stick).
+	// Make sure roughly beforehand that a dedicated style folder really was
+	// chosen and not, say, an XML extracted loosely into the download folder –
+	// otherwise the complete folder content would be copied along. The largest regular
+	// style (card deck: 52 cards + XML + preview) stays well below that.
 	const int fileCount = countFilesRecursively(styleDir.absolutePath(), 200);
 	if (fileCount > 200)
 		return fail(tr("Der Ordner der Stil-Datei enthält ungewöhnlich viele Dateien. "
@@ -747,7 +747,7 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 bool SettingsManager::removeUserStyle(const QString &category, const QString &name)
 {
 	static const QStringList kCategories = { "table", "cards", "backside" };
-	// Nur echte Stil-Ordnernamen unterhalb des Benutzer-Verzeichnisses zulassen.
+	// Allow only real style folder names below the user directory.
 	if (!m_config || !kCategories.contains(category) || name.isEmpty()
 			|| name.contains('/') || name.contains('\\')
 			|| name == "." || name == "..")
@@ -761,7 +761,7 @@ QVariantMap SettingsManager::exportStyle(const QString &category, const QString 
 	QVariantMap result;
 	result["status"] = "cancelled";
 	static const QStringList kCategories = { "table", "cards", "backside" };
-	// Nur echte Stil-Ordnernamen zulassen (keine Pfad-Bestandteile).
+	// Allow only real style folder names (no path components).
 	if (!m_config || !kCategories.contains(category) || name.isEmpty()
 			|| name.contains('/') || name.contains('\\')
 			|| name == "." || name == "..")
@@ -773,8 +773,8 @@ QVariantMap SettingsManager::exportStyle(const QString &category, const QString 
 		return result;
 	};
 
-	// Stil-Ordner suchen – erst importiert (Benutzer-Verzeichnis), dann
-	// mitgeliefert; beide sind exportierbar.
+	// Look for the style folder – imported ones first (the user directory), then
+	// the bundled ones; both can be exported.
 	QString styleDir;
 	for (const bool userRoot : {
 				true, false
@@ -788,7 +788,7 @@ QVariantMap SettingsManager::exportStyle(const QString &category, const QString 
 	if (styleDir.isEmpty())
 		return fail(tr("Der Stil \"%1\" wurde nicht gefunden.").arg(name));
 
-	// Speichern-Dialog (Vorgabe: <name>.zip im zuletzt genutzten Export-Ordner).
+	// The save dialog (the default: <name>.zip in the export folder used last).
 	QString startDir = QString::fromStdString(
 						   m_config->readConfigString("LastStyleExportDir"));
 	if (startDir.isEmpty() || !QDir(startDir).exists())
@@ -802,8 +802,8 @@ QVariantMap SettingsManager::exportStyle(const QString &category, const QString 
 								QFileInfo(target).absolutePath().toStdString());
 	m_config->writeBuffer();
 
-	// Archiv im Speicher erzeugen und über QFile schreiben – das bedient auch
-	// content:// / Portal-Zielpfade, die kein reguläres FILE* öffnen lassen.
+	// Create the archive in memory and write it via QFile – this serves
+	// content:// / portal target paths as well, which do not let a regular FILE* be opened.
 	QString zipError;
 	const QByteArray archive = ZipUtils::createArchive(styleDir, name, zipError);
 	if (archive.isEmpty())
@@ -827,17 +827,17 @@ QVariantMap SettingsManager::exportStyle(const QString &category, const QString 
 
 QString SettingsManager::exampleAvatarsBasePath() const
 {
-	// AppDataDir endet bereits mit einem Verzeichnis-Trennzeichen.
+	// AppDataDir already ends with a directory separator.
 	const QString base = QString::fromStdString(m_config->readConfigString("AppDataDir"))
 						 + "gfx/avatars/default/";
 	if (!base.startsWith(QLatin1Char(':')))
 		return base;
 
-	// Android: AppDataDir ist ein Qt-Ressourcenpfad (:/android/android-data/).
-	// Vorschau (file://-URL) und Engine (std::ifstream beim Avatar-Upload)
-	// brauchen aber echte Dateien, deshalb die Beispiel-Avatare einmalig in
-	// das Benutzer-Verzeichnis kopieren. UserDataDir endet bereits mit einem
-	// Verzeichnis-Trennzeichen.
+	// Android: AppDataDir is a Qt resource path (:/android/android-data/).
+	// The preview (file:// URL) and the engine (std::ifstream during the avatar upload)
+	// need real files though, which is why the example avatars are copied once into
+	// the user directory. UserDataDir already ends with a
+	// directory separator.
 	const QString target = QString::fromStdString(m_config->readConfigString("UserDataDir"))
 						   + "gfx/avatars/default/";
 	const QStringList categories = { QStringLiteral("people"), QStringLiteral("misc") };
@@ -864,7 +864,7 @@ QVariantList SettingsManager::availableExampleAvatars() const
 
 	const QString base = exampleAvatarsBasePath();
 
-	// Reihenfolge der Kategorien wie im Widget-Client (selectAvatarDialog).
+	// The order of the categories as in the widget client (selectAvatarDialog).
 	const QStringList categories = { QStringLiteral("people"), QStringLiteral("misc") };
 	for (const QString &category : categories) {
 		QDir dir(base + category);
@@ -894,7 +894,7 @@ QVariantList SettingsManager::scanStyleDir(const QString &category, const QStrin
 	if (!m_config)
 		return result;
 
-	// Mitgelieferte Stile zuerst, danach importierte aus dem Benutzer-Verzeichnis.
+	// Bundled styles first, then the imported ones from the user directory.
 	QSet<QString> seenNames;
 	for (const bool userRoot : {
 				false, true
@@ -921,7 +921,7 @@ QVariantList SettingsManager::scanStyleDir(const QString &category, const QStrin
 			entry["name"] = dirInfo.fileName();
 			entry["dir"] = dirInfo.absoluteFilePath();
 			entry["xml"] = xmlPath;
-			entry["description"] = dirInfo.fileName(); // Fallback bis XML geparst
+			entry["description"] = dirInfo.fileName(); // a fallback until the XML is parsed
 			entry["maintainer"] = QString();
 			entry["userStyle"] = userRoot;
 
@@ -956,7 +956,7 @@ QVariantList SettingsManager::scanStyleDir(const QString &category, const QStrin
 
 			QString preview = toUrl(previewRel);
 			QString previewPortrait = toUrl(previewPortraitRel);
-			// Fehlt eine Orientierung, die jeweils andere als Ersatz verwenden.
+			// If one orientation is missing, use the other one as a substitute.
 			if (preview.isEmpty())
 				preview = previewPortrait;
 			if (previewPortrait.isEmpty())

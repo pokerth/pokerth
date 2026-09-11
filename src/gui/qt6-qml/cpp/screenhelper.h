@@ -1,16 +1,16 @@
 #pragma once
 #include <QObject>
 
-// Plattformübergreifender Helper: hält den Bildschirm während Spiel und
-// Warteraum wach.
-//   Android: FLAG_KEEP_SCREEN_ON auf dem Activity-Window (JNI).
+// Cross-platform helper: keeps the screen awake during the game and the
+// waiting room.
+//   Android: FLAG_KEEP_SCREEN_ON on the activity window (JNI).
 //   iOS:     UIApplication.idleTimerDisabled.
-// Auf allen anderen Plattformen ist setKeepScreenOn() ein No-op.
+// On all other platforms setKeepScreenOn() is a no-op.
 //
-// Auf den Mobilplattformen ist das mehr als Komfort: Nach der Bildschirmsperre
-// wird die App suspendiert, das Socket-I/O steht still und die Server-
-// Verbindung stirbt still – das Spiel wirkt eingefroren, obwohl die GUI noch
-// bedienbar ist.
+// On the mobile platforms this is more than comfort: after the screen lock
+// the app is suspended, the socket I/O stalls and the server connection
+// dies silently – the game appears frozen even though the GUI can still be
+// operated.
 class ScreenHelper : public QObject
 {
 	Q_OBJECT

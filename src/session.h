@@ -86,9 +86,9 @@ public:
 	void startNetworkClientForLocalServer(const GameData &gameData);
 	void terminateNetworkClient();
 	void clientCreateGame(const GameData &gameData, const std::string &name, const std::string &password);
-	// spectateOnly: dem Spiel als Zuschauer beitreten (kein Sitz, keine Karten,
-	// nie am Zug). Der Server lässt das nur zu, wenn das Spiel mit
-	// allowSpectators erstellt wurde.
+	// spectateOnly: join the game as a spectator (no seat, no cards,
+	// never to act). The server only allows this if the game was created
+	// with allowSpectators.
 	void clientJoinGame(unsigned gameId, const std::string &password, bool spectateOnly = false);
 	void clientRejoinGame(unsigned gameId);
 
@@ -126,7 +126,7 @@ public:
 
 	bool isNetworkClientRunning() const; // TODO hack
 	bool isNetworkServerRunning() const; // TODO hack
-	// true, solange wir dem aktuellen Spiel als Zuschauer beigewohnt haben.
+	// true as long as we have attended the current game as a spectator.
 	bool isClientSpectating() const;
 
 	ServerInfo getClientServerInfo(unsigned serverId) const;

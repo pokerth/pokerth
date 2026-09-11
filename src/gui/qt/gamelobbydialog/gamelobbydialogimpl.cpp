@@ -244,14 +244,14 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 
 	myChat = new ChatTools(lineEdit_ChatInput, myConfig, INET_LOBBY_CHAT, textBrowser_ChatDisplay, myNickListModel, this);
 
-	// Community-„Suggest": gemeinsame Engine (persistenter 15-min-Cache) für den
-	// Create-Dialog (mcup-Titel) UND den Suggest-Button hier.
+	// Community "suggest": a shared engine (persistent 15 min cache) for the
+	// create dialog (mcup titles) AND the suggest button here.
 	mySuggest = new CommunitySuggest(this);
 	pushButton_suggestPlayers = new QPushButton(tr("Suggest players"), this);
 	pushButton_suggestPlayers->setVisible(false);
-	// Oben RECHTS über dem Chat-Verlauf, kompakt (nicht über die volle Breite):
-	// Chat-Verlauf und -Eingabe eine Zeile nach unten schieben und darüber eine
-	// rechtsbündige Kopfzeile mit dem Button einhängen.
+	// At the top RIGHT above the chat history, compact (not over the full width):
+	// push the chat history and the input one row down and hook a right-aligned
+	// header row with the button in above them.
 	if (QGridLayout *chatGrid = qobject_cast<QGridLayout*>(groupBox_lobbyChat->layout())) {
 		chatGrid->removeWidget(textBrowser_ChatDisplay);
 		chatGrid->removeWidget(lineEdit_ChatInput);
@@ -263,8 +263,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 		chatGrid->addWidget(lineEdit_ChatInput, 2, 0);
 	}
 	connect( pushButton_suggestPlayers, SIGNAL( clicked() ), this, SLOT( runCommunitySuggest() ) );
-	// Der Community-Admin-Abgleich läuft asynchron; sobald er da ist, Button neu
-	// bewerten. Funktionszeiger-Syntax: updateSuggestButtonVisibility() ist kein Slot.
+	// The community admin match runs asynchronously; as soon as it is there, re-evaluate
+	// the button. Function pointer syntax: updateSuggestButtonVisibility() is not a slot.
 	connect( mySuggest, &CommunitySuggest::communityAdminResolved,
 			 this, &gameLobbyDialogImpl::updateSuggestButtonVisibility );
 
@@ -355,7 +355,7 @@ int gameLobbyDialogImpl::exec()
 #ifdef ANDROID
 	this->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
-	// Ensure Dialog ist sichtbar und hat korrekte Geometrie vor exec()
+	// Ensure the dialog is visible and has the correct geometry before exec()
 	this->show();
 	this->raise();
 	this->activateWindow();
@@ -381,20 +381,20 @@ gameLobbyDialogImpl::~gameLobbyDialogImpl()
 	inviteOnlyInfoMsgBox = NULL;
 }
 
-// Suggest-Typ des aktuellen Tisches. Zwei Quellen, in dieser Reihenfolge:
-//   • ERSTELLER: myCreatedSuggestType, explizit aus der gewählten Vorlage. Ein
-//     nicht-leerer Wert impliziert bereits Invite-Spiel + Community-Inhalt
-//     (siehe selectedSuggestType()). KEIN erneuter session-basierter GameType-
-//     Check – der schlug beim Self-Join fehl, weil getGameIdOfPlayer() dann noch
-//     0 liefern kann.
-//   • COMMUNITY-ADMIN an einem FREMDEN Tisch: Der Typ steht nirgends im
-//     Protokoll und der Tischname taugt nicht als Quelle (frei editierbar), also
-//     aus den Spieleinstellungen ableiten (CommunitySuggest::suggestTypeForGame).
-//     Der Admin-Abgleich (bbcadmins.txt für Steps, wecadmins.txt für WEC) läuft
-//     asynchron und wird erst angestoßen, wenn der rein lokale Fingerprint
-//     bereits einen Typ liefert – an allen anderen Tischen kostet das Feature
-//     keinen Request. Bis die Antwort da ist, bleibt der Button aus; danach ruft
-//     communityAdminResolved() hier erneut an.
+// Suggest type of the current table. Two sources, in this order:
+//   • CREATOR: myCreatedSuggestType, explicitly from the chosen template. A
+//     non-empty value already implies an invite game + community content
+//     (see selectedSuggestType()). NO renewed session based game type
+//     check – that failed on a self-join, because getGameIdOfPlayer() can still
+//     return 0 then.
+//   • COMMUNITY ADMIN at a FOREIGN table: the type is nowhere in the
+//     protocol and the table name is unsuitable as a source (freely editable), so
+//     derive it from the game settings (CommunitySuggest::suggestTypeForGame).
+//     The admin match (bbcadmins.txt for steps, wecadmins.txt for WEC) runs
+//     asynchronously and is only started once the purely local fingerprint
+//     already delivers a type – at all other tables the feature costs
+//     no request. Until the reply is there the button stays off; afterwards
+//     communityAdminResolved() calls in here again.
 QString gameLobbyDialogImpl::effectiveSuggestType()
 {
 	if (!myConfig || !myConfig->readConfigInt("ShowCommunityContent") || guestMode)
@@ -435,7 +435,7 @@ void gameLobbyDialogImpl::runCommunitySuggest()
 	if (!mySuggest || !mySession || suggestType.isEmpty())
 		return;
 
-	// Spieler am eigenen Tisch nicht vorschlagen – die sitzen ja bereits dort.
+	// Do not suggest players at your own table – they already sit there.
 	const unsigned ownGameId = mySession->getGameIdOfPlayer(mySession->getClientUniquePlayerId());
 
 	QStringList idleNames;
@@ -448,7 +448,7 @@ void gameLobbyDialogImpl::runCommunitySuggest()
 		if (pid == 0)
 			continue;
 		PlayerInfo pinfo(mySession->getClientPlayerInfo(pid));
-		if (pinfo.isGuest)   // Gäste stehen weder in der DB noch auf der WEC-Liste.
+		if (pinfo.isGuest)   // Guests are neither in the DB nor on the WEC list.
 			continue;
 		const QString name = QString::fromUtf8(pinfo.playerName.c_str());
 		if (name.isEmpty())
@@ -462,24 +462,24 @@ void gameLobbyDialogImpl::runCommunitySuggest()
 			pp.game = QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str());
 			playing << pp;
 		}
-		// gameId == ownGameId → am eigenen Tisch: überspringen.
+		// gameId == ownGameId → at your own table: skip.
 	}
 
-	// Der Vorschlag kommt asynchron: die Botfiles werden bei abgelaufenem Cache
-	// erst geladen (früher blockierte das die GUI in einem verschachtelten
-	// QEventLoop, und ein zweiter Klick stapelte eine weitere Schleife darauf).
-	// Solange sperren, damit derselbe Klick nicht mehrfach läuft.
+	// The suggestion arrives asynchronously: with an expired cache the botfiles are
+	// only loaded then (previously that blocked the GUI in a nested
+	// QEventLoop, and a second click stacked another loop on top).
+	// Lock meanwhile so that the same click does not run several times.
 	if (pushButton_suggestPlayers)
 		pushButton_suggestPlayers->setEnabled(false);
 	mySuggest->suggest(suggestType, idleNames, playing, this,
 	[this](const QString &message) {
 		if (pushButton_suggestPlayers)
 			pushButton_suggestPlayers->setEnabled(true);
-		// Wer den Tisch inzwischen verlassen hat, bekommt keinen Vorschlag mehr
-		// in den Chat geschrieben.
+		// Whoever has left the table in the meantime does not get a suggestion
+		// written into the chat any more.
 		if (!inGame)
 			return;
-		// Nur lokal beim Auslöser anzeigen (wie die PM-Antwort des bbcbot), nicht senden.
+		// Only show it locally at the trigger (like the PM reply of the bbcbot), do not send it.
 		if (!message.isEmpty() && myChat)
 			myChat->showLocalNote(message);
 	});
@@ -501,7 +501,7 @@ void gameLobbyDialogImpl::createGame()
 
 	if (myCreateInternetGameDialog->result() == QDialog::Accepted ) {
 
-		// Suggest-Typ des eigenen Spiels merken (explizit aus der Vorlage).
+		// Remember the suggest type of your own game (explicitly from the template).
 		myCreatedSuggestType = myCreateInternetGameDialog->selectedSuggestType();
 
 		GameData gameData;
@@ -1675,8 +1675,8 @@ bool gameLobbyDialogImpl::eventFilter(QObject *obj, QEvent *event)
 	if (event->type() == QEvent::KeyPress) {
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-		// Offenes Shortcode-Vorschlags-Popup des Chats: Tab/Hoch/Runter
-		// steuern dann das Popup – keine Nick-Vervollständigung/History.
+		// An open shortcode suggestion popup of the chat: Tab/up/down then
+		// control the popup – no nickname completion/history.
 		const bool shortcodePopupOpen = myChat && myChat->shortcodeCompletionActive();
 
 		if (obj == lineEdit_ChatInput && !shortcodePopupOpen && lineEdit_ChatInput->text() != "" && keyEvent->key() == Qt::Key_Tab) {
@@ -1733,8 +1733,8 @@ void gameLobbyDialogImpl::showEvent(QShowEvent *e)
 		}
 	});
 #endif
-	// Erst wenn die Lobby wirklich steht, sonst liegt die Messagebox vor
-	// einem noch leeren Fenster.
+	// Only once the lobby really stands, otherwise the message box lies in front
+	// of a still empty window.
 	QTimer::singleShot(0, this, [this]() {
 		checkMyAvatar();
 	});
@@ -1745,8 +1745,8 @@ void gameLobbyDialogImpl::checkMyAvatar()
 	if(myAvatarWarningShown || !myConfig) return;
 
 	const QString path = QString::fromUtf8(myConfig->readConfigString("MyAvatar").c_str());
-	// Ein leerer oder toter Pfad ist ein anderer Fall (kein Avatar gewählt)
-	// und wird wie bisher stillschweigend hingenommen.
+	// An empty or dead path is a different case (no avatar chosen)
+	// and is silently accepted as before.
 	if(path.isEmpty() || !QFile::exists(path) || AvatarImport::isUsable(path)) return;
 
 	myAvatarWarningShown = true;
@@ -2030,11 +2030,11 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 		assert(mySession);
 		unsigned playerUid = myNickListSelectionModel->currentIndex().data(Qt::UserRole).toUInt();
 
-		// Private Nachricht: nicht an sich selbst, nicht als Gast und nicht AN
-		// einen Gast (der Server lässt Gäste gar nicht chatten, in keine der
-		// beiden Richtungen) und nicht an Spieler an einem LAUFENDEN Tisch –
-		// dorthin stellt der Server PMs nicht zu (ServerLobbyThread::
-		// HandleNetPacketChatRequest), die Nachricht ginge kommentarlos verloren.
+		// Private message: not to yourself, not as a guest and not TO
+		// a guest (the server does not let guests chat at all, in neither
+		// direction) and not to players at a RUNNING table –
+		// the server does not deliver PMs there (ServerLobbyThread::
+		// HandleNetPacketChatRequest), the message would be lost without comment.
 		unsigned gameIdOfTarget = mySession->getGameIdOfPlayer(playerUid);
 		bool targetIsPlaying = gameIdOfTarget
 							   && mySession->getClientGameInfo(gameIdOfTarget).mode == GAME_MODE_STARTED;

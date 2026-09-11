@@ -36,8 +36,8 @@
 #include <QDomElement>
 #include <QFile>
 #include <QTextStream>
-#include <QDir>              // QDir::mkpath – zuverlaessiges Anlegen der App-Verzeichnisse
-#include <QStandardPaths>    // iOS: beschreibbares AppDataLocation statt Container-Root
+#include <QDir>              // QDir::mkpath – reliable creation of the app directories
+#include <QStandardPaths>    // iOS: a writable AppDataLocation instead of the container root
 
 #define MODUS 0711
 
@@ -84,15 +84,15 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 
 	myConfigState = OK;
 
-	// !!!! Revisionsnummer der Configdefaults !!!!!
-	// 109: ServerTlsCertFile / ServerTlsKeyFile hinzugekommen.
-	// 110: FlipsideStyle / FlipsideStyleFile hinzugekommen (Widget-Kartenrückseiten-Stile).
+	// !!!! Revision number of the config defaults !!!!!
+	// 109: ServerTlsCertFile / ServerTlsKeyFile were added.
+	// 110: FlipsideStyle / FlipsideStyleFile were added (widget card back styles).
 	configRev = 111;
 
 	// standard defaults
 	logOnOffDefault = "1";
 
-	// Pfad und Dateinamen setzen
+	// Set the path and the file names
 #ifdef _WIN32
 	const int MaxPathSize = 1024;
 	const char *appDataPath = getenv("AppData");
@@ -118,11 +118,11 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 		const string tmpFilePath = configFileName + "\\pokerth_test.tmp";
 		tmpFile.open(tmpFilePath.c_str());
 		if (tmpFile) {
-			// Erfolgreich, Verzeichnis beschreibbar. Datei wieder loeschen.
+			// Succeeded, the directory is writable. Delete the file again.
 			tmpFile.close();
 			remove(tmpFilePath.c_str());
 		} else {
-			// Fehlgeschlagen, Verzeichnis nicht beschreibbar
+			// Failed, the directory is not writable
 			char tmpDir[MaxPathSize + 1];
 			tmpDir[0] = 0;
 			GetTempPathA(MaxPathSize, tmpDir);
@@ -155,27 +155,27 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	_mkdir(cacheDir.c_str());
 
 #elif defined(Q_OS_IOS)
-	// iOS: Der Sandbox-Container-Root ($HOME) ist nicht zuverlaessig beschreibbar –
-	// ein "mkdir($HOME/.pokerth)" schlaegt still fehl. In der Folge existieren
-	// weder Log- noch Cache-Verzeichnis, was sich als Absturz in Log::init()
-	// (opendir==NULL) bzw. als Fehler 25 (ERR_SOCK_TRANSFER_OPEN_FAILED) beim
-	// Serverlisten-Download aeussert. Deshalb das von Apple vorgesehene,
-	// garantiert beschreibbare Application-Support-Verzeichnis nutzen. Es enthaelt
-	// bereits den App-Namen (QGuiApplication::setApplicationName/OrganizationName
-	// werden vor der ConfigFile-Konstruktion gesetzt), daher kein eigenes
-	// ".pokerth" mehr anhaengen.
+	// iOS: the sandbox container root ($HOME) is not reliably writable –
+	// a "mkdir($HOME/.pokerth)" fails silently. As a consequence neither the
+	// log nor the cache directory exists, which shows up as a crash in Log::init()
+	// (opendir==NULL) or as error 25 (ERR_SOCK_TRANSFER_OPEN_FAILED) during the
+	// server list download. That is why the application support directory intended
+	// by Apple, which is guaranteed to be writable, is used. It already contains
+	// the app name (QGuiApplication::setApplicationName/OrganizationName
+	// are set before the ConfigFile is constructed), so no additional
+	// ".pokerth" is appended any more.
 	{
 		const QString iosBase =
 			QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 		if (!iosBase.isEmpty()) {
 			configFileName = iosBase.toStdString() + "/";
 			////define log-dir
-			// Bewusst NICHT unter Application Support, sondern unter Documents:
-			// nur Documents ist – zusammen mit UIFileSharingEnabled und
-			// LSSupportsOpeningDocumentsInPlace in der Info.plist – aus der
-			// Dateien-App und aus dem Finder erreichbar. So kommt man jederzeit
-			// an pokerth-debug.log und die Spiel-Logs, ohne den App-Container
-			// ueber Xcode herunterladen zu muessen.
+			// Deliberately NOT under Application Support but under Documents:
+			// only Documents is – together with UIFileSharingEnabled and
+			// LSSupportsOpeningDocumentsInPlace in the Info.plist – reachable from
+			// the Files app and from the Finder. That way pokerth-debug.log and the
+			// game logs can be reached at any time without having to download the
+			// app container via Xcode.
 			const QString iosDocs =
 				QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
 			logDir = iosDocs.isEmpty() ? configFileName : (iosDocs.toStdString() + "/");
@@ -186,8 +186,8 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 			////define cache-dir
 			cacheDir = configFileName;
 			cacheDir += "cache/";
-			// Verzeichnisse zuverlaessig anlegen. QDir::mkpath legt fehlende
-			// Elternpfade mit an und ist idempotent (kein Fehler, wenn schon da).
+			// Create the directories reliably. QDir::mkpath creates missing
+			// parent paths as well and is idempotent (no error if it is already there).
 			QDir().mkpath(pathToQString(configFileName));
 			QDir().mkpath(pathToQString(logDir));
 			QDir().mkpath(pathToQString(dataDir));
@@ -251,30 +251,30 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("AccidentallyCallBlocker", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("DontHideAvatarsOfIgnored", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("DisableEmojiReactions", CONFIG_TYPE_INT, "0"));
-	// Zuletzt benutzte Seite des Reaktions-Pickers (0..2, drei Themenseiten).
+	// The page of the reaction picker used last (0..2, three thematic pages).
 	configList.push_back(ConfigInfo("ReactionPickerPage", CONFIG_TYPE_INT, "0"));
-	// Chat-Übersetzung anbieten (Globus-Symbol neben eingehenden Nachrichten).
-	// Standardmäßig aktiv; es verlässt nichts den Client, bis der Nutzer das
-	// Symbol einer konkreten Zeile antippt (siehe ChatTranslator /
+	// Offer the chat translation (globe symbol next to incoming messages).
+	// Active by default; nothing leaves the client until the user taps the
+	// symbol of a concrete line (see ChatTranslator /
 	// docs/third_party_services.md).
 	configList.push_back(ConfigInfo("AllowChatTranslation", CONFIG_TYPE_INT, "1"));
-	configList.push_back(ConfigInfo("ShowChatTimestamp", CONFIG_TYPE_INT, "1")); // Zeitstempel [HH:mm:ss] vor Chatzeilen
-	configList.push_back(ConfigInfo("DarkMode", CONFIG_TYPE_INT, "2")); // 0=Light, 1=Dark, 2=Auto/System
+	configList.push_back(ConfigInfo("ShowChatTimestamp", CONFIG_TYPE_INT, "1")); // Timestamp [HH:mm:ss] in front of chat lines
+	configList.push_back(ConfigInfo("DarkMode", CONFIG_TYPE_INT, "2")); // 0=light, 1=dark, 2=auto/system
 	configList.push_back(ConfigInfo("AntiPeekMode", CONFIG_TYPE_INT, "0"));
-	/* Welche Engine die Computerspieler steuert. 4 ist der Standard: die
-	 * EV-basierte Engine 4 (Equity gegen alle Gegner, Pot Odds, Position,
-	 * Push-or-Fold, Gegnermodell). 0 schaltet auf die urspruengliche Engine
-	 * zurueck. Der Wert gilt fuer beide Seiten: im lokalen Spiel liest ihn der
-	 * Client, bei Netzwerkspielen mit Computergegnern der Server aus seiner
-	 * eigenen config.xml.
+	/* Which engine controls the computer players. 4 is the default: the
+	 * EV based engine 4 (equity against all opponents, pot odds, position,
+	 * push-or-fold, opponent model). 0 switches back to the original
+	 * engine. The value applies to both sides: in a local game the client reads
+	 * it, in network games with computer opponents the server reads it from its
+	 * own config.xml.
 	 */
 	configList.push_back(ConfigInfo("EngineVersion", CONFIG_TYPE_INT, "4"));
 	configList.push_back(ConfigInfo("AlternateFKeysUserActionMode", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("EnableBetInputFocusSwitch", CONFIG_TYPE_INT, "0"));
-	// Widget-Client, Kartenrückseite: entweder die flipside.png des gewählten
-	// Kartenstapels (FlipsideTux, Default), ein mitgelieferter Rückseiten-Stil
-	// (FlipsideStyle + FlipsideStyleFile, voller XML-Pfad wie bei Current*Style)
-	// oder eine beliebige eigene Bilddatei (FlipsideOwn + FlipsideOwnFile).
+	// Widget client, card back: either the flipside.png of the selected
+	// card deck (FlipsideTux, the default), a bundled card back style
+	// (FlipsideStyle + FlipsideStyleFile, a full XML path as with Current*Style)
+	// or an arbitrary image file of your own (FlipsideOwn + FlipsideOwnFile).
 	configList.push_back(ConfigInfo("FlipsideTux", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("FlipsideStyle", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("FlipsideStyleFile", CONFIG_TYPE_STRING, ""));
@@ -287,22 +287,22 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("CurrentCardDeckStyle", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("LastGameTableStyleDir", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("LastCardDeckStyleDir", CONFIG_TYPE_STRING, ""));
-	// QML-Client: Kartenrückseiten sind dort eine eigene Stil-Kategorie.
+	// QML client: card backs are a style category of their own there.
 	configList.push_back(ConfigInfo("LastCardBackStyleDir", CONFIG_TYPE_STRING, ""));
-	// QML-Client: Name des ausgewählten Stil-Unterordners in
-	// <AppDataDir>/gfx/qml/<table|cards>/<name>. Eigene Keys, damit der
-	// Widget-Client (Current*Style speichert volle XML-Pfade) unberührt bleibt.
+	// QML client: the name of the selected style subfolder in
+	// <AppDataDir>/gfx/qml/<table|cards>/<name>. Keys of its own, so that the
+	// widget client (Current*Style stores full XML paths) stays untouched.
 	configList.push_back(ConfigInfo("QmlGameTableStyle", CONFIG_TYPE_STRING, "default"));
 	configList.push_back(ConfigInfo("QmlCardDeckStyle", CONFIG_TYPE_STRING, "default"));
 	configList.push_back(ConfigInfo("QmlCardBackStyle", CONFIG_TYPE_STRING, "default"));
-	// QML-Client: Sitz-Stil der Spielerboxen (config/SeatStyle.qml) – wo der
-	// Einsatz eines Spielers steht. "inset" = im Sockel INNERHALB der Box,
-	// "classic" = ausserhalb daneben. Leer (Default) = Vorgabe des QML-
-	// Singletons, also "inset" auf allen Plattformen.
+	// QML client: seat style of the player boxes (config/SeatStyle.qml) – where a
+	// player's bet is shown. "inset" = in the base INSIDE the box,
+	// "classic" = outside next to it. Empty (the default) = the default of the QML
+	// singleton, i.e. "inset" on all platforms.
 	configList.push_back(ConfigInfo("QmlSeatStyle", CONFIG_TYPE_STRING, ""));
-	// QML-Client: dekorative Render-Effekte (Schlagschatten/Glow/Blur) global
-	// abschaltbar für schwache/passiv gekühlte Systeme bzw. Software-Rendering.
-	// 0 = Effekte an (Default), 1 = reduziert. Siehe config/Theme.qml.
+	// QML client: decorative render effects (drop shadow/glow/blur) can be
+	// switched off globally for weak/passively cooled systems or software rendering.
+	// 0 = effects on (default), 1 = reduced. See config/Theme.qml.
 	configList.push_back(ConfigInfo("QmlReduceEffects", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("PlaySoundEffects", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("SoundVolume", CONFIG_TYPE_INT, "8"));
@@ -391,11 +391,11 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("InternetGameType", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("InternetGameName", CONFIG_TYPE_STRING, "My Online Game"));
 	configList.push_back(ConfigInfo("InternetGameAllowSpectators", CONFIG_TYPE_INT, "1"));
-	// EINE Option fürs gesamte Community-Turnier-Feature des Widget-Clients:
-	// BBC/WEC-Vorlagen im Create-Dialog + „Suggest players"-Button im Warteraum.
-	// (Im QML-Client steuert showCommunityContent zusätzlich die Ranking-Seiten –
-	// die es im Widget nicht gibt, daher hier genau ein Schalter.) Default aus:
-	// nur für die wenigen BBC/WEC-Admins relevant.
+	// ONE option for the whole community tournament feature of the widget client:
+	// BBC/WEC templates in the create dialog + the "suggest players" button in the waiting room.
+	// (In the QML client showCommunityContent additionally controls the ranking pages –
+	// which do not exist in the widget, hence exactly one switch here.) Off by default:
+	// only relevant for the few BBC/WEC admins.
 	configList.push_back(ConfigInfo("ShowCommunityContent", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("UseLobbyChat", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("UseAdminIRC", CONFIG_TYPE_INT, "0"));
@@ -511,7 +511,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 				// if appdatapath changes directly update it here not in UpdateConfig()
 				if (oldAppDataPath != newAppDataPath) {
 					confAppDataPath.setAttribute("value", newAppDataPath);
-					// Gespeicherte Pfade in das alte Datenverzeichnis mitziehen.
+					// Carry stored paths over from the old data directory.
 					remapAppDataPaths(configElement, oldAppDataPath, newAppDataPath);
 					writeConfigDocument(xmlDoc.toString());
 				}
@@ -535,14 +535,14 @@ ConfigFile::~ConfigFile()
 
 bool ConfigFile::remapAppDataPaths(QDomElement &config, const QString &oldPath, const QString &newPath)
 {
-	// Einige Einstellungen speichern volle Pfade in das Datenverzeichnis
+	// Some settings store full paths into the data directory
 	// (CurrentGameTableStyle, CurrentCardDeckStyle, FlipsideStyleFile, MyAvatar,
-	// Opponent*Avatar, ...). Wandert dieses Verzeichnis, zeigen sie ins Leere und
-	// der Client faellt stillschweigend auf seine Vorgaben zurueck. Beim AppImage
-	// passiert das bei jedem Start, weil es unter einem neuen Mountpunkt
-	// (/tmp/.mount_PokerTH<zufall>/) haengt; genauso nach einem Wechsel des
-	// Installationsorts oder des Paketformats. Deshalb hier alle Werte, die mit
-	// dem alten Datenverzeichnis beginnen, auf das neue umbiegen.
+	// Opponent*Avatar, ...). If that directory moves, they point nowhere and
+	// the client falls back to its defaults silently. With the AppImage
+	// that happens on every start, because it is mounted under a new mount point
+	// (/tmp/.mount_PokerTH<random>/); likewise after a change of the
+	// installation location or the package format. That is why all values starting with
+	// the old data directory are bent onto the new one here.
 	if (oldPath.length() < 2 || oldPath == newPath)
 		return false;
 
@@ -557,7 +557,7 @@ bool ConfigFile::remapAppDataPaths(QDomElement &config, const QString &oldPath, 
 	};
 
 	for (QDomElement el = config.firstChildElement(); !el.isNull(); el = el.nextSiblingElement()) {
-		// AppDataDir selbst wurde vom Aufrufer bereits gesetzt.
+		// AppDataDir itself was already set by the caller.
 		if (el.tagName() == "AppDataDir")
 			continue;
 

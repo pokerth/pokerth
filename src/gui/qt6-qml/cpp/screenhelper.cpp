@@ -51,20 +51,19 @@ void ScreenHelper::setKeepScreenOn(bool keep)
 		applyFlag(); // non-Android or Qt < 6.2 fallback
 
 #elif defined(Q_OS_IOS)
-	// iOS-Pendant zu FLAG_KEEP_SCREEN_ON: der "Idle Timer" ist die Uhr, nach
-	// deren Ablauf iOS den Bildschirm abdunkelt und sperrt. Abgeschaltet bleibt
-	// das Display waehrend des Spiels an.
+	// iOS counterpart to FLAG_KEEP_SCREEN_ON: the "idle timer" is the clock
+	// after which iOS dims and locks the screen. Switched off, the display
+	// stays on during the game.
 	//
-	// Das ist hier NICHT nur Komfort, sondern verhindert einen Verbindungs-
-	// abbruch: Nach der Bildschirmsperre suspendiert iOS die App, das Socket-
-	// I/O steht still und die TCP-Verbindung zum Server stirbt still. Fuer den
-	// Nutzer sieht das aus wie ein eingefrorenes Spiel bei bedienbarer GUI -
-	// genau das beobachtete Verhalten, obwohl die App im Vordergrund war.
-	// Wer laenger ueberlegt, ohne den Bildschirm zu beruehren, lief bisher
-	// genau in diese Falle.
+	// This is NOT just comfort here, it prevents a dropped connection: after
+	// the screen lock iOS suspends the app, the socket I/O stalls and the TCP
+	// connection to the server dies silently. For the user this looks like a
+	// frozen game with an operable GUI - exactly the observed behaviour, even
+	// though the app was in the foreground. Whoever thinks longer without
+	// touching the screen used to run into exactly this trap.
 	//
-	// UIKit erwartet den Main-Thread; setKeepScreenOn() wird aus QML (GUI-
-	// Thread) aufgerufen, der Check ist nur die Absicherung.
+	// UIKit expects the main thread; setKeepScreenOn() is called from QML (GUI
+	// thread), the check is only a safeguard.
 	{
 		const bool disableIdleTimer = keep;
 		dispatch_block_t apply = ^ {

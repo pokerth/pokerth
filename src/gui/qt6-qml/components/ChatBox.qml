@@ -5,41 +5,41 @@ import QtQuick.Effects
 
 import "../config" as Config
 
-// Gemeinsame Chat-Box für ALLE Chats (Lobby compact/wide, GameWait,
-// Game-Chat-Overlay, gedockter Ingame-Chat):
-//   • Nachrichtenliste (RichText-Zeilen) mit Auto-Scroll-Logik
-//     (pausiert beim Hochscrollen, Position bleibt bei neuen Zeilen
-//     erhalten, nach 15 s Inaktivität wieder ans Ende)
-//   • Emoji-Picker – inline über der Eingabezeile oder als Popup über
-//     der Box (Platzmangel, z. B. gedockter Ingame-Chat)
-//   • Eingabezeile mit Emoji-Toggle und Send-Button
-//   • Chat-History (Pfeil hoch/runter, max. 50, wie Qt-Widgets-Client)
-//   • Tab-Nick-Vervollständigung mit Iteration (Config.StaticData.nickComplete)
+// A common chat box for ALL chats (lobby compact/wide, game wait,
+// the game chat overlay, the docked in-game chat):
+//   • a message list (rich text lines) with auto-scroll logic
+//     (it pauses when scrolling up, the position is kept on new lines,
+//     after 15 s of inactivity it goes back to the end)
+//   • an emoji picker – inline above the input line or as a popup above
+//     the box (a lack of room, e.g. the docked in-game chat)
+//   • an input line with an emoji toggle and a send button
+//   • a chat history (arrow up/down, at most 50, as in the Qt widgets client)
+//   • Tab nickname completion with iteration (Config.StaticData.nickComplete)
 Item {
     id: root
 
     // ── API ──────────────────────────────────────────────────────────────
     // Liste formatierter (RichText-)Zeilen, z. B. GameTable.chatLog / Lobby.chatLog.
     property var chatModel: []
-    // Nicknames für die Tab-Vervollständigung.
+    // The nicknames for the Tab completion.
     property var nickList: []
-    // Chat-Übersetzer des zugehörigen Handlers (Lobby.chatTranslator bzw.
-    // GameTable.chatTranslator). Taps auf das Globus-Symbol werden hierhin
-    // geroutet; null = keine Übersetzung (Symbole erscheinen dann gar nicht).
+    // The chat translator of the corresponding handler (Lobby.chatTranslator or
+    // GameTable.chatTranslator). Taps on the globe symbol are routed here;
+    // null = no translation (then the symbols do not appear at all).
     property var chatTranslator: null
     property bool inputEnabled: true
     property string placeholder: qsTr("Nachricht …")
     property int messageFontSize: 14
-    // Emoji-Picker als Popup ÜBER der Box statt inline über der Eingabezeile.
+    // The emoji picker as a popup ABOVE the box instead of inline above the input line.
     property bool emojiPickerAsPopup: false
     property int pickerInlineHeight: 150
     property int inputHeight: 36
     property bool showEmojiPicker: false
 
-    // ── Farb-Tokens (überschreibbar) ────────────────────────────────────────
-    // Default = globale Palette, damit Lobby/GameWait weiter dem Hell/Dunkel-
-    // Modus folgen. Am Tisch werden diese mit den Farben des Tisch-Themes
-    // (StyleProvider.chatLog*) überschrieben – dort zählt allein das Theme.
+    // ── Colour tokens (overridable) ─────────────────────────────────────────
+    // The default = the global palette, so that the lobby/game wait keep following the
+    // light/dark mode. At the table they are overridden with the colours of the table theme
+    // (StyleProvider.chatLog*) – there only the theme counts.
     property color colText:          Config.StaticData.palette.secondary.col100
     property color colTextSecondary: Config.StaticData.palette.secondary.col200
     property color colTextMuted:     Config.StaticData.palette.secondary.col400
@@ -47,11 +47,11 @@ Item {
     property color colSurface:       Config.StaticData.palette.secondary.col600
     property color colBackground:    Config.StaticData.palette.secondary.col700
     property color colAccent:        Config.Theme.colorAccent
-    // Schrift AUF dem Akzent (markierter Text). Muss mit dem Akzent mitgehen:
-    // ist der bei einem hellen Tisch-Theme dunkel, braucht die Selektion helle
-    // Schrift statt der dunklen der Gold-Variante.
+    // Text ON the accent (highlighted text). It has to go along with the accent:
+    // if that is dark with a light table theme, the selection needs light
+    // text instead of the dark text of the gold variant.
     property color colAccentText:    "#101010"
-    // Senden-Symbol (Grün). Am Tisch aus dem Tisch-Theme, sonst App-Modus.
+    // The send symbol (green). At the table from the table theme, otherwise the app mode.
     property color colSend:          Config.Theme.colorChatSend
 
     signal sendRequested(string text)
@@ -59,11 +59,11 @@ Item {
     function closeEmojiPicker() { showEmojiPicker = false }
     function scrollToEnd() { msgFlick.scrollToBottom() }
 
-    // Öffnet einen Link im externen Browser. NICHT direkt Qt.openUrlExternally:
-    // Im AppImage/Bundle erbt QDesktopServices das gebundelte LD_LIBRARY_PATH/
-    // LD_PRELOAD → xdg-open crasht und nichts öffnet. LobbyHandler.openExternalUrl
-    // startet die Host-Tools (xdg-open/gio/kde-open) mit bereinigter Umgebung –
-    // exakt wie der Footer (LobbyStatsBar). Qt.openUrlExternally nur als Fallback.
+    // Opens a link in the external browser. NOT Qt.openUrlExternally directly:
+    // in the AppImage/bundle QDesktopServices inherits the bundled LD_LIBRARY_PATH/
+    // LD_PRELOAD → xdg-open crashes and nothing opens. LobbyHandler.openExternalUrl
+    // starts the host tools (xdg-open/gio/kde-open) with a cleaned environment –
+    // exactly like the footer (LobbyStatsBar). Qt.openUrlExternally only as a fallback.
     function _openLink(link) {
         if (!link || link === "")
             return
@@ -76,16 +76,16 @@ Item {
             console.warn("ChatBox: konnte URL nicht öffnen:", link)
     }
 
-    // ── Übersetzen-Symbol nur an der Zeile unter dem Mauszeiger ───────────
-    // Der Verlauf ist EIN RichText-Dokument (keine ListView), „Zeile" ist also
-    // der Index in chatModel. Die Einträge werden mit <br> verbunden und liegen
-    // im Dokument damit durch Zeilentrenner (U+2028) getrennt vor: der
-    // Zeilenindex an einer Position = Anzahl der Trenner davor. chatModel-
-    // Einträge enthalten selbst nie Zeilenumbrüche (eine Chat-Zeile = ein
-    // Eintrag), die Zuordnung ist also 1:1.
-    // _hoverFrom/_hoverTo cachen den Bereich der aktuell markierten Zeile, damit
-    // pro Mausbewegung nur die (billige) Positionsabfrage nötig ist und nicht
-    // das Durchzählen des ganzen Verlaufs.
+    // ── The translate symbol only on the line under the mouse cursor ──────
+    // The history is ONE rich text document (not a ListView), so a "line" is
+    // the index in chatModel. The entries are joined with <br> and are thus present
+    // in the document separated by line separators (U+2028): the
+    // line index at a position = the number of separators before it. chatModel
+    // entries themselves never contain line breaks (one chat line = one
+    // entry), so the mapping is 1:1.
+    // _hoverFrom/_hoverTo cache the range of the currently marked line, so that
+    // only the (cheap) position query is needed per mouse movement and not
+    // counting through the whole history.
     property int _hoverFrom: -1
     property int _hoverTo: -1
 
@@ -94,14 +94,14 @@ Item {
     function _updateHoverLine(x, y) {
         if (!chatTranslator)
             return
-        // Solange etwas markiert ist, NICHT ins Dokument schreiben: das Ein-/
-        // Ausblenden des Symbols ersetzt msgText.text komplett und würde die
-        // Auswahl (bzw. ein laufendes Ziehen) zerstören.
+        // While something is selected, do NOT write into the document: showing/
+        // hiding the symbol replaces msgText.text completely and would destroy the
+        // selection (or a drag in progress).
         if (msgText.selectedText.length > 0)
             return
         var pos = msgText.positionAt(x, y)
         if (pos >= _hoverFrom && pos <= _hoverTo)
-            return                       // immer noch dieselbe Zeile
+            return                       // still the same line
         var all = msgText.getText(0, msgText.length)
         var line = 0, from = 0, i
         for (i = 0; i < pos && i < all.length; ++i) {
@@ -123,39 +123,39 @@ Item {
             chatTranslator.setHoveredLine(-1)
     }
 
-    // Neue Nachricht (oder ein ein-/ausgeblendetes Symbol) verschiebt alle
-    // Positionen dahinter → gecachten Zeilenbereich verwerfen.
+    // A new message (or a symbol being shown/hidden) shifts all
+    // positions behind it → discard the cached line range.
     onChatModelChanged: { _hoverFrom = -1; _hoverTo = -1 }
 
-    // Verschwindet die Box (Seitenwechsel Lobby/Warteraum – beide hängen am
-    // selben Übersetzer), bliebe sonst ein Symbol an der zuletzt überfahrenen
-    // Zeile stehen.
+    // If the box disappears (a page change lobby/waiting room – both hang off the
+    // same translator), a symbol would otherwise stay on the line the mouse
+    // passed over last.
     onVisibleChanged: if (!visible) _clearHoverLine()
     Component.onDestruction: _clearHoverLine()
 
     implicitWidth: 200
     implicitHeight: 160
 
-    // Rechter Freiraum für die vertikale Scrollbar, damit sie den Inhalt nie
-    // überlappt (Scrollbars liegen im Overlay-Stil sonst über dem Text).
+    // Free space on the right for the vertical scrollbar, so that it never
+    // overlaps the content (in the overlay style scrollbars otherwise lie above the text).
     readonly property int scrollGutter: 14
 
-    // Beim Aufklappen des Inline-Pickers schrumpft die Liste – ans Ende
-    // scrollen, damit die letzten Nachrichten sichtbar bleiben.
+    // When the inline picker unfolds, the list shrinks – scroll to the
+    // end, so that the last messages stay visible.
     onShowEmojiPickerChanged: {
         if (showEmojiPicker && !emojiPickerAsPopup)
             Qt.callLater(msgFlick.scrollToBottom)
     }
 
-    // ── History + Tab-Vervollständigung ──────────────────────────────────
-    // History-Speicher (gesendete Nachrichten, max. 50). Default: eigenes
-    // Array pro Instanz. Mehrere ChatBoxen desselben Chat-Kanals (z. B.
-    // Lobby compact/wide + GameWait) können hier DASSELBE Array binden und
-    // teilen sich damit die History – der Navigationsindex bleibt lokal.
+    // ── History + Tab completion ─────────────────────────────────────────
+    // The history storage (sent messages, at most 50). The default: an array of
+    // its own per instance. Several ChatBoxes of the same chat channel (e.g.
+    // the lobby compact/wide + GameWait) can bind THE SAME array here and
+    // thereby share the history – the navigation index stays local.
     property var historyStore: []
     property int _historyIndex: 0
     property var _nickState: ({ counter: 0, base: "", matches: [] })
-    // Link unter dem zuletzt rechtsgeklickten Punkt (für das Kontextmenü).
+    // The link under the point that was right-clicked last (for the context menu).
     property string _menuLink: ""
 
     function _showHistory(idx) {
@@ -166,16 +166,16 @@ Item {
         inputField.cursorPosition = inputField.text.length
     }
 
-    // Der Server prüft VALIDATE_STRING_SIZE(chattext, 1, MAX_CHAT_TEXT_SIZE=128)
-    // und trennt bei Überlänge die Verbindung. Wie der Widgets-Client
-    // (ChatTools::checkInputLength) begrenzen wir die Eingabe daher auf 128
-    // UTF-8-Bytes – NICHT auf eine feste Zeichenzahl, da Umlaute (2 Bytes) und
-    // Emojis (4 Bytes) mehr als ein Byte belegen. So lässt sich nur so viel
-    // eingeben, wie auch wirklich gesendet werden darf.
+    // The server checks VALIDATE_STRING_SIZE(chattext, 1, MAX_CHAT_TEXT_SIZE=128)
+    // and cuts the connection if it is too long. Like the widgets client
+    // (ChatTools::checkInputLength) we therefore limit the input to 128
+    // UTF-8 bytes – NOT to a fixed number of characters, since umlauts (2 bytes) and
+    // emojis (4 bytes) occupy more than one byte. That way only as much can be
+    // entered as may really be sent.
     readonly property int maxChatBytes: 128
 
-    // UTF-8-Bytelänge eines Strings (JS-Strings sind UTF-16). Surrogatpaare
-    // (Emojis) zählen als 4 Bytes und werden über i++ als Einheit übersprungen.
+    // The UTF-8 byte length of a string (JS strings are UTF-16). Surrogate pairs
+    // (emojis) count as 4 bytes and are skipped as a unit via i++.
     function _utf8ByteLen(str) {
         var n = 0
         for (var i = 0; i < str.length; ++i) {
@@ -188,10 +188,10 @@ Item {
         return n
     }
 
-    // Kürzt die Eingabe zeichenweise, bis sie ins Server-Byte-Limit passt.
-    // Läuft bei JEDER Textänderung (auch Einfügen/Emoji), damit übergroßer
-    // Text gar nicht erst stehen bleibt. Surrogatpaare werden als Ganzes
-    // entfernt, damit kein halbes Emoji zurückbleibt.
+    // Truncates the input character by character until it fits into the server byte limit.
+    // It runs on EVERY text change (on pasting/an emoji as well), so that oversized
+    // text does not even stay there. Surrogate pairs are removed as a whole,
+    // so that no half emoji is left behind.
     function _clampChatInput() {
         var s = inputField.text
         if (_utf8ByteLen(s) <= maxChatBytes)
@@ -206,17 +206,17 @@ Item {
         inputField.cursorPosition = pos
     }
 
-    // ── Shortcode-Autovervollständigung (":smi…" → 😄) ────────────────────
-    // Vorschläge kommen aus derselben C++-Map, die beim Senden ersetzt
-    // (chat_emote_shortcuts.h via Lobby.chatEmoteShortcodes) – angeboten wird
-    // also nur, was auch wirklich funktioniert. Trigger: ":" + mindestens
-    // 2 Kleinbuchstaben vor dem Cursor (wie Discord; so kollidieren ASCII-
-    // Kürzel wie ":p"/":s" nicht mit dem Popup).
+    // ── Shortcode auto-completion (":smi…" → 😄) ─────────────────────────
+    // The suggestions come from the same C++ map that replaces them when sending
+    // (chat_emote_shortcuts.h via Lobby.chatEmoteShortcodes) – so only what really
+    // works is offered. The trigger: ":" + at least
+    // 2 lower case letters before the cursor (as in Discord; that way ASCII
+    // shortcuts such as ":p"/":s" do not collide with the popup).
     property var _emoteCodes: []
     property var _emoteMatches: []
     property int _emoteIndex: 0
     property int _emoteTokenStart: -1
-    // Esc blendet das Popup bis zur nächsten Eingabe aus.
+    // Esc hides the popup until the next input.
     property bool _emoteSuppressed: false
 
     function _emoteList() {
@@ -227,9 +227,9 @@ Item {
 
     function _updateEmoteSuggestions() {
         var upto = inputField.text.slice(0, inputField.cursorPosition)
-        // Token = ":" (am Anfang oder nach Leerzeichen) + 2+ Code-Zeichen
-        // direkt vor dem Cursor. Der schließende ":" beendet den Token –
-        // fertige Shortcodes lassen das Popup also von selbst verschwinden.
+        // The token = ":" (at the beginning or after a space) + 2+ code characters
+        // directly before the cursor. The closing ":" ends the token –
+        // so finished shortcodes make the popup disappear by themselves.
         var m = upto.match(/(?:^|\s):([a-z0-9_+-]{2,})$/)
         if (!m) {
             if (_emoteMatches.length > 0)
@@ -249,9 +249,9 @@ Item {
         _emoteIndex = 0
     }
 
-    // Ersetzt den getippten Token (":smi") durch das Emoji des gewählten
-    // Vorschlags – als Emoji statt ":smile:", genau wie der Emoji-Picker
-    // (WYSIWYG und weniger Bytes im 128-Byte-Server-Limit).
+    // Replaces the typed token (":smi") by the emoji of the chosen
+    // suggestion – as an emoji instead of ":smile:", exactly like the emoji picker
+    // (WYSIWYG and fewer bytes in the 128 byte server limit).
     function _acceptEmoteSuggestion() {
         if (_emoteMatches.length === 0)
             return
@@ -281,11 +281,11 @@ Item {
         anchors.fill: parent
         spacing: 4
 
-        // ── Nachrichtenverlauf: EIN zusammenhängendes RichText-Dokument ──
-        // Wie das QTextBrowser des Widgets-Clients (chattools.cpp) – statt einer
-        // ListView mit einem TextEdit pro Zeile. Vorteile: durchgehende Maus-
-        // Selektion über ALLE Nachrichten (statt isolierter Markierung je Zeile)
-        // und natives, zuverlässiges Link-Handling über onLinkActivated.
+        // ── The message history: ONE contiguous rich text document ──
+        // Like the QTextBrowser of the widgets client (chattools.cpp) – instead of a
+        // ListView with one TextEdit per line. The advantages: continuous mouse
+        // selection over ALL messages (instead of an isolated selection per line)
+        // and native, reliable link handling via onLinkActivated.
         Flickable {
             id: msgFlick
             Layout.fillWidth: true
@@ -300,16 +300,16 @@ Item {
                 id: msgScrollBar
                 policy: msgFlick.contentHeight > msgFlick.height + 4
                         ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
-                // Ziehen am Scrollbar-Griff setzt contentY direkt und erzeugt
-                // KEINE movementStarted/Ended-Signale der Flickable – deshalb
-                // hier von Hand an dieselbe Auswertung hängen.
+                // Dragging the scrollbar handle sets contentY directly and produces
+                // NO movementStarted/Ended signals of the Flickable – which is why
+                // it is attached to the same evaluation by hand here.
                 onPressedChanged: pressed ? msgFlick.userScrollStarted()
                                           : msgFlick.userScrollEnded()
             }
 
-            // Auto-Scroll: pausiert beim Hochscrollen, Position bleibt bei neuen
-            // Zeilen erhalten (der Text wird komplett ersetzt → die View würde
-            // sonst springen), nach 15 s Inaktivität wieder ans Ende.
+            // Auto-scroll: it pauses when scrolling up, the position is kept on new
+            // lines (the text is replaced completely → the view would
+            // otherwise jump), after 15 s of inactivity it goes back to the end.
             property bool autoScroll: true
             property real savedContentY: 0
             Timer {
@@ -317,9 +317,9 @@ Item {
                 interval: 15000
                 onTriggered: { msgFlick.autoScroll = true; msgFlick.scrollToBottom() }
             }
-            // Beim Scrollen wandern die Zeilen unter dem stehenden Mauszeiger
-            // hindurch – das Übersetzen-Symbol muss der neuen Zeile folgen.
-            // Verzögert, damit das während eines Flicks nicht pro Frame läuft.
+            // While scrolling, the lines travel under the standing mouse cursor
+            // – the translate symbol has to follow the new line.
+            // Delayed, so that this does not run per frame during a flick.
             Timer {
                 id: hoverRecheckTimer
                 interval: 60
@@ -327,68 +327,68 @@ Item {
                                  root._updateHoverLine(msgHover.point.position.x,
                                                        msgHover.point.position.y)
             }
-            // Ans Ende kleben. pinBottom() prüft selbst autoScroll, damit ein
-            // nachgelagerter (Qt.callLater-)Aufruf nichts tut, wenn der Nutzer
-            // inzwischen weggescrollt hat.
+            // Stick to the end. pinBottom() checks autoScroll itself, so that a
+            // deferred (Qt.callLater) call does nothing if the user has
+            // scrolled away meanwhile.
             function pinBottom() {
                 if (autoScroll) contentY = Math.max(0, contentHeight - height)
             }
-            // Externer Sprung ans Ende = „wieder mitlaufen": autoScroll erst an,
-            // dann pinnen.
+            // An external jump to the end = "follow along again": first switch autoScroll on,
+            // then pin.
             function scrollToBottom() { autoScroll = true; pinBottom() }
             function restoreScroll() {
                 contentY = Math.min(savedContentY, Math.max(0, contentHeight - height))
             }
-            // Bei Auto-Scroll ZWEIMAL ans Ende ziehen: sofort (contentHeight ist im
-            // Change-Handler bereits der neue Wert) UND einmal per Qt.callLater.
-            // Grund: QQuickTextEdit aktualisiert seine implicitHeight erst in der
-            // Polish-Phase und QQuickFlickable aktualisiert seine INTERNE
-            // Scroll-Grenze (max. contentY) ebenfalls erst dort. Je nach Reihen-
-            // folge wird das sofortige Setzen von der noch alten Grenze nach unten
-            // geklemmt – dann greift der callLater NACH dem Polish auf die finale
-            // Grenze. Einer der beiden Durchläufe landet immer korrekt; das
-            // doppelte Setzen auf denselben Endwert ist folgenlos.
-            // Das war der Bug: mit reinem Qt.callLater blieb die zuletzt getippte
-            // Zeile bis zur nächsten Nachricht unter dem Sichtbereich.
+            // With auto-scroll, pull to the end TWICE: immediately (contentHeight is
+            // already the new value in the change handler) AND once via Qt.callLater.
+            // The reason: QQuickTextEdit only updates its implicitHeight in the
+            // polish phase and QQuickFlickable updates its INTERNAL
+            // scroll limit (max. contentY) only there as well. Depending on the
+            // order, the immediate setting is clamped downwards by the limit that is still
+            // old – then the callLater applies AFTER the polish to the final
+            // limit. One of the two passes always lands correctly; setting
+            // it twice to the same final value has no consequence.
+            // That was the bug: with a pure Qt.callLater the line typed last stayed
+            // below the visible area until the next message.
             function followBottom() {
-                // Während einer laufenden Nutzergeste gar nichts anfassen.
+                // Do not touch anything at all during a running user gesture.
                 if (moving || msgScrollBar.pressed)
                     return
                 if (autoScroll) { pinBottom(); Qt.callLater(pinBottom) }
-                // Pausiert: gemerkte Position halten, während der Text komplett
-                // ersetzt wird.
+                // Paused: keep the remembered position while the text is replaced
+                // completely.
                 else restoreScroll()
             }
-            // An contentHeight hängen: feuert bei JEDER Höhenänderung – neue Zeile,
-            // async umbrechende RichText-Zeilen und komplettes Ersetzen des Texts.
+            // Hang off contentHeight: it fires on EVERY height change – a new line,
+            // rich text lines wrapping asynchronously and a complete replacement of the text.
             onContentHeightChanged: followBottom()
-            // Resize (z. B. geänderte Spieleranzahl) – gleich behandeln.
+            // A resize (e.g. a changed number of players) – treat it the same way.
             onHeightChanged: followBottom()
 
-            // ── Auto-Scroll-Zustand NUR aus echten Nutzergesten ableiten ──────
-            // Früher hing das an onContentYChanged (gefiltert über `moving`).
-            // Das war die zweite Fehlerquelle: `moving` gilt auch für die
-            // Positionskorrektur, die die Flickable bei JEDER Höhenänderung
-            // selbst vornimmt (fixupY nach setContentHeight – z. B. wenn das
-            // Übersetzen-Symbol eine Zeile umbrechen lässt oder der Emoji-
-            // Picker aufgeht). Ein solcher Zwischenwert liegt zwangsläufig
-            // nicht am unteren Rand → autoScroll kippte auf false, obwohl der
-            // Nutzer nichts getan hatte. Danach hielt restoreScroll() die View
-            // knapp über dem Ende fest: die letzte Zeile blieb angeschnitten,
-            // bis der 15-s-Timer oder die nächste Nachricht sie wieder
-            // einfing – und ein Vergrößern der Box „reparierte" es nur dann,
-            // wenn dabei savedContentY über die neue Untergrenze rutschte.
-            // Jetzt: Geste beginnt → pausieren, Geste ist zur RUHE gekommen →
-            // einmal sauber entscheiden.
+            // ── Derive the auto-scroll state ONLY from real user gestures ─────
+            // This used to hang off onContentYChanged (filtered via `moving`).
+            // That was the second source of errors: `moving` also applies to the
+            // position correction that the Flickable performs itself on EVERY
+            // height change (fixupY after setContentHeight – e.g. when the
+            // translate symbol makes a line wrap or the emoji
+            // picker opens). Such an intermediate value inevitably does not lie
+            // at the lower edge → autoScroll flipped to false although the
+            // user had done nothing. After that restoreScroll() held the view
+            // just above the end: the last line stayed cut off
+            // until the 15 s timer or the next message caught it
+            // again – and enlarging the box only "repaired" it
+            // when savedContentY slipped above the new lower limit in the process.
+            // Now: a gesture begins → pause, the gesture has come to REST →
+            // decide once, cleanly.
             function userScrollStarted() {
                 autoScroll = false
                 autoScrollTimer.stop()
             }
             function userScrollEnded() {
                 savedContentY = contentY
-                // Mit Toleranz prüfen statt exaktem atYEnd: knapp am Ende reicht
-                // (Subpixel/async wachsende RichText-Zeilen), damit der
-                // Auto-Scroll am unteren Rand zuverlässig wieder anspringt.
+                // Check with a tolerance instead of an exact atYEnd: close to the end is enough
+                // (subpixels/rich text lines growing asynchronously), so that the
+                // auto-scroll reliably kicks in again at the lower edge.
                 autoScroll = contentY >= contentHeight - height - 4
                 if (autoScroll) { autoScrollTimer.stop(); pinBottom() }
                 else autoScrollTimer.restart()
@@ -396,84 +396,84 @@ Item {
             onMovementStarted: userScrollStarted()
             onMovementEnded: userScrollEnded()
 
-            // Beim Scrollen wandern die Zeilen unter dem stehenden Mauszeiger
-            // hindurch – unabhängig davon, wer gescrollt hat.
+            // While scrolling, the lines travel under the standing mouse cursor
+            // – independently of who scrolled.
             onContentYChanged: hoverRecheckTimer.restart()
 
-            // Read-only TextEdit hält den gesamten Verlauf als EIN HTML-Dokument.
-            // Die einzelnen chatModel-Einträge sind bereits fertiges RichText und
-            // werden mit <br> aneinandergereiht.
+            // A read-only TextEdit holds the whole history as ONE HTML document.
+            // The individual chatModel entries are already finished rich text and
+            // are strung together with <br>.
             TextEdit {
                 id: msgText
-                // Fester Freiraum für die Scrollbar – NICHT abhängig davon, ob
-                // sie gerade gebraucht wird. Sonst hinge die Textbreite an
-                // msgFlick.contentHeight, diese an msgText.implicitHeight und
-                // die wiederum (QQuickTextEdit rechnet in geometryChange sofort
-                // neu) an der Textbreite: ein echter, synchroner Bindungs-
-                // Zirkel. QML bricht dabei die re-entrante Auswertung ab, und
-                // je nach Einstiegspunkt bleibt contentHeight auf dem ALTEN
-                // Wert stehen, während das Dokument schon höher ist – die
-                // Scrollbar steht dann am Ende, die letzte Zeile ist trotzdem
-                // angeschnitten, und erst die nächste Nachricht (oder ein
-                // Resize) rechnet neu. Konstanter Gutter = deterministischer
-                // Umbruch, wie im GameInfoPanel (root.scrollGutter).
+                // A fixed free space for the scrollbar – NOT depending on whether
+                // it is currently needed. Otherwise the text width would hang off
+                // msgFlick.contentHeight, that off msgText.implicitHeight and
+                // that in turn (QQuickTextEdit recomputes immediately in
+                // geometryChange) off the text width: a real, synchronous binding
+                // cycle. QML aborts the re-entrant evaluation in that case, and
+                // depending on the entry point contentHeight stays at the OLD
+                // value while the document is already taller – the
+                // scrollbar then stands at the end, the last line is cut off
+                // nevertheless, and only the next message (or a
+                // resize) recomputes. A constant gutter = a deterministic
+                // wrap, as in the GameInfoPanel (root.scrollGutter).
                 width: msgFlick.width - root.scrollGutter
-                // Das Dokument NUR aufbauen, solange die Box wirklich sichtbar
-                // ist. Derselbe Verlauf hängt in mehreren ChatBoxen gleichzeitig
-                // (Lobby-Chat: LobbyPage compact + wide + GameWaitPage), und die
-                // LobbyPage bleibt im StackView unter dem Warteraum liegen. Ein
-                // unsichtbares TextEdit parst seinen RichText trotzdem komplett
-                // neu – jede Chat-Zeile hätte also zwei tote Dokument-Neuaufbauten
-                // bezahlt, deren Kosten mit der Verlaufslänge wachsen.
-                // `visible` ist die EFFEKTIVE Sichtbarkeit (unsichtbares
-                // Elternteil ⇒ false); beim Wiedereinblenden wird der Verlauf in
-                // einem Zug nachgezogen.
+                // Build the document ONLY while the box really is visible.
+                // The same history hangs in several ChatBoxes at the same time
+                // (the lobby chat: LobbyPage compact + wide + GameWaitPage), and the
+                // LobbyPage stays below the waiting room in the StackView. An
+                // invisible TextEdit parses its rich text completely anew all the same
+                // – so every chat line would have paid for two dead document rebuilds
+                // whose cost grows with the length of the history.
+                // `visible` is the EFFECTIVE visibility (an invisible
+                // parent ⇒ false); when it is shown again the history is caught up
+                // in one go.
                 text: root.visible ? root.chatModel.join("<br>") : ""
                 textFormat: TextEdit.RichText
                 wrapMode: TextEdit.Wrap
                 readOnly: true
                 selectByMouse: true
                 persistentSelection: true
-                // Der Verlauf darf den Tastaturfokus NIE an sich ziehen: jeder
-                // Press auf den Text (Selektion, Drag-Scrollen, Link-/Globus-Tap)
-                // würde ihn sonst dem Eingabefeld wegnehmen – die bereits
-                // getippte Nachricht bliebe stehen, aber Enter ginge ins Leere.
-                // Maus-Selektion funktioniert ohne Fokus weiter (persistent-
-                // Selection hält sie sichtbar), Ctrl+C fängt inputField ab.
+                // The history must NEVER take the keyboard focus: every
+                // press on the text (a selection, drag scrolling, a link/globe tap)
+                // would otherwise take it away from the input field – the message
+                // already typed would stay, but Enter would go nowhere.
+                // The mouse selection keeps working without the focus (persistent
+                // selection keeps it visible), inputField intercepts Ctrl+C.
                 activeFocusOnPress: false
                 color: root.colText
                 selectionColor: root.colAccent
                 selectedTextColor: root.colAccentText
                 font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: root.messageFontSize
-                // WICHTIG: Links NICHT über onLinkActivated öffnen. Das TextEdit
-                // liegt in einer Flickable, deren childMouseEventFilter den Press
-                // abfängt (Flick-Erkennung) – dadurch feuert onLinkActivated nie
-                // (genauso wenig wie ein MouseArea.onClicked). Ein TapHandler nimmt
-                // dagegen am Grab-Wettbewerb teil und erkennt den Klick zuverlässig,
-                // während ein Drag (Text-Selektion) ihn an das TextEdit zurückgibt.
+                // IMPORTANT: do NOT open links via onLinkActivated. The TextEdit
+                // lies in a Flickable whose childMouseEventFilter intercepts the press
+                // (flick detection) – which is why onLinkActivated never fires
+                // (just as little as a MouseArea.onClicked). A TapHandler, by contrast,
+                // takes part in the grab competition and detects the click reliably,
+                // while a drag (a text selection) hands it back to the TextEdit.
                 //
-                // Hover/Cursor funktioniert weiter nativ (Flickable filtert nur
-                // Maustasten, keine Hover-Events) → hoveredLink ist gesetzt und wird
-                // beim Tap direkt zum Öffnen genutzt (kein Koordinaten-Mapping).
+                // Hover/the cursor keep working natively (the Flickable only filters
+                // mouse buttons, no hover events) → hoveredLink is set and is used
+                // directly for opening on a tap (no coordinate mapping).
                 HoverHandler {
                     id: msgHover
                     cursorShape: msgText.hoveredLink !== ""
                                  ? Qt.PointingHandCursor : Qt.IBeamCursor
-                    // Das Übersetzen-Symbol folgt dem Mauszeiger von Zeile zu
-                    // Zeile (siehe root._updateHoverLine).
+                    // The translate symbol follows the mouse cursor from line to
+                    // line (see root._updateHoverLine).
                     onPointChanged: root._updateHoverLine(point.position.x,
                                                           point.position.y)
-                    // Beim Verlassen ausblenden – aber nicht, während etwas
-                    // markiert ist: das Neusetzen des Texts würde die Auswahl
-                    // verwerfen, kurz bevor sie kopiert wird.
+                    // Hide it when leaving – but not while something is
+                    // selected: resetting the text would discard the selection
+                    // shortly before it is copied.
                     onHoveredChanged: if (!hovered && msgText.selectedText.length === 0)
                                           root._clearHoverLine()
                 }
-                // Linksklick: Link über die TAP-POSITION ermitteln (linkAt), NICHT
-                // über hoveredLink – letzteres wird beim Drücken (Press-/Selektions-
-                // Grab) geleert und wäre im onTapped bereits "". Der TapHandler
-                // selbst feuert zuverlässig (das Rechtsklick-Menü beweist es).
+                // A left click: determine the link via the TAP POSITION (linkAt), NOT
+                // via hoveredLink – the latter is cleared on the press (the press/selection
+                // grab) and would already be "" in onTapped. The TapHandler
+                // itself fires reliably (the right click menu proves it).
                 TapHandler {
                     id: linkTap
                     acceptedButtons: Qt.LeftButton
@@ -481,21 +481,21 @@ Item {
                         const link = msgText.linkAt(linkTap.point.position.x,
                                                     linkTap.point.position.y)
                         if (link === "") {
-                            // Ohne Maus (Touch) gibt es kein Hover: ein Tipp auf
-                            // die Zeile holt ihr Übersetzen-Symbol hervor.
+                            // Without a mouse (touch) there is no hover: a tap on
+                            // the line brings out its translate symbol.
                             root._updateHoverLine(linkTap.point.position.x,
                                                   linkTap.point.position.y)
                             return
                         }
-                        // Das Globus-Symbol ist ein Pseudo-Link "pokerthtranslate:<id>".
-                        // NICHT extern öffnen, sondern die Zeile übersetzen lassen.
+                        // The globe symbol is a pseudo link "pokerthtranslate:<id>".
+                        // Do NOT open it externally, but have the line translated.
                         if (link.indexOf("pokerthtranslate:") === 0) {
                             if (root.chatTranslator)
                                 root.chatTranslator.requestTranslation(
                                     parseInt(link.substring(17)))
-                            // Der Tap aufs Symbol darf keine (gelbe) Textauswahl
-                            // hinterlassen – Selektion bleibt sonst aber möglich.
-                            // callLater: nach dem Neu-Rendern der Zeile abräumen.
+                            // The tap on the symbol must not leave a (yellow) text selection
+                            // behind – a selection stays possible otherwise, though.
+                            // callLater: clean up after the line has been re-rendered.
                             msgText.deselect()
                             Qt.callLater(msgText.deselect)
                         } else {
@@ -503,16 +503,16 @@ Item {
                         }
                     }
                 }
-                // Rechtsklick: Menü öffnen und Link unter dem Cursor merken
-                // (für „Link öffnen" / „Link kopieren").
+                // A right click: open the menu and remember the link under the cursor
+                // (for "open link" / "copy link").
                 TapHandler {
                     id: ctxTap
                     acceptedButtons: Qt.RightButton
                     onTapped: {
                         const l = msgText.linkAt(ctxTap.point.position.x,
                                                  ctxTap.point.position.y)
-                        // Das Übersetzen-Pseudo-Link ist kein echter Link → im
-                        // Kontextmenü nicht als „Link öffnen/kopieren" anbieten.
+                        // The translate pseudo link is no real link → do not offer it
+                        // as "open/copy link" in the context menu.
                         root._menuLink = (l.indexOf("pokerthtranslate:") === 0) ? "" : l
                         ctxMenu.popup()
                     }
@@ -520,7 +520,7 @@ Item {
             }
         }
 
-        // ── Emoji-Picker inline (über der Eingabezeile) ──
+        // ── The emoji picker inline (above the input line) ──
         EmojiPicker {
             Layout.fillWidth: true
             Layout.preferredHeight: root.pickerInlineHeight
@@ -540,15 +540,15 @@ Item {
             Button {
                 Layout.preferredWidth: root.inputHeight
                 Layout.preferredHeight: root.inputHeight
-                // Kein Klick-Fokus: der Fokus muss im Eingabefeld bleiben,
-                // sonst sendet Enter nach dem Auf-/Zuklappen nicht mehr.
+                // No click focus: the focus has to stay in the input field,
+                // otherwise Enter no longer sends after folding it in/out.
                 focusPolicy: Qt.NoFocus
                 onClicked: root.showEmojiPicker = !root.showEmojiPicker
-                // Quadratische Box wie das Eingabefeld daneben (gleiche Füllung,
-                // gleicher Rahmen, gleicher Radius): das Emoji ist ein farbiges
-                // Glyph ohne eigenen Rand und ging auf hellen Tisch-Themes sonst
-                // im Untergrund unter. Der Ruhezustand hebt sich über die eigene
-                // Fläche ab, aufgeklappt/überfahren wird die Box kräftiger.
+                // A square box like the input field next to it (the same fill,
+                // the same border, the same radius): the emoji is a coloured
+                // glyph without a border of its own and would otherwise be lost in the
+                // background on light table themes. The resting state stands out via its own
+                // surface; unfolded/hovered the box becomes stronger.
                 background: Rectangle {
                     radius: 6
                     color: Config.Theme.withAlpha(root.colSurface,
@@ -589,30 +589,30 @@ Item {
                     border.width: 1
                 }
                 onAccepted: root._send()
-                // Begrenzung auf das Server-Byte-Limit – feuert auch bei
-                // Einfügen und Emoji-Insert (nicht nur bei Tastatureingabe).
-                // Danach die Shortcode-Vorschläge aktualisieren.
+                // The limitation to the server byte limit – it fires on
+                // pasting and an emoji insert as well (not only on keyboard input).
+                // Afterwards update the shortcode suggestions.
                 onTextChanged: {
                     root._clampChatInput()
                     root._updateEmoteSuggestions()
                 }
-                // Cursorbewegung (Pfeil links/rechts, Klick) kann den Token
-                // unter dem Cursor ändern → Vorschläge neu berechnen.
+                // A cursor movement (arrow left/right, a click) can change the token
+                // under the cursor → recompute the suggestions.
                 onCursorPositionChanged: root._updateEmoteSuggestions()
-                // Tippt der Nutzer: History-Navigation + Tab-Iteration zurücksetzen.
+                // If the user types: reset the history navigation + the Tab iteration.
                 onTextEdited: {
                     root._historyIndex = 0
                     root._nickState.counter = 0
                     root._emoteSuppressed = false
                 }
-                // Offenes Shortcode-Popup: Hoch/Runter = Auswahl, Tab/Enter =
-                // übernehmen, Esc = ausblenden. Sonst: Tab = Nick-Vervoll-
-                // ständigung (iteriert bei wiederholtem Tab), Hoch/Runter = History.
+                // An open shortcode popup: up/down = the selection, Tab/Enter =
+                // accept, Esc = hide. Otherwise: Tab = nickname
+                // completion (it iterates on a repeated Tab), up/down = the history.
                 Keys.onPressed: (event) => {
-                    // Der Verlauf hat nie den Fokus (activeFocusOnPress: false),
-                    // bekäme also kein Ctrl+C ab. Ist im Eingabefeld selbst nichts
-                    // markiert, im Verlauf aber schon, kopiert Ctrl+C die
-                    // Verlaufs-Auswahl (sonst täte es hier ohnehin nichts).
+                    // The history never has the focus (activeFocusOnPress: false),
+                    // so it would not get a Ctrl+C. If nothing is selected in the input field
+                    // itself but something is in the history, Ctrl+C copies the
+                    // history selection (otherwise it would do nothing here anyway).
                     if (event.key === Qt.Key_C
                             && (event.modifiers & Qt.ControlModifier)
                             && inputField.selectedText.length === 0
@@ -653,8 +653,8 @@ Item {
                         }
                     } else if (event.key === Qt.Key_Up) {
                         event.accepted = true
-                        // Ein zufällig passender Token am Ende des History-
-                        // Eintrags soll das Shortcode-Popup nicht öffnen.
+                        // A token at the end of the history entry that happens to match
+                        // should not open the shortcode popup.
                         root._emoteSuppressed = true
                         if (root._historyIndex + 1 <= root.historyStore.length)
                             root._historyIndex++
@@ -667,9 +667,9 @@ Item {
                         root._showHistory(root._historyIndex)
                     }
                 }
-                // Rechtsklick → Bearbeiten-Menü (Ausschneiden/Kopieren/Einfügen/
-                // Alles auswählen). Qt-Quick-Controls-TextFields haben kein
-                // eigenes Kontextmenü; passiver TapHandler stört die Eingabe nicht.
+                // A right click → the edit menu (cut/copy/paste/
+                // select all). Qt Quick Controls TextFields have no
+                // context menu of their own; a passive TapHandler does not disturb the input.
                 TapHandler {
                     acceptedButtons: Qt.RightButton
                     onTapped: editMenu.popup()
@@ -680,8 +680,8 @@ Item {
                 Layout.preferredWidth: root.inputHeight
                 Layout.preferredHeight: root.inputHeight
                 enabled: root.inputEnabled && inputField.text.trim().length > 0
-                // Kein Klick-Fokus: nach dem Senden per Maus bleibt der Cursor
-                // im Eingabefeld, die nächste Nachricht geht direkt per Enter raus.
+                // No click focus: after sending with the mouse the cursor stays
+                // in the input field, the next message goes out directly with Enter.
                 focusPolicy: Qt.NoFocus
                 onClicked: root._send()
                 background: Item {}
@@ -704,10 +704,10 @@ Item {
         }
     }
 
-    // ── Emoji-Picker als Popup über der Box (außerhalb des Layouts) ──
-    // Bündig mit dem SICHTBAREN Chat-Rahmen, nicht mit der ChatBox: am Tisch
-    // sitzt die ChatBox mit Rand in ihrem Dock-Rechteck – ohne diesen Ausgleich
-    // wirkt der Picker schmaler als die Chat-Box und sitzt leicht versetzt.
+    // ── The emoji picker as a popup above the box (outside the layout) ──
+    // Flush with the VISIBLE chat frame, not with the ChatBox: at the table
+    // the ChatBox sits with a margin in its dock rectangle – without this compensation
+    // the picker looks narrower than the chat box and sits slightly offset.
     Rectangle {
         visible: root.showEmojiPicker && root.emojiPickerAsPopup
         y: -height - 10
@@ -723,7 +723,7 @@ Item {
         EmojiPicker {
             anchors.fill: parent
             anchors.margins: 3
-            // Hintergrund/Rahmen kommen vom Popup-Wrapper.
+            // The background/border come from the popup wrapper.
             color: "transparent"
             border.width: 0
             onPicked: (emoji) => {
@@ -734,9 +734,9 @@ Item {
         }
     }
 
-    // ── Shortcode-Vorschlagsliste (über der Eingabezeile, außerhalb des
-    // Layouts – wie das Emoji-Picker-Popup). Präfix-Treffer stehen vor
-    // Substring-Treffern; Auswahl per Maus oder Hoch/Runter + Tab/Enter.
+    // ── The shortcode suggestion list (above the input line, outside the
+    // layout – like the emoji picker popup). Prefix matches stand before
+    // substring matches; the selection is made by mouse or up/down + Tab/Enter.
     Rectangle {
         id: emoteSuggestBox
         visible: inputField.activeFocus && root._emoteMatches.length > 0
@@ -757,7 +757,7 @@ Item {
             clip: true
             model: root._emoteMatches
             currentIndex: root._emoteIndex
-            // Bei Tastatur-Navigation die Auswahl im Sichtbereich halten.
+            // Keep the selection in the visible area during keyboard navigation.
             onCurrentIndexChanged: positionViewAtIndex(currentIndex, ListView.Contain)
             boundsBehavior: Flickable.StopAtBounds
 
@@ -791,8 +791,8 @@ Item {
                     cursorShape: Qt.PointingHandCursor
                     onHoveredChanged: if (hovered) root._emoteIndex = index
                 }
-                // TapHandler statt MouseArea: nimmt dem Eingabefeld nicht den
-                // Fokus weg.
+                // A TapHandler instead of a MouseArea: it does not take the
+                // focus away from the input field.
                 TapHandler {
                     onTapped: {
                         root._emoteIndex = index
@@ -804,9 +804,9 @@ Item {
         }
     }
 
-    // ── Rechtsklick-Kontextmenü für den Nachrichtenverlauf ──
-    // Arbeitet direkt auf dem einen msgText-Dokument (Kopieren / Alles auswählen).
-    // Einheitlich gestylter Eintrag (folgt den Farb-Tokens der Box).
+    // ── The right click context menu for the message history ──
+    // It works directly on the one msgText document (copy / select all).
+    // A uniformly styled entry (it follows the colour tokens of the box).
     component CtxItem: MenuItem {
         height: visible ? implicitHeight : 0
         contentItem: Text {
@@ -855,9 +855,9 @@ Item {
         }
     }
 
-    // Kopiert beliebigen Text in die Zwischenablage. QML hat keine direkte
-    // Clipboard-API – ein unsichtbares TextEdit (selectAll + copy) ist der
-    // übliche Weg.
+    // Copies arbitrary text into the clipboard. QML has no direct
+    // clipboard API – an invisible TextEdit (selectAll + copy) is the
+    // usual way.
     function _copyToClipboard(text) {
         clipHelper.text = text
         clipHelper.selectAll()
@@ -866,7 +866,7 @@ Item {
     }
     TextEdit { id: clipHelper; visible: false }
 
-    // ── Bearbeiten-Menü für das Eingabefeld (Rechtsklick) ──
+    // ── The edit menu for the input field (right click) ──
     Menu {
         id: editMenu
         background: Rectangle {

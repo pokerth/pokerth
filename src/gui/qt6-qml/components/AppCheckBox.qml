@@ -3,25 +3,25 @@ import QtQuick.Controls
 import QtQuick.Controls.Universal
 import QtQuick.Layouts
 
-// CheckBox, deren Beschriftung UMBRICHT statt rechts abgeschnitten zu werden.
-// Basis für alle Optionen der Einstellungsseiten (direkt oder über
+// CheckBox whose caption WRAPS instead of being cut off on the right.
+// The basis for all options of the settings pages (directly or via
 // ConfigCheckBox).
 //
-// Der Style-Default (Universal/CheckBox.qml) legt seinen contentItem als
-// einzeiligen Text an: passt die Beschriftung nicht in die Spaltenbreite, ist
-// der Rest schlicht weg. Im schmalen Portrait (Android-Phone, ~360 dp) trifft
-// das fast jede längere Option.
+// The style default (Universal/CheckBox.qml) creates its contentItem as a
+// single-line text: if the caption does not fit into the column width, the
+// rest is simply gone. In narrow portrait (Android phone, ~360 dp) that hits
+// almost every longer option.
 //
-// Zwei Dinge gehören dafür zusammen – deshalb stehen sie hier einmal statt an
-// jeder Verwendungsstelle:
-//   • wrapMode: Text.Wrap – erlaubt den Umbruch überhaupt.
-//   • Layout.fillWidth    – erzwingt ihn auch. Der implicitWidth einer CheckBox
-//     bleibt die UNumbrochene Textbreite; ohne fillWidth legt der ColumnLayout
-//     die Box in genau dieser Breite an, sie ragt über die Spalte hinaus und
-//     der ScrollView (clip: true) schneidet sie ab – der Umbruch käme nie zum
-//     Tragen. Genau das war der Grund für die abgeschnittenen Zeilen.
-// Eine Breiten-Schwelle braucht es nicht: reicht der Platz, bricht Text.Wrap
-// nicht um, und die Box verhält sich exakt wie zuvor.
+// Two things belong together for that – which is why they stand here once
+// instead of at every place of use:
+//   • wrapMode: Text.Wrap – allows the wrap in the first place.
+//   • Layout.fillWidth    – enforces it as well. The implicitWidth of a CheckBox
+//     stays the UNwrapped text width; without fillWidth the ColumnLayout
+//     creates the box at exactly that width, it sticks out beyond the column and
+//     the ScrollView (clip: true) cuts it off – the wrap would never take
+//     effect. That was exactly the reason for the cut-off lines.
+// A width threshold is not needed: if there is enough room, Text.Wrap does not
+// wrap, and the box behaves exactly as before.
 CheckBox {
     id: control
 
@@ -32,17 +32,17 @@ CheckBox {
         wrapMode: Text.Wrap
         leftPadding: control.indicator.width + control.spacing
         verticalAlignment: Text.AlignVCenter
-        // font durchreichen: der Style-Default setzt font: control.font. Fehlt
-        // das, fällt dieser Text auf die Standard-Schriftgröße zurück (gemessen:
-        // 12 statt 13) und die umbrechenden Labels erscheinen größer als alle
-        // anderen.
+        // Pass the font through: the style default sets font: control.font. Without
+        // that, this text falls back to the default font size (measured:
+        // 12 instead of 13) and the wrapping labels appear larger than all the
+        // others.
         font: control.font
-        // Universal.foreground statt palette.windowText: palette folgt der
-        // SYSTEM-Palette und nicht dem Universal.theme, das pokerth.qml aus dem
-        // DarkMode-Setting ableitet. Auf iOS/iPadOS ist windowText schwarz →
-        // schwarze Schrift auf dunklem Grund. Universal.foreground ist exakt
-        // das, was der Style-Default nutzt – umbrechende und einzeilige Labels
-        // sehen damit identisch aus.
+        // Universal.foreground instead of palette.windowText: the palette follows the
+        // SYSTEM palette and not the Universal.theme that pokerth.qml derives from the
+        // DarkMode setting. On iOS/iPadOS windowText is black →
+        // black text on a dark background. Universal.foreground is exactly
+        // what the style default uses – wrapping and single-line labels
+        // thus look identical.
         color: control.Universal.foreground
     }
 }

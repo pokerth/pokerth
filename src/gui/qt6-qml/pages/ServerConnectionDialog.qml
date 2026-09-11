@@ -8,14 +8,14 @@ import "../components"
 
 Rectangle {
     id: serverConnectionPage
-    // An den sichtbaren Bereich (StackView unterhalb der Topbar) binden, nicht
-    // an das ganze Fenster – sonst ist die Box vertikal nicht zentriert.
+    // Bind to the visible area (StackView below the top bar), not to the whole
+    // window – otherwise the box is not centred vertically.
     width: mainStackView.width
     height: mainStackView.height
     color: "transparent"
 
-    // Innenabstand der Card (Rand → StackLayout). Wird auch für die
-    // Mindesthöhe der Card gebraucht, deshalb als Eigenschaft statt Literal.
+    // Inner margin of the card (border → StackLayout). It is also needed for the
+    // minimum height of the card, hence a property instead of a literal.
     readonly property real cardPadding: 28
 
     Image {
@@ -25,20 +25,20 @@ Rectangle {
         fillMode: Image.PreserveAspectCrop
     }
 
-    // Startfokus beim Öffnen der Seite. Er MUSS am Seiten-Root hängen: Der
-    // onVisibleChanged der ersten StackLayout-Ansicht feuert schon während des
-    // Seitenaufbaus, wenn die Seite im StackView noch keinen Fokus hat – im
-    // echten Client war das ein Rennen (mal griff der Fokus, mal nicht, und
-    // Enter tat dann nichts). StackView.onActivated feuert erst, wenn die Seite
-    // wirklich vorne liegt; Qt.callLater überspringt zusätzlich die Animation.
+    // Initial focus when opening the page. It MUST hang off the page root: the
+    // onVisibleChanged of the first StackLayout view already fires while the
+    // page is being built, when the page has no focus in the StackView yet – in the
+    // real client that was a race (sometimes the focus took, sometimes not, and
+    // Enter then did nothing). StackView.onActivated only fires once the page
+    // really is in front; Qt.callLater additionally skips the animation.
     StackView.onActivated: Qt.callLater(serverConnectionPage.applyInitialFocus)
 
-    // Fokus auf das jeweils sinnvolle Element der aktuellen Ansicht.
+    // Focus on the element that makes sense in the current view.
     function applyInitialFocus() {
         if (mainStack.currentIndex === 0) {
             loginAsUserButton.forceActiveFocus()
         } else if (mainStack.currentIndex === 1) {
-            // Auf Mobilgeräten nicht: das zöge die Bildschirmtastatur hoch.
+            // Not on mobile devices: that would pull up the on-screen keyboard.
             if (!Config.Responsive.isMobile)
                 (usernameInput.text.length > 0 ? passwordInput : usernameInput).forceActiveFocus()
         } else {
@@ -46,10 +46,10 @@ Rectangle {
         }
     }
 
-    // Zurück-Schritt innerhalb der Seite, gefragt von navigateBackFromTopBar()
-    // in pokerth.qml (Escape, Android-Back, Pfeil in der Kopfzeile). true = hier
-    // erledigt, die Seite bleibt stehen. Ein eigener Keys.onEscapePressed wäre
-    // wirkungslos: Der Escape-Shortcut am Fenster greift vorher.
+    // Back step inside the page, asked by navigateBackFromTopBar()
+    // in pokerth.qml (Escape, Android back, the arrow in the header). true = handled
+    // here, the page stays. A Keys.onEscapePressed of its own would be
+    // without effect: the Escape shortcut on the window fires first.
     function handleBack() {
         if (mainStack.currentIndex === 1) {       // Formular → Auswahl
             mainStack.currentIndex = 0
@@ -62,8 +62,8 @@ Rectangle {
         return false
     }
 
-    // Login absenden – gemeinsam genutzt vom Login-Button und der Enter-Taste
-    // in den Eingabefeldern.
+    // Submit the login – shared by the login button and the Enter key
+    // in the input fields.
     function submitLogin() {
         if (usernameInput.text.length === 0) {
             usernameInput.forceActiveFocus()
@@ -102,9 +102,9 @@ Rectangle {
             // console.log("Connection failed:", errorMessage)
             statusText.text = errorMessage
             statusText.color = Config.Theme.colorError
-            // Lesezeit an die Meldungslänge koppeln: Die ausführlichen Texte
-            // (z.B. Verbindungsaufbau fehlgeschlagen) waren in den festen
-            // 3,5 s nicht zu lesen, bevor die Seite zurücksprang.
+            // Couple the reading time to the message length: the detailed texts
+            // (e.g. connection attempt failed) could not be read within the fixed
+            // 3.5 s before the page jumped back.
             errorResetTimer.interval = Math.min(12000, 3500 + errorMessage.length * 50)
             errorResetTimer.restart()
         }
@@ -134,10 +134,10 @@ Rectangle {
         clip: true
 
         ScrollBar.vertical: ScrollBar {
-            // AlwaysOff statt AsNeeded: AsNeeded blendet die Bar bei jeder
-            // contentHeight-Änderung transient ein (mehrsekündiges Fade) –
-            // sichtbar als kurz aufblitzende Scrollbar beim Seitenaufbau,
-            // obwohl nichts zu scrollen ist.
+            // AlwaysOff instead of AsNeeded: AsNeeded shows the bar transiently on
+            // every contentHeight change (a fade of several seconds) –
+            // visible as a scrollbar flashing up briefly while the page builds,
+            // although there is nothing to scroll.
             policy: serverConnScroller.contentHeight > serverConnScroller.height + 1
                     ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
         }
@@ -145,21 +145,21 @@ Rectangle {
         Item {
             id: serverConnScrollContent
             width: serverConnScroller.width
-            // Mindesthöhe = Viewport → Box bleibt vertikal zum Fensterrand
-            // zentriert; bei zu niedrigem Fenster kann gescrollt werden.
+            // Minimum height = viewport → the box stays centred vertically to the
+            // window edge; with a window that is too low it can be scrolled.
             height: Math.max(serverConnScroller.height,
                              loginCard.height + Config.Theme.margin * 2)
 
-        // Card – wie auf der StartPage (vertikal zentriert)
+        // Card – as on the StartPage (centred vertically)
         Rectangle {
             id: loginCard
             anchors.centerIn: parent
             width: Math.min(parent.width - Config.Theme.margin * 2, Config.Theme.brandBoxWidth)
-            // Zielhöhe wie die Box der StartPage – wächst aber mit, wenn der
-            // Inhalt mehr braucht. Ohne dieses Maximum stauchte die feste Höhe
-            // auf niedrigen Fenstern (brandBoxHeight läuft auf seinen Boden von
-            // 380) den StackLayout unter seine Mindesthöhe: Die Buttons liefen
-            // unten aus der Card heraus, statt dass die Card mitwächst.
+            // The target height as the box of the StartPage – but it grows along when the
+            // content needs more. Without this maximum the fixed height squeezed
+            // the StackLayout below its minimum height on low windows (brandBoxHeight runs
+            // into its floor of 380): the buttons ran out of the card at the
+            // bottom instead of the card growing along.
             height: Math.max(Config.Theme.brandBoxHeight,
                              mainStack.anchors.topMargin + mainStack.implicitHeight
                              + serverConnectionPage.cardPadding)
@@ -172,8 +172,8 @@ Rectangle {
                 radius: 5
             }
 
-            // PokerTH-Logo + Kartensymbole oben in der Card, fix positioniert –
-            // exakt wie auf der StartPage (Config.Theme.margin vom oberen Rand).
+            // PokerTH logo + card symbols at the top of the card, positioned fixed –
+            // exactly as on the StartPage (Config.Theme.margin from the upper edge).
             BrandHeader {
                 id: loginLogo
                 anchors.top: parent.top
@@ -186,7 +186,7 @@ Rectangle {
                 id: mainStack
                 anchors.fill: parent
                 anchors.margins: serverConnectionPage.cardPadding
-                anchors.topMargin: loginLogo.y + loginLogo.height + 12   // Logo + Abstand
+                anchors.topMargin: loginLogo.y + loginLogo.height + 12   // Logo + spacing
                 currentIndex: 0
 
                 // View 0: Auswahl
@@ -194,9 +194,9 @@ Rectangle {
                     id: initialChoicesView
                     spacing: 18
 
-                    // Zurückwechsel aus dem Formular: Der Fokus kommt auf den
-                    // ersten Button. Der ERSTE Aufbau läuft dagegen über
-                    // StackView.onActivated am Seiten-Root (siehe oben).
+                    // Switching back from the form: the focus lands on the
+                    // first button. The FIRST build, by contrast, runs via
+                    // StackView.onActivated on the page root (see above).
                     onVisibleChanged: {
                         if (visible)
                             Qt.callLater(loginAsUserButton.forceActiveFocus)
@@ -237,23 +237,23 @@ Rectangle {
                     id: loginFormView
                     spacing: 12
 
-                    // Beim Aufblenden gleich in das erste noch leere Feld
-                    // fokussieren – sonst greift die Enter-Taste erst nach einem
-                    // Mausklick ins Feld.
-                    // Beim Aufblenden in das erste noch leere Feld fokussieren.
-                    // Auf Mobilgeräten NICHT – das zöge ungefragt die
-                    // Bildschirmtastatur hoch.
+                    // When fading in, focus right into the first still empty field
+                    // – otherwise the Enter key only works after a
+                    // mouse click into the field.
+                    // When fading in, focus into the first still empty field.
+                    // NOT on mobile devices – that would pull up the
+                    // on-screen keyboard unasked.
                     onVisibleChanged: {
                         if (visible && !Config.Responsive.isMobile)
                             Qt.callLater((usernameInput.text.length > 0
                                           ? passwordInput : usernameInput).forceActiveFocus)
                     }
 
-                    // Default-Button des Formulars: Enter schickt den Login ab,
-                    // egal in welchem Feld der Fokus steht (Passwort, CheckBox …).
-                    // Ein fokussierter Button verbraucht Return selbst und behält
-                    // damit Vorrang – Enter auf "Back" geht also zurück.
-                    // Escape läuft nicht hierher, sondern über handleBack().
+                    // Default button of the form: Enter submits the login,
+                    // no matter which field has the focus (password, checkbox …).
+                    // A focused button consumes Return itself and thereby keeps
+                    // precedence – Enter on "Back" therefore goes back.
+                    // Escape does not run here but via handleBack().
                     Keys.onReturnPressed: serverConnectionPage.submitLogin()
                     Keys.onEnterPressed: serverConnectionPage.submitLogin()
 
@@ -276,11 +276,11 @@ Rectangle {
                     TextField {
                         id: usernameInput
                         placeholderText: qsTr("Username")
-                        // Enter springt ins Passwortfeld, solange dort nichts steht;
-                        // bei gespeichertem Passwort direkt einloggen. Das Event
-                        // wird verbraucht, sonst liefe zusätzlich der
-                        // Default-Button des Formulars und schickte den Login mit
-                        // leerem Passwort ab.
+                        // Enter jumps into the password field while it is empty;
+                        // with a stored password it logs in directly. The event
+                        // is consumed, otherwise the default button of the form
+                        // would run as well and would submit the login with an
+                        // empty password.
                         Keys.onReturnPressed: (event) => {
                             if (passwordInput.text.length === 0)
                                 passwordInput.forceActiveFocus()
@@ -329,8 +329,8 @@ Rectangle {
                         id: rememberMeCheckbox
                         text: qsTr("Remember me")
                         checked: false
-                        // Space schaltet um (AbstractButton), Enter schickt ab –
-                        // das erledigt der Default-Button des Formulars.
+                        // Space toggles (AbstractButton), Enter submits –
+                        // that is done by the default button of the form.
                     }
 
                     RowLayout {
@@ -358,8 +358,8 @@ Rectangle {
                     id: guestLoginView
                     spacing: 20
 
-                    // Während des Verbindungsaufbaus ist Abbrechen die einzige
-                    // Aktion: Startfokus darauf, Escape genauso.
+                    // While the connection is being established, cancelling is the only
+                    // action: the initial focus is on it, Escape likewise.
                     onVisibleChanged: {
                         if (visible)
                             Qt.callLater(cancelButton.forceActiveFocus)
@@ -422,8 +422,8 @@ Rectangle {
                             text: qsTr("Initializing connection...")
                             font.pixelSize: Config.Theme.fontSizeBody
                             color: Config.StaticData.palette.secondary.col300
-                            // Fehlermeldungen sind mehrzeilig (s. ServerConnectionHandler::
-                            // networkErrorMessage) – ohne Umbruch lief der Text aus der Box.
+                            // Error messages are multi-line (see ServerConnectionHandler::
+                            // networkErrorMessage) – without wrapping the text ran out of the box.
                             Layout.fillWidth: true
                             wrapMode: Text.WordWrap
                             horizontalAlignment: Text.AlignHCenter

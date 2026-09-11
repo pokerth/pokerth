@@ -4,23 +4,23 @@ import QtQuick.Effects
 
 import "../config" as Config
 
-// Fußzeile der Startseite – Vorbild ist der Connect-Screen des
-// pokerth-web-client: eine Reihe kleiner Icon-Buttons (Discord, PokerTH.net,
-// GitHub) über zwei dezenten Textzeilen mit Lizenz-, Versions- und
-// Quellenangabe.
+// Footer of the start page – modelled on the connect screen of the
+// pokerth-web-client: a row of small icon buttons (Discord, PokerTH.net,
+// GitHub) above two subtle text lines with the license, version and source
+// information.
 //
-// Die Zeile liegt über dem Feuer-Hintergrund, der stellenweise sehr hell ist
-// (Chips, Flammen). Zwei Maßnahmen sichern die Lesbarkeit – beide aus dem
-// Web-Client übernommen:
-//   • Textfarbe ist das helle Grau-Blau der PokerTH-Palette (--gold-dim =
-//     #a0acc4), NICHT das dunkle Akzentgold. Auf Feuer ist dunkles Gold
-//     praktisch unlesbar.
-//   • Ein dunkler Verlauf (Scrim) blendet den Hintergrund zum unteren Rand
-//     hin ab, damit Text und Icons immer auf ruhigem Grund sitzen.
-// Hell-/Dunkelmodus: Der Hintergrund ist in beiden Modi dasselbe dunkle Foto,
-// deshalb bleibt die Fußzeile – wie die Branding-Box – in beiden Modi hell auf
-// dunkel. Die Farben liegen zentral in Theme (colorOverlayText*), siehe die
-// Begründung dort.
+// The row lies above the fire background, which is very bright in places
+// (chips, flames). Two measures ensure readability – both taken from the
+// web client:
+//   • The text colour is the light grey-blue of the PokerTH palette (--gold-dim =
+//     #a0acc4), NOT the dark accent gold. On fire, dark gold is
+//     practically unreadable.
+//   • A dark gradient (scrim) dims the background towards the lower edge,
+//     so that the text and the icons always sit on a calm ground.
+// Light/dark mode: the background is the same dark photo in both modes,
+// which is why the footer stays light on dark in both modes – like the branding
+// box. The colours live centrally in Theme (colorOverlayText*), see the
+// reasoning there.
 Item {
     id: root
 
@@ -33,22 +33,22 @@ Item {
     readonly property color textColorHover: Config.Theme.colorOverlayTextHi
     readonly property real  fontSize:       Config.Theme.compact ? 11 : 12
     readonly property real  bottomPadding:  Config.Theme.compact ? 10 : 14
-    // Höhe des Übergangs, über den der Scrim von unsichtbar nach dunkel läuft.
-    // Zählt bewusst NICHT zur implicitHeight: In diesem Bereich ist der Verlauf
-    // noch nahezu unsichtbar, er darf sich mit dem unteren Rand der Branding-Box
-    // überlappen (deren Fläche ist ohnehin dunkel und deckend).
+    // Height of the transition over which the scrim runs from invisible to dark.
+    // It deliberately does NOT count towards implicitHeight: in this area the gradient
+    // is still almost invisible, it may overlap the lower edge of the branding
+    // box (whose area is dark and opaque anyway).
     readonly property real  scrimFade:      32
 
-    // Höhe kommt aus dem Token, das die StartPage unten freihält
-    // (Config.Theme.startFooterReserve) – eine Quelle für Reservierung und
-    // Fußzeile. Der Inhalt sitzt am unteren Rand, der Rest ist Abstand zur Box.
+    // The height comes from the token that the StartPage keeps free at the bottom
+    // (Config.Theme.startFooterReserve) – one source for the reservation and the
+    // footer. The content sits at the lower edge, the rest is the distance to the box.
     implicitHeight: Math.max(Config.Theme.startFooterReserve,
                              footerColumn.implicitHeight + bottomPadding)
 
-    // Öffnet einen Link im externen Browser. NICHT direkt Qt.openUrlExternally:
-    // Im AppImage/Bundle erbt QDesktopServices das gebundelte LD_LIBRARY_PATH →
-    // xdg-open crasht. Lobby.openExternalUrl startet die Host-Tools mit
-    // bereinigter Umgebung (gleiche Begründung wie AboutPage/ChatBox).
+    // Opens a link in the external browser. NOT Qt.openUrlExternally directly:
+    // in the AppImage/bundle QDesktopServices inherits the bundled LD_LIBRARY_PATH →
+    // xdg-open crashes. Lobby.openExternalUrl starts the host tools with a
+    // cleaned environment (same reasoning as AboutPage/ChatBox).
     function openLink(link) {
         if (!link || link === "")
             return
@@ -61,15 +61,15 @@ Item {
             console.warn("StartFooter: konnte URL nicht öffnen:", link)
     }
 
-    // ── Kleiner quadratischer Icon-Button (Web-Client: .btn-sm.btn-icon) ────
-    // Fläche bleibt beim Überfahren gleich; wie im Web-Client hellen sich nur
-    // Rand und Icon auf.
+    // ── Small square icon button (web client: .btn-sm.btn-icon) ────────────
+    // The area stays the same on hover; as in the web client only the border
+    // and the icon brighten.
     component FooterIconButton: Rectangle {
         id: iconButton
 
         property url iconSource: ""
-        // "transparent" = Icon in Originalfarbe rendern (PokerTH-Chip),
-        // sonst wird es in dieser Farbe eingefärbt.
+        // "transparent" = render the icon in its original colour (PokerTH chip),
+        // otherwise it is colourised in this colour.
         property color iconColor: "transparent"
         property string tooltipText: ""
         signal clicked()
@@ -108,22 +108,22 @@ Item {
         }
     }
 
-    // ── Textzeile mit eingebetteten Links ──────────────────────────────────
-    // onLinkActivated feuert innerhalb einer Flickable nicht zuverlässig,
-    // deshalb – wie in AboutPage/ChatBox – TapHandler + linkAt().
+    // ── Text line with embedded links ──────────────────────────────────────
+    // onLinkActivated does not fire reliably inside a Flickable,
+    // which is why – as in AboutPage/ChatBox – TapHandler + linkAt() is used.
     component FooterLine: AppText {
         id: footerLine
 
-        // Breite folgt der (extern gesetzten) Footer-Breite, damit die Zeilen
-        // auf schmalen Fenstern umbrechen statt seitlich herauszulaufen.
+        // The width follows the (externally set) footer width, so that the lines
+        // wrap in narrow windows instead of running out sideways.
         width: root.width
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WordWrap
         textFormat: Text.RichText
         color: root.textColor
         font.pixelSize: root.fontSize
-        // Links tragen dieselbe Farbe wie der Fließtext (Standard-Blau wäre auf
-        // dem Hintergrund kaum lesbar) und hellen unter dem Zeiger auf.
+        // Links carry the same colour as the body text (the standard blue would hardly
+        // be readable on the background) and brighten under the cursor.
         linkColor: footerLine.hoveredLink !== "" ? root.textColorHover : root.textColor
 
         HoverHandler {
@@ -142,9 +142,9 @@ Item {
         }
     }
 
-    // ── Abdunkelnder Verlauf zum unteren Fensterrand ───────────────────────
-    // Reicht über den eigentlichen Inhalt hinaus nach oben (scrimFade) und
-    // unten bis an die Fensterkante, damit kein harter Rand entsteht.
+    // ── Darkening gradient towards the lower window edge ───────────────────
+    // It extends beyond the actual content upwards (scrimFade) and
+    // downwards to the window edge, so that no hard edge appears.
     Rectangle {
         anchors {
             left: parent.left; right: parent.right; bottom: parent.bottom

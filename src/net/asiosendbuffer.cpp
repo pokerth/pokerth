@@ -71,7 +71,7 @@ void
 AsioSendBuffer::HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error)
 {
 	try {
-		// Prüfe ob Socket noch gültig ist
+		// Check whether the socket is still valid
 		if (!socket) {
 			boost::mutex::scoped_lock lock(dataMutex);
 			curWriteBufUsed = 0;
@@ -87,7 +87,7 @@ AsioSendBuffer::HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> sock
 			// Send more data, if available.
 			AsyncSendNextPacket(socket);
 		} else if (error == boost::asio::error::operation_aborted) {
-			// Operation abgebrochen - Puffer leeren, nicht mehr senden
+			// Operation cancelled - clear the buffer, do not send any more
 			boost::mutex::scoped_lock lock(dataMutex);
 			curWriteBufUsed = 0;
 			sendBufUsed = 0;
@@ -136,12 +136,12 @@ AsioSendBuffer::HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> sock
 	}
 }
 
-// Implementierung mit exakt passender Signatur (any_io_executor)
+// Implementation with an exactly matching signature (any_io_executor)
 void
 AsioSendBuffer::HandleWriteSsl(boost::shared_ptr<boost::asio::ssl::stream<boost::asio::basic_stream_socket<boost::asio::ip::tcp, boost::asio::any_io_executor>>> sslStream, const boost::system::error_code &error)
 {
 	try {
-		// Prüfe ob SSL-Stream noch gültig ist
+		// Check whether the SSL stream is still valid
 		if (!sslStream) {
 			boost::mutex::scoped_lock lock(dataMutex);
 			curWriteBufUsed = 0;
@@ -153,10 +153,10 @@ AsioSendBuffer::HandleWriteSsl(boost::shared_ptr<boost::asio::ssl::stream<boost:
 		if (!error) {
 			boost::mutex::scoped_lock lock(dataMutex);
 			curWriteBufUsed = 0;
-			// Weiter senden (ruft die passende SSL-Send-Funktion)
+			// Keep sending (calls the matching SSL send function)
 			AsyncSendNextPacketSsl(sslStream);
 		} else if (error == boost::asio::error::operation_aborted) {
-			// Operation abgebrochen - Puffer leeren, nicht mehr senden
+			// Operation cancelled - clear the buffer, do not send any more
 			boost::mutex::scoped_lock lock(dataMutex);
 			curWriteBufUsed = 0;
 			sendBufUsed = 0;
@@ -229,9 +229,9 @@ AsioSendBuffer::AsyncSendNextPacket(boost::shared_ptr<SessionData> session)
 		if (!session) return;
 		m_session = session;
 
-		// Prüfe ob Session noch offen ist
+		// Check whether the session is still open
 		if (session->GetState() == SessionData::Closed) {
-			// Session bereits geschlossen, Puffer leeren
+			// Session already closed, clear the buffer
 			curWriteBufUsed = 0;
 			sendBufUsed = 0;
 			closeAfterSend = false;
@@ -275,7 +275,7 @@ AsioSendBuffer::AsyncSendNextPacket(boost::shared_ptr<SessionData> session)
 void
 AsioSendBuffer::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> socket)
 {
-	// KRITISCH: Prüfe ob Socket gültig und offen ist BEVOR wir async_write starten
+	// CRITICAL: check whether the socket is valid and open BEFORE we start async_write
 	if (!socket) {
 		curWriteBufUsed = 0;
 		sendBufUsed = 0;
@@ -285,14 +285,14 @@ AsioSendBuffer::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::sock
 
 	try {
 		if (!socket->is_open()) {
-			// Socket bereits geschlossen - Puffer leeren und beenden
+			// Socket already closed - clear the buffer and stop
 			curWriteBufUsed = 0;
 			sendBufUsed = 0;
 			closeAfterSend = false;
 			return;
 		}
 	} catch (...) {
-		// Exception beim Prüfen - Socket ist wahrscheinlich ungültig
+		// Exception while checking - the socket is probably invalid
 		curWriteBufUsed = 0;
 		sendBufUsed = 0;
 		closeAfterSend = false;
@@ -312,7 +312,7 @@ AsioSendBuffer::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::sock
 #endif
 		if (curWriteBufUsed) {
 			try {
-				// WICHTIG: Erneut prüfen ob Socket noch offen (Race Condition vermeiden)
+				// IMPORTANT: check again whether the socket is still open (avoid a race condition)
 				if (!socket->is_open()) {
 					curWriteBufUsed = 0;
 					return;
@@ -342,11 +342,11 @@ AsioSendBuffer::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::sock
 	}
 }
 
-// AsyncSendNextPacketSsl (angepasste Signatur, falls noch nicht exakt so vorhanden)
+// AsyncSendNextPacketSsl (adapted signature, in case it does not exist exactly like this yet)
 void
 AsioSendBuffer::AsyncSendNextPacketSsl(boost::shared_ptr<boost::asio::ssl::stream<boost::asio::basic_stream_socket<boost::asio::ip::tcp, boost::asio::any_io_executor>>> sslStream)
 {
-	// KRITISCH: Prüfe ob Stream gültig und Socket offen ist BEVOR wir async_write starten
+	// CRITICAL: check whether the stream is valid and the socket open BEFORE we start async_write
 	if (!sslStream) {
 		curWriteBufUsed = 0;
 		sendBufUsed = 0;
@@ -356,14 +356,14 @@ AsioSendBuffer::AsyncSendNextPacketSsl(boost::shared_ptr<boost::asio::ssl::strea
 
 	try {
 		if (!sslStream->lowest_layer().is_open()) {
-			// Socket bereits geschlossen - Puffer leeren und beenden
+			// Socket already closed - clear the buffer and stop
 			curWriteBufUsed = 0;
 			sendBufUsed = 0;
 			closeAfterSend = false;
 			return;
 		}
 	} catch (...) {
-		// Exception beim Prüfen - Socket ist wahrscheinlich ungültig
+		// Exception while checking - the socket is probably invalid
 		curWriteBufUsed = 0;
 		sendBufUsed = 0;
 		closeAfterSend = false;
@@ -382,14 +382,14 @@ AsioSendBuffer::AsyncSendNextPacketSsl(boost::shared_ptr<boost::asio::ssl::strea
 #endif
 		if (curWriteBufUsed) {
 			try {
-				// WICHTIG: Erneut prüfen ob Socket noch offen (Race Condition vermeiden)
+				// IMPORTANT: check again whether the socket is still open (avoid a race condition)
 				if (!sslStream->lowest_layer().is_open()) {
 					curWriteBufUsed = 0;
 					return;
 				}
 
-				// shared_from_this() verwenden um sicherzustellen dass das Objekt nicht
-				// während des async_write zerstört wird
+				// use shared_from_this() to make sure the object is not destroyed
+				// during the async_write
 				boost::asio::async_write(
 					*sslStream,
 					boost::asio::buffer(curWriteBuf, curWriteBufUsed),

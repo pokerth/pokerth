@@ -12,34 +12,34 @@ Item {
 
     property int card0: -1
     property int card1: -1
-    // Showdown-Spotlight: einzelne Hole-Card abblenden, wenn sie nicht zum
-    // Siegerblatt zählt (Daten aus GameHandler über seatData.fade0/fade1).
+    // Showdown spotlight: dim an individual hole card if it does not count
+    // towards the winning hand (data from the GameHandler via seatData.fade0/fade1).
     property bool fade0: false
     property bool fade1: false
     property string avatarSource: ""
     property bool folded: false
     property bool playerActive: true
 
-    // Anti-Peek: eigene Hole-Cards verdeckt halten (nur Self-Box, gesteuert über
-    // die Einstellung AntiPeekMode). Aufgedeckt wird nur, solange der Spieler die
-    // Karten „lüftet": Hover (Desktop) bzw. Drücken-und-Halten (Touch) – wie der
-    // Qt-Widgets-Client (gameTableImpl::mouseOverFlipCards), momentan statt fest.
+    // Anti-peek: keep your own hole cards covered (self box only, controlled via
+    // the AntiPeekMode setting). They are only uncovered while the player "lifts"
+    // the cards: hover (desktop) or press-and-hold (touch) – like the
+    // Qt widgets client (gameTableImpl::mouseOverFlipCards), momentary instead of fixed.
     property bool antiPeek: false
     readonly property bool _peeking: peekArea.enabled
                                      && (peekArea.containsMouse || peekArea.pressed)
 
-    // Netzwerkstatus-Ampel in der Avatar-Ecke (nur Self-Box, Einstellung
-    // ShowPingStateInAvatar). Leer/transparent → kein Punkt.
+    // Network status light in the avatar corner (self box only, setting
+    // ShowPingStateInAvatar). Empty/transparent → no dot.
     property bool showNetworkStatus: false
     property color networkStatusColor: "transparent"
-    // Roh-Werte der letzten Server-Antwortzeiten (ms) für das Mouseover-Overlay
-    // am Netzwerkstatus-Punkt (−1 = keine Daten). Nur Desktop.
+    // Raw values of the last server response times (ms) for the mouseover overlay
+    // at the network status dot (−1 = no data). Desktop only.
     property int networkPingAvg: -1
     property int networkPingMin: -1
     property int networkPingMax: -1
 
-    // Einstellung „Ausblend-Animation für Verliererkarten" (Config-Key
-    // ShowFadeOutCardsAnimation). Ist sie aus, bleiben alle Karten voll sichtbar.
+    // Setting "fade out animation for loser cards" (config key
+    // ShowFadeOutCardsAnimation). If it is off, all cards stay fully visible.
     readonly property bool fadeLosingCards:
         (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
             ? SettingsManager.readConfigInt("ShowFadeOutCardsAnimation") !== 0 : true
@@ -47,9 +47,9 @@ Item {
     // Self-box passes 60 to stay within the cardsArea.
     property int maxAvatarSize: 9999
 
-    // Effektive Tisch-Skalierung der umgebenden Box (boxScale/oppScale × Zoom),
-    // an die Karten durchgereicht, damit ihr SVG-Raster die echte
-    // Bildschirm-Pixelgröße trifft (s. CardImage.renderScale).
+    // Effective table scaling of the surrounding box (boxScale/oppScale × zoom),
+    // passed through to the cards so that their SVG raster hits the real
+    // screen pixel size (see CardImage.renderScale).
     property real cardRenderScale: 1.0
 
     // Avatar and card dimensions — all derived from the item height.
@@ -61,8 +61,8 @@ Item {
     // Used by parent components for badge / timeout-bar positioning.
     readonly property real cardsCenterX: avatarSize + 4 + (cardW * 2 + 4) / 2
 
-    // „Show"-Bestätigung: beide eigenen Hole-Cards umdrehen (Self-Box, beim Klick
-    // auf „Karten zeigen"). Die zweite Karte erbt über flipDelay den Versatz.
+    // "Show" confirmation: turn over both of your own hole cards (self box, on a
+    // click on "show cards"). The second card inherits the offset via flipDelay.
     function playShowFlip() {
         card0Img.playShowFlip()
         card1Img.playShowFlip()
@@ -94,14 +94,14 @@ Item {
             source: root.avatarSource !== "" ? root.avatarSource : "qrc:resources/pokerth.svg"
             asynchronous: true
             cache: true
-            // Raus aus dem Spiel → Avatar entsättigen.
+            // Out of the game → desaturate the avatar.
             layer.enabled: !root.playerActive
             layer.effect: MultiEffect { saturation: -1.0 }
         }
 
-        // Netzwerkstatus-Punkt (Ampel) unten rechts in der Avatar-Ecke. Auf dem
-        // Desktop blendet ein Mouseover ein Overlay mit den Server-Antwortzeiten
-        // (avg/min/max ms) ein – analog zum Tooltip des Qt-Widgets-Clients.
+        // Network status dot (traffic light) at the bottom right of the avatar corner. On
+        // the desktop a mouseover shows an overlay with the server response times
+        // (avg/min/max ms) – analogous to the tooltip of the Qt widgets client.
         Rectangle {
             id: netDot
             visible: root.showNetworkStatus
@@ -115,7 +115,7 @@ Item {
             border.width: 1
             border.color: Qt.darker(root.networkStatusColor, 2.0)
 
-            // Großzügigerer Hover-Bereich als der kleine Punkt selbst.
+            // More generous hover area than the small dot itself.
             MouseArea {
                 id: netHover
                 anchors.fill: parent
@@ -154,11 +154,11 @@ Item {
             width: root.cardW
             height: root.cardH
             color: "transparent"
-            // Showdown: nicht zum Siegerblatt zählende Karte auf 25 % abblenden.
+            // Showdown: dim a card not counting towards the winning hand to 25 %.
             opacity: (root.fade0 && root.fadeLosingCards) ? 0.25 : 1.0
             Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.InOutQuad } }
             CardImage { id: card0Img; anchors.fill: parent; cardIndex: root.card0; renderScale: root.cardRenderScale }
-            // Anti-Peek-Abdeckung (Kartenrücken) über der echten Vorderseite.
+            // Anti-peek cover (card back) above the real front side.
             CardImage {
                 anchors.fill: parent
                 cardIndex: -1
@@ -177,7 +177,7 @@ Item {
             color: "transparent"
             opacity: (root.fade1 && root.fadeLosingCards) ? 0.25 : 1.0
             Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.InOutQuad } }
-            // flipDelay staffelt das Austeilen: zweite Karte dreht 80 ms später
+            // flipDelay staggers the dealing: the second card turns 80 ms later
             CardImage { id: card1Img; anchors.fill: parent; cardIndex: root.card1; flipDelay: 80; renderScale: root.cardRenderScale }
             CardImage {
                 anchors.fill: parent
@@ -190,8 +190,8 @@ Item {
             }
         }
 
-        // „Lüften"-Bereich über beiden Karten: deckt auf, solange gehovert/gedrückt.
-        // Bei deaktiviertem Anti-Peek inert (enabled:false → Events fallen durch).
+        // "Lift" area above both cards: uncovers them while hovered/pressed.
+        // With anti-peek disabled it is inert (enabled:false → events fall through).
         MouseArea {
             id: peekArea
             anchors.fill: parent

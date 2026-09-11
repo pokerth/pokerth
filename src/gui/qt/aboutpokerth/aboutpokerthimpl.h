@@ -47,7 +47,7 @@ public:
 
 private:
 
-	// Füllt den ChangeLog-Tab aus <AppDataDir>misc/ChangeLog.
+	// Fills the ChangeLog tab from <AppDataDir>misc/ChangeLog.
 	void fillChangelog();
 
 	ConfigFile *myConfig;

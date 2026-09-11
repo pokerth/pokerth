@@ -4,10 +4,10 @@ import QtQuick.Layouts
 
 import "../config" as Config
 
-// Galerie der mitgelieferten Beispiel-Avatare (analog zum selectAvatarDialog
-// des Qt-Widgets-Clients). Die Avatare haben für die Community einen
-// historischen Wert. Vor dem Öffnen openPicker() aufrufen; bei Auswahl wird
-// das Signal selected(path) mit dem absoluten Dateipfad emittiert.
+// Gallery of the bundled example avatars (analogous to the selectAvatarDialog
+// of the Qt widgets client). The avatars have historical value for the
+// community. Call openPicker() before opening; on selection the signal
+// selected(path) is emitted with the absolute file path.
 Popup {
     id: root
 
@@ -16,18 +16,18 @@ Popup {
     modal: true
     padding: 0
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-    // Ohne focus:true schluckt das Popup Escape, ohne sich zu schließen.
+    // Without focus:true the popup swallows Escape without closing.
     focus: true
 
-    // Verfügbarer Platz (Fenster-Overlay). Im Kompakt-/Mobile-Modus füllt das
-    // Popup nahezu den ganzen Bildschirm, sonst eine feste, zentrierte Box.
+    // Available space (window overlay). In compact/mobile mode the popup fills
+    // almost the whole screen, otherwise a fixed, centred box.
     readonly property real availW: parent ? parent.width : 460
     readonly property real availH: parent ? parent.height : 460
 
     width:  Config.Theme.compact ? availW - 24 : Math.min(availW - 32, 460)
     height: Config.Theme.compact ? availH - 24 : Math.min(availH - 32, 480)
 
-    // Alle Beispiel-Avatare (people + misc), einmalig beim Öffnen geladen.
+    // All example avatars (people + misc), loaded once when opening.
     property var allAvatars: []
     property string category: "people"
 
@@ -57,7 +57,7 @@ Popup {
     contentItem: ColumnLayout {
         spacing: 12
 
-        // Kopfzeile: Titel + Schließen-Kreuz
+        // Header: title + close cross
         RowLayout {
             Layout.fillWidth: true
             Layout.topMargin: 16
@@ -173,7 +173,7 @@ Popup {
             }
         }
 
-        // Fußzeile: Abbrechen
+        // Footer: cancel
         CustomButton {
             text: qsTr("Abbrechen")
             Layout.alignment: Qt.AlignRight

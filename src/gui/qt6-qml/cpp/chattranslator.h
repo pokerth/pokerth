@@ -8,68 +8,68 @@
 class ConfigFile;
 class ChatTranslatorCore;
 
-/* QML-seitige Chat-Übersetzung. Wird pro Chat-Handler (Lobby/Game) instanziiert
- * und operiert direkt auf dessen chatLog-Liste:
+/* Chat translation on the QML side. It is instantiated per chat handler (lobby/game)
+ * and operates directly on its chatLog list:
  *
- *   • decorate() hängt an jede übersetzbare Zeile ein Globus-Symbol an – als
- *     spezieller Link "pokerthtranslate:<id>", den die ChatBox abfängt (das
- *     Icon-pro-Zeile-Muster des Web-Clients, ohne den Single-RichText-Chat
- *     umzubauen). Sichtbar ist das Symbol nur an der Zeile unter dem Maus-
- *     zeiger (setHoveredLine) – der Anker selbst steht immer in der Zeile,
- *     trägt aber sonst nur einen unsichtbaren Platzhalter.
- *   • requestTranslation() startet – vom QML beim Antippen des Symbols – die
- *     asynchrone Übersetzung und ersetzt das Symbol in genau dieser Zeile
- *     durch die Übersetzung.
+ *   • decorate() appends a globe symbol to every translatable line – as
+ *     a special link "pokerthtranslate:<id>" that the ChatBox intercepts (the
+ *     icon-per-line pattern of the web client, without rebuilding the
+ *     single-rich-text chat). The symbol is only visible on the line under the
+ *     mouse cursor (setHoveredLine) – the anchor itself is always in the line,
+ *     but otherwise carries only an invisible placeholder.
+ *   • requestTranslation() starts – from QML when the symbol is tapped – the
+ *     asynchronous translation and replaces the symbol in exactly that line
+ *     with the translation.
  *
- * Die eigentliche Netzwerk-/Dienst-Logik liegt in ChatTranslatorCore (mit dem
- * Widgets-Client geteilt); diese Klasse kümmert sich nur um das Einbetten und
- * Ersetzen des Symbols in der QStringList-Chatliste.
+ * The actual network/service logic lives in ChatTranslatorCore (shared with the
+ * widgets client); this class only takes care of embedding and
+ * replacing the symbol in the QStringList chat list.
  */
 class ChatTranslator : public QObject
 {
 	Q_OBJECT
-	// Global an/aus (Config "AllowChatTranslation"). Steuert, ob decorate() das
-	// Symbol überhaupt einbettet; für QML nur informativ.
+	// Globally on/off (config "AllowChatTranslation"). Controls whether decorate()
+	// embeds the symbol at all; for QML only informative.
 	Q_PROPERTY(bool enabled READ enabled NOTIFY enabledChanged)
 public:
-	// chatLog: die formatierte Zeilenliste des besitzenden Handlers. Muss den
-	// ChatTranslator überleben (üblicherweise ein Member desselben Handlers).
+	// chatLog: the formatted line list of the owning handler. It has to outlive
+	// the ChatTranslator (usually a member of the same handler).
 	explicit ChatTranslator(QStringList *chatLog, QObject *parent = nullptr);
 
 	void setConfig(ConfigFile *config);
 	bool enabled() const;
 
-	// Vom besitzenden Handler aufgerufen, wenn dessen chatLog geleert wurde
-	// (neue Verbindung/neuer Login): verwirft alle Zeilen-Zustände.
+	// Called by the owning handler when its chatLog was cleared
+	// (new connection/new login): discards all line states.
 	void reset();
 
-	// Hängt (falls aktiviert) das Globus-Symbol an eine frisch gebaute Chat-
-	// Zeile und merkt sich Rohtext + Nachrichtenkörper für die spätere
-	// Übersetzung. bodyHtml ist der exakte HTML-Teilstring der Nachricht
-	// innerhalb von formattedLine (styledMsg bzw. escapedMsg) – er wird beim
-	// Einblenden durch die Übersetzung ERSETZT. Gibt die Zeile unverändert
-	// zurück, wenn die Funktion deaktiviert ist oder der Quelltext leer ist.
+	// Appends (if enabled) the globe symbol to a freshly built chat
+	// line and remembers the raw text + the message body for the later
+	// translation. bodyHtml is the exact HTML substring of the message
+	// inside formattedLine (styledMsg or escapedMsg) – it is REPLACED by the
+	// translation when that is shown. Returns the line unchanged
+	// if the function is disabled or the source text is empty.
 	QString decorate(const QString &formattedLine, const QString &sourceText,
 					 const QString &bodyHtml);
 
-	// Vom QML aufgerufen, wenn auf das Globus-Symbol getippt wird.
+	// Called from QML when the globe symbol is tapped.
 	Q_INVOKABLE void requestTranslation(int id);
 
-	// Vom QML gemeldete Chat-Zeile (Index in chatLog) unter dem Mauszeiger;
-	// -1 = keine. Nur an dieser Zeile erscheint das Globus-Symbol (auf Touch-
-	// Plattformen ohne Hover wirkungslos – dort bleiben alle Symbole sichtbar).
+	// Chat line (index in chatLog) under the mouse cursor as reported by QML;
+	// -1 = none. The globe symbol only appears on this line (without effect on touch
+	// platforms without hover – there all symbols stay visible).
 	Q_INVOKABLE void setHoveredLine(int lineIndex);
 
-	// Vom QML aufgerufen, wenn sich der Config-Schalter "AllowChatTranslation"
-	// ändert. Wendet den neuen Zustand auf den SICHTBAREN Verlauf an: bei
-	// Deaktivierung werden alle vorhandenen Globus-Symbole/Übersetzungen sofort
-	// entfernt (neue Nachrichten regelt decorate() ohnehin live).
+	// Called from QML when the config switch "AllowChatTranslation"
+	// changes. Applies the new state to the VISIBLE history: on
+	// deactivation all existing globe symbols/translations are removed
+	// immediately (new messages are handled live by decorate() anyway).
 	Q_INVOKABLE void refreshEnabled();
 
 signals:
 	void enabledChanged();
-	// Eine Zeile in chatLog wurde verändert – der Handler verbindet dies mit
-	// seinem eigenen chatLogChanged(), damit die QML-Bindung neu rendert.
+	// A line in chatLog has changed – the handler connects this to
+	// its own chatLogChanged(), so that the QML binding renders anew.
 	void chatLogMutated();
 
 private slots:
@@ -77,32 +77,32 @@ private slots:
 
 private:
 	void finish(int id, const QString &translated, bool ok);
-	// Index der chatLog-Zeile, die den Globus-Anker dieser id enthält (-1, wenn
-	// nicht mehr vorhanden, z. B. aus dem 400-Zeilen-Verlauf herausgetrimmt).
+	// Index of the chatLog line that contains the globe anchor of this id (-1 if
+	// it no longer exists, e.g. trimmed out of the 400 line history).
 	int findLineIndex(int id) const;
-	// Setzt das Symbol der Zeile auf den aktuellen Zustand (Spinner / Globus /
-	// unsichtbarer Platzhalter) – no-op, wenn sich dadurch nichts ändert.
+	// Sets the symbol of the line to the current state (spinner / globe /
+	// invisible placeholder) – a no-op if nothing changes by that.
 	void updateGlobe(int id);
-	// Hängt einen lokalen Hinweis an den Verlauf, wenn BEIDE Übersetzungsdienste
-	// ausgefallen sind. Ohne ihn springt das Symbol nur wortlos von der Sanduhr
-	// zurück auf den Globus – für den Nutzer nicht von "kaputt" unterscheidbar.
-	// Gedrosselt, damit mehrere Klicks nicht denselben Hinweis wiederholen.
+	// Appends a local notice to the history when BOTH translation services
+	// have failed. Without it the symbol jumps back wordlessly from the hourglass
+	// to the globe – indistinguishable from "broken" for the user.
+	// Throttled so that several clicks do not repeat the same notice.
 	void postFailureNote();
-	// Blendet die Übersetzung ein/aus, indem der Nachrichtenkörper zwischen
-	// Original und Übersetzung ERSETZT wird.
+	// Shows/hides the translation by REPLACING the message body between
+	// the original and the translation.
 	void setBodyShown(int id, bool shown);
 	static QString anchorFor(int id, const QString &glyph);
 
 	struct Pending {
-		QString sourceText;     // Rohtext der Nachricht (vor HTML/Style-Markup)
-		QString bodyHtml;       // Original-Nachrichtenkörper (HTML) in der Zeile
-		QString currentAnchor;  // exaktes Globus-Anker-HTML, das gerade in der Zeile steht
-		QString translated;     // gecachte Übersetzung (leer = noch nicht geholt)
+		QString sourceText;     // raw text of the message (before the HTML/style markup)
+		QString bodyHtml;       // original message body (HTML) in the line
+		QString currentAnchor;  // the exact globe anchor HTML currently standing in the line
+		QString translated;     // cached translation (empty = not fetched yet)
 		bool inFlight = false;
-		bool shown = false;     // Übersetzung aktuell eingeblendet? (Toggle)
+		bool shown = false;     // translation currently shown? (toggle)
 	};
 
-	// Symbol, das die Zeile im aktuellen Zustand tragen soll.
+	// The symbol the line should carry in its current state.
 	QString glyphFor(const Pending &p, int id) const;
 
 	QStringList *m_chatLog;
@@ -110,8 +110,8 @@ private:
 	QHash<int, Pending> m_entries;   // Zeilen-id -> Zustand
 	QHash<int, int> m_reqToLine;     // Core-Request-id -> Zeilen-id
 	int m_nextId = 1;
-	int m_hoveredId = 0;             // Zeile unter dem Mauszeiger (0 = keine)
-	qint64 m_lastFailNoteMs = 0;     // Zeitpunkt des letzten Fehlschlag-Hinweises
+	int m_hoveredId = 0;             // line under the mouse cursor (0 = none)
+	qint64 m_lastFailNoteMs = 0;     // time of the last failure notice
 };
 
 #endif // _CHATTRANSLATOR_H_

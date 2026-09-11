@@ -2,16 +2,16 @@ import QtQuick
 
 import "../config" as Config
 
-// PokerTH-Logo + Kartensymbol-Reihe (♠ ♥ ♦ ♣).
-// Gemeinsam genutzt von StartPage und Login-Dialog, damit Icon-Größe und
-// Branding über die Seiten hinweg identisch sind (Vorbild: pokerth-web-client).
+// PokerTH logo + card symbol row (♠ ♥ ♦ ♣).
+// Shared by the StartPage and the login dialog so that icon size and
+// branding are identical across the pages (model: pokerth-web-client).
 Column {
     id: root
 
     property real logoSize: Config.Theme.brandLogoSize
-    // Abstände/Symbolgröße kommen aus den Theme-Funktionen, damit Aufrufer die
-    // Header-Höhe vorab berechnen können (Config.Theme.brandHeaderHeight) –
-    // siehe StartPage, die daraus ihr Logo-Budget ableitet.
+    // Spacings/symbol size come from the theme functions so that callers can
+    // precompute the header height (Config.Theme.brandHeaderHeight) –
+    // see StartPage, which derives its logo budget from it.
     readonly property real suitSize: Config.Theme.brandHeaderSuitSize(logoSize)
 
     spacing: Config.Theme.brandHeaderSpacing(logoSize)

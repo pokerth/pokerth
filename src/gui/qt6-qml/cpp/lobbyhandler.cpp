@@ -31,8 +31,8 @@
 #include <QSqlQuery>
 #include <algorithm>
 
-// Wieviele Nachrichten einer Unterhaltung im Speicher/Dialog stehen. Die
-// SQLite-Datei behält alles, der Dialog zeigt das jüngste Fenster.
+// How many messages of a conversation are kept in memory/the dialog. The
+// SQLite file keeps everything, the dialog shows the most recent window.
 static const int kPrivateMessagesLoaded = 500;
 
 
@@ -84,10 +84,10 @@ protected:
 			QModelIndex idx = sourceModel()->index(sourceRow, 0, sourceParent);
 			if (!idx.isValid())
 				return false;
-			// idle = an keinem Tisch. Die Zugehörigkeit steht als Rolle im
-			// Quell-Modell (LobbyHandler::syncPlayerGameMembership), nicht in
-			// der Session: Ändert sie sich, meldet das Modell dataChanged und
-			// der Proxy bewertet die Zeile von selbst neu.
+			// idle = at no table. The membership is a role in the
+			// source model (LobbyHandler::syncPlayerGameMembership), not in
+			// the session: if it changes, the model reports dataChanged and
+			// the proxy re-evaluates the row by itself.
 			return sourceModel()->data(idx, PlayerListModel::GameIdRole).toUInt() == 0;
 		}
 
@@ -281,8 +281,8 @@ void PlayerListModel::addPlayer(unsigned playerId, const QString &playerName, bo
 	player.isAdmin = isAdmin;
 	player.countryCode = countryCode;
 	player.isGuest = isGuest;
-	// Neue Spieler starten als idle; den tatsächlichen Stand zieht
-	// LobbyHandler::syncPlayerGameMembership unmittelbar danach nach.
+	// New players start as idle; LobbyHandler::syncPlayerGameMembership
+	// catches up with the actual state immediately afterwards.
 	player.gameId = 0;
 	m_players.append(player);
 	m_playerIndexMap[playerId] = newRow;
@@ -622,15 +622,15 @@ LobbyHandler::LobbyHandler(QObject *parent)
 	gameProxy->setDynamicSortFilter(true);
 	m_gameListProxyModel = gameProxy;
 
-	// Chat-Übersetzer operiert direkt auf m_chatLog; jede von ihm veränderte
-	// Zeile stößt (gebündelt) chatLogChanged() an, damit die QML-Bindung neu rendert.
+	// The chat translator operates directly on m_chatLog; every line it changes
+	// triggers (in a bundle) chatLogChanged(), so that the QML binding renders anew.
 	m_chatTranslator = new ChatTranslator(&m_chatLog, this);
 	connect(m_chatTranslator, &ChatTranslator::chatLogMutated,
 			this, &LobbyHandler::notifyChatLogChanged);
 
-	// Bei DarkMode = "Automatisch" hängen die Chat-Farben am System-Theme:
-	// wechselt es im laufenden Betrieb, muss der Verlauf neu ausgeliefert
-	// werden (die Farb-Platzhalter werden erst in chatLog() aufgelöst).
+	// With DarkMode = "automatic" the chat colours hang off the system theme:
+	// if it changes during operation, the history has to be delivered
+	// anew (the colour placeholders are only resolved in chatLog()).
 	if (QStyleHints *hints = QGuiApplication::styleHints()) {
 		connect(hints, &QStyleHints::colorSchemeChanged,
 				this, &LobbyHandler::notifyChatLogChanged);
@@ -658,35 +658,35 @@ void LobbyHandler::setSession(boost::shared_ptr<Session> session)
 	m_gameListModel.clear();
 	m_playerListModel.clear();
 
-	// Der Lobby-Chat gehört zur Verbindung, der LobbyHandler lebt dagegen so
-	// lange wie die App: Ohne dieses Leeren stünde nach einem erneuten Login
-	// der Verlauf der vorherigen Sitzung weiter in der Chatbox. Pendant zum
-	// Widgets-Client (clearDialog() → ChatTools::clearChat() vor
-	// startInternetClient()). Aufgerufen wird setSession() bei jedem neuen
-	// Client (SignalNetClientConnect, MSG_SOCK_INIT_DONE).
+	// The lobby chat belongs to the connection, whereas the LobbyHandler lives as
+	// long as the app: without this clearing, the history of the previous session
+	// would still stand in the chat box after another login. The counterpart to the
+	// widgets client (clearDialog() → ChatTools::clearChat() before
+	// startInternetClient()). setSession() is called for every new
+	// client (SignalNetClientConnect, MSG_SOCK_INIT_DONE).
 	if (m_chatTranslator)
 		m_chatTranslator->reset();
 	if (!m_chatLog.isEmpty()) {
 		m_chatLog.clear();
 		notifyChatLogChanged();
 	}
-	// Der PM-Verlauf überdauert Sitzungen (privatemessages.sqlite), gehört aber
-	// zu genau einem Konto: bis zum nächsten Login ist kein Besitzer bekannt,
-	// also bleibt der Posteingang leer. setMyPlayerInfo() lädt ihn dann für den
-	// Nick, mit dem man sich diesmal angemeldet hat.
+	// The PM history outlives sessions (privatemessages.sqlite), but belongs
+	// to exactly one account: until the next login no owner is known,
+	// so the inbox stays empty. setMyPlayerInfo() then loads it for the
+	// nick one has logged in with this time.
 	setPrivateMessageOwner(QString());
 
-	// Ein evtl. noch offenes Rejoin-Angebot gehört zur alten Verbindung;
-	// ein neues kommt (falls möglich) mit dem InitAck der neuen Verbindung.
+	// A rejoin offer that may still be open belongs to the old connection;
+	// a new one comes (if possible) with the InitAck of the new connection.
 	if (m_rejoinOfferGameId != 0) {
 		m_rejoinOfferGameId = 0;
 		emit rejoinOfferChanged();
 	}
 	setRejoinWaiting(false);
 
-	// Spiel-Kontext zurücksetzen: Nach einem Verbindungsabbruch im Spiel kommt
-	// kein onRemovedFromGame mehr - ohne Reset bliebe isInGame/currentGameId
-	// über den Reconnect hinweg stehen.
+	// Reset the game context: after a connection loss during a game no
+	// onRemovedFromGame arrives any more - without the reset isInGame/currentGameId
+	// would stay across the reconnect.
 	setGameRunning(false);
 	if (m_isInGame) {
 		m_isInGame = false;
@@ -725,9 +725,9 @@ void LobbyHandler::setConfig(ConfigFile *config)
 
 	setGameListFilterMode(storedGameListMode);
 
-	// Der Posteingang wird hier NICHT gelesen: welcher Verlauf gilt, steht erst
-	// mit dem Login fest (siehe setPrivateMessageOwner). Nur die Datei anlegen /
-	// aufrüsten, deren Pfad jetzt bekannt ist.
+	// The inbox is NOT read here: which history applies is only settled
+	// at the login (see setPrivateMessageOwner). Only create / upgrade the file
+	// whose path is known now.
 	openPrivateMessageDb();
 }
 
@@ -742,8 +742,8 @@ void LobbyHandler::onLobbyPlayerJoined(unsigned playerId, const QString &playerN
 	}
 	const bool isAdmin = m_session ? m_session->getClientPlayerInfo(playerId).isAdmin : false;
 	m_playerListModel.addPlayer(playerId, playerName, isAdmin, countryCode, isGuest);
-	// Der Neuzugang kann bereits an einem Tisch sitzen (z. B. Rejoin oder die
-	// erneut gesendete Spielerliste nach einem Resubscribe).
+	// The newcomer may already sit at a table (e.g. a rejoin or the
+	// player list sent again after a resubscribe).
 	syncPlayerGameMembership();
 	++m_playerListRevision;
 	emit playerListRevisionChanged();
@@ -770,13 +770,13 @@ void LobbyHandler::onLobbyPlayerLeft(unsigned playerId)
 
 void LobbyHandler::updatePlayerName(unsigned playerId, const QString &playerName, bool isAdmin)
 {
-	// Den durchgereichten isAdmin-Parameter NICHT für den Admin-Status nutzen:
-	// er trägt je nach Aufrufer unterschiedliche Bedeutung (Server-Admin aus
-	// SignalNetClientPlayerChanged vs. Spiel-Admin aus SignalNetClientPlayerJoined).
-	// Maßgeblich für kickban / Spiel-schließen ist allein der Server-Admin aus
-	// der PlayerInfo der Session. Diese ist nach Eintreffen des PlayerInfoReply
-	// authoritativ – dadurch heilt sich der Status selbst und wird nicht mehr
-	// von einem Spiel-Beitritt überschrieben.
+	// Do NOT use the isAdmin parameter that is passed through for the admin status:
+	// it carries a different meaning depending on the caller (the server admin from
+	// SignalNetClientPlayerChanged vs. the game admin from SignalNetClientPlayerJoined).
+	// What counts for kickban / closing a game is solely the server admin from
+	// the PlayerInfo of the session. That one is authoritative once the PlayerInfoReply
+	// has arrived – so the status heals itself and is no longer
+	// overwritten by a game join.
 	QString countryCode;
 	bool isGuest = false;
 	bool serverAdmin = isAdmin;
@@ -799,7 +799,7 @@ void LobbyHandler::updatePlayerName(unsigned playerId, const QString &playerName
 		unsigned myId = m_session->getClientUniquePlayerId();
 		if (playerId == myId) {
 			setMyPlayerInfo(playerId, playerName);
-			// Server-Admin-Status aktualisieren (selbstheilend aus der Session).
+			// Update the server admin status (self-healing from the session).
 			if (m_isCurrentPlayerAdmin != serverAdmin) {
 				m_isCurrentPlayerAdmin = serverAdmin;
 				emit isCurrentPlayerAdminChanged();
@@ -842,9 +842,9 @@ void LobbyHandler::onGameListChanged(unsigned gameId)
 	refreshGameInfo(gameId);
 	++m_gameListRevision;
 	emit gameListRevisionChanged();
-	// Ein Spieler oder Zuschauer ist einem Spiel beigetreten / hat es verlassen
-	// (SignalNetClientGameListPlayerJoined/Left und die Zuschauer-Pendants mappen
-	// hierauf). Genau hier verlässt jemand die Idle-Liste bzw. kehrt in sie zurück.
+	// A player or a spectator has joined / left a game
+	// (SignalNetClientGameListPlayerJoined/Left and the spectator counterparts map
+	// onto this). Exactly here somebody leaves the idle list or returns into it.
 	syncPlayerGameMembership();
 	++m_playerListRevision;
 	emit playerListRevisionChanged();
@@ -853,8 +853,8 @@ void LobbyHandler::onGameListChanged(unsigned gameId)
 
 void LobbyHandler::setCurrentGameAdmin(bool isGameAdmin)
 {
-	// Betrifft ausschließlich den Spiel-Admin (Host) – der Server-Admin-Status
-	// (kickban / Spiel schließen) bleibt davon unberührt.
+	// It concerns exclusively the game admin (host) – the server admin status
+	// (kickban / closing a game) stays untouched by it.
 	if (m_isCurrentGameAdmin != isGameAdmin) {
 		m_isCurrentGameAdmin = isGameAdmin;
 		emit isCurrentGameAdminChanged();
@@ -871,8 +871,8 @@ void LobbyHandler::setMyPlayerInfo(unsigned playerId, const QString &playerName)
 	if (m_myPlayerName != playerName) {
 		m_myPlayerName = playerName;
 		emit myPlayerNameChanged();
-		// Erster Punkt nach dem Login, an dem der eigene Nick feststeht: ab
-		// hier gilt der Posteingang dieses Kontos.
+		// The first point after the login at which your own nick is settled: from
+		// here on the inbox of this account applies.
 		setPrivateMessageOwner(playerName);
 	}
 
@@ -901,8 +901,8 @@ bool LobbyHandler::isMyPlayerGuest() const
 	return info.isGuest;
 }
 
-// Index einer PM-Blase über ihre eindeutige msgId (-1 = nicht mehr im
-// Speicher-Fenster des Verlaufs).
+// The index of a PM bubble via its unique msgId (-1 = no longer in the
+// memory window of the history).
 static int indexOfPrivateMessage(const QVariantList &messages, int messageId)
 {
 	for (int i = 0; i < messages.size(); ++i) {
@@ -931,13 +931,13 @@ void LobbyHandler::togglePrivateMessageTranslation(const QString &playerName, in
 		return;
 
 	QVariantMap entry = it->messages.at(index).toMap();
-	// Nur eingehende Nachrichten – die eigenen sind bereits in der eigenen
-	// Sprache verfasst (dieselbe Regel wie im Chat-Verlauf).
+	// Incoming messages only – your own are already written in your own
+	// language (the same rule as in the chat history).
 	if (entry.value(QStringLiteral("fromMe")).toBool()
 			|| entry.value(QStringLiteral("translationPending")).toBool())
 		return;
 
-	// Bereits übersetzt: nur ein-/ausblenden, kein erneuter Netzabruf.
+	// Already translated: only show/hide it, no renewed network fetch.
 	if (!entry.value(QStringLiteral("translation")).toString().isEmpty()) {
 		entry.insert(QStringLiteral("showTranslation"),
 					 !entry.value(QStringLiteral("showTranslation")).toBool());
@@ -966,7 +966,7 @@ void LobbyHandler::togglePrivateMessageTranslation(const QString &playerName, in
 void LobbyHandler::onPrivateMessageTranslated(int requestId, const QString &text, bool ok)
 {
 	if (!m_pmTranslationRequests.contains(requestId))
-		return;   // Anfrage einer anderen Ansicht (Forum-Seite).
+		return;   // A request of another view (the forum page).
 	const QPair<QString, int> req = m_pmTranslationRequests.take(requestId);
 
 	auto it = m_privateThreads.find(req.first);
@@ -974,7 +974,7 @@ void LobbyHandler::onPrivateMessageTranslated(int requestId, const QString &text
 		return;
 	const int index = indexOfPrivateMessage(it->messages, req.second);
 	if (index < 0)
-		return;   // Nachricht ist inzwischen aus dem Speicher-Fenster gefallen.
+		return;   // The message has fallen out of the memory window meanwhile.
 
 	QVariantMap entry = it->messages.at(index).toMap();
 	entry.insert(QStringLiteral("translationPending"), false);
@@ -983,8 +983,8 @@ void LobbyHandler::onPrivateMessageTranslated(int requestId, const QString &text
 		entry.insert(QStringLiteral("showTranslation"), true);
 		entry.insert(QStringLiteral("translationFailed"), false);
 	} else {
-		// Fehlschlag NICHT verschlucken: der Globus färbt sich um, ein weiterer
-		// Klick versucht es erneut.
+		// Do NOT swallow a failure: the globe changes colour, another
+		// click tries again.
 		entry.insert(QStringLiteral("translationFailed"), true);
 	}
 	it->messages[index] = entry;
@@ -1018,18 +1018,18 @@ bool LobbyHandler::canJoinGame(unsigned gameId) const
 	if (playerCount >= maxPlayers)
 		return false;
 
-	// Passwortgeschützte Spiele sind beitretbar: die LobbyPage fragt das
-	// Passwort vor dem Beitritt ab (joinPasswordPopup) und übergibt es an
-	// joinGame(); geprüft wird es serverseitig (ServerGame::CheckPassword).
+	// Password protected games can be joined: the LobbyPage asks for the
+	// password before joining (joinPasswordPopup) and passes it to
+	// joinGame(); it is checked on the server side (ServerGame::CheckPassword).
 
 	const int gameType = static_cast<int>(info.data.gameType);
 
-	// Einladungsspiele werden ausschließlich über die Einladung selbst
-	// betreten (acceptGameInvitation), nie über die Spielliste.
+	// Invitation games are entered exclusively via the invitation itself
+	// (acceptGameInvitation), never via the game list.
 	if (gameType == GAME_TYPE_INVITE_ONLY)
 		return false;
 
-	// Gäste dürfen serverseitig nur normalen Spielen beitreten
+	// On the server side guests may only join normal games
 	// (ServerLobbyThread::HandleNetPacketJoinGame).
 	if (gameType != GAME_TYPE_NORMAL && isMyPlayerGuest())
 		return false;
@@ -1044,19 +1044,19 @@ bool LobbyHandler::canSpectateGame(unsigned gameId) const
 	if (!m_session || gameId == 0)
 		return false;
 
-	// Nur ein Tisch zur Zeit: wer bereits sitzt oder zuschaut, muss erst raus.
+	// Only one table at a time: whoever already sits or spectates has to get out first.
 	if (m_isInGame)
 		return false;
 
 	const GameInfo info = m_session->getClientGameInfo(gameId);
 
-	// Nur laufende Spiele. Ein Spiel im Warteraum hat noch keinen Tisch zu
-	// zeigen; ein geschlossenes ist vorbei.
+	// Running games only. A game in the waiting room has no table to
+	// show yet; a closed one is over.
 	if (static_cast<int>(info.mode) != GAME_MODE_STARTED)
 		return false;
 
-	// Einzige Bedingung des Servers (ServerLobbyThread::HandleNetPacketJoinGame):
-	// Passwort, Einladung und Gast-Status prüft er bei spectateOnly NICHT.
+	// The only condition of the server (ServerLobbyThread::HandleNetPacketJoinGame):
+	// with spectateOnly it checks NEITHER the password, the invitation nor the guest status.
 	return info.data.allowSpectators;
 }
 
@@ -1109,13 +1109,13 @@ void LobbyHandler::refreshGameInfo(unsigned gameId)
 	m_gameListModel.updateGameInfo(gameId, info);
 }
 
-// Einziger Ort, an dem das Idle-Kriterium gepflegt wird: Aus den bekannten
-// Spielen wird für jeden Spieler der Lobby-Liste sein Tisch abgeleitet und als
-// GameIdRole ins Modell geschrieben. Zuschauer zählen dabei wie Mitspieler als
-// "an einem Tisch" (genauso markiert der Widget-Client sie als "active").
-// Setzt nur echte Änderungen ab, sodass der Aufruf bei jedem Lobby-Ereignis
-// billig bleibt; jede Änderung meldet das Modell als dataChanged, worauf der
-// Proxy die betroffene Zeile selbsttätig neu filtert.
+// The only place where the idle criterion is maintained: from the known
+// games the table of every player in the lobby list is derived and written into the
+// model as the GameIdRole. Spectators count like fellow players as
+// "at a table" (the widget client marks them as "active" in the same way).
+// It only issues real changes, so that the call stays cheap on every lobby
+// event; the model reports every change as dataChanged, whereupon the
+// proxy filters the affected row anew by itself.
 void LobbyHandler::syncPlayerGameMembership()
 {
 	if (!m_session)
@@ -1132,8 +1132,8 @@ void LobbyHandler::syncPlayerGameMembership()
 		const ::GameInfo info = m_session->getClientGameInfo(gameId);
 		for (const unsigned playerId : info.spectators)
 			gameIdOfPlayer.insert(playerId, gameId);
-		// Nach den Zuschauern, damit ein Sitzplatz eine etwaige veraltete
-		// Zuschauer-Zuordnung überschreibt.
+		// After the spectators, so that a seat overwrites a possibly stale
+		// spectator assignment.
 		for (const unsigned playerId : info.players)
 			gameIdOfPlayer.insert(playerId, gameId);
 	}
@@ -1191,9 +1191,9 @@ QStringList LobbyHandler::playerNickList() const
 {
 	QStringList nicks;
 
-	// Quell-Modell (ungefiltert) durchlaufen, NICHT den Proxy: der
-	// Spielerlisten-Filter (Modus 2) blendet Spieler in Spielen aus, die
-	// aber für die Chat-Vervollständigung erreichbar bleiben müssen.
+	// Walk through the source model (unfiltered), NOT the proxy: the
+	// player list filter (mode 2) hides players in games, which
+	// have to stay reachable for the chat completion though.
 	static const QRegularExpression numericPlaceholderPattern("^#?\\d+$");
 	const int count = m_playerListModel.rowCount();
 	for (int row = 0; row < count; ++row) {
@@ -1204,7 +1204,7 @@ QStringList LobbyHandler::playerNickList() const
 		const unsigned playerId = m_playerListModel.data(index, PlayerListModel::PlayerIdRole).toUInt();
 		QString playerName = m_playerListModel.data(index, PlayerListModel::PlayerNameRole).toString();
 
-		// Platzhalternamen (z. B. "#123") über die Session auflösen.
+		// Resolve placeholder names (e.g. "#123") via the session.
 		if (m_session && playerId != 0) {
 			const bool nameIsPlaceholder = playerName.isEmpty()
 										   || numericPlaceholderPattern.match(playerName).hasMatch();
@@ -1238,16 +1238,16 @@ QStringList LobbyHandler::idlePlayerNames() const
 		const unsigned playerId = m_playerListModel.data(index, PlayerListModel::PlayerIdRole).toUInt();
 		if (playerId == 0)
 			continue;
-		// Gäste stehen weder in der BBC-Datenbank noch auf der WEC-Liste.
+		// Guests are neither in the BBC database nor on the WEC list.
 		if (m_playerListModel.data(index, PlayerListModel::IsGuestRole).toBool())
 			continue;
-		// idle = an keinem Tisch – dieselbe Quelle wie der Idle-Filter (Modus 2),
-		// damit Vorschlag und sichtbare Liste nie auseinanderlaufen.
+		// idle = at no table – the same source as the idle filter (mode 2),
+		// so that the suggestion and the visible list never drift apart.
 		if (m_playerListModel.data(index, PlayerListModel::GameIdRole).toUInt() != 0)
 			continue;
 
 		QString playerName = m_playerListModel.data(index, PlayerListModel::PlayerNameRole).toString();
-		// Platzhalternamen (z. B. "#123") über die Session auflösen.
+		// Resolve placeholder names (e.g. "#123") via the session.
 		const bool nameIsPlaceholder = playerName.isEmpty()
 									   || numericPlaceholderPattern.match(playerName).hasMatch();
 		if (nameIsPlaceholder) {
@@ -1269,7 +1269,7 @@ QVariantList LobbyHandler::playingPlayerEntries() const
 	if (!m_session)
 		return entries;
 
-	// Spieler am eigenen Tisch nicht vorschlagen – die sitzen ja bereits dort.
+	// Do not suggest players at your own table – they already sit there.
 	const unsigned ownGameId = m_session->getClientCurrentGameId();
 
 	static const QRegularExpression numericPlaceholderPattern("^#?\\d+$");
@@ -1284,11 +1284,11 @@ QVariantList LobbyHandler::playingPlayerEntries() const
 			continue;
 		if (m_playerListModel.data(index, PlayerListModel::IsGuestRole).toBool())
 			continue;
-		// Nur Spieler, die aktuell an einem Tisch sitzen (Gegenstück zum Idle-Filter).
+		// Only players who currently sit at a table (the counterpart to the idle filter).
 		const unsigned gameId = m_playerListModel.data(index, PlayerListModel::GameIdRole).toUInt();
 		if (gameId == 0)
 			continue;
-		// ... aber nicht die am eigenen Tisch.
+		// ... but not those at your own table.
 		if (ownGameId != 0 && gameId == ownGameId)
 			continue;
 
@@ -1331,10 +1331,10 @@ QVariantList LobbyHandler::gamePlayersInGame(unsigned gameId) const
 		entry.insert("playerName", QString::fromStdString(info.playerName));
 		entry.insert("countryCode", QString::fromStdString(info.countryCode).toLower());
 		entry.insert("isAdmin", info.isAdmin);
-		// Tisch-Admin (Ersteller/Host dieses Spiels) – strikt getrennt vom
-		// Server-Admin oben. adminPlayerId hält der ClientThread aktuell
-		// (UpdateGameInfoAdmin), die QML-Listen werden per gameListRevision neu
-		// ausgewertet.
+		// The table admin (creator/host of this game) – strictly separate from the
+		// server admin above. The ClientThread keeps adminPlayerId up to date
+		// (UpdateGameInfoAdmin), the QML lists are re-evaluated via
+		// gameListRevision.
 		entry.insert("isGameAdmin", gameInfo.adminPlayerId != 0 && playerId == gameInfo.adminPlayerId);
 		entry.insert("isGuest", info.isGuest);
 
@@ -1412,8 +1412,8 @@ bool LobbyHandler::openExternalUrl(const QString &url) const
 
 QVariantList LobbyHandler::chatEmoteShortcodes() const
 {
-	// Einmal aufgebaut (die Map ist statisch); alphabetisch sortiert, damit
-	// die Vorschlagsliste der ChatBox stabil und vorhersehbar ist.
+	// Built once (the map is static); sorted alphabetically, so that
+	// the suggestion list of the ChatBox is stable and predictable.
 	static const QVariantList list = [] {
 		const QHash<QString, QString> &m = chatEmoteShortcodeMap();
 		QStringList codes = m.keys();
@@ -1447,16 +1447,16 @@ void LobbyHandler::sendChatMessage(const QString &message)
 
 	try {
 		if (text.startsWith(QLatin1String("/gn "), Qt::CaseInsensitive)) {
-			// Server-weite Durchsage als Chat-Kurzbefehl (gleicher Weg wie der
-			// Durchsage-Button). Über die Rechte entscheidet allein der Server;
-			// der lokale Admin-Status steuert nur die Sichtbarkeit des Buttons.
-			// Würde hier zusätzlich lokal geprüft, landete die Durchsage eines
-			// Admins, dessen PlayerInfo noch nicht eingetroffen ist, versehentlich
-			// als normaler Chat-Text in der Lobby.
+			// A server-wide announcement as a chat shortcut (the same path as the
+			// announcement button). Only the server decides about the rights;
+			// the local admin status only controls the visibility of the button.
+			// If it were additionally checked locally here, the announcement of an
+			// admin whose PlayerInfo has not arrived yet would accidentally end up
+			// as normal chat text in the lobby.
 			adminSendGlobalNotice(text.mid(4));
 		} else if (text.startsWith(QLatin1String("/msg "), Qt::CaseInsensitive)) {
 			// Private message: /msg <nick> <text>  or  /msg "<nick with spaces>" <text>
-			// Am laufenden Tisch gesperrt – wie das PM-Symbol der Spielerliste.
+			// Blocked at a running table – like the PM symbol of the player list.
 			if (m_gameRunning) {
 				emit errorOccurred(tr("Private messages are not available at the table."));
 				return;
@@ -1493,18 +1493,18 @@ void LobbyHandler::postLocalChatNote(const QString &message)
 	if (message.trimmed().isEmpty())
 		return;
 
-	// Nur lokale Anzeige: dieselbe Timestamp-/Farb-/Emote-Aufbereitung wie ein
-	// normaler Chat-Eintrag, aber kursiv-gedämpft (wie PMs) als Hinweis, dass
-	// die Zeile nur der auslösende Nutzer sieht und NICHT gesendet wird.
+	// Local display only: the same timestamp/colour/emote preparation as a
+	// normal chat entry, but in muted italics (like PMs) as a hint that
+	// only the triggering user sees the line and that it is NOT sent.
 	//
-	// Mehrzeilige Hinweise (Plaintext mit "\n", z. B. der Community-Vorschlag
-	// mit einem Spieler pro Zeile) werden zu MEHREREN chatLog-Einträgen – NICHT
-	// zu einem Eintrag mit eingebettetem <br>. Der Verlauf ist zwar ein
-	// einziges RichText-Dokument, die Übersetzen-Symbole ermitteln die Zeile
-	// unter dem Mauszeiger aber über deren Index in chatLog
-	// (ChatBox._updateHoverLine → ChatTranslator::setHoveredLine). Ein Eintrag
-	// mit eigenem Umbruch verschöbe diese Zuordnung für den gesamten Rest des
-	// Verlaufs: der Globus erschiene an einer anderen Zeile als der überfahrenen.
+	// Multi-line notices (plain text with "\n", e.g. the community suggestion
+	// with one player per line) become SEVERAL chatLog entries – NOT
+	// one entry with an embedded <br>. The history is one
+	// single rich text document, but the translate symbols determine the line
+	// under the mouse cursor via its index in chatLog
+	// (ChatBox._updateHoverLine → ChatTranslator::setHoveredLine). An entry
+	// with a line break of its own would shift this mapping for the whole rest of the
+	// history: the globe would appear on a different line from the one the mouse passed over.
 	const QStringList parts = message.split(QLatin1Char('\n'));
 	const QString tsPrefix = chatTimestampPrefix(m_config);
 	bool first = true;
@@ -1515,8 +1515,8 @@ void LobbyHandler::postLocalChatNote(const QString &message)
 		escapedMsg = applyChatEmoteShortcuts(escapedMsg);
 		escapedMsg = enlargeEmojis(escapedMsg);
 
-		// Zeitstempel nur an der ersten Zeile – die Folgezeilen gehören
-		// sichtbar zu demselben Hinweis.
+		// A timestamp only on the first line – the following lines belong
+		// visibly to the same notice.
 		const QString line = (first ? tsPrefix : QString())
 							 + QLatin1String("<i><span style=\"")
 							 + ChatColors::colorStyle(ChatColors::Muted)
@@ -1529,18 +1529,18 @@ void LobbyHandler::postLocalChatNote(const QString &message)
 
 void LobbyHandler::onGamePlayerJoined()
 {
-	// Benachrichtigungs-Sound wie der Widgets-Client (gamelobbydialogimpl /
-	// startnetworkgamedialogimpl): solange das Spiel nicht voll ist
-	// "playerconnected", beim letzten Spieler "onlinegameready" (das Spiel
-	// startet gleich darauf).
-	// Nur im Warteraum, nicht im laufenden Spiel: dort bedeutet PlayerJoined
-	// einen Rejoin nach Disconnect, und "onlinegameready" (Spiel wieder voll)
-	// klänge wie ein Spielstart mitten in der Hand.
+	// A notification sound as in the widgets client (gamelobbydialogimpl /
+	// startnetworkgamedialogimpl): while the game is not full
+	// "playerconnected", for the last player "onlinegameready" (the game
+	// starts right afterwards).
+	// Only in the waiting room, not in a running game: there PlayerJoined means
+	// a rejoin after a disconnect, and "onlinegameready" (the game is full again)
+	// would sound like a game start in the middle of the hand.
 	if (m_gameRunning)
 		return;
-	// Als Zuschauer NIE: der Server meldet uns beim Beitritt jeden bereits
-	// sitzenden Spieler einzeln als PlayerJoined (AcceptNewSession) – das gäbe
-	// eine Salve von Beitritts-Tönen für ein Spiel, das längst läuft.
+	// As a spectator NEVER: when we join, the server reports every player who is
+	// already sitting individually as PlayerJoined (AcceptNewSession) – that would give
+	// a salvo of join sounds for a game that has long been running.
 	if (m_isSpectating)
 		return;
 	if (m_config && !m_config->readConfigInt("PlayNetworkGameNotification"))
@@ -1559,7 +1559,7 @@ void LobbyHandler::onGamePlayerJoined()
 
 void LobbyHandler::onTimeoutWarning(int reason, int remainingSec)
 {
-	// Audio-Hinweis: das Popup kann übersehen werden (Lobby wie ingame).
+	// An audio notice: the popup can be overlooked (in the lobby as well as in-game).
 	if (m_soundEvents)
 		m_soundEvents->playSound("yourturn", 0);
 	emit timeoutWarningReceived(reason, remainingSec);
@@ -1578,7 +1578,7 @@ void LobbyHandler::onNetworkMessage(const QString &message)
 
 void LobbyHandler::onNetworkMessageId(unsigned msgId)
 {
-	// Texte 1:1 wie startWindowImpl::networkMessage(unsigned).
+	// The texts 1:1 as in startWindowImpl::networkMessage(unsigned).
 	QString msgText;
 	switch (msgId) {
 	case MSG_NET_AVATAR_REPORT_ACCEPTED:
@@ -1624,16 +1624,16 @@ void LobbyHandler::onNetworkMessageId(unsigned msgId)
 		msgText = tr("The global notice was rejected by the server.");
 		break;
 	default:
-		return;   // unbekannte IDs nicht anzeigen (wie der Widgets-Client)
+		return;   // do not show unknown IDs (as in the widgets client)
 	}
 	emit networkMessageReceived(msgText);
 }
 
 void LobbyHandler::onNetworkNotification(int notificationId)
 {
-	// Texte 1:1 wie startWindowImpl::networkNotification(int). Ohne diese
-	// Behandlung blieb beim Erstellen/Beitreten eines Spiels jede Server-
-	// Ablehnung (z. B. bereits vergebener Spielname) unbemerkt.
+	// The texts 1:1 as in startWindowImpl::networkNotification(int). Without this
+	// handling, every server rejection when creating/joining a game (e.g. a
+	// game name that is already taken) went unnoticed.
 	QString msgText;
 	switch (notificationId) {
 	case NTF_NET_JOIN_IP_BLOCKED:
@@ -1673,19 +1673,19 @@ void LobbyHandler::onNetworkNotification(int notificationId)
 		msgText = tr("Could not join the game.");
 		break;
 	case NTF_NET_REMOVED_START_FAILED:
-		// Die Start-Synchronisation (auch beim Rejoin) hat zu lange gedauert.
+		// The start synchronization (on a rejoin as well) took too long.
 		msgText = tr("Your connection to the server is very slow, the game had to start without you.");
 		break;
 	case NTF_NET_REMOVED_KICKED:
 		msgText = tr("You were kicked from the game.");
 		break;
 	case NTF_NET_REMOVED_TIMEOUT:
-		// AFK-Kick des Servers. Die vorausgegangene Countdown-Warnung wird vom
-		// onRemovedFromGame-Handler in pokerth.qml geschlossen.
+		// The AFK kick of the server. The countdown warning that preceded it is closed by the
+		// onRemovedFromGame handler in pokerth.qml.
 		msgText = tr("You were removed due to inactivity.");
 		break;
 	default:
-		return;   // unbekannte IDs nicht anzeigen (wie der Widgets-Client)
+		return;   // do not show unknown IDs (as in the widgets client)
 	}
 	emit networkMessageReceived(msgText);
 }
@@ -1719,8 +1719,8 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
 
 	// HTML-escape user-supplied content (prevents tag injection)
 	QString escapedMsg = ChatColors::chatEscape(rawDisplay);
-	// ASCII-Kürzel auf dem rohen Text umsetzen, bevor Link-/Style-Markup
-	// hinzukommt (verhindert Kollisionen mit "color:#..." o. Ä.).
+	// Convert the ASCII shortcuts on the raw text before link/style markup
+	// is added (it prevents collisions with "color:#..." and the like).
 	escapedMsg = applyChatEmoteShortcuts(escapedMsg);
 
 	// URL linkification
@@ -1749,7 +1749,7 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
 					+ QLatin1String(";\">") + escapedMsg + QLatin1String("</span>");
 	}
 
-	// Unicode-Emoji in der Anzeige vergrößern (wie im Game-Chat, ~22px).
+	// Display Unicode emojis larger (as in the game chat, ~22px).
 	styledMsg = enlargeEmojis(styledMsg);
 
 	// Sound notification on mention (wie chattools.cpp im Widgets-Client)
@@ -1773,9 +1773,9 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
 			   + escapedName + QLatin1String(":</b> ") + styledMsg;
 	}
 
-	// Übersetzen-Symbol nur an Nachrichten anderer (die eigenen muss man nicht
-	// übersetzen). rawDisplay ist der Quelltext ohne HTML/Style-Markup; styledMsg
-	// ist der Nachrichtenkörper in der Zeile, der beim Einblenden ersetzt wird.
+	// The translate symbol only on messages of others (you do not have to
+	// translate your own). rawDisplay is the source text without HTML/style markup; styledMsg
+	// is the message body in the line, which is replaced when it is shown.
 	if (m_chatTranslator && playerName != myNick)
 		line = m_chatTranslator->decorate(line, rawDisplay, styledMsg);
 
@@ -1784,8 +1784,8 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
 
 void LobbyHandler::onPrivateChatMessage(const QString &playerName, const QString &message)
 {
-	// PMs ignorierter Spieler verwerfen — der Widgets-Client filtert sie über
-	// denselben Ignore-Loop in ChatTools::receiveMessage (pm=true).
+	// Discard PMs of ignored players — the widgets client filters them via
+	// the same ignore loop in ChatTools::receiveMessage (pm=true).
 	if (m_config) {
 		const std::list<std::string> ignoreList = m_config->readConfigStringList("PlayerIgnoreList");
 		for (const auto &entry : ignoreList) {
@@ -1806,17 +1806,17 @@ void LobbyHandler::onPrivateChatMessage(const QString &playerName, const QString
 						 + ChatColors::chatEscape(playerName)
 						 + QLatin1String("(pm): ") + escapedMsg
 						 + QLatin1String("</span></i>");
-	// Eingehende private Nachrichten sind immer von anderen -> übersetzbar.
-	// escapedMsg ist der Nachrichtenkörper in der Zeile.
+	// Incoming private messages are always from others -> translatable.
+	// escapedMsg is the message body in the line.
 	if (m_chatTranslator)
 		line = m_chatTranslator->decorate(line, message, escapedMsg);
 	pushChatLine(line);
 
-	// Eine PM ist immer direkt an einen selbst gerichtet und geht im laufenden
-	// Lobby-Chat sonst unter: Ton IMMER (nur der globale Schalter
-	// "PlaySoundEffects" im Audio-Player entscheidet), zusätzlich der ungelesen-
-	// Zähler am Chat-Kopf. Anders als beim Nick-Treffer NICHT über
-	// "PlayLobbyChatNotification" abschaltbar.
+	// A PM is always directed at you personally and would otherwise be lost in the running
+	// lobby chat: ALWAYS a sound (only the global switch
+	// "PlaySoundEffects" in the audio player decides), plus the unread
+	// counter at the chat header. Unlike with a nick match it can NOT be switched off via
+	// "PlayLobbyChatNotification".
 	if (m_soundEvents)
 		m_soundEvents->playSound("lobbychatnotify", 0);
 	appendPrivateMessage(playerName, message, false);
@@ -1842,15 +1842,15 @@ void LobbyHandler::appendPrivateMessage(const QString &playerName, const QString
 	entry.insert(QStringLiteral("msgId"), m_nextPrivateMessageId++);
 	entry.insert(QStringLiteral("fromMe"), fromMe);
 	entry.insert(QStringLiteral("text"), message);
-	// Vollständiger Zeitstempel: der Verlauf überdauert Sitzungen, "HH:mm"
-	// allein wäre bei einer Nachricht von vorgestern irreführend. Die
-	// Anzeigeform bildet privateConversation().
+	// A full timestamp: the history outlives sessions, "HH:mm"
+	// alone would be misleading for a message from the day before yesterday. The
+	// display form is built by privateConversation().
 	entry.insert(QStringLiteral("ts"),
 				 QDateTime::currentDateTime().toString(Qt::ISODate));
 	thread.messages.append(entry);
 
-	// Im Speicher nur ein Fenster des Gesprächs halten; die Datenbank behält
-	// den vollständigen Verlauf.
+	// Keep only a window of the conversation in memory; the database keeps
+	// the complete history.
 	while (thread.messages.size() > kPrivateMessagesLoaded)
 		thread.messages.removeFirst();
 
@@ -1880,9 +1880,9 @@ void LobbyHandler::recountUnreadPrivateMessages()
 namespace
 {
 
-// Ablageort des Posteingangs: eigene SQLite-Datei neben der config.xml, damit
-// er demselben Benutzerprofil folgt wie alle anderen Einstellungen – aber
-// getrennt von ihnen und von den Spiel-Logs bleibt.
+// The storage location of the inbox: a SQLite file of its own next to the config.xml, so that
+// it follows the same user profile as all the other settings – but stays
+// separate from them and from the game logs.
 QString privateMessagesDbPath(ConfigFile *config)
 {
 	if (!config)
@@ -1893,8 +1893,8 @@ QString privateMessagesDbPath(ConfigFile *config)
 	return QFileInfo(configPath).absolutePath() + QStringLiteral("/privatemessages.sqlite");
 }
 
-// Hat die Tabelle bereits die Besitzer-Spalte? (Erste Fassung der Datei kannte
-// nur EINEN Posteingang für die ganze Installation.)
+// Does the table already have the owner column? (The first version of the file knew
+// only ONE inbox for the whole installation.)
 bool privateMessageTableHasOwner(const QSqlDatabase &db, const QString &table)
 {
 	QSqlQuery query(db);
@@ -1920,8 +1920,8 @@ void LobbyHandler::openPrivateMessageDb()
 
 	const QString connName = QStringLiteral("pokerth_pm");
 	bool opened = false;
-	// Eigener Gültigkeitsbereich: solange eine QSqlDatabase-Kopie lebt, warnt
-	// removeDatabase() über eine noch benutzte Verbindung.
+	// A scope of its own: while a QSqlDatabase copy lives,
+	// removeDatabase() warns about a connection that is still in use.
 	{
 		QSqlDatabase db = QSqlDatabase::contains(connName)
 						  ? QSqlDatabase::database(connName, false)
@@ -1932,11 +1932,11 @@ void LobbyHandler::openPrivateMessageDb()
 			qWarning() << "[PM] cannot open private message database" << path << db.lastError().text();
 		} else {
 			QSqlQuery query(db);
-			// Aufrüstung der ersten Fassung (ohne Besitzer): pm_message bekommt
-			// die Spalte angehängt, pm_thread braucht wegen des zusammen-
-			// gesetzten Primärschlüssels eine neue Tabelle. Die alten Zeilen
-			// bleiben zunächst besitzerlos (owner = "") und werden beim ersten
-			// Login übernommen – siehe loadPrivateMessages().
+			// The upgrade of the first version (without an owner): pm_message gets
+			// the column appended, pm_thread needs a new table because of the
+			// composite primary key. The old rows
+			// stay without an owner at first (owner = "") and are adopted at the first
+			// login – see loadPrivateMessages().
 			const QStringList tables = db.tables();
 			if (tables.contains(QLatin1String("pm_message"))
 					&& !privateMessageTableHasOwner(db, QStringLiteral("pm_message"))) {
@@ -1947,13 +1947,13 @@ void LobbyHandler::openPrivateMessageDb()
 					&& !privateMessageTableHasOwner(db, QStringLiteral("pm_thread"))) {
 				query.exec(QStringLiteral("ALTER TABLE pm_thread RENAME TO pm_thread_v1"));
 			}
-			// Erneut nachsehen statt das Ergebnis der Umbenennung zu merken:
-			// so werden auch die Reste einer abgebrochenen Aufrüstung noch
-			// übernommen.
+			// Look again instead of remembering the result of the rename:
+			// that way the remnants of an aborted upgrade are adopted
+			// as well.
 			const bool migrateThreads = db.tables().contains(QLatin1String("pm_thread_v1"));
 
-			// pm_thread: eine Zeile je Konto und Gesprächspartner (Ungelesen-
-			// Zähler und Sortierung), pm_message: die Nachrichten selbst.
+			// pm_thread: one row per account and conversation partner (the unread
+			// counter and the sorting), pm_message: the messages themselves.
 			opened =
 				query.exec(QStringLiteral(
 							   "CREATE TABLE IF NOT EXISTS pm_thread ("
@@ -1990,7 +1990,7 @@ void LobbyHandler::openPrivateMessageDb()
 
 	if (!opened) {
 		QSqlDatabase::removeDatabase(connName);
-		return;   // ohne Datenbank lebt der Verlauf nur bis zum Beenden
+		return;   // without a database the history only lives until the program ends
 	}
 	m_privateDbConn = connName;
 }
@@ -2001,12 +2001,12 @@ void LobbyHandler::setPrivateMessageOwner(const QString &owner)
 		return;
 	m_privateMessagesOwner = owner;
 
-	// Was im Speicher steht, gehört dem vorigen Konto – erst wegräumen, dann
-	// den Verlauf des neuen Logins aus der Datenbank holen (bei leerem Namen
-	// bleibt der Posteingang leer).
+	// What is in memory belongs to the previous account – clear it away first, then
+	// fetch the history of the new login from the database (with an empty name
+	// the inbox stays empty).
 	m_privateThreads.clear();
-	// Laufende Übersetzungen zeigen auf Blasen, die es nicht mehr gibt; ihre
-	// Antworten sollen ins Leere laufen statt in den neuen Verlauf.
+	// Running translations point at bubbles that do not exist any more; their
+	// replies should go nowhere instead of into the new history.
 	m_pmTranslationRequests.clear();
 	loadPrivateMessages();
 
@@ -2023,9 +2023,9 @@ void LobbyHandler::loadPrivateMessages()
 
 	QSqlDatabase db = QSqlDatabase::database(m_privateDbConn, false);
 
-	// Verlauf aus der Zeit vor der Kontotrennung (owner = "") gehört dem, der
-	// sich als Erster anmeldet – das ist der Benutzer, der ihn geschrieben hat.
-	// Danach gibt es keine besitzerlosen Zeilen mehr.
+	// History from the time before the account separation (owner = "") belongs to whoever
+	// logs in first – that is the user who wrote it.
+	// After that there are no ownerless rows any more.
 	{
 		QSqlQuery adoptQuery(db);
 		adoptQuery.prepare(QStringLiteral(
@@ -2051,8 +2051,8 @@ void LobbyHandler::loadPrivateMessages()
 	}
 
 	QSqlQuery messageQuery(db);
-	// Nur die jüngsten Nachrichten in den Speicher holen; die Datenbank behält
-	// den vollständigen Verlauf.
+	// Only fetch the most recent messages into memory; the database keeps
+	// the complete history.
 	messageQuery.prepare(QStringLiteral(
 							 "SELECT from_me, text, ts FROM pm_message WHERE owner = :owner AND partner = :partner "
 							 "ORDER BY id DESC LIMIT :limit"));
@@ -2075,24 +2075,24 @@ void LobbyHandler::loadPrivateMessages()
 				entry.insert(QStringLiteral("fromMe"), messageQuery.value(0).toInt() != 0);
 				entry.insert(QStringLiteral("text"),   messageQuery.value(1).toString());
 				entry.insert(QStringLiteral("ts"),     messageQuery.value(2).toString());
-				// Abfrage lief absteigend (jüngste zuerst) – vorne einfügen
-				// ergibt wieder die zeitliche Reihenfolge.
+				// The query ran in descending order (the newest first) – inserting at the front
+				// yields the chronological order again.
 				thread.messages.prepend(entry);
 			}
 		}
-		// Ungelesen kann nie mehr sein, als der Verlauf hergibt.
+		// Unread can never be more than the history provides.
 		thread.unread = qBound(0, thread.unread, static_cast<int>(thread.messages.size()));
 		m_privateThreads.insert(name, thread);
 	}
-	// Die Meldung an die Oberfläche macht der einzige Aufrufer
-	// (setPrivateMessageOwner) – er muss sie ohnehin auch dann senden, wenn
-	// hier nichts zu laden war (Abmelden, Konto ohne Verlauf).
+	// The report to the user interface is made by the only caller
+	// (setPrivateMessageOwner) – it has to send it anyway even when
+	// there was nothing to load here (logging out, an account without a history).
 }
 
 void LobbyHandler::persistPrivateMessage(const QString &playerName, const QVariantMap &entry)
 {
-	// Ohne bekannten Besitzer (noch nicht angemeldet) wird nichts gespeichert:
-	// der Verlauf ließe sich sonst keinem Konto zuordnen.
+	// Without a known owner (not logged in yet) nothing is stored:
+	// the history could otherwise not be assigned to any account.
 	if (m_privateDbConn.isEmpty() || m_privateMessagesOwner.isEmpty())
 		return;
 	QSqlQuery query(QSqlDatabase::database(m_privateDbConn, false));
@@ -2116,8 +2116,8 @@ void LobbyHandler::persistPrivateThreadMeta(const QString &playerName)
 	if (it == m_privateThreads.constEnd())
 		return;
 	QSqlQuery query(QSqlDatabase::database(m_privateDbConn, false));
-	// INSERT OR REPLACE statt UPSERT: die Tabelle besteht nur aus diesen vier
-	// Spalten, und ein Platzhalter darf so je genau einmal vorkommen.
+	// INSERT OR REPLACE instead of UPSERT: the table consists only of these four
+	// columns, and a placeholder may thus occur exactly once each.
 	query.prepare(QStringLiteral(
 					  "INSERT OR REPLACE INTO pm_thread (owner, partner, unread, last_activity) "
 					  "VALUES (:owner, :partner, :unread, :last)"));
@@ -2161,8 +2161,8 @@ void LobbyHandler::deletePrivateConversation(const QString &playerName)
 namespace
 {
 
-// Anzeigeform eines gespeicherten Zeitstempels: innerhalb desselben Tages nur
-// die Uhrzeit, davor zusätzlich das Datum.
+// The display form of a stored timestamp: within the same day only
+// the time, before that the date in addition.
 QString privateMessageDisplayTime(const QString &isoTimestamp)
 {
 	const QDateTime ts = QDateTime::fromString(isoTimestamp, Qt::ISODate);
@@ -2199,7 +2199,7 @@ QVariantList LobbyHandler::privateConversationPartners() const
 		}
 		out.append(entry);
 	}
-	// Neueste Unterhaltung zuerst (QHash ist unsortiert).
+	// The newest conversation first (a QHash is unsorted).
 	std::sort(out.begin(), out.end(), [](const QVariant &a, const QVariant &b) {
 		return a.toMap().value(QStringLiteral("lastActivity")).toLongLong()
 			   > b.toMap().value(QStringLiteral("lastActivity")).toLongLong();
@@ -2228,11 +2228,11 @@ void LobbyHandler::ensurePrivateConversation(const QString &playerName)
 	if (playerName.isEmpty() || m_privateThreads.contains(playerName))
 		return;
 	PrivateThread &thread = m_privateThreads[playerName];
-	// Ohne Zeitstempel stünde ein frisch geöffnetes (leeres) Gespräch immer
-	// ganz unten in der Liste, obwohl es gerade das aktive ist.
+	// Without a timestamp a freshly opened (empty) conversation would always stand
+	// at the very bottom of the list, although it is the active one.
 	thread.lastActivity = QDateTime::currentMSecsSinceEpoch();
-	// Bewusst NICHT speichern: ein nur geöffnetes, leeres Gespräch soll nicht
-	// dauerhaft im Posteingang stehen. Die erste Nachricht legt die Zeile an.
+	// Deliberately NOT stored: a conversation that is only opened and empty should not
+	// stand in the inbox permanently. The first message creates the row.
 	++m_privateMessagesRevision;
 	emit privateMessagesChanged();
 }
@@ -2274,8 +2274,8 @@ void LobbyHandler::sendPrivateMessageToName(const QString &playerName, const QSt
 
 bool LobbyHandler::chatDarkMode() const
 {
-	// Kein Config -> Dunkelmodus (Default der Oberfläche). "Automatisch" löst
-	// DarkMode::resolve() über das System auf – dieselbe Semantik wie in QML.
+	// No config -> dark mode (the default of the user interface). "Automatic" resolves
+	// DarkMode::resolve() via the system – the same semantics as in QML.
 	if (!m_config)
 		return true;
 	return DarkMode::resolve(m_config->readConfigInt("DarkMode"));
@@ -2283,8 +2283,8 @@ bool LobbyHandler::chatDarkMode() const
 
 QStringList LobbyHandler::chatLog() const
 {
-	// Farb-Platzhalter erst hier auflösen: dadurch färbt ein Hell/Dunkel-Wechsel
-	// auch den bereits empfangenen Verlauf um (siehe chatcolors.h).
+	// Only resolve the colour placeholders here: that way a light/dark change recolours
+	// the history that has already been received as well (see chatcolors.h).
 	const bool dark = chatDarkMode();
 	QStringList out;
 	out.reserve(m_chatLog.size());
@@ -2300,17 +2300,17 @@ void LobbyHandler::pushChatLine(const QString &line)
 	if (m_chatLog.size() > kMaxLines)
 		m_chatLog.erase(m_chatLog.begin(), m_chatLog.begin() + (m_chatLog.size() - kMaxLines));
 	notifyChatLogChanged();
-	// Live-Verbraucher bekommen die Zeile fertig eingefärbt (nicht mit Platzhaltern).
+	// The live consumers get the line fully coloured (not with placeholders).
 	emit chatLineReady(ChatColors::expand(line, chatDarkMode()));
 }
 
 void LobbyHandler::notifyChatLogChanged()
 {
-	// Sammelt alle Verlaufsänderungen eines Event-Loop-Durchlaufs zu einer
-	// einzigen Benachrichtigung (Begründung siehe lobbyhandler.h). Die
-	// Auslieferung selbst passiert per Queued Call: noch anstehende Zeilen
-	// desselben Durchlaufs (mehrzeiliger Hinweis, Salve beim Betreten) landen
-	// damit ebenfalls im selben Aufbau.
+	// It collects all history changes of one event loop pass into a
+	// single notification (for the reasoning see lobbyhandler.h). The
+	// delivery itself happens via a queued call: lines of the same pass that are
+	// still pending (a multi-line notice, the salvo when entering) thus land
+	// in the same build as well.
 	if (m_chatLogNotifyPending)
 		return;
 	m_chatLogNotifyPending = true;
@@ -2370,9 +2370,9 @@ void LobbyHandler::createGame(const QString &name, const QString &password,
 		for (const QVariant &blind : manualBlinds)
 			gameData.manualBlindsList.push_back(blind.toInt());
 	}
-	// Das Verhalten nach der manuellen Blindliste und die GUI-Geschwindigkeit
-	// haben auf der Erstellen-Seite keine Bedienelemente; sie stammen – wie im
-	// Widget-Client – aus den Optionen.
+	// The behaviour after the manual blind list and the GUI speed
+	// have no controls on the create page; as in the
+	// widget client they come from the options.
 	if (m_config) {
 		if (m_config->readConfigInt("NetAfterMBAlwaysRaiseAbout")) {
 			gameData.afterManualBlindsMode   = AFTERMB_RAISE_ABOUT;
@@ -2417,10 +2417,10 @@ void LobbyHandler::leaveServer()
 {
 	if (!m_session)
 		return;
-	// Verbindung zum Server trennen (wie startWindowImpl beim Verlassen der
-	// Lobby) und den lokalen Lobby-Zustand zurücksetzen.
+	// Disconnect from the server (as startWindowImpl does when leaving the
+	// lobby) and reset the local lobby state.
 	m_session->terminateNetworkClient();
-	// Keine aktive Online-Session mehr → Foreground-Service beenden.
+	// No active online session any more → stop the foreground service.
 	AndroidConnectionService::stop();
 	IosBackgroundSession::stop();
 	setGameRunning(false);
@@ -2439,12 +2439,12 @@ void LobbyHandler::leaveServer()
 
 void LobbyHandler::onSelfJoinedGame()
 {
-	// Frischer Beitritt → Warteraum (bei Rejoin in ein laufendes Spiel folgt
-	// unmittelbar wieder onGameStarted).
+	// A fresh join → the waiting room (with a rejoin into a running game,
+	// onGameStarted follows immediately afterwards).
 	setGameRunning(false);
 	m_currentGameId = m_session ? m_session->getClientCurrentGameId() : 0;
-	// Ob der Server uns als Zuschauer aufgenommen hat, steht im JoinGameAck –
-	// der ist bereits verarbeitet, wenn dieses Signal die GUI erreicht.
+	// Whether the server has accepted us as a spectator is in the JoinGameAck –
+	// that one is already processed when this signal reaches the GUI.
 	const bool spectating = m_session && m_session->isClientSpectating();
 	if (spectating != m_isSpectating) {
 		m_isSpectating = spectating;
@@ -2460,21 +2460,21 @@ void LobbyHandler::onSelfJoinedGame()
 
 void LobbyHandler::onGameStarted()
 {
-	// Spielstart bedeutet, dass die Engine die Lobby-Nachrichten abbestellt
-	// (UnsubscribeLobbyMsg). Während des Spiels treffen daher keine
-	// playerListLeft-Events mehr ein – Spieler, die in dieser Zeit die Verbindung
-	// trennen, blieben sonst als veraltete "idle"-Einträge in der Liste stehen.
-	// Beim Rückkehren in den Warteraum/die Lobby sendet der Server via
-	// ResubscribeLobbyMsg die vollständige Spielerliste erneut (playerListNew),
-	// sodass die Liste hier gefahrlos geleert und anschließend frisch aufgebaut
-	// wird. Spiegelt das Verhalten des Widget-Clients (Nickliste leeren bei
+	// A game start means that the engine unsubscribes from the lobby messages
+	// (UnsubscribeLobbyMsg). During the game no
+	// playerListLeft events arrive any more – players who disconnect during
+	// that time would otherwise stay in the list as stale "idle" entries.
+	// When returning into the waiting room/the lobby the server sends the complete
+	// player list again via ResubscribeLobbyMsg (playerListNew),
+	// so that the list can safely be cleared here and rebuilt freshly
+	// afterwards. It mirrors the behaviour of the widget client (clearing the nick list on
 	// MSG_NET_GAME_CLIENT_START).
 	m_playerListModel.clear();
 	++m_playerListRevision;
 	emit playerListRevisionChanged();
 
 	setGameRunning(true);
-	// Wir sitzen am Tisch → ein evtl. laufendes Rejoin-Warten ist erledigt.
+	// We sit at the table → a rejoin wait that may be running is finished.
 	setRejoinWaiting(false);
 
 	emit gameStarted();
@@ -2482,10 +2482,10 @@ void LobbyHandler::onGameStarted()
 
 void LobbyHandler::onWaitGameDialog()
 {
-	// m_isInGame/m_currentGameId NICHT zurücksetzen: Bei deaktiviertem Auto-Leave
-	// bleiben wir nach Spielende im (wieder geöffneten) Spiel; der Warteraum soll
-	// das aktuelle Spiel weiter anzeigen. Wird der Spieler tatsächlich entfernt
-	// (Auto-Leave/Kick), räumt das nachfolgende onRemovedFromGame den Zustand auf.
+	// Do NOT reset m_isInGame/m_currentGameId: with auto-leave disabled
+	// we stay in the (reopened) game after the end of the game; the waiting room should
+	// keep showing the current game. If the player really is removed
+	// (auto-leave/kick), the following onRemovedFromGame cleans the state up.
 	setGameRunning(false);
 	emit returnToWaitRoom();
 }
@@ -2494,16 +2494,16 @@ void LobbyHandler::onRemovedFromGame(int reason)
 {
 	m_isInGame = false;
 	setGameRunning(false);
-	// Deckt auch NTF_NET_REMOVED_START_FAILED ab: Der Server hat die Hand ohne
-	// uns gestartet, das Warten auf den Rejoin ist damit hinfällig.
+	// It covers NTF_NET_REMOVED_START_FAILED as well: the server has started the hand without
+	// us, so waiting for the rejoin is void.
 	setRejoinWaiting(false);
 	m_currentGameId = 0;
 	if (m_isSpectating) {
 		m_isSpectating = false;
 		emit isSpectatingChanged();
 	}
-	// Spiel-Admin (Host)-Status verfällt mit dem Verlassen des Tisches; der
-	// Server-Admin-Status bleibt davon unberührt.
+	// The game admin (host) status expires when leaving the table; the
+	// server admin status stays untouched by it.
 	setCurrentGameAdmin(false);
 	emit isInGameChanged();
 	emit currentGameIdChanged();
@@ -2543,9 +2543,9 @@ QVariantMap LobbyHandler::currentGameInfo() const
 	result.insert("playerActionTimeoutSec", info.data.playerActionTimeoutSec);
 	result.insert("delayBetweenHandsSec",   info.data.delayBetweenHandsSec);
 	result.insert("allowSpectators",    info.data.allowSpectators);
-	// Manuelle Blindreihenfolge: dient dem Community-Suggest als Fingerprint, um
-	// einen fremden BBC-Step-Tisch zu erkennen (der Tischname ist frei editierbar
-	// und taugt dafür nicht) – siehe Config.BotSuggest.suggestTypeForGameInfo.
+	// The manual blind order: it serves the community suggest as a fingerprint to
+	// recognise a foreign BBC step table (the table name is freely editable
+	// and is unsuitable for that) – see Config.BotSuggest.suggestTypeForGameInfo.
 	QVariantList manualBlinds;
 	for (std::list<int>::const_iterator it = info.data.manualBlindsList.begin();
 			it != info.data.manualBlindsList.end(); ++it) {
@@ -2612,10 +2612,10 @@ QString LobbyHandler::playerInGameName(unsigned playerId) const
 	return QString::fromUtf8(m_session->getClientGameInfo(gameId).name.c_str());
 }
 
-// ── Rejoin nach Verbindungsabbruch ──────────────────────────────────────────
-// Der Server erkennt beim Login anhand von Spielername + alter Session-GUID,
-// dass noch eine laufende Spielsitzung existiert, und bietet sie im InitAck
-// an (rejoinGameId). Das Popup dazu zeigt die LobbyPage (rejoinOfferGameId).
+// ── Rejoin after a connection loss ──────────────────────────────────────────
+// At the login the server recognises by the player name + the old session GUID
+// that a running game session still exists, and offers it in the InitAck
+// (rejoinGameId). The LobbyPage shows the popup for it (rejoinOfferGameId).
 void LobbyHandler::onRejoinPossible(unsigned gameId)
 {
 	qDebug() << "[REJOIN] onRejoinPossible: gameId=" << gameId
@@ -2625,9 +2625,9 @@ void LobbyHandler::onRejoinPossible(unsigned gameId)
 	m_rejoinOfferGameId = gameId;
 	emit rejoinOfferChanged();
 
-	// Nach einer automatischen Wiederverbindung ohne Rückfrage zurück an den
-	// Tisch: Der Spieler hat ihn nie freiwillig verlassen, ein Ja/Nein-Popup
-	// wäre hier nur eine Hürde - und die 5-Minuten-Frist des Servers läuft.
+	// After an automatic reconnect, back to the table without a question:
+	// the player never left it voluntarily, a yes/no popup
+	// would only be a hurdle here - and the 5 minute deadline of the server is running.
 	if (m_autoRejoin) {
 		m_autoRejoin = false;
 		qInfo() << "[REJOIN] auto-accepting after reconnect, gameId=" << gameId;
@@ -2659,9 +2659,9 @@ void LobbyHandler::setRejoinWaiting(bool waiting)
 	emit rejoinWaitingChanged();
 }
 
-// Der Server hat den Rejoin angenommen und schickt das StartEvent vom Typ
-// rejoinEvent. An den Tisch gesetzt werden wir aber erst zu Beginn der
-// nächsten Hand - bis dahin bleibt der Warteraum stehen.
+// The server has accepted the rejoin and sends the StartEvent of type
+// rejoinEvent. We are only put at the table at the beginning of the
+// next hand - until then the waiting room stays.
 void LobbyHandler::onRejoinSyncWait()
 {
 	qDebug() << "[REJOIN] onRejoinSyncWait: waiting for next hand";
@@ -2677,7 +2677,7 @@ void LobbyHandler::declineRejoin()
 	}
 }
 
-// ── Eingehende Spiel-Einladungen (Invite-Only-Spiele) ──────────────────────
+// ── Incoming game invitations (invite-only games) ──────────────────────────
 void LobbyHandler::onSelfGameInvitation(unsigned gameId, unsigned playerIdFrom)
 {
 	qDebug() << "[INVITE] onSelfGameInvitation: gameId=" << gameId << "fromPlayerId=" << playerIdFrom
@@ -2686,8 +2686,8 @@ void LobbyHandler::onSelfGameInvitation(unsigned gameId, unsigned playerIdFrom)
 			 << "session=" << (m_session ? "ok" : "NULL");
 	if (!m_session)
 		return;
-	// Absender auf der Ignore-Liste ODER es ist bereits ein Einladungs-Popup
-	// offen → automatisch mit "busy" ablehnen (wie der Qt-Widgets-Client).
+	// The sender is on the ignore list OR an invitation popup is already
+	// open → decline automatically with "busy" (as in the Qt widgets client).
 	if (isPlayerIgnored(playerIdFrom) || m_pendingInviteGameId != 0) {
 		qDebug() << "[INVITE] → auto-rejecting with BUSY (ignored or popup already open)";
 		m_session->rejectGameInvitation(gameId, DENY_GAME_INVITATION_BUSY);
@@ -2769,8 +2769,8 @@ void LobbyHandler::adminSendGlobalNotice(const QString &noticeText)
 	QString text = noticeText.trimmed();
 	if (text.isEmpty())
 		return;
-	// Der Server verteilt die Durchsage als Chat-Nachricht – daher dieselbe
-	// 128-Byte-Grenze wie beim Chat (sonst verwirft der Paket-Validator sie).
+	// The server distributes the announcement as a chat message – hence the same
+	// 128 byte limit as for the chat (otherwise the packet validator discards it).
 	while (!text.isEmpty() && text.toUtf8().size() > 128)
 		text.chop(1);
 	m_session->adminActionGlobalNotice(text.toStdString());
@@ -2806,29 +2806,29 @@ void LobbyHandler::sendPrivateMessage(unsigned targetPlayerId, const QString &me
 	}
 	if (targetPlayerId == 0)
 		return;
-	// Am laufenden Tisch bewusst gesperrt: private Absprachen während einer Hand
-	// sollen gar nicht erst möglich sein (der Server stellt PMs an Spieler in
-	// laufenden Spielen ohnehin nicht zu).
+	// Deliberately blocked at a running table: private arrangements during a hand
+	// should not be possible in the first place (the server does not deliver PMs to players in
+	// running games anyway).
 	if (m_gameRunning) {
 		emit errorOccurred(tr("Private messages are not available at the table."));
 		return;
 	}
-	// Gäste dürfen serverseitig überhaupt nicht chatten (auch nicht privat) –
-	// dieselbe Meldung wie im Lobby-Chat, statt einer stillen Ablehnung.
+	// On the server side guests are not allowed to chat at all (not privately either) –
+	// the same message as in the lobby chat, instead of a silent rejection.
 	if (isMyPlayerGuest()) {
 		emit errorOccurred(tr("Guests cannot send chat messages"));
 		return;
 	}
-	// Umgekehrt genauso: an einen Gast stellt der Server nichts zu. Die Prüfung
-	// sitzt hier und nicht nur an den Buttons, weil das die einzige Engstelle
-	// ist, durch die JEDER Sendeweg läuft.
+	// The same the other way round: the server delivers nothing to a guest. The check
+	// sits here and not only at the buttons, because this is the only bottleneck
+	// that EVERY sending path runs through.
 	if (isPlayerGuest(targetPlayerId)) {
 		emit errorOccurred(tr("Guests cannot receive private messages."));
 		return;
 	}
 	QString text = message.trimmed();
-	// Gleiche 128-Byte-Grenze wie im Chat: der Paket-Validator des Servers
-	// verwirft längere Nachrichten (und trennt im Zweifel die Verbindung).
+	// The same 128 byte limit as in the chat: the packet validator of the server
+	// discards longer messages (and cuts the connection if in doubt).
 	while (!text.isEmpty() && text.toUtf8().size() > 128)
 		text.chop(1);
 	if (text.isEmpty())
@@ -2841,16 +2841,16 @@ void LobbyHandler::sendPrivateMessage(unsigned targetPlayerId, const QString &me
 
 void LobbyHandler::pushPrivateMessageSentLine(const QString &targetName, const QString &message)
 {
-	// Gleiche Aufbereitung und Farbe wie eine EINGEHENDE PM (onPrivateChatMessage),
-	// nur mit "an <Name>" statt "<Name>(pm)". Der volle Text steht bewusst in der
-	// Zeile: eine gesendete PM taucht sonst nirgends im eigenen Verlauf auf.
+	// The same preparation and colour as an INCOMING PM (onPrivateChatMessage),
+	// only with "to <name>" instead of "<name>(pm)". The full text deliberately stands in the
+	// line: a sent PM would otherwise not appear anywhere in your own history.
 	QString escapedMsg = ChatColors::chatEscape(message);
 	escapedMsg = applyChatEmoteShortcuts(escapedMsg);
 	escapedMsg = enlargeEmojis(escapedMsg);
-	// Mehrzeilige Hinweise (z. B. der Community-Vorschlag mit einem Spieler pro
-	// Zeile) kommen als Plaintext mit "\n" – im RichText-Chat wäre das nur ein
-	// Leerzeichen, also hier in <br> umsetzen (nach dem Escapen, damit kein
-	// Fremdtext das Markup beeinflusst).
+	// Multi-line notices (e.g. the community suggestion with one player per
+	// line) come as plain text with "\n" – in the rich text chat that would only be a
+	// space, so convert it into <br> here (after the escaping, so that no
+	// foreign text influences the markup).
 	escapedMsg.replace(QLatin1Char('\n'), QLatin1String("<br>"));
 
 	const QString tsPrefix = chatTimestampPrefix(m_config);
@@ -2936,9 +2936,9 @@ void LobbyHandler::unignorePlayer(unsigned playerId)
 
 // ── Player stats ───────────────────────────────────────────────────────────
 
-// Löst die playerId zum Namen auf und meldet die Anfrage an QML
-// (pokerth.qml pusht die native PokerthPlayerPage) – früher wurde hier der
-// Browser-Link redirect_user_profile.php?nick=… geöffnet.
+// It resolves the playerId to the name and reports the request to QML
+// (pokerth.qml pushes the native PokerthPlayerPage) – previously the
+// browser link redirect_user_profile.php?nick=… was opened here.
 void LobbyHandler::showPlayerStats(unsigned playerId)
 {
 	if (playerId == 0) return;

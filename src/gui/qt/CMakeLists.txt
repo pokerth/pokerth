@@ -83,15 +83,15 @@ else()
     list(APPEND POKERTH_CLIENT_SRC "resources/pokerth.qrc")
 endif()
 
-# Android benötigt qt_add_executable für deployment-settings.json
+# Android needs qt_add_executable for deployment-settings.json
 if(ANDROID)
-    # Verwende qt_add_executable mit MANUAL_FINALIZATION
+    # Use qt_add_executable with MANUAL_FINALIZATION
     qt_add_executable(pokerth_client MANUAL_FINALIZATION "${POKERTH_CLIENT_SRC}")
 elseif(WIN32)
-    # Windows GUI app ohne Konsolenfenster. pokerth.rc bettet pokerth.ico als
-    # App-Icon in die .exe ein (Explorer, Taskbar, Titelleiste). windres findet
-    # die in der .rc relativ referenzierte .ico über den Include-Pfad auf den
-    # Repo-Root; der Pfad zur .rc selbst ist absolut (CWD-unabhängig).
+    # Windows GUI app without a console window. pokerth.rc embeds pokerth.ico as
+    # the app icon into the .exe (explorer, taskbar, title bar). windres finds
+    # the .ico referenced relatively in the .rc via the include path pointing to
+    # the repo root; the path to the .rc itself is absolute (independent of the CWD).
     set_source_files_properties("${CMAKE_SOURCE_DIR}/pokerth.rc" PROPERTIES
         COMPILE_FLAGS "-I${CMAKE_SOURCE_DIR}")
     add_executable(pokerth_client WIN32 "${POKERTH_CLIENT_SRC}" "${CMAKE_SOURCE_DIR}/pokerth.rc")
@@ -152,16 +152,16 @@ target_link_libraries(pokerth_client PUBLIC pokerth_db)
 
 target_link_libraries(pokerth_client PUBLIC pokerth_protocol)
 
-# Android: Konfiguriere und finalisiere Target
+# Android: configure and finalize the target
 if(ANDROID)
-    # Setze Properties VOR qt_finalize_target
+    # Set the properties BEFORE qt_finalize_target
     set_target_properties(pokerth_client PROPERTIES
         QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android"
         QT_ANDROID_MIN_SDK_VERSION "28"
         QT_ANDROID_TARGET_SDK_VERSION "35"
     )
     
-    # Finalisiere das Target (generiert deployment-settings.json)
+    # Finalize the target (generates deployment-settings.json)
     qt_finalize_target(pokerth_client)
 endif()
 

@@ -39,22 +39,22 @@ import time
 from pathlib import Path
 
 
-# Repo-Wurzel relativ zu diesem Skript (preview/ liegt direkt unter dem Repo).
+# The repo root relative to this script (preview/ sits directly under the repo).
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
-# Klick-Koordinaten als Bruchteile der Fenster-Geometrie (Portrait 390x844),
-# verifiziert gegen den aktuellen QML-Client-Stand. Die Startseite hat seit
-# "Netzwerkspiel erstellen" eine Schaltflaeche mehr, deshalb liegt der lokale
-# Spielstart hoeher als in record_pokerth_qml_localgame.py (dort noch 405/844).
-FRAC_LOCALGAME = (195 / 390, 358 / 844)   # "Lokales Spiel starten" (Startseite)
-FRAC_STARTGAME = (288 / 390, 671 / 844)   # "Spiel starten" (Einstellungsseite)
+# Click coordinates as fractions of the window geometry (portrait 390x844),
+# verified against the current state of the QML client. The start page has one
+# button more since "create network game", which is why the local
+# game start sits higher than in record_pokerth_qml_localgame.py (405/844 there).
+FRAC_LOCALGAME = (195 / 390, 358 / 844)   # "start local game" (start page)
+FRAC_STARTGAME = (288 / 390, 671 / 844)   # "start game" (settings page)
 
-# Bildausschnitte, an denen abgelesen wird, ob eine Tastenaktion angekommen ist -
-# als Bruchteile (x0, y0, x1, y1) der Fenster-Geometrie. Beide Bereiche legt der
-# Client selbst an (Kartenreihe mittig, Kopfzeile oben), das Tisch-Thema tauscht
-# nur den Hintergrund: die Rechtecke gelten also fuer JEDES Thema.
-FRAC_BOARD  = (0.18, 0.42, 0.79, 0.49)   # Reihe der Gemeinschaftskarten (ohne Pot-Chip)
-FRAC_HEADER = (0.02, 0.02, 0.32, 0.08)   # "Gesamt:" / "Einsaetze:" links oben
+# Image excerpts from which it is read off whether a key action has arrived -
+# as fractions (x0, y0, x1, y1) of the window geometry. The client creates both areas
+# itself (card row in the middle, header at the top), the table theme only swaps
+# the background: the rectangles therefore apply to EVERY theme.
+FRAC_BOARD  = (0.18, 0.42, 0.79, 0.49)   # Row of the community cards (without the pot chip)
+FRAC_HEADER = (0.02, 0.02, 0.32, 0.08)   # "Total:" / "Bets:" at the top left
 
 
 class ThemePreviewRecorder:
@@ -72,11 +72,11 @@ class ThemePreviewRecorder:
         self.app: subprocess.Popen | None = None
         self.win_id: str | None = None
 
-        # Ziele fuer die Vorschauen (preview/ + Spieltisch-Theme-Ordner).
-        # Querformat -> preview.png, Portrait/Mobile -> preview_portrait.png.
-        # NUR der Spieltisch-Stil bekommt seine Vorschau aus diesem Screenshot.
-        # Kartenstapel- und Kartenrueckseiten-Vorschauen werden NICHT aus einem
-        # Tisch-Screenshot, sondern direkt aus den SVGs gebaut:
+        # Targets for the previews (preview/ + the game table theme folder).
+        # Landscape -> preview.png, portrait/mobile -> preview_portrait.png.
+        # ONLY the game table style gets its preview from this screenshot.
+        # Card deck and card back previews are NOT built from a table screenshot
+        # but directly from the SVGs:
         #   preview/build_card_previews.sh
         style_dir = REPO_ROOT / "data/gfx/qml/table" / args.style
         self.targets_landscape = [
@@ -118,7 +118,7 @@ class ThemePreviewRecorder:
         self._run("xdotool", "click", "--clearmodifiers", "1")
 
     def _grab_region(self, frac: tuple[float, float, float, float], dst: Path) -> None:
-        # Fenster-Ausschnitt als PNG - Grundlage fuer den Vorher/Nachher-Vergleich.
+        # Window excerpt as a PNG - the basis for the before/after comparison.
         g = self._geom()
         x0 = g.get("X", 0) + int(g.get("WIDTH", self.args.portrait_w) * frac[0])
         y0 = g.get("Y", 0) + int(g.get("HEIGHT", self.args.portrait_h) * frac[1])
@@ -132,9 +132,9 @@ class ThemePreviewRecorder:
         raw.unlink(missing_ok=True)
 
     def _region_changed(self, before: Path, after: Path) -> bool:
-        # Normierter RMSE-Abstand der beiden Ausschnitte. Der Client animiert in
-        # diesen Bereichen nichts, solange er auf den Menschen wartet - jede
-        # nennenswerte Abweichung heisst also: die Aktion ist angekommen.
+        # Normalized RMSE distance of the two excerpts. The client animates nothing
+        # in these areas while it waits for the human - so any
+        # noteworthy deviation means: the action has arrived.
         cmp_bin = shutil.which("compare")
         cmd = ([cmp_bin] if cmp_bin else [shutil.which("magick"), "compare"])
         res = subprocess.run(cmd + ["-metric", "RMSE", str(before), str(after), "null:"],
@@ -144,13 +144,13 @@ class ThemePreviewRecorder:
 
     def _press_until_change(self, key: str, frac: tuple[float, float, float, float],
                             tries: int, wait_sec: float, desc: str) -> bool:
-        # Taste druecken, bis sich der beobachtete Ausschnitt aendert. Ein Druck
-        # ins Leere (Austeil-Animation laeuft, Bots sind dran) bleibt folgenlos,
-        # ein zweiter kostet dann nichts - eine feste Wartezeit war dagegen mal
-        # zu kurz (Aktion verpufft) und mal zu lang (Runde schon weiter).
-        # Die Zahl der Versuche ist bewusst eng begrenzt: F3 waehrend der eigenen
-        # Aktion ist ein ERHOEHEN, und wer oft genug erhoeht, sitzt am Ende
-        # all-in neben dem Tisch - genau das hat die Vorschau schon zerlegt.
+        # Press a key until the observed excerpt changes. A press into
+        # the void (the dealing animation is running, the bots are to act) has no consequence,
+        # a second one then costs nothing - a fixed waiting time, by contrast, was sometimes
+        # too short (the action fizzled out) and sometimes too long (the round had already moved on).
+        # The number of attempts is deliberately limited tightly: F3 during your own
+        # action is a RAISE, and whoever raises often enough ends up sitting
+        # all-in next to the table - exactly that has wrecked the preview before.
         before = self.script_dir / "_theme_preview_before.png"
         after = self.script_dir / "_theme_preview_after.png"
         self._grab_region(frac, before)
@@ -192,7 +192,7 @@ class ThemePreviewRecorder:
         if not self.win_id:
             raise RuntimeError("QML-Fenster nicht gefunden")
 
-        # Portrait-Fenster zentrieren - definierte Geometrie fuer die Klicks.
+        # Centre the portrait window - a defined geometry for the clicks.
         px = (self.args.desktop_w - self.args.portrait_w) // 2
         py = (self.args.desktop_h - self.args.portrait_h) // 2
         self._run("xdotool", "windowsize", "--sync", self.win_id, str(self.args.portrait_w), str(self.args.portrait_h), check=False)
@@ -210,24 +210,24 @@ class ThemePreviewRecorder:
         time.sleep(self.args.table_sec)
 
     def _advance_to_flop(self) -> None:
-        # Praeflop liegen keine Community-Cards auf dem Tisch – die Vorschau
-        # zeigt dann nur den leeren Filz. Also einmal callen (F2, s. GamePage.qml)
-        # und den Bots Zeit lassen, bis der Flop faellt.
+        # Preflop there are no community cards on the table – the preview
+        # then shows only the empty felt. So call once (F2, see GamePage.qml)
+        # and give the bots time until the flop falls.
         print(f"      Call (F2), bis der Flop liegt (max. {self.args.flop_tries}x) ...")
         self._press_until_change("F2", FRAC_BOARD, self.args.flop_tries,
                                  self.args.flop_sec, "Flop")
-        time.sleep(2.0)   # Austeil-Animation der drei Karten
+        time.sleep(2.0)   # Dealing animation of the three cards
 
     def _bet_on_flop(self) -> None:
-        # Nach dem Flop setzt der Mensch selbst (F3 = Bet/Raise, s. GamePage.qml)
-        # und laesst den Bots ein paar Sekunden zum Mitgehen. Ohne diesen Schritt
-        # checkt die Runde oft komplett durch und in KEINER Box steht ein Einsatz
-        # - die Vorschau zeigte dann nicht, wo der Sitz-Stil den Einsatz ablegt.
+        # After the flop the human bets themselves (F3 = bet/raise, see GamePage.qml)
+        # and gives the bots a few seconds to call. Without this step
+        # the round often checks all the way through and NO box shows a bet
+        # - the preview then did not show where the seat style puts the bet.
         print("      Bet (F3), bis der Einsatz in der Kopfzeile steht "
               f"(max. {self.args.bet_tries}x) ...")
         self._press_until_change("F3", FRAC_HEADER, self.args.bet_tries,
                                  self.args.bet_sec, "Einsatz")
-        time.sleep(2.5)   # ein paar Bots ziehen mit, damit mehrere Boxen tragen
+        time.sleep(2.5)   # a few bots call along, so that several boxes carry one
 
     def _write_scaled(self, raw: Path, targets: list[Path], size: str,
                       crop: str | None = None) -> None:
@@ -245,7 +245,7 @@ class ThemePreviewRecorder:
             print(f"      -> {dst}")
 
     def _capture_portrait(self) -> None:
-        # Portrait/Mobile: Tisch im Hochformat-Fenster, auf Fenster-Region zugeschnitten.
+        # Portrait/mobile: table in the portrait window, cropped to the window region.
         print("[5/6] Erstelle Portrait-Vorschau ...")
         g = self._geom()
         crop = f"{g['WIDTH']}x{g['HEIGHT']}+{g['X']}+{g['Y']}"
@@ -257,7 +257,7 @@ class ThemePreviewRecorder:
         raw.unlink(missing_ok=True)
 
     def _capture_landscape(self) -> None:
-        # Querformat: per F11 in den Vollbild-/Breitformat-Tisch wechseln.
+        # Landscape: switch to the fullscreen/wide format table via F11.
         print("[6/6] Erstelle Querformat-Vorschau ...")
         self._run("xdotool", "windowactivate", "--sync", self.win_id, check=False)
         self._run("xdotool", "key", "--clearmodifiers", "F11", check=False)
@@ -280,11 +280,11 @@ class ThemePreviewRecorder:
                     proc.kill()
 
     def _set_styles_in_config(self) -> None:
-        # Setzt die Stil-Keys in der Client-Config (config.xml). Die Keys muessen
-        # bereits existieren (Config-Revision aktuell) – ein erster Lauf mit dem
-        # Default-Stil upgradet eine alte Config und legt sie an. Kartenstapel und
-        # Rueckseite sind eigene Keys: auf dem Tisch liegen offene wie verdeckte
-        # Karten, die Vorschau zeigt also beide.
+        # Sets the style keys in the client config (config.xml). The keys have to
+        # exist already (config revision current) – a first run with the
+        # default style upgrades an old config and creates them. Card deck and
+        # card back are keys of their own: on the table there are open as well as covered
+        # cards, so the preview shows both.
         styles = {"QmlGameTableStyle": self.args.style}
         if self.args.card_deck:
             styles["QmlCardDeckStyle"] = self.args.card_deck
@@ -346,30 +346,30 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--portrait-preview-h", type=int, default=822)
     p.add_argument("--preloader-sec", type=float, default=9.0)
     p.add_argument("--table-sec", type=float, default=7.0)
-    # Vorschau nach dem Flop (Default) – erst dann liegen Community-Cards.
-    # Wartezeit je Tastendruck und Zahl der Versuche (s. _press_until_change).
+    # Preview after the flop (default) – only then are there community cards.
+    # Waiting time per keystroke and the number of attempts (see _press_until_change).
     p.add_argument("--flop-sec", type=float, default=2.0)
     p.add_argument("--flop-tries", type=int, default=8)
     p.add_argument("--preflop", action="store_true",
                    help="Vorschau schon praeflop aufnehmen (ohne Community-Cards)")
-    # Eigener Einsatz nach dem Flop, damit in den Spielerboxen Einsaetze stehen.
+    # Your own bet after the flop, so that there are bets in the player boxes.
     p.add_argument("--no-flop-bet", action="store_true",
                    help="nach dem Flop nicht selbst setzen (Runde durchchecken lassen)")
     p.add_argument("--bet-sec", type=float, default=2.5)
     p.add_argument("--bet-tries", type=int, default=3)
     p.add_argument("--binary", default=str(REPO_ROOT / "build/bin/pokerth_qml-client"))
-    # Welcher Spieltisch-Stil: bestimmt das Ziel-Verzeichnis
+    # Which game table style: determines the target directory
     # (data/gfx/qml/table/<style>/preview*.png).
     p.add_argument("--style", default="default")
-    # Stil-Keys vor dem Start in die Client-Config schreiben.
+    # Write the style keys into the client config before the start.
     p.add_argument("--set-table-style", action="store_true")
-    # Optional zusaetzlich Kartenstapel/Rueckseite setzen (nur mit
-    # --set-table-style wirksam). Ohne Angabe bleibt der konfigurierte Stil.
+    # Optionally set the card deck/card back as well (only effective with
+    # --set-table-style). Without a value the configured style stays.
     p.add_argument("--card-deck", default=None)
     p.add_argument("--card-back", default=None)
-    # Sitz-Stil (s. config/SeatStyle.qml): "inset" zeigt den Einsatz im Sockel
-    # INNERHALB der Spielerbox, "classic" daneben. Ohne Angabe bleibt der
-    # konfigurierte Wert - auf dem Desktop ist das die Vorgabe "inset".
+    # Seat style (see config/SeatStyle.qml): "inset" shows the bet in the base
+    # INSIDE the player box, "classic" next to it. Without a value the
+    # configured value stays - on the desktop that is the default "inset".
     p.add_argument("--seat-style", default=None, choices=["inset", "classic"])
     p.add_argument("--config", default=str(Path("~/.pokerth/config.xml").expanduser()))
     return p

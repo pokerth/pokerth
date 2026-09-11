@@ -36,8 +36,8 @@ QString ChatTranslatorCore::normalizeLangCode(const QString &raw)
 	if (code.isEmpty())
 		return QStringLiteral("en");
 
-	// Regionale Varianten, die die Dienste unterscheiden. Beide Schreibweisen
-	// abdecken: QML-Locale ("pt_BR") und PokerTH-Kürzel ("ptbr").
+	// Regional variants that the services distinguish. Cover both spellings:
+	// the QML locale ("pt_BR") and the PokerTH abbreviation ("ptbr").
 	if (code.startsWith(QLatin1String("pt_BR"), Qt::CaseInsensitive)
 			|| code.compare(QLatin1String("ptbr"), Qt::CaseInsensitive) == 0)
 		return QStringLiteral("pt-BR");
@@ -51,28 +51,28 @@ QString ChatTranslatorCore::normalizeLangCode(const QString &raw)
 			|| code.compare(QLatin1String("zhtw"), Qt::CaseInsensitive) == 0)
 		return QStringLiteral("zh-TW");
 
-	// Sprachteil vor der Region ("de_DE" -> "de").
+	// Language part before the region ("de_DE" -> "de").
 	const int us = code.indexOf(QLatin1Char('_'));
 	const QString lang = (us > 0 ? code.left(us) : code).toLower();
 
-	// PokerTH-Kürzel (ts-Dateinamen) auf ISO 639-1 abbilden, wo sie abweichen.
+	// Map the PokerTH abbreviations (ts file names) to ISO 639-1 where they differ.
 	static const QHash<QString, QString> alias = {
-		{ QStringLiteral("cz"), QStringLiteral("cs") },  // Tschechisch
-		{ QStringLiteral("dk"), QStringLiteral("da") },  // Dänisch
-		{ QStringLiteral("gr"), QStringLiteral("el") },  // Griechisch
-		{ QStringLiteral("jp"), QStringLiteral("ja") },  // Japanisch
-		{ QStringLiteral("nb"), QStringLiteral("no") },  // Norwegisch (Bokmål)
-		{ QStringLiteral("se"), QStringLiteral("sv") },  // Schwedisch
-		{ QStringLiteral("ua"), QStringLiteral("uk") },  // Ukrainisch
+		{ QStringLiteral("cz"), QStringLiteral("cs") },  // Czech
+		{ QStringLiteral("dk"), QStringLiteral("da") },  // Danish
+		{ QStringLiteral("gr"), QStringLiteral("el") },  // Greek
+		{ QStringLiteral("jp"), QStringLiteral("ja") },  // Japanese
+		{ QStringLiteral("nb"), QStringLiteral("no") },  // Norwegian (Bokmål)
+		{ QStringLiteral("se"), QStringLiteral("sv") },  // Swedish
+		{ QStringLiteral("ua"), QStringLiteral("uk") },  // Ukrainian
 	};
 	return alias.value(lang, lang);
 }
 
 QString ChatTranslatorCore::targetLang() const
 {
-	// Einzige Quelle: der ConfigFile-Key "Language" – denselben pflegen BEIDE
-	// Clients. Wird bei jeder Anfrage frisch gelesen, ein Sprachwechsel wirkt
-	// damit sofort (ohne Neustart).
+	// The only source: the ConfigFile key "Language" – BOTH clients maintain the
+	// same one. It is read afresh on every request, so a language change takes
+	// effect immediately (without a restart).
 	const QString code = m_config
 						 ? QString::fromStdString(m_config->readConfigString("Language"))
 						 : QString();
@@ -83,16 +83,16 @@ QString ChatTranslatorCore::styledTranslation(const QString &originalBodyHtml,
 		const QString &translated)
 {
 	const QString esc = translated.toHtmlEscaped();
-	// Umschließenden <span ...> der Originalnachricht (mit Farbe) wiederverwenden
-	// und den Inhalt durch die – kursiv gesetzte – Übersetzung ersetzen.
+	// Reuse the enclosing <span ...> of the original message (with its colour)
+	// and replace the content with the translation, set in italics.
 	if (originalBodyHtml.startsWith(QLatin1String("<span"))) {
 		const int gt = originalBodyHtml.indexOf(QLatin1Char('>'));
 		if (gt > 0)
 			return originalBodyHtml.left(gt + 1)
 				   + QStringLiteral("<i>") + esc + QStringLiteral("</i></span>");
 	}
-	// Kein umschließender Span (z. B. PM-Text) -> schlicht kursiv, erbt die
-	// Farbe des umgebenden Kontexts.
+	// No enclosing span (e.g. PM text) -> plain italics, inheriting the
+	// colour of the surrounding context.
 	return QStringLiteral("<i>") + esc + QStringLiteral("</i>");
 }
 
@@ -132,10 +132,10 @@ void ChatTranslatorCore::onPrimaryReply()
 	const int id = reply->property("xlate_id").toInt();
 
 	if (reply->error() != QNetworkReply::NoError) {
-		// Ausfall des Primärdienstes protokollieren: Google drosselt den
-		// gtx-Endpunkt IP-weise (HTTP 429 "Sorry..."-Seite). Ohne diese Zeile
-		// ist von außen nicht unterscheidbar, ob der Dienst blockt oder die
-		// Antwort nur nicht geparst werden konnte.
+		// Log an outage of the primary service: Google throttles the
+		// gtx endpoint per IP (HTTP 429 "Sorry..." page). Without this line
+		// it is impossible to tell from the outside whether the service blocks or the
+		// reply merely could not be parsed.
 		qWarning() << "ChatTranslator: Google-Endpunkt fehlgeschlagen, HTTP"
 				   << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()
 				   << reply->errorString() << "-> MyMemory";
@@ -143,7 +143,7 @@ void ChatTranslatorCore::onPrimaryReply()
 		return;
 	}
 
-	// Antwort: [[["Übersetzung","Original",…],[…]], null, "en", …]
+	// Reply: [[["translation","original",…],[…]], null, "en", …]
 	const QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
 	if (!doc.isArray()) {
 		startFallback(id, m_sourceById.value(id));
@@ -183,13 +183,13 @@ void ChatTranslatorCore::startFallback(int id, const QString &text)
 	QUrl url(QStringLiteral("https://api.mymemory.translated.net/get"));
 	QUrlQuery query;
 	query.addQueryItem(QStringLiteral("q"), text);
-	// MyMemory verlangt eine Quellsprache, kennt dafür aber "Autodetect" (die
-	// erkannte Sprache steht in der Antwort als responseData.detectedLanguage).
-	// Vorher stand hier fest "en" – mit Abbruch, wenn der Client selbst englisch
-	// eingestellt ist. Ein englischer Client hatte damit GAR KEINEN Fallback:
-	// fällt der Google-Endpunkt aus (er drosselt IP-weise mit HTTP 429), zeigte
-	// der Globus kurz die Sanduhr und danach sichtbar nichts. Zugleich wurde
-	// jede nicht-englische Nachricht als Englisch übersetzt.
+	// MyMemory requires a source language, but it knows "Autodetect" (the
+	// detected language is in the reply as responseData.detectedLanguage).
+	// Before, a fixed "en" stood here – with an abort if the client itself is set
+	// to English. An English client thus had NO fallback at all:
+	// if the Google endpoint fails (it throttles per IP with HTTP 429), the
+	// globe briefly showed the hourglass and then visibly nothing. At the same time
+	// every non-English message was translated as English.
 	query.addQueryItem(QStringLiteral("langpair"),
 					   QStringLiteral("Autodetect|") + tl);
 	url.setQuery(query);
@@ -216,11 +216,11 @@ void ChatTranslatorCore::onFallbackReply()
 		return;
 	}
 	// Antwort: { "responseData": { "translatedText": "…" }, "responseStatus": 200 }
-	// responseStatus MUSS geprüft werden: im Fehlerfall (ungültiges Sprachpaar,
-	// aufgebrauchtes Tageskontingent der freien Nutzung) antwortet MyMemory mit
-	// HTTP 200 und schreibt den Warntext in GROSSBUCHSTABEN in translatedText –
-	// ungeprüft stünde diese Warnung als "Übersetzung" in der Chatzeile. Das
-	// Feld kommt mal als Zahl (200), mal als String ("403"), daher über QVariant.
+	// responseStatus MUST be checked: in the error case (invalid language pair,
+	// the daily quota of the free usage used up) MyMemory replies with
+	// HTTP 200 and writes the warning text in CAPITALS into translatedText –
+	// unchecked, this warning would stand as the "translation" in the chat line. The
+	// field arrives sometimes as a number (200), sometimes as a string ("403"), hence via QVariant.
 	const QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
 	QString text;
 	int status = 0;
@@ -231,13 +231,13 @@ void ChatTranslatorCore::onFallbackReply()
 			   .value(QStringLiteral("translatedText")).toString();
 	}
 	if (status != 200) {
-		// Sonderfall "quelle == ziel": darauf antwortet MyMemory mit 403
-		// "PLEASE SELECT TWO DISTINCT LANGUAGES" – die Nachricht ist bereits in
-		// der Sprache des Clients, es gibt also nichts zu übersetzen. Das ist
-		// KEIN Fehler: der Google-Endpunkt gibt in diesem Fall einfach den
-		// Originaltext zurück, und genau so verhält sich der Fallback jetzt
-		// auch. Betrifft vor allem englische Clients, für die Englisch im
-		// Lobby-Chat die häufigste Sprache ist.
+		// Special case "source == target": MyMemory replies to that with 403
+		// "PLEASE SELECT TWO DISTINCT LANGUAGES" – the message is already in
+		// the language of the client, so there is nothing to translate. That is
+		// NOT an error: in this case the Google endpoint simply returns the
+		// original text, and that is exactly how the fallback behaves now
+		// as well. It mainly affects English clients, for which English is the
+		// most frequent language in the lobby chat.
 		if (text.contains(QLatin1String("DISTINCT LANGUAGES"), Qt::CaseInsensitive)
 				&& !source.isEmpty()) {
 			emit translated(id, source, true);

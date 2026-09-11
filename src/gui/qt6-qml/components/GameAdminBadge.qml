@@ -3,10 +3,10 @@ import QtQuick.Controls
 
 import "../config" as Config
 
-// Markiert den Tisch-Admin (Ersteller/Host eines Spiels) in den Spielerlisten
-// von Lobby, Warteraum und aufgeklappter Spielliste. Pendant zur grün
-// hinterlegten Zeile im Widget-Client (gameLobbyDialogImpl::newGameAdmin).
-// Sichtbarkeit setzt der Aufrufer (modelData.isGameAdmin).
+// Marks the table admin (creator/host of a game) in the player lists of
+// the lobby, the waiting room and the expanded game list. Counterpart to
+// the green row in the widget client (gameLobbyDialogImpl::newGameAdmin).
+// Visibility is set by the caller (modelData.isGameAdmin).
 Rectangle {
     id: badge
 

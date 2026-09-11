@@ -1,13 +1,13 @@
 #!/bin/bash
 set -e
 
-# Binary Deploy Script für pokerth_globalnotice (Admin-CLI, headless).
+# Binary deploy script for pokerth_globalnotice (admin CLI, headless).
 #
-# Aufbau analog zu create_binary_deploy.sh, aber deutlich kleiner: das Werkzeug
-# ist eine reine Konsolen-Anwendung (QCoreApplication) und braucht weder
-# Platform-Plugins noch QML-Module. Zwingend ist nur das Qt-TLS-Plugin —
-# ohne libqopensslbackend.so kann Qt Network kein HTTPS und der Download der
-# Serverliste (Default-Modus) schlägt fehl.
+# Structured like create_binary_deploy.sh, but considerably smaller: the tool
+# is a pure console application (QCoreApplication) and needs neither platform
+# plugins nor QML modules. Only the Qt TLS plugin is mandatory —
+# without libqopensslbackend.so Qt Network cannot do HTTPS and downloading
+# the server list (default mode) fails.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
@@ -48,14 +48,14 @@ mkdir -p "$DEPLOY_DIR"/{bin,lib,plugins}
 echo "=== Kopiere Binary ==="
 cp -v "$BUILD_DIR/bin/pokerth_globalnotice" "$DEPLOY_DIR/bin/"
 
-# System-Libs die nicht mitgeliefert werden (regex auf basename).
-# Nur der glibc-Kern: das Bundle bringt kein libc/ld-linux mit, deshalb ist die
-# glibc des Build-Containers die Mindestanforderung an den Host (siehe
-# Dockerfile.globalnotice-ubuntu24). Grafik-/Audio-Ausnahmen wie im GUI-Deploy
-# sind hier unnötig, das Werkzeug lädt weder GL noch PulseAudio.
+# System libs that are not shipped along (regex on the basename).
+# Only the glibc core: the bundle brings no libc/ld-linux along, so the
+# glibc of the build container is the minimum requirement for the host (see
+# Dockerfile.globalnotice-ubuntu24). Graphics/audio exceptions as in the GUI deploy
+# are unnecessary here, the tool loads neither GL nor PulseAudio.
 SKIP_PATTERN='^(libc[.-]|libm[.-]|libdl[.-]|libpthread[.-]|librt[.-]|libresolv[.-]|libutil[.-]|libnsl[.-]|ld-linux|ld-[0-9])'
 
-# ldd löst bereits ALLE transitiven Abhängigkeiten auf – keine Rekursion nötig.
+# ldd already resolves ALL transitive dependencies – no recursion needed.
 copy_deps() {
     xargs -r ldd 2>/dev/null \
         | awk '/=>/ {print $3}' \
@@ -69,9 +69,9 @@ copy_deps() {
         done
 }
 
-# Bei nicht-System-Qt (aqtinstall) liegen die Qt-Libs NICHT in einem Standard-
-# Suchpfad; ohne diesen Export meldet ldd sie als "not found" und copy_deps
-# ließe sie still weg.
+# With a non-system Qt (aqtinstall) the Qt libs are NOT in a standard search
+# path; without this export ldd reports them as "not found" and copy_deps
+# would silently leave them out.
 if [ -n "$QT6_ROOT" ] && [ -d "$QT6_ROOT/lib" ]; then
     export LD_LIBRARY_PATH="$QT6_ROOT/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 fi
@@ -91,8 +91,8 @@ fi
 
 if [ -d "$QT6_PLUGINS" ]; then
     echo "Qt6 Plugins: $QT6_PLUGINS"
-    # tls: Pflicht für den HTTPS-Download der Serverliste.
-    # networkinformation: optional (Reachability), schadet aber nicht.
+    # tls: mandatory for the HTTPS download of the server list.
+    # networkinformation: optional (reachability), but it does no harm.
     for cat in tls networkinformation; do
         if [ -d "$QT6_PLUGINS/$cat" ]; then
             mkdir -p "$DEPLOY_DIR/plugins/$cat"
@@ -119,7 +119,7 @@ cp -v "$SCRIPT_DIR/globalnotice/README.md" "$DEPLOY_DIR/"
 echo ""
 echo "=== Erstelle Konfiguration und Launcher ==="
 
-# qt.conf: Qt findet Plugins und Libs relativ zum Binary
+# qt.conf: Qt finds plugins and libs relative to the binary
 cat > "$DEPLOY_DIR/bin/qt.conf" << 'EOF'
 [Paths]
 Plugins = ../plugins
@@ -137,9 +137,9 @@ chmod +x "$DEPLOY_DIR/pokerth-globalnotice"
 
 echo ""
 echo "=== Verifiziere Abhängigkeiten ==="
-# copy_deps sammelt nur, was ldd auflöst. Fehlt eine Lib im Build-Container,
-# meldet ldd "not found" und sie wird STILL übersprungen -> das Deploy startet
-# auf dem Zielsystem nicht. Hier gegen das Deploy-eigene lib/ gegenprüfen.
+# copy_deps only collects what ldd resolves. If a lib is missing in the build
+# container, ldd reports "not found" and it is SILENTLY skipped -> the deploy
+# does not start on the target system. Cross-check against the deploy's own lib/ here.
 UNRESOLVED=$( { find "$DEPLOY_DIR/bin" -maxdepth 1 -type f;
                 find "$DEPLOY_DIR/plugins" "$DEPLOY_DIR/lib" -name "*.so*" 2>/dev/null; } \
     | while read -r f; do
@@ -150,7 +150,7 @@ UNRESOLVED=$( { find "$DEPLOY_DIR/bin" -maxdepth 1 -type f;
 if [ -n "$UNRESOLVED" ]; then
     echo "Ungelöste Abhängigkeiten:"
     echo "$UNRESOLVED" | sed 's/^/  /'
-    # Binary und TLS-Plugin sind beide zwingend -> harter Abbruch.
+    # The binary and the TLS plugin are both mandatory -> hard abort.
     if echo "$UNRESOLVED" | grep -qE "/bin/pokerth_globalnotice|/plugins/tls/"; then
         echo "FEHLER: Binary bzw. TLS-Plugin unvollständig -> Abbruch."
         echo "        Fehlende Libs im Build-Container installieren und neu bauen."
@@ -162,8 +162,8 @@ fi
 
 echo ""
 echo "=== Smoke-Test ==="
-# --help braucht kein Netz und keine Credentials: prüft nur, ob das Bundle
-# überhaupt startet (Libs/Plugins vollständig).
+# --help needs neither network nor credentials: it only checks whether the
+# bundle starts at all (libs/plugins complete).
 if "$DEPLOY_DIR/pokerth-globalnotice" --help > /dev/null; then
     echo "OK: ./pokerth-globalnotice --help läuft."
 else

@@ -71,7 +71,7 @@ void LocalBeRoPostRiver::postRiverRun()
 		}
 	}
 
-	// prüfen ob nur noch human player an der verteilung teilnimmt und myAggressive für human player setzen
+	// check whether only human players are still part of the distribution and set myAggressive for human players
 	if(potPlayers == 1) {
 		for(it=getMyHand()->getActivePlayerList()->begin(); it!=getMyHand()->getActivePlayerList()->end(); ++it) {
 			if( (*it)->getMyAction() != PLAYER_ACTION_FOLD) {
@@ -87,13 +87,13 @@ void LocalBeRoPostRiver::postRiverRun()
 // 		}
 // 	}
 
-	// Spieler ermitteln, welche die Karten auf jeden Fall umdrehen müssen
+	// determine the players who have to turn over their cards in any case
 	getMyHand()->getBoard()->determinePlayerNeedToShowCards();
 
 	// Pot-Verteilung
 	getMyHand()->getBoard()->distributePot(getDealerPosition());
 
-	//Pot auf 0 setzen
+	//set pot to 0
 	getMyHand()->getBoard()->setPot(0);
 
 	// logging
@@ -111,6 +111,6 @@ void LocalBeRoPostRiver::postRiverRun()
 		getMyHand()->getLog()->logAfterHand();
 	}
 
-	//starte die Animaionsreihe
+	//start the animation sequence
 	getMyHand()->getGuiInterface()->postRiverRunAnimation1();
 }

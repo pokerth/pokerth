@@ -119,8 +119,8 @@ public:
 	void setMyAggressive(bool theValue);
 	int getMyAggressive() const;
 
-	/* Der Netzwerk-Client fuehrt keine Computerspieler aus -- die Statistik
-	 * bleibt hier leer und wird nur der Schnittstelle wegen bereitgestellt.
+	/* The network client does not run any computer players -- the statistics
+	 * stay empty here and are only provided for the sake of the interface.
 	 */
 	const PlayerStatistics& getMyStatistics() const;
 	void beginStatisticsHand();

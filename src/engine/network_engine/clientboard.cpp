@@ -129,16 +129,16 @@ void
 ClientBoard::collectPot()
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	// CRITICAL: Summiere zuerst alle Spieler-Sets zu Board.sets
+	// CRITICAL: first sum up all player sets into Board.sets
 	sets = 0;
 	PlayerListIterator it;
 	for(it = seatsList->begin(); it != seatsList->end(); ++it) {
 		sets += (*it)->getMySet();
 	}
-	// Dann addiere sets zum pot und setze Board.sets auf 0
+	// then add sets to the pot and set Board.sets to 0
 	pot += sets;
 	sets = 0;
-	// Dann setze alle Spieler-Sets auf 0
+	// then set all player sets to 0
 	for(it = seatsList->begin(); it != seatsList->end(); ++it) {
 		(*it)->setMySetNull();
 	}

@@ -724,7 +724,7 @@ ClientThread::InitAuthContext()
 void
 ClientThread::ClearAuthContext()
 {
-	// GSASL entfernt: nichts zu räumen.
+	// GSASL removed: nothing to clean up.
 	m_authContext = NULL;
 }
 
@@ -1110,7 +1110,7 @@ ClientThread::GetCacheServerListFileName()
 	return fileName;
 }
 
-// Implementierung der statischen SslInfoCallback Methode
+// Implementation of the static SslInfoCallback method
 void
 ClientThread::SslInfoCallback(const SSL *ssl, int where, int ret)
 {
@@ -1288,7 +1288,7 @@ void
 ClientThread::SetSpectating(bool spectating)
 {
 	m_spectating = spectating;
-	// Ein Zuschauer spielt nicht mit -> es wird auch kein Logfile geschrieben.
+	// A spectator does not play along -> no log file is written either.
 	if (m_clientLog) {
 		m_clientLog->setRecordingSuspended(spectating);
 	}
@@ -1833,8 +1833,8 @@ ClientThread::ReadSessionGuidFromFile()
 		std::vector<char> tmpGuid(CLIENT_GUID_SIZE);
 		guidStream.read(&tmpGuid[0], CLIENT_GUID_SIZE);
 		GetContext().SetSessionGuid(string(tmpGuid.begin(), tmpGuid.end()));
-		// Rejoin-Diagnose: nur mit hier gelesener GUID kann der Client nach einem
-		// Neustart (Android killt die App im Hintergrund) einen Wiedereinstieg
+		// Rejoin diagnostics: only with the GUID read here can the client request a
+		// rejoin after a restart (Android kills the app in the background).
 		// anfragen.
 		LOG_MSG("[REJOIN] read guid.tmp (" << guidFileName << "), size="
 				<< GetContext().GetSessionGuid().size());
@@ -1851,8 +1851,8 @@ ClientThread::WriteSessionGuidToFile() const
 	std::ofstream guidStream(guidFileName.c_str(), ios::out | ios::trunc | ios::binary);
 	if (guidStream.good()) {
 		guidStream.write(GetContext().GetSessionGuid().c_str(), GetContext().GetSessionGuid().size());
-		// Rejoin-Diagnose: schlägt dieses Schreiben fehl (Pfad nicht beschreibbar),
-		// gibt es nach einem App-Neustart keine GUID für den Wiedereinstieg.
+		// Rejoin diagnostics: if this write fails (path not writable), there is no
+		// GUID for the rejoin after an app restart.
 		LOG_MSG("[REJOIN] wrote guid.tmp (" << guidFileName << "), size="
 				<< GetContext().GetSessionGuid().size());
 	} else {

@@ -3,18 +3,18 @@ import QtQuick.Layouts
 
 import "../config" as Config
 
-// Ein „Results"-Step der BBC/WEC-Spielerseite: Platzierungs-Grafik (Balken
-// grün→rot bzw. – per Tap umschaltbar – Kreisdiagramm) neben einer Tabelle mit
-// Anzahl- und Prozent-Zeile je Platz 1–10, darunter eine Legende, die Farbe →
-// Platz zuordnet (wie auf der PokerTH-Spielerseite). `values` = 10 Häufigkeiten
-// eines Steps (stats.<block>.places[step]), `barColors` = Config.StaticData.heatColors.
+// One "results" step of the BBC/WEC player page: placement graphic (bars
+// green→red or – switchable by tap – a pie chart) next to a table with a
+// count and a percentage row per place 1–10, below it a legend mapping colour →
+// place (as on the PokerTH player page). `values` = 10 frequencies of one
+// step (stats.<block>.places[step]), `barColors` = Config.StaticData.heatColors.
 ColumnLayout {
     id: result
 
     property var values: []
     property var barColors: []
-    // Tippen auf die Grafik schaltet zwischen Balken und Kreisdiagramm um
-    // (wie das Bar/Pie-Toggle der BBC/WEC-Seite).
+    // Tapping the graphic switches between bars and pie chart
+    // (like the bar/pie toggle of the BBC/WEC page).
     property bool showPie: false
 
     readonly property bool compact: Config.Responsive.compact
@@ -41,15 +41,15 @@ ColumnLayout {
         columnSpacing: 14
         rowSpacing: 12
 
-        // ── Grafik: Balken (grün→rot, bündig, ohne Achsen) oder Kreisdiagramm;
-        //    per Tap umschaltbar. ─────────────────────────────────────────────
+        // ── Graphic: bars (green→red, flush, without axes) or pie chart;
+        //    switchable by tap. ───────────────────────────────────────────────
         Item {
             id: chartBox
             Layout.preferredWidth: result.compact ? 0 : 210
             Layout.fillWidth: result.compact
             Layout.alignment: Qt.AlignTop
-            // Balkenhöhe an die Tabelle daneben angeglichen (3 Zeilen + Kopf
-            // ≈ 93 px + deren topMargin), damit beide unten bündig abschließen.
+            // Bar height matched to the table next to it (3 rows + header
+            // ≈ 93 px + its topMargin) so that both end flush at the bottom.
             Layout.preferredHeight: result.showPie ? 170 : 100
 
             Row {
@@ -86,7 +86,7 @@ ColumnLayout {
             TapHandler { onTapped: result.showPie = !result.showPie }
         }
 
-        // ── Tabelle: 1.…10. / Anzahl / Prozent ──────────────────────────────
+        // ── Table: 1st…10th / count / percentage ───────────────────────────
         Rectangle {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignTop
@@ -126,7 +126,7 @@ ColumnLayout {
                     width: tableCol.width; height: 1
                     color: Config.StaticData.palette.secondary.col500
                 }
-                // Anzahl
+                // Count
                 RowLayout {
                     width: tableCol.width
                     height: 30
@@ -169,8 +169,8 @@ ColumnLayout {
         }
     }
 
-    // ── Legende: Farbe → Platz (wie PokerTH-Spielerseite), gilt für Balken
-    //    UND Kreisdiagramm. ────────────────────────────────────────────────
+    // ── Legend: colour → place (as on the PokerTH player page), applies to bars
+    //    AND the pie chart. ───────────────────────────────────────────────
     Flow {
         Layout.fillWidth: true
         spacing: 12

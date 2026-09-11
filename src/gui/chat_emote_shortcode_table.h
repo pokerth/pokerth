@@ -5,24 +5,24 @@
 #include <QHash>
 #include <initializer_list>
 
-// GENERIERT – nicht von Hand editieren.
+// GENERATED – do not edit by hand.
 //
-// Vollständige GitHub-Emoji-Shortcode-Liste (":smile:", ":fire:", …), wie im
-// bekannten Cheat-Sheet https://gist.github.com/rxaviers/7360908. Quelle:
-// https://api.github.com/emojis (Stand: Juli 2026, 1913 Unicode-Emojis).
-// Regenerieren: JSON laden, "/unicode/<cp>[-<cp>…].png"-URLs zu Codepoint-
-// Listen parsen und als insert-Zeilen ausgeben; Einträge ohne "/unicode/"
-// (GitHub-Bild-Emojis wie :octocat:, :shipit:) überspringen.
+// The complete GitHub emoji shortcode list (":smile:", ":fire:", …), as in the
+// well-known cheat sheet https://gist.github.com/rxaviers/7360908. The source:
+// https://api.github.com/emojis (as of July 2026, 1913 Unicode emojis).
+// To regenerate: load the JSON, parse the "/unicode/<cp>[-<cp>…].png" URLs into
+// code point lists and print them as insert lines; skip entries without "/unicode/"
+// (GitHub image emojis such as :octocat:, :shipit:).
 //
-// Abweichungen von den GitHub-Rohdaten (die URLs lassen FE0F/ZWJ weg und
-// wären so gebrochene Sequenzen):
-//  * Keycaps (:one:, :hash:, …): U+FE0F ergänzt (RGI-Sequenz Basis+FE0F+20E3),
-//    sonst rendert die Basisziffer als Text.
-//  * Mehrpunkt-Sequenzen (:family_man_woman_girl_boy:, :health_worker:, …):
-//    über die offizielle RGI-Liste (unicode.org emoji-zwj-sequences.txt)
-//    zur vollen Sequenz inkl. ZWJ/FE0F rekonstruiert.
-//  * Am Ende einige zusätzliche Aliase, die GitHub nicht kennt (Discord-
-//    üblich bzw. bisheriger PokerTH-Kürzelsatz).
+// Deviations from the raw GitHub data (the URLs leave FE0F/ZWJ out and
+// would thus be broken sequences):
+//  * Keycaps (:one:, :hash:, …): U+FE0F added (the RGI sequence base+FE0F+20E3),
+//    otherwise the base digit renders as text.
+//  * Multi code point sequences (:family_man_woman_girl_boy:, :health_worker:, …):
+//    reconstructed to the full sequence incl. ZWJ/FE0F via the official
+//    RGI list (unicode.org emoji-zwj-sequences.txt).
+//  * At the end a few additional aliases that GitHub does not know (usual in
+//    Discord or the previous PokerTH shortcut set).
 inline QHash<QString, QString> buildChatEmoteShortcodeMap()
 {
 	auto e = [](std::initializer_list<char32_t> cps) {

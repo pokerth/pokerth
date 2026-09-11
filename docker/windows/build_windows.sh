@@ -80,11 +80,11 @@ fi
 
 echo "Copying Qt DLLs..."
 if [[ "${TARGET}" == *"qml"* ]]; then
-    # QML-Client: alle Qt6-DLLs kopieren (windeployqt-Äquivalent für Cross-Build)
+    # QML client: copy all Qt6 DLLs (windeployqt equivalent for the cross build)
     echo "  QML target: copying all Qt6*.dll from ${QT_WINDOWS_DIR}/bin/"
     cp ${QT_WINDOWS_DIR}/bin/Qt6*.dll $DEPLOY_DIR/ 2>/dev/null || true
 else
-    # Widget-Client: nur die tatsächlich benötigten DLLs
+    # Widget client: only the DLLs actually needed
     for dll in Qt6Core Qt6Gui Qt6Widgets Qt6Network Qt6Sql Qt6Xml \
                Qt6WebSockets Qt6Multimedia Qt6MultimediaWidgets Qt6Svg; do
         cp ${QT_WINDOWS_DIR}/bin/${dll}.dll $DEPLOY_DIR/ 2>/dev/null || true
@@ -134,7 +134,7 @@ if [ -d "$VCPKG_BIN_DIR" ]; then
     cp ${VCPKG_BIN_DIR}/*.dll $DEPLOY_DIR/ 2>/dev/null || true
 fi
 
-# Fallback: Suche die DLLs im System-MinGW
+# Fallback: look for the DLLs in the system MinGW
 if [ ! -f "$DEPLOY_DIR/libgcc_s_seh-1.dll" ]; then
     echo "  Searching for MinGW runtime DLLs in system paths..."
     find /usr/lib/gcc/x86_64-w64-mingw32 -name "libgcc_s_seh-1.dll" -exec cp {} $DEPLOY_DIR/ \; 2>/dev/null || true
@@ -146,7 +146,7 @@ if [ ! -f "$DEPLOY_DIR/libgcc_s_seh-1.dll" ]; then
     find /usr/lib/gcc-cross -name "libstdc++-6.dll" -exec cp {} $DEPLOY_DIR/ \; 2>/dev/null || true
 fi
 
-# Überprüfe, ob alle DLLs gefunden wurden
+# Check whether all DLLs were found
 echo "  Verifying MinGW runtime DLLs..."
 for dll in libgcc_s_seh-1.dll libstdc++-6.dll libwinpthread-1.dll; do
     if [ -f "$DEPLOY_DIR/$dll" ]; then

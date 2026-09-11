@@ -70,7 +70,7 @@ public:
 	virtual void setPlayerAvatar(int myUniqueID, const std::string &myAvatar) const=0;
 	virtual void waitForGuiUpdateDone() const=0;
 
-	// Karten-Funktionen
+	// Card functions
 	virtual void dealBeRoCards(int) =0;
 	virtual void dealHoleCards()=0;
 	virtual void dealFlopCards()=0;

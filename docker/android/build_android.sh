@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Minimaler Android-Build-Helper für ${TARGET} (Template)
-# Erwartet als Umgebungsvariablen:
+# Minimal Android build helper for ${TARGET} (template)
+# Expects the following environment variables:
 #  ANDROID_SDK_ROOT, ANDROID_NDK_ROOT, JAVA_HOME, QT_ANDROID_DIR
 
 usage(){
@@ -20,13 +20,13 @@ ARCH=${ANDROID_ARCH:-x64}
 # fi
 BUILD_TYPE=Release
 API_LEVEL=${ANDROID_API_LEVEL:-35}
-# minSdkVersion (Geräte-Mindeststufe). Default 28 = Android 9.0.
-# Überschreibbar via ANDROID_MIN_SDK (z.B. 26 für Android 8.0 / HUAWEI RNE-L21).
+# minSdkVersion (minimum device level). Default 28 = Android 9.0.
+# Overridable via ANDROID_MIN_SDK (e.g. 26 for Android 8.0 / HUAWEI RNE-L21).
 MIN_SDK=${ANDROID_MIN_SDK:-28}
-# Nativer Compile-Level (ANDROID_NATIVE_API_LEVEL / ANDROID_PLATFORM). Default =
-# API_LEVEL. Entkoppelt von compileSdk/targetSdk, weil ältere NDKs ein niedrigeres
-# Maximum haben (NDK r26b: max android-34) bzw. man die nativen Libs gezielt für
-# eine ältere Geräte-API bauen will (z.B. 26 für Android 8.0).
+# Native compile level (ANDROID_NATIVE_API_LEVEL / ANDROID_PLATFORM). Default =
+# API_LEVEL. Decoupled from compileSdk/targetSdk because older NDKs have a lower
+# maximum (NDK r26b: max android-34), or because you want to build the native libs
+# specifically for an older device API (e.g. 26 for Android 8.0).
 NATIVE_API_LEVEL=${ANDROID_NATIVE_API_LEVEL:-$API_LEVEL}
 TARGET=${TARGET:-pokerth_qml-client}
 BUILD_TIMESTAMP=$(date +%Y%m%d_%H%M%S)
@@ -58,7 +58,7 @@ esac
 : ${JAVA_HOME:?Please set JAVA_HOME}
 : ${QT_ANDROID_DIR:?Please set QT_ANDROID_DIR (Qt installation for Android)}
 
-# Prüfe Android-Plattform
+# Check the Android platform
 if [[ ! -d "${ANDROID_SDK_ROOT}/platforms/android-${API_LEVEL}" ]]; then
   echo "WARNING: Android platform android-${API_LEVEL} not found"
 fi
@@ -138,7 +138,7 @@ cmake --build "$BUILD_DIR" --target ${TARGET} -j $(nproc || echo 1)
 
 echo "Build finished. Artefacts in: $BUILD_DIR"
 
-# Bestimme das Android Source Directory basierend auf dem Target
+# Determine the Android source directory based on the target
 if [[ $TARGET == "pokerth_qml-client" ]]; then
   ANDROID_SOURCE_DIR="${PWD}/src/gui/qt6-qml/android"
   BUILD_SUBDIR="src/gui/qt6-qml"
@@ -149,7 +149,7 @@ fi
 
 ANDROID_BUILD_DIR="$BUILD_DIR/android-build"
 
-# WICHTIG: Suche deployment-settings.json im BUILD-Verzeichnis, nicht im Source-Verzeichnis!
+# IMPORTANT: look for deployment-settings.json in the BUILD directory, not in the source directory!
 DEPLOY_JSON=$(find "$BUILD_DIR/$BUILD_SUBDIR" -type f -name "*deployment-settings.json" 2>/dev/null | head -n1 || true)
 
 if [[ -z "$DEPLOY_JSON" ]]; then
@@ -172,12 +172,12 @@ fi
 
 echo "Found deployment settings: $DEPLOY_JSON"
 
-# Patche deployment-settings.json - WICHTIG: Ändere application-binary!
+# Patch deployment-settings.json - IMPORTANT: change application-binary!
 if command -v jq >/dev/null 2>&1; then
   echo "Patching deployment settings JSON..."
   TMP_JSON=$(mktemp)
   
-  # Patche ALLE relevanten Felder UND setze application-binary auf den tatsächlichen Target-Namen
+  # Patch ALL relevant fields AND set application-binary to the actual target name
   jq --arg bt "$BUILD_TOOLS_VERSION" \
      --arg al "$API_LEVEL" \
      --arg min "$MIN_SDK" \
@@ -206,17 +206,17 @@ fi
 # Erstelle Android Build-Verzeichnisstruktur
 mkdir -p "$ANDROID_BUILD_DIR/libs/$ARCH"
 
-# Kopiere Android-Manifest und Ressourcen BEVOR androiddeployqt läuft
+# Copy the Android manifest and resources BEFORE androiddeployqt runs
 if [[ -d "$ANDROID_SOURCE_DIR" ]]; then
   echo "Copying Android source files from: $ANDROID_SOURCE_DIR"
   cp -rv "$ANDROID_SOURCE_DIR"/* "$ANDROID_BUILD_DIR/" || true
 fi
 
-# Erstelle Verzeichnisse für Ressourcen
+# Create the directories for the resources
 mkdir -p "$ANDROID_BUILD_DIR/res/drawable"
 mkdir -p "$ANDROID_BUILD_DIR/res/values"
 
-# Package-Name, Version und Orientierung pro Target.
+# Package name, version and orientation per target.
 VERSION_CODE="28"
 if [[ $TARGET == "pokerth_qml-client" ]]; then
   # Permanent Play/iOS/F-Droid app id — keep in sync with build_android_qml.sh.
@@ -229,10 +229,10 @@ else
   SCREEN_ORIENTATION="landscape"
 fi
 
-# Generiere AndroidManifest.xml aus Template und schreibe es direkt in
-# ANDROID_SOURCE_DIR, damit androiddeployqt immer die aktuelle Version liest.
-# Sicherstellen, dass das Verzeichnis existiert (z.B. fehlt src/gui/qt/android/
-# beim Widget-Client initial).
+# Generate AndroidManifest.xml from the template and write it directly into
+# ANDROID_SOURCE_DIR, so that androiddeployqt always reads the current version.
+# Make sure the directory exists (e.g. src/gui/qt/android/ is missing
+# initially for the widget client).
 mkdir -p "$ANDROID_SOURCE_DIR"
 MANIFEST_TEMPLATE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/AndroidManifest.xml.template"
 if [[ ! -f "$MANIFEST_TEMPLATE" ]]; then
@@ -244,9 +244,9 @@ envsubst '${PACKAGE_NAME} ${VERSION_NAME} ${VERSION_CODE} ${API_LEVEL} ${MIN_SDK
   < "$MANIFEST_TEMPLATE" > "$ANDROID_SOURCE_DIR/AndroidManifest.xml"
 echo "AndroidManifest.xml generiert: package=$PACKAGE_NAME version=$VERSION_NAME/$VERSION_CODE lib=$TARGET minSdk=$MIN_SDK"
 
-# Wenn das Package im Gradle-Cache noch unter einem anderen Namen gespeichert ist
-# (z.B. nach einem QML-Build), bricht AAPT mit "resource mipmap/ic_launcher not found"
-# ab. Gradle-Build-Cache leeren, damit ein sauberer Neubau erzwungen wird.
+# If the package is still stored under a different name in the Gradle cache
+# (e.g. after a QML build), AAPT aborts with "resource mipmap/ic_launcher not found".
+# Clear the Gradle build cache to force a clean rebuild.
 CACHED_PKG_FILE="$ANDROID_BUILD_DIR/.last_package_name"
 if [[ -f "$CACHED_PKG_FILE" ]] && [[ "$(cat "$CACHED_PKG_FILE")" != "$PACKAGE_NAME" ]]; then
   echo "Package-Name geändert ($(cat "$CACHED_PKG_FILE") → $PACKAGE_NAME) – lösche Gradle-Build-Cache."
@@ -254,7 +254,7 @@ if [[ -f "$CACHED_PKG_FILE" ]] && [[ "$(cat "$CACHED_PKG_FILE")" != "$PACKAGE_NA
 fi
 echo "$PACKAGE_NAME" > "$CACHED_PKG_FILE"
 
-# Finde .so-Datei - suche sowohl nach lib${TARGET}.so als auch nach Varianten
+# Find the .so file - look for lib${TARGET}.so as well as for variants
 SO_FILE=$(find "$BUILD_DIR" -type f \( -name "lib${TARGET}.so" -o -name "lib${TARGET}_*.so" \) | head -n1)
 
 if [[ -z "$SO_FILE" ]]; then
@@ -266,15 +266,15 @@ fi
 
 echo "Found library: $SO_FILE"
 
-# Kopiere mit dem Namen, den androiddeployqt erwartet
+# Copy it with the name androiddeployqt expects
 EXPECTED_SO_NAME="lib${TARGET}_${ARCH}.so"
 echo "Copying library as: $EXPECTED_SO_NAME"
 cp -v "$SO_FILE" "$ANDROID_BUILD_DIR/libs/$ARCH/$EXPECTED_SO_NAME"
 
-# Erstelle auch einen Symlink mit dem ursprünglichen Namen
+# Also create a symlink with the original name
 ln -sf "$EXPECTED_SO_NAME" "$ANDROID_BUILD_DIR/libs/$ARCH/lib${TARGET}.so"
 
-# Überprüfe, ob die Datei kopiert wurde
+# Check whether the file was copied
 if [[ ! -f "$ANDROID_BUILD_DIR/libs/$ARCH/$EXPECTED_SO_NAME" ]]; then
   echo "ERROR: Failed to copy library to $ANDROID_BUILD_DIR/libs/$ARCH/"
   exit 9
@@ -336,8 +336,8 @@ set -e
 echo ""
 echo "androiddeployqt exit code: $DEPLOYQT_EXIT"
 
-# Generiere App-Icon aus pokerth.svg in alle Mipmap-Dichten (NACH androiddeployqt,
-# da androiddeployqt res/ neu anlegt und eigene Icons überschreiben würde).
+# Generate the app icon from pokerth.svg in all mipmap densities (AFTER androiddeployqt,
+# because androiddeployqt recreates res/ and would overwrite custom icons).
 echo ""
 echo "Generating PokerTH mipmap icons from pokerth.svg..."
 ICON_SVG="${PWD}/src/gui/qt6-qml/resources/pokerth.svg"
@@ -363,7 +363,7 @@ else
   echo "Icon generation complete."
 fi
 
-# Prüfe und patche gradle.properties (nicht build.gradle!)
+# Check and patch gradle.properties (not build.gradle!)
 if [[ -f "$ANDROID_BUILD_DIR/gradle.properties" ]]; then
   echo ""
   echo "Checking and patching gradle.properties..."
@@ -374,16 +374,16 @@ if [[ -f "$ANDROID_BUILD_DIR/gradle.properties" ]]; then
   echo ""
   echo "Applying patch..."
   
-  # Setze oder aktualisiere androidBuildToolsVersion in gradle.properties
+  # Set or update androidBuildToolsVersion in gradle.properties
   if grep -q "^androidBuildToolsVersion=" "$ANDROID_BUILD_DIR/gradle.properties"; then
-    # Ersetze existierende Zeile
+    # Replace the existing line
     sed -i "s/^androidBuildToolsVersion=.*/androidBuildToolsVersion=$BUILD_TOOLS_VERSION/" "$ANDROID_BUILD_DIR/gradle.properties"
   else
-    # Füge neue Zeile hinzu
+    # Add a new line
     echo "androidBuildToolsVersion=$BUILD_TOOLS_VERSION" >> "$ANDROID_BUILD_DIR/gradle.properties"
   fi
   
-  # Setze auch compileSdkVersion falls nötig
+  # Also set compileSdkVersion if needed
   if ! grep -q "^androidCompileSdkVersion=" "$ANDROID_BUILD_DIR/gradle.properties"; then
     echo "androidCompileSdkVersion=$API_LEVEL" >> "$ANDROID_BUILD_DIR/gradle.properties"
   fi
@@ -392,7 +392,7 @@ if [[ -f "$ANDROID_BUILD_DIR/gradle.properties" ]]; then
   echo "After patch:"
   cat "$ANDROID_BUILD_DIR/gradle.properties"
   
-  # Führe Gradle Build manuell aus
+  # Run the Gradle build manually
   echo ""
   echo "Running Gradle build manually..."
   cd "$ANDROID_BUILD_DIR"

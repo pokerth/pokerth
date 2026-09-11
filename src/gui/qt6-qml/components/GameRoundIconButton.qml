@@ -4,16 +4,16 @@ import QtQuick.Effects
 
 import "../config" as Config
 
-// Rundes Umschalt-Icon am Tischrand (Spielverlauf, Chat …): aktiver Zustand
-// hebt sich farblich ab; optional zeigt ein Badge oben rechts die Anzahl
-// ungelesener Elemente. Position/z setzt der Aufrufer über anchors.
+// Round toggle icon at the table edge (game history, chat …): the active
+// state stands out in colour; optionally a badge in the top right shows the
+// number of unread items. Position/z is set by the caller via anchors.
 Rectangle {
     id: root
 
     property url iconSource: ""
     property bool active: false
-    property int unread: 0           // 0 = kein Badge
-    property string tooltipText: ""  // leer = kein Tooltip
+    property int unread: 0           // 0 = no badge
+    property string tooltipText: ""  // empty = no tooltip
     signal clicked()
 
     width: 34; height: 34; radius: 17
@@ -44,7 +44,7 @@ Rectangle {
         onClicked: root.clicked()
     }
 
-    // Badge mit Anzahl ungelesener Einträge.
+    // Badge with the number of unread entries.
     Rectangle {
         visible: root.unread > 0
         anchors.top: parent.top

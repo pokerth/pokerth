@@ -54,7 +54,7 @@ Rectangle {
             .replace(/'/g, "&#39;")
     }
 
-    // Kontextaktionen für das ausgewählte Spiel (Bestätigung wie im Widget-Client)
+    // Context actions for the selected game (confirmation as in the widget client)
     function requestReportGame() {
         if (!selectedGame) return
         reportGamePopup.openWith(
@@ -83,10 +83,10 @@ Rectangle {
             qsTr("Close game"))
     }
 
-    // Hinweis auf einen eigenen Avatar, den der Server nicht mehr ausliefert.
-    // Die eigene Vorschau zeigt ihn weiterhin, die Mitspieler sehen aber
-    // nichts – ohne diesen Hinweis merkt das niemand. SettingsManager gibt die
-    // Warnung nur einmal je Programmlauf heraus.
+    // A notice about an avatar of your own that the server no longer delivers.
+    // Your own preview still shows it, but the fellow players see
+    // nothing – without this notice nobody notices. The SettingsManager issues the
+    // warning only once per program run.
     function checkMyAvatar() {
         if (!SettingsManager || !SettingsManager.takeMyAvatarWarning())
             return
@@ -135,7 +135,7 @@ Rectangle {
 
         function onSelfJoinedGame() {
             // console.log("[NAV] onSelfJoinedGame | depth before:", mainStackView.depth, "| currentItem:", mainStackView.currentItem ? (mainStackView.currentItem.objectName || mainStackView.currentItem.toString()) : "null")
-            // pop(lobbyPage) entfernt alles ÜBER lobbyPage; ist lobbyPage schon oben, passiert nichts
+            // pop(lobbyPage) removes everything ABOVE lobbyPage; if lobbyPage is already on top, nothing happens
             mainStackView.pop(lobbyPage, StackView.Immediate)
             // console.log("[NAV]   pushing GameWaitPage | depth now:", mainStackView.depth)
             mainStackView.push("GameWaitPage.qml")
@@ -339,7 +339,7 @@ Rectangle {
                     Layout.fillWidth: true
                 }
 
-                // Kontextaktionen für das ausgewählte Spiel
+                // Context actions for the selected game
                 Row {
                     visible: lobbyPage.selectedGame !== null
                     spacing: 2
@@ -588,7 +588,7 @@ Rectangle {
                                     elide: Text.ElideRight
                                 }
 
-                                // Tisch-Admin (Host) hervorheben – wie im Widget-Client
+                                // Highlight the table admin (host) – as in the widget client
                                 GameAdminBadge {
                                     visible: gameAdmin
                                     Layout.alignment: Qt.AlignVCenter
@@ -711,10 +711,10 @@ Rectangle {
             }
         }
 
-        // Main content — desktop: drei resizable Spalten (Spielerliste |
-        // Spielliste/Chat | Game-Info/Chat) mit Min-/Max-Breiten, sodass immer
-        // alle drei Spalten sinnvoll sichtbar bleiben. Compact: nur die
-        // Mittelspalte ist sichtbar, die Seitenspalten entfallen.
+        // Main content — desktop: three resizable columns (player list |
+        // game list/chat | game info/chat) with minimum/maximum widths, so that
+        // all three columns always stay usefully visible. Compact: only the
+        // middle column is visible, the side columns are dropped.
         SplitView {
             id: lobbyContentSplit
             Layout.fillWidth: true
@@ -788,8 +788,8 @@ Rectangle {
                 SplitView.minimumWidth: 280
                 spacing: 5
 
-                // Compact: Spielliste und Chat sind vertikal resizable
-                // (Min-Höhe je 1/3). Wide: nur die Spielliste, füllt den Platz.
+                // Compact: the game list and the chat are resizable vertically
+                // (a minimum height of 1/3 each). Wide: only the game list, it fills the room.
                 SplitView {
                     id: lobbyCenterSplit
                     Layout.fillWidth: true
@@ -827,11 +827,11 @@ Rectangle {
                             clip: true
                             model: Lobby ? Lobby.gameListProxyModel : null
 
-                            // Tastaturbedienung: Tab führt in die Liste, Pfeile
-                            // wechseln die Zeile, Enter tritt bei (wie der
-                            // Doppelklick). Die Auswahl wird nur nachgeführt,
-                            // solange die Liste den Fokus hat – sonst würde schon
-                            // das Betreten der Lobby eine Zeile auswählen.
+                            // Keyboard operation: Tab leads into the list, the arrows
+                            // change the row, Enter joins (like the
+                            // double click). The selection is only tracked
+                            // while the list has the focus – otherwise merely
+                            // entering the lobby would select a row.
                             activeFocusOnTab: true
                             keyNavigationEnabled: true
                             onCurrentItemChanged: {
@@ -931,13 +931,13 @@ Rectangle {
                                         }
                                         Item { Layout.fillWidth: true }
 
-                                        // Zuschauen: nur bei laufenden Spielen, die
-                                        // Zuschauer erlauben, und nur solange wir an
-                                        // keinem Tisch sitzen.
+                                        // Spectate: only for running games that
+                                        // allow spectators, and only while we sit at
+                                        // no table.
                                         PlayerActionIcon {
                                             visible: {
-                                                // Neuauswertung, wenn sich die Spielliste ändert
-                                                // (Spielstart/-ende); isInGame bindet sich selbst.
+                                                // Re-evaluation when the game list changes
+                                                // (game start/end); isInGame binds itself.
                                                 var _rev = lobbyPage.gameListRevision
                                                 return Lobby && !Lobby.isInGame
                                                        && Lobby.canSpectateGame(model.gameId || 0)
@@ -961,7 +961,7 @@ Rectangle {
                                     radius: 3
                                     Behavior on color { ColorAnimation { duration: 130 } }
 
-                                    // Dezenter Gold-Akzentbalken links bei Auswahl
+                                    // A subtle gold accent bar on the left when selected
                                     Rectangle {
                                         anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                                         width: 3
@@ -972,8 +972,8 @@ Rectangle {
                                     }
                                 }
 
-                                // Auswahl übernehmen – von Mausklick und
-                                // Tastaturnavigation gemeinsam genutzt.
+                                // Adopt the selection – shared by the mouse click and
+                                // the keyboard navigation.
                                 function selectRow() {
                                     lobbyPage.selectedGame = {
                                         gameId: model.gameId,
@@ -995,12 +995,12 @@ Rectangle {
                                     }
                                 }
 
-                                // Zeile aktivieren – von Doppelklick (Desktop)
-                                // und der Enter-Taste gemeinsam genutzt.
+                                // Activate the row – shared by the double click (desktop)
+                                // and the Enter key.
                                 function activateRow() {
-                                    // Kompaktlayout: Aktivieren zeigt die
-                                    // Spielinfos (wie ein Tippen), beigetreten
-                                    // wird von dort aus.
+                                    // Compact layout: activating shows the
+                                    // game info (like a tap), joining is done
+                                    // from there.
                                     if (Config.Responsive.compact) {
                                         lobbyPage.showingGameInfo = true
                                         return
@@ -1023,16 +1023,16 @@ Rectangle {
                                         lobbyPage.showingGameInfo = true
                                 }
 
-                                // Desktop-Lobby: Doppelklick tritt direkt bei
-                                // (wie der "Join Game"-Button). selectedGame ist
-                                // durch onClicked oben bereits gesetzt.
+                                // Desktop lobby: a double click joins directly
+                                // (like the "join game" button). selectedGame is
+                                // already set by onClicked above.
                                 onDoubleClicked: gameRow.activateRow()
                             }
                         }
                     }
                 }
 
-                // Compact: Lobby Chat — vertikal resizable, Min-Höhe 1/3
+                // Compact: lobby chat — resizable vertically, minimum height 1/3
                 Rectangle {
                     visible: Config.Responsive.compact
                     SplitView.preferredHeight: lobbyCenterSplit.height / 2
@@ -1077,10 +1077,10 @@ Rectangle {
                             Layout.fillHeight: true
                             chatModel: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatLog : []
                             chatTranslator: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatTranslator : null
-                            // Vollständige (ungefilterte) Spielerliste für die
-                            // Tab-Vervollständigung – damit auch Spieler in
-                            // (offenen) Spielen vervollständigt werden, die der
-                            // Spielerlisten-Filter ausblenden kann.
+                            // The complete (unfiltered) player list for the
+                            // Tab completion – so that players in
+                            // (open) games are completed as well, which the
+                            // player list filter may hide.
                             nickList: {
                                 var _r = (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerListRevision : 0
                                 return (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerNickList() : []
@@ -1137,9 +1137,9 @@ Rectangle {
                 }
             }
 
-            // Wide: right panel — Game Info + Chat, vertikal resizable
-            // (Min-Höhe je 1/3), damit Game-Info verkleinert und der Chat
-            // vergrößert werden kann (und umgekehrt).
+            // Wide: right panel — game info + chat, resizable vertically
+            // (a minimum height of 1/3 each), so that the game info can be shrunk and the chat
+            // enlarged (and the other way round).
             SplitView {
                 id: lobbyRightSplit
                 visible: !Config.Responsive.compact
@@ -1174,7 +1174,7 @@ Rectangle {
                                 Layout.fillWidth: true
                             }
 
-                            // Kontextaktionen für das ausgewählte Spiel
+                            // Context actions for the selected game
                             PlayerActionIcon {
                                 visible: lobbyPage.selectedGame !== null
                                 source: "qrc:/resources/flag.svg"
@@ -1309,7 +1309,7 @@ Rectangle {
                                         elide: Text.ElideRight
                                     }
 
-                                    // Tisch-Admin (Host) hervorheben – wie im Widget-Client
+                                    // Highlight the table admin (host) – as in the widget client
                                     GameAdminBadge {
                                         visible: gameAdmin
                                         Layout.alignment: Qt.AlignVCenter
@@ -1364,10 +1364,10 @@ Rectangle {
                             Layout.fillHeight: true
                             chatModel: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatLog : []
                             chatTranslator: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatTranslator : null
-                            // Vollständige (ungefilterte) Spielerliste für die
-                            // Tab-Vervollständigung – damit auch Spieler in
-                            // (offenen) Spielen vervollständigt werden, die der
-                            // Spielerlisten-Filter ausblenden kann.
+                            // The complete (unfiltered) player list for the
+                            // Tab completion – so that players in
+                            // (open) games are completed as well, which the
+                            // player list filter may hide.
                             nickList: {
                                 var _r = (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerListRevision : 0
                                 return (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerNickList() : []
@@ -1406,7 +1406,7 @@ Rectangle {
         ScriptAction { script: lobbyPage.showingPlayerList = true }
         PauseAnimation { duration: 1200 }
 
-        // 3. Spielerliste schließen
+        // 3. close the player list
         ScriptAction { script: lobbyPage.showingPlayerList = false }
         PauseAnimation { duration: 700 }
 
@@ -1425,7 +1425,7 @@ Rectangle {
         }
         PauseAnimation { duration: 1500 }
 
-        // 5. Game-Info schließen
+        // 5. close the game info
         ScriptAction {
             script: {
                 lobbyPage.showingGameInfo = false
@@ -1434,11 +1434,11 @@ Rectangle {
         }
         PauseAnimation { duration: 500 }
 
-        // 6. CUT — zurück zur vorherigen Seite
+        // 6. CUT — back to the previous page
         ScriptAction { script: StackView.view.pop() }
     }
 
-    // ── Bestätigungs-Popups für Spiel-Kontextaktionen ────────────────────────
+    // ── Confirmation popups for the game context actions ─────────────────────
     ConfirmPopup {
         id: reportGamePopup
         onConfirmed: {
@@ -1455,7 +1455,7 @@ Rectangle {
         }
     }
 
-    // Server-weite Durchsage (nur Server-Admins; der Server prüft die Rechte)
+    // A server-wide announcement (server admins only; the server checks the rights)
     GlobalNoticePopup {
         id: globalNoticePopup
         onAccepted: (noticeText) => {
@@ -1464,8 +1464,8 @@ Rectangle {
         }
     }
 
-    // Auf Seitenebene (nicht im Listen-Delegate): die Zeile kann beim Scrollen
-    // oder bei einem Listen-Update zerstört werden, während das Popup offen ist.
+    // At page level (not in the list delegate): the row can be destroyed while
+    // scrolling or on a list update while the popup is open.
     ConfirmPopup {
         id: spectateGamePopup
         property int pendingGameId: 0
@@ -1475,9 +1475,9 @@ Rectangle {
         }
     }
 
-    // Avatar zu groß (siehe checkMyAvatar): Umrechnen anbieten und danach
-    // sagen, was daraus geworden ist. Das Ergebnis kommt per Qt.callLater,
-    // damit sich die beiden modalen Popups nicht um den Fokus streiten.
+    // The avatar is too large (see checkMyAvatar): offer to convert it and afterwards
+    // say what became of it. The result comes via Qt.callLater,
+    // so that the two modal popups do not fight over the focus.
     ConfirmPopup {
         id: myAvatarWarningPopup
         onConfirmed: Qt.callLater(function() {
@@ -1500,15 +1500,15 @@ Rectangle {
         showCancel: false
     }
 
-    // ── Passwort-Popup für private Spiele ────────────────────────────────────
+    // ── Password popup for private games ─────────────────────────────────────
     Popup {
         id: joinPasswordPopup
         anchors.centerIn: parent
         modal: true
         padding: 20
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-        // Ohne focus:true lief der Startfokus aus onOpened ins Leere und das
-        // Popup schluckte Escape, ohne sich zu schließen.
+        // Without focus:true the initial focus from onOpened went nowhere and the
+        // popup swallowed Escape without closing.
         focus: true
 
         property int pendingGameId: 0
@@ -1586,14 +1586,14 @@ Rectangle {
         }
     }
 
-    // ── Eingehende Spiel-Einladung (Invite-Only-Spiele) ────────────────────
-    // Ja/Nein-Popup analog zum Qt-Widgets-Client. Schließen ohne Auswahl
-    // (Escape) = ablehnen, damit der Einladende eine Antwort erhält.
+    // ── Incoming game invitation (invite-only games) ───────────────────────
+    // A yes/no popup analogous to the Qt widgets client. Closing without a choice
+    // (Escape) = decline, so that the inviter gets an answer.
     Popup {
         id: inviteGamePopup
-        // Dieses Popup erscheint unaufgefordert (jemand lädt ein), während der
-        // Nutzer evtl. gerade tippt. Startfokus deshalb auf ABLEHNEN – dieselbe
-        // Wirkung wie Escape; zum Beitreten einmal Tab drücken.
+        // This popup appears unprompted (somebody invites) while the
+        // user may just be typing. The initial focus is therefore on DECLINE – the same
+        // effect as Escape; to join, press Tab once.
         focus: true
         anchors.centerIn: parent
         modal: true
@@ -1666,8 +1666,8 @@ Rectangle {
         }
         onClosed: {
             // console.log("[INVITE QML] popup closed: answered=" + answered + " gameId=" + inviteGameId)
-            // Ohne Auswahl geschlossen (Escape) → ablehnen, damit Server- und
-            // Pending-State sauber zurückgesetzt werden.
+            // Closed without a choice (Escape) → decline, so that the server and
+            // pending state are reset cleanly.
             if (!answered)
                 Lobby.rejectGameInvitation(inviteGameId, 0)
         }
@@ -1677,8 +1677,8 @@ Rectangle {
         target: Lobby
         function onGameInvitationReceived(gameId, gameName, fromName) {
             // console.log("[INVITE QML] onGameInvitationReceived: gameId=" + gameId + " game=" + gameName + " from=" + fromName)
-            // Slide-in-Panels einklappen, damit das Popup im Compact-Mode
-            // nicht verdeckt wird und korrekt bedienbar ist.
+            // Fold in the slide-in panels, so that the popup is not covered
+            // in compact mode and can be operated correctly.
             lobbyPage.showingPlayerList = false
             lobbyPage.showingGameInfo = false
             inviteGamePopup.inviteGameId = gameId
@@ -1689,14 +1689,14 @@ Rectangle {
         }
     }
 
-    // ── Rejoin nach Verbindungsabbruch ──────────────────────────────────────
-    // Der Server hat beim Login eine noch laufende Spielsitzung erkannt
-    // (InitAck.rejoinGameId → Lobby.rejoinOfferGameId). Ja/Nein-Popup analog
-    // zum Qt-Widgets-Client (callRejoinPossibleDialog).
+    // ── Rejoin after a connection loss ──────────────────────────────────────
+    // At the login the server recognised a game session that is still running
+    // (InitAck.rejoinGameId → Lobby.rejoinOfferGameId). A yes/no popup analogous
+    // to the Qt widgets client (callRejoinPossibleDialog).
     Popup {
         id: rejoinGamePopup
-        // Erscheint direkt nach dem Login als Frage an den Nutzer: Startfokus auf
-        // die naheliegende Antwort (Wiedereinstieg), Escape/Nein bleibt daneben.
+        // It appears right after the login as a question to the user: the initial focus is on
+        // the obvious answer (rejoin), Escape/no stays next to it.
         focus: true
         onOpened: rejoinButton.forceActiveFocus()
         anchors.centerIn: parent
@@ -1759,8 +1759,8 @@ Rectangle {
             close()
         }
         onClosed: {
-            // Ohne Auswahl geschlossen (Escape) → Angebot verwerfen, damit es
-            // nicht bei jedem erneuten Öffnen der Seite wieder aufpoppt.
+            // Closed without a choice (Escape) → discard the offer, so that it
+            // does not pop up again every time the page is opened.
             if (!answered)
                 Lobby.declineRejoin()
         }
@@ -1779,25 +1779,25 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        // Das Rejoin-Angebot trifft mit dem InitAck ein, bevor diese Seite
-        // instanziiert ist (StackView lädt asynchron) → beim Laden nachholen.
+        // The rejoin offer arrives with the InitAck, before this page is
+        // instantiated (the StackView loads asynchronously) → catch up on loading.
         if (Lobby.rejoinOfferGameId !== 0) {
             rejoinGamePopup.answered = false
             Qt.callLater(function() { rejoinGamePopup.open() })
         } else {
-            // Nur ohne Rejoin-Angebot: zwei modale Popups übereinander wären
-            // nicht zu bedienen. Die Warnung bleibt bis zum nächsten Betreten
-            // der Lobby stehen, sie wird erst beim Anzeigen "verbraucht".
+            // Only without a rejoin offer: two modal popups on top of each other could not
+            // be operated. The warning stays until the lobby is entered the next
+            // time, it is only "consumed" when it is shown.
             Qt.callLater(checkMyAvatar)
         }
         // console.log("LobbyPage loaded")
         // console.log("My player name:", Lobby.myPlayerName)
         // console.log("Player model count:", Lobby.playerListModel.rowCount())
         // console.log("Game model count:", Lobby.gameListModel.rowCount())
-        // Bereits vorhandenen Chat-Verlauf wiederherstellen (z.B. nach Rückkehr
-        // aus einem Spiel).
-        // Zähler der Forum-Neuigkeiten beim Betreten der Lobby auffrischen
-        // (wie im Web-Client); die TTL im Singleton bremst die Abrufe.
+        // Restore the chat history that is already there (e.g. after returning
+        // from a game).
+        // Refresh the counter of the forum news when entering the lobby
+        // (as in the web client); the TTL in the singleton slows the fetches down.
         Config.ForumNews.refresh(false)
     }
 }

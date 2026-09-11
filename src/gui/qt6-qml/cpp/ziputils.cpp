@@ -1,7 +1,7 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
  *                                                                           *
- * Schlanke ZIP-Helfer (miniz) für den Stil-Import/-Export des QML-Clients.   *
+ * Slim ZIP helpers (miniz) for the style import/export of the QML client.   *
  *****************************************************************************/
 
 #include "ziputils.h"
@@ -18,14 +18,14 @@
 
 namespace
 {
-// Obergrenzen fürs Entpacken. Ein regulärer Stil (Kartenstapel: 52 SVGs + XML +
-// Preview) bleibt weit darunter; die Grenzen schützen vor manipulierten
-// Archiven (Zip-Bombe).
+// Upper limits for extracting. A regular style (card deck: 52 SVGs + XML +
+// preview) stays well below them; the limits protect against manipulated
+// archives (zip bomb).
 constexpr quint64 kMaxTotalUncompressed = 100ull * 1024 * 1024; // 100 MiB
 constexpr mz_uint kMaxEntries = 1000;
 
-// Prüft, ob ein Archiv-Eintragsname sicher unterhalb des Zielordners bleibt:
-// keine absoluten Pfade, keine Windows-Laufwerke und kein ".."-Segment.
+// Checks whether an archive entry name stays safely below the target folder:
+// no absolute paths, no Windows drives and no ".." segment.
 bool isSafeEntryName(const QString &name)
 {
 	if (name.isEmpty())
@@ -88,7 +88,7 @@ bool ZipUtils::extractArchive(const QByteArray &zipData, const QString &destDir,
 		}
 
 		const QString outPath = QFileInfo(dest.absoluteFilePath(entryName)).absoluteFilePath();
-		// Zweite Absicherung gegen Zip-Slip: Zielpfad muss unter destRoot liegen.
+		// Second safeguard against zip slip: the target path must be below destRoot.
 		if (!outPath.startsWith(destRoot)) {
 			error = QObject::tr("Das Archiv enthält einen ungültigen Pfad: %1").arg(entryName);
 			ok = false;
@@ -161,8 +161,8 @@ QByteArray ZipUtils::createArchive(const QString &srcDir, const QString &rootNam
 	while (it.hasNext() && ok) {
 		const QString filePath = it.next();
 		const QString rel = base.relativeFilePath(filePath);
-		// Alle Einträge unter rootName/… ablegen: das Archiv enthält damit einen
-		// eigenen Stil-Ordner, den der Import als Stilnamen erkennt.
+		// Put all entries under rootName/…: the archive thus contains a style folder
+		// of its own, which the import recognises as the style name.
 		const QString archiveName = rootName + QLatin1Char('/') + rel;
 
 		QFile f(filePath);

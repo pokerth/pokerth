@@ -270,11 +270,11 @@ void selectAvatarDialogImpl::isAccepted()
 		QFile lineEditFile(lineEdit->text());
 		if(lineEditFile.exists()) {
 
-			// Ob das Bild taugt, entscheidet die Engine (Dateigröße, Format
-			// und seit 2.1.8 auch die Bildabmessungen) - dieselbe Prüfung, die
-			// der Server beim Ausliefern anwendet. Die reine Dateigröße genügt
-			// nicht: ein flächiges 2000x2000-PNG bleibt unter 30 KB, wird aber
-			// abgelehnt, und der Avatar wäre für alle anderen unsichtbar.
+			// Whether the image is suitable is decided by the engine (file size,
+			// format and, since 2.1.8, the image dimensions as well) - the same check
+			// the server applies when serving it. The file size alone is not enough:
+			// a flat 2000x2000 PNG stays below 30 KB but is rejected, and the avatar
+			// would be invisible to everyone else.
 			if(AvatarImport::isUsable(lineEdit->text())) {
 				externalAvatar = lineEdit->text();
 				settingsCorrect = true;
@@ -314,7 +314,7 @@ void selectAvatarDialogImpl::isAccepted()
 		}
 	}
 
-	//Wenn alles richtig eingegeben wurde --> Dialog schließen
+	//If everything was entered correctly --> close the dialog
 	if(settingsCorrect) {
 		this->hide();
 	}

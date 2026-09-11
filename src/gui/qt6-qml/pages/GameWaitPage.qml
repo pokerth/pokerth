@@ -14,7 +14,7 @@ Rectangle {
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
 
-    // Refresh wenn sich Spielerliste oder Spielliste ändern
+    // Refresh when the player list or the game list changes
     readonly property int gameRev: Lobby ? Lobby.gameListRevision : 0
     readonly property int playerRev: Lobby ? Lobby.playerListRevision : 0
 
@@ -26,43 +26,43 @@ Rectangle {
         var _g = gameRev
         return Lobby ? Lobby.currentGameInfo() : ({})
     }
-    // Spiel-Admin (Host/Ersteller): isCurrentGameAdmin kommt vom Selbst-Beitritt,
-    // adminPlayerId aus der Spiel-Info (Fallback/Bestätigung). Nur er darf
-    // Spieler kicken – der Server prüft session->IsGameAdmin() (servergamestate).
+    // Game admin (host/creator): isCurrentGameAdmin comes from the self join,
+    // adminPlayerId from the game info (fallback/confirmation). Only they may
+    // kick players – the server checks session->IsGameAdmin() (servergamestate).
     readonly property bool isGameAdmin: Lobby
         && (Lobby.isCurrentGameAdmin
             || (info.adminPlayerId !== undefined && info.adminPlayerId === Lobby.myPlayerId))
-    // Admin = Spiel-Admin oder vom Server gemeldeter Server-Admin → darf starten.
+    // Admin = the game admin or a server admin reported by the server → may start.
     readonly property bool isAdmin: Lobby && (Lobby.isCurrentPlayerAdmin || isGameAdmin)
     readonly property bool isRanking: (info.gameType || 1) === 4
-    // Läuft bereits eine Hand (Rejoin-Wartezustand), gibt es nichts zu starten.
+    // If a hand is already running (a rejoin waiting state), there is nothing to start.
     readonly property bool canStart: isAdmin && !isRanking && players.length >= 2
                                      && !(Lobby && Lobby.rejoinWaiting)
     readonly property bool canKick: isGameAdmin && !isRanking
 
-    // ── Community-„Suggest" (aus dem Legacy-bbcbot portiert) ─────────────────
-    // Vorschlagen darf zweierlei Publikum, in einem Invite-Spiel (GameType 3) und
-    // nur bei aktivierten Community-Einstellungen:
-    //   • der ERSTELLER seines eigenen Tisches – sein Typ kommt EXPLIZIT aus dem
-    //     Preset (Config.BotSuggest.createdSuggestType, beim Erstellen gesetzt);
-    //   • jeder COMMUNITY-ADMIN an einem fremden Tisch seiner Community (BBC
-    //     Step bzw. WEC) – dort ist der Typ nicht bekannt und wird aus den
-    //     Spieleinstellungen abgeleitet (Config.BotSuggest.suggestTypeForGameInfo;
-    //     der Tischname ist frei editierbar und wird bewusst NICHT herangezogen).
-    // Der Admin-Abgleich (bbcadmins.txt / wecadmins.txt) läuft asynchron und
-    // erst, wenn der rein lokale Fingerprint bereits einen Suggest-Typ liefert –
-    // an allen anderen Tischen kostet das Feature keinen Request.
+    // ── Community "suggest" (ported from the legacy bbcbot) ──────────────────
+    // Two kinds of audience may suggest, in an invite game (GameType 3) and
+    // only with the community settings enabled:
+    //   • the CREATOR of their own table – their type comes EXPLICITLY from the
+    //     preset (Config.BotSuggest.createdSuggestType, set when creating);
+    //   • every COMMUNITY ADMIN at a foreign table of their community (BBC
+    //     step or WEC) – there the type is not known and is derived from the
+    //     game settings (Config.BotSuggest.suggestTypeForGameInfo;
+    //     the table name is freely editable and is deliberately NOT consulted).
+    // The admin match (bbcadmins.txt / wecadmins.txt) runs asynchronously and
+    // only once the purely local fingerprint already delivers a suggest type –
+    // at all other tables the feature costs no request.
     readonly property bool communitySuggestEnabled: Config.Parameters.showCommunityContent
         && Config.Parameters.showCommunitySuggest
         && (info.gameType || 1) === 3
-    // Typ des eigenen (erstellten) Tisches bzw. der aus den Settings erkannte Typ.
+    // The type of your own (created) table or the type recognised from the settings.
     readonly property string ownSuggestType:
         (isGameAdmin && Config.BotSuggest.isSuggestType(Config.BotSuggest.createdSuggestType))
         ? Config.BotSuggest.createdSuggestType : ""
     readonly property string tableSuggestType: communitySuggestEnabled
         ? Config.BotSuggest.suggestTypeForGameInfo(info) : ""
-    // Für fremde Admins freigegeben ist jeder erkannte Community-Typ (BBC Step,
-    // WEC); die zuständige Adminliste wählt Config.BotSuggest anhand des Typs.
+    // For foreign admins every recognised community type (BBC step,
+    // WEC) is enabled; Config.BotSuggest picks the responsible admin list by the type.
     readonly property bool needsCommunityAdminCheck: communitySuggestEnabled
         && ownSuggestType.length === 0
         && Config.BotSuggest.isSuggestType(tableSuggestType)
@@ -74,26 +74,26 @@ Rectangle {
                                        && effectiveSuggestType.length > 0
     property bool suggestBusy: false
 
-    // Auch der reine Typwechsel (Step ⇄ WEC) muss neu abgleichen: die beiden
-    // Communitys führen getrennte Adminlisten.
+    // A mere change of the type (step ⇄ WEC) has to re-match as well: the two
+    // communities keep separate admin lists.
     onNeedsCommunityAdminCheckChanged: resolveCommunityAdmin()
     onTableSuggestTypeChanged: resolveCommunityAdmin()
     Component.onCompleted: resolveCommunityAdmin()
 
-    // Angestoßen wird nur beim Wechsel auf „fremder Community-Tisch". Cache und
-    // Fehlschlag-Drosselung liegen in Config.BotSuggest, ein erneutes Betreten
-    // kostet also in aller Regel kein Netz.
+    // It is only started on a change to "foreign community table". The cache and
+    // the failure throttling live in Config.BotSuggest, so entering again
+    // usually costs no network.
     function resolveCommunityAdmin() {
-        // Ein früher gesetztes Admin-Flag gilt nur für den Typ, für den es
-        // ermittelt wurde – sonst schaltete ein BBC-Admin den Knopf an einem
-        // fremden WEC-Tisch frei (und umgekehrt).
+        // An admin flag set earlier only applies to the type it was
+        // determined for – otherwise a BBC admin would enable the button at a
+        // foreign WEC table (and the other way round).
         communityAdmin = false
         if (!needsCommunityAdminCheck || !Lobby)
             return
         var gameId = Lobby.currentGameId
         var type = tableSuggestType
         Config.BotSuggest.isCommunityAdmin(type, Lobby.myPlayerName, function(isAdmin) {
-            // Spättreffer nach Tischwechsel darf den Button nicht freischalten.
+            // A late hit after a table change must not enable the button.
             if (Lobby && Lobby.currentGameId === gameId
                 && gameWaitPage.tableSuggestType === type)
                 gameWaitPage.communityAdmin = isAdmin
@@ -108,8 +108,8 @@ Rectangle {
             Lobby.idlePlayerNames(), Lobby.playingPlayerEntries(),
             function(ok, message) {
                 gameWaitPage.suggestBusy = false
-                // Nur lokal beim Auslöser anzeigen (wie die PM-Antwort des
-                // bbcbot an den Anfragenden) – nicht in die Lobby broadcasten.
+                // Only show it locally at the trigger (like the PM reply of the
+                // bbcbot to the requester) – do not broadcast it into the lobby.
                 if (ok && message.length > 0)
                     Lobby.postLocalChatNote(message)
             })
@@ -118,7 +118,7 @@ Rectangle {
     // NTF_NET_REMOVED_ON_REQUEST (socket_msg.h) – selbst angefordertes Verlassen
     readonly property int removedOnRequest: 202
 
-    // Rückfrage, bevor der Spiel-Admin einen Spieler aus dem offenen Spiel wirft.
+    // Confirmation before the game admin throws a player out of the open game.
     function confirmKick(playerId, playerName) {
         kickPopup.targetPlayerId = playerId
         kickPopup.openWith(
@@ -139,7 +139,7 @@ Rectangle {
         waitPagePlayerSidebarList.currentIndex = -1
     }
 
-    // Helfer analog zu LobbyPage
+    // A helper analogous to LobbyPage
     function gameTypeIconSource(gameType) {
         if (gameType === 2) return "../resources/userSquare.svg"
         if (gameType === 3) return "../resources/users.svg"
@@ -167,27 +167,27 @@ Rectangle {
         }
         function onGameStarted() {
             // console.log("[NAV] GameWaitPage.onGameStarted → pushing GamePage")
-            // Doppel-Push-Schutz (Muster wie openTableStatsPage/onPlayerStats-
-            // Requested): kommt gameStarted ein zweites Mal (Re-Join/Reconnect),
-            // läge sonst eine zweite GamePage im Stack. Deren Shortcuts sind zwar
-            // über topGamePage stillgelegt, aber der Tisch selbst wäre doppelt da.
+            // Double push protection (the pattern of openTableStatsPage/onPlayerStats-
+            // Requested): if gameStarted arrives a second time (rejoin/reconnect),
+            // a second GamePage would otherwise lie in the stack. Its shortcuts are
+            // disabled via topGamePage, but the table itself would be there twice.
             if (mainStackView.currentItem
                     && mainStackView.currentItem.objectName === "gamePage")
                 return
             mainStackView.push("GamePage.qml")
         }
         function onReturnToWaitRoom() {
-            // Spielende (Server: WaitDialog): den Gametable schließen und zurück
-            // in den Warteraum dieses (ggf. wieder geöffneten) Spiels. Bis zu
-            // diesem GameWaitPage poppen – das deckt auch den Fall ab, dass über
-            // dem Gametable noch die SettingsPage liegt.
+            // End of the game (server: WaitDialog): close the game table and go back
+            // into the waiting room of this (possibly reopened) game. Pop up to
+            // this GameWaitPage – that also covers the case that the SettingsPage
+            // still lies above the game table.
             //
-            // OHNE Übergangsanimation (StackView.Immediate): Bei aktivem Auto-Leave
-            // sendet die Engine direkt nach dem WaitDialog noch RemovedFromGame →
-            // onRemovedFromGame würde sofort ein zweites Mal poppen. Liefe der
-            // erste Pop noch als Transition, verwürfe StackView den zweiten
-            // ("cannot pop while in transition") und man bliebe im Warteraum
-            // hängen statt in der Lobbyliste zu landen.
+            // WITHOUT a transition animation (StackView.Immediate): with auto-leave active
+            // the engine sends RemovedFromGame right after the WaitDialog →
+            // onRemovedFromGame would pop a second time immediately. If the
+            // first pop were still running as a transition, the StackView would discard the second
+            // ("cannot pop while in transition") and you would stay stuck in the waiting room
+            // instead of landing in the lobby list.
             // console.log("[NAV] GameWaitPage.onReturnToWaitRoom | depth before:", mainStackView.depth)
             if (mainStackView.currentItem !== gameWaitPage)
                 mainStackView.pop(gameWaitPage, StackView.Immediate)
@@ -501,13 +501,13 @@ Rectangle {
                 Layout.fillWidth: true
             }
 
-            // Als Zuschauer - und ebenso nach einem angenommenen Rejoin - läuft
-            // das Spiel bereits: der Server setzt uns erst zu Beginn der
-            // nächsten Hand an den Tisch (dann wird die GamePage aufgeschoben).
-            // Bis dahin warten wir hier.
+            // As a spectator - and likewise after an accepted rejoin - the game is
+            // already running: the server only puts us at the table at the beginning of the
+            // next hand (then the GamePage is pushed).
+            // Until then we wait here.
             //
-            // Die wandernden Punkte ersetzen die frühere Auslassung "…" am
-            // Textende – beides zusammen wäre doppelt gemoppelt.
+            // The travelling dots replace the earlier ellipsis "…" at the
+            // end of the text – both together would be redundant.
             Column {
                 Layout.fillWidth: true
                 spacing: 2
@@ -523,10 +523,10 @@ Rectangle {
                     font.pixelSize: 12
                 }
 
-                // Derselbe „Spinner" wie im Splash (PreLoader): die Universal-
-                // ProgressBar zeichnet im indeterminate-Modus wandernde Punkte.
-                // Nur so breit wie der Text darüber, in dessen Farbe – wirkt so
-                // wie eine lebendige Unterstreichung.
+                // The same "spinner" as in the splash (PreLoader): the universal
+                // ProgressBar draws travelling dots in indeterminate mode.
+                // Only as wide as the text above it, in its colour – that way it looks
+                // like a lively underline.
                 ProgressBar {
                     indeterminate: true
                     width: waitLabel.implicitWidth
@@ -577,8 +577,8 @@ Rectangle {
             color: Config.StaticData.palette.secondary.col500
         }
 
-        // ── Body: widescreen = drei resizable Spalten (Spielerliste |
-        // Game-Info/Chat | Spielliste); compact = nur die Mittelspalte ──
+        // ── Body: wide screen = three resizable columns (player list |
+        // game info/chat | game list); compact = only the middle column ──
         SplitView {
             id: waitBodySplit
             Layout.fillWidth: true
@@ -650,8 +650,8 @@ Rectangle {
                 SplitView.minimumWidth: 300
                 spacing: Config.Theme.spacing
 
-                // Game-Info/Spielerliste und Chat sind vertikal resizable
-                // (Min-Höhe je 1/3). Die Aktions-Buttons bleiben darunter fix.
+                // The game info/player list and the chat are resizable vertically
+                // (a minimum height of 1/3 each). The action buttons stay fixed below them.
                 SplitView {
                     id: waitContentSplit
                     Layout.fillWidth: true
@@ -659,8 +659,8 @@ Rectangle {
                     orientation: Qt.Vertical
                     handle: ResizeHandle { horizontal: false }
 
-                // ── Game details card (Game-Info + Spielerliste) ───────────
-                // Kann zugunsten des Chats verkleinert werden; Min-Höhe 1/3.
+                // ── Game details card (game info + player list) ────────────
+                // It can be shrunk in favour of the chat; minimum height 1/3.
                 Rectangle {
                     SplitView.fillHeight: true
                     SplitView.minimumHeight: waitContentSplit.height / 3
@@ -807,7 +807,7 @@ Rectangle {
                                 RowLayout {
                                     anchors.fill: parent
                                     anchors.leftMargin: 6
-                                    // Platz für die Scrollbar, wenn sie sichtbar ist.
+                                    // Room for the scrollbar when it is visible.
                                     anchors.rightMargin: playerList.contentHeight > playerList.height + 4 ? 14 : 6
                                     spacing: 6
 
@@ -853,15 +853,15 @@ Rectangle {
                                         elide: Text.ElideRight
                                     }
 
-                                    // Tisch-Admin (Host) hervorheben – wie im Widget-Client
+                                    // Highlight the table admin (host) – as in the widget client
                                     GameAdminBadge {
                                         visible: gameAdmin
                                         Layout.alignment: Qt.AlignVCenter
                                     }
 
-                                    // Spiel-Admin darf vor Spielstart Spieler
-                                    // rauswerfen (wie Widget-Client-Game-Lobby);
-                                    // sich selbst natürlich nicht.
+                                    // The game admin may throw players out before the
+                                    // game starts (as in the widget client game lobby);
+                                    // not themselves, of course.
                                     PlayerActionIcon {
                                         visible: gameWaitPage.canKick
                                                  && modelData.playerId !== Lobby.myPlayerId
@@ -879,10 +879,10 @@ Rectangle {
                     }
                 }
 
-                // ── Game-Chat ──────────────────────────────────────────────
-                // Vertikal resizable (Min-Höhe 1/3); Startwert ~1/3. Der
-                // Emoji-Picker vergrößert nicht mehr die Box, sondern
-                // verkleinert die Nachrichtenliste innerhalb der gewählten Höhe.
+                // ── Game chat ──────────────────────────────────────────────
+                // Resizable vertically (minimum height 1/3); the initial value ~1/3. The
+                // emoji picker no longer enlarges the box but
+                // shrinks the message list within the chosen height.
                 Rectangle {
                     SplitView.preferredHeight: waitContentSplit.height / 3
                     SplitView.minimumHeight: waitContentSplit.height / 3
@@ -906,8 +906,8 @@ Rectangle {
                                 Layout.fillWidth: true
                             }
 
-                            // Schlägt für das eigene BBC-/WEC-Invite-Spiel passende
-                            // idle Spieler vor; das Ergebnis erscheint im Chat.
+                            // Suggests matching idle players for your own BBC/WEC invite
+                            // game; the result appears in the chat.
                             Rectangle {
                                 visible: gameWaitPage.canSuggest
                                 implicitHeight: 26
@@ -964,9 +964,9 @@ Rectangle {
                             Layout.fillHeight: true
                             chatModel: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatLog : []
                             chatTranslator: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatTranslator : null
-                            // Dieser Chat ist der Lobby-Chat → gegen die volle
-                            // (ungefilterte) Lobby-Spielerliste vervollständigen,
-                            // nicht nur gegen die am Tisch sitzenden Spieler.
+                            // This chat is the lobby chat → complete against the full
+                            // (unfiltered) lobby player list,
+                            // not only against the players sitting at the table.
                             nickList: {
                                 var _r = (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerListRevision : 0
                                 return (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerNickList() : []
@@ -975,7 +975,7 @@ Rectangle {
                             placeholder: (Lobby && Lobby.isMyPlayerGuest)
                                          ? qsTr("Guests cannot chat")
                                          : qsTr("Type your message...")
-                            // 2-zeiliger Inline-Picker (wenig Platz in der Karte)
+                            // A 2 row inline picker (little room in the card)
                             pickerInlineHeight: 2 * 38 + 2 * 6
                             onSendRequested: (text) => {
                                 if (typeof Lobby !== "undefined" && Lobby)
@@ -1013,10 +1013,10 @@ Rectangle {
                     spacing: 8
 
                     CustomButton {
-                        // Während der Rejoin-Synchronisation wartet der Server
-                        // auf uns; ein Verlassen in diesem Fenster würde die
-                        // laufende Hand blockieren (Widgets-Client sperrt den
-                        // Leave-Button an derselben Stelle).
+                        // During the rejoin synchronization the server waits
+                        // for us; leaving in this window would block the
+                        // running hand (the widgets client locks the
+                        // leave button at the same place).
                         enabled: !(Lobby && Lobby.rejoinWaiting)
                         text: qsTr("Leave Game")
                         Layout.fillWidth: true

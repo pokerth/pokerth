@@ -4,7 +4,7 @@ import QtQuick.Effects
 
 import "../config" as Config
 
-// Styled SpinBox: runde Ecken, Chart-Farben für +/−, Dark/Light-reaktiv
+// Styled SpinBox: rounded corners, chart colours for +/−, dark/light reactive
 SpinBox {
     id: control
 
@@ -42,7 +42,7 @@ SpinBox {
         inputMethodHints:    Qt.ImhFormattedNumbersOnly
     }
 
-    // ─── Minus-Knopf (links, rot/orange) ──────────────────────────────────────
+    // ─── Minus button (left, red/orange) ──────────────────────────────────────
     down.indicator: Rectangle {
         x: control.mirrored ? parent.width - width : 0
         implicitWidth:  24
@@ -79,7 +79,7 @@ SpinBox {
         }
     }
 
-    // ─── Plus-Knopf (rechts, grün) ────────────────────────────────────────────
+    // ─── Plus button (right, green) ───────────────────────────────────────────
     up.indicator: Rectangle {
         x: control.mirrored ? 0 : parent.width - width
         implicitWidth:   24

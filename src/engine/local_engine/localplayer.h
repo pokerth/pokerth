@@ -152,10 +152,10 @@ public:
 		myAction = theValue;
 		// logging for seat 0
 		if(myAction && human) currentHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, myLastRelativeSet);
-		/* Gegnermodell: Aktionen menschlicher Spieler laufen ausschliesslich
-		 * ueber diesen Setter -- lokal aus der Oberflaeche, im Netzwerkspiel
-		 * aus PerformPlayerAction(). Computerspieler setzen myAction dagegen
-		 * direkt in ihren Engines und werden am Ende von action() erfasst.
+		/* Opponent model: actions of human players run exclusively
+		 * through this setter -- locally from the user interface, in a network
+		 * game from PerformPlayerAction(). Computer players, by contrast, set
+		 * myAction directly in their engines and are recorded at the end of action().
 		 */
 		if(myAction != PLAYER_ACTION_NONE && myType == PLAYER_TYPE_HUMAN && currentHand) {
 			recordStatisticsAction(currentHand->getCurrentRound(), myAction);
@@ -304,7 +304,7 @@ public:
 	}
 	void beginStatisticsHand()
 	{
-		// Zaehlt nur, wer die Hand ueberhaupt mitspielt.
+		// Only counts whoever plays the hand at all.
 		if(myActiveStatus) ++myStatistics.hands;
 		myVoluntaryThisHand = false;
 		myPreflopRaiseThisHand = false;
@@ -312,7 +312,7 @@ public:
 	void recordStatisticsAction(int round, PlayerAction action)
 	{
 		if(round == GAME_STATE_PREFLOP) {
-			// Die Blinds sind erzwungen und zaehlen nicht als freiwilliger Einsatz.
+			// The blinds are forced and do not count as a voluntary bet.
 			if(action == PLAYER_ACTION_CALL || action == PLAYER_ACTION_BET
 					|| action == PLAYER_ACTION_RAISE || action == PLAYER_ACTION_ALLIN) {
 				if(!myVoluntaryThisHand) {
@@ -383,12 +383,12 @@ public:
 	void turnEngine3();
 	void riverEngine3();
 
-	// Rundenauswahl der aelteren Engines.
+	// Round selection of the older engines.
 	void legacyAction();
 
-	// Engine 4 deckt alle Setzrunden in einer Routine ab: sie stellt die Lage
-	// zusammen, laesst AiEngine4 entscheiden und verbucht das Ergebnis ueber
-	// die bewaehrte evaluation().
+	// Engine 4 covers all betting rounds in one routine: it assembles the
+	// situation, lets AiEngine4 decide and books the result via the
+	// proven evaluation().
 	void engine4();
 
 	int flopCardsValue(int*);
@@ -449,7 +449,7 @@ private:
 	int myAverageSets[4];
 	bool myAggressive[7];
 
-	// Gegnermodell: Beobachtungswerte und Merker fuer die laufende Hand
+	// Opponent model: observation values and flags for the current hand
 	PlayerStatistics myStatistics;
 	bool myVoluntaryThisHand;
 	bool myPreflopRaiseThisHand;

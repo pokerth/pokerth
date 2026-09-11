@@ -1,16 +1,16 @@
 #!/bin/bash
 set -e
 
-# Baut die PokerTH-QML-APK (arm64-v8a) in einem Docker-Container.
+# Builds the PokerTH QML APK (arm64-v8a) in a Docker container.
 #
-# Das devcontainer-Dockerfile wird als Build-Umgebung verwendet – Qt, NDK
-# und vcpkg sind bereits im Image enthalten. Die lokalen Quellen werden per
-# Volume eingebunden, sodass kein Einsteigen in den Container nötig ist.
+# The devcontainer Dockerfile is used as the build environment – Qt, NDK
+# and vcpkg are already contained in the image. The local sources are bound
+# in via a volume, so there is no need to enter the container.
 #
-# Aufruf:
-#   cd <projekt-root>
+# Usage:
+#   cd <project-root>
 #   bash docker/android/build_android_arm64_docker.sh
-#   # oder ohne Image-Cache:
+#   # or without the image cache:
 #   bash docker/android/build_android_arm64_docker.sh --no-cache
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -31,7 +31,7 @@ CURRENT_BRANCH=$(git -C "$PROJECT_ROOT" rev-parse --abbrev-ref HEAD 2>/dev/null 
 echo "Branch: $CURRENT_BRANCH  (wird via Volume in den Container eingebunden)"
 echo ""
 
-# Laufende/gestoppte Container dieses Images bereinigen
+# Clean up running/stopped containers of this image
 RUNNING=$(docker ps -q --filter "ancestor=$IMAGE_NAME" 2>/dev/null)
 if [ -n "$RUNNING" ]; then
     echo "=== Stoppe laufende Container ==="

@@ -6,25 +6,25 @@ import QtQuick.Layouts
 import "../config" as Config
 import "../components"
 
-// Über-Seite – portiert aus dem Qt-Widgets About-Dialog (aboutpokerthimpl).
-// Tabs wie im Widget-Client: Über / Projekt / Dank an / Lizenz /
-// Drittanbieter-Bibliotheken. (Der dortige "Translation"-Tab war ein nie
-// gefüllter Platzhalter und entfällt.)
+// About page – ported from the Qt widgets about dialog (aboutpokerthimpl).
+// Tabs as in the widget client: About / Project / Thanks to / License /
+// third party libraries. (The "Translation" tab there was a placeholder that
+// was never filled and is dropped.)
 Rectangle {
     id: aboutPage
     objectName: "aboutPage"
     Layout.fillWidth: true
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
-    // Der Lesebereich bekommt beim Öffnen den Fokus, damit die Seite ohne
-    // Mausklick scrollbar ist (Qt.callLater: während der Stack-Animation greift
-    // der Fokus nicht).
+    // The reading area gets the focus when opening, so that the page is
+    // scrollable without a mouse click (Qt.callLater: during the stack animation
+    // the focus does not take).
     StackView.onActivated: Qt.callLater(panelScroll.forceActiveFocus)
 
-    // Öffnet einen Link im externen Browser. NICHT direkt Qt.openUrlExternally:
-    // Im AppImage/Bundle erbt QDesktopServices das gebundelte LD_LIBRARY_PATH →
-    // xdg-open crasht. Lobby.openExternalUrl startet die Host-Tools mit
-    // bereinigter Umgebung (gleiche Begründung wie ChatBox/LobbyStatsBar).
+    // Opens a link in the external browser. NOT Qt.openUrlExternally directly:
+    // in the AppImage/bundle QDesktopServices inherits the bundled LD_LIBRARY_PATH →
+    // xdg-open crashes. Lobby.openExternalUrl starts the host tools with a
+    // cleaned environment (same reasoning as ChatBox/LobbyStatsBar).
     function openLink(link) {
         if (!link || link === "")
             return
@@ -37,12 +37,12 @@ Rectangle {
             console.warn("AboutPage: konnte URL nicht öffnen:", link)
     }
 
-    // ChangeLog (Klartext aus <AppDataDir>misc/ChangeLog) als Rich-Text:
-    // Die Versionszeilen ("2026-08-13 version 2.1.7:") werden fett gesetzt,
-    // alles andere bleibt Zeile für Zeile stehen. Bewusst ohne eigene Farbe –
-    // der Gold-Akzent ist auf dem hellen Panel-Hintergrund nicht lesbar.
-    // Die Datei wird von CMake aus dem ChangeLog im Projektwurzelverzeichnis
-    // gespiegelt.
+    // ChangeLog (plain text from <AppDataDir>misc/ChangeLog) as rich text:
+    // the version lines ("2026-08-13 version 2.1.7:") are set in bold,
+    // everything else stays line by line. Deliberately without a colour of its
+    // own – the gold accent is not readable on the light panel background.
+    // The file is mirrored by CMake from the ChangeLog in the project root
+    // directory.
     function changelogHtml() {
         const raw = SettingsManager.changelogText()
         if (!raw)
@@ -67,9 +67,9 @@ Rectangle {
         return html
     }
 
-    // Scrollbares Text-Panel im Stil der Logs-Vorschau. Links werden – wenn
-    // aktiviert – über TapHandler + linkAt() geöffnet: onLinkActivated feuert
-    // innerhalb einer Flickable nicht zuverlässig (Details siehe ChatBox).
+    // Scrollable text panel in the style of the logs preview. Links are – if
+    // enabled – opened via TapHandler + linkAt(): onLinkActivated does not fire
+    // reliably inside a Flickable (for details see ChatBox).
     component TextPanel: Rectangle {
         id: panel
 
@@ -87,11 +87,11 @@ Rectangle {
         ScrollView {
             id: panelScroll
             anchors.fill: parent
-            // Lesen ohne Maus: Pfeil hoch/runter scrollt die Flickable
-            // selbst, Bild-auf/ab und Pos1/Ende kennt sie nicht – die kommen
-            // hier dazu. Bewusst ein einzelner Keys.onPressed statt mehrerer
-            // Einzelhandler: Sobald ein Item einen speziellen Tastenhandler
-            // hat, sieht sein onPressed die betreffende Taste nicht mehr.
+            // Reading without a mouse: arrow up/down scrolls the Flickable
+            // itself, page up/down and Home/End are unknown to it – those are
+            // added here. Deliberately a single Keys.onPressed instead of several
+            // individual handlers: as soon as an item has a special key handler,
+            // its onPressed no longer sees the key in question.
             Keys.onPressed: (event) => {
                 var f = panelScroll.contentItem
                 if (!f)
@@ -115,9 +115,9 @@ Rectangle {
             anchors.margins: 8
             clip: true
             contentWidth: availableWidth
-            // Die vertikale Scrollleiste liegt ALS OVERLAY über dem Inhalt und
-            // ist in availableWidth nicht enthalten. Ohne diesen Abzug schneidet
-            // sie bei schmalem Fenster in den Text (gleiche Reservierung wie in
+            // The vertical scrollbar lies AS AN OVERLAY above the content and
+            // is not included in availableWidth. Without subtracting it, it cuts
+            // into the text in a narrow window (same reservation as in
             // StyleSettings).
             readonly property real scrollBarSpace: ScrollBar.vertical.visible ? 12 : 0
 
@@ -177,14 +177,14 @@ Rectangle {
             Layout.fillHeight: true
             currentIndex: aboutTabBar.currentIndex
 
-            // Tab: Über – Logo, Version, Feature-Liste, Copyright, Projektlink
+            // Tab: About – logo, version, feature list, copyright, project link
             ScrollView {
                 id: aboutTab
                 clip: true
                 contentWidth: availableWidth
                 ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                // Platz für die überlagernde Scrollleiste (siehe TextPanel),
-                // sonst liegt sie auf dem rechtsbündigen Projektlink.
+                // Room for the overlaying scrollbar (see TextPanel),
+                // otherwise it lies on the right-aligned project link.
                 readonly property real scrollBarSpace: ScrollBar.vertical.visible ? 12 : 0
 
                 ColumnLayout {
@@ -248,12 +248,12 @@ Rectangle {
                 }
             }
 
-            // Tab: Changelog – ChangeLog des Projekts
+            // Tab: Changelog – ChangeLog of the project
             TextPanel {
                 text: aboutPage.changelogHtml()
             }
 
-            // Tab: Projekt – Projektseite und Autoren (wie Widget-Client)
+            // Tab: Project – project page and authors (as in the widget client)
             TextPanel {
                 linksEnabled: true
                 text: {
@@ -294,7 +294,7 @@ Rectangle {
                 ].join("<br>")
             }
 
-            // Tab: Lizenz – AGPL-Text aus <AppDataDir>/misc/agpl.html
+            // Tab: License – AGPL text from <AppDataDir>/misc/agpl.html
             TextPanel {
                 text: SettingsManager.licenseHtml()
             }

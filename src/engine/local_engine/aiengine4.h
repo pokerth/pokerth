@@ -34,73 +34,73 @@
 
 #include "game_defs.h"
 
-/* AI-Engine 4 -- die Entscheidungslogik der Computerspieler.
+/* AI engine 4 -- the decision logic of the computer players.
  *
- * Bewusst frei von Spielzustand: die Engine bekommt eine Momentaufnahme und
- * liefert eine Absicht zurueck. Das Verbuchen von Chips, die Full-Bet-Rule und
- * die Mindesterhoehung bleiben in LocalPlayer::evaluation(), wo sie seit jeher
- * korrekt behandelt werden. Dadurch ist die Engine ohne Tisch, Board und
- * Spielerliste testbar.
+ * Deliberately free of game state: the engine gets a snapshot and
+ * returns an intention. Booking the chips, the full bet rule and
+ * the minimum raise stay in LocalPlayer::evaluation(), where they have always
+ * been handled correctly. That makes the engine testable without a table, a
+ * board and a player list.
  *
- * Was sie anders macht als die alten Engines:
- *  - Sie rechnet die Gewinnchance gegen ALLE verbleibenden Gegner, nicht gegen
- *    einen einzelnen Zufallsgegner.
- *  - Sie kennt den Pot und vergleicht die Chance mit den Pot Odds, statt feste
- *    Schwellenwerte abzufragen.
- *  - Sie kennt ihre Position und spielt vor dem Flop nach Positions-Charts.
- *  - Sie setzt in Pot-Anteilen statt in Vielfachen des Small Blind.
- *  - Sie kennt Push-or-Fold bei kurzem Stack.
+ * What it does differently from the old engines:
+ *  - It computes the winning chance against ALL remaining opponents, not against
+ *    a single random opponent.
+ *  - It knows the pot and compares the chance with the pot odds instead of
+ *    querying fixed thresholds.
+ *  - It knows its position and plays by position charts before the flop.
+ *  - It bets in shares of the pot instead of in multiples of the small blind.
+ *  - It knows push-or-fold with a short stack.
  */
 
 struct AiSituation {
-	// --- Karten ---
+	// --- cards ---
 	int holeCards[2];
 	int boardCards[5];
-	int boardSize;              // 0 (praeflop), 3, 4 oder 5
+	int boardSize;              // 0 (preflop), 3, 4 or 5
 	int round;                  // GAME_STATE_PREFLOP .. GAME_STATE_RIVER
 
-	// --- Geld, alles in Chips ---
-	int myCash;                 // noch vor mir liegende Chips
-	int mySet;                  // in dieser Setzrunde bereits gesetzt
-	int highestSet;             // hoechster Satz dieser Runde
-	int minimumRaise;           // kleinste zulaessige Erhoehung
+	// --- money, everything in chips ---
+	int myCash;                 // chips still in front of me
+	int mySet;                  // already bet in this betting round
+	int highestSet;             // highest bet of this round
+	int minimumRaise;           // smallest permitted raise
 	int smallBlind;
-	int potBefore;              // eingesammelter Pot der frueheren Runden
-	int setsThisRound;          // Summe der Saetze dieser Runde
+	int potBefore;              // collected pot of the earlier rounds
+	int setsThisRound;          // sum of the bets of this round
 
-	// --- Tisch ---
-	int opponents;              // Gegner, die noch in der Hand sind
-	int opponentsBehind;        // davon noch nicht am Zug -- unsere Position
-	int effectiveOpponentCash;  // groesster Stack unter den Gegnern
-	int raisesThisRound;        // Anzahl Erhoehungen ueber den Grundsatz hinaus
-	bool amBigBlind;            // wir sind der Big Blind (praeflop wichtig)
+	// --- table ---
+	int opponents;              // opponents still in the hand
+	int opponentsBehind;        // of those not yet to act -- our position
+	int effectiveOpponentCash;  // largest stack among the opponents
+	int raisesThisRound;        // number of raises beyond the base bet
+	bool amBigBlind;            // we are the big blind (important preflop)
 
-	/* --- Gegnermodell ---
-	 * Beobachtungswerte der Gegner, die noch in der Hand sind. Jeweils -1,
-	 * solange zu wenige Haende vorliegen, um daraus etwas abzuleiten; dann
-	 * faellt die Engine auf ihre Standardannahmen zurueck.
+	/* --- opponent model ---
+	 * Observation values of the opponents still in the hand. Each -1 as
+	 * long as too few hands are available to derive anything from them; then
+	 * the engine falls back to its default assumptions.
 	 */
-	int opponentVpipPercent;        // wie oft sie vor dem Flop freiwillig einsteigen
-	int opponentAggressionPercent;  // Anteil von Einsatz/Erhoehung an ihren Aktionen nach dem Flop
+	int opponentVpipPercent;        // how often they enter voluntarily before the flop
+	int opponentAggressionPercent;  // share of bets/raises among their actions after the flop
 };
 
-/* Spielernaturen. Alle Werte sind Multiplikatoren um 1.0 herum; sie
- * verschieben das Verhalten, ohne die EV-Grundlage auszuhebeln. So bleiben die
- * Bots unterscheidbar, ohne wieder in Zufallsspiel zu verfallen.
+/* Player natures. All values are multipliers around 1.0; they
+ * shift the behaviour without undermining the EV basis. That way the
+ * bots stay distinguishable without falling back into random play.
  */
 struct AiPersonality {
-	double looseness;   // > 1 spielt mehr Haende
-	double aggression;  // > 1 setzt und erhoeht haeufiger und groesser
-	double bluffRate;   // Anteil reiner Bluffs
+	double looseness;   // > 1 plays more hands
+	double aggression;  // > 1 bets and raises more often and bigger
+	double bluffRate;   // share of pure bluffs
 
 	AiPersonality() : looseness(1.0), aggression(1.0), bluffRate(1.0) {}
 };
 
 struct AiDecision {
 	PlayerAction action;
-	// Fuer PLAYER_ACTION_BET der angestrebte Satz, fuer PLAYER_ACTION_RAISE der
-	// Betrag oberhalb des hoechsten Satzes -- genau das, was
-	// LocalPlayer::evaluation(bet, raise) erwartet.
+	// For PLAYER_ACTION_BET the intended bet, for PLAYER_ACTION_RAISE the
+	// amount above the highest bet -- exactly what
+	// LocalPlayer::evaluation(bet, raise) expects.
 	int bet;
 	int raise;
 
@@ -112,8 +112,8 @@ class AiEngine4
 public:
 	static AiDecision decide(const AiSituation& situation, const AiPersonality& personality);
 
-	// Gewinnchance in der aktuellen Lage (0..1). Oeffentlich, damit sich das
-	// Verhalten der Engine nachvollziehen und protokollieren laesst.
+	// Winning chance in the current situation (0..1). Public so that the
+	// behaviour of the engine can be followed and logged.
 	static double winningChance(const AiSituation& situation);
 };
 

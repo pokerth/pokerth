@@ -43,7 +43,7 @@ ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boos
 
 	for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
 		(*it)->setHand(this);
-		// myFlipCards auf 0 setzen
+		// set myFlipCards to 0
 		(*it)->setMyCardsFlip(0, 0);
 	}
 
@@ -63,7 +63,7 @@ ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boos
 
 	// the rest of the buttons are assigned later as received from the server.
 
-	// Preflop, Flop, Turn und River erstellen
+	// create preflop, flop, turn and river
 	myBeRo = myFactory->createBeRo(this, dealerPosition, smallBlind);
 }
 
@@ -349,14 +349,14 @@ ClientHand::switchRounds()
 	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); ) {
 		if((*it)->getMyAction() == PLAYER_ACTION_FOLD || (*it)->getMyAction() == PLAYER_ACTION_ALLIN) {
 			it = runningPlayerList->erase(it);
-			// BEWUSST OHNE das setCurrentPlayersTurnId() der lokalen Variante
-			// (LocalHand::switchRounds): dort setzt die Engine den Rundenzeiger
-			// auf den Vorgänger zurück, weil LocalBeRo::run() von dort aus
-			// weiterläuft. Im Netzwerk-Client bestimmt AUSSCHLIESSLICH die
-			// PlayersTurnMessage, wer am Zug ist – die Übernahme hätte den
-			// Zugzeiger bei jedem gegnerischen Fold/All-In auf dessen
-			// Listen-Vorgänger umgebogen (also auf mich, wenn ich direkt davor
-			// sitze) und damit einen fremden Zug als meinen ausgewiesen.
+			// DELIBERATELY WITHOUT the setCurrentPlayersTurnId() of the local variant
+			// (LocalHand::switchRounds): there the engine resets the round pointer
+			// to the predecessor because LocalBeRo::run() continues from there.
+			// In the network client it is EXCLUSIVELY the PlayersTurnMessage that
+			// decides who is to act – adopting it would have bent the turn pointer
+			// on every opponent fold/all-in to that player's predecessor in the
+			// list (i.e. to me if I sit right before them) and would thus have
+			// reported someone else's turn as mine.
 		} else {
 			++it;
 		}

@@ -41,7 +41,7 @@ fi
 
 BUILD_TYPE="${BUILD_TYPE:-Release}"
 BUILD_DIR="${BUILD_DIR:-$SCRIPT_DIR/build_ios}"
-# Diagnose-Build: laesst die [ACTDBG]-Instrumentierung des GameHandlers mitlaufen.
+# Diagnostic build: keeps the [ACTDBG] instrumentation of the GameHandler running.
 DIAG_LOG="${DIAG_LOG:-OFF}"
 
 log() {
@@ -192,9 +192,9 @@ cmake --build "$BUILD_DIR" --config "$BUILD_TYPE" --target "$BUILD_TARGET" \
 # 6. Package .ipa
 ########################################
 
-# Xcode haengt je nach Version/Setting ein "-iphoneos" an das Konfigurations-
-# verzeichnis an (bin/Release-iphoneos) oder eben nicht (bin/Release) – deshalb
-# das Bundle suchen statt den Pfad zu raten.
+# Depending on version/setting, Xcode appends "-iphoneos" to the configuration
+# directory (bin/Release-iphoneos) or not (bin/Release) – which is why the
+# bundle is searched for instead of guessing the path.
 APP_BUNDLE="$(find "$BUILD_DIR/bin" -type d -name "${APP_NAME}.app" -print -quit 2>/dev/null || true)"
 if [ -z "$APP_BUNDLE" ]; then
   APP_BUNDLE="$(find "$BUILD_DIR" -type d -name "${APP_NAME}.app" -print -quit)"
@@ -207,8 +207,8 @@ log "App bundle: $APP_BUNDLE"
 
 # An .ipa is just a ZIP with the .app inside a Payload/ directory.
 IPA_DIR="$BUILD_DIR/ipa"
-# Diagnose-Builds im Dateinamen kenntlich machen – sonst ist am Geraet nicht mehr
-# zu unterscheiden, ob die installierte App die Instrumentierung mitschreibt.
+# Mark diagnostic builds in the file name – otherwise it is impossible to tell
+# on the device whether the installed app writes the instrumentation.
 IPA_SUFFIX=""
 [ "$DIAG_LOG" = "ON" ] && IPA_SUFFIX="-diag"
 IPA_FILE="${IPA_OUT:-$BUILD_DIR/${APP_NAME}-ios-arm64-unsigned${IPA_SUFFIX}.ipa}"

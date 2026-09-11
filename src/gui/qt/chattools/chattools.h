@@ -64,20 +64,20 @@ public slots:
 	void sendMessage();
 	void receiveMessage(QString playerName, QString message, bool pm=false);
 	void privateMessage(QString playerName, QString message);
-	// Sendet eine private Nachricht und bestätigt sie im eigenen Chat-Verlauf –
-	// MIT vollem Text, denn gesendete PMs tauchen sonst nirgends auf. Gemeinsamer
-	// Weg für den Chat-Kurzbefehl "/msg" und den Kontextmenü-Eintrag der
-	// Nickliste (gameLobbyDialogImpl).
+	// Sends a private message and confirms it in your own chat history –
+	// WITH the full text, because sent PMs do not show up anywhere else. A shared
+	// path for the chat shortcut "/msg" and the context menu entry of the
+	// nick list (gameLobbyDialogImpl).
 	void sendPrivateMessage(unsigned playerId, QString message);
-	// Hängt eine Zeile NUR lokal an den eigenen Chat-Verlauf an (kein Senden,
-	// kein Broadcast) – für Hinweise, die nur der auslösende Nutzer sehen soll,
-	// z. B. das Community-„Suggest"-Ergebnis (wie die PM-Antwort des bbcbot).
+	// Appends a line ONLY locally to your own chat history (no sending,
+	// no broadcast) – for notices that only the triggering user should see,
+	// e.g. the community "suggest" result (like the PM reply of the bbcbot).
 	void showLocalNote(QString message);
 	void clearChat();
-	// Wird nach dem Übernehmen der Einstellungen aufgerufen. Wendet den Schalter
-	// "AllowChatTranslation" auf den SICHTBAREN Verlauf an: bei Deaktivierung
-	// werden alle vorhandenen Globus-Symbole/Übersetzungen sofort entfernt
-	// (neue Nachrichten regelt receiveMessage() ohnehin live).
+	// Called after applying the settings. Applies the switch
+	// "AllowChatTranslation" to the VISIBLE history: on deactivation
+	// all existing globe symbols/translations are removed immediately
+	// (new messages are handled live by receiveMessage() anyway).
 	void refreshTranslationEnabled();
 	void checkInputLength(QString string);
 
@@ -91,9 +91,9 @@ public slots:
 	void nickAutoCompletition();
 	void setChatTextEdited();
 
-	// Offenes Shortcode-Vorschlags-Popup (":smi…")? Die Dialoge lassen dann
-	// Tab/Hoch/Runter in Ruhe (keine Nick-Vervollständigung/History), damit
-	// die Tasten das Popup steuern können.
+	// An open shortcode suggestion popup (":smi…")? The dialogs then leave
+	// Tab/up/down alone (no nickname completion/history), so that
+	// the keys can control the popup.
 	bool shortcodeCompletionActive() const;
 
 	void setPlayerNicksList(QStringList value)
@@ -116,30 +116,30 @@ public slots:
 
 signals:
 
-	// Emoji-Reaktion empfangen (Chat-Konvention "/emoji 🎉" wie im QML-/
-	// Web-Client). Nur INGAME_CHAT; die Nachricht erscheint nicht im Chat.
+	// An emoji reaction was received (chat convention "/emoji 🎉" as in the QML/
+	// web client). INGAME_CHAT only; the message does not appear in the chat.
 	void reactionReceived(QString playerName, QString emoji);
 
 protected:
 
 	unsigned parsePrivateMessageTarget(QString &chatText);
-	// Fängt Tab im Shortcode-Popup ab (Vorschlag übernehmen statt weiterreichen).
+	// Intercepts Tab in the shortcode popup (accept the suggestion instead of passing it on).
 	bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
 
-	// Steht der Absender auf der Ignore-Liste? Wird bei JEDER Nachricht frisch
-	// aus der Konfiguration gelesen (wie überall sonst im Client, z. B.
-	// MyAvatarLabel/gameLobbyDialogImpl): Lobby- und Spiel-Chat sind getrennte
-	// ChatTools-Instanzen, eine zwischengespeicherte Liste lief zwangsläufig
-	// auseinander, sobald in nur einem der beiden ignoriert wurde.
+	// Is the sender on the ignore list? It is read afresh from the configuration
+	// on EVERY message (as everywhere else in the client, e.g.
+	// MyAvatarLabel/gameLobbyDialogImpl): the lobby and the game chat are separate
+	// ChatTools instances, so a cached list would inevitably drift
+	// apart as soon as somebody was ignored in only one of the two.
 	bool nickIsOnIgnoreList(const QString &playerName) const;
 
-	// Tatsächliche Hintergrundfarbe des Chat-Verlaufs: im Spiel-Chat die Farbe
-	// des Tischstils, in den Lobby-Chats die gesetzte Palette des QTextBrowsers.
-	// Grundlage für eine Namensfarbe, die in jedem Thema lesbar bleibt.
+	// Actual background colour of the chat history: in the game chat the colour
+	// of the table style, in the lobby chats the palette set on the QTextBrowser.
+	// The basis for a name colour that stays readable in every theme.
 	QColor chatBackgroundColor() const;
-	// Spielername (mit Trenner) als eingefärbtes, fettes HTML-Fragment.
+	// Player name (with a separator) as a coloured, bold HTML fragment.
 	QString nickHtml(const QString &nickText) const;
 
 	void setupEmojiPickerAction();
@@ -147,37 +147,37 @@ private:
 	void updateShortcodeCompletion();
 	void insertShortcodeCompletion(const QModelIndex &index);
 
-	// ── Chat-Übersetzung ────────────────────────────────────────────────
-	// Baut das anklickbare Globus-Anchor-HTML ("pokerthtranslate:<id>").
+	// ── Chat translation ────────────────────────────────────────────────
+	// Builds the clickable globe anchor HTML ("pokerthtranslate:<id>").
 	QString translateAnchorHtml(int id, const QString &glyph) const;
-	// Symbol, das die Zeile im aktuellen Zustand tragen soll: Spinner solange
-	// die Übersetzung läuft, Globus wenn die Übersetzung eingeblendet ist oder
-	// die Zeile unter dem Mauszeiger liegt – sonst ein unsichtbarer Platzhalter.
+	// The symbol the line should carry in its current state: the spinner while
+	// the translation is running, the globe when the translation is shown or
+	// the line is under the mouse cursor – otherwise an invisible placeholder.
 	QString translateGlyph(int id) const;
-	// Anchor-id der Chat-Zeile in diesem Textblock (0 = nicht übersetzbar).
+	// Anchor id of the chat line in this text block (0 = not translatable).
 	int translateIdAtBlock(const QTextBlock &block) const;
-	// Ermittelt die Zeile unter der (Viewport-)Mausposition und schiebt das
-	// Globus-Symbol dorthin.
+	// Determines the line under the (viewport) mouse position and moves the
+	// globe symbol there.
 	void updateTranslateHover(const QPoint &viewportPos);
 	void setTranslateHoverId(int id);
-	// Findet den Textblock (Chat-Zeile), der den Globus-Anker dieser id enthält.
+	// Finds the text block (chat line) that contains the globe anchor of this id.
 	QTextBlock findTranslateBlock(int id) const;
-	// Baut den Inhalt der Chat-Zeile aus dem gespeicherten Zustand neu auf
-	// (Original- ODER Übersetzungs-Körper + Globus/Spinner) und ersetzt damit
-	// den zugehörigen Block im Dokument. So ERSETZT die Übersetzung den Text an
-	// gleicher Stelle (statt rechts daneben zu erscheinen).
+	// Rebuilds the content of the chat line from the stored state
+	// (original OR translation body + globe/spinner) and replaces the
+	// corresponding block in the document with it. That way the translation REPLACES the
+	// text in place (instead of appearing to the right of it).
 	void rebuildTranslateBlock(int id);
-	// Übersetzer-Einträge wegwerfen, deren Chat-Zeile aus dem (auf
-	// kMaxChatBlocks begrenzten) Verlauf herausgefallen ist. Ohne das wüchse je
-	// empfangener Fremdnachricht ein Eintrag mit Quelltext + Nachrichtenkörper
-	// über die ganze Sitzung mit, obwohl seine Zeile längst weg ist.
+	// Throw away translator entries whose chat line has dropped out of the
+	// history (limited to kMaxChatBlocks). Without that, an entry with the source
+	// text + the message body would grow along for the whole session with every
+	// received foreign message, although its line is long gone.
 	void pruneTranslateEntries();
 
 private slots:
-	// QTextBrowser-Links (openLinks ist aus): unser Pseudo-Schema übersetzt,
-	// echte http(s)-Links werden extern geöffnet.
+	// QTextBrowser links (openLinks is off): our pseudo scheme translates,
+	// real http(s) links are opened externally.
 	void onChatAnchorClicked(const QUrl &url);
-	// Ergebnis aus dem Übersetzer-Kern.
+	// Result from the translator core.
 	void onChatTranslated(int requestId, const QString &text, bool ok);
 
 private:
@@ -202,28 +202,28 @@ private:
 
 	class EmojiPicker *myEmojiPicker;
 
-	// Shortcode-Autovervollständigung (":smi…" → 😄)
+	// Shortcode auto-completion (":smi…" → 😄)
 	QCompleter *myShortcodeCompleter;
 	QStandardItemModel *myShortcodeModel;
 	QList<QPair<QString, QString> > myShortcodeList;   // (code, emoji), sortiert
 	QHash<QString, QIcon> myShortcodeIconCache;
 	int myShortcodeTokenStart;
 
-	// ── Chat-Übersetzung ────────────────────────────────────────────────
+	// ── Chat translation ────────────────────────────────────────────────
 	struct TranslateEntry {
-		QString sourceText;   // Rohtext der Nachricht (für die Anfrage)
-		QString lineNoGlobe;  // gerenderte Chat-Zeile OHNE Globus (Original-Körper)
-		QString bodyHtml;     // Original-Nachrichtenkörper (Teilstring von lineNoGlobe)
-		QString translated;   // gecachte Übersetzung (leer = noch nicht geholt)
+		QString sourceText;   // raw text of the message (for the request)
+		QString lineNoGlobe;  // rendered chat line WITHOUT the globe (original body)
+		QString bodyHtml;     // original message body (substring of lineNoGlobe)
+		QString translated;   // cached translation (empty = not fetched yet)
 		bool inFlight = false;
-		bool shown = false;   // Übersetzung aktuell eingeblendet? (Toggle)
+		bool shown = false;   // translation currently shown? (toggle)
 	};
 	ChatTranslatorCore *myTranslator;
 	QHash<int, TranslateEntry> myTranslateEntries;  // Anchor-id -> Zustand
 	QHash<int, int> myTranslateReqToId;             // Core-Request-id -> Anchor-id
 	int myTranslateNextId;
-	int myTranslateHoverId;                         // Zeile unter der Maus (0 = keine)
-	qint64 myTranslateLastFailNoteMs;               // letzter Fehlschlag-Hinweis (Drosselung)
+	int myTranslateHoverId;                         // line under the mouse (0 = none)
+	qint64 myTranslateLastFailNoteMs;               // last failure notice (throttling)
 };
 
 #endif

@@ -12,12 +12,12 @@ Item {
     property string tooltipText: ""
     property int iconSize: 18
 
-    // Ist die Aktion für diese Zeile verfügbar? Ein inaktives Icon wird NICHT
-    // ausgeblendet (visible: false hätte es aus der Row entfernt und alle
-    // folgenden Icons nachrücken lassen), sondern behält seinen Platz und wird
-    // nur unsichtbar+tot geschaltet. So sitzt jedes Icon in allen Zeilen an
-    // derselben x-Position. Ob die Spalte überhaupt existiert, entscheidet der
-    // Aufrufer weiterhin über visible.
+    // Is the action available for this row? An inactive icon is NOT hidden
+    // (visible: false would have removed it from the row and made all following
+    // icons move up), instead it keeps its place and is merely switched
+    // invisible+dead. That way every icon sits at the same x position in all
+    // rows. Whether the column exists at all is still decided by the caller
+    // via visible.
     property bool active: true
 
     signal triggered()

@@ -1,8 +1,8 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
  *                                                                           *
- * Emoji-Picker-Popup für die Chat-Eingabefelder (Lobby, LAN-Lobby,          *
- * Gametable) sowie für die Emoji-Reaktionen am Spieltisch.                  *
+ * Emoji picker popup for the chat input fields (lobby, LAN lobby,          *
+ * game table) as well as for the emoji reactions at the game table.        *
  *****************************************************************************/
 #include "emojipicker.h"
 #include <QGuiApplication>
@@ -13,8 +13,8 @@ EmojiPicker::EmojiPicker(QWidget *parent, const QStringList &emojis, int columns
 {
 	setAttribute(Qt::WA_DeleteOnClose, false);
 #ifdef Q_OS_ANDROID
-	// Der Picker selbst soll keinen Tastatur-Fokus ziehen – sonst öffnet
-	// sich auf Touch-Geräten die virtuelle Tastatur.
+	// The picker itself should not take the keyboard focus – otherwise the
+	// virtual keyboard opens on touch devices.
 	setFocusPolicy(Qt::NoFocus);
 #endif
 	buildGrid(emojis.isEmpty() ? defaultEmojis() : emojis, columns);
@@ -65,15 +65,15 @@ QWidget *EmojiPicker::buildGridWidget(const QStringList &emojis, int columns, QW
 	int row = 0, col = 0;
 	for (const QString &e : emojis) {
 		QToolButton *btn = new QToolButton(grid);
-		// Als Icon in fester Pixelgröße rendern – setFont skaliert
-		// Bitmap-Emoji-Glyphen nicht (sie blieben winzig).
+		// Render as an icon in a fixed pixel size – setFont does not scale
+		// bitmap emoji glyphs (they would stay tiny).
 		btn->setIcon(QIcon(emojiPixmap(e, 32)));
 		btn->setIconSize(QSize(32, 32));
 		btn->setAutoRaise(true);
 		btn->setFixedSize(46, 46);
 #ifdef Q_OS_ANDROID
-		// Auf Touch-Geräten keinen Fokus ziehen → die virtuelle Tastatur
-		// poppt beim Antippen nicht auf.
+		// Do not take the focus on touch devices → the virtual keyboard
+		// does not pop up when tapping.
 		btn->setFocusPolicy(Qt::NoFocus);
 #endif
 		btn->setCursor(Qt::PointingHandCursor);
@@ -90,8 +90,8 @@ QWidget *EmojiPicker::buildGridWidget(const QStringList &emojis, int columns, QW
 	return grid;
 }
 
-// Mehrseitiges Raster mit kompaktem Pager ‹ 😀 1/3 › im Kopf – wie der
-// Reaktions-Picker des Web-Clients; die Pfeile laufen um.
+// Multi-page grid with a compact pager ‹ 😀 1/3 › in the header – like the
+// reaction picker of the web client; the arrows wrap around.
 void EmojiPicker::buildPages(const QList<QStringList> &pages, int columns, int startPage)
 {
 	QVBoxLayout *outer = new QVBoxLayout(this);
@@ -153,12 +153,12 @@ void EmojiPicker::setCurrentPage(int page)
 	if (!myPageStack || myPageStack->count() == 0)
 		return;
 	const int count = myPageStack->count();
-	page = ((page % count) + count) % count;   // die Pfeile laufen um
+	page = ((page % count) + count) % count;   // the arrows wrap around
 	if (page == myCurrentPage)
 		return;
 	myCurrentPage = page;
 	myPageStack->setCurrentIndex(page);
-	// Symbol der Seite (Emotionen / Stimmung & Gesten / Poker & Glück).
+	// Symbol of the page (emotions / mood & gestures / poker & luck).
 	static const char *icons[] = {"😀", "👏", "♠️"};
 	if (myPageIcon && page < 3)
 		myPageIcon->setPixmap(emojiPixmap(QString::fromUtf8(icons[page]), 16));
@@ -170,8 +170,8 @@ void EmojiPicker::setCurrentPage(int page)
 void EmojiPicker::showAt(QWidget *anchor)
 {
 #ifdef Q_OS_ANDROID
-	// Virtuelle Tastatur ausblenden, damit der Picker klar vom Texteingabe-
-	// Feld abgegrenzt ist und die Tastatur nicht darüber liegt (Android).
+	// Hide the virtual keyboard so that the picker is clearly separated from the
+	// text input field and the keyboard does not lie above it (Android).
 	if (QGuiApplication::inputMethod())
 		QGuiApplication::inputMethod()->hide();
 #endif
@@ -189,8 +189,8 @@ void EmojiPicker::showAt(QWidget *anchor)
 
 QList<QStringList> EmojiPicker::reactionEmojiPages()
 {
-	// Identisch zum Reaktions-Katalog in QML- und Web-Client:
-	// 90 Reaktionen auf drei thematischen Seiten.
+	// Identical to the reaction catalogue in the QML and web client:
+	// 90 reactions on three thematic pages.
 	return {
 		// Seite 1 – Emotionen
 		QStringList{
@@ -200,7 +200,7 @@ QList<QStringList> EmojiPicker::reactionEmojiPages()
 			"😮", "😱", "🤯", "😡", "😤", "🤢",
 			"🥴", "🙃", "🫣", "😐", "🥱", "🙈"
 		},
-		// Seite 2 – Stimmung & Gesten
+		// Page 2 – mood & gestures
 		QStringList{
 			"😎", "🤩", "🤡", "😈", "🫠", "🥶",
 			"🥵", "🎉", "🥳", "🍿", "👏", "🙌",
@@ -208,7 +208,7 @@ QList<QStringList> EmojiPicker::reactionEmojiPages()
 			"🤞", "🫵", "🫡", "🤫", "🤦", "🚬",
 			"⏳", "🍺", "☕", "💣", "🚀", "⚡"
 		},
-		// Seite 3 – Poker & Glück
+		// Page 3 – poker & luck
 		QStringList{
 			"💰", "🤑", "💵", "💎", "🎰", "🍀",
 			"🃏", "♠️", "🎲", "🎯", "🏆", "🥇",
@@ -221,8 +221,8 @@ QList<QStringList> EmojiPicker::reactionEmojiPages()
 
 QStringList EmojiPicker::defaultEmojis()
 {
-	// Gängige Auswahl (Smileys, Gesten, Symbole, Poker) – kompaktere
-	// Variante der QML-EmojiPicker-Liste.
+	// Common selection (smileys, gestures, symbols, poker) – a more compact
+	// variant of the QML EmojiPicker list.
 	return {
 		"😀", "😃", "😄", "😁", "😆", "😅", "🤣", "😂", "🙂", "🙃",
 		"😉", "😊", "😇", "🥰", "😍", "🤩", "😘", "😋", "😛", "😜",
@@ -257,11 +257,11 @@ QString EmojiPicker::emojiFontFamily()
 
 QPixmap EmojiPicker::emojiPixmap(const QString &emoji, int targetPx)
 {
-	// Auf großzügiger Leinwand rendern …
+	// Render on a generous canvas …
 	QFont f;
-	// Explizit den gebündelten Farb-Emoji-Font verwenden, damit Emojis nicht
-	// vom (auf manchen Distributionen fehlenden/zu alten) System-Emoji-Font
-	// abhängen und als weiße Rechtecke erscheinen.
+	// Use the bundled colour emoji font explicitly so that emojis do not depend
+	// on the system emoji font (missing/too old on some distributions) and
+	// appear as white rectangles.
 	f.setFamily(emojiFontFamily());
 	f.setPixelSize(targetPx);
 	const int canvas = qMax(targetPx * 3, 64);
@@ -274,8 +274,8 @@ QPixmap EmojiPicker::emojiPixmap(const QString &emoji, int targetPx)
 		p.drawText(QRect(0, 0, canvas, canvas), Qt::AlignCenter, emoji);
 	}
 
-	// … den tatsächlich gezeichneten Bereich messen (Bitmap-Emoji-Glyphen
-	// erscheinen unabhängig von der Font-Größe in ihrer nativen Größe) …
+	// … measure the area actually drawn (bitmap emoji glyphs appear in their
+	// native size regardless of the font size) …
 	int minX = canvas, minY = canvas, maxX = -1, maxY = -1;
 	for (int y = 0; y < canvas; ++y) {
 		const QRgb *line = reinterpret_cast<const QRgb *>(img.constScanLine(y));
@@ -291,7 +291,7 @@ QPixmap EmojiPicker::emojiPixmap(const QString &emoji, int targetPx)
 	if (maxX < 0)
 		return QPixmap();
 
-	// … und auf die GARANTIERTE Zielgröße skalieren.
+	// … and scale it to the GUARANTEED target size.
 	const QImage cropped = img.copy(QRect(QPoint(minX, minY), QPoint(maxX, maxY)));
 	return QPixmap::fromImage(cropped.scaled(targetPx, targetPx,
 							  Qt::KeepAspectRatio,

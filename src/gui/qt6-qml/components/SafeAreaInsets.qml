@@ -1,27 +1,27 @@
 import QtQuick
 
-// Sicherheitsabstände der Systemleisten (Status-/Navigationsleiste, Notch).
+// Safe area insets of the system bars (status/navigation bar, notch).
 //
-// Ab Android 15 zeichnen Apps mit targetSdk 35+ ZWINGEND randlos: das
-// „Fullscreen“-Flag des App-Themes wird ignoriert, System- und
-// Navigationsleiste liegen ÜBER dem Fensterinhalt. Ohne Korrektur säßen die
-// Kopfzeile unter der Statusleiste und die Aktionsleiste des Tisches unter der
-// Gestenleiste.
+// From Android 15 on, apps with targetSdk 35+ MUST draw edge to edge: the
+// "fullscreen" flag of the app theme is ignored, the system and navigation
+// bar lie ABOVE the window content. Without a correction the header would sit
+// under the status bar and the action bar of the table under the gesture
+// bar.
 //
-// `SafeArea` (QtQuick 6.9) meldet, wie viel das Element an jeder Kante noch
-// freihalten muss. Kümmert sich die Plattform bereits selbst darum, sind die
-// Werte 0 – dann ist diese Datei ein No-op.
+// `SafeArea` (QtQuick 6.9) reports how much the element still has to keep
+// free at each edge. If the platform already takes care of it itself, the
+// values are 0 – then this file is a no-op.
 //
-// Bewusst als eigene Datei, die pokerth.qml über einen Loader zieht: auf
-// Qt 6.7 (Android-APK-Variante für Android 8) existiert der Typ `SafeArea`
-// nicht. Der Loader scheitert dort still an dieser Datei, die App läuft mit
-// Abständen von 0 weiter – ein direkter Zugriff in pokerth.qml wäre dagegen
-// ein Ladefehler des gesamten Fensters.
+// Deliberately a file of its own, which pokerth.qml pulls in via a Loader: on
+// Qt 6.7 (the Android APK variant for Android 8) the type `SafeArea` does not
+// exist. The Loader fails silently on this file there, the app keeps running
+// with insets of 0 – a direct access in pokerth.qml, by contrast, would be
+// a load error of the whole window.
 Item {
     id: root
 
-    // Das Element muss die Fläche abdecken, für die die Abstände gelten sollen –
-    // der Loader in pokerth.qml füllt dafür das Fenster.
+    // The element has to cover the area the insets should apply to –
+    // the Loader in pokerth.qml fills the window for that.
     readonly property real insetTop:    SafeArea.margins.top
     readonly property real insetBottom: SafeArea.margins.bottom
     readonly property real insetLeft:   SafeArea.margins.left

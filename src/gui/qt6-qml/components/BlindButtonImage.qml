@@ -1,9 +1,9 @@
 import QtQuick
 
-// Dealer-/Small-/Big-Blind-Puck. Die Quelle kommt – falls vorhanden – aus dem
-// aktiven Tisch-Style (StyleProvider), sonst Fallback auf die mitgelieferten
-// SVGs. button: 1=Dealer, 2=Small Blind, 3=Big Blind, 0/sonst → leer.
-// Positionierung/Sichtbarkeit setzt der Aufrufer.
+// Dealer/small/big blind puck. The source comes – if present – from the
+// active table style (StyleProvider), otherwise it falls back to the bundled
+// SVGs. button: 1=dealer, 2=small blind, 3=big blind, 0/other → empty.
+// Positioning/visibility is set by the caller.
 Image {
     property int button: 0
     width: 32

@@ -2,19 +2,19 @@ import QtQuick
 
 import "../config" as Config
 
-// Klickbarer, sortierbarer Spaltenkopf für die Ranglisten-Tabellen
-// (RankingPage / CommunityRankingView). Zeigt `label` und – wenn diese Spalte
-// aktiv sortiert ist – einen Auf-/Ab-Pfeil. Ein Tap meldet den `sortKey`; der
-// Aufrufer entscheidet, ob nach diesem Feld sortiert oder nur die Richtung
-// umgekehrt wird. Nicht sortierbare Spalten lassen `sortKey` leer (kein
-// Hover/Tap/Pfeil), sodass sich die Zelle wie ein normales Kopf-Label verhält.
+// Clickable, sortable column header for the ranking tables
+// (RankingPage / CommunityRankingView). Shows `label` and – if this column is
+// the active sort – an up/down arrow. A tap reports the `sortKey`; the caller
+// decides whether to sort by that field or merely to reverse the direction.
+// Non-sortable columns leave `sortKey` empty (no hover/tap/arrow), so that the
+// cell behaves like an ordinary header label.
 AppLabel {
     id: cell
 
     property string label: ""
     property string sortKey: ""
     property string activeKey: ""
-    // Erlaubt "asc"/"desc" ebenso wie die Server-Schreibweise "ascending"/"descending".
+    // Accepts "asc"/"desc" as well as the server spelling "ascending"/"descending".
     property string sortOrder: "desc"
 
     readonly property bool sortable: sortKey !== ""

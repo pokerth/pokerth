@@ -9,15 +9,15 @@ TabBar {
     id: customTabBar
 
     property alias model: tabButtons.model
-    // Höhe/Schriftgröße der Tabs konfigurierbar (Default = bisheriges Aussehen).
+    // Tab height/font size configurable (default = previous look).
     property int tabHeight: 24
     property real tabFontPointSize: 10
 
-    // ── Farb-Tokens (überschreibbar) ────────────────────────────────────────
-    // Default = globale Palette (Hell/Dunkel-Modus der App). Leisten, die auf
-    // einer fremden Fläche liegen – etwa das Info-Panel am Tisch, das dem
-    // Tisch-Theme folgt – setzen sie auf dessen Farben um; sonst stünde bei
-    // einem hellen Tisch-Theme die helle Dunkelmodus-Schrift auf hellem Grund.
+    // ── Colour tokens (overridable) ─────────────────────────────────────────
+    // Default = global palette (light/dark mode of the app). Bars that sit on a
+    // foreign surface – such as the info panel at the table, which follows the
+    // table theme – switch them to its colours; otherwise a light table theme
+    // would put the light dark-mode text on a light background.
     property color colTextActive: Config.StaticData.palette.secondary.col100
     property color colTextIdle:   Config.StaticData.palette.secondary.col200
     property color colTabActive:  Config.StaticData.palette.secondary.col500
@@ -40,10 +40,10 @@ TabBar {
             property bool isHovered: false
 
             width: tabButtons.model.length > 0 ? Math.floor(customTabBar.width / tabButtons.model.length) : implicitWidth
-            // Reicht die Tab-Breite für den Text nicht (schmale Portrait-
-            // Fenster, lange Übersetzungen), bricht die Beschriftung auf eine
-            // zweite Zeile um und die Leiste wächst mit – vorher wurde der
-            // Text stattdessen abgeschnitten („Third party li…“).
+            // If the tab width is not enough for the text (narrow portrait
+            // windows, long translations), the caption wraps onto a second
+            // line and the bar grows with it – previously the text was
+            // cut off instead ("Third party li…").
             height: Math.max(customTabBar.tabHeight, tabLabel.implicitHeight)
             implicitHeight: height
             padding: 0

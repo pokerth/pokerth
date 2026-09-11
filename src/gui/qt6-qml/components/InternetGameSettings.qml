@@ -181,7 +181,7 @@ Rectangle {
                         ComboBox {
                             id: internetGameType
                             Layout.fillWidth: true
-                            // Reihenfolge und Index entsprechen GameType-1
+                            // Order and index correspond to GameType-1
                             // (GAME_TYPE_NORMAL … GAME_TYPE_RANKING).
                             model: [qsTr("Normal"),
                                     qsTr("Nur registrierte Spieler"),
@@ -316,7 +316,7 @@ Rectangle {
                     }
                 }
 
-                // Ignorierte Spieler
+                // Ignored players
                 GroupBox {
                     Layout.fillWidth: true
                     title: qsTr("Ignorierte Spieler")

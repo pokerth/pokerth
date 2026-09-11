@@ -34,9 +34,9 @@ Rectangle {
             Layout.preferredWidth: 24
             Layout.preferredHeight: 24
             Layout.alignment: Qt.AlignVCenter
-            // Einfärbung per layer.effect statt MultiEffect-Kind: VectorImage
-            // (Qt >= 6.8) ist kein Texture-Provider und darf nicht per source
-            // referenziert werden (sonst schwarz).
+            // Colourising via layer.effect instead of a MultiEffect child: VectorImage
+            // (Qt >= 6.8) is not a texture provider and must not be referenced via
+            // source (it would turn black).
             layer.enabled: true
             layer.effect: MultiEffect {
                 colorization: 1.0 // opacity equivalent

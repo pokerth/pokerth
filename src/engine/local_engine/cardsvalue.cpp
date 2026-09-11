@@ -224,7 +224,7 @@ int CardsValue::holeCardsClass(int one, int two)
 int CardsValue::holeCardsToIntCode(int* cards)
 {
 
-	// Code der HoleCards ermitteln
+	// determine the code of the hole cards
 	if(cards[0]%13 == cards[1]%13) {
 		return ((cards[0]%13)*1000 + (cards[0]%13)*10);
 	} else {
@@ -272,14 +272,14 @@ int CardsValue::cardsValue(int* cards, int* position)
 	int array[7][3];
 	int j1, j2, j3, j4, j5, k1, k2, ktemp[3];
 
-	// Kartenwerte umwandeln (z.B. [ 11 (Karo K�ig) -> 0 11 ] oder [ 31 (Pik 7) -> 2 5 ] )
+	// convert the card values (e.g. [ 11 (diamond king) -> 0 11 ] or [ 31 (spade 7) -> 2 5 ] )
 	for(j1=0; j1<7; j1++) {
 		array[j1][0] = cards[j1]/13;
 		array[j1][1] = cards[j1]%13;
 		array[j1][2] = j1;
 	}
 
-	// Karten nach Farben sortieren: Kreuz - Pik - Herz - Karo
+	// sort the cards by suit: clubs - spades - hearts - diamonds
 	for(k1=0; k1<7; k1++) {
 		for(k2=k1+1; k2<7; k2++) {
 			if(array[k1][0]<array[k2][0]) {
@@ -296,7 +296,7 @@ int CardsValue::cardsValue(int* cards, int* position)
 		}
 	}
 
-	// Karten innerhalb der Farben nach der Gr�e sortieren: Ass - K�ig - Dame - ... - 4 - 3 - 2
+	// sort the cards within the suits by value: ace - king - queen - ... - 4 - 3 - 2
 	for(k1=0; k1<7; k1++) {
 		for(k2=k1+1; k2<7; k2++) {
 			if(array[k1][0]==array[k2][0] && array[k1][1]<array[k2][1]) {
@@ -313,15 +313,15 @@ int CardsValue::cardsValue(int* cards, int* position)
 		}
 	}
 
-	// Karten auf Bl�ter testen. Klasseneinteilung absteigend: 9 - Royal Flush, 8 - Straight Flush, ... 2 - Zwei Paare, 1 - Ein Paar, 0 - Nischt
+	// test the cards for hands. Class division descending: 9 - royal flush, 8 - straight flush, ... 2 - two pair, 1 - one pair, 0 - nothing
 
-	// auf Royal Flush (Klasse 9) und Straight Flush (Klasse 8) testen
+	// test for a royal flush (class 9) and a straight flush (class 8)
 	for(j1=0; j1<3; j1++) {
-		// 5 Karten gleiche Farbe ?
+		// 5 cards of the same suit ?
 		if(array[j1][0] == array[j1+1][0] && array[j1][0] == array[j1+2][0] && array[j1][0] == array[j1+3][0] && array[j1][0] == array[j1+4][0]) {
 			// zus�zlich in Stra�nform ?
 			if(array[j1][1]-1 == array[j1+1][1] && array[j1+1][1]-1 == array[j1+2][1] && array[j1+2][1]-1 == array[j1+3][1] && array[j1+3][1]-1 == array[j1+4][1]) {
-				// mit Ass an der Spitze ?
+				// with an ace at the top ?
 				if(array[j1][1] == 12) {
 					// Royal Flush (9*100000000)
 					if(position) {
@@ -332,7 +332,7 @@ int CardsValue::cardsValue(int* cards, int* position)
 					}
 					return 900000000;
 				}
-				// sonst nur Straight Flush (8*100000000 + (h�hste Straight-Karte)*1000000)
+				// otherwise only a straight flush (8*100000000 + (highest straight card)*1000000)
 				else {
 					if(position) {
 						// Position-Array fuellen
@@ -348,11 +348,11 @@ int CardsValue::cardsValue(int* cards, int* position)
 
 	// Straight Flush Ausnahme: 5-4-3-2-A
 	for(j1=0; j1<3; j1++) {
-		// 5 Karten gleiche Farbe ?
+		// 5 cards of the same suit ?
 		if(array[j1][0] == array[j1+1][0] && array[j1][0] == array[j1+2][0] && array[j1][0] == array[j1+3][0] && array[j1][0] == array[j1+4][0]) {
 			for(j2=j1+1; j2<4; j2++) {
 				if(array[j1][1]-9==array[j2][1] && array[j2][1]-1==array[j2+1][1] && array[j2+1][1]-1==array[j2+2][1] && array[j2+2][1]-1==array[j2+3][1] && array[j1][0]==array[j2+2][0] && array[j1][0]==array[j2+3][0]) {
-					// Straight Flush mit 5 als höchste Karte -> 8*100000000+3*1000000
+					// straight flush with a 5 as the highest card -> 8*100000000+3*1000000
 					if(position) {
 						// Position-Array fuellen
 						position[0] = array[j1][2];
@@ -366,10 +366,10 @@ int CardsValue::cardsValue(int* cards, int* position)
 		}
 	}
 
-	// auf Flush (Klasse 5) testen
+	// test for a flush (class 5)
 	for(j1=0; j1<3; j1++) {
 		if(array[j1][0] == array[j1+1][0] && array[j1][0] == array[j1+2][0] && array[j1][0] == array[j1+3][0] && array[j1][0] == array[j1+4][0]) {
-			// Flush -> 5*10000000 + h�ste Flush Karten mit absteigender Wertung
+			// flush -> 5*10000000 + highest flush cards in descending order
 			if(position) {
 				// Position-Array fuellen
 				for(j2=0; j2<5; j2++) {
@@ -382,7 +382,7 @@ int CardsValue::cardsValue(int* cards, int* position)
 
 
 
-	// Karten fr den Vierling-, Full-House-, Drilling- und Paartest umsortieren
+	// re-sort the cards for the quads, full house, trips and pair test
 	for(k1=0; k1<7; k1++) {
 		for(k2=k1+1; k2<7; k2++) {
 			if(array[k1][1]<array[k2][1]) {
@@ -399,7 +399,7 @@ int CardsValue::cardsValue(int* cards, int* position)
 		}
 	}
 
-	// nach Position sortieren: erst board, dann hole cards
+	// sort by position: first the board, then the hole cards
 	for(k1=0; k1<7; k1++) {
 		for(k2=k1+1; k2<7; k2++) {
 			if(array[k1][1]==array[k2][1] && array[k1][2]<array[k2][2]) {
@@ -416,10 +416,10 @@ int CardsValue::cardsValue(int* cards, int* position)
 		}
 	}
 
-	// auf Vierling (Klasse 7) testen
+	// test for quads (class 7)
 	for(j1=0; j1<4; j1++) {
 		if(array[j1][1] == array[j1+1][1] && array[j1][1] == array[j1+2][1] && array[j1][1] == array[j1+3][1]) {
-			// Position des Kickers ermitteln und der Blattwertung als dritte Gewichtung hinzuaddieren
+			// determine the position of the kicker and add it to the hand value as the third weighting
 			if(j1==0) {
 				if(position) {
 					// Position-Array fuellen
@@ -441,10 +441,10 @@ int CardsValue::cardsValue(int* cards, int* position)
 		}
 	}
 
-	// Hilfsvariablen fr die Full-House-Paar- und -Drilling-Zuordnung
+	// helper variables for assigning the full house pair and trips
 	int drei, zwei;
 
-	// auf Straight (Klasse 4) und Full House (Klasse 6) testen
+	// test for a straight (class 4) and a full house (class 6)
 	for(j1=0; j1<7; j1++) {
 		for(j2=j1+1; j2<7; j2++) {
 			for(j3=j2+1; j3<7; j3++) {
@@ -472,7 +472,7 @@ int CardsValue::cardsValue(int* cards, int* position)
 								position[3] = array[j4][2];
 								position[4] = array[j5][2];
 							}
-							// Paar und Drilling des Full House ermitteln ermitteln
+							// determine the pair and the trips of the full house
 							if(array[j3][1]==array[j1][1]) {
 								drei = array[j1][1];
 								zwei = array[j4][1];
@@ -488,7 +488,7 @@ int CardsValue::cardsValue(int* cards, int* position)
 		}
 	}
 
-	// auf Straight-Spezialfall ( 5 4 3 2 A ) testen
+	// test for the straight special case ( 5 4 3 2 A )
 	for(j1=0; j1<7; j1++) {
 		for(j2=j1+1; j2<7; j2++) {
 			for(j3=j2+1; j3<7; j3++) {
@@ -511,7 +511,7 @@ int CardsValue::cardsValue(int* cards, int* position)
 		}
 	}
 
-	// auf Drilling (Klasse 3) testen
+	// test for trips (class 3)
 	for(j1=0; j1<5; j1++) {
 		if(array[j1][1] == array[j1+1][1] && array[j1][1] == array[j1+2][1]) {
 			// Kicker ermitteln
@@ -547,7 +547,7 @@ int CardsValue::cardsValue(int* cards, int* position)
 		}
 	}
 
-	// auf Zwei Paare (Klasse 2) testen
+	// test for two pair (class 2)
 	for(j1=0; j1<4; j1++) {
 		for(j2=j1+2; j2<6; j2++) {
 			if(array[j1][1] == array[j1+1][1] && array[j2][1] == array[j2+1][1]) {
@@ -589,7 +589,7 @@ int CardsValue::cardsValue(int* cards, int* position)
 		}
 	}
 
-	// auf Paar (Klasse 1) testen
+	// test for a pair (class 1)
 	for(j1=0; j1<6; j1++) {
 		if(array[j1][1] == array[j1+1][1]) {
 			// Kicker ermitteln
@@ -1176,9 +1176,9 @@ std::list<std::string> CardsValue::translateCardsValueCode(int cardsValueCode)
 
 	//erste Ziffer : Blattname
 	int firstPart = cardsValueCode/100000000;
-	//zweite und dritte Ziffer : Kicker, highest Card, usw.
+	//second and third digit : kicker, highest card, etc.
 	int secondPart = cardsValueCode/1000000 - firstPart*100;
-	//vierte und fünfte Ziffer
+	//fourth and fifth digit
 	int thirdPart = cardsValueCode/10000 - firstPart*10000 - secondPart*100;
 	// usw
 	int fourthPart = cardsValueCode/100 - firstPart*1000000 - secondPart*10000 - thirdPart*100;
@@ -1370,7 +1370,7 @@ std::list<std::string> CardsValue::translateCardsValueCode(int cardsValueCode)
 		default:
 			cardString.push_back("ERROR");
 		}
-		//Pärchen
+		//pair
 		switch(thirdPart) {
 		case 12:
 			cardString.push_back("Aces");

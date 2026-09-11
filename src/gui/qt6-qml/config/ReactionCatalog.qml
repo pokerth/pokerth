@@ -1,22 +1,22 @@
 pragma Singleton
 import QtQuick
 
-// Katalog der Emoji-Reaktionen – Port des Web-Clients (Stand 2026-08-28):
-// 90 Reaktionen auf drei thematischen Seiten, 16 Choreografien und die
-// Partikel-Presets sparkle/shock/confetti/boom/gunshot.
+// Catalogue of the emoji reactions – a port of the web client (as of 2026-08-28):
+// 90 reactions on three thematic pages, 16 choreographies and the
+// particle presets sparkle/shock/confetti/boom/gunshot.
 //
-// Die Keyframes sind die CSS-Animationen rfx* des Web-Clients
-// (public/pokerth.css, dokumentiert in dessen docs/REACTIONS_FX.md); die
-// CSS-Prozentwerte der Transformationen werden über pxPerPercent in Pixel
-// umgerechnet (-150 % ⇒ 160 px Aufstieg).
+// The keyframes are the CSS animations rfx* of the web client
+// (public/pokerth.css, documented in its docs/REACTIONS_FX.md); the
+// CSS percentages of the transformations are converted into pixels via
+// pxPerPercent (-150 % ⇒ 160 px of rise).
 //
-// Genutzt von ReactionPicker.qml (Auswahl) und GameReactionFx.qml
-// (Animation). Der Qt-Widgets-Client führt dieselben Tabellen in
-// gui/qt/chattools/emojipicker.cpp und gui/qt/gametable/reactionfx.cpp.
-// Das Protokoll bleibt unverändert: gesendet wird "/emoji <Zeichen>".
+// Used by ReactionPicker.qml (selection) and GameReactionFx.qml
+// (animation). The Qt widgets client keeps the same tables in
+// gui/qt/chattools/emojipicker.cpp and gui/qt/gametable/reactionfx.cpp.
+// The protocol stays unchanged: what is sent is "/emoji <character>".
 QtObject {
 
-    // ── Die 90 Reaktionen, drei Seiten à 30 (Reihenfolge wie im Web-Client) ──
+    // ── The 90 reactions, three pages of 30 (order as in the web client) ──
     readonly property var pages: [
         [
          "😂", "🤣", "😅", "😭", "🥺", "😢",
@@ -41,17 +41,17 @@ QtObject {
         ]
     ]
 
-    // Symbol der jeweiligen Seite (Emotionen / Stimmung & Gesten / Poker & Glück)
+    // Symbol of the respective page (emotions / mood & gestures / poker & luck)
     readonly property var pageIcons: ["😀", "👏", "♠️"]
 
-    // ── Effekt-Katalog je Reaktion ──
-    //   a: Choreografie des großen Emojis (siehe anims)
-    //   p: Partikel-Spezifikation oder Preset "sparkle" | "shock" |
+    // ── Effect catalogue per reaction ──
+    //   a: choreography of the large emoji (see anims)
+    //   p: particle specification or preset "sparkle" | "shock" |
     //      "confetti" | "boom" | "gunshot"
     //      {chars, count, size, a0, a1, dist, g, life, rot, color}
-    //      a0..a1 = Winkelbereich (Grad, 0=rechts, -90=oben), dist = Wurfweite,
-    //      g = zusätzlicher Fall am Ende, life = Lebensdauer ms.
-    //      Ohne chars werden farbige Punkte geworfen.
+    //      a0..a1 = angle range (degrees, 0=right, -90=up), dist = throwing distance,
+    //      g = additional fall at the end, life = lifetime ms.
+    //      Without chars, coloured dots are thrown.
     readonly property var fx: ({
         // ── Seite 1 (😀 Emotions) ──
         "😂": { a: "shake", p: { chars: ["💧"], count: 7, size: 13, a0: -30, a1: 210, dist: 55, g: 36, life: 850 } },
@@ -148,26 +148,26 @@ QtObject {
         "⭐": { a: "shine", p: { chars: ["⭐", "✨"], count: 9, size: 13, a0: 0, a1: 360, dist: 62, life: 900, rot: true } }
     })
 
-    // Umrechnung der CSS-Prozentwerte in Pixel: -150 % (Standard-Aufstieg)
-    // entspricht 160 px – die gewohnte Flughöhe am Tisch.
+    // Conversion of the CSS percentages into pixels: -150 % (the standard rise)
+    // corresponds to 160 px – the usual flight height at the table.
     readonly property real pxPerPercent: 1.6
-    // Grundgröße des großen Emojis (Skalierung 1.0).
+    // Base size of the large emoji (scale 1.0).
     readonly property real baseSize: 34
-    // Die Keyframe-Dauern unten sind die des Web-Clients (1400–1700 ms) und
-    // damit spürbar knapper als die feste Flugzeit von 2000 ms in 2.1.7.
-    // Dieser Faktor streckt sie wieder auf das gewohnte Tempo (Standard-
-    // Choreografie "pop": 1600 ms * 1.25 = 2000 ms) – er gilt für die
-    // Choreografie und für alle daran ausgerichteten Verzögerungen
-    // (scaled(), z. B. der Aufschlag der Bombe).
+    // The keyframe durations below are those of the web client (1400–1700 ms) and
+    // thus noticeably tighter than the fixed flight time of 2000 ms in 2.1.7.
+    // This factor stretches them back to the usual pace (standard
+    // choreography "pop": 1600 ms * 1.25 = 2000 ms) – it applies to the
+    // choreography and to all delays aligned to it
+    // (scaled(), e.g. the impact of the bomb).
     readonly property real durationScale: 1.25
 
-    // ── Die 16 Choreografien (CSS-Keyframes rfx*) ──
-    //   dur = Dauer in ms, e = Timing-Function als kubische Bézier-Kontroll-
-    //   punkte; sie wirkt – wie in CSS – auf JEDEN Keyframe-Abschnitt einzeln.
-    //   Kanäle (jeweils [Zeitanteil, Wert], fehlende Kanäle = Standardwert):
-    //     x, y = CSS-Prozent (Basis -50), s = Skalierung, r = Drehung (Grad),
-    //     ry = Drehung um die Y-Achse (Kartendreher), o = Deckkraft,
-    //     b = Aufhellung (shine).
+    // ── The 16 choreographies (CSS keyframes rfx*) ──
+    //   dur = duration in ms, e = timing function as cubic Bézier control
+    //   points; as in CSS it applies to EVERY keyframe section individually.
+    //   Channels (each [time share, value], missing channels = the default value):
+    //     x, y = CSS percent (base -50), s = scale, r = rotation (degrees),
+    //     ry = rotation around the Y axis (card turner), o = opacity,
+    //     b = brightening (shine).
     readonly property var anims: ({
         "pop": { dur: 1600, e: [0.2, 0.8, 0.3, 1],
             y: [[0, -50], [0.25, -50], [0.55, -60], [1, -150]],
@@ -198,10 +198,10 @@ QtObject {
             y: [[0, -50], [0.25, -58], [1, -150]],
             s: [[0, 0.3], [0.25, 1.45], [1, 1.05]],
             o: [[0, 0], [0.25, 1], [1, 0]],
-            // CSS: brightness(2.2) + Glow zur Hälfte der Animation.
+            // CSS: brightness(2.2) + glow at half of the animation.
             b: [[0, 0], [0.25, 0], [0.5, 0.55], [1, 0]] },
-        // Hinweis: Im Web-Client bleibt flex mit opacity 0 → 0 unsichtbar
-        // (CSS-Fehler in rfxFlex). Hier die offensichtlich gemeinte Kurve.
+        // Note: in the web client flex stays invisible with opacity 0 → 0
+        // (a CSS bug in rfxFlex). Here the curve that was obviously meant.
         "flex": { dur: 1600, e: [0, 0, 0.58, 1],
             y: [[0, -50], [0.2, -55], [0.35, -60], [0.5, -70], [0.7, -90], [1, -150]],
             s: [[0, 0.3], [0.2, 1.5], [0.35, 1.1], [0.5, 1.45], [0.7, 1.15], [1, 1]],
@@ -248,10 +248,10 @@ QtObject {
             s: [[0, 0.3], [0.2, 1.4], [0.45, 1.2], [1, 1]],
             r: [[0, 0], [0.2, 12], [0.45, 28], [1, 560]],
             o: [[0, 0], [0.2, 1], [1, 0]] },
-        // 🔫: doppelter Rückstoß nach RECHTS (der Glyph zeigt nach links),
-        // dazu ein leichtes Hochreißen der Mündung. Der seitliche Versatz ist
-        // im Web-Client in Pixeln angegeben (14/4/10 px); geteilt durch
-        // pxPerPercent ergeben sich die CSS-Prozente dieses Kanals.
+        // 🔫: a double recoil to the RIGHT (the glyph points left),
+        // plus a slight kick-up of the muzzle. The lateral offset is
+        // given in pixels in the web client (14/4/10 px); divided by
+        // pxPerPercent this yields the CSS percentages of this channel.
         "recoil": { dur: 1500, e: [0, 0, 0.58, 1],
             x: [[0, -50], [0.12, -50], [0.2, -41.25], [0.34, -47.5],
                 [0.42, -43.75], [0.56, -50], [1, -50]],
@@ -263,7 +263,7 @@ QtObject {
             o: [[0, 0], [0.12, 1], [1, 0]] }
     })
 
-    // Effekt einer Reaktion; unbekannte Emojis bekommen den Standard.
+    // Effect of a reaction; unknown emojis get the default.
     function fxFor(emoji) {
         return fx[emoji] || { a: "pop", p: "sparkle" }
     }
@@ -272,18 +272,18 @@ QtObject {
         return anims[name] || anims["pop"]
     }
 
-    // Laufzeit einer Choreografie in ms (Keyframe-Dauer * durationScale).
+    // Running time of a choreography in ms (keyframe duration * durationScale).
     function durationOf(a) {
         return Math.round(a.dur * durationScale)
     }
 
-    // Eine an der Choreografie ausgerichtete Zeitangabe mitstrecken.
+    // Stretch a time value aligned to the choreography along with it.
     function scaled(ms) {
         return Math.round(ms * durationScale)
     }
 
-    // Kubische Bézier-Timing-Function (wie CSS cubic-bezier): Newton-Iteration
-    // auf x(t) = f, danach y(t).
+    // Cubic Bézier timing function (like CSS cubic-bezier): Newton iteration
+    // on x(t) = f, then y(t).
     function ease(a, f) {
         var c = a.e || [0, 0, 1, 1]
         if (f <= 0) return 0
@@ -301,9 +301,9 @@ QtObject {
         return ((ay * t + by) * t + cy) * t
     }
 
-    // Wert des Kanals ch der Choreografie a zum Zeitanteil t (0..1). Vor dem
-    // ersten und nach dem letzten Keyframe gilt der jeweilige Randwert – so
-    // hält CSS Eigenschaften, die nur am Anfang gesetzt sind.
+    // Value of the channel ch of the choreography a at the time share t (0..1). Before
+    // the first and after the last keyframe the respective edge value applies – that is
+    // how CSS holds properties that are only set at the beginning.
     function sample(a, ch, t, fallback) {
         var kf = a[ch]
         if (!kf || kf.length === 0)

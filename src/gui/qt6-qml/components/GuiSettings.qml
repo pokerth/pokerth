@@ -73,10 +73,10 @@ Rectangle {
                                     SettingsManager.writeConfigInt("DarkMode", cfgVal)
                                     Config.StaticData.darkMode = cfgVal
                                     Config.Theme.darkMode = cfgVal
-                                    // Der Lobby-Chat-Verlauf trägt seine Farben als
-                                    // Platzhalter; ohne dieses Signal bliebe er in den
-                                    // Farben des alten Modus stehen (heller Text auf
-                                    // hellem Grund).
+                                    // The lobby chat history carries its colours as
+                                    // placeholders; without this signal it would stay in
+                                    // the colours of the old mode (light text on a light
+                                    // background).
                                     if (typeof Lobby !== "undefined" && Lobby)
                                         Lobby.refreshChatColors()
                                 }
@@ -116,10 +116,10 @@ Rectangle {
                             onActivated: {
                                 var code = model[currentIndex].code
                                 Config.Parameters.language = code
-                                LanguageManager.switchLanguage(code)   // Oberfläche sofort
-                                // Maßgeblich ins ConfigFile schreiben (Kurzcode,
-                                // damit der Widgets-Client seine .qm findet).
-                                // Die Chat-Übersetzung liest den Key live -> greift sofort.
+                                LanguageManager.switchLanguage(code)   // user interface right away
+                                // Write the authoritative value into the ConfigFile (short
+                                // code, so that the widgets client finds its .qm).
+                                // The chat translation reads the key live -> takes effect immediately.
                                 if (typeof SettingsManager !== "undefined" && SettingsManager)
                                     SettingsManager.language =
                                         Config.StaticData.localeToConfigLanguage(code)
@@ -135,13 +135,13 @@ Rectangle {
                         onToggled: {
                             if (typeof SettingsManager !== "undefined" && SettingsManager)
                                 SettingsManager.writeConfigInt("AllowChatTranslation", checked ? 1 : 0)
-                            // Echtzeit: den sichtbaren Verlauf beider Chats sofort
-                            // anpassen (Globus/Übersetzungen ein-/ausblenden).
+                            // Real time: adjust the visible history of both chats
+                            // immediately (show/hide globe/translations).
                             if (typeof Lobby !== "undefined" && Lobby && Lobby.chatTranslator)
                                 Lobby.chatTranslator.refreshEnabled()
                             if (typeof GameTable !== "undefined" && GameTable && GameTable.chatTranslator)
                                 GameTable.chatTranslator.refreshEnabled()
-                            // ... und den Globus der Forum-Beitragsseite.
+                            // ... and the globe of the forum post page.
                             if (typeof Translator !== "undefined" && Translator)
                                 Translator.refreshEnabled()
                         }
@@ -249,9 +249,9 @@ Rectangle {
                         onCheckedChanged: Config.Parameters.keepEmptySeats = checked
                     }
 
-                    // Forum-Neuigkeiten: Zeitungs-Icon in der Topbar mit Zähler
-                    // ungelesener Beiträge. Unabhängig von den Community-
-                    // Inhalten (offizielles PokerTH-Forum, nicht BBC/WEC).
+                    // Forum news: newspaper icon in the top bar with a counter of
+                    // unread posts. Independent of the community content
+                    // (official PokerTH forum, not BBC/WEC).
                     AppCheckBox {
                         objectName: "showForumNewsCheckbox"
                         text: qsTr("Forum-Neuigkeiten anzeigen")
@@ -266,7 +266,7 @@ Rectangle {
                         onCheckedChanged: Config.Parameters.showCommunityContent = checked
                     }
 
-                    // Vorausgewählte Quelle für Table Info und Player Stats.
+                    // Preselected source for table info and player stats.
                     RowLayout {
                         id: defaultCommunityRow
                         Layout.fillWidth: true
@@ -301,9 +301,9 @@ Rectangle {
                         }
                     }
 
-                    // Optionales Admin-Feature (Spielerempfehlung im Warteraum
-                    // eines eigenen BBC-/WEC-Invite-Spiels) – wie die Standard-
-                    // Community nur bei aktivierten Community-Inhalten sichtbar.
+                    // Optional admin feature (player suggestion in the waiting room
+                    // of your own BBC/WEC invite game) – like the default
+                    // community only visible with community content enabled.
                     AppCheckBox {
                         objectName: "showCommunitySuggestCheckbox"
                         Layout.leftMargin: 24

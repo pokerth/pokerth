@@ -36,17 +36,17 @@
 
 class HoleCardsRange;
 
-/* Monte-Carlo-Equity fuer die AI-Engine 4.
+/* Monte Carlo equity for AI engine 4.
  *
- * Beantwortet die Frage, die die alte Engine nie gestellt hat: wie oft gewinne
- * ich diese Hand gegen ALLE verbleibenden Gegner gleichzeitig? calcMyOdds()
- * rechnet stattdessen gegen genau einen Zufallsgegner und benutzt das Ergebnis
- * auch am vollen Tisch -- der Hauptgrund, warum die Bots ihre Haende dort
- * massiv ueberschaetzen.
+ * Answers the question the old engine never asked: how often do I win this
+ * hand against ALL remaining opponents at the same time? calcMyOdds()
+ * instead computes against exactly one random opponent and uses the result
+ * at a full table as well -- the main reason why the bots massively
+ * overestimate their hands there.
  *
- * Zusaetzlich koennen die Gegnerhaende aus einer Range gezogen werden statt
- * gleichverteilt aus dem Restdeck. Wer eine Erhoehung bezahlt hat, haelt eben
- * keine zufaellige Hand.
+ * In addition, the opponent hands can be drawn from a range instead of
+ * uniformly from the remaining deck. Whoever has paid a raise simply does
+ * not hold a random hand.
  */
 class EquityCalculator
 {
@@ -54,25 +54,25 @@ public:
 	struct Result {
 		// Erwarteter Anteil am Pot, Gleichstaende anteilig gewertet (0..1).
 		double equity;
-		// Anteil der Laeufe mit alleinigem Sieg bzw. mit Gleichstand.
+		// Share of the runs with a sole win or with a tie.
 		double win;
 		double tie;
-		// Tatsaechlich ausgewertete Laeufe. Kann kleiner als angefordert sein,
-		// wenn sich die Gegner-Ranges kaum kollisionsfrei besetzen lassen.
+		// Runs actually evaluated. Can be smaller than requested if the
+		// opponent ranges can hardly be filled without collisions.
 		int samples;
 	};
 
-	/* holeCards: zwei eigene Karten.
-	 * boardCards/boardSize: 0 (praeflop), 3, 4 oder 5 offene Karten.
-	 * opponentRanges: ein Eintrag je Gegner; nullptr = beliebige Hand.
-	 * samples: gewuenschte Anzahl Simulationslaeufe.
+	/* holeCards: two own cards.
+	 * boardCards/boardSize: 0 (preflop), 3, 4 or 5 open cards.
+	 * opponentRanges: one entry per opponent; nullptr = any hand.
+	 * samples: desired number of simulation runs.
 	 */
 	static Result equity(const int* holeCards,
 						 const int* boardCards, int boardSize,
 						 const std::vector<const HoleCardsRange*>& opponentRanges,
 						 int samples);
 
-	// Bequemer Fall: alle Gegner mit derselben Range (oder nullptr).
+	// Convenient case: all opponents with the same range (or nullptr).
 	static Result equity(const int* holeCards,
 						 const int* boardCards, int boardSize,
 						 int opponents, const HoleCardsRange* range,

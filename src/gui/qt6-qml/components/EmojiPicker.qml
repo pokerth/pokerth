@@ -3,17 +3,17 @@ import QtQuick.Controls
 
 import "../config" as Config
 
-// Scrollbarer Emoji-Picker: zeigt alle verfügbaren UTF-8-Emojis in einem Raster.
-// Ein Klick liefert das gewählte Emoji über das picked()-Signal. Wird über dem
-// Chat-Eingabefeld eingeblendet (Game- und Lobby-Chat).
+// Scrollable emoji picker: shows all available UTF-8 emojis in a grid.
+// A click delivers the selected emoji via the picked() signal. It is shown
+// above the chat input field (game and lobby chat).
 Rectangle {
     id: root
 
     signal picked(string emoji)
 
-    // Kompakter Modus: >0 = feste Zeilenzahl, horizontal scrollend (platzsparender
-    // Streifen, z.B. 2-zeilig in der GameWait-Page). 0 = klassisches vertikal
-    // scrollendes Raster (Lobby/Game-Chat).
+    // Compact mode: >0 = fixed number of rows, scrolling horizontally (a space
+    // saving strip, e.g. 2 rows in the GameWait page). 0 = classic vertically
+    // scrolling grid (lobby/game chat).
     property int rows: 0
 
     color: Config.Theme.withAlpha(Config.Theme.colorBox, 0.98)
@@ -21,8 +21,8 @@ Rectangle {
     border.width: 1
     radius: 8
 
-    // Umfassende Auswahl gängiger Emojis (Smileys, Gesten, Tiere, Essen,
-    // Aktivitäten, Reisen, Objekte, Symbole, Poker).
+    // Comprehensive selection of common emojis (smileys, gestures, animals, food,
+    // activities, travel, objects, symbols, poker).
     readonly property var emojis: [
         // Smileys & Emotion
         "😀","😃","😄","😁","😆","😅","🤣","😂","🙂","🙃","😉","😊","😇","🥰","😍",
@@ -33,7 +33,7 @@ Rectangle {
         "😢","😭","😱","😖","😣","😞","😓","😩","😫","🥱","😤","😡","😠","🤬","😈",
         "👿","💀","☠️","💩","🤡","👹","👺","👻","👽","👾","🤖","😺","😸","😹","😻",
         "😼","😽","🙀","😿","😾",
-        // Gesten & Körper
+        // Gestures & body
         "👋","🤚","🖐️","✋","🖖","👌","🤏","✌️","🤞","🤟","🤘","🤙","👈","👉","👆",
         "👇","☝️","👍","👎","✊","👊","🤛","🤜","👏","🙌","👐","🤲","🤝","🙏","💪",
         "👀","👁️","👅","👄","🧠","🦷","🦴",
@@ -62,7 +62,7 @@ Rectangle {
         "🍛","🍣","🍱","🍤","🍚","🍥","🍢","🍡","🍧","🍨","🍦","🥧","🍰","🎂","🍮",
         "🍭","🍬","🍫","🍿","🍩","🍪","🥛","☕","🍵","🥤","🍶","🍺","🍻","🥂","🍷",
         "🥃","🍸","🍹","🍾",
-        // Aktivitäten & Sport
+        // Activities & sport
         "⚽","🏀","🏈","⚾","🥎","🎾","🏐","🏉","🥏","🎱","🏓","🏸","🏒","🏑","🏏",
         "⛳","🏹","🎣","🥊","🥋","⛸️","🥌","🎿","⛷️","🏂","🏋️","🤼","🤸","⛹️","🤺",
         "🏌️","🏇","🏄","🏊","🚣","🧗","🚴","🚵","🏆","🥇","🥈","🥉","🏅","🎖️","🎫",
@@ -103,7 +103,7 @@ Rectangle {
         "🔚","🔙","🔛","🔝","🔜","✔️","☑️","🔘","🔴","🟠","🟡","🟢","🔵","🟣","⚫",
         "⚪","🟤","🔺","🔻","🔸","🔹","🔶","🔷","🔳","🔲","🟥","🟧","🟨","🟩","🟦",
         "🟪","⬛","⬜","🟫","🔈","🔇","🔉","🔊","🔔","🔕",
-        // Poker & Karten
+        // Poker & cards
         "🃏","🎴","♠️","♥️","♦️","♣️","🀄","🕐","🕑","🕒","🕓","🕔","🕕","🕖","🕗",
         "🕘","🕙","🕚","🕛"
     ]
@@ -112,15 +112,15 @@ Rectangle {
         id: grid
         anchors.fill: parent
         anchors.margins: 6
-        // Rechts Platz für die vertikale Scrollbar, damit sie die letzte
-        // Emoji-Spalte nicht überlappt (nur wenn sie sichtbar ist).
+        // Room on the right for the vertical scrollbar so that it does not
+        // overlap the last emoji column (only when it is visible).
         anchors.rightMargin: (ScrollBar.vertical && ScrollBar.vertical.visible) ? 16 : 6
         clip: true
         cellWidth: 38
         cellHeight: 38
         model: root.emojis
-        // Kompakt → spaltenweise (oben→unten) füllen und horizontal scrollen,
-        // damit genau `rows` Zeilen sichtbar bleiben.
+        // Compact → fill column by column (top→bottom) and scroll horizontally,
+        // so that exactly `rows` rows stay visible.
         flow: root.rows > 0 ? GridView.FlowTopToBottom : GridView.FlowLeftToRight
         boundsBehavior: Flickable.StopAtBounds
         ScrollBar.vertical: ScrollBar { policy: root.rows > 0 ? ScrollBar.AsNeeded : ScrollBar.AlwaysOn }

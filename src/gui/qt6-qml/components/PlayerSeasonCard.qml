@@ -4,21 +4,21 @@ import QtQuick.Effects
 
 import "../config" as Config
 
-// Ein abgeschlossenes Saison-Ergebnis der PokerTH-Spielerseite.
-// Die Saison-Liste aus /pthranking/player/show ist global (alle je gewerteten
-// Saisons), nicht spielerbezogen – ob der Spieler in einer Saison überhaupt
-// gespielt hat, verrät erst
+// One completed season result of the PokerTH player page.
+// The season list from /pthranking/player/show is global (all seasons ever
+// rated), not player specific – whether the player played in a season at all
+// is only revealed by
 //   GET /pthranking/player/season/get/<playerId>/<season>
-// über `status`. Deshalb lädt jede Karte selbst und blendet sich bei
-// `status: false` komplett aus (genau wie die Website je Saison eine eigene
-// Komponente rendert). Aufgeklappt zeigt sie Kennzahlen und die
-// Platzierungs-Charts der Saison.
+// via `status`. That is why every card loads by itself and hides completely
+// on `status: false` (exactly as the website renders a separate component per
+// season). Expanded, it shows key figures and the placement charts of the
+// season.
 ColumnLayout {
     id: card
 
     property int playerId: 0
     property string season: ""
-    // Vorformatiertes Label ("2026 Q2") – die Umwandlung kennt die Seite.
+    // Preformatted label ("2026 Q2") – the page knows the conversion.
     property string title: ""
     property string baseUrl: "https://www.pokerth.net"
 
@@ -31,14 +31,14 @@ ColumnLayout {
 
     readonly property bool compact: Config.Responsive.compact
 
-    // Meldet der Seite, dass diese Saison ein Ergebnis hat – sie zählt daraus
-    // ab, ob der Saison-Block überhaupt eine Überschrift bekommt.
+    // Tells the page that this season has a result – from that it counts
+    // whether the season block gets a heading at all.
     signal resultAvailable()
 
     function score2(v) { return (Number(v) / 100).toFixed(2) }
 
-    // Einmalig laden, sobald Spieler-ID und Saison feststehen – die Seite kann
-    // auch nur mit Nickname geöffnet werden, dann trifft die ID erst später ein.
+    // Load once as soon as the player ID and the season are known – the page can
+    // also be opened with just a nickname, then the ID only arrives later.
     function loadOnce() {
         if (requested || playerId <= 0 || season === "")
             return
@@ -60,8 +60,8 @@ ColumnLayout {
                 if (card.ranking)
                     card.resultAvailable()
             } catch (e) {
-                // Einzelne Saison ohne Ergebnis lassen wir still verschwinden –
-                // ein Fehlertext je Karte wäre hier nur Rauschen.
+                // A single season without a result we let disappear silently –
+                // an error text per card would only be noise here.
             }
         }
         xhr.send()
@@ -74,7 +74,7 @@ ColumnLayout {
     visible: ranking !== null
     spacing: 8
 
-    // ── Kopfzeile: Saison + Kurzergebnis, klappt die Details auf ────────────
+    // ── Header: season + short result, expands the details ──────────────────
     Rectangle {
         Layout.fillWidth: true
         Layout.preferredHeight: 40
@@ -109,8 +109,8 @@ ColumnLayout {
                 font.bold: true
             }
             AppLabel {
-                // Im Kompakt-Modus reicht der Rang – der Score steht
-                // aufgeklappt ohnehin in der Kachel.
+                // In compact mode the rank is enough – expanded, the score
+                // is in the tile anyway.
                 visible: !card.compact && card.ranking
                 text: card.ranking ? card.score2(card.ranking.final_score) : ""
                 color: Config.StaticData.palette.secondary.col200
@@ -124,9 +124,9 @@ ColumnLayout {
                 Layout.preferredWidth: 14
                 Layout.preferredHeight: 14
                 Layout.alignment: Qt.AlignVCenter
-                // Einfärbung per layer.effect statt MultiEffect-Kind: VectorImage
-                // (Qt >= 6.8) ist kein Texture-Provider und darf nicht per source
-                // referenziert werden (sonst schwarz/zerrissen gerendert).
+                // Colourising via layer.effect instead of a MultiEffect child: VectorImage
+                // (Qt >= 6.8) is not a texture provider and must not be referenced via
+                // source (it would render black/torn).
                 layer.enabled: true
                 layer.effect: MultiEffect {
                     colorization: 1.0

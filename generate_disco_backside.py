@@ -16,11 +16,11 @@ CX, CY, R = 290.0, 400.0, 143.0
 NLAT, NLON = 15, 30
 LIGHT = (-0.42, 0.60, 0.68)
 
-# Klubfarben = Palette des blacklight_4c-Decks (Magenta, Cyan, Bernstein,
-# dazu Violett als Übergang).
+# Club colours = palette of the blacklight_4c deck (magenta, cyan, amber,
+# plus violet as a transition).
 CLUB = [(1.00, 0.30, 0.91), (0.00, 0.94, 1.00), (1.00, 0.77, 0.00),
         (0.62, 0.36, 1.00), (1.00, 0.45, 0.55)]
-TINT = (0.80, 0.82, 0.95)          # Grundton der Spiegel: kühles Silber
+TINT = (0.80, 0.82, 0.95)          # Base tone of the mirrors: cool silver
 
 
 def clamp(v, a=0.0, b=1.0):
@@ -44,14 +44,14 @@ def facets():
             lon1 = -math.pi + 2 * math.pi * (j + 1) / NLON
             latm, lonm = (lat0 + lat1) / 2, (lon0 + lon1) / 2
             n = (math.cos(latm) * math.sin(lonm), math.sin(latm), math.cos(latm) * math.cos(lonm))
-            if n[2] <= 0.06:                       # Rückseite / Silhouettenrand
+            if n[2] <= 0.06:                       # Backside / silhouette edge
                 continue
             pts = []
             for (la, lo) in ((lat0, lon0), (lat0, lon1), (lat1, lon1), (lat1, lon0)):
                 pts.append((CX + R * math.cos(la) * math.sin(lo), CY - R * math.sin(la)))
             mx = sum(p[0] for p in pts) / 4
             my = sum(p[1] for p in pts) / 4
-            k = 0.87                                # dunkle Fugen zwischen den Spiegeln
+            k = 0.87                                # dark joints between the mirrors
             pts = [(mx + (x - mx) * k, my + (y - my) * k) for (x, y) in pts]
             d = max(0.0, sum(n[i2] * L[i2] for i2 in range(3)))
             spec = d ** 20
@@ -72,12 +72,12 @@ def sparkles():
     for _ in range(150):
         x = random.uniform(52, 528)
         y = random.uniform(52, 748)
-        if math.hypot(x - CX, y - CY) < R + 26:     # nicht auf der Kugel
+        if math.hypot(x - CX, y - CY) < R + 26:     # not on the ball
             continue
         s = random.uniform(3.0, 9.5)
         rot = random.uniform(0, 90)
         col = hexc(*random.choice(CLUB))
-        # nah an der Kugel hell, zum Rand hin ausfadend
+        # bright close to the ball, fading out towards the edge
         dist = math.hypot(x - CX, y - CY)
         op = (0.85 - 0.55 * min(1.0, (dist - R) / 300.0)) * random.uniform(0.45, 1.0)
         out.append('  <rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s" '

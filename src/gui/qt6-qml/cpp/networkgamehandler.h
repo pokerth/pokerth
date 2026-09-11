@@ -25,7 +25,7 @@ class NetworkGameHandler : public QObject
 {
 	Q_OBJECT
 
-	// Gespeicherte Server-Profile (Liste von {name, address, port, ipv6, sctp})
+	// Stored server profiles (list of {name, address, port, ipv6, sctp})
 	Q_PROPERTY(QVariantList serverProfiles READ serverProfiles NOTIFY serverProfilesChanged)
 
 public:

@@ -202,16 +202,16 @@ void
 ServerGame::RemoveAllSessions()
 {
 	// Clean up ALL sessions which are left.
-	// WICHTIG: Erst State auf Final setzen, DANN Sessions schließen
-	// Das verhindert dass während des Schließens neue Operationen gestartet werden
+	// IMPORTANT: first set the state to Final, THEN close the sessions
+	// This prevents new operations from being started while closing
 	SetState(ServerGameStateFinal::Instance());
 
 	try {
-		// Sammle alle Sessions ZUERST, dann schließe sie AUSSERHALB des Locks
-		// Das vermeidet Deadlocks wenn Close() versucht auf den SessionManager zuzugreifen
+		// Collect all sessions FIRST, then close them OUTSIDE the lock
+		// This avoids deadlocks if Close() tries to access the SessionManager
 		std::vector<boost::shared_ptr<SessionData>> sessionsToClose;
 		{
-			// Kurzer Lock nur zum Kopieren der Session-Liste
+			// Short lock only to copy the session list
 			sessionsToClose = GetSessionManager().GetAllSessions();
 		}
 
@@ -227,25 +227,25 @@ ServerGame::RemoveAllSessions()
 			LOG_ERROR(oss.str());
 		}
 
-		// Jetzt Sessions schließen - ohne Lock auf dem SessionManager
+		// Now close the sessions - without a lock on the SessionManager
 		for (auto& session : sessionsToClose) {
 			if (session) {
 				try {
-					// Setze State auf Closed ZUERST
+					// Set the state to Closed FIRST
 					session->SetState(SessionData::Closed);
 					// Cancel Timer
 					session->CancelTimers();
-					// Schließe Socket direkt (nicht über Close() um Callback-Kette zu vermeiden)
+					// Close the socket directly (not via Close(), to avoid the callback chain)
 					session->CloseSocketHandle();
 				} catch (const std::exception& e) {
 					LOG_ERROR("Exception closing session in RemoveAllSessions: " << e.what());
 				} catch (...) {
-					// Ignoriere Fehler beim Schließen einzelner Sessions
+					// Ignore errors while closing individual sessions
 				}
 			}
 		}
 
-		// Jetzt den SessionManager leeren
+		// Now empty the SessionManager
 		GetSessionManager().Clear();
 	} catch (const std::exception& e) {
 		LOG_ERROR("Exception in RemoveAllSessions: " << e.what());

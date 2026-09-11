@@ -3,10 +3,10 @@ import QtQuick.Effects
 
 import "../config" as Config
 
-// Gewinner-Hervorhebung: goldener Rahmen um die Box (verdeckt die Karten NICHT)
-// + „WINNER"-Badge. `below`=true zeigt das Badge unter statt über der Box (für
-// die oberste Box im Hochformat, deren Badge oben sonst anstößt). Über `anchors`
-// füllt das Overlay die Box; der Aufrufer legt es als Kind in die Box.
+// Winner highlight: golden frame around the box (does NOT cover the cards)
+// + "WINNER" badge. `below`=true shows the badge below instead of above the
+// box (for the topmost box in portrait, whose badge would otherwise bump into
+// the top). Via `anchors` the overlay fills the box; the caller adds it as a child of the box.
 Item {
     id: overlay
     property bool active: false
@@ -38,7 +38,7 @@ Item {
         }
     }
 
-    // „WINNER"-Badge – ober- bzw. unterhalb der Box.
+    // "WINNER" badge – above or below the box.
     Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         y: overlay.below ? (parent.height + overlay.gap) : (-height - overlay.gap)

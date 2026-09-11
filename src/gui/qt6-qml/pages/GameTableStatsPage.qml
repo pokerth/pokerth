@@ -6,24 +6,24 @@ import QtQuick.Layouts
 import "../config" as Config
 import "../components"
 
-// Tisch-Ranking – native Version der pokerth.net-Tischansicht, die der
-// Tischnamen-Link bisher im Browser öffnete. Die Web-Kette dahinter:
+// Table ranking – the native version of the pokerth.net table view that the
+// table name link used to open in the browser. The web chain behind it:
 //   redirect_user_profile.php?tableview=1&nickN=…&table=…
 //     → 301 /gametable?u1=…&u10=…  (VueJS, <gametable-component>)
 //     → POST /pthranking/gametable/show  Body: { u1:…, …, u10:… }
-// Antwort: { status, msg: [{ player_id, username, rank_pos, final_score,
-//            average_score, season_games, points_sum }] } – Scores ×100.
-// Statt der WebView wird der JSON-Endpunkt direkt abgefragt (Muster wie
-// RankingPage/PokerthPlayerPage). Unbekannte Nicks (Gäste/ohne Saisonwertung)
-// lässt der Server einfach weg. Aufrufer setzt nicks (Seat-Reihenfolge,
-// GameTable.tableStatsNicks()) und tableName.
+// Reply: { status, msg: [{ player_id, username, rank_pos, final_score,
+//            average_score, season_games, points_sum }] } – scores ×100.
+// Instead of the WebView the JSON endpoint is queried directly (the pattern of
+// RankingPage/PokerthPlayerPage). Unknown nicks (guests/without a season rating)
+// are simply left out by the server. The caller sets nicks (seat order,
+// GameTable.tableStatsNicks()) and tableName.
 //
-// Über den Quellen-Umschalter oben rechts lässt sich zusätzlich die aktuelle
-// BBC-Saison- bzw. WEC-Monatswertung der Tischspieler anzeigen: dafür wird die
-// jeweilige Rangliste geladen (eingebettete Initialdaten von
-// GET <baseUrl>/results/ranking, ohne CSRF – Muster wie CommunityRankingView)
-// und clientseitig auf die Tisch-Nicks gefiltert. rank_pos ist dort die
-// Position in der Gesamtrangliste; Spieler ohne Wertung fehlen in der Liste.
+// Via the source switch at the top right, the current BBC season or WEC
+// monthly rating of the table players can be shown in addition: for that the
+// respective ranking is loaded (embedded initial data of
+// GET <baseUrl>/results/ranking, without CSRF – the pattern of CommunityRankingView)
+// and filtered on the table nicks on the client side. rank_pos is the
+// position in the overall ranking there; players without a rating are missing from the list.
 Rectangle {
     id: tableStatsPage
     objectName: "gameTableStatsPage"
@@ -36,30 +36,30 @@ Rectangle {
 
     property var nicks: []
     property string tableName: ""
-    // Einstellungen des laufenden Tisches (Lobby.currentGameInfo()) – vom
-    // Aufrufer als Momentaufnahme übergeben, damit die Seite auch nach dem
-    // Verlassen des Spiels konsistent bleibt. Leer = Karte wird ausgeblendet.
+    // Settings of the running table (Lobby.currentGameInfo()) – passed by the
+    // caller as a snapshot, so that the page stays consistent even after
+    // leaving the game. Empty = the card is hidden.
     property var gameInfo: ({})
 
-    // Aktive Quelle des Umschalters: "pokerth" | "bbc" | "wec". Startwert ist
-    // die im Backend vorausgewählte Default-Quelle (bei aktiven Community-
-    // Inhalten), sonst PokerTH.
+    // Active source of the switch: "pokerth" | "bbc" | "wec". The initial value is
+    // the default source preselected in the backend (with community content
+    // active), otherwise PokerTH.
     property string community: (Config.Parameters.showCommunityContent
                                 && Config.Community.has(Config.Parameters.defaultCommunity))
                                ? Config.Parameters.defaultCommunity : "pokerth"
 
-    // Einheitliches Zeilenformat für alle Quellen:
+    // A uniform row format for all sources:
     //   { rank_pos, player_id, username, games, mid, score }
-    // mid = Avg (PokerTH) bzw. Points (BBC/WEC), Werte fertig formatiert.
+    // mid = avg (PokerTH) or points (BBC/WEC), values formatted ready for display.
     property var rows: []
     property bool loading: false
     property string errorText: ""
-    // Läufer-Nummer gegen veraltete Antworten nach schnellem Umschalten.
+    // A run number against stale replies after switching quickly.
     property int loadSeq: 0
 
-    // ── Sortierung (clientseitig) ─────────────────────────────────────────────
-    // Wenige Zeilen (max. Tischgröße) → keine Pagination nötig, nur Sortieren.
-    // Default: nach Platzierung der Gesamtrangliste (beste zuerst).
+    // ── Sorting (client side) ─────────────────────────────────────────────────
+    // Few rows (at most the table size) → no pagination needed, only sorting.
+    // Default: by the position in the overall ranking (best first).
     property string sortKey: "rank_pos"
     property string sortOrder: "asc"        // "asc" | "desc"
     readonly property bool ascending: sortOrder.indexOf("asc") === 0
@@ -83,8 +83,8 @@ Rectangle {
         return arr
     }
 
-    // Klick auf einen Spaltenkopf: gleiches Feld → Richtung umkehren, sonst neues
-    // Feld (Platzierung/Name aufsteigend, übrige Zahlen absteigend).
+    // Click on a column header: the same field → reverse the direction, otherwise a new
+    // field (position/name ascending, the other numbers descending).
     function requestSort(key) {
         if (sortKey === key)
             sortOrder = ascending ? "desc" : "asc"
@@ -94,12 +94,12 @@ Rectangle {
         }
     }
 
-    // maxPlayers ist in jeder echten Spiel-Info gesetzt – fehlt sie (Local Game,
-    // Aufruf ohne gameInfo), bleibt die Tischinfo-Karte aus.
+    // maxPlayers is set in every real game info – if it is missing (local game,
+    // call without gameInfo), the table info card stays hidden.
     readonly property bool hasGameInfo:
         !!gameInfo && (gameInfo.maxPlayers || 0) > 0
 
-    // Einheitliche Zeile der Tischinfo-Karte.
+    // A uniform row of the table info card.
     component InfoItem: AppLabel {
         Layout.fillWidth: true
         elide: Text.ElideRight
@@ -109,7 +109,7 @@ Rectangle {
 
     function score2(v) { return (Number(v) / 100).toFixed(2) }
 
-    // Vue-Prop (HTML-entity-kodiert) aus dem Seiten-HTML lesen – wie
+    // Read a Vue prop (HTML entity encoded) from the page HTML – as in
     // CommunityRankingView/CommunityPlayerView.
     function jsonAttr(html, name) {
         var m = html.match(new RegExp(":" + name + "=\"([^\"]*)\""))
@@ -133,7 +133,7 @@ Rectangle {
     }
 
     function loadPokerthData(seq) {
-        // Payload exakt wie die Webseite: immer u1…u10, fehlende Plätze leer.
+        // The payload exactly like the website: always u1…u10, missing places empty.
         var payload = {}
         for (var i = 1; i <= 10; ++i)
             payload["u" + i] = (i <= nicks.length && nicks[i - 1]) ? String(nicks[i - 1]) : ""
@@ -154,8 +154,8 @@ Rectangle {
             try {
                 var res = JSON.parse(xhr.responseText)
                 var list = (res.status && res.msg) ? res.msg : []
-                // Der Server liefert in Anfrage-(Seat-)Reihenfolge – für die
-                // Ranking-Tabelle nach Platzierung sortieren (beste zuerst).
+                // The server delivers in request (seat) order – sort it by position
+                // for the ranking table (best first).
                 list.sort(function(a, b) { return a.rank_pos - b.rank_pos })
                 var mapped = []
                 for (var i = 0; i < list.length; ++i) {
@@ -187,7 +187,7 @@ Rectangle {
                     qsTr("Could not load table ranking (HTTP %1).").arg(xhr.status || 0)
                 return
             }
-            // Eingebettete Initialdaten = aktuelle Saison (BBC) bzw. aktueller
+            // The embedded initial data = the current season (BBC) or the current
             // Monat (WEC), in Rang-Reihenfolge.
             var all = tableStatsPage.jsonAttr(xhr.responseText,
                                               comm === "bbc" ? "results" : "stats") || []
@@ -235,8 +235,8 @@ Rectangle {
                 font.bold: true
             }
 
-            // Quellen-Umschalter oben rechts: lädt die Wertung der Tischspieler
-            // aus der gewählten Quelle neu.
+            // Source switch at the top right: reloads the rating of the table players
+            // from the selected source.
             CommunitySwitch {
                 id: communitySwitch
                 current: tableStatsPage.community
@@ -247,10 +247,10 @@ Rectangle {
             }
         }
 
-        // ── Tischinfo (Einstellungen des laufenden Spiels) ────────────────────
-        // Gleiche Angaben wie die Game-Details im Wartebereich (GameWaitPage) –
-        // am Tisch selbst gibt es sonst keine Stelle, an der die Einstellungen
-        // (Blinds, Startgeld, Timeouts …) nachlesbar wären.
+        // ── Table info (settings of the running game) ─────────────────────────
+        // The same data as the game details in the waiting room (GameWaitPage) –
+        // at the table itself there is no other place where the settings
+        // (blinds, starting money, timeouts …) could be looked up.
         Rectangle {
             Layout.fillWidth: true
             visible: tableStatsPage.hasGameInfo
@@ -267,7 +267,7 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.leftMargin: 10
                 anchors.rightMargin: 10
-                // Schmale Fenster: eine Spalte, sonst zwei wie im Wartebereich.
+                // Narrow windows: one column, otherwise two as in the waiting room.
                 columns: tableStatsPage.compact ? 1 : 2
                 rowSpacing: 5
                 columnSpacing: 14
@@ -325,8 +325,8 @@ Rectangle {
             font.pixelSize: Config.Theme.fontSizeCaption
         }
 
-        // Kopfzeile der Tabelle – Spalten wie RankingPage (#, Player, Games,
-        // Avg, Score), damit beide Ranglisten-Ansichten gleich lesen.
+        // Header row of the table – columns as in RankingPage (#, player, games,
+        // avg, score), so that both ranking views read the same.
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 30
@@ -399,8 +399,8 @@ Rectangle {
 
             ListView {
                 id: statsList
-                // Lesen ohne Maus: Tab führt in die Tabelle, Pfeile scrollen
-                // zeilenweise (ListView selbst), Bild-auf/ab und Pos1/Ende hier.
+                // Reading without a mouse: Tab leads into the table, the arrows scroll
+                // row by row (the ListView itself), page up/down and Home/End here.
                 activeFocusOnTab: true
                 Keys.onPressed: (event) => {
                     var maxY = Math.max(0, statsList.contentHeight - statsList.height)
@@ -445,14 +445,14 @@ Rectangle {
                     RowLayout {
                         anchors.fill: parent
                         anchors.leftMargin: 10
-                        // Platz für die Scrollbar, wenn sie sichtbar ist.
+                        // Room for the scrollbar when it is visible.
                         anchors.rightMargin: statsList.contentHeight > statsList.height + 4 ? 16 : 10
                         spacing: 8
 
                         AppLabel {
                             text: statsDelegate.modelData.rank_pos
                             Layout.preferredWidth: tableStatsPage.compact ? 48 : 60
-                            // Top-3 der Gesamtrangliste hervorheben.
+                            // Highlight the top 3 of the overall ranking.
                             color: statsDelegate.modelData.rank_pos <= 3
                                    ? Config.Theme.colorAccent
                                    : Config.StaticData.palette.secondary.col100
@@ -464,7 +464,7 @@ Rectangle {
                             text: statsDelegate.modelData.username
                             Layout.fillWidth: true
                             elide: Text.ElideRight
-                            // Klickbar → Player-Page (per player_id, sonst username).
+                            // Clickable → player page (by player_id, otherwise username).
                             color: nickHover.hovered ? Config.Theme.colorAccent
                                                      : Config.StaticData.palette.secondary.col100
                             font.pixelSize: Config.Theme.fontSizeBody
@@ -472,8 +472,8 @@ Rectangle {
 
                             HoverHandler { id: nickHover; cursorShape: Qt.PointingHandCursor }
                             TapHandler {
-                                // Player-Page der aktiven Quelle öffnen (PokerTH
-                                // bevorzugt per player_id, BBC/WEC per Nickname).
+                                // Open the player page of the active source (PokerTH
+                                // preferably by player_id, BBC/WEC by nickname).
                                 onTapped: {
                                     if (tableStatsPage.community === "pokerth")
                                         tableStatsPage.StackView.view.push("PokerthPlayerPage.qml", {
@@ -525,8 +525,8 @@ Rectangle {
                 implicitHeight: 48
             }
 
-            // Leer- / Fehlerhinweis (Gäste und Spieler ohne Saisonwertung lässt
-            // der Server weg – bei reinen Gast-Tischen bleibt die Liste leer).
+            // Empty/error notice (guests and players without a season rating are left
+            // out by the server – at pure guest tables the list stays empty).
             AppLabel {
                 anchors.centerIn: parent
                 width: parent.width - 32

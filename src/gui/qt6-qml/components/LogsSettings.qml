@@ -12,7 +12,7 @@ Rectangle {
     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
     color: "transparent"
 
-    // Hinweis nach dem Wechsel des Log-Verzeichnisses (nur "OK").
+    // Notice after changing the log directory (only "OK").
     ConfirmPopup {
         id: logDirRestartHint
         showCancel: false
@@ -71,10 +71,10 @@ Rectangle {
                             Button {
                                 text: qsTr("Durchsuchen...")
                                 enabled: logOnOff.checked
-                                // Auf Mobilgeräten liegt das Log-Verzeichnis im
-                                // App-Speicher und ist nicht frei wählbar (der
-                                // Systemdialog liefert dort nur content://-URIs,
-                                // mit denen die Engine nicht schreiben kann).
+                                // On mobile devices the log directory lives in
+                                // the app storage and cannot be chosen freely (the
+                                // system dialog only returns content:// URIs there,
+                                // which the engine cannot write to).
                                 visible: !Config.Responsive.isMobile
                                 onClicked: {
                                     if (!SettingsManager)
@@ -86,9 +86,9 @@ Rectangle {
                                         return
                                     logDirectory.text = dir
                                     SettingsManager.writeConfigString("LogDir", dir)
-                                    // Das Log wird beim Programmstart einmalig
-                                    // geöffnet (Log::init()), das neue Verzeichnis
-                                    // greift daher erst nach einem Neustart.
+                                    // The log is opened once at program start
+                                    // (Log::init()), so the new directory only takes
+                                    // effect after a restart.
                                     logDirRestartHint.openWith(
                                         qsTr("Log-Verzeichnis"),
                                         qsTr("Das Log-Verzeichnis wurde geändert.\nBitte PokerTH neu starten, damit die Logdateien dort abgelegt werden."),

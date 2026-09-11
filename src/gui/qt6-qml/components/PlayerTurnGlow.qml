@@ -3,10 +3,10 @@ import QtQuick.Effects
 
 import "../config" as Config
 
-// Gold-Highlight für den Spieler am Zug: weicher Außen-Glow (gelayert, optional)
-// + immer sichtbarer Gold-Rahmen, mit ruhigem Puls. Der Rahmen liegt bewusst als
-// eigene Ebene OHNE Layer vor, damit er sichtbar bleibt, selbst wenn der
-// MultiEffect-Glow auf einem System nicht rendert. `active` schaltet ein.
+// Gold highlight for the player to act: soft outer glow (layered, optional)
+// + an always visible gold frame, with a calm pulse. The frame is deliberately
+// kept as a separate layer-less element so that it stays visible even if the
+// MultiEffect glow does not render on a system. `active` switches it on.
 Item {
     id: glow
     property bool active: false
@@ -17,8 +17,8 @@ Item {
     z: 10
     visible: active
 
-    // Puls nur bei aktivierten Effekten – sonst läuft eine Endlos-Animation, die
-    // die GESAMTE Szene mit 60 fps neu zeichnen lässt.
+    // Pulse only with effects enabled – otherwise an endless animation runs that
+    // makes the ENTIRE scene redraw at 60 fps.
     SequentialAnimation on opacity {
         running: Config.Theme.effectsEnabled && glow.active
         loops: Animation.Infinite
@@ -26,7 +26,7 @@ Item {
         NumberAnimation { from: 1.0; to: 0.65; duration: 750; easing.type: Easing.InOutSine }
     }
 
-    // Weicher Außen-Glow (gelayert) – reine Eye-Candy, optional.
+    // Soft outer glow (layered) – pure eye candy, optional.
     Rectangle {
         anchors.fill: parent
         color: "transparent"
@@ -44,7 +44,7 @@ Item {
         }
     }
 
-    // Gold-Rahmen (immer sichtbar, KEIN Layer).
+    // Gold frame (always visible, NO layer).
     Rectangle {
         anchors.fill: parent
         color: "transparent"

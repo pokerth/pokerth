@@ -6,9 +6,9 @@ import QtQuick.Layouts
 import "../config" as Config
 import "../components"
 
-// "Netzwerkspiel beitreten" – portiert aus dem Qt-Widgets joinNetworkGameDialog.
-// Verbindet zu einem Netzwerk-Server (Adresse/Port/IPv6/SCTP) → tritt automatisch
-// dem ersten Spiel bei → Warteraum. Inkl. gespeicherter Server-Profile.
+// "Join network game" – ported from the Qt widgets joinNetworkGameDialog.
+// Connects to a network server (address/port/IPv6/SCTP) → automatically joins
+// the first game → waiting room. Including stored server profiles.
 Rectangle {
     id: networkGameEnterPage
     objectName: "networkGameEnterPage"
@@ -20,22 +20,22 @@ Rectangle {
     property string statusMessage: ""
     property string selectedProfile: ""
 
-    // Default-Button der Seite: Enter verbindet, egal in welchem Feld der Fokus
-    // steht. Ein fokussierter Button verbraucht Return selbst und behält Vorrang;
-    // das Profilnamen-Feld hat seine eigene Aktion (Speichern). Während des
-    // Verbindungsaufbaus liegt die Wartesicht darüber – dann nicht.
+    // Default button of the page: Enter connects, no matter which field has the
+    // focus. A focused button consumes Return itself and keeps precedence;
+    // the profile name field has its own action (save). While the connection is
+    // being established, the waiting view lies on top – then not.
     Keys.onReturnPressed: if (!networkGameEnterPage.connecting) connectButton.clicked()
     Keys.onEnterPressed: if (!networkGameEnterPage.connecting) connectButton.clicked()
 
-    // Startfokus in das Adressfeld – auf Mobilgeräten NICHT, das zöge ungefragt
-    // die Bildschirmtastatur hoch.
+    // Initial focus into the address field – NOT on mobile devices, that would
+    // pull up the on-screen keyboard unasked.
     StackView.onActivated: {
         if (!Config.Responsive.isMobile)
             Qt.callLater(addressField.forceActiveFocus)
     }
 
-    // Zurück-Schritt: Läuft der Verbindungsaufbau, bricht Escape/Android-Back ihn
-    // ab, statt die Seite zu verlassen. Gefragt von navigateBackFromTopBar().
+    // Back step: while the connection is being established, Escape/Android back
+    // cancels it instead of leaving the page. Asked by navigateBackFromTopBar().
     function handleBack() {
         if (networkGameEnterPage.connecting) {
             cancelConnectButton.clicked()
@@ -96,13 +96,13 @@ Rectangle {
         contentWidth: availableWidth
         clip: true
         visible: !networkGameEnterPage.connecting
-        // AlwaysOff statt transientem Default: sonst blitzt die Scrollbar beim
-        // Seitenaufbau sekundenlang auf, obwohl nichts zu scrollen ist.
+        // AlwaysOff instead of the transient default: otherwise the scrollbar
+        // flashes up for seconds while the page builds, although there is nothing to scroll.
         ScrollBar.vertical.policy: scrollView.contentHeight > scrollView.height + 1
                                    ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
-        // Die Scrollleiste liegt als Overlay über dem Inhalt und ist in
-        // availableWidth nicht enthalten - ohne Abzug schneidet sie bei
-        // schmalem Fenster in den Text.
+        // The scrollbar lies as an overlay above the content and is not
+        // included in availableWidth - without subtracting it, it cuts into
+        // the text in a narrow window.
         readonly property real scrollBarSpace: ScrollBar.vertical.visible ? 12 : 0
 
         ColumnLayout {
@@ -251,9 +251,9 @@ Rectangle {
                     }
                     TextField {
                         id: profileNameField
-                        // Eigene Aktion des Teilformulars: Enter speichert das
-                        // Profil, statt die Seite abzuschicken. Event verbrauchen,
-                        // sonst liefe zusätzlich der Default-Button (Verbinden).
+                        // Own action of the sub-form: Enter saves the profile
+                        // instead of submitting the page. Consume the event,
+                        // otherwise the default button (connect) would run as well.
                         Keys.onReturnPressed: (event) => {
                             if (saveProfileButton.enabled)
                                 saveProfileButton.clicked()
@@ -269,9 +269,9 @@ Rectangle {
                         font.family: Config.StaticData.loadedFont.font.family
                         color: Config.StaticData.palette.secondary.col100
                         placeholderTextColor: Config.StaticData.palette.secondary.col400
-                        // Profilname = XML-Tag-Name in serverprofiles.xml: muss mit
-                        // einem Buchstaben beginnen, danach Buchstaben/Ziffern (wie im
-                        // Qt-Widgets-Client), damit beide Clients dieselbe Datei teilen.
+                        // Profile name = XML tag name in serverprofiles.xml: it must start
+                        // with a letter, followed by letters/digits (as in the
+                        // Qt widgets client), so that both clients share the same file.
                         validator: RegularExpressionValidator {
                             regularExpression: /[A-Za-z][A-Za-z0-9]*/
                         }

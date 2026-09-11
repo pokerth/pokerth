@@ -2,30 +2,30 @@ pragma Singleton
 import QtQuick
 import QtCore
 
-// Forum-Neuigkeiten – Portierung des Web-Client-Features (dort
-// public/modules/ui/forumnews.mjs + proxy.js /api/forumfeed) auf den
-// QML-Client: die letzten Forenbeiträge von www.pokerth.net mit Zähler
-// ungelesener Beiträge in der Topbar.
+// Forum news – a port of the web client feature (there
+// public/modules/ui/forumnews.mjs + proxy.js /api/forumfeed) to the
+// QML client: the latest forum posts from www.pokerth.net with a counter of
+// unread posts in the top bar.
 //
-// Datenquelle ist der phpBB-Atom-Feed. Der Web-Client braucht dafür einen
-// Relay (der Feed schickt keinen CORS-Header) – der QML-Client holt ihn direkt
-// per XHR. Den von Cloudflare erwarteten User-Agent "PokerTH/2.0 (Qt Network)"
-// setzt die WebNetworkAccessManagerFactory global (siehe pokerth.cpp), XHR aus
-// QML darf den Header selbst nicht setzen.
+// The data source is the phpBB Atom feed. The web client needs a
+// relay for it (the feed sends no CORS header) – the QML client fetches it directly
+// via XHR. The user agent "PokerTH/2.0 (Qt Network)" expected by Cloudflare is
+// set globally by the WebNetworkAccessManagerFactory (see pokerth.cpp), XHR from
+// QML must not set the header itself.
 //
-// Unterschied zum Web-Client: der Beitrag wird NICHT im externen Browser
-// geöffnet. Der Feed liefert den kompletten Beitrags-HTML gleich mit; der wird
-// hier für Qt-RichText aufbereitet (Farben ans Theme, Prozent-Schriftgrößen,
-// absolute URLs) und in der App angezeigt (ForumPostPage).
+// The difference to the web client: the post is NOT opened in the external
+// browser. The feed delivers the complete post HTML right away; it is
+// prepared here for Qt rich text (colours matched to the theme, percentage font sizes,
+// absolute URLs) and shown in the app (ForumPostPage).
 //
-// Gelesen-Status bleibt lokal (eigene Settings-Kategorie, kein Server):
-//   readBase  Wasserzeichen von „alles als gelesen markieren" (ms)
-//   readIds   einzeln gelesene Beiträge, begrenzt auf maxReadIds
+// The read status stays local (a settings category of its own, no server):
+//   readBase  the watermark of "mark everything as read" (ms)
+//   readIds   individually read posts, limited to maxReadIds
 //
-// KEIN Verweis auf andere Config-Singletons: innerhalb des Moduls Config ist
-// `import Config` in Qt 6 eine Zirkelabhängigkeit (siehe Theme.qml). Was von
-// außen kommt, wird übergeben: `enabled` per Binding aus pokerth.qml, Theme-
-// abhängige Werte als opts-Objekt an postBlocks().
+// NO reference to other config singletons: inside the module Config,
+// `import Config` is a circular dependency in Qt 6 (see Theme.qml). What comes from
+// outside is passed in: `enabled` via a binding from pokerth.qml, theme
+// dependent values as an opts object to postBlocks().
 QtObject {
     id: forumNews
 
@@ -33,25 +33,25 @@ QtObject {
     readonly property string forumUrl: "https://www.pokerth.net/"
     readonly property string siteBase: "https://www.pokerth.net"
 
-    // Feed-Cache: erneutes Öffnen der Seite lädt nicht jedes Mal neu.
+    // Feed cache: opening the page again does not reload every time.
     readonly property int cacheTtlMs: 5 * 60 * 1000
-    // Hintergrund-Aktualisierung des Zählers (der Feed ist ~40 kB).
+    // Background refresh of the counter (the feed is ~40 kB).
     readonly property int refreshIntervalMs: 15 * 60 * 1000
     readonly property int maxPosts: 40
     readonly property int maxReadIds: 120
 
-    // Von pokerth.qml an Parameters.showForumNews gebunden – aus = kein Abruf.
+    // Bound by pokerth.qml to Parameters.showForumNews – off = no fetch.
     property bool enabled: true
 
-    // Beiträge, nach Thema entdoppelt (siehe _dedup).
+    // Posts, deduplicated by topic (see _dedup).
     property var posts: []
     property bool loading: false
     property string errorText: ""
     property real lastFetchMs: 0
 
-    // Hochgezählt bei jeder Änderung des Gelesen-Status: Bindings, die
-    // isUnread() aufrufen, lesen diese Property und werden dadurch neu
-    // ausgewertet (Funktionsaufrufe allein erzeugen keine Abhängigkeit).
+    // Incremented on every change of the read status: bindings that
+    // call isUnread() read this property and are thereby re-evaluated
+    // (function calls alone create no dependency).
     property int readRevision: 0
 
     readonly property int unreadCount: {
@@ -69,8 +69,8 @@ QtObject {
         property string readIds: ""
     }
 
-    // Gelesene Beitrags-IDs als Liste (Reihenfolge = Alter, für die Begrenzung)
-    // und als Map (schnelles Nachschlagen).
+    // Read post IDs as a list (the order = the age, for the limiting)
+    // and as a map (fast lookup).
     property var _readList: []
     property var _readMap: ({})
 
@@ -79,10 +79,10 @@ QtObject {
         repeat: true
         triggeredOnStart: true
         running: forumNews.enabled
-        // Qt.callLater: der erste Auslöser fällt mit der Erzeugung des
-        // Singletons zusammen – zu diesem Zeitpunkt kann die Bindung von
-        // `enabled` an die Einstellung (pokerth.qml) noch nicht stehen, sonst
-        // liefe bei abgeschalteter Funktion einmalig doch ein Abruf.
+        // Qt.callLater: the first trigger coincides with the creation of the
+        // singleton – at that point the binding of
+        // `enabled` to the setting (pokerth.qml) cannot stand yet, otherwise
+        // a single fetch would run after all with the function switched off.
         onTriggered: Qt.callLater(function() { forumNews.refresh(true) })
     }
 
@@ -127,8 +127,8 @@ QtObject {
         ++readRevision
     }
 
-    // „Alles als gelesen markieren": Wasserzeichen auf den jüngsten Beitrag
-    // (mindestens jetzt) setzen, Einzel-IDs darunter werden überflüssig.
+    // "Mark everything as read": set the watermark to the most recent post
+    // (at least now), individual IDs below it become superfluous.
     function markAllRead() {
         var mx = Date.now()
         for (var i = 0; i < posts.length; ++i)
@@ -141,9 +141,9 @@ QtObject {
         ++readRevision
     }
 
-    // ── Abruf ────────────────────────────────────────────────────────────────
-    // force = TTL übergehen (Timer, manuelles Neuladen). Bei Fehlern bleiben
-    // die zuletzt geholten Beiträge stehen.
+    // ── Fetch ────────────────────────────────────────────────────────────────
+    // force = bypass the TTL (timer, manual reload). On errors the posts
+    // fetched last stay.
     function refresh(force) {
         if (!enabled || loading)
             return
@@ -181,10 +181,10 @@ QtObject {
         xhr.send()
     }
 
-    // ── Atom-Feed lesen ──────────────────────────────────────────────────────
-    // Bewusst per regulärem Ausdruck wie im Web-Relay (proxy.js
-    // forumParseAtom): der Feed ist maschinell erzeugt und immer gleich
-    // aufgebaut, ein XML-DOM wäre dafür deutlich teurer.
+    // ── Read the Atom feed ───────────────────────────────────────────────────
+    // Deliberately by regular expression as in the web relay (proxy.js
+    // forumParseAtom): the feed is generated automatically and always has the same
+    // structure, an XML DOM would be considerably more expensive for that.
     function _parseFeed(xml) {
         var out = []
         var chunks = String(xml).split("<entry>")
@@ -194,8 +194,8 @@ QtObject {
             var link = _group(c, /<link href="([^"]+)"\s*\/?>/)
             if (rawTitle === "" || link === "")
                 continue
-            // phpBB-Titel lauten "Forum • Thema"; das Forum steht zusätzlich im
-            // <category term> – das wird bevorzugt, sonst der Titel-Präfix.
+            // phpBB titles read "forum • topic"; the forum is additionally in the
+            // <category term> – that is preferred, otherwise the title prefix.
             var forum = _decode(_group(c, /<category term="([^"]*)"/))
             var title = rawTitle
             var bi = rawTitle.indexOf(" • ")
@@ -221,9 +221,9 @@ QtObject {
         return out
     }
 
-    // Nur der jüngste Beitrag je Thema. Der Feed besteht zum größten Teil aus
-    // den automatischen BBC-/WEC-Ergebnismeldungen, ohne das hier wäre die
-    // Liste eine einzige Wiederholung (gleiche Regel wie im Web-Client).
+    // Only the most recent post per topic. The feed consists for the most part of
+    // the automatic BBC/WEC result announcements; without this the
+    // list would be one single repetition (the same rule as in the web client).
     function _dedup(list) {
         var seen = ({})
         var out = []
@@ -254,14 +254,14 @@ QtObject {
             .replace(/&#(\d+);/g, function(all, d) {
                 return String.fromCharCode(parseInt(d, 10))
             })
-            .replace(/&amp;/g, "&")   // zuletzt, sonst würden &amp;lt; & Co. doppelt aufgelöst
+            .replace(/&amp;/g, "&")   // last, otherwise &amp;lt; & co. would be resolved twice
     }
 
-    // ── Farbcode der Forums-Plakette ─────────────────────────────────────────
-    // Die großen Foren haben einen festen Farbton (BBC bernstein, WEC petrol,
-    // Bugs rot, General blau …), alles andere bekommt über einen Hash einen der
-    // acht Töne – so bleibt die Farbe eines Forums stabil, ohne gepflegte
-    // Liste. Werte 1:1 aus pokerth.css (.fn-c0 … .fn-c7).
+    // ── Colour code of the forum badge ───────────────────────────────────────
+    // The large forums have a fixed hue (BBC amber, WEC petrol,
+    // bugs red, general blue …), everything else gets one of the eight hues via a
+    // hash – that way the colour of a forum stays stable without a maintained
+    // list. The values 1:1 from pokerth.css (.fn-c0 … .fn-c7).
     readonly property var forumPalette: [
         "#c98f1f", "#2a9d8f", "#d05050", "#4d8fd0",
         "#9d6fd0", "#5da45d", "#c86a9a", "#8a97a8"
@@ -283,22 +283,22 @@ QtObject {
         return forumPalette[h % 8]
     }
 
-    // Datum/Uhrzeit eines Beitrags in der Landessprache (Kurzformat).
+    // Date/time of a post in the local language (short format).
     function formatDate(ts) {
         if (!ts)
             return ""
         return Qt.formatDateTime(new Date(ts), Locale.ShortFormat)
     }
 
-    // ── Beitrag für die Anzeige aufbereiten ──────────────────────────────────
-    // Ergebnis ist eine Liste von Blöcken, die ForumPostPage untereinander
-    // zeichnet:
-    //   { type: "html",  value }  → RichText-Abschnitt
-    //   { type: "image", value }  → eigenständiges Bild
-    // Bilder werden herausgezogen, weil Qt-RichText kein max-width kennt: ein
-    // Handy-Screenshot als Anhang (z. B. 1080×2400) würde sonst über den Rand
-    // hinauslaufen. Als Image-Element lässt es sich sauber auf die Spaltenbreite
-    // begrenzen. Smileys bleiben im Fließtext (klein und mitten im Satz).
+    // ── Prepare a post for display ───────────────────────────────────────────
+    // The result is a list of blocks that ForumPostPage draws below each
+    // other:
+    //   { type: "html",  value }  → a rich text section
+    //   { type: "image", value }  → a standalone image
+    // Images are pulled out because Qt rich text knows no max-width: a
+    // phone screenshot as an attachment (e.g. 1080×2400) would otherwise run beyond the
+    // edge. As an image element it can be limited cleanly to the column width.
+    // Smileys stay in the body text (small and in the middle of a sentence).
     // opts: { dark: bool, basePx: real }
     function postBlocks(post, opts) {
         var dark = !opts || opts.dark === undefined ? true : opts.dark
@@ -320,7 +320,7 @@ QtObject {
         return blocks
     }
 
-    // Reiner Text eines Beitrags (Vorschauzeile, Suchen).
+    // The plain text of a post (preview line, searching).
     function plainText(html, limit) {
         var s = _stripFooter(html || "")
             .replace(/<(?:br|\/p|\/div|\/li|hr)[^>]*>/gi, " ")
@@ -336,8 +336,8 @@ QtObject {
         return s
     }
 
-    // phpBB hängt an jeden Feed-Beitrag "Statistics: Posted by … — <Datum>" an;
-    // Autor und Datum zeigt die Seite selbst, der Absatz fliegt raus.
+    // phpBB appends "Statistics: Posted by … — <date>" to every feed post;
+    // the author and the date are shown by the page itself, so the paragraph flies out.
     function _stripFooter(html) {
         var s = String(html || "")
         var m = /<p[^>]*>\s*Statistics: Posted by/i.exec(s)
@@ -354,14 +354,14 @@ QtObject {
     function _pushHtml(blocks, html, dark, basePx) {
         if (html === "")
             return
-        // Reine Tag-Reste ohne Inhalt (z. B. das <div>, in dem nur ein
-        // herausgelöstes Bild stand) nicht als leeren Block zeichnen.
+        // Do not draw pure tag remnants without content (e.g. the <div> that only
+        // contained an extracted image) as an empty block.
         if (plainText(html) === "" && !/<hr[\s/>]/i.test(html))
             return
         blocks.push({ type: "html", value: _fixHtml(html, dark, basePx) })
     }
 
-    // Smileys und andere Miniaturbilder bleiben inline im RichText.
+    // Smileys and other thumbnails stay inline in the rich text.
     function _isInlineImage(src) {
         return /\/images\/smilies\//i.test(src || "")
     }
@@ -386,11 +386,11 @@ QtObject {
         return siteBase + "/" + s
     }
 
-    // phpBB-HTML → Qt-RichText (unterstützt nur eine HTML-4-Teilmenge):
-    //   • relative URLs absolut machen (Feed nutzt "/images/…" und "./…")
-    //   • font-family raus (App-Schrift beibehalten), line-height kennt Qt nicht
-    //   • font-size in Prozent → px (Qt versteht nur pt/px)
-    //   • Farben so anpassen, dass sie auf dem Hintergrund lesbar bleiben
+    // phpBB HTML → Qt rich text (it supports only a subset of HTML 4):
+    //   • make relative URLs absolute (the feed uses "/images/…" and "./…")
+    //   • remove font-family (keep the app font), Qt does not know line-height
+    //   • font-size in percent → px (Qt only understands pt/px)
+    //   • adjust the colours so that they stay readable on the background
     function _fixHtml(html, dark, basePx) {
         var s = String(html)
         s = s.replace(/(href|src)="([^"]*)"/gi, function(all, attr, val) {
@@ -402,16 +402,16 @@ QtObject {
             var px = Math.round(basePx * parseFloat(pct) / 100)
             return "font-size:" + Math.max(11, Math.min(30, px)) + "px"
         })
-        // Nur "color:", nicht "background-color:" – daher das Trennzeichen davor.
+        // Only "color:", not "background-color:" – hence the separator in front of it.
         s = s.replace(/(^|[;"'\s])color\s*:\s*([^;"'>]+)/gi, function(all, pre, val) {
             return pre + "color:" + _readableColor(val, dark)
         })
         return s
     }
 
-    // Im Forum wird bunt geschrieben – "color:black" auf dunklem Grund (oder
-    // hellgelb auf hellem) wäre unlesbar. Zu dunkle bzw. zu helle Farben werden
-    // deshalb Richtung Hintergrund-Gegenpol gemischt; der Farbton bleibt.
+    // People write in colour in the forum – "color:black" on a dark ground (or
+    // light yellow on a light one) would be unreadable. Colours that are too dark or too light are
+    // therefore mixed towards the opposite pole of the background; the hue stays.
     function _readableColor(value, dark) {
         var rgb = _toRgb(value)
         if (!rgb)
@@ -420,7 +420,7 @@ QtObject {
         var t = 0
         var target = 1
         if (dark && lum < 0.55) {
-            t = (0.55 - lum) / (1 - lum)          // Richtung Weiß aufhellen
+            t = (0.55 - lum) / (1 - lum)          // Brighten towards white
             target = 1
         } else if (!dark && lum > 0.62) {
             t = 1 - 0.45 / Math.max(lum, 0.0001)  // Richtung Schwarz abdunkeln
@@ -437,8 +437,8 @@ QtObject {
         return out
     }
 
-    // Farbnamen, die im Forum tatsächlich vorkommen (phpBB-Farbwähler und die
-    // alten BBCode-Namen wie "brightred", das kein CSS-Name ist).
+    // Colour names that actually occur in the forum (the phpBB colour picker and the
+    // old BBCode names such as "brightred", which is no CSS name).
     readonly property var _namedColors: ({
         "black": "#000000", "white": "#ffffff", "red": "#ff0000",
         "brightred": "#ff0000", "darkred": "#8b0000", "maroon": "#800000",
@@ -455,7 +455,7 @@ QtObject {
         "pink": "#ffc0cb", "beige": "#f5f5dc", "tan": "#d2b48c"
     })
 
-    // "#abc" | "#aabbcc" | "rgb(…)" | Farbname → [r, g, b] in 0…1, sonst null.
+    // "#abc" | "#aabbcc" | "rgb(…)" | a colour name → [r, g, b] in 0…1, otherwise null.
     function _toRgb(value) {
         var s = String(value || "").trim().toLowerCase()
         if (_namedColors[s] !== undefined)

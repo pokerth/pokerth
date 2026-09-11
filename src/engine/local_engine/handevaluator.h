@@ -32,28 +32,28 @@
 #ifndef HANDEVALUATOR_H
 #define HANDEVALUATOR_H
 
-/* Schneller 7-Karten-Evaluator fuer die AI-Engine 4.
+/* Fast 7 card evaluator for AI engine 4.
  *
- * Liefert dieselbe Rangfolge wie CardsValue::cardsValue(), ist aber rund
- * siebenmal schneller, weil er ueber Bitmasken statt ueber drei Bubble-Sorts
- * arbeitet. Die absoluten Werte sind NICHT mit CardsValue vergleichbar --
- * nur die Ordnung stimmt ueberein. Fuer Showdown-Anzeige und Pot-Verteilung
- * bleibt weiterhin CardsValue zustaendig; dieser Evaluator dient allein der
- * Monte-Carlo-Simulation, die pro Entscheidung zehntausende Auswertungen
- * braucht.
+ * Delivers the same ranking as CardsValue::cardsValue(), but is about
+ * seven times faster because it works with bit masks instead of three
+ * bubble sorts. The absolute values are NOT comparable to CardsValue --
+ * only the ordering matches. CardsValue remains responsible for the
+ * showdown display and the pot distribution; this evaluator serves the
+ * Monte Carlo simulation alone, which needs tens of thousands of
+ * evaluations per decision.
  *
- * Kartenkodierung wie im uebrigen Engine-Code: 0..51, Farbe = c/13,
- * Wert = c%13 mit 0 = Zwei ... 12 = Ass.
+ * Card encoding as in the rest of the engine code: 0..51, suit = c/13,
+ * value = c%13 with 0 = two ... 12 = ace.
  */
 class HandEvaluator
 {
 public:
-	// Optionales Vorwaermen der Lookup-Tabelle. Ohne diesen Aufruf baut sie
-	// sich beim ersten value()-Aufruf selbst auf -- threadsicher, aber dann
-	// eben innerhalb der ersten Entscheidung.
+	// Optional warm-up of the lookup table. Without this call it builds itself
+	// on the first value() call -- thread-safely, but then inside the first
+	// decision.
 	static void init();
 
-	// Bewertet genau sieben Karten. Groesserer Rueckgabewert = staerkere Hand.
+	// Evaluates exactly seven cards. A larger return value = a stronger hand.
 	static unsigned value(const int* cards);
 };
 

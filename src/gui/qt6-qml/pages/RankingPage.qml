@@ -6,10 +6,10 @@ import QtQuick.Layouts
 import "../config" as Config
 import "../components"
 
-// Ranglisten-Ansicht – zeigt das Leaderboard von pokerth.net nativ an.
-// Statt die VueJS-Webseite in einer WebView einzubetten, wird direkt der von
-// der Webseite genutzte JSON-Endpunkt abgefragt und das Ergebnis als native
-// QML-Tabelle dargestellt (kein QtWebEngine/QtWebView nötig, mobil-tauglich).
+// Ranking view – shows the leaderboard of pokerth.net natively.
+// Instead of embedding the VueJS website in a WebView, the JSON endpoint used
+// by the website is queried directly and the result is displayed as a native
+// QML table (no QtWebEngine/QtWebView needed, suitable for mobile).
 //   POST https://www.pokerth.net/pthranking/ranking/leaderboard/<season>
 //   Body: { page, pageSize, sort:{prop,order}, filters:{value,props}|null }
 Rectangle {
@@ -22,8 +22,8 @@ Rectangle {
     readonly property bool compact: Config.Responsive.compact
     readonly property string baseUrl: "https://www.pokerth.net"
 
-    // Startfokus ins Suchfeld – auf Mobilgeräten NICHT, das zöge ungefragt die
-    // Bildschirmtastatur hoch.
+    // Initial focus into the search field – NOT on mobile devices, that would pull
+    // up the on-screen keyboard unasked.
     StackView.onActivated: {
         if (!Config.Responsive.isMobile)
             Qt.callLater(searchField.forceActiveFocus)
@@ -40,27 +40,27 @@ Rectangle {
     property bool loading: false
     property string errorText: ""
 
-    // Sortierung – serverseitig (Body sort:{prop,order}). Default wie bisher:
-    // nach Rangposition. Klick auf einen Spaltenkopf schaltet Feld/Richtung um.
+    // Sorting – server side (body sort:{prop,order}). Default as before:
+    // by rank position. A click on a column header switches the field/direction.
     property string sortProp: "rank_pos"
     property string sortOrder: "descending"     // "ascending" | "descending"
 
-    // Beim Wiederherstellen über den Globus-Toggle gesetzt → Filter-Zustand
-    // (Saison, Suche, Seite) wiederherstellen statt Defaults laden.
+    // Set when restoring via the globe toggle → restore the filter state
+    // (season, search, page) instead of loading the defaults.
     property var restoreState: null
     property bool restoring: false
 
     readonly property int pageCount: Math.max(1, Math.ceil(total / pageSize))
 
-    // Aktuellen Filter-Zustand für das spätere Wiederherstellen sichern.
+    // Save the current filter state for restoring it later.
     function captureState() {
         return { season: season, searchQuery: searchQuery, currentPage: currentPage,
                  sortProp: sortProp, sortOrder: sortOrder }
     }
 
-    // Klick auf einen Spaltenkopf: gleiches Feld → Richtung umkehren, sonst neues
-    // Feld (Zahlen absteigend, Name aufsteigend als sinnvolle Voreinstellung).
-    // Sortierung ist serverseitig → neu laden und zurück auf Seite 1.
+    // Click on a column header: the same field → reverse the direction, otherwise a
+    // new field (numbers descending, name ascending as a sensible default).
+    // The sorting is server side → reload and go back to page 1.
     function requestSort(prop) {
         if (sortProp === prop)
             sortOrder = (sortOrder === "ascending" ? "descending" : "ascending")
@@ -122,14 +122,14 @@ Rectangle {
             currentPage = restoreState.currentPage || 1
             sortProp = restoreState.sortProp || "rank_pos"
             sortOrder = restoreState.sortOrder || "descending"
-            searchField.text = searchQuery     // löst onTextChanged aus (Timer unterdrückt)
+            searchField.text = searchQuery     // triggers onTextChanged (the timer suppresses it)
             restoring = false
         }
         loadData()
     }
 
-    // Suchfeld-Eingabe entprellen, damit nicht bei jedem Tastendruck eine
-    // Anfrage rausgeht.
+    // Debounce the input in the search field so that not every keystroke sends
+    // a request.
     Timer {
         id: searchTimer
         interval: 400
@@ -152,9 +152,9 @@ Rectangle {
             font.bold: true
         }
 
-        // Saison-Auswahl + Player-Filter – wie auf der Webseite oben angeordnet:
-        // Saison links, Spielersuche füllt den Rest der Zeile (bzw. gestapelt
-        // auf schmalen/mobilen Bildschirmen).
+        // Season selection + player filter – arranged as at the top of the website:
+        // season on the left, the player search fills the rest of the row (or stacked
+        // on narrow/mobile screens).
         GridLayout {
             Layout.fillWidth: true
             columns: rankingPage.compact ? 1 : 2
@@ -182,7 +182,7 @@ Rectangle {
                         rankingPage.currentPage = 1
                         rankingPage.loadData()
                     }
-                    // Auswahl synchron halten, wenn das Modell neu geladen wird.
+                    // Keep the selection in sync when the model is reloaded.
                     Component.onCompleted: currentIndex = Math.max(0, rankingPage.seasons.indexOf(rankingPage.season))
                     Connections {
                         target: rankingPage
@@ -194,15 +194,15 @@ Rectangle {
                 Item { Layout.fillWidth: true }
             }
 
-            // Player-Filter – serverseitig (filters.props="username"), entprellt;
-            // 1:1 das Verhalten des Filters auf pokerth.net. Schlichtes Control →
-            // Farben kommen vom globalen Universal-Theme (dark/light).
+            // Player filter – server side (filters.props="username"), debounced;
+            // 1:1 the behaviour of the filter on pokerth.net. A plain control →
+            // the colours come from the global universal theme (dark/light).
             TextField {
                 id: searchField
                 Layout.fillWidth: true
                 placeholderText: qsTr("Username")
-                // Enter sucht sofort, statt die 400 ms der Entprellung
-                // abzuwarten – wie in jedem Suchfeld.
+                // Enter searches immediately instead of waiting for the 400 ms
+                // of the debounce – as in every search field.
                 onAccepted: {
                     searchTimer.stop()
                     rankingPage.currentPage = 1
@@ -210,14 +210,14 @@ Rectangle {
                 }
                 onTextChanged: {
                     rankingPage.searchQuery = text.trim()
-                    // Beim Wiederherstellen kein Timer/Seiten-Reset auslösen.
+                    // Do not trigger the timer/page reset when restoring.
                     if (!rankingPage.restoring)
                         searchTimer.restart()
                 }
             }
         }
 
-        // Kopfzeile der Tabelle
+        // Header row of the table
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 30
@@ -316,7 +316,7 @@ Rectangle {
                     RowLayout {
                         anchors.fill: parent
                         anchors.leftMargin: 10
-                        // Platz für die Scrollbar, wenn sie sichtbar ist.
+                        // Room for the scrollbar when it is visible.
                         anchors.rightMargin: rankList.contentHeight > rankList.height + 4 ? 16 : 10
                         spacing: 8
 
@@ -334,10 +334,10 @@ Rectangle {
                             Layout.fillWidth: true
                             spacing: 6
 
-                            // Länderflagge (falls vorhanden) – Code stammt aus
-                            // gender_country.country bzw. country_iso. Nutzt die
-                            // im Client gebündelten Flaggen (resources/cflags),
-                            // gleiches Schema wie PlayerListItem/LobbyPage.
+                            // Country flag (if present) – the code comes from
+                            // gender_country.country or country_iso. Uses the
+                            // flags bundled in the client (resources/cflags),
+                            // same scheme as PlayerListItem/LobbyPage.
                             Image {
                                 readonly property string code: String(
                                     (rankDelegate.modelData.gender_country
@@ -357,7 +357,7 @@ Rectangle {
                                 text: rankDelegate.modelData.username
                                 Layout.fillWidth: true
                                 elide: Text.ElideRight
-                                // Klickbar → Player-Page (per player_id, sonst username).
+                                // Clickable → player page (by player_id, otherwise username).
                                 color: nickHover.hovered ? Config.Theme.colorAccent
                                                          : Config.StaticData.palette.secondary.col100
                                 font.pixelSize: Config.Theme.fontSizeBody
@@ -444,7 +444,7 @@ Rectangle {
             Item { Layout.fillWidth: true }
 
             AppLabel {
-                // Auf Mobil knapp ("1 / 13"), auf Desktop mit Spielerzahl.
+                // Terse on mobile ("1 / 13"), with the player count on the desktop.
                 text: rankingPage.compact
                       ? qsTr("%1 / %2").arg(rankingPage.currentPage).arg(rankingPage.pageCount)
                       : qsTr("Page %1 / %2  ·  %3 players")
@@ -471,10 +471,10 @@ Rectangle {
             }
         }
 
-        // Wertungs-Erklärung – dieselbe "Ranking calculation", die unter der
-        // Rangliste auf pokerth.net/app.php/leaderboard steht. Werte bewusst
-        // wörtlich übernommen (nicht übersetzbar), nur die Beschriftungen sind
-        // übersetzt. Gilt allein für die PokerTH-Rangliste.
+        // Rating explanation – the same "ranking calculation" that stands below the
+        // ranking on pokerth.net/app.php/leaderboard. The values are deliberately
+        // taken over verbatim (not translatable), only the captions are
+        // translated. It applies to the PokerTH ranking alone.
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: calcColumn.implicitHeight + 16

@@ -340,8 +340,8 @@ class OnlineChatRecorder:
         return internet_x, internet_y, guest_x, guest_y
 
     def _coords_user_login_dialog(self) -> dict[str, int]:
-        # Koordinaten aus dem QML-Layout hergeleitet (ServerConnectionDialog.qml),
-        # damit Klicks trotz Fenster-Offsets reproduzierbar auf den Controls landen.
+        # Coordinates derived from the QML layout (ServerConnectionDialog.qml), so
+        # that clicks land on the controls reproducibly despite window offsets.
         card_w = min(int(self.ww * 0.9), 360)
         card_h = min(int(self.wh * 0.88), 500)
         card_x = self.wx + (self.ww - card_w) // 2
@@ -381,7 +381,7 @@ class OnlineChatRecorder:
         y_cursor += field_h + stack_spacing + checkbox_h + stack_spacing
         login_row_y = y_cursor + (row_h // 2)
 
-        # Rechte Button-Hälfte in der RowLayout (Back | Login)
+        # Right half of the button in the RowLayout (Back | Login)
         login_x = stack_x + int(0.75 * stack_w) + int(0.25 * row_spacing)
 
         # View 0 (Auswahlseite): fill + 3 Buttons + fill, spacing=18
@@ -403,8 +403,8 @@ class OnlineChatRecorder:
         }
 
     def _coords_wide_chat(self) -> dict[str, int]:
-        # Empirisch auf die reale Wide-Lobby kalibriert.
-        # Die Chat-Row liegt deutlich über der unteren Fensterkante.
+        # Calibrated empirically against the real wide lobby.
+        # The chat row sits well above the lower window edge.
         row_y = self.wy + self.wh - 78
         emoji_btn_x = self.wx + int(self.ww * 0.57)
         chat_input_x = self.wx + int(self.ww * 0.78)
@@ -416,16 +416,16 @@ class OnlineChatRecorder:
             "chat_row_y": row_y,
             "emoji_pick_x": emoji_btn_x + 28,
             "emoji_pick_y": row_y - 120,
-            # Wide-Layout: erste Zeile in der mittleren Spielliste.
+            # Wide layout: first row in the middle game list.
             "game_item_x": self.wx + int(self.ww * 0.42),
             "game_item_y": self.wy + int(self.wh * 0.16),
-            # Join-Button sitzt in der unteren Action-Row rechts vom "Create Game"-Button.
+            # The join button sits in the lower action row to the right of the "Create Game" button.
             "join_btn_x": self.wx + int(self.ww * 0.56),
             "join_btn_y": self.wy + self.wh - 68,
         }
 
     def _coords_game_chat_overlay(self) -> dict[str, int]:
-        # GamePage: Chat-Overlay links, Breite ~1/3 (mind. 300), Chatzeile unten.
+        # GamePage: chat overlay on the left, width ~1/3 (at least 300), chat line at the bottom.
         overlay_w = max(self.ww // 3, 300)
         panel_left = self.wx + 10
         panel_top = self.wy + 40 + 50 + 10  # Statusbar(40) + overlay top margin + panel margin
@@ -455,8 +455,8 @@ class OnlineChatRecorder:
         await asyncio.sleep(0.7)
 
     def _random_emoji_points(self, base_x: int, base_y: int, count: int) -> list[tuple[int, int]]:
-        # Picker ist eine kleine Grid-Fläche links über dem Chat-Input.
-        # Random-Klicks bleiben bewusst innerhalb dieser Box.
+        # The picker is a small grid area on the left above the chat input.
+        # Random clicks deliberately stay inside this box.
         points: list[tuple[int, int]] = []
         min_x = max(self.wx + 12, base_x - 18)
         max_x = min(self.wx + self.ww - 12, base_x + 120)
@@ -483,7 +483,7 @@ class OnlineChatRecorder:
 
     async def _send_game_chat_with_emoji(self, prefix: str) -> None:
         c = self._coords_game_chat_overlay()
-        # Alt+C toggelt den Game-Chat robust, unabhängig von exakter Toggle-Position.
+        # Alt+C toggles the game chat robustly, independently of the exact toggle position.
         await self._key("alt+c")
         await asyncio.sleep(0.6)
         await self._click(c["chat_input_x"], c["chat_row_y"], f"({prefix} Game-Chatfeld)")
@@ -494,7 +494,7 @@ class OnlineChatRecorder:
         await asyncio.sleep(0.2)
         await self._key("Return")
         await asyncio.sleep(0.8)
-        await self._key("alt+c")  # Overlay wieder schließen
+        await self._key("alt+c")  # Close the overlay again
         await asyncio.sleep(0.4)
 
     async def _join_first_game(self) -> None:
@@ -534,7 +534,7 @@ class OnlineChatRecorder:
         await self._key("ctrl+a")
         await self._type(self.args.login_password)
 
-        # Mehrfachklick auf den Login-Button mit kleinem Y-Offset als robuster Submit.
+        # Multiple clicks on the login button with a small Y offset as a robust submit.
         await self._click(c["login_btn_x"], c["login_btn_y"], "(Login Klick 1)")
         await asyncio.sleep(0.4)
         await self._click(c["login_btn_x"], c["login_btn_y"] - 10, "(Login Klick 2)")

@@ -6,85 +6,85 @@ import QtQuick.Window
 
 import "../config" as Config
 
-// Action-Leiste unten am Tisch: vorbereitbarer Raise-Bereich (Eingabe, Slider,
-// Pot-%-Buttons, All-In/Show, Spielmodus) plus die Aktions-Buttons
-// Fold / Check-Call / Bet-Raise – inklusive Vorwahl-Logik (pre-selection) und
-// Auto-Spielmodus, 1:1 portiert aus dem Qt-Widgets-Client.
+// The action bar at the bottom of the table: a raise area that can be prepared (input, slider,
+// pot % buttons, all-in/show, the game mode) plus the action buttons
+// fold / check-call / bet-raise – including the preselection logic and the
+// auto game mode, ported 1:1 from the Qt widgets client.
 Item {
     id: actionBar
 
-    // Querformat? Begrenzt/zentriert das Panel und gibt ihm Abstand zum Rand.
+    // Landscape? It limits/centres the panel and gives it a distance to the edge.
     property bool wide: false
-    // Sichtbare Breite der Community-Cards – Referenz für panelWidth im Querformat.
+    // The visible width of the community cards – the reference for panelWidth in landscape.
     property real communityVisualWidth: 0
 
-    // Höhe wächst dynamisch mit dem Inhalt (Desktop-Querformat: +8 px, damit das
-    // Panel mit 8 px Abstand über dem unteren Bildschirmrand schwebt). Auf dem
-    // Phone (compactActions) sitzt das Panel bündig am unteren Bildschirmrand.
+    // The height grows dynamically with the content (desktop landscape: +8 px, so that the
+    // panel floats 8 px above the lower screen edge). On the
+    // phone (compactActions) the panel sits flush at the lower screen edge.
     implicitHeight: actionBarCol.implicitHeight
                     + (actionBar.wide && !actionBar.compactActions ? 8 : 0)
 
-    // Eckenradius der Theme-Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche
-    // (<ActionButtonBorderRadius> im Tisch-Stil). Die Zustands-Rahmen (Vorwahl
-    // gold, primäre Aktion) liegen als Rechteck ÜBER dem SVG; nur mit dem Radius
-    // des Stils schließen sie bündig ab, statt an den Ecken zu klaffen.
+    // The corner radius of the theme button SVGs, in units of their 168x43 drawing area
+    // (<ActionButtonBorderRadius> in the table style). The state frames (preselection
+    // gold, the primary action) lie as a rectangle ABOVE the SVG; only with the radius
+    // of the style do they end flush instead of gaping at the corners.
     readonly property real themeButtonRadiusUnits:
         (typeof StyleProvider !== "undefined" && StyleProvider)
         ? StyleProvider.actionButtonBorderRadius : 9
 
-    // Der Button wird auf seine tatsächliche Größe gestreckt, der Radius also mit
-    // – in x und y unterschiedlich stark. Ein Rectangle kann aber nur einen
-    // kreisrunden Radius: wir nehmen den kleineren der beiden, dann bleibt der
-    // Rahmen innerhalb der Kontur statt aus ihr herauszulaufen.
+    // The button is stretched to its actual size, and so is the radius
+    // – to a different degree in x and y. A Rectangle, however, can only have a
+    // circular radius: we take the smaller of the two, then the
+    // frame stays inside the contour instead of running out of it.
     function themeButtonRadius(w, h) {
         return Math.min(w / 2, h / 2,
                         actionBar.themeButtonRadiusUnits * w / 168,
                         actionBar.themeButtonRadiusUnits * h / 43)
     }
 
-    // Spielmodus-Aktion: vom Aufrufer (Shortcuts) und der Modus-ComboBox genutzt.
-    // Falls bereits mein Zug: gewählten Auto-Modus ausführen – aber VERZÖGERT
-    // (Qt.callLater), niemals synchron. fold()/call() verändert sofort den
-    // Spielzustand und löst ein erneutes myTurnChanged + Re-Layout der ActionBar
-    // (inkl. dieser ComboBox) aus; synchron mitten im Klick-/Signal-Handler
-    // führte das zu Re-Entrancy (lokales Spiel fror ein, Netzwerk-Spiel stürzte ab).
+    // The game mode action: used by the caller (shortcuts) and the mode ComboBox.
+    // If it is already my turn: execute the chosen auto mode – but DEFERRED
+    // (Qt.callLater), never synchronously. fold()/call() changes the
+    // game state immediately and triggers another myTurnChanged + a re-layout of the action bar
+    // (incl. this ComboBox); synchronously in the middle of the click/signal handler
+    // that led to re-entrancy (the local game froze, the network game crashed).
     function applyPlayingMode(index) {
         actionBar.playingMode = index
         if (GameTable && GameTable.myTurn)
             Qt.callLater(actionBar.runAutoAction)
     }
 
-    // Auto-Modus-Aktion im nächsten Event-Loop-Durchlauf ausführen. Der Zustand
-    // wird erneut geprüft, da er sich seit der Planung geändert haben kann
-    // (z.B. Zug bereits vorbei). Qt.callLater dedupliziert Mehrfachaufrufe.
+    // Execute the auto mode action in the next event loop pass. The state
+    // is checked again, since it may have changed since the planning
+    // (e.g. the turn is already over). Qt.callLater deduplicates multiple calls.
     function runAutoAction() {
         if (!GameTable || !GameTable.myTurn)
             return
-        if (actionBar.playingMode === 2) {            // Auto Check/Fold
-            // Erwartungswert 0: NUR ein wirklich gratis Check. Lehnt die Engine
-            // ab (Gegner hat gesetzt/erhöht – ggf. erst in diesem Moment vom
-            // Netz-Thread eingetragen), wird gefoldet. Auf actionBar.canCheck
-            // ist hier kein Verlass: es hängt am QML-Wert callAmount, der dem
-            // Engine-Zustand um die Queued-Signale hinterherhinkt – genau daran
-            // konnte „Auto Check/Fold" Chips in einen Pot legen.
+        if (actionBar.playingMode === 2) {            // Auto check/fold
+            // An expected value of 0: ONLY a really free check. If the engine rejects
+            // it (an opponent has bet/raised – possibly entered by the network thread
+            // only at this moment), it folds. actionBar.canCheck cannot be
+            // relied on here: it hangs off the QML value callAmount, which lags behind the
+            // engine state by the queued signals – exactly that way
+            // "auto check/fold" could put chips into a pot.
             if (!fireAction("call", 0))
                 fireAction("fold")
-        } else if (actionBar.playingMode === 1) {     // Auto Check/Call
-            // Bewusst ohne Erwartungswert (−1): dieser Modus callt jeden Betrag.
+        } else if (actionBar.playingMode === 1) {     // Auto check/call
+            // Deliberately without an expected value (−1): this mode calls any amount.
             fireAction("call", -1)
         }
     }
 
-    // Querformat: Inhalt auf die (skalierte) Breite des Community-Cards-
-    // Bereichs begrenzen und zentrieren – sonst wird u. a. der Slider viel
-    // zu breit. Eine Untergrenze stellt sicher, dass die Steuerelemente
-    // (Pot-Buttons + All-In + Spielmodus) nicht zu eng werden. Hochformat:
-    // volle Breite.
+    // Landscape: limit the content to the (scaled) width of the community cards
+    // area and centre it – otherwise the slider among other things gets far
+    // too wide. A lower bound makes sure that the controls
+    // (pot buttons + all-in + the game mode) do not get too tight. Portrait:
+    // the full width.
     readonly property real panelWidth: actionBar.wide
         ? Math.min(width, Math.max(actionBar.communityVisualWidth, 380))
         : width
 
-    // Aktuell vorbereiteter Raise-Betrag; kann auch vor dem eigenen Zug gesetzt werden
+    // The raise amount currently prepared; it can be set before your own turn as well
     property int raiseAmount: 0
 
     readonly property bool raiseAvailable: GameTable !== null
@@ -93,60 +93,60 @@ Item {
     readonly property int raiseMinAmount: raiseAvailable ? GameTable.minRaiseAmount : 0
     readonly property int raiseMaxAmount: raiseAvailable ? GameTable.maxRaiseAmount : 0
 
-    // Selbstheilung der Raise-Vorbelegung: ein auf 0 (oder unter das Minimum)
-    // zurückgesetzter Betrag wird sofort auf das gültige Minimum gehoben, sobald
-    // ein Raise möglich ist. Nötig, weil die Rundenende-/Phasen-Resets raiseAmount
-    // auf 0 setzen können, NACHDEM min/max bereits final stehen – dann liefert kein
-    // min/maxRaiseAmountChanged mehr ein syncRaiseAmount(), und der Bet/Raise-Button
-    // bliebe bei „$0" hängen, bis irgendein späteres Compute feuert. Dieser Handler
-    // ist reihenfolge-unabhängig und schließt das Fenster. Re-Entry ist unkritisch:
-    // nach dem Setzen auf raiseMinAmount ist die Bedingung sofort false.
+    // Self-healing of the raise preset: an amount that has been reset to 0 (or below
+    // the minimum) is raised to the valid minimum immediately as soon as
+    // a raise is possible. Necessary because the round end/phase resets can set raiseAmount
+    // to 0 AFTER min/max are already final – then no
+    // min/maxRaiseAmountChanged delivers a syncRaiseAmount() any more, and the bet/raise button
+    // would stay stuck at "$0" until some later compute fires. This handler
+    // is independent of the order and closes the window. Re-entry is harmless:
+    // after setting it to raiseMinAmount the condition is false immediately.
     onRaiseAmountChanged: {
         if (raiseAvailable && raiseAmount < raiseMinAmount)
             raiseAmount = raiseMinAmount
     }
 
-    // Dynamische Button-Beschriftungen – analog zum Qt-Widgets-Client:
-    //  • nichts zu callen  → "Check"      sonst → "Call $X"
-    //  • Preflop oder schon gesetzt → "Raise $X"; postflop ohne Einsatz → "Bet $X"
+    // Dynamic button captions – analogous to the Qt widgets client:
+    //  • nothing to call  → "Check"      otherwise → "Call $X"
+    //  • preflop or already bet → "Raise $X"; postflop without a bet → "Bet $X"
     readonly property bool canCheck: GameTable !== null && GameTable.callAmount === 0
     readonly property bool isPreflop: GameTable !== null && GameTable.phaseText === "Preflop"
     readonly property string _amountSep: "\n"
 
-    // Einstellung „Internationale Pokerausdrücke nicht übersetzen" (Config-Key
-    // DontTranslateInternationalPokerStringsFromStyle). Ist sie an, werden die
-    // Aktions-Begriffe fest auf Englisch gezeigt statt über qsTr() lokalisiert –
-    // wie der Qt-Widgets-Client, der dann die internationalen Style-Strings
-    // umgeht. Die qsTr()-Literale bleiben für die Übersetzungsextraktion erhalten.
+    // The setting "do not translate international poker terms" (the config key
+    // DontTranslateInternationalPokerStringsFromStyle). If it is on, the
+    // action terms are shown fixed in English instead of localized via qsTr() –
+    // like the Qt widgets client, which then bypasses the international style
+    // strings. The qsTr() literals are kept for the translation extraction.
     readonly property bool dontTranslatePokerTerms:
         (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
             ? SettingsManager.readConfigInt("DontTranslateInternationalPokerStringsFromStyle") !== 0 : false
-    // Einstellung „Fokus ins Einsatzfeld bei eigenem Zug" (EnableBetInputFocusSwitch).
+    // The setting "focus into the bet field on your own turn" (EnableBetInputFocusSwitch).
     readonly property bool focusBetInputOnTurn:
         (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
             ? SettingsManager.readConfigInt("EnableBetInputFocusSwitch") !== 0 : false
-    // Einstellung „Versehentliches Call nach großem Raise verhindern"
-    // (AccidentallyCallBlocker). Wie der Qt-Widgets-Client: ändert sich die Call-/
-    // Check-Beschriftung (z. B. weil ein Gegner erhöht hat), wird der Call-Button
-    // kurz gesperrt, damit ein bereits gezielter Klick nicht den neuen (höheren)
-    // Betrag callt. callBlocked wird per Timer nach 1 s wieder freigegeben.
+    // The setting "prevent an accidental call after a large raise"
+    // (AccidentallyCallBlocker). As in the Qt widgets client: if the call/
+    // check caption changes (e.g. because an opponent has raised), the call button is
+    // locked briefly, so that a click that is already aimed does not call the new (higher)
+    // amount. callBlocked is released again by a timer after 1 s.
     readonly property bool accidentalCallBlockerEnabled:
         (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
             ? SettingsManager.readConfigInt("AccidentallyCallBlocker") !== 0 : true
-    // Einstellung „Pot-Prozent-Buttons anzeigen" (ShowPotPercentButtons).
-    // configRevision-Referenz nötig, damit das Umschalten ingame sofort wirkt.
+    // The setting "show pot percentage buttons" (ShowPotPercentButtons).
+    // A configRevision reference is necessary so that toggling it in-game takes effect immediately.
     readonly property bool showPotPercentButtons:
         (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
             ? SettingsManager.readConfigInt("ShowPotPercentButtons") !== 0 : true
     property bool callBlocked: false
-    // Kurz nach dem Aktivieren der Buttons (Rundenbeginn / eigener Zug) settlen die
-    // Call-/Raise-Werte noch (neutraler Zustand → tatsächlicher Betrag, ggf. in
-    // mehreren Schritten, s. raiseAmount-Selbstheilung). In diesem Einschwing-
-    // Fenster darf der AccidentallyCallBlocker NICHT anspringen – sonst wirkt der
-    // Call-Button am Rundenbeginn verzögert, während Fold/Raise schon aktiv sind.
-    // Erst wenn die Buttons „scharf" sind (_callBlockerHot, nach kurzer Wartezeit),
-    // gilt eine Änderung der Call-/Check-Beschriftung als echte Gegner-(Re-)Erhöhung
-    // und sperrt den Call-Button kurz gegen versehentliche Klicks.
+    // Shortly after the buttons are activated (the start of a round / your own turn) the
+    // call/raise values are still settling (a neutral state → the actual amount, possibly in
+    // several steps, see the raiseAmount self-healing). In this settling
+    // window the AccidentallyCallBlocker must NOT kick in – otherwise the
+    // call button seems delayed at the start of a round while fold/raise are already active.
+    // Only when the buttons are "armed" (_callBlockerHot, after a short wait) does
+    // a change of the call/check caption count as a real (re-)raise of an opponent
+    // and lock the call button briefly against accidental clicks.
     property bool _callBlockerHot: false
     onActionsArmedChanged: {
         callBlocked = false
@@ -173,19 +173,19 @@ Item {
         onTriggered: actionBar.callBlocked = false
     }
 
-    // Aktions-Begriffe zentral über StaticData.pokerActionWord (1=Fold … 6=All-In),
-    // damit die Boxen und die Action-Bar denselben Switch nicht mehrfach pflegen.
+    // The action terms centrally via StaticData.pokerActionWord (1=fold … 6=all-in),
+    // so that the boxes and the action bar do not maintain the same switch several times.
     readonly property string foldWord:  Config.StaticData.pokerActionWord(1, dontTranslatePokerTerms)
     readonly property string checkWord: Config.StaticData.pokerActionWord(2, dontTranslatePokerTerms)
     readonly property string callWord:  Config.StaticData.pokerActionWord(3, dontTranslatePokerTerms)
     readonly property string betWord:   Config.StaticData.pokerActionWord(4, dontTranslatePokerTerms)
     readonly property string raiseWord: Config.StaticData.pokerActionWord(5, dontTranslatePokerTerms)
     readonly property string allInWord: Config.StaticData.pokerActionWord(6, dontTranslatePokerTerms)
-    // Beträge nur zeigen, solange die Buttons aktiv sind (eigener Zug oder
-    // zulässige Vorauswahl). Im Showdown UND am Rundenende (nach der letzten
-    // Spieleraktion) sind die Buttons inaktiv und die letzten Call-/Raise-Werte
-    // nicht mehr gültig → neutrale Labels ohne Betrag. Erst zu Rundenbeginn
-    // (neue Werte aus computeCallAndRaiseAmounts) erscheinen wieder Beträge.
+    // Only show the amounts while the buttons are active (your own turn or
+    // a permitted preselection). In the showdown AND at the end of a round (after the last
+    // player action) the buttons are inactive and the last call/raise values are
+    // no longer valid → neutral labels without an amount. Only at the start of a round
+    // (new values from computeCallAndRaiseAmounts) do amounts appear again.
     readonly property string checkCallText: (GameTable === null || !actionsArmed) ? callWord
         : (canCheck ? checkWord : callWord + _amountSep + "$" + GameTable.callAmount)
     readonly property string betRaiseText: {
@@ -194,80 +194,80 @@ Item {
         return raiseAvailable ? (word + _amountSep + "$" + raiseAmount) : word
     }
 
-    // ── Vorwahl (pre-selection): vor dem eigenen Zug eine Aktion vormerken ──
+    // ── The preselection: note an action before your own turn ──
     property string preAction: ""        // "", "fold", "call", "raise", "allin"
-    // Vorauswahl-Freigabe: false nach eigenem Zug / am Rundenende (postflop:
-    // gesperrt bis die Aufdeck-Animation durch ist, s. onBoardDealingChanged),
-    // true bei Rundenstart, eigenem Zug oder Gegner-Aktion.
+    // The preselection release: false after your own turn / at the end of a round (postflop:
+    // locked until the reveal animation is through, see onBoardDealingChanged),
+    // true at the start of a round, on your own turn or on an opponent action.
     property bool preSelectEnabled: true
-    // Runden-Übergangssperre: true ab der letzten Aktion einer Setzrunde
-    // (Signal bettingRoundEnded aus dem GameHandler) bis die nächste Runde mit
-    // frischen Werten startet (roundValuesReady), es wieder mein Zug ist oder
-    // eine neue Hand beginnt. Solange true sind die Aktions-Buttons inaktiv und
-    // tragen keine veralteten Call-/Raise-Beträge mehr (s. actionsArmed). Genau
-    // das verlangte Verhalten: letzter Spieler handelt → Buttons sofort
-    // zurückgesetzt + deaktiviert → nächste Runde → wieder aktiv mit neuen Werten.
+    // The round transition lock: true from the last action of a betting round on
+    // (the signal bettingRoundEnded from the GameHandler) until the next round starts with
+    // fresh values (roundValuesReady), it is my turn again or
+    // a new hand begins. While it is true the action buttons are inactive and
+    // no longer carry stale call/raise amounts (see actionsArmed). Exactly
+    // the behaviour that was asked for: the last player acts → the buttons are reset
+    // + deactivated immediately → the next round → active again with new values.
     property bool roundEnded: false
-    // Werden gerade neue Gemeinschaftskarten aufgedeckt? Wird von GamePage aus
-    // CommunityCards.dealing gespeist. Solange true, ist KEINE Aktion möglich
-    // (actionsArmed gatet darauf) – exakt die Vorgabe: während Aufdeck-
-    // Animationen sind die Buttons gesperrt. Sobald die Animation durch ist,
-    // schaltet onBoardDealingChanged die Vorauswahl frei (= Rundenstart).
+    // Are new community cards currently being revealed? It is fed from GamePage by
+    // CommunityCards.dealing. While it is true, NO action is possible
+    // (actionsArmed gates on it) – exactly the requirement: during reveal
+    // animations the buttons are locked. As soon as the animation is through,
+    // onBoardDealingChanged releases the preselection (= the start of a round).
     property bool boardDealing: false
     onBoardDealingChanged: {
         if (!actionBar.boardDealing)
-            actionBar.preSelectEnabled = true   // Aufdecken fertig → Runde läuft → Vorauswahl frei
+            actionBar.preSelectEnabled = true   // The revealing is finished → the round is running → the preselection is free
     }
-    // Reset bei Handwechsel oder Showdown
+    // A reset on a hand change or the showdown
     property int lastHandNumber: -1
     Connections {
         target: GameTable
         function onHandNumberChanged() {
             if (GameTable && GameTable.handNumber !== actionBar.lastHandNumber) {
                 actionBar.preAction = ""
-                actionBar.preSelectEnabled = true   // neue Hand → Vorauswahl freischalten
-                actionBar.roundEnded = false        // neue Hand → Rundensperre lösen
+                actionBar.preSelectEnabled = true   // a new hand → release the preselection
+                actionBar.roundEnded = false        // a new hand → release the round lock
                 actionBar.raiseAmount = 0
                 actionBar.lastHandNumber = GameTable.handNumber
                 // console.log("[ACTDBG] Reset: Neue Hand " + actionBar.lastHandNumber)
             }
         }
         function onBettingRoundEnded() {
-            // Letzte Aktion der Setzrunde ist erfolgt → Buttons SOFORT zurücksetzen
-            // und sperren: Vorwahl verwerfen, vorbereiteten Raise löschen und die
-            // Übergangssperre setzen. Erst die nächste Runde (roundValuesReady),
-            // der nächste eigene Zug oder eine neue Hand hebt sie wieder auf.
+            // The last action of the betting round has happened → reset the buttons IMMEDIATELY
+            // and lock them: discard the preselection, clear the prepared raise and set the
+            // transition lock. Only the next round (roundValuesReady),
+            // the next turn of your own or a new hand lifts it again.
             actionBar.preAction = ""
             actionBar.preSelectEnabled = false
             actionBar.raiseAmount = 0
             actionBar.roundEnded = true
-            // console.log("[ACTDBG] Reset (Rundenende): Buttons gesperrt bis nächste Runde")
+            // console.log("[ACTDBG] reset (end of round): buttons locked until the next round")
         }
         function onPhaseTextChanged() {
             if (!GameTable) return
-            // phaseText ist immer Preflop/Flop/Turn/River (nie "Showdown" – das
-            // signalisiert showdownActive, s. onShowdownActiveChanged). Jeder
-            // Phasenwechsel = Rundengrenze: Vorwahl/Werte zurücksetzen.
+            // phaseText is always preflop/flop/turn/river (never "showdown" – that is
+            // signalled by showdownActive, see onShowdownActiveChanged). Every
+            // phase change = a round boundary: reset the preselection/values.
             actionBar.preAction = ""
             actionBar.raiseAmount = 0
             if (GameTable.phaseText === "Preflop") {
-                // Preflop hat keine Board-Aufdeck-Animation → Vorauswahl sofort frei.
+                // Preflop has no board reveal animation → the preselection is free immediately.
                 actionBar.preSelectEnabled = true
             } else {
-                // Flop/Turn/River: bis die Karten-Aufdeck-Animation durch ist
-                // gesperrt; onBoardDealingChanged schaltet danach frei.
+                // Flop/turn/river: locked until the card reveal animation is
+                // through; onBoardDealingChanged releases it afterwards.
                 actionBar.preSelectEnabled = false
             }
             // console.log("[ACTDBG] Rundenwechsel →", GameTable.phaseText)
         }
         function onShowdownActiveChanged() {
-            // Showdown beginnt → alles zurücksetzen, damit keine veralteten
-            // Werte/Markierungen in die Ergebnisanzeige hineinragen:
-            //  • vorgemerkte Aktion verwerfen,
-            //  • Vorauswahl sperren (Buttons bleiben so auch dann inaktiv, falls
-            //    inShowdown kurz wackelt – armed = … && preSelectEnabled),
-            //  • vorbereiteten Raise-Betrag löschen. Zu Rundenbeginn füllt
-            //    syncRaiseAmount() ihn aus den neuen min/max-Werten neu.
+            // The showdown begins → reset everything, so that no stale
+            // values/marks stick into the result display:
+            //  • discard the noted action,
+            //  • lock the preselection (that way the buttons stay inactive even if
+            //    inShowdown wobbles briefly – armed = … && preSelectEnabled),
+            //  • clear the prepared raise amount. At the start of a round
+            //    syncRaiseAmount() fills it anew from the new min/max values.
             if (GameTable && GameTable.showdownActive) {
                 actionBar.preAction = ""
                 actionBar.preSelectEnabled = false
@@ -276,69 +276,69 @@ Item {
             }
         }
     }
-    property int preCallAmount: -1        // callAmount zum Zeitpunkt der Vorwahl
-    // Spielmodus: 0 = manuell, 1 = Auto Check/Call, 2 = Auto Check/Fold.
+    property int preCallAmount: -1        // the callAmount at the time of the preselection
+    // The game mode: 0 = manual, 1 = auto check/call, 2 = auto check/fold.
     property int playingMode: 0
 
     readonly property bool canAct: GameTable !== null && GameTable.canAct
 
-    // Autoritatives „der Server wartet JETZT auf meine Aktion" (Netzwerk-Spiel,
-    // aus der Engine: currentPlayersTurnId == eigene Unique-ID, siehe
-    // GameHandler::engineAwaitsMyAction). Anders als myTurn/timeoutSeatId kann
-    // dieser Zustand von keinem nachlaufenden Refresh-Callback gelöscht werden.
-    // Er ist damit die verlässliche Quelle dafür, ob ein Klick SOFORT ausgeführt
-    // werden muss statt still zur Vorwahl zu werden (die im eigenen Zugfenster
-    // nie mehr ausgeführt würde → Server-Timeout mit Default-Aktion).
+    // The authoritative "the server is waiting for my action NOW" (a network game,
+    // from the engine: currentPlayersTurnId == our own unique ID, see
+    // GameHandler::engineAwaitsMyAction). Unlike myTurn/timeoutSeatId,
+    // this state can be cleared by no trailing refresh callback.
+    // It is thereby the reliable source for whether a click has to be executed
+    // IMMEDIATELY instead of silently becoming a preselection (which would never be executed
+    // inside your own turn window → a server timeout with the default action).
     readonly property bool awaitingMyAction: GameTable !== null && GameTable.awaitingMyAction
 
-    // Showdown-/Ergebnisanzeige (Post-River bis zur nächsten Hand): die
-    // Aktions-Buttons müssen IMMER deaktiviert sein, sonst klickt man verfrüht
-    // für die nächste Runde. Eigenes Gate, weil `armed` über myTurnNow auch an
-    // canAct vorbei aktiv werden könnte (stale m_myTurn).
+    // The showdown/result display (post-river until the next hand): the
+    // action buttons have to be deactivated ALWAYS, otherwise you click prematurely
+    // for the next round. A gate of its own, because `armed` could become active via myTurnNow
+    // past canAct as well (a stale m_myTurn).
     readonly property bool inShowdown: GameTable !== null && GameTable.showdownActive
 
-    // Zentraler „Buttons aktiv"-Zustand für Fold/Check-Call. Wahr, wenn ich am
-    // Zug bin ODER eine Vorauswahl zulässig ist (canAct + Freigabe) – und nie im
-    // Showdown oder während neue Gemeinschaftskarten aufgedeckt werden
-    // (boardDealing). Die Button-Beschriftungen hängen daran: nur solange aktiv
-    // werden Beträge gezeigt, sonst neutrale Labels (zurückgesetzte Werte).
+    // The central "buttons active" state for fold/check-call. True when I am to
+    // act OR a preselection is permitted (canAct + the release) – and never in the
+    // showdown or while new community cards are being revealed
+    // (boardDealing). The button captions hang off it: only while it is active
+    // are amounts shown, otherwise neutral labels (reset values).
     readonly property bool actionsArmed: !inShowdown && !boardDealing && !roundEnded
         && ((GameTable !== null && GameTable.myTurn)
             || awaitingMyAction
             || (canAct && preSelectEnabled))
 
-    // Kompakte Action-Bar nur auf echten Mobilgeräten mit knappem
-    // vertikalem Platz (Phone-Landscape). Auf dem Desktop bleiben die
-    // Buttons groß – auch bei breitem Aspect-Ratio (Ultrawide/HiDPI),
-    // wo landscapeCompact geometrisch ebenfalls greift.
+    // A compact action bar only on real mobile devices with little
+    // vertical room (phone landscape). On the desktop the buttons stay
+    // large – even with a wide aspect ratio (ultrawide/HiDPI),
+    // where landscapeCompact applies geometrically as well.
     readonly property bool compactActions:
         Config.Responsive.landscapeCompact && Config.Responsive.isMobile
-    // Höhen der drei Action-Bar-Reihen.
+    // The heights of the three action bar rows.
     readonly property int actionRowHeight: compactActions ? 40 : (Config.Theme.compact ? 56 : 54)
     readonly property int raiseRowHeight:  compactActions ? 22 : 26
 
-    // Während der Vorwahl zeigt der Fold-Button bei freiem Check "Check / Fold"
-    // Vorwahl bei gratis Check: zweizeilig, damit auch längere Übersetzungen
-    // (z. B. "Check / Se coucher") auf den Button passen.
+    // During the preselection the fold button shows "Check / Fold" with a free check
+    // A preselection with a free check: two lines, so that longer translations
+    // (e.g. "Check / Se coucher") fit on the button as well.
     readonly property string foldText: (GameTable !== null && actionsArmed && !GameTable.myTurn
                                         && !awaitingMyAction && canCheck)
         ? (checkWord + " /\n" + foldWord) : foldWord
 
-    // Aktion ausführen. expectedCall ist beim Check/Call der Betrag, den der
-    // Spieler auf dem Button GESEHEN hat (0 = Check), −1 = beliebig. C++ führt
-    // die Aktion nur aus, wenn die Engine nicht mehr verlangt (s. GameHandler::call)
-    // – der Rückgabewert sagt, ob wirklich gehandelt wurde.
+    // Execute the action. With a check/call expectedCall is the amount the
+    // player SAW on the button (0 = check), −1 = any. C++ only executes
+    // the action if the engine does not demand more (see GameHandler::call)
+    // – the return value says whether it really acted.
     function fireAction(which, expectedCall) {
         if (GameTable === null) return false
-        // Eigener Zug ausgeführt → Vorauswahl SOFORT sperren (Vertrag von
-        // preSelectEnabled: „false nach eigenem Zug"). Hier zuverlässig, weil
-        // onMeInActionTriggered bei rein timer-getriebenen Netzwerk-Zügen u.U.
-        // gar nicht feuert und das Zurücksetzen dort verschluckt würde → die
-        // Buttons blieben nach meinem Zug fälschlich aktiv mit aktualisierten
-        // Werten. Eine echte (Re-)Erhöhung eines Gegners schaltet die Vorauswahl
-        // über onRefreshActionTriggered (callAmount > 0) wieder frei. Wird ein
-        // Check/Call verworfen, hebt onActionRejected die Sperre sofort wieder
-        // auf – es ist ja weiter mein Zug.
+        // Your own turn has been executed → lock the preselection IMMEDIATELY (the contract of
+        // preSelectEnabled: "false after your own turn"). Reliably here, because
+        // onMeInActionTriggered may not fire at all with purely timer driven network turns
+        // and the reset would be swallowed there → the
+        // buttons would wrongly stay active after my turn with updated
+        // values. A real (re-)raise of an opponent releases the preselection
+        // again via onRefreshActionTriggered (callAmount > 0). If a
+        // check/call is discarded, onActionRejected lifts the lock immediately
+        // again – it is still my turn after all.
         actionBar.preSelectEnabled = false
         if (which === "fold")       { GameTable.fold();  return true }
         if (which === "call")       return GameTable.call(expectedCall === undefined
@@ -348,12 +348,12 @@ Item {
         return false
     }
 
-    // Vorgemerkte Aktion beim eigenen Zug ausführen. Maßgeblich ist immer das,
-    // was zum Zeitpunkt der Vorwahl auf dem Button stand:
-    //  • "fold" bei gratis Check = Aufschrift „Check / Fold" → erst gratis
-    //    checken versuchen, sonst folden (wie der Widgets-Client, der in dem
-    //    Fall den Check-Button klickt),
-    //  • "call" nur bis zu dem damals gezeigten Betrag (preCallAmount).
+    // Execute the noted action on your own turn. What always counts is what
+    // stood on the button at the time of the preselection:
+    //  • "fold" with a free check = the caption "Check / Fold" → first try to check
+    //    for free, otherwise fold (like the widgets client, which in that
+    //    case clicks the check button),
+    //  • "call" only up to the amount that was shown then (preCallAmount).
     function runPreAction(which) {
         if (which === "fold") {
             if (canCheck && fireAction("call", 0))
@@ -362,8 +362,8 @@ Item {
             return
         }
         if (which === "call") {
-            // preCallAmount ist der bei der Vorwahl gezeigte Betrag; fehlt er
-            // (−1), gilt die sichere Auslegung „nur gratis checken".
+            // preCallAmount is the amount shown at the preselection; if it is missing
+            // (−1), the safe interpretation "only check for free" applies.
             fireAction("call", actionBar.preCallAmount >= 0 ? actionBar.preCallAmount : 0)
             return
         }
@@ -372,22 +372,22 @@ Item {
 
     function clickAction(which) {
         if (GameTable === null) return
-        // Eigener Klick auf einen Action-Button hat Vorrang vor dem
-        // Auto-Modus → zurück auf "manuell", dann die Aktion ausführen
-        // bzw. vormerken (wie im Qt-Widgets-Client).
+        // Your own click on an action button takes precedence over the
+        // auto mode → back to "manual", then execute the action
+        // or note it (as in the Qt widgets client).
         if (playingMode !== 0)
             playingMode = 0
-        // Es ist mein Zug, sobald der Server meinen Aktions-Timer zählt
-        // (timeoutSeatId === 0) – auch wenn das myTurn-Flag noch nicht
-        // gesetzt sein sollte. Dann SOFORT ausführen, sonst nur vormerken.
+        // It is my turn as soon as the server counts my action timer
+        // (timeoutSeatId === 0) – even if the myTurn flag should not be
+        // set yet. Then execute IMMEDIATELY, otherwise only note it.
         //
-        // awaitingMyAction zuerst: es ist die einzige Quelle, die ein einmal
-        // geöffnetes Zugfenster nicht wieder verliert. Ohne sie degradierte der
-        // Klick zur Vorwahl, sobald myTurn/timeoutSeatId von einem nachlaufenden
-        // Callback (disableMyButtons, stopTimeoutAnimation, Phasenwechsel …)
-        // gelöscht worden waren – und eine Vorwahl, die WÄHREND des eigenen
-        // Zugfensters gesetzt wird, führt niemand mehr aus (onMeInActionTriggered
-        // ist längst durch) → Timeout mit Server-Default.
+        // awaitingMyAction first: it is the only source that does not lose a turn window
+        // once it has been opened. Without it the click degraded to a
+        // preselection as soon as myTurn/timeoutSeatId had been cleared by a trailing
+        // callback (disableMyButtons, stopTimeoutAnimation, a phase change …)
+        // – and a preselection that is set DURING your own
+        // turn window is never executed by anyone (onMeInActionTriggered
+        // is long through) → a timeout with the server default.
         var myTurnNow = GameTable.awaitingMyAction
                         || GameTable.myTurn || GameTable.timeoutSeatId === 0
         var p0btnDbg = GameTable.players.length > 0 ? GameTable.players[0]["button"] : -1
@@ -404,8 +404,8 @@ Item {
                     // "→ myTurnNow=", myTurnNow)
         if (myTurnNow) {
             preAction = ""
-            // Ohne expectedCall gilt der aktuell gezeigte Betrag (GameTable.callAmount
-            // = die Beschriftung des Check/Call-Buttons) als Obergrenze.
+            // Without an expectedCall, the amount currently shown (GameTable.callAmount
+            // = the caption of the check/call button) counts as the upper limit.
             fireAction(which)
         } else if (canAct) {
             if (preAction === which) {
@@ -450,31 +450,31 @@ Item {
         if (raiseAmount <= 0)
             raiseAmount = raiseMinAmount
         else
-            // NUR auf den gültigen Bereich [min,max] klemmen – NICHT erneut aufs
-            // Slider-Raster runden. Sonst würde ein bewusst gesetzter Betrag (z. B.
-            // exakt 3200 über den Pot-Button) beim Übernehmen (eigener Zug →
-            // syncRaiseAmount) auf das Raster abgerundet (z. B. 3000) und „springt
-            // zurück". Das Raster-Runden bleibt dem Slider-Ziehen vorbehalten (onMoved).
+            // ONLY clamp to the valid range [min,max] – do NOT round to the
+            // slider raster again. Otherwise an amount that was set deliberately (e.g.
+            // exactly 3200 via the pot button) would be rounded down to the raster when adopting it (your own turn →
+            // syncRaiseAmount) (e.g. 3000) and would "jump
+            // back". The raster rounding stays reserved for dragging the slider (onMoved).
             raiseAmount = clampRaiseAmount(raiseAmount)
     }
 
-    // Raise-Wert vorbereiten, Vorwahl ausführen bzw. bei Änderungen verwerfen
+    // Prepare the raise value, execute the preselection or discard it on changes
     Connections {
         target: GameTable
         function onAwaitingMyActionChanged() {
-            // Autoritative Zugfenster-Flanke aus der Engine. Sie entsperrt exakt
-            // wie onMyTurnChanged – aber auch dann, wenn myTurn gar nicht erst
-            // gesetzt wurde oder direkt wieder gelöscht wurde. Damit kann kein
-            // stehengebliebenes roundEnded/preSelectEnabled=false ein laufendes
-            // Zugfenster mehr blockieren.
+            // The authoritative turn window edge from the engine. It unlocks exactly
+            // like onMyTurnChanged – but also when myTurn was not set in the
+            // first place or was cleared again right away. That way no
+            // leftover roundEnded/preSelectEnabled=false can block a running
+            // turn window any more.
             if (!GameTable.awaitingMyAction) return
             actionBar.preSelectEnabled = true
             actionBar.roundEnded = false
             actionBar.syncRaiseAmount()
-            // Sicherheitsnetz: eine vor dem Zug gesetzte Vorwahl ausführen, falls
-            // onMeInActionTriggered ausbleibt. Doppelausführung ist unkritisch –
-            // preAction wird vorher geleert und die zweite Aktion prallt in C++
-            // am Latch (m_actionSentForTurn) ab.
+            // A safety net: execute a preselection set before the turn in case
+            // onMeInActionTriggered fails to appear. A double execution is harmless –
+            // preAction is cleared beforehand and the second action bounces off
+            // the latch in C++ (m_actionSentForTurn).
             if (actionBar.playingMode === 0 && actionBar.preAction !== "") {
                 var pending = actionBar.preAction
                 actionBar.preAction = ""
@@ -482,32 +482,32 @@ Item {
             }
         }
         function onMyTurnChanged() {
-            // Eigener Zug beginnt → Vorauswahl immer freischalten.
-            // Ausführung der vorgemerkten/automatischen Aktion in onMeInActionTriggered.
+            // Your own turn begins → always release the preselection.
+            // The execution of the noted/automatic action is in onMeInActionTriggered.
             if (GameTable.myTurn) {
                 actionBar.preSelectEnabled = true
-                actionBar.roundEnded = false   // mein Zug → Rundensperre lösen
+                actionBar.roundEnded = false   // my turn → release the round lock
             }
             actionBar.syncRaiseAmount()
-            // Einstellung „Fokus ins Einsatzfeld bei eigenem Zug" (Config-Key
-            // EnableBetInputFocusSwitch): Eingabefeld fokussieren, sofern ein
-            // Raise/Bet überhaupt möglich ist.
+            // The setting "focus into the bet field on your own turn" (the config key
+            // EnableBetInputFocusSwitch): focus the input field, provided a
+            // raise/bet is possible at all.
             //
-            // ERST NACH syncRaiseAmount(): Solange das Feld den activeFocus hat,
-            // schreibt die Connections-Bindung unten den neuen raiseAmount NICHT
-            // mehr in den Text (damit sie die Tipp-Eingabe nicht überschreibt).
-            // Vorher fokussiert stünde also noch der Betrag des letzten Zuges drin.
+            // ONLY AFTER syncRaiseAmount(): while the field has the activeFocus,
+            // the Connections binding below does NOT write the new raiseAmount
+            // into the text any more (so that it does not overwrite the typing).
+            // Focused earlier, the amount of the last turn would still be in it.
             if (GameTable.myTurn && actionBar.focusBetInputOnTurn
                 && actionBar.raiseAvailable)
                 raiseAmountInput.focusAndSelectAll()
         }
         function onMeInActionTriggered() {
-            // Mein Zug steht fest → eine evtl. noch aktive Rundensperre lösen.
+            // My turn is settled → lift a round lock that may still be active.
             actionBar.roundEnded = false
-            // Wie meInAction() im Widgets-Client: GENAU HIER die gemerkte
-            // bzw. automatische Aktion ausführen. Dieser Callback kommt bei
-            // jedem eigenen Zug verlässlich (auch wenn m_myTurn schon true
-            // war) → keine verschluckten Aktionen mehr.
+            // As meInAction() in the widgets client: execute the remembered
+            // or automatic action EXACTLY HERE. This callback arrives reliably on
+            // every turn of your own (even if m_myTurn was already true)
+            // → no swallowed actions any more.
             var p0btnDbg2 = GameTable.players.length > 0 ? GameTable.players[0]["button"] : -1
             // console.log("[ACTDBG] meInActionTriggered",
                         // "pre=", actionBar.preAction,
@@ -523,121 +523,121 @@ Item {
                         // "preSel=", actionBar.preSelectEnabled)
             actionBar.syncRaiseAmount()
 
-            // Wie meInAction() im Widgets-Client (setFocus + selectAll): auch hier
-            // fokussieren, weil myTurnChanged nicht bei jedem eigenen Zug feuert
-            // (m_myTurn kann schon true gewesen sein). focusAndSelectAll() ist
-            // idempotent – hat das Feld den Fokus bereits, wird nur neu markiert.
+            // As meInAction() in the widgets client (setFocus + selectAll): focus here
+            // as well, because myTurnChanged does not fire on every turn of your own
+            // (m_myTurn may already have been true). focusAndSelectAll() is
+            // idempotent – if the field already has the focus, it only selects anew.
             if (actionBar.focusBetInputOnTurn && actionBar.raiseAvailable)
                 raiseAmountInput.focusAndSelectAll()
 
             if (actionBar.playingMode === 2 || actionBar.playingMode === 1) {
                 actionBar.runAutoAction()
-            } else if (actionBar.preAction !== "") {       // Manuell: Vorwahl ausführen
+            } else if (actionBar.preAction !== "") {       // Manual: execute the preselection
                 var a = actionBar.preAction
                 actionBar.preAction = ""
                 actionBar.runPreAction(a)
             }
-            // Nach eigenem Zug: Vorauswahl sperren bis Gegner-Aktion oder Rundenwechsel
+            // After your own turn: lock the preselection until an opponent action or a round change
             actionBar.preSelectEnabled = false
         }
         function onRoundValuesReady() {
-            // Werte nach Rundenwechsel sind jetzt korrekt (nach computeCallAndRaiseAmounts()).
-            // Preflop hat keine Board-Aufdeck-Animation → Vorauswahl sofort frei.
-            // Postflop bleibt gesperrt, bis die Aufdeck-Animation durch ist
-            // (onBoardDealingChanged), damit während des Aufdeckens keine Aktion
-            // möglich ist.
-            // Frische Werte der neuen Runde liegen vor → Rundensperre lösen.
+            // The values after a round change are correct now (after computeCallAndRaiseAmounts()).
+            // Preflop has no board reveal animation → the preselection is free immediately.
+            // Postflop it stays locked until the reveal animation is through
+            // (onBoardDealingChanged), so that no action is possible during
+            // the revealing.
+            // Fresh values of the new round are available → release the round lock.
             actionBar.roundEnded = false
             if (GameTable && GameTable.phaseText === "Preflop")
                 actionBar.preSelectEnabled = true
         }
         function onRefreshActionTriggered() {
-            // Vorauswahl nur dann wieder freischalten, wenn ich auch WIRKLICH noch
-            // handeln darf (GameTable.canAct). Sonst reaktivierte eine Gegner-Aktion
-            // die Buttons mit veralteten Werten, obwohl ich raus bin:
-            //   • nach eigenem All-In (canAct=false: kein Cash/Action=ALLIN),
-            //   • im Rundenende-Fenster (canAct=false: roundClosed, s. C++-Fix),
-            //   • nach Fold.
-            // Bei einer echten (Re-)Erhöhung, auf die ich reagieren können soll, ist
-            // canAct dagegen true (prevPlayerId != 0, Runde offen) → Vorauswahl frei.
+            // Only release the preselection again if I REALLY am still allowed to
+            // act (GameTable.canAct). Otherwise an opponent action would reactivate
+            // the buttons with stale values although I am out:
+            //   • after my own all-in (canAct=false: no cash/action=ALLIN),
+            //   • in the round end window (canAct=false: roundClosed, see the C++ fix),
+            //   • after a fold.
+            // With a real (re-)raise that I should be able to react to, canAct is
+            // true by contrast (prevPlayerId != 0, the round is open) → the preselection is free.
             if (GameTable.callAmount > 0 && !GameTable.myTurn && GameTable.canAct) {
-                // Gegner hat gesetzt/erhöht → Vorauswahl freischalten.
-                // callAmountChanged allein taugt nicht: feuert auch nach
-                // eigener Aktion (onRefreshSet/Pot/Cash) mit veralteten Werten.
-                // Erneute Erhöhung über meinen bereits gematchten Betrag hinaus
-                // (callAmount > 0) ⇒ ich muss erneut entscheiden → Vorauswahl
-                // wieder freischalten, auch wenn ich diese Runde schon gehandelt
-                // (und preSelectEnabled in fireAction auf false gesetzt) habe.
-                // Reine Calls/Checks der Gegner lassen callAmount bei 0 und heben
-                // die Sperre NICHT auf – die Buttons bleiben nach meinem Zug also
-                // gesperrt, bis wirklich (re-)erhöht wird oder die Runde startet.
+                // An opponent has bet/raised → release the preselection.
+                // callAmountChanged alone is not suitable: it fires after
+                // your own action as well (onRefreshSet/Pot/Cash) with stale values.
+                // Another raise beyond the amount I have already matched
+                // (callAmount > 0) ⇒ I have to decide again → release the
+                // preselection again, even if I have already acted in this round
+                // (and preSelectEnabled was set to false in fireAction).
+                // Pure calls/checks of the opponents leave callAmount at 0 and do NOT
+                // lift the lock – so the buttons stay locked after my turn
+                // until there really is a (re-)raise or the round starts.
                 actionBar.preSelectEnabled = true
                 actionBar.roundEnded = false
             }
-            // Sicherheit: vorgemerkter Call verfällt nur bei einer ECHTEN
-            // Gegner-Aktion (FOLD/CHECK/CALL/BET/RAISE/ALLIN), die den Call-
-            // Betrag verändert hat. refreshActionTriggered feuert
-            // ausschließlich für solche Aktionen — Blind-Posts (preflop
-            // SB→BB) lösen dieses Signal NICHT aus, sodass eine
-            // Vorauswahl während des Blindings nicht mehr stillschweigend
-            // gelöscht wird (war Auslöser für „UTG-preflop ohne Reaktion,
-            // Timeout mit Default-Action").
+            // Safety: a noted call only lapses on a REAL
+            // opponent action (FOLD/CHECK/CALL/BET/RAISE/ALLIN) that has changed the call
+            // amount. refreshActionTriggered fires
+            // exclusively for such actions — blind posts (preflop
+            // SB→BB) do NOT trigger this signal, so that a
+            // preselection during the blinding is no longer silently
+            // deleted (it was the trigger for "UTG preflop without a reaction,
+            // a timeout with the default action").
             if (actionBar.preAction === "call"
                 && GameTable.callAmount !== actionBar.preCallAmount)
                 actionBar.preAction = ""
         }
         function onCallAmountChanged() {
-            // KEIN preSelectEnabled=true hier: callAmountChanged feuert bei
-            // jedem computeCallAndRaiseAmounts()-Aufruf (onRefreshSet/Pot/Cash)
-            // auch mit veralteten Werten → Freischalten nur in onRefreshActionTriggered.
-            // Den Pre-Action-Sicherheits-Check führen wir bewusst NICHT
-            // mehr hier aus, sondern in onRefreshActionTriggered (s.o.) —
-            // sonst löschten Blind-Posts (callAmount 0→SB→BB) jede
-            // UTG-Pre-Action.
+            // NO preSelectEnabled=true here: callAmountChanged fires on
+            // every computeCallAndRaiseAmounts() call (onRefreshSet/Pot/Cash)
+            // with stale values as well → only release it in onRefreshActionTriggered.
+            // We deliberately do NOT run the pre-action safety check
+            // here any more but in onRefreshActionTriggered (see above) —
+            // otherwise blind posts (callAmount 0→SB→BB) deleted every
+            // UTG pre-action.
             actionBar.syncRaiseAmount()
         }
         function onMinRaiseAmountChanged() {
-            // Widget-Parität (provideMyActions): War ein Bet/Raise vorgemerkt und
-            // liegt der vorbereitete Betrag jetzt UNTER dem neuen Minimum – etwa
-            // weil ein Gegner (re-)erhöht hat – wird die Vorauswahl VERWORFEN,
-            // nicht stillschweigend auf das neue (höhere) Minimum angehoben und
-            // trotzdem ausgeführt. Im Qt-Widgets-Client:
-            //   int lastBetValue = <alter Button-Betrag>;
+            // Widget parity (provideMyActions): if a bet/raise was noted and
+            // the prepared amount now lies BELOW the new minimum – for instance
+            // because an opponent has (re-)raised – the preselection is DISCARDED,
+            // not silently raised to the new (higher) minimum and
+            // executed anyway. In the Qt widgets client:
+            //   int lastBetValue = <old button amount>;
             //   if (lastBetValue < slider->minimum() && betRaise->isChecked())
-            //       uncheckMyButtons();  // Vorwahl löschen
-            // raiseAmount entspricht dem zuletzt vorbereiteten Button-Betrag und
-            // wird erst danach per syncRaiseAmount() neu gesetzt – die Prüfung
-            // sieht hier also noch den ALTEN Wert (= lastBetValue).
+            //       uncheckMyButtons();  // clear the preselection
+            // raiseAmount corresponds to the button amount that was prepared last and
+            // is only set anew afterwards via syncRaiseAmount() – so the check
+            // still sees the OLD value here (= lastBetValue).
             if (actionBar.preAction === "raise"
                 && (!actionBar.raiseAvailable
                     || actionBar.raiseAmount < GameTable.minRaiseAmount)) {
-                // console.log("[ACTDBG] Raise-Vorwahl verworfen: vorbereitet",
-                            // actionBar.raiseAmount, "< neues Minimum",
-                            // GameTable.minRaiseAmount, "(Gegner hat (re-)erhöht)")
+                // console.log("[ACTDBG] raise preselection discarded: prepared",
+                            // actionBar.raiseAmount, "< new minimum",
+                            // GameTable.minRaiseAmount, "(an opponent has (re-)raised)")
                 actionBar.preAction = ""
             }
             actionBar.syncRaiseAmount()
         }
         function onMaxRaiseAmountChanged() {
-            // Wie der Widgets-Client: ändert sich nur das Maximum (z. B. mein Cash
-            // nach Sets-Einsammeln), wird die Vorwahl NICHT verworfen – der Betrag
-            // wird lediglich auf das gültige Maximum begrenzt (syncRaiseAmount).
-            // Verworfen wird nur, wenn gar kein Raise mehr möglich ist.
+            // As in the widgets client: if only the maximum changes (e.g. my cash
+            // after the sets are collected), the preselection is NOT discarded – the amount
+            // is merely limited to the valid maximum (syncRaiseAmount).
+            // It is only discarded when no raise is possible any more.
             if (actionBar.preAction === "raise" && !actionBar.raiseAvailable)
                 actionBar.preAction = ""
             actionBar.syncRaiseAmount()
         }
         function onActionRejected(requiredAmount, expectedAmount) {
-            // Der Check/Call wurde in C++ verworfen, weil die Engine inzwischen
-            // mehr verlangt als auf dem Button stand (Gegner hat gesetzt/erhöht/
-            // all-in). Es wurde NICHTS gesendet – ich bin weiter am Zug:
-            //  • Vorwahl verwerfen (sie meinte einen anderen Betrag),
-            //  • Buttons wieder freigeben (fireAction hatte sie gesperrt),
-            //  • den Call-Button kurz sperren (AccidentallyCallBlocker), damit
-            //    ein zweiter, schon unterwegs befindlicher Klick nicht doch den
-            //    neuen, höheren Betrag callt.
-            // Auto Check/Fold foldet nach der Ablehnung selbst weiter (runAutoAction),
-            // Auto Check/Call callt bewusst jeden Betrag (−1) und wird nie abgelehnt.
+            // The check/call was discarded in C++ because the engine meanwhile
+            // demands more than stood on the button (an opponent has bet/raised/gone
+            // all-in). NOTHING was sent – it is still my turn:
+            //  • discard the preselection (it meant a different amount),
+            //  • release the buttons again (fireAction had locked them),
+            //  • lock the call button briefly (AccidentallyCallBlocker), so that
+            //    a second click that is already on its way does not call the
+            //    new, higher amount after all.
+            // Auto check/fold folds on its own after the rejection (runAutoAction),
+            // auto check/call deliberately calls any amount (−1) and is never rejected.
             actionBar.preAction = ""
             actionBar.preSelectEnabled = true
             if (actionBar.accidentalCallBlockerEnabled) {
@@ -648,15 +648,15 @@ Item {
         function onCanActChanged() {
             if (GameTable.canAct)
                 return
-            // canAct bündelt die Spielberechtigung (gefoldet/all-in/kein
-            // Cash) mit der reinen Button-Freigabe (m_myTurn ||
-            // prevPlayerId != 0). Eine vorgemerkte Aktion darf NUR
-            // verfallen, wenn ich diese Hand wirklich nicht mehr handeln
-            // kann – NICHT durch das transiente Gating kurz bevor ich am
-            // Zug bin (prevPlayerId == 0, m_myTurn noch false), sonst
-            // wird die Vorauswahl (typisch BB-Option) verschluckt und
-            // beim eigenen Zug nicht ausgeführt. Der Widgets-Client
-            // verwirft die gemerkte Aktion beim Gating ebenfalls nicht.
+            // canAct bundles the permission to play (folded/all-in/no
+            // cash) with the pure button release (m_myTurn ||
+            // prevPlayerId != 0). A noted action may ONLY
+            // lapse when I really cannot act in this hand
+            // any more – NOT through the transient gating shortly before I am to
+            // act (prevPlayerId == 0, m_myTurn still false), otherwise
+            // the preselection (typically the BB option) is swallowed and
+            // not executed on your own turn. The widgets client
+            // does not discard the remembered action on the gating either.
             var me = GameTable.players.length > 0 ? GameTable.players[0] : null
             if (me && (me["folded"] === true || me["stack"] === 0))
                 actionBar.preAction = ""
@@ -666,14 +666,14 @@ Item {
     Rectangle {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        // Desktop-Querformat: kleiner Abstand zum unteren Bildschirmrand
-        // (Tisch zeigt sich darunter durch). Phone (compactActions):
-        // Panel bündig am unteren Bildschirmrand.
+        // Desktop landscape: a small distance to the lower screen edge
+        // (the table shows through below it). Phone (compactActions):
+        // the panel flush at the lower screen edge.
         anchors.bottomMargin: actionBar.wide && !actionBar.compactActions ? 8 : 0
         anchors.horizontalCenter: parent.horizontalCenter
         width: actionBar.panelWidth
         color: Qt.rgba(0, 0, 0, 0.82)
-        // Geschrumpft (Querformat) als leicht abgerundetes Panel.
+        // Shrunk (landscape) as a slightly rounded panel.
         radius: actionBar.wide ? 10 : 0
     }
 
@@ -683,7 +683,7 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         spacing: 0
 
-        // ── Raise-Bereich: dauerhaft vorbereitbar, Aktion erst beim eigenen Zug ──
+        // ── The raise area: it can be prepared permanently, the action only on your own turn ──
         Column {
             id: raiseSection
             width: parent.width
@@ -696,12 +696,12 @@ Item {
             height: visible ? implicitHeight : 0
             clip: true
 
-            // Zeile 1: Betrag-Eingabe (links) + Slider
+            // Row 1: the amount input (on the left) + the slider
             RowLayout {
                 width: parent.width - 16
                 spacing: 6
 
-                // Betrag-Eingabe – links neben dem Slider
+                // The amount input – to the left of the slider
                 Rectangle {
                     Layout.preferredWidth: 78
                     Layout.preferredHeight: actionBar.raiseRowHeight
@@ -714,13 +714,13 @@ Item {
                         id: raiseAmountInput
                         anchors { fill: parent; leftMargin: 6; rightMargin: 6 }
                         enabled: actionBar.raiseAvailable
-                        // KEINE Bindung auf raiseAmount: onTextChanged unten schreibt
-                        // raiseAmount zurück (Live-Update des Bet/Raise-Buttons), eine
-                        // Bindung wäre damit eine Bindungsschleife. Außerdem darf der
-                        // Text während der Eingabe gerade NICHT nachgezogen werden –
-                        // genau das leistet der Connections-Block weiter unten
-                        // (nur wenn das Feld keinen activeFocus hat). Hier nur den
-                        // Startwert setzen.
+                        // NO binding on raiseAmount: onTextChanged below writes
+                        // raiseAmount back (a live update of the bet/raise button), so a
+                        // binding would be a binding loop. Besides, the
+                        // text must NOT be updated while typing –
+                        // exactly that is what the Connections block further below does
+                        // (only when the field does not have the activeFocus). Here only set the
+                        // initial value.
                         Component.onCompleted: text = actionBar.raiseAmount.toString()
                         color: enabled ? "#FFFFFF" : "#8a8a8a"
                         font.family: Config.StaticData.loadedFont.font.family
@@ -730,21 +730,21 @@ Item {
                         verticalAlignment: Qt.AlignVCenter
                         inputMethodHints: Qt.ImhDigitsOnly
                         validator: IntValidator { bottom: 0; top: 9999999 }
-                        // Auto-Fokus bei eigenem Zug: Betrag komplett markieren, damit
-                        // die erste getippte Ziffer den vorgeschlagenen Betrag ERSETZT
-                        // statt ihn zu verlängern (Parität zum Qt-Widgets-Client:
+                        // Auto focus on your own turn: select the amount completely, so that
+                        // the first digit that is typed REPLACES the suggested amount
+                        // instead of extending it (parity with the Qt widgets client:
                         // spinBox_betValue->setFocus(); spinBox_betValue->selectAll()).
-                        // Den Text vorher explizit nachziehen: Hatte das Feld den
-                        // activeFocus schon (z. B. aus dem letzten Zug), hat die
-                        // Connections-Bindung unten ihn bewusst nicht aktualisiert.
+                        // Update the text explicitly beforehand: if the field already had the
+                        // activeFocus (e.g. from the last turn), the
+                        // Connections binding below deliberately did not update it.
                         function focusAndSelectAll() {
-                            // Widget-Parität: Tippt der Nutzer gerade in einem anderen
-                            // Textfeld (Chat-Eingabe), den Fokus NICHT wegreißen – im
-                            // Widgets-Client hängen beide Aufrufstellen an
-                            // `!lineEdit_ChatInput->hasFocus()` bzw. `text() == ""`.
-                            // Statt beide ChatBox-Instanzen hierher durchzureichen,
-                            // prüfen wir generisch das aktuell fokussierte Item: Nur
-                            // Texteingaben haben selectAll().
+                            // Widget parity: if the user is currently typing in another
+                            // text field (the chat input), do NOT tear the focus away – in the
+                            // widgets client both call sites hang off
+                            // `!lineEdit_ChatInput->hasFocus()` or `text() == ""`.
+                            // Instead of passing both ChatBox instances in here,
+                            // we generically check the item that currently has the focus: only
+                            // text inputs have selectAll().
                             var af = Window.activeFocusItem
                             if (af && af !== raiseAmountInput && af.selectAll !== undefined)
                                 return
@@ -752,8 +752,8 @@ Item {
                             forceActiveFocus()
                             selectAll()
                         }
-                        // Live-Aktualisierung des Bet/Raise-Buttons während der Eingabe –
-                        // analog zu spinBoxBetValueChanged() im Qt-Widgets-Client.
+                        // A live update of the bet/raise button while typing –
+                        // analogous to spinBoxBetValueChanged() in the Qt widgets client.
                         onTextChanged: {
                             var v = parseInt(text)
                             if (!isNaN(v) && actionBar.raiseAvailable)
@@ -765,16 +765,16 @@ Item {
                             var v = parseInt(text)
                             if (isNaN(v))
                                 return
-                            // Enter im Raise-Feld löst Bet/Raise aus (wie der
-                            // Qt-Widgets-Client: Enter bei fokussiertem Betrag) –
-                            // aber NUR bei einem sinnvollen Betrag. Ein zu hoher Wert
-                            // würde sonst still auf den Reststack (= All-In) geklemmt
-                            // und beim Enter überraschend als All-In gefeuert
-                            // (Spieler-Report: „300 getippt → All-In"). Liegt der
-                            // eingegebene Wert außerhalb [min,max], das Feld sichtbar
-                            // auf den echten, geklemmten Betrag korrigieren und NICHT
-                            // auslösen – der Nutzer bestätigt den nun sichtbaren
-                            // Betrag bewusst mit einem zweiten Enter.
+                            // Enter in the raise field triggers bet/raise (as in the
+                            // Qt widgets client: Enter with the amount focused) –
+                            // but ONLY with a sensible amount. A value that is too high
+                            // would otherwise be clamped silently to the remaining stack (= all-in)
+                            // and fired surprisingly as an all-in on Enter
+                            // (a player report: "typed 300 → all-in"). If the
+                            // value entered lies outside [min,max], correct the field visibly
+                            // to the real, clamped amount and do NOT
+                            // trigger – the user deliberately confirms the amount that is now
+                            // visible with a second Enter.
                             if (v < actionBar.raiseMinAmount || v > actionBar.raiseMaxAmount) {
                                 actionBar.raiseAmount = actionBar.clampRaiseAmount(v)
                                 text = actionBar.raiseAmount.toString()
@@ -784,56 +784,56 @@ Item {
                             actionBar.raiseAmount = v
                             actionBar.clickAction("raise")
                         }
-                        // Fokus abgeben, sobald das Feld gesperrt wird (Zug vorbei →
-                        // min/maxRaiseAmount werden 0 → raiseAvailable false).
+                        // Give up the focus as soon as the field is locked (the turn is over →
+                        // min/maxRaiseAmount become 0 → raiseAvailable false).
                         //
-                        // Nötig, weil enabled=false NUR den activeFocus nimmt, die
-                        // focus-Eigenschaft aber true lässt: Beim nächsten eigenen Zug
-                        // aktiviert raiseAvailable das Feld wieder, und der Fokus-Scope
-                        // gibt ihm den activeFocus von selbst zurück. Auf Touch-Geräten
-                        // (iPad/iPhone) fährt dadurch ab dem ersten Tippen ins Feld bei
-                        // JEDEM Zug ungefragt die Bildschirmtastatur hoch – auch wenn man
-                        // nur checken will. Ohne Zutun des Nutzers wieder fokussiert zu
-                        // werden ist auch auf dem Desktop falsch (Tastatureingaben landen
-                        // dann im Betragsfeld statt bei den Aktions-Shortcuts).
-                        // Der gewollte Auto-Fokus kommt ausschließlich aus der Einstellung
-                        // EnableBetInputFocusSwitch (onMyTurnChanged oben) – die ruft
-                        // forceActiveFocus() erst NACH dem Reaktivieren und bleibt wirksam.
+                        // Necessary because enabled=false only takes the activeFocus but
+                        // leaves the focus property true: on the next turn of your own
+                        // raiseAvailable activates the field again, and the focus scope
+                        // gives it the activeFocus back by itself. On touch devices
+                        // (iPad/iPhone) that pulls the on-screen keyboard up unasked on
+                        // EVERY turn from the first typing into the field on – even when you
+                        // only want to check. Being focused again without any action of the user
+                        // is wrong on the desktop as well (keyboard input then lands
+                        // in the amount field instead of at the action shortcuts).
+                        // The intended auto focus comes exclusively from the setting
+                        // EnableBetInputFocusSwitch (onMyTurnChanged above) – it calls
+                        // forceActiveFocus() only AFTER the reactivation and stays effective.
                         onEnabledChanged: {
                             if (!enabled)
                                 focus = false
                         }
-                        // Text bleibt synchron mit raiseAmount (von Slider/%-Buttons)
+                        // The text stays in sync with raiseAmount (from the slider/% buttons)
                         onActiveFocusChanged: {
                             if (activeFocus) {
-                                // Fokus erhalten (Klick, Tab ODER Auto-Fokus): den
-                                // vorgeschlagenen Default-Betrag komplett markieren,
-                                // damit die erste getippte Ziffer ihn ERSETZT statt an
-                                // ihn anzuhängen. Ohne das hängt beim Mausklick der
-                                // Cursor im bestehenden Wert und „300" wird angehängt
-                                // (z. B. 40 → 40300) → beim nächsten Compute auf den
-                                // Reststack geklemmt = überraschendes All-In. Das ist
-                                // die eigentliche Ursache des Spieler-Reports (siehe
-                                // Widget-Hotfix 2.1.4: „Betrag wird addiert statt
-                                // überschrieben"). focusAndSelectAll() deckte bisher nur
-                                // den Auto-Fokus-Pfad (EnableBetInputFocusSwitch) ab –
-                                // der Klick-Fall fehlte. Qt.callLater: erst NACH der
-                                // Klick-Cursorplatzierung markieren, sonst hebt der
-                                // Maus-Release die Selektion sofort wieder auf.
+                                // Focus received (a click, Tab OR the auto focus): select the
+                                // suggested default amount completely,
+                                // so that the first digit that is typed REPLACES it instead of being
+                                // appended to it. Without that, on a mouse click the
+                                // cursor hangs in the existing value and "300" is appended
+                                // (e.g. 40 → 40300) → clamped to the remaining stack at the next
+                                // compute = a surprising all-in. That is
+                                // the actual cause of the player report (see the
+                                // widget hotfix 2.1.4: "the amount is added instead of
+                                // overwritten"). So far focusAndSelectAll() only covered
+                                // the auto focus path (EnableBetInputFocusSwitch) –
+                                // the click case was missing. Qt.callLater: select only AFTER the
+                                // click cursor placement, otherwise the mouse release lifts the
+                                // selection again right away.
                                 Qt.callLater(raiseAmountInput.selectAll)
                             } else {
-                                // Scope-Fokus NICHT behalten: Verliert das Feld den
-                                // activeFocus (z. B. weil der Nutzer ins Chat-Feld
-                                // wechselt), würde ein `focus == true` im Fokus-Scope
-                                // hängenbleiben. Beim nächsten Re-Layout oder wenn ein
-                                // Chat-Overlay (eigener Fokus-Scope) schließt, gäbe der
-                                // Scope dem Feld den activeFocus von selbst zurück – und
-                                // es fängt ein Enter ab, das der Nutzer für den Chat
-                                // gedacht hatte (Spieler-Report: „im Chat tippen, mein
-                                // Zug kommt → Enter löst BET aus"). Fokus hier freigeben,
-                                // dann kann sich das Feld den activeFocus nie selbst
-                                // zurückholen; der (bewusste) Auto-Fokus kommt weiterhin
-                                // ausschließlich aus focusAndSelectAll() bei eigenem Zug.
+                                // Do NOT keep the scope focus: if the field loses the
+                                // activeFocus (e.g. because the user switches into the chat
+                                // field), a `focus == true` would stay stuck in the focus scope.
+                                // At the next re-layout or when a
+                                // chat overlay (a focus scope of its own) closes, the
+                                // scope would give the field the activeFocus back by itself – and
+                                // it would intercept an Enter that the user meant for the
+                                // chat (a player report: "typing in the chat, my
+                                // turn comes → Enter triggers BET"). Release the focus here,
+                                // then the field can never fetch the activeFocus back by itself;
+                                // the (deliberate) auto focus still comes
+                                // exclusively from focusAndSelectAll() on your own turn.
                                 focus = false
                                 text = actionBar.raiseAmount.toString()
                             }
@@ -886,7 +886,7 @@ Item {
                 }
             }
 
-            // Zeile 2: Pot-%-Buttons + All-In (bündig) + Spielmodus-Dropdown (rechts)
+            // Row 2: pot % buttons + all-in (flush) + the game mode dropdown (on the right)
             RowLayout {
                 width: parent.width - 16
                 spacing: 4
@@ -931,33 +931,33 @@ Item {
                     }
                 }
 
-                // All-In / Show – bündig an die Pot-Buttons
-                // Im Post-River: zeigt "Show"-Button wenn der Spieler seine Karten
-                // freiwillig zeigen kann (temporär als Ersatz für All-In).
+                // All-in / show – flush with the pot buttons
+                // Post-river: it shows a "show" button when the player can show their cards
+                // voluntarily (temporarily as a replacement for all-in).
                 Rectangle {
                     id: allInBtn
                     readonly property bool isShowMode: typeof GameTable !== "undefined" && GameTable && GameTable.canShowCards
-                    // klickbar: exakt dieselbe Bedingung wie Fold/Check-Call
-                    // (actionsArmed). All-In ist immer zulässig, sobald ich
-                    // handeln darf – es gibt keinen separaten „All-In-verfügbar"-
-                    // Betrag wie beim Raise. Wichtig: actionsArmed lässt den
-                    // eigenen Zug (myTurn) allein gelten und verlangt NICHT
-                    // zusätzlich canAct. Sonst blieb der All-In-Button in dem
-                    // Zeitfenster gesperrt, in dem der Zug nur über den
-                    // Action-Timer signalisiert wird (startTimeout setzt myTurn,
-                    // canAct ist dann noch stale=false) – während Fold/Call/Raise
-                    // bereits klickbar waren. Der „Show"-Modus (isShowMode)
-                    // bleibt davon unberührt.
+                    // clickable: exactly the same condition as fold/check-call
+                    // (actionsArmed). All-in is always permitted as soon as I am allowed
+                    // to act – there is no separate "all-in available"
+                    // amount as with the raise. Important: actionsArmed lets
+                    // your own turn (myTurn) count on its own and does NOT additionally
+                    // demand canAct. Otherwise the all-in button stayed locked in the
+                    // time window in which the turn is only signalled via the
+                    // action timer (startTimeout sets myTurn,
+                    // canAct is then still stale=false) – while fold/call/raise
+                    // were already clickable. The "show" mode (isShowMode)
+                    // stays untouched by it.
                     readonly property bool armed: actionBar.actionsArmed
-                    // Vorwahl-Markierung nur, solange der Button auch klickbar ist.
+                    // The preselection mark only while the button is clickable as well.
                     readonly property bool preChecked: armed && actionBar.preAction === "allin"
-                    // Theme-Grafik nur im normalen All-In-Modus (nicht im
-                    // "Show"-Modus, der seine eigene grüne Optik behält).
+                    // The theme graphic only in the normal all-in mode (not in the
+                    // "show" mode, which keeps its own green look).
                     readonly property bool useTheme: !allInBtn.isShowMode
                                                      && StyleProvider && StyleProvider.allInButton !== ""
                     Layout.preferredWidth: 52
                     Layout.preferredHeight: actionBar.raiseRowHeight
-                    // Mit Theme-SVG den Radius des Stils, sonst den Fallback-Wert.
+                    // With a theme SVG the radius of the style, otherwise the fallback value.
                     radius: allInBtn.useTheme
                             ? actionBar.themeButtonRadius(allInBtn.width, allInBtn.height) : 5
                     opacity: (isShowMode || allInBtn.armed) ? 1.0 : 0.4
@@ -970,14 +970,14 @@ Item {
                     border.color: isShowMode ? "#80FF90"
                                 : allInBtn.preChecked ? "#FFD700"
                                 : Config.Theme.colorAllInEdge
-                    // Mit Theme-SVG entfällt der eigene Rahmen (SVG bringt seinen
-                    // mit); nur Show-/Vorwahl-Zustand zeichnet weiterhin einen.
+                    // With a theme SVG the border of its own is dropped (the SVG brings its
+                    // own); only the show/preselection state still draws one.
                     border.width: (isShowMode || allInBtn.preChecked) ? 2 : (allInBtn.useTheme ? 0 : 1)
                     scale: (allInArea.pressed && (allInBtn.armed || isShowMode)) ? 0.95 : 1.0
                     Behavior on scale { NumberAnimation { duration: 90; easing.type: Easing.OutQuad } }
 
-                    // Theme-SVG-Hintergrund (ohne Text). Inset um border.width,
-                    // damit ein evtl. Zustands-Rahmen (gold) sichtbar bleibt.
+                    // The theme SVG background (without text). Inset by border.width,
+                    // so that a possible state frame (gold) stays visible.
                     Image {
                         anchors.fill: parent
                         anchors.margins: allInBtn.border.width
@@ -988,7 +988,7 @@ Item {
                         fillMode: Image.Stretch
                         smooth: true
                     }
-                    // Hover-/Press-Feedback über dem Theme-SVG.
+                    // Hover/press feedback above the theme SVG.
                     Rectangle {
                         anchors.fill: parent
                         anchors.margins: allInBtn.border.width
@@ -1040,17 +1040,17 @@ Item {
                     model: [ qsTr("Manuell"), qsTr("Auto Check/Call"), qsTr("Auto Check/Fold") ]
                     currentIndex: actionBar.playingMode
                     onActivated: (index) => actionBar.applyPlayingMode(index)
-                    // Popup nach oben öffnen – verhindert, dass er hinter
-                    // der Android-Navigationsleiste verschwindet.
-                    // WICHTIG: popup.height, NICHT popup.implicitHeight – die
-                    // implizite Höhe des Universal-Popups bleibt 0 (die Höhe
-                    // kommt aus dem Stil: min(contentItem.implicitHeight,
-                    // Fensterhöhe − Ränder)). Mit implicitHeight war y also
-                    // immer 0, das Popup klappte nach UNTEN und wurde nur von
-                    // Qt selbst in die FENSTER-Grenzen geschoben – unter Android
-                    // reicht das Fenster aber hinter die Navigationsleiste,
-                    // sodass der unterste Eintrag (Auto Check/Fold) im Hochformat
-                    // nicht mehr antippbar war.
+                    // Open the popup upwards – it prevents it from disappearing behind
+                    // the Android navigation bar.
+                    // IMPORTANT: popup.height, NOT popup.implicitHeight – the
+                    // implicit height of the universal popup stays 0 (the height
+                    // comes from the style: min(contentItem.implicitHeight,
+                    // the window height − the margins)). With implicitHeight y was thus
+                    // always 0, the popup opened DOWNWARDS and was only pushed into the
+                    // WINDOW bounds by Qt itself – on Android, however,
+                    // the window reaches behind the navigation bar,
+                    // so that the lowest entry (auto check/fold) could no longer be
+                    // tapped in portrait.
                     popup.y: -popup.height
 
                     contentItem: Text {
@@ -1072,14 +1072,14 @@ Item {
             }
         }
 
-        // ── Aktions-Buttons: Fold / Check-Call / Bet-Raise ────────────────
-        // Dynamische Beschriftung + Aktivierung wie im Qt-Widgets-Client.
+        // ── The action buttons: fold / check-call / bet-raise ─────────────
+        // A dynamic caption + activation as in the Qt widgets client.
         Item {
             width: parent.width
             height: actionBar.actionRowHeight
 
-            // Wiederverwendbarer Aktions-Button mit Verlauf, dynamischem Text und
-            // Vorwahl-Zustand (goldener Rahmen = vorgemerkt).
+            // A reusable action button with a gradient, dynamic text and a
+            // preselection state (a golden frame = noted).
             component ActionButton: Item {
                 id: ab
                 property string actionKey: ""
@@ -1087,26 +1087,26 @@ Item {
                 property color topColor: "#4080d8"
                 property color bottomColor: "#1a3d8b"
                 property color edgeColor: "#6aa0e8"
-                // Schriftfarbe: vom Theme vorgegeben bzw. automatisch
-                // kontrastiert (s. StyleProvider). Default für den
-                // Fallback-Gradient-Button.
+                // The text colour: given by the theme or contrasted
+                // automatically (see StyleProvider). The default for the
+                // fallback gradient button.
                 property color textColor: "#F0F0F0"
-                // Aktions-Button-Grafik des aktuellen Tisch-Stils (nur Optik/
-                // Rahmen, ohne Text). Leer → Fallback auf den hartcodierten
-                // Gradient-Button.
+                // The action button graphic of the current table style (only the look/
+                // frame, without text). Empty → a fallback to the hardcoded
+                // gradient button.
                 property url themeSource: ""
                 readonly property bool hasTheme: ab.themeSource != ""
-                property bool armed: false   // klickbar: eigener Zug ODER Vorwahl möglich
-                property bool highlight: false   // primäre Aktion hervorheben (Raise)
-                // Call-Blocker: nur der Call-Button wird nach einer Betrags-/
-                // Beschriftungsänderung kurz gesperrt (s. actionBar.callBlocked).
+                property bool armed: false   // clickable: your own turn OR a preselection is possible
+                property bool highlight: false   // highlight the primary action (raise)
+                // The call blocker: only the call button is locked briefly after an amount/
+                // caption change (see actionBar.callBlocked).
                 readonly property bool blocked: ab.actionKey === "call" && actionBar.callBlocked
                 readonly property bool myTurnNow: GameTable !== null
                                                   && (GameTable.myTurn || GameTable.awaitingMyAction)
-                // Vorwahl-Markierung (goldener Rahmen/Punkt) nur, solange der
-                // Button auch klickbar ist. Sonst bliebe nach Runden-/Handende
-                // eine veraltete Vorauswahl sichtbar, obwohl die Buttons in der
-                // Übergangsphase inaktiv sind.
+                // The preselection mark (a golden frame/dot) only while the
+                // button is clickable as well. Otherwise a stale preselection would stay
+                // visible after the end of a round/hand, although the buttons are inactive in
+                // the transition phase.
                 readonly property bool preChecked: ab.armed && ab.actionKey !== "" && actionBar.preAction === ab.actionKey
 
                 // onArmedChanged: console.log("[ACTDBG] armed", ab.actionKey, "→", ab.armed,
@@ -1116,7 +1116,7 @@ Item {
 
                 opacity: (!ab.armed || ab.blocked) ? 0.4 : ((ab.myTurnNow || ab.preChecked) ? 1.0 : 0.72)
 
-                // Theme-SVG-Hintergrund (nur Optik, ohne eingebackenen Text)
+                // The theme SVG background (only the look, without baked-in text)
                 Image {
                     anchors.fill: parent
                     visible: ab.hasTheme
@@ -1127,7 +1127,7 @@ Item {
                     smooth: true
                 }
 
-                // Fallback-Gradient-Button (kein Theme-SVG vorhanden)
+                // The fallback gradient button (no theme SVG present)
                 Rectangle {
                     anchors.fill: parent
                     visible: !ab.hasTheme
@@ -1140,17 +1140,17 @@ Item {
                     }
                 }
 
-                // Zustands-Rahmen ÜBER dem Theme-SVG: Vorwahl (gold) bzw.
-                // primäre Aktion (Raise) hervorheben. Beim Fallback erledigt
-                // das der border des Gradient-Rechtecks oben.
+                // The state frame ABOVE the theme SVG: highlight the preselection (gold) or
+                // the primary action (raise). With the fallback that
+                // is done by the border of the gradient rectangle above.
                 //
-                // Der Rahmen wird in der 168x43-Zeichenfläche des Button-SVG
-                // gezeichnet und mit derselben (ungleichmäßigen) Skalierung
-                // gestreckt wie das Bild. Nur so deckt er sich mit der Kontur:
-                // Image.Stretch macht aus der SVG-Ecke eine Ellipse, und ein
-                // Rectangle.radius in Pixeln kann immer nur kreisrund sein –
-                // im Portrait ist der Button deutlich gedrungener als 168x43,
-                // dort liefen die beiden Radien sichtbar auseinander.
+                // The frame is drawn in the 168x43 drawing area of the button SVG
+                // and stretched with the same (uneven) scaling
+                // as the image. Only that way does it match the contour:
+                // Image.Stretch turns the SVG corner into an ellipse, and a
+                // Rectangle.radius in pixels can only ever be circular –
+                // in portrait the button is considerably more squat than 168x43,
+                // and there the two radii visibly diverged.
                 Rectangle {
                     visible: ab.hasTheme && (ab.preChecked || (ab.highlight && ab.armed))
                     width: 168
@@ -1161,17 +1161,17 @@ Item {
                     }
                     radius: actionBar.themeButtonRadiusUnits
                     color: "transparent"
-                    // In Zeichenflächen-Einheiten; die Skalierung dünnt sie auf
-                    // die gewohnten ~2 px aus.
+                    // In drawing area units; the scaling thins them down to
+                    // the usual ~2 px.
                     border.width: 2.6
                     border.color: ab.preChecked ? "#FFD700" : ab.edgeColor
                 }
 
-                // Press-Feedback: kurzes Einsinken beim Tippen.
+                // Press feedback: a brief sinking in when tapping.
                 scale: (abMouse.pressed && ab.armed) ? 0.96 : 1.0
                 Behavior on scale { NumberAnimation { duration: 90; easing.type: Easing.OutQuad } }
 
-                // Raise als primäre Aktion mit weichem Glow hervorheben.
+                // Highlight raise as the primary action with a soft glow.
                 layer.enabled: Config.Theme.effectsEnabled && ab.highlight && ab.armed
                 layer.effect: MultiEffect {
                     shadowEnabled: true
@@ -1193,7 +1193,7 @@ Item {
                     lineHeight: 0.95
                 }
 
-                // kleiner "vorgemerkt"-Punkt oben rechts
+                // a small "noted" dot at the top right
                 Rectangle {
                     visible: ab.preChecked
                     anchors { top: parent.top; right: parent.right; margins: 4 }
@@ -1241,9 +1241,9 @@ Item {
                     topColor: Config.Theme.colorFoldTop
                     bottomColor: Config.Theme.colorFoldBottom
                     edgeColor: Config.Theme.colorFoldEdge
-                    // myTurnNow gatet nie den echten Zug; preSelectEnabled sperrt
-                    // die Vorauswahl nach eigenem Zug/Rundenwechsel. Im Showdown
-                    // und am Rundenende (canAct=false) immer aus.
+                    // myTurnNow never gates the real turn; preSelectEnabled locks
+                    // the preselection after your own turn/a round change. In the showdown
+                    // and at the end of a round (canAct=false) always off.
                     armed: actionBar.actionsArmed
                 }
 
@@ -1272,7 +1272,7 @@ Item {
                     topColor: Config.Theme.colorRaiseTop
                     bottomColor: Config.Theme.colorRaiseBottom
                     edgeColor: Config.Theme.colorRaiseEdge
-                    highlight: true     // primäre Aktion betonen
+                    highlight: true     // emphasize the primary action
                     armed: actionBar.actionsArmed && actionBar.raiseAvailable
                 }
             }

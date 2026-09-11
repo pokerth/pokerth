@@ -4,35 +4,35 @@ import QtQuick.Layouts
 
 import "../config" as Config
 
-// Generisches Ja/Nein-Bestätigungs-Popup (analog zum MessageBox::question
-// des Qt-Widgets-Clients). Vor dem Öffnen Titel/Text über openWith() setzen;
-// bei Bestätigung wird das confirmed()-Signal emittiert.
+// Generic yes/no confirmation popup (analogous to MessageBox::question of the
+// Qt widgets client). Set the title/text via openWith() before opening; on
+// confirmation the confirmed() signal is emitted.
 Popup {
     id: root
 
-    // Auf das Fenster-Overlay zentrieren, damit das Popup auch dann mittig
-    // erscheint, wenn es in einem kleinen Delegate (z. B. GameListItem)
-    // instanziiert wird.
+    // Centre on the window overlay so that the popup also appears in the middle
+    // when it is instantiated inside a small delegate (e.g. GameListItem).
+    // it is instantiated.
     parent: Overlay.overlay
     anchors.centerIn: parent
     modal: true
     padding: 20
     width: Math.min((parent ? parent.width : 360) * 0.85, 340)
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-    // Ohne focus:true bekommt das Popup keine Tastatureingaben: Escape würde
-    // geschluckt (Popup bleibt offen, der Escape-Shortcut des Fensters greift
-    // ebenfalls nicht) und Enter liefe ins Leere.
+    // Without focus:true the popup gets no keyboard input: Escape would be
+    // swallowed (the popup stays open, the Escape shortcut of the window does
+    // not fire either) and Enter would go nowhere.
     focus: true
 
-    // Startfokus auf den Bestätigen-Button, wie bei einer Windows-MessageBox:
-    // Enter bestätigt, Tab wechselt zu Abbrechen, Escape schließt.
+    // Initial focus on the confirm button, as in a Windows message box:
+    // Enter confirms, Tab moves to cancel, Escape closes.
     onOpened: confirmButton.forceActiveFocus()
 
     property string title: ""
     property string message: ""
     property string confirmText: qsTr("Yes")
-    // false = reiner Hinweis-Dialog: nur der Bestätigen-Button (z. B. "OK"),
-    // kein Abbrechen (analog zu MessageBox::information/warning).
+    // false = pure notice dialog: only the confirm button (e.g. "OK"),
+    // no cancel (analogous to MessageBox::information/warning).
     property bool showCancel: true
 
     signal confirmed()

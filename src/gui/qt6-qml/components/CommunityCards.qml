@@ -3,23 +3,23 @@ import QtQuick.Effects
 
 import "../config" as Config
 
-// Gemeinschaftskarten (Flop/Turn/River) + Pott-Badge in der Tischmitte.
-// Größe = Kartenreihe; Position/Skalierung/z setzt der Aufrufer (anchors +
-// scale), damit die Karten je nach Tisch-Layout zentriert bleiben.
+// Community cards (flop/turn/river) + pot badge in the centre of the table.
+// Size = the card row; position/scaling/z is set by the caller (anchors +
+// scale), so that the cards stay centred depending on the table layout.
 Item {
     id: root
 
-    // Querformat? Steuert den Abstand des Pott-Badges zur Kartenreihe.
+    // Landscape? Controls the distance of the pot badge to the card row.
     property bool wide: false
 
-    // Effektive Tisch-Skalierung dieser Kartenreihe (communityScale × Zoom), an
-    // die Karten weitergereicht, damit ihr SVG-Raster die echte Bildschirmgröße
-    // trifft (s. CardImage.renderScale).
+    // Effective table scaling of this card row (communityScale × zoom), passed on
+    // to the cards so that their SVG raster hits the real screen size
+    // (see CardImage.renderScale).
     property real cardRenderScale: 1.0
 
-    // True, solange irgendein Board-Slot gerade neue Karten aufdeckt
-    // (Stagger/Rückseite/Flip). Die Action-Bar sperrt darauf die Buttons –
-    // während Aufdeck-Animationen ist keine Aktion möglich.
+    // True while any board slot is currently revealing new cards
+    // (stagger/backside/flip). The action bar locks the buttons on it –
+    // during reveal animations no action is possible.
     readonly property bool dealing: slot0.revealing || slot1.revealing
                                     || slot2.revealing || slot3.revealing
                                     || slot4.revealing
@@ -28,23 +28,23 @@ Item {
     height: cardRow.height
     transformOrigin: Item.Center
 
-    // Inline-Komponente für einen einzelnen Board-Card-Slot.
-    // Karten-Seitenverhältnis 120:168 (≈0,714).
+    // Inline component for a single board card slot.
+    // Card aspect ratio 120:168 (≈0.714).
     //
-    // Deal-Sequenz (wie Widget-Client):
-    //   1. Platzhalter-Rahmen sichtbar (Ausgangszustand)
-    //   2. isDealt → nach Stagger-Pause: _displayIndex = -1  (Rückseite erscheint)
-    //   3. Kurze Pause (wie dealCardsSpeed im Widget-Client)
-    //   4. _displayIndex = actualCardIndex  → CardImage.onIsBackChanged feuert den Flip
+    // Deal sequence (as in the widget client):
+    //   1. placeholder frame visible (initial state)
+    //   2. isDealt → after the stagger pause: _displayIndex = -1  (the backside appears)
+    //   3. short pause (like dealCardsSpeed in the widget client)
+    //   4. _displayIndex = actualCardIndex  → CardImage.onIsBackChanged fires the flip
     component CommunitySlot: Item {
         id: slot
         property int boardIndex: 0
         width: 46; height: 64
 
-        // Showdown-Spotlight: gehört diese Board-Karte nicht zum Siegerblatt,
-        // wird sie auf 25 % Deckkraft abgeblendet (Einstellung „Ausblend-
-        // Animation für Verliererkarten", Config-Key ShowFadeOutCardsAnimation).
-        // Daten: GameHandler.boardCardFade (5 Bools je Board-Karte).
+        // Showdown spotlight: if this board card does not belong to the winning hand,
+        // it is dimmed to 25 % opacity (setting "fade out animation
+        // for loser cards", config key ShowFadeOutCardsAnimation).
+        // Data: GameHandler.boardCardFade (5 bools per board card).
         readonly property bool fadeLosingCards:
             (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
                 ? SettingsManager.readConfigInt("ShowFadeOutCardsAnimation") !== 0 : true
@@ -57,9 +57,9 @@ Item {
         opacity: faded ? 0.25 : 1.0
         Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.InOutQuad } }
 
-        // Deckt dieser Slot gerade auf? (Stagger + Rückseite + Flip). Solange
-        // true, sperrt die Action-Bar die Buttons. dealAnim deckt mit der
-        // abschließenden Pause auch die ~470 ms CardImage-Flip-Animation ab.
+        // Is this slot currently revealing? (stagger + backside + flip). While it is
+        // true, the action bar locks the buttons. With its closing pause, dealAnim
+        // also covers the ~470 ms CardImage flip animation.
         readonly property bool revealing: dealAnim.running
 
         readonly property bool isDealt: {
@@ -74,10 +74,10 @@ Item {
             return (cards && boardIndex < cards.length) ? cards[boardIndex] : -1
         }
 
-        // -2 = Platzhalter (noch nichts), -1 = Rückseite, 0-51 = Vorderseite
+        // -2 = placeholder (nothing yet), -1 = backside, 0-51 = front side
         property int _displayIndex: -2
 
-        // Platzhalter-Rahmen: nur sichtbar solange noch keine Karte gezeigt wird
+        // Placeholder frame: only visible while no card is shown yet
         Rectangle {
             anchors.fill: parent
             visible: slot._displayIndex === -2
@@ -87,7 +87,7 @@ Item {
             border.color: Qt.rgba(1, 1, 1, 0.38)
         }
 
-        // Karte: Rückseite (cardIndex -1) oder Vorderseite (cardIndex 0-51)
+        // Card: backside (cardIndex -1) or front side (cardIndex 0-51)
         CardImage {
             anchors.fill: parent
             visible: slot._displayIndex !== -2
@@ -104,25 +104,25 @@ Item {
             }
         }
 
-        // Stagger → Rückseite zeigen → Flip auf Vorderseite (ScriptAction setzt
-        // _displayIndex, was CardImage.onIsBackChanged und damit den Flip auslöst).
+        // Stagger → show the backside → flip to the front side (a ScriptAction sets
+        // _displayIndex, which triggers CardImage.onIsBackChanged and thereby the flip).
         SequentialAnimation {
             id: dealAnim
-            // Flop gestaffelt (0 / 140 / 280 ms); Turn/River ohne Delay
+            // Flop staggered (0 / 140 / 280 ms); turn/river without a delay
             PauseAnimation { duration: slot.boardIndex < 3 ? slot.boardIndex * 220 : 0 }
             ScriptAction   { script: { slot._displayIndex = -1 } }
-            // Pause: Rückseite ist sichtbar (analog dealCardsSpeed im Widget-Client)
+            // Pause: the backside is visible (analogous to dealCardsSpeed in the widget client)
             PauseAnimation { duration: 160 }
-            // Jetzt auf Vorderseite drehen → CardImage-Flip-Animation feuert
+            // Now turn to the front side → the CardImage flip animation fires
             ScriptAction   { script: { slot._displayIndex = slot.actualCardIndex } }
-            // Flip-Dauer abwarten (CardImage: 170 + 300 ms), damit `revealing`
-            // bis zum Ende der Aufdeck-Animation true bleibt.
+            // Wait for the flip duration (CardImage: 170 + 300 ms) so that `revealing`
+            // stays true until the end of the reveal animation.
             PauseAnimation { duration: 480 }
         }
     }
 
-    // Weicher Lichtschein hinter den Gemeinschaftskarten → Fokus auf die
-    // Tischmitte (dezent, warm).
+    // Soft glow behind the community cards → focus on the
+    // centre of the table (subtle, warm).
     Rectangle {
         anchors.centerIn: cardRow
         width: cardRow.width + 80
@@ -158,24 +158,24 @@ Item {
         CommunitySlot { id: slot4; boardIndex: 4 }
     }
 
-    // Pot prominent in der Tischmitte (über den Karten): Chip-Icon +
-    // Betrag mit goldenem Glow. Poppt bei Pot-Erhöhung (Mikroanimation).
+    // The pot prominently in the centre of the table (above the cards): chip icon +
+    // amount with a golden glow. Pops when the pot grows (micro animation).
     Item {
         id: potBadge
         anchors.horizontalCenter: cardRow.horizontalCenter
         anchors.bottom: cardRow.top
-        // Gleicher Abstand zur Kartenreihe wie das Winning-Hand-Badge
-        // darunter; Portrait kompakter (6) als Querformat (8). Skaliert
-        // mit oppScale, da innerhalb communityArea.
+        // The same distance to the card row as the winning hand badge
+        // below it; portrait more compact (6) than landscape (8). Scales
+        // with oppScale, being inside communityArea.
         anchors.bottomMargin: root.wide ? 8 : 6
         visible: (typeof GameTable !== "undefined" && GameTable) ? GameTable.totalPot > 0 : false
         width: potRow.width + 12
         height: 20
         transformOrigin: Item.Center
 
-        // Hintergrund mit goldenem Glow. Eigener Layer, damit der MultiEffect
-        // nur die Pille (nicht Chip/Text) rendert – sonst werden Schrift und
-        // Puck vom Glow überlagert und beim Hochskalieren (oppScale) unscharf.
+        // Background with a golden glow. A layer of its own so that the MultiEffect
+        // renders only the pill (not the chip/text) – otherwise the text and the
+        // puck would be overlaid by the glow and get blurry when scaled up (oppScale).
         Rectangle {
             anchors.fill: parent
             radius: 12
@@ -193,8 +193,8 @@ Item {
             }
         }
 
-        // Chip + Betrag liegen über dem Glow und werden direkt (vektoriell,
-        // ohne Layer-Textur) gerendert → bleiben gestochen scharf.
+        // The chip + the amount lie above the glow and are rendered directly
+        // (as vectors, without a layer texture) → they stay razor sharp.
         Row {
             id: potRow
             anchors.centerIn: parent

@@ -6,41 +6,41 @@ import "../config" as Config
 SeatBox {
     id: root
 
-    // Winner-Badge unterhalb statt oberhalb der Box anzeigen – nur für die oberste
-    // Box (Player 5) im Hochformat sinnvoll, sonst würde es oben anstoßen.
+    // Show the winner badge below instead of above the box – only sensible for the
+    // topmost box (player 5) in portrait, otherwise it would bump into the top.
     property bool winnerBelow: false
-    // Seite, auf der Einsatz-Chip + Dealer/Blind-Button angezeigt werden:
-    // "top" | "bottom" | "left" | "right". Default leitet sich aus 'up' ab.
+    // The side on which the bet chip + the dealer/blind button are shown:
+    // "top" | "bottom" | "left" | "right". The default is derived from 'up'.
     property string betSide: up ? "bottom" : "top"
-    // Geteilte Anzeige: Dealer/Blind-Button LINKS neben der Box, Einsatz
-    // RECHTS neben der Box – beides vertikal mittig. Für die oberste Box im
-    // landscapeCompact, deren Badge sonst unterhalb mit dem Pot-Badge
-    // kollidiert. Übersteuert betSide.
+    // A split display: the dealer/blind button LEFT of the box, the bet
+    // RIGHT of the box – both vertically centred. For the topmost box in
+    // landscapeCompact, whose badge would otherwise collide below with the pot badge.
+    // It overrides betSide.
     property bool betSplit: false
 
-    // Effektive Tisch-Skalierung, Sitzdaten und Sockel-Maße: siehe SeatBox.
-    // Dynamische Breite: 2×hMargin(4) + AvatarCardRow.implicitWidth(avatarH+4+2·cardW+4)
+    // Effective table scaling, seat data and base dimensions: see SeatBox.
+    // Dynamic width: 2×hMargin(4) + AvatarCardRow.implicitWidth(avatarH+4+2·cardW+4)
     readonly property int _topRowH: bodyH - (wideLayout ? 44 : 28)
     readonly property int _cardW:   Math.round(_topRowH * 120 / 168)
     implicitWidth: 2 * 4 + _topRowH + 4 + 2 * _cardW + 4
     implicitHeight: 84 + betStripH
 
-    // Ausgeschieden (kein Geld mehr) - eigener Default gegenüber der Self-Box.
+    // Knocked out (no money left) - a default of its own as opposed to the self box.
     readonly property bool isActive: seatData ? seatData.active : false
-    // Avatare ignorierter Spieler ausblenden (Basis-Property gegenbinden),
-    // sofern DontHideAvatarsOfIgnored das nicht abschaltet.
+    // Hide the avatars of ignored players (bind against the base property),
+    // unless DontHideAvatarsOfIgnored switches that off.
     hideIgnoredAvatar:
         playerIgnored
         && ((typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
                 ? SettingsManager.readConfigInt("DontHideAvatarsOfIgnored") === 0 : true)
 
-    // ── Kontextaktionen ──────────────────────────────────────────────────────
-    // Rechtsklick (Desktop) bzw. langer Druck (Touch) auf eine Gegnerbox öffnet
-    // ein Kontextmenü mit „Ignore Player", „Unignore Player", „Show player
-    // stats" und der Spieler-Notiz – wie der Qt-Widgets-Client (MyAvatarLabel)
-    // bzw. die Lobby-Spielerliste (PlayerListItem). Die Aktionen greifen nur im
-    // Netzwerkspiel: nur dort trägt seatData eine playerId (für lokale
-    // Spiele/CPU-Gegner 0 → kein Menü).
+    // ── Context actions ──────────────────────────────────────────────────────
+    // A right click (desktop) or a long press (touch) on an opponent box opens
+    // a context menu with "ignore player", "unignore player", "show player
+    // stats" and the player note – as in the Qt widgets client (MyAvatarLabel)
+    // or the lobby player list (PlayerListItem). The actions only apply in a
+    // network game: only there does seatData carry a playerId (for local
+    // games/CPU opponents 0 → no menu).
     readonly property bool targetIsComputer:
         seatData && seatData.isComputer !== undefined ? seatData.isComputer : false
     readonly property int targetPlayerId:
@@ -57,9 +57,9 @@ SeatBox {
     readonly property bool canIgnore: !targetIsGuest && !targetIsSelf && !playerIgnored
     readonly property bool canUnignore: !targetIsGuest && !targetIsSelf && playerIgnored
     readonly property bool canShowStats: !targetIsGuest
-    // Avatar melden: nur im Internet-Spiel und nur wenn der Spieler einen
-    // (existierenden) Avatar gesetzt hat – 1:1 wie der Qt-Widgets-Client
-    // (MyAvatarLabel). seatData.avatar ist nur bei vorhandener Datei gesetzt.
+    // Report an avatar: only in an internet game and only if the player has set an
+    // (existing) avatar – 1:1 as in the Qt widgets client
+    // (MyAvatarLabel). seatData.avatar is only set when a file is present.
     readonly property bool canReportAvatar:
         !targetIsSelf
         && (typeof GameTable !== "undefined" && GameTable && GameTable.isInternetGameRunning())
@@ -68,12 +68,12 @@ SeatBox {
         targetPlayerId !== 0 && !targetIsComputer
         && (canIgnore || canUnignore || canShowStats || canReportAvatar || canEditNote)
 
-    // ── Spieler-Notiz und -Bewertung ─────────────────────────────────────────
-    // Eigene, rein lokale Notiz (Sterne + Text) zu einem Mitspieler, gespeichert
-    // im selben Config-Eintrag wie im Qt-Widgets-Client (siehe
-    // SettingsManager::setPlayerNote). Wie dort nur im Internet-Spiel: nur da
-    // steht hinter dem Namen ein dauerhaft registriertes Konto, an dem eine
-    // namensbasierte Notiz überhaupt hängen bleiben kann.
+    // ── Player note and rating ───────────────────────────────────────────────
+    // Your own, purely local note (stars + text) about a fellow player, stored
+    // in the same config entry as in the Qt widgets client (see
+    // SettingsManager::setPlayerNote). As there, only in an internet game: only there
+    // is there a permanently registered account behind the name that a
+    // name based note can stick to at all.
     readonly property bool canEditNote:
         !targetIsGuest && !targetIsSelf && !targetIsComputer
         && (typeof GameTable !== "undefined" && GameTable && GameTable.isInternetGameRunning())
@@ -90,21 +90,21 @@ SeatBox {
             ? SettingsManager.playerNote(root.targetPlayerName) : ""
     }
 
-    // Widescreen-Layout: Box ist groß genug für 2-zeilige Info (Name + Flagge/Cash).
-    // Nutzt height >= 76 als Proxy für tableZone.wide (oppBaseHeight = wide ? 84 : 71).
-    // Bewusst NICHT Config.Responsive.landscape – die Tablezone kann breiter als
-    // hoch sein, auch wenn das Gesamtfenster (inkl. Toolbar) hochformat-mäßig ist.
-    // Sockelhöhe herausrechnen: sonst würde eine Portrait-Box (71 + Sockel)
-    // fälschlich über die 76er-Schwelle rutschen und den 2-zeiligen
-    // Landscape-Footer bekommen.
+    // Wide screen layout: the box is large enough for 2 line info (name + flag/cash).
+    // It uses height >= 76 as a proxy for tableZone.wide (oppBaseHeight = wide ? 84 : 71).
+    // Deliberately NOT Config.Responsive.landscape – the table zone can be wider than
+    // high even when the whole window (incl. the toolbar) is portrait-like.
+    // Subtract the base height: otherwise a portrait box (71 + the base) would
+    // wrongly slip above the threshold of 76 and would get the 2 line
+    // landscape footer.
     readonly property bool wideLayout: bodyH >= 76
 
-    // Nur anzeigen wenn der Sitz besetzt ist
+    // Only show it when the seat is occupied
     visible: root.seatData !== null && root.seatData.name !== ""
 
-    // Informationsdichte: wer raus ist (kein Geld mehr → !isActive) wird deutlich
-    // abgedunkelt, wer nur gefoldet hat dezent zurückgenommen. So heben sich der
-    // aktive Spieler und die noch laufende Hand klarer hervor.
+    // Information density: whoever is out (no money left → !isActive) is clearly
+    // darkened, whoever has only folded is pulled back subtly. That way the
+    // active player and the hand still running stand out more clearly.
     opacity: !root.isActive ? Config.Theme.dimmedOpacity
            : (root.folded ? 0.72 : 1.0)
     Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.OutQuad } }
@@ -115,27 +115,27 @@ SeatBox {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        // Körper + (aufgeklappter) Sockel. Der Rest der reservierten Höhe
-        // bleibt leer, solange der Spieler nichts gesetzt hat.
+        // The body + the (unfolded) base. The rest of the reserved height
+        // stays empty while the player has not bet anything.
         height: root.bodyH + betStrip.height
         color: "transparent"
         property int hMargin: 4
 
-        // Aktiver Spieler leicht „angehoben" → mehr Tiefe/Fokus (sanfter Übergang).
+        // The active player is slightly "raised" → more depth/focus (a gentle transition).
         scale: root.isAtTurn ? 1.04 : 1.0
         transformOrigin: Item.Center
         Behavior on scale { NumberAnimation { duration: 180; easing.type: Easing.OutQuad } }
 
-        // Karten-Hintergrund mit dezentem Verlauf + weichem Schlagschatten → die
-        // Box wirkt als angehobene Karte statt als flache Fläche.
+        // A card background with a subtle gradient + a soft drop shadow → the
+        // box looks like a raised card instead of a flat surface.
         PlayerBoxBackground {}
 
-        // Highlight: aktiver Spieler bekommt einen gold Rahmen + weichen Glow.
+        // Highlight: the active player gets a gold frame + a soft glow.
         PlayerTurnGlow { active: root.isAtTurn }
 
-        // Avatar + Karten: AvatarCardRow garantiert cardH == topRowH (keine
-        // Rundungsdifferenz). Abstände: 4 px links, 4 px Avatar↔Karten,
-        // 4 px zwischen den Karten, 4 px rechts (= implicitWidth-Formel oben).
+        // Avatar + cards: AvatarCardRow guarantees cardH == topRowH (no
+        // rounding difference). Spacings: 4 px on the left, 4 px avatar↔cards,
+        // 4 px between the cards, 4 px on the right (= the implicitWidth formula above).
         AvatarCardRow {
             id: cardRow
             x: playerBox.hMargin
@@ -152,9 +152,9 @@ SeatBox {
             playerActive: root.isActive
         }
 
-        // Portrait: Name + (Notiz-Badge) + Stack einzeilig. Anker statt fester
-        // Hälften, damit das Badge nur den Platz nimmt, den es wirklich braucht,
-        // und der Name um genau diesen Betrag früher elidiert.
+        // Portrait: name + (note badge) + stack on one line. Anchors instead of fixed
+        // halves, so that the badge only takes the room it really needs
+        // and the name elides exactly that much earlier.
         Item {
             visible: !root.wideLayout
             width: parent.width - 2 * playerBox.hMargin
@@ -221,11 +221,11 @@ SeatBox {
                 text: root.seatData && root.seatData.name !== "" ? root.seatData.name : "---"
             }
 
-            // Notiz/Bewertung in die NAMENSZEILE, nicht in die untere Zeile: dort
-            // stehen bereits Flagge (22+6) und Stack (bis ~55 px bei sechs
-            // Stellen) – zusammen mit dem Badge wäre das mehr als die 106 px
-            // Innenbreite der Box (oppBaseWidth 114 − 2×hMargin). Hier oben
-            // konkurriert es nur mit dem Namen, der ohnehin elidiert.
+            // The note/rating goes into the NAME LINE, not into the lower line: there
+            // the flag (22+6) and the stack (up to ~55 px with six
+            // digits) already stand – together with the badge that would be more than the 106 px
+            // inner width of the box (oppBaseWidth 114 − 2×hMargin). Up here
+            // it only competes with the name, which elides anyway.
             PlayerNoteBadge {
                 id: wideBadge
                 anchors.right: parent.right
@@ -259,8 +259,8 @@ SeatBox {
             }
         }
 
-        // Einsatz-Sockel am unteren Boxrand (Sitz-Stil "inset"). 1 px innerhalb
-        // des Rahmens von PlayerBoxBackground, damit dessen Rand sichtbar bleibt.
+        // The bet base at the lower box edge (seat style "inset"). 1 px inside
+        // the frame of PlayerBoxBackground, so that its border stays visible.
         PlayerBetStrip {
             id: betStrip
             open: root.stripOpen
@@ -270,19 +270,19 @@ SeatBox {
             anchors.bottom: parent.bottom
         }
 
-        // Winner-Hervorhebung: goldener Rahmen (verdeckt die Karten NICHT) +
-        // „WINNER"-Badge. Badge standardmäßig über der Box; nur die oberste Box
-        // (winnerBelow) zeigt es unterhalb, sonst stieße es am Bildschirmrand an.
-        // Kind von playerBox (nicht von root): der Rahmen soll den KÖRPER
-        // umschließen, nicht die darunter reservierte, leere Sockelhöhe.
+        // Winner highlight: a golden frame (it does NOT cover the cards) +
+        // a "WINNER" badge. The badge is above the box by default; only the topmost box
+        // (winnerBelow) shows it below, otherwise it would bump into the screen edge.
+        // A child of playerBox (not of root): the frame should enclose the BODY,
+        // not the empty base height reserved below it.
         PlayerWinnerOverlay {
             active: root.isWinner
             below: root.winnerBelow
         }
     }
 
-    // Aktions-Anzeige (Fold/Check/Call/Bet/Raise/All-In) – zentriert über den
-    // Hole-Cards in den normalen Player-Boxen.
+    // Action display (fold/check/call/bet/raise/all-in) – centred above the
+    // hole cards in the normal player boxes.
     PlayerActionBadge {
         id: actionBadge
         visible: root.actionText !== "" && !root.isWinner
@@ -296,8 +296,8 @@ SeatBox {
         y: cardsCenterY - height / 2
     }
 
-    // Action-Timeout: schlanker Fortschrittsbalken an der Stelle des Action-
-    // Badges, solange dieser Sitz am Zug ist (zählt über die Timeout-Dauer runter).
+    // Action timeout: a slim progress bar at the place of the action
+    // badge while this seat is to act (it counts down over the timeout duration).
     PlayerTimeoutBar {
         id: timeoutBar
         readonly property bool atTurn: (typeof GameTable !== "undefined" && GameTable)
@@ -311,10 +311,10 @@ SeatBox {
         y: actionBadge.cardsCenterY - height / 2
     }
 
-    // Einsatz (Chip + Betrag) + Dealer/Small-/Big-Blind-Button – gruppiert.
-    // Oben/unten-Mitte (betSide top/bottom): volle Boxbreite; Einsatz zentriert,
-    // Button rechtsbündig mit 6px Außenabstand – identisch zur Self-Box.
-    // Seiten (betSide left/right): Button unter dem Einsatz, beides vertikal zentriert.
+    // The bet (chip + amount) + the dealer/small/big blind button – grouped.
+    // Top/bottom centre (betSide top/bottom): the full box width; the bet centred,
+    // the button right-aligned with a 6px outer margin – identical to the self box.
+    // Sides (betSide left/right): the button below the bet, both vertically centred.
     Item {
         id: betGroup
         visible: (root.bet > 0 && !root.betInset) || root.buttonVisible
@@ -322,8 +322,8 @@ SeatBox {
 
         readonly property bool split: root.betSplit
         readonly property bool horizontal: !split && (root.betSide === "bottom" || root.betSide === "top")
-        // Im Stil "inset" steckt der Einsatz im Box-Sockel – die Gruppe trägt
-        // dann nur noch den Dealer-/Blind-Puck.
+        // In the style "inset" the bet sits in the box base – the group then
+        // only carries the dealer/blind puck.
         readonly property real betW: (root.bet > 0 && !root.betInset) ? betRow.width : 0
         readonly property real betH: (root.bet > 0 && !root.betInset) ? betRow.height : 0
         readonly property real btnW: root.buttonVisible ? buttonImg.width : 0
@@ -346,13 +346,13 @@ SeatBox {
             visible: root.bet > 0 && !root.betInset
             amount: root.bet
             textColor: "#f0f0f0"
-            // split: Einsatz rechts NEBEN der Box; sonst innerhalb zentriert.
+            // split: the bet to the right NEXT TO the box; otherwise centred inside.
             x: betGroup.split ? betGroup.width + 8 : (betGroup.width - width) / 2
             y: (betGroup.height - height) / 2
         }
 
-        // Dealer/Blind-Button – split: links NEBEN der Box; horizontal:
-        // rechtsbündig 6px vom Boxrand; Seiten: unterer Slot.
+        // Dealer/blind button – split: to the left NEXT TO the box; horizontal:
+        // right-aligned 6px from the box edge; sides: the lower slot.
         BlindButtonImage {
             id: buttonImg
             visible: root.buttonVisible
@@ -362,22 +362,22 @@ SeatBox {
                : betGroup.horizontal
                ? (betGroup.width - width - 6)
                : (root.betSide === "right" ? 0 : (betGroup.width - width))
-            // Seitlich (betSide left/right) saß der Puck im UNTEREN Slot, weil
-            // darüber der Einsatz stand. Steckt der Einsatz im Sockel, ist der
-            // Slot frei → Puck vertikal mittig neben die Box.
+            // At the sides (betSide left/right) the puck sat in the LOWER slot, because
+            // the bet stood above it. If the bet sits in the base, the
+            // slot is free → the puck goes vertically centred next to the box.
             y: (betGroup.horizontal || betGroup.split || root.betInset)
                ? (betGroup.height - height) / 2
                : (betGroup.height * 5 / 6 - height / 2)
         }
     }
 
-    // ── Rechtsklick-Kontextmenü (nur Desktop) ────────────────────────────────
-    // Fängt nur die rechte Maustaste ab; linke Klicks/Hover fallen an die
-    // darunterliegenden Elemente durch. Erscheint nur, wenn der Sitz einen
-    // echten Online-Mitspieler trägt (hasContextActions).
+    // ── Right click context menu (desktop only) ──────────────────────────────
+    // It only intercepts the right mouse button; left clicks/hover fall through to the
+    // elements below. It only appears when the seat carries a
+    // real online fellow player (hasContextActions).
     MouseArea {
-        // Nur über dem Boxkörper – die darunter reservierte Sockelhöhe ist
-        // leerer Tisch, dort darf kein Kontextmenü aufgehen.
+        // Only above the box body – the base height reserved below it is
+        // empty table, no context menu may open there.
         id: contextArea
         anchors.fill: playerBox
         z: 30
@@ -385,9 +385,9 @@ SeatBox {
         acceptedButtons: Qt.RightButton
         onClicked: (mouse) => contextMenu.popup(mouse.x, mouse.y)
 
-        // Touch hat keine rechte Maustaste: dort öffnet ein langer Druck
-        // dasselbe Menü. Bewusst auf Touch-Geräte beschränkt, damit ein
-        // gehaltener Linksklick mit der Maus weiterhin nichts auslöst.
+        // Touch has no right mouse button: there a long press opens
+        // the same menu. Deliberately limited to touch devices, so that a
+        // held left click with the mouse still triggers nothing.
         TapHandler {
             acceptedDevices: PointerDevice.TouchScreen
             enabled: root.hasContextActions
@@ -395,7 +395,7 @@ SeatBox {
         }
     }
 
-    // Einheitlich gestylter Menüeintrag (dunkles Theme, kollabiert wenn unsichtbar).
+    // A uniformly styled menu entry (a dark theme, it collapses when invisible).
     component CtxItem: MenuItem {
         height: visible ? implicitHeight : 0
         contentItem: AppText {
@@ -415,11 +415,11 @@ SeatBox {
     Menu {
         id: contextMenu
 
-        // Breite an den breitesten sichtbaren Eintrag anpassen (min. 180).
-        // Nötig, weil das ListView-contentItem des Menüs keine implicitWidth
-        // meldet – ohne das würde die Breite allein vom Background bestimmt und
-        // längere (auch übersetzte) Labels wie „Report inappropriate avatar"
-        // abgeschnitten.
+        // Adjust the width to the widest visible entry (at least 180).
+        // Necessary because the ListView contentItem of the menu reports no
+        // implicitWidth – without this the width would be determined by the background alone and
+        // longer (also translated) labels such as "Report inappropriate avatar"
+        // would be cut off.
         implicitWidth: {
             var w = 180
             for (var i = 0; i < count; ++i) {
@@ -430,7 +430,7 @@ SeatBox {
             return w
         }
 
-        // Dunkles Theme passend zur Tischoberfläche.
+        // A dark theme matching the table surface.
         background: Rectangle {
             implicitWidth: 180
             color: Config.Theme.colorBox
@@ -470,7 +470,7 @@ SeatBox {
 
     readonly property string targetPlayerName: root.seatData ? (root.seatData.name || "") : ""
 
-    // Rückfrage vor dem Ignorieren eines Spielers (versehentlicher Klick).
+    // Confirmation before ignoring a player (an accidental click).
     function confirmIgnore() {
         ignorePopup.openWith(
             qsTr("Ignore player"),
@@ -478,7 +478,7 @@ SeatBox {
             qsTr("Ignore player"))
     }
 
-    // Rückfrage vor dem Aufheben der Ignorierung eines Spielers.
+    // Confirmation before unignoring a player.
     function confirmUnignore() {
         unignorePopup.openWith(
             qsTr("Unignore player"),
@@ -486,8 +486,8 @@ SeatBox {
             qsTr("Unignore player"))
     }
 
-    // Rückfrage vor dem Melden eines unangemessenen Avatars (Port der
-    // Bestätigung aus MyAvatarLabel::reportBadAvatar).
+    // Confirmation before reporting an inappropriate avatar (a port of the
+    // confirmation from MyAvatarLabel::reportBadAvatar).
     function confirmReportAvatar() {
         reportAvatarPopup.openWith(
             qsTr("Report inappropriate avatar"),

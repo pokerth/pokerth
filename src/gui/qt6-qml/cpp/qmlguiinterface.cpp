@@ -23,8 +23,8 @@
 
 namespace
 {
-// Karten-Code (0-51) → Kurzform mit Unicode-Farbsymbol, z. B. "K♥".
-//   0-12 Karo(♦), 13-25 Herz(♥), 26-38 Pik(♠), 39-51 Kreuz(♣); Rang 2..A.
+// Card code (0-51) → a short form with a Unicode suit symbol, e.g. "K♥".
+//   0-12 diamonds(♦), 13-25 hearts(♥), 26-38 spades(♠), 39-51 clubs(♣); rank 2..A.
 QString fmtCard(int code)
 {
 	if (code < 0 || code > 51)
@@ -59,26 +59,26 @@ void QmlGuiInterface::SignalNetClientConnect(int actionID)
 		}, Qt::QueuedConnection);
 	}
 
-	// Client-Start (actionID 1 = MSG_SOCK_INIT_DONE, alle Verbindungsarten:
-	// Internet, LAN-Join, eigener Host): Android-Foreground-Service starten,
-	// damit die Verbindung Hintergrund-Phasen (Doze/App-Freezer) übersteht.
-	// Gestoppt wird bei Netzwerkfehler (SignalNetClientError) und beim
-	// Verlassen des Servers (LobbyHandler::leaveServer).
+	// Client start (actionID 1 = MSG_SOCK_INIT_DONE, all kinds of connection:
+	// internet, LAN join, own host): start the Android foreground service,
+	// so that the connection survives background phases (doze/app freezer).
+	// It is stopped on a network error (SignalNetClientError) and when
+	// leaving the server (LobbyHandler::leaveServer).
 	if (actionID == 1) {
 		AndroidConnectionService::start();
-		// iOS-Pendant: markiert die aktive Session, damit beim App-Wechsel eine
-		// Hintergrund-Gnadenfrist angefordert wird (s. iosbackgroundsession.h).
+		// The iOS counterpart: it marks the active session, so that a background
+		// grace period is requested when switching apps (see iosbackgroundsession.h).
 		IosBackgroundSession::start();
 	}
 }
 
 void QmlGuiInterface::SignalNetClientGameInfo(int actionID)
 {
-	// MSG_NET_GAME_CLIENT_SYNCREJOIN: Wir sind einem laufenden Spiel wieder
-	// beigetreten; der Server setzt uns aber erst zu Beginn der nächsten Hand
-	// an den Tisch. Bis dahin bleibt der Warteraum stehen - ohne Hinweis wäre
-	// das nicht von einem normalen Warten auf Mitspieler zu unterscheiden.
-	// Pendant zum Widgets-Client (waitRejoinStartGameMsgBox).
+	// MSG_NET_GAME_CLIENT_SYNCREJOIN: we have rejoined a running game;
+	// the server, however, only puts us at the table at the beginning of the next hand.
+	// Until then the waiting room stays - without a notice that
+	// would be indistinguishable from normally waiting for fellow players.
+	// The counterpart to the widgets client (waitRejoinStartGameMsgBox).
 	if (m_lobbyHandler && actionID == MSG_NET_GAME_CLIENT_SYNCREJOIN) {
 		QMetaObject::invokeMethod(m_lobbyHandler, [this]() {
 			m_lobbyHandler->onRejoinSyncWait();
@@ -88,9 +88,9 @@ void QmlGuiInterface::SignalNetClientGameInfo(int actionID)
 
 void QmlGuiInterface::SignalNetServerError(int errorID, int osErrorID)
 {
-	// Fehler des eingebetteten Servers (eigenes Netzwerkspiel hosten), z. B.
-	// belegter Port. Wie im Widgets-Client (signalNetServerError -> derselbe
-	// networkError-Slot) über denselben Weg melden - vorher verschluckt.
+	// Errors of the embedded server (hosting your own network game), e.g. an
+	// occupied port. Report it the same way as in the widgets client (signalNetServerError -> the same
+	// networkError slot) - it was swallowed before.
 	if (m_handler) {
 		QMetaObject::invokeMethod(m_handler, [this, errorID, osErrorID]() {
 			m_handler->onNetServerError(errorID, osErrorID);
@@ -105,13 +105,13 @@ void QmlGuiInterface::SignalNetClientError(int errorID, int osErrorID)
 			m_handler->onNetClientError(errorID, osErrorID);
 		}, Qt::QueuedConnection);
 	}
-	// Ein Netzwerkfehler beendet auch ein laufendes Netzwerkspiel → Spielzustand
-	// zurücksetzen (m_myTurn/m_game), wie bei SignalNetClientRemovedFromGame,
-	// damit keine späte Aktion in das tote Spiel läuft.
+	// A network error also ends a running network game → reset the game state
+	// (m_myTurn/m_game), as with SignalNetClientRemovedFromGame,
+	// so that no late action runs into the dead game.
 	if (m_gameHandler) {
 		QMetaObject::invokeMethod(m_gameHandler, "onNetworkGameEnded", Qt::QueuedConnection);
 	}
-	// Verbindung ist weg → der Foreground-Service hat nichts mehr zu schützen.
+	// The connection is gone → the foreground service has nothing left to protect.
 	AndroidConnectionService::stop();
 	IosBackgroundSession::stop();
 }
@@ -217,10 +217,10 @@ void QmlGuiInterface::SignalNetClientGameChatMsg(const std::string &playerName, 
 
 void QmlGuiInterface::SignalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing)
 {
-	// Eigener Client-Ping → GameHandler, der daraus den Netzwerkstatus (Ampel)
-	// für die eigene Avatar-Ecke ableitet (Einstellung ShowPingStateInAvatar) und
-	// die Roh-Werte (min/avg/max ms) für das Mouseover-Overlay bereitstellt.
-	// Aufruf kommt aus dem Netzwerk-Thread → QueuedConnection.
+	// Our own client ping → to the GameHandler, which derives the network status (the light)
+	// for our own avatar corner from it (the setting ShowPingStateInAvatar) and
+	// provides the raw values (min/avg/max ms) for the mouseover overlay.
+	// The call comes from the network thread → QueuedConnection.
 	if (m_gameHandler) {
 		QMetaObject::invokeMethod(m_gameHandler, "onPingUpdate", Qt::QueuedConnection,
 								  Q_ARG(int, static_cast<int>(minPing)),
@@ -294,8 +294,8 @@ void QmlGuiInterface::SignalNetClientPlayerJoined(unsigned playerId, const std::
 		const QString qPlayerName = QString::fromStdString(playerName);
 		QMetaObject::invokeMethod(m_lobbyHandler, "updatePlayerName", Qt::QueuedConnection,
 								  Q_ARG(unsigned, playerId), Q_ARG(QString, qPlayerName), Q_ARG(bool, isGameAdmin));
-		// Benachrichtigungs-Sound (playerconnected / onlinegameready) – nach
-		// updatePlayerName eingereiht, damit die Spielerliste aktuell ist.
+		// Notification sound (playerconnected / onlinegameready) – queued after
+		// updatePlayerName, so that the player list is up to date.
 		QMetaObject::invokeMethod(m_lobbyHandler, "onGamePlayerJoined", Qt::QueuedConnection);
 	}
 }
@@ -309,13 +309,13 @@ void QmlGuiInterface::SignalNetClientPlayerChanged(unsigned playerId, const std:
 		QMetaObject::invokeMethod(m_lobbyHandler, "updatePlayerName", Qt::QueuedConnection,
 								  Q_ARG(unsigned, playerId), Q_ARG(QString, qPlayerName), Q_ARG(bool, isAdmin));
 	}
-	// Zuschauer-Anzeige nachführen (ein umbenannter Spieler kann ein Zuschauer
-	// sein – wie der Widgets-Client, der hier refreshSpectatorsDisplay anstößt).
+	// Update the spectator display (a renamed player can be a spectator
+	// – as in the widgets client, which triggers refreshSpectatorsDisplay here).
 	if (m_gameHandler) {
 		QMetaObject::invokeMethod(m_gameHandler, "refreshSpectators", Qt::QueuedConnection);
-		// Die PlayerInfo trifft asynchron ein (Anforderung beim Beitritt zum
-		// laufenden Spiel). Sitzdaten neu aufbauen, damit Name, Länderflagge und
-		// Gast-Status am Tisch sofort stimmen statt erst bei der nächsten Aktion.
+		// The PlayerInfo arrives asynchronously (it is requested when joining the
+		// running game). Rebuild the seat data, so that the name, the country flag and
+		// the guest status at the table are correct immediately instead of only at the next action.
 		QMetaObject::invokeMethod(m_gameHandler, "onRefreshPlayerName", Qt::QueuedConnection);
 	}
 }
@@ -338,9 +338,9 @@ void QmlGuiInterface::SignalNetClientSelfJoined(unsigned playerId, const std::st
 		const QString qPlayerName = QString::fromStdString(playerName);
 		QMetaObject::invokeMethod(m_lobbyHandler, [this, playerId, qPlayerName, isGameAdmin]() {
 			m_lobbyHandler->setMyPlayerInfo(playerId, qPlayerName);
-			// Beim Selbst-Beitritt (z. B. als Host des eigenen Spiels) den
-			// Spiel-Admin-Status übernehmen → Start-Button im Warteraum sichtbar.
-			// Strikt getrennt vom Server-Admin (kickban / Spiel schließen).
+			// On a self join (e.g. as the host of your own game) adopt the
+			// game admin status → the start button in the waiting room becomes visible.
+			// Strictly separate from the server admin (kickban / close the game).
 			m_lobbyHandler->setCurrentGameAdmin(isGameAdmin);
 			m_lobbyHandler->onSelfJoinedGame();
 		}, Qt::QueuedConnection);
@@ -354,8 +354,8 @@ void QmlGuiInterface::SignalNetClientRemovedFromGame(int notificationId)
 			m_lobbyHandler->onRemovedFromGame(notificationId);
 		}, Qt::QueuedConnection);
 	}
-	// GameHandler-Zustand zurücksetzen (m_myTurn/m_game), damit keine späte
-	// Aktion ins beendete Spiel läuft.
+	// Reset the GameHandler state (m_myTurn/m_game), so that no late
+	// action runs into the finished game.
 	if (m_gameHandler) {
 		QMetaObject::invokeMethod(m_gameHandler, "onNetworkGameEnded", Qt::QueuedConnection);
 	}
@@ -363,12 +363,12 @@ void QmlGuiInterface::SignalNetClientRemovedFromGame(int notificationId)
 
 void QmlGuiInterface::SignalNetClientWaitDialog()
 {
-	// Das Netzwerk-Spiel ist beendet (Type_EndOfGameMessage) bzw. wir wurden
-	// entfernt – die Engine fordert hier (wie showClientDialog() im Widgets-
-	// Client) das Schließen des Gametables und die Rückkehr in den Warteraum
-	// bzw. die Lobby an. Ohne dies blieb der Gametable nach Spielende offen.
-	// Bei aktivem Auto-Leave folgt unmittelbar SignalNetClientRemovedFromGame,
-	// das von dort aus bis in die Lobbyliste weiterpoppt.
+	// The network game is finished (Type_EndOfGameMessage) or we have been
+	// removed – the engine requests here (like showClientDialog() in the widgets
+	// client) that the game table be closed and that we return to the waiting room
+	// or the lobby. Without this the game table stayed open after the end of the game.
+	// With auto-leave active, SignalNetClientRemovedFromGame follows immediately,
+	// which pops on from there into the lobby list.
 	if (m_lobbyHandler) {
 		QMetaObject::invokeMethod(m_lobbyHandler, "onWaitGameDialog", Qt::QueuedConnection);
 	}
@@ -376,8 +376,8 @@ void QmlGuiInterface::SignalNetClientWaitDialog()
 
 void QmlGuiInterface::SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName, int removeReason)
 {
-	// Sitz des Spielers in der Spielansicht leeren und im Log vermerken
-	// (verlassen / gekickt / getrennt – removeReason).
+	// Clear the seat of the player in the game view and note it in the log
+	// (left / kicked / disconnected – removeReason).
 	if (m_gameHandler) {
 		QMetaObject::invokeMethod(m_gameHandler, "onNetClientPlayerLeft", Qt::QueuedConnection,
 								  Q_ARG(unsigned, playerId),
@@ -418,8 +418,8 @@ void QmlGuiInterface::SignalRejectedGameInvitation(unsigned gameId, unsigned pla
 
 void QmlGuiInterface::SignalNetClientRejoinPossible(unsigned gameId)
 {
-	// Server bietet nach Verbindungsabbruch das Fortsetzen der alten
-	// Spielsitzung an (InitAck.rejoinGameId). Kommt vom Netzwerk-Thread.
+	// After a connection loss the server offers to continue the old
+	// game session (InitAck.rejoinGameId). It comes from the network thread.
 	if (m_lobbyHandler) {
 		QMetaObject::invokeMethod(m_lobbyHandler, [this, gameId]() {
 			m_lobbyHandler->onRejoinPossible(gameId);
@@ -438,7 +438,7 @@ void QmlGuiInterface::SignalNetClientGameStart(boost::shared_ptr<Game> game)
 		QMetaObject::invokeMethod(m_gameHandler, [this, game]() {
 			m_gameHandler->setGame(game);
 		}, Qt::QueuedConnection);
-		// Bereits zuschauende Spieler initial in die Auge-Anzeige übernehmen.
+		// Adopt players who are already spectating into the eye display initially.
 		QMetaObject::invokeMethod(m_gameHandler, "refreshSpectators", Qt::QueuedConnection);
 	}
 }
@@ -457,8 +457,8 @@ void QmlGuiInterface::refreshCash() const
 	}
 }
 
-// Aktiver Spieler / Spieler-Aktion hat sich geändert → Spielerdaten aktualisieren,
-// damit der gelbe "am Zug"-Rahmen und die Aktions-Anzeige (Fold/Call/…) live folgen.
+// The active player / the player action has changed → update the player data,
+// so that the yellow "to act" frame and the action display (fold/call/…) follow live.
 void QmlGuiInterface::refreshGroupbox(int /*playerId*/, int /*state*/) const
 {
 	if (m_gameHandler) {
@@ -468,14 +468,14 @@ void QmlGuiInterface::refreshGroupbox(int /*playerId*/, int /*state*/) const
 
 void QmlGuiInterface::refreshAction(int playerId, int action) const
 {
-	// WICHTIG: hier nur die GUI auffrischen, KEINEN Aktions-Sound abspielen.
-	// Der Aktions-Sound kommt ausschließlich über logPlayerActionMsg() (feuert
-	// genau einmal pro Aktion, in lokalen UND Netzwerk-Spielen). Im Netzwerk
-	// ruft die Engine pro Aktion sowohl refreshAction(id, action) als auch
-	// logPlayerActionMsg() auf – würden beide den Sound spielen, hörte man ihn
-	// doppelt (leicht versetzt). Lokal spielt refreshAction ohnehin keinen Sound
-	// (Aktion = PLAYER_ACTION_NONE). onRefreshSet = gleiche Auffrischung wie
-	// onRefreshAction, nur ohne Sound.
+	// IMPORTANT: only refresh the GUI here, do NOT play an action sound.
+	// The action sound comes exclusively via logPlayerActionMsg() (which fires
+	// exactly once per action, in local AND network games). In a network game
+	// the engine calls both refreshAction(id, action) and
+	// logPlayerActionMsg() per action – if both played the sound, you would hear it
+	// twice (slightly offset). Locally refreshAction plays no sound anyway
+	// (the action = PLAYER_ACTION_NONE). onRefreshSet = the same refresh as
+	// onRefreshAction, only without the sound.
 	Q_UNUSED(playerId);
 	Q_UNUSED(action);
 	if (m_gameHandler) {
@@ -598,7 +598,7 @@ void QmlGuiInterface::logNewBlindsSetsMsg(int sbSet, int bbSet, std::string sbNa
 void QmlGuiInterface::logNewGameHandMsg(int gameID, int handID)
 {
 	if (m_gameHandler) {
-		// Wortlaut 1:1 wie guiLog::logNewGameHandMsg im Qt-Widgets-Client.
+		// The wording 1:1 as in guiLog::logNewGameHandMsg in the Qt widgets client.
 		const QString msg = QStringLiteral("## Game: ") + QString::number(gameID)
 							+ QStringLiteral(" | Hand: ") + QString::number(handID) + QStringLiteral(" ##");
 		QMetaObject::invokeMethod(m_gameHandler, "appendGameLog", Qt::QueuedConnection,
@@ -631,10 +631,10 @@ void QmlGuiInterface::logDealBoardCardsMsg(int roundID, int card1, int card2, in
 {
 	if (!m_gameHandler)
 		return;
-	// Kartenzahl wird – wie im Widgets-Client (guiLog::logDealBoardCardsMsg) –
-	// ausschließlich über die Runden-ID bestimmt (Flop=3, Turn=4, River=5).
-	// Nicht ausgeteilte Karten kommen als 0 herein (nicht -1), ein Wert-Check
-	// würde sie fälschlich als 2♦ einfügen.
+	// The number of cards is – as in the widgets client (guiLog::logDealBoardCardsMsg) –
+	// determined exclusively by the round ID (flop=3, turn=4, river=5).
+	// Cards that have not been dealt come in as 0 (not -1), a value check
+	// would wrongly insert them as 2♦.
 	QString round;
 	QStringList cards;
 	switch (roundID) {
@@ -651,8 +651,8 @@ void QmlGuiInterface::logDealBoardCardsMsg(int roundID, int card1, int card2, in
 		cards << fmtCard(card1) << fmtCard(card2) << fmtCard(card3) << fmtCard(card4) << fmtCard(card5);
 		break;
 	default:
-		// Andere Runden-IDs (Post-River beim All-In-Runout) protokollieren das
-		// volle Board erneut – redundant zur River-Zeile → nicht anzeigen.
+		// Other round IDs (post-river during an all-in runout) log the
+		// full board again – redundant with the river line → do not show it.
 		return;
 	}
 	const QString msg = "--- " + round + " --- [" + cards.join(", ") + "]";
@@ -665,7 +665,7 @@ void QmlGuiInterface::logFlipHoleCardsMsg(std::string playerName, int card1, int
 	if (m_gameHandler) {
 		QString msg = QString::fromStdString(playerName) + " " + QString::fromStdString(showHas)
 					  + " [" + fmtCard(card1) + ", " + fmtCard(card2) + "]";
-		// Handname anhängen (wie guiLog::logFlipHoleCardsMsg), z. B. - "Straight, six high".
+		// Append the hand name (as in guiLog::logFlipHoleCardsMsg), e.g. - "Straight, six high".
 		if (cardsValueInt != -1 && m_session && m_session->getCurrentGame()) {
 			const std::string handName =
 				CardsValue::determineHandName(cardsValueInt, m_session->getCurrentGame()->getActivePlayerList());
@@ -790,9 +790,9 @@ void QmlGuiInterface::flipHolecardsAllIn()
 
 void QmlGuiInterface::SignalNetClientPostRiverShowCards(unsigned playerId)
 {
-	// Ein anderer Spieler zeigt nach der Hand freiwillig seine Karten. Im
-	// Widgets-Client löst das gameTableImpl::showHoleCards aus (Karten aufdecken +
-	// Log). Hier an den GameHandler weiterreichen, statt es zu verschlucken.
+	// Another player voluntarily shows their cards after the hand. In the
+	// widgets client that triggers gameTableImpl::showHoleCards (reveal the cards +
+	// log it). Pass it on to the GameHandler here instead of swallowing it.
 	if (!m_gameHandler) return;
 	QMetaObject::invokeMethod(m_gameHandler, "onPlayerShowCards", Qt::QueuedConnection,
 							  Q_ARG(unsigned, playerId));
@@ -815,48 +815,48 @@ void QmlGuiInterface::postRiverRunAnimation1()
 	GameHandler *gh = m_gameHandler;
 	boost::shared_ptr<Session> session = m_session;
 
-	// Fold-/Aufdeck-Zustand SOFORT einfrieren, solange die Engine-Daten der
-	// gerade beendeten Hand noch gültig sind. Wir laufen hier synchron auf dem
-	// Netz-Thread (clientstate.cpp ruft uns direkt aus dem
-	// EndOfHandShowCards-Handler – dort verlässt sich auch das SQL-Log auf die
-	// noch intakten FOLD-Flags). onShowdown() unten läuft dagegen QUEUED, und im
-	// Netzwerkspiel startet der SERVER die nächste Hand: deren initHand() setzt
-	// alle Aktionen auf NONE und würde den Fold-Zustand vorher wegräumen. Der
-	// Widgets-Client hat das Problem nicht, weil er den Netz-Thread hier per
-	// Semaphore blockiert (waitForGuiUpdateDone) – im QML-Client ist das ein
-	// No-op. Ohne diesen Snapshot erscheinen gefoldete Spieler mit gewertetem
-	// Blatt im Showdown/Spielverlauf.
+	// Freeze the fold/reveal state IMMEDIATELY, while the engine data of the
+	// hand that has just finished is still valid. We run here synchronously on the
+	// network thread (clientstate.cpp calls us directly from the
+	// EndOfHandShowCards handler – the SQL log relies there on the
+	// FOLD flags still being intact as well). onShowdown() below, by contrast, runs QUEUED, and in a
+	// network game the SERVER starts the next hand: its initHand() sets
+	// all actions to NONE and would clear away the fold state before that. The
+	// widgets client does not have the problem, because it blocks the network thread here with a
+	// semaphore (waitForGuiUpdateDone) – in the QML client that is a
+	// no-op. Without this snapshot, folded players appear with a rated
+	// hand in the showdown/game history.
 	QMetaObject::invokeMethod(gh, "captureShowdownSnapshot", Qt::DirectConnection);
 
 	QMetaObject::invokeMethod(gh, "onShowdown", Qt::QueuedConnection);
 
 	// Start the next hand after a pause so the user can see the result
-	// (Gewinner + aufgedeckte Karten + Gewinner-Hand etwas länger zeigen).
+	// (show the winner + the revealed cards + the winning hand a bit longer).
 	//
-	// ACHTUNG: Im NETZWERK-Spiel startet der SERVER die nächste Hand über
-	// `Type_HandStartMessage` (siehe clientstate.cpp:initHand/startHand).
-	// Wenn wir hier nach 5.5s zusätzlich `onNextRoundCleanGui` + initHand +
-	// startHand aufrufen, doppeln wir den Hand-Setup. Schlimmer:
-	// `onNextRoundCleanGui` ruft synchron `onDisableMyButtons()` auf
-	// (gamehandler.cpp:1040). Wenn der Server die neue Hand schneller
-	// startet als der Timer abläuft (UTG-Spot → eigene Action liegt fast
-	// immer innerhalb 5.5s nach Showdown), feuert dieser Timer MITTEN in
-	// den eigenen Zug, setzt `m_myTurn = false` und legt die Aktions-
-	// Buttons tot. Resultat: User kann nicht klicken, Server-Timeout
-	// führt zum Auto-Fold („die Hand vor meinem BB reagiert nicht auf
-	// actions"). Daher: bei Netzwerkspielen überlässt der Client die
-	// Hand-Transition komplett dem Server.
+	// ATTENTION: in a NETWORK game the SERVER starts the next hand via
+	// `Type_HandStartMessage` (see clientstate.cpp:initHand/startHand).
+	// If we additionally call `onNextRoundCleanGui` + initHand +
+	// startHand here after 5.5s, we duplicate the hand setup. Worse:
+	// `onNextRoundCleanGui` calls `onDisableMyButtons()` synchronously
+	// (gamehandler.cpp:1040). If the server starts the new hand faster
+	// than the timer expires (a UTG spot → our own action lies almost
+	// always within 5.5s after the showdown), this timer fires IN THE MIDDLE of
+	// our own turn, sets `m_myTurn = false` and kills the action
+	// buttons. The result: the user cannot click, the server timeout
+	// leads to an auto-fold ("the hand before my BB does not react to
+	// actions"). Therefore: in network games the client leaves the
+	// hand transition entirely to the server.
 	boost::shared_ptr<Session> sessionForTimer = session;
 	const bool isNetwork = sessionForTimer && sessionForTimer->isNetworkClientRunning();
 	if (isNetwork) {
 		return;
 	}
 	QTimer::singleShot(5500, gh, [gh, sessionForTimer]() {
-		// Turnierende? Wie der Widgets-Client (gameTableImpl::postRiverRun-
-		// Animation6) darf nach der letzten Hand KEINE weitere folgen, wenn nur
-		// noch ein Spieler Chips hat – sonst spielt der Sieger endlos allein
-		// weiter und zahlt dabei Blinds ein. checkLocalGameOver() meldet das
-		// Spielende an die QML-Seite (Sieger-Popup).
+		// The end of the tournament? As in the widgets client (gameTableImpl::postRiverRun-
+		// Animation6) NO further hand may follow the last one if only
+		// one player has chips left – otherwise the winner plays on alone endlessly
+		// and pays blinds in the process. checkLocalGameOver() reports the end of the
+		// game to the QML side (the winner popup).
 		if (gh->checkLocalGameOver())
 			return;
 		QMetaObject::invokeMethod(gh, "onNextRoundCleanGui", Qt::DirectConnection);

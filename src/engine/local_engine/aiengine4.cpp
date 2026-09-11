@@ -45,16 +45,16 @@ namespace
 // Praeflop-Charts
 // ---------------------------------------------------------------------------
 
-/* Eroeffnungsranges, geordnet von fruehester zu spaetester Position. Je
- * weniger Spieler noch hinter uns sitzen, desto breiter darf eroeffnet werden
- * -- genau die Ueberlegung, die in der alten Engine vollstaendig fehlt.
+/* Opening ranges, ordered from the earliest to the latest position. The
+ * fewer players still sit behind us, the wider we may open
+ * -- exactly the consideration that is completely missing in the old engine.
  */
 const char* const OPENING_RANGES[] = {
-	// sehr frueh (fuenf oder mehr Spieler hinter uns), rund 12 %
+	// very early (five or more players behind us), about 12 %
 	"66+, ATs+, KTs+, QTs+, JTs, AJo+, KQo",
-	// Mittelfeld (drei bis vier hinter uns), rund 18 %
+	// middle field (three to four behind us), about 18 %
 	"44+, A8s+, K9s+, Q9s+, J9s+, T9s, ATo+, KJo+, QJo",
-	// spaet (ein bis zwei hinter uns), rund 28 %
+	// late (one to two behind us), about 28 %
 	"22+, A2s+, K7s+, Q8s+, J8s+, T8s+, 97s+, 87s, 76s, 65s, A9o+, KTo+, QTo+, JTo",
 	// Button, rund 45 %
 	"22+, A2s+, K2s+, Q5s+, J7s+, T7s+, 96s+, 86s+, 75s+, 64s+, 54s, "
@@ -62,49 +62,49 @@ const char* const OPENING_RANGES[] = {
 };
 const int OPENING_RANGE_COUNT = 4;
 
-/* Haende, mit denen wir einem billigen Pot mit mehreren Mitspielern nachtraeglich
- * beitreten. Bewusst NICHT die Button-Range: gegen viele Gegner zahlen sich
- * Haende aus, die selten aber gross treffen (kleine Paare, gleichfarbige
- * Verbinder). Ungleichfarbige Broadway-Haende wie KTo sind dort umgekehrt
- * staendig dominiert und gehoeren nicht dazu.
+/* Hands with which we join a cheap pot with several players afterwards.
+ * Deliberately NOT the button range: against many opponents the hands that
+ * hit rarely but big pay off (small pairs, suited
+ * connectors). Offsuit broadway hands such as KTo, by contrast, are
+ * constantly dominated there and do not belong in it.
  */
 const char* const LIMP_BEHIND_RANGE = "22-TT, A2s+, K9s+, QTs+, J9s+, T9s, 98s, 87s, 76s, 65s, 54s";
 
-// Haende, mit denen wir gegen eine Erhoehung selbst erhoehen (auf Wert).
+// Hands with which we raise ourselves against a raise (for value).
 const char* const THREE_BET_RANGE = "JJ+, AKs, AQs, AKo";
 
-// Haende, mit denen wir eine Erhoehung nur mitgehen.
+// Hands with which we only call a raise.
 const char* const CALL_RAISE_IN_POSITION = "22+, A9s+, KTs+, QTs+, JTs, T9s, 98s, AJo+, KQo";
 const char* const CALL_RAISE_OUT_OF_POSITION = "55+, ATs+, KJs+, QJs, AQo+";
 
-// Big Blind hat bereits gesetzt und bekommt bessere Pot Odds, verteidigt also
-// deutlich breiter.
+// The big blind has already bet and gets better pot odds, so it defends
+// considerably wider.
 const char* const BIG_BLIND_DEFEND = "22+, A2s+, K5s+, Q7s+, J7s+, T7s+, 96s+, 86s+, 75s+, 65s, 54s, "
 									 "A7o+, K9o+, Q9o+, J9o+, T9o";
 
-// Push-or-Fold bei kurzem Stack: ab hier lohnt sich nur noch alles oder nichts.
+// Push-or-fold with a short stack: from here on only all or nothing pays off.
 const char* const SHORT_STACK_PUSH_EARLY = "44+, A7s+, KTs+, QJs, ATo+, KQo";
 const char* const SHORT_STACK_PUSH_LATE  = "22+, A2s+, K7s+, Q9s+, J9s+, T9s, A5o+, K9o+, QTo+, JTo";
 
-/* Annahme ueber die Haende eines Gegners, gestuft nach beobachtetem Einstiegs-
- * verhalten. Wer nur jede achte Hand spielt, hat beim Mitgehen etwas anderes
- * als jemand, der jede zweite spielt -- die alte Engine unterstellt beiden
- * dieselbe Zufallshand.
+/* The assumption about an opponent's hands, graded by the observed entering
+ * behaviour. Whoever plays only every eighth hand holds something different when
+ * calling than somebody who plays every second one -- the old engine assumes
+ * the same random hand for both.
  */
 const char* const OPPONENT_RANGE_VERY_TIGHT = "77+, ATs+, KJs+, QJs, AJo+, KQo";
 const char* const OPPONENT_RANGE_MEDIUM     = "22+, A2s+, K8s+, Q9s+, J9s+, T9s, 98s, "
 		"A9o+, KTo+, QTo+, JTo";
 
-// Annahme ueber die Haende, die ein Gegner nach dem Flop noch halten kann.
+// The assumption about the hands an opponent can still hold after the flop.
 const char* const OPPONENT_RANGE_RAISED_POT = "44+, A8s+, KTs+, QTs+, JTs, ATo+, KJo+, QJo";
 const char* const OPPONENT_RANGE_LIMPED_POT = "22+, A2s+, K5s+, Q7s+, J7s+, T7s+, 96s+, 86s+, 75s+, 64s+, 54s, "
 		"A2o+, K8o+, Q9o+, J9o+, T9o, 98o";
 
-// Ranges einmal bauen und wiederverwenden -- das Parsen je Entscheidung waere
-// unnoetige Arbeit. Threadsicher ueber magic statics.
+// Build the ranges once and reuse them -- parsing them per decision would be
+// unnecessary work. Thread-safe via magic statics.
 const HoleCardsRange& cachedRange(const char* notation)
 {
-	// Ein kleiner Cache genuegt, es sind nur eine Handvoll fester Charts.
+	// A small cache is enough, there are only a handful of fixed charts.
 	static thread_local const char* keys[16] = { 0 };
 	static thread_local HoleCardsRange values[16];
 	for(int i = 0; i < 16; ++i) {
@@ -115,7 +115,7 @@ const HoleCardsRange& cachedRange(const char* notation)
 			return values[i];
 		}
 	}
-	// Cache voll (kommt bei festen Charts nicht vor): ohne Cache bauen.
+	// Cache full (does not happen with fixed charts): build it without the cache.
 	static thread_local HoleCardsRange fallback;
 	fallback = HoleCardsRange(notation);
 	return fallback;
@@ -129,15 +129,15 @@ int randomPercent()
 }
 
 // ---------------------------------------------------------------------------
-// Kennzahlen der Lage
+// Key figures of the situation
 // ---------------------------------------------------------------------------
 
 struct Metrics {
 	int bigBlind;
-	int toCall;         // was ein Mitgehen kostet (bereits auf den Stack begrenzt)
-	int pot;            // alles, was aktuell im Pot liegt
-	double potOdds;     // benoetigter Anteil, damit ein Call sich rechnet
-	double stackInBB;   // eigener Stack in Big Blinds
+	int toCall;         // what a call costs (already limited to the stack)
+	int pot;            // everything that currently lies in the pot
+	double potOdds;     // the share needed for a call to pay off
+	double stackInBB;   // our own stack in big blinds
 	bool canCheck;
 };
 
@@ -153,13 +153,13 @@ Metrics measure(const AiSituation& s)
 	return m;
 }
 
-// Position: wir sind spaet dran, wenn wenige Spieler hinter uns sitzen.
+// Position: we are late if few players sit behind us.
 bool inPosition(const AiSituation& s)
 {
 	return s.opponentsBehind == 0;
 }
 
-// Index der Eroeffnungsrange aus der Anzahl der Spieler hinter uns.
+// Index of the opening range from the number of players behind us.
 int openingRangeIndex(const AiSituation& s, const AiPersonality& p)
 {
 	int index;
@@ -168,7 +168,7 @@ int openingRangeIndex(const AiSituation& s, const AiPersonality& p)
 	else if(s.opponentsBehind >= 1) index = 2;
 	else index = 3;
 
-	// Lockere Naturen eroeffnen eine Stufe breiter, vorsichtige eine enger.
+	// Loose natures open one step wider, cautious ones one step tighter.
 	if(p.looseness > 1.10) ++index;
 	else if(p.looseness < 0.90) --index;
 
@@ -187,10 +187,10 @@ double AiEngine4::winningChance(const AiSituation& s)
 
 	const Metrics m = measure(s);
 
-	/* Welche Haende trauen wir den Gegnern zu? Ein grosser Pot vor dem Flop
-	 * bedeutet, dass jemand erhoeht hat -- dann ist die Auswahl enger. Sitzen
-	 * dagegen viele Spieler in der Hand, kann unmoeglich jeder eine Spitzenhand
-	 * halten, also rechnen wir wieder breiter.
+	/* Which hands do we credit the opponents with? A large pot before the flop
+	 * means that somebody has raised -- then the selection is tighter. If, on the
+	 * other hand, many players are in the hand, not everybody can possibly hold a
+	 * premium hand, so we compute wider again.
 	 */
 	const char* rangeNotation;
 	if(s.opponentVpipPercent >= 0) {
@@ -200,15 +200,15 @@ double AiEngine4::winningChance(const AiSituation& s)
 		else if(s.opponentVpipPercent < 45) rangeNotation = OPPONENT_RANGE_MEDIUM;
 		else rangeNotation = OPPONENT_RANGE_LIMPED_POT;
 	} else {
-		// Ohne Daten bleibt die Potgroesse der beste Anhaltspunkt.
+		// Without data the pot size stays the best indication.
 		const double potInBigBlinds = static_cast<double>(m.pot) / m.bigBlind;
 		const bool raisedPot = potInBigBlinds > 6.0 && s.opponents <= 3;
 		rangeNotation = raisedPot ? OPPONENT_RANGE_RAISED_POT : OPPONENT_RANGE_LIMPED_POT;
 	}
 	const HoleCardsRange& opponentRange = cachedRange(rangeNotation);
 
-	/* Simulationsaufwand nach Runde. Vor dem Flop sind noch fuenf Board-Karten
-	 * offen, das streut am staerksten; am River genuegen wenige Laeufe.
+	/* Simulation effort by round. Before the flop five board cards are still
+	 * to come, which scatters the most; at the river a few runs are enough.
 	 */
 	int samples;
 	switch(s.round) {
@@ -237,13 +237,13 @@ namespace
 {
 
 // ---------------------------------------------------------------------------
-// Vor dem Flop
+// Before the flop
 // ---------------------------------------------------------------------------
 
 AiDecision fold(const Metrics& m)
 {
 	AiDecision d;
-	// Kostet das Mitgehen nichts, wird nie geworfen.
+	// If calling costs nothing, we never fold.
 	d.action = m.canCheck ? PLAYER_ACTION_CHECK : PLAYER_ACTION_FOLD;
 	return d;
 }
@@ -255,8 +255,8 @@ AiDecision call(const Metrics& m)
 	return d;
 }
 
-// Erhoehung auf einen Zielsatz. evaluation() kuerzt selbst auf den Stack und
-// erzwingt die Mindesterhoehung.
+// A raise to a target bet. evaluation() truncates to the stack itself and
+// enforces the minimum raise.
 AiDecision raiseTo(const AiSituation& s, const Metrics& m, int targetSet)
 {
 	AiDecision d;
@@ -278,9 +278,9 @@ AiDecision allIn(const AiSituation& s, const Metrics& m)
 	return raiseTo(s, m, s.myCash + s.mySet);
 }
 
-/* Kurzer Stack: Erhoehen bedeutet ohnehin den ganzen Stack, also wird nur noch
- * zwischen "alles" und "nichts" entschieden. Der alten Engine fehlt dieser
- * Modus voellig -- sie zahlt sich im Turnierendspiel blind zu Tode.
+/* Short stack: raising means the whole stack anyway, so the only decision left
+ * is between "everything" and "nothing". The old engine lacks this
+ * mode entirely -- it blinds itself to death in the tournament endgame.
  */
 AiDecision decideShortStack(const AiSituation& s, const AiPersonality& p, const Metrics& m)
 {
@@ -290,11 +290,11 @@ AiDecision decideShortStack(const AiSituation& s, const AiPersonality& p, const 
 
 	if(pushRange.contains(s.holeCards[0], s.holeCards[1])) return allIn(s, m);
 
-	// Ausserhalb der Push-Range: nur weiterspielen, wenn es nichts kostet.
+	// Outside the push range: only play on if it costs nothing.
 	if(m.canCheck) return call(m);
 
-	/* Im Big Blind gegen eine kleine Erhoehung bekommen wir oft so gute Pot
-	 * Odds, dass Wegwerfen teurer waere als Mitgehen.
+	/* In the big blind against a small raise we often get such good pot
+	 * odds that folding would be more expensive than calling.
 	 */
 	if(s.amBigBlind && m.potOdds < 0.25 * p.looseness) return call(m);
 
@@ -311,7 +311,7 @@ AiDecision decidePreflop(const AiSituation& s, const AiPersonality& p, const Met
 		const HoleCardsRange& opening = cachedRange(OPENING_RANGES[openingRangeIndex(s, p)]);
 
 		if(opening.contains(s.holeCards[0], s.holeCards[1])) {
-			// Grundgroesse drei Big Blinds, je Limper einer mehr.
+			// A base size of three big blinds, one more per limper.
 			const int limpers = std::max(0, (s.setsThisRound - m.bigBlind - s.smallBlind) / m.bigBlind);
 			int target = static_cast<int>((3 + limpers) * m.bigBlind * p.aggression);
 			target = std::max(target, s.highestSet + m.bigBlind);
@@ -320,9 +320,9 @@ AiDecision decidePreflop(const AiSituation& s, const AiPersonality& p, const Met
 
 		if(m.canCheck) return call(m);
 
-		/* Ausserhalb der Eroeffnungsrange gehen wir nur mit, wenn vor uns bereits
-		 * jemand gelimpt hat und der Pot entsprechend viele Mitspieler hat. In
-		 * einen noch unberuehrten Pot zu limpen waere dagegen nur schwach.
+		/* Outside the opening range we only call if somebody has already limped
+		 * in front of us and the pot has a correspondingly large number of players. Limping
+		 * into a pot that is still untouched, by contrast, would only be weak.
 		 */
 		const int limpersBefore = (s.setsThisRound - m.bigBlind - s.smallBlind) / m.bigBlind;
 		if(m.toCall <= m.bigBlind && s.opponents >= 3 && limpersBefore >= 1) {
@@ -345,12 +345,12 @@ AiDecision decidePreflop(const AiSituation& s, const AiPersonality& p, const Met
 					: (inPosition(s) ? CALL_RAISE_IN_POSITION : CALL_RAISE_OUT_OF_POSITION));
 
 	if(calling.contains(s.holeCards[0], s.holeCards[1])) {
-		// Nicht um jeden Preis: eine sehr grosse Erhoehung sprengt die Odds.
+		// Not at any price: a very large raise blows the odds.
 		const double priceInBB = static_cast<double>(m.toCall) / m.bigBlind;
 		if(priceInBB <= 12.0 * p.looseness) return call(m);
 	}
 
-	// Gelegentlicher Bluff gegen wenige Gegner, damit wir nicht lesbar werden.
+	// An occasional bluff against few opponents, so that we do not become readable.
 	if(s.opponents == 1 && inPosition(s) && randomPercent() <= static_cast<int>(6 * p.bluffRate)) {
 		return raiseTo(s, m, 3 * s.highestSet);
 	}
@@ -364,29 +364,29 @@ namespace
 {
 
 // ---------------------------------------------------------------------------
-// Nach dem Flop
+// After the flop
 // ---------------------------------------------------------------------------
 
 AiDecision decidePostflop(const AiSituation& s, const AiPersonality& p, const Metrics& m)
 {
 	const double equity = AiEngine4::winningChance(s);
 
-	/* Bezugsgroesse ist der Anteil, der uns zustuende, wenn alle gleich stark
-	 * waeren. Am vollen Tisch ist das wenig, heads-up die Haelfte -- deshalb
-	 * darf dieselbe Hand multiway nicht mehr wie ein Monster gespielt werden.
+	/* The reference size is the share that would be due to us if everybody were
+	 * equally strong. At a full table that is little, heads-up it is half -- which is why
+	 * the same hand must not be played like a monster multiway.
 	 */
 	const double fairShare = 1.0 / (s.opponents + 1);
 
 	if(m.canCheck) {
 		if(equity > fairShare * 1.5 / p.looseness) {
-			// Je klarer die Fuehrung, desto groesser der Einsatz.
+			// The clearer the lead, the larger the bet.
 			double fraction = (equity > fairShare * 2.2) ? 0.75 : 0.55;
 			fraction *= p.aggression;
 			const int amount = std::max(m.bigBlind, static_cast<int>(m.pot * fraction));
 			return raiseTo(s, m, s.mySet + amount);
 		}
 
-		// Bluff nur gegen wenige Gegner und moeglichst als Letzter.
+		// Bluff only against few opponents and preferably as the last one.
 		if(s.opponents <= 2 && inPosition(s) && randomPercent() <= static_cast<int>(18 * p.bluffRate)) {
 			const int amount = std::max(m.bigBlind, static_cast<int>(m.pot * 0.5));
 			return raiseTo(s, m, s.mySet + amount);
@@ -395,15 +395,15 @@ AiDecision decidePostflop(const AiSituation& s, const AiPersonality& p, const Me
 		return call(m);
 	}
 
-	/* Ein Mitgehen lohnt, wenn die Gewinnchance die Pot Odds uebersteigt. Vor
-	 * dem River kommt ein Aufschlag dazu, weil spaetere Runden noch Geld kosten
-	 * koennen.
+	/* A call pays off if the winning chance exceeds the pot odds. Before
+	 * the river a surcharge is added, because later rounds can still cost
+	 * money.
 	 */
 	double margin = (s.round == GAME_STATE_RIVER) ? 0.0 : 0.03;
 
-	/* Wer haeufig setzt und erhoeht, tut das zwangslaeufig auch mit schwachen
-	 * Haenden -- gegen solche Gegner darf man billiger mitgehen. Gegen auffaellig
-	 * passive Gegner gilt das Umgekehrte: deren Einsaetze bedeuten mehr.
+	/* Whoever bets and raises frequently inevitably does so with weak
+	 * hands as well -- against such opponents one may call more cheaply. Against notably
+	 * passive opponents the opposite applies: their bets mean more.
 	 */
 	if(s.opponentAggressionPercent >= 0) {
 		double shift = (s.opponentAggressionPercent - 40) / 1000.0;
@@ -422,8 +422,8 @@ AiDecision decidePostflop(const AiSituation& s, const AiPersonality& p, const Me
 		return call(m);
 	}
 
-	/* Halbbluff: zu wenig fuer ein Mitgehen, aber genug Substanz, um mit einer
-	 * Erhoehung zu gewinnen, wenn der Gegner aufgibt.
+	/* Semi-bluff: too little for a call, but enough substance to win with a
+	 * raise if the opponent gives up.
 	 */
 	if(s.opponents == 1 && inPosition(s) && equity > 0.25 &&
 			randomPercent() <= static_cast<int>(12 * p.bluffRate)) {
@@ -440,7 +440,7 @@ AiDecision AiEngine4::decide(const AiSituation& situation, const AiPersonality& 
 {
 	const Metrics m = measure(situation);
 
-	// Ohne Gegner gibt es nichts zu entscheiden.
+	// Without opponents there is nothing to decide.
 	if(situation.opponents < 1) return call(m);
 
 	if(situation.round == GAME_STATE_PREFLOP) return decidePreflop(situation, personality, m);

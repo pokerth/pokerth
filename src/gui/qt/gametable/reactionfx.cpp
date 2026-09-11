@@ -1,9 +1,9 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
  *                                                                           *
- * Overlay für die Emoji-Reaktions-Choreografie am Spieltisch – 1:1-Port     *
- * der QML-Komponente GameReactionFx (Keyframes, Effekt-Katalog und Timings  *
- * identisch, siehe src/gui/qt6-qml/config/ReactionCatalog.qml).             *
+ * Overlay for the emoji reaction choreography at the game table – a 1:1 port *
+ * of the QML component GameReactionFx (keyframes, effect catalogue and timings *
+ * identical, see src/gui/qt6-qml/config/ReactionCatalog.qml).               *
  *****************************************************************************/
 #include "reactionfx.h"
 #include "emojipicker.h"
@@ -11,10 +11,10 @@
 #include <QRandomGenerator>
 #include <cmath>
 
-// ── Choreografien ──
-// Keyframes der CSS-Animationen rfx* des Web-Clients. Kanäle: x/y in
-// CSS-Prozent (Basis -50), s = Skalierung, r = Drehung, ry = Drehung um die
-// Y-Achse (Kartendreher), o = Deckkraft, b = Aufhellung.
+// ── Choreographies ──
+// Keyframes of the CSS animations rfx* of the web client. Channels: x/y in
+// CSS percent (base -50), s = scale, r = rotation, ry = rotation around the
+// Y axis (card turner), o = opacity, b = brightening.
 struct ReactionKey {
 	qreal t;
 	qreal v;
@@ -31,15 +31,15 @@ struct ReactionAnim {
 namespace
 {
 
-// -150 % (Standard-Aufstieg) entsprechen 160 px Flughöhe.
+// -150 % (the standard rise) corresponds to 160 px of flight height.
 const qreal kPxPerPercent = 1.6;
-// Grundgröße des großen Emojis bei Skalierung 1.0.
+// Base size of the large emoji at scale 1.0.
 const qreal kBaseSize = 34.0;
-// Die Keyframe-Dauern unten sind die des Web-Clients (1400–1700 ms) und damit
-// spürbar knapper als die feste Flugzeit von 2000 ms in 2.1.7. Dieser Faktor
-// streckt sie wieder auf das gewohnte Tempo (Standard-Choreografie "pop":
-// 1600 ms * 1.25 = 2000 ms) – er gilt für die Choreografie und für alle daran
-// ausgerichteten Verzögerungen. Identisch in ReactionCatalog.qml
+// The keyframe durations below are those of the web client (1400–1700 ms) and thus
+// noticeably tighter than the fixed flight time of 2000 ms in 2.1.7. This factor
+// stretches them back to the usual pace (standard choreography "pop":
+// 1600 ms * 1.25 = 2000 ms) – it applies to the choreography and to all delays
+// aligned to it. Identical in ReactionCatalog.qml
 // (durationScale).
 const qreal kDurationScale = 1.25;
 
@@ -52,8 +52,8 @@ double rnd(double from, double to)
 	return from + QRandomGenerator::global()->generateDouble() * (to - from);
 }
 
-// Kubische Bézier-Timing-Function (wie CSS cubic-bezier): Newton-Iteration
-// auf x(t) = f, danach y(t).
+// Cubic Bézier timing function (like CSS cubic-bezier): Newton iteration
+// on x(t) = f, then y(t).
 qreal bezier(const ReactionBezier &b, qreal f)
 {
 	if (f <= 0.0) return 0.0;
@@ -71,10 +71,10 @@ qreal bezier(const ReactionBezier &b, qreal f)
 	return ((ay * t + by) * t + cy) * t;
 }
 
-// Wert eines Kanals zum Zeitanteil t (0..1). Vor dem ersten und nach dem
-// letzten Keyframe gilt der jeweilige Randwert – so hält CSS Eigenschaften,
-// die nur am Anfang gesetzt sind. Die Timing-Function wirkt – ebenfalls wie
-// in CSS – auf jeden Keyframe-Abschnitt einzeln.
+// Value of a channel at the time share t (0..1). Before the first and after the
+// last keyframe the respective edge value applies – that is how CSS holds properties
+// that are only set at the beginning. The timing function applies – likewise as
+// in CSS – to each keyframe section individually.
 qreal sample(const ReactionAnim &a, const QVector<ReactionKey> &kf, qreal t, qreal fallback)
 {
 	if (kf.isEmpty())
@@ -150,13 +150,13 @@ const QHash<QString, ReactionAnim> &animTable()
 			a.y = {{0, -50}, {0.25, -58}, {1, -150}};
 			a.s = {{0, 0.3}, {0.25, 1.45}, {1, 1.05}};
 			a.o = {{0, 0}, {0.25, 1}, {1, 0}};
-			// CSS: brightness(2.2) + Glow zur Hälfte der Animation.
+			// CSS: brightness(2.2) + glow at half of the animation.
 			a.b = {{0, 0}, {0.25, 0}, {0.5, 0.55}, {1, 0}};
 			t.insert("shine", a);
 		}
 		{
-			// Hinweis: Im Web-Client bleibt flex mit opacity 0 → 0 unsichtbar
-			// (CSS-Fehler in rfxFlex). Hier die offensichtlich gemeinte Kurve.
+			// Note: in the web client flex stays invisible with opacity 0 → 0
+			// (a CSS bug in rfxFlex). Here the curve that was obviously meant.
 			ReactionAnim a = mk(1600, kEaseOut);
 			a.y = {{0, -50}, {0.2, -55}, {0.35, -60}, {0.5, -70}, {0.7, -90}, {1, -150}};
 			a.s = {{0, 0.3}, {0.2, 1.5}, {0.35, 1.1}, {0.5, 1.45}, {0.7, 1.15}, {1, 1}};
@@ -235,10 +235,10 @@ const QHash<QString, ReactionAnim> &animTable()
 			t.insert("tilt", a);
 		}
 		{
-			// 🔫: doppelter Rückstoß nach RECHTS (der Glyph zeigt nach links),
-			// dazu ein leichtes Hochreißen der Mündung. Der seitliche Versatz
-			// ist im Web-Client in Pixeln angegeben (14/4/10 px); geteilt durch
-			// kPxPerPercent ergeben sich die CSS-Prozente dieses Kanals.
+			// 🔫: a double recoil to the RIGHT (the glyph points left),
+			// plus a slight kick-up of the muzzle. The lateral offset
+			// is given in pixels in the web client (14/4/10 px); divided by
+			// kPxPerPercent this yields the CSS percentages of this channel.
 			ReactionAnim a = mk(1500, kEaseOut);
 			a.x = {{0, -50}, {0.12, -50}, {0.2, -41.25}, {0.34, -47.5},
 				{0.42, -43.75}, {0.56, -50}, {1, -50}
@@ -268,11 +268,11 @@ const ReactionAnim *animFor(const QString &name)
 	return &it.value();
 }
 
-// ── Effekt-Katalog ──
-// Partikel-Spezifikation je Reaktion: entweder ein Preset oder eine explizite
-// Spezifikation. a0..a1 = Winkelbereich (Grad, 0 = rechts, -90 = oben),
-// dist = Wurfweite, g = zusätzlicher Fall am Ende, life = Lebensdauer ms.
-// Ohne Zeichen werden farbige Punkte geworfen.
+// ── Effect catalogue ──
+// Particle specification per reaction: either a preset or an explicit
+// specification. a0..a1 = angle range (degrees, 0 = right, -90 = up),
+// dist = throwing distance, g = additional fall at the end, life = lifetime ms.
+// Without characters, coloured dots are thrown.
 struct FxSpec {
 	QString preset;        // "sparkle" | "shock" | "confetti" | "boom" |
 	// "gunshot" | ""
@@ -326,8 +326,8 @@ FxSpec dots(int count, int size, int a0, int a1,
 	return s;
 }
 
-// Die 90 Reaktionen mit ihrer Choreografie und ihren Partikeln (Reihenfolge
-// wie im Reaktions-Picker; Werte identisch zum QML- und zum Web-Client).
+// The 90 reactions with their choreography and their particles (order
+// as in the reaction picker; the values identical to the QML and the web client).
 const QHash<QString, FxDef> &fxTable()
 {
 	static const QHash<QString, FxDef> table = []() {
@@ -441,8 +441,8 @@ const QHash<QString, FxDef> &fxTable()
 
 const FxDef &fxFor(const QString &emoji)
 {
-	// Unbekannte Emojis (z. B. aus einer neueren Client-Version) bekommen den
-	// Standard-Effekt, damit die Reaktion trotzdem sichtbar wird.
+	// Unknown emojis (e.g. from a newer client version) get the
+	// default effect, so that the reaction becomes visible anyway.
 	static const FxDef fallback{QStringLiteral("pop"), preset("sparkle")};
 	const QHash<QString, FxDef> &t = fxTable();
 	auto it = t.constFind(emoji);
@@ -495,13 +495,13 @@ void ReactionFxOverlay::buildBurst(Burst &burst)
 {
 	const FxDef &def = fxFor(burst.emoji);
 	burst.anim = animFor(def.anim);
-	// 2× der logischen Basisgröße vorrendern – bleibt beim Peak-Scale scharf.
-	// emojiPixmap garantiert die Zielgröße auch für Bitmap-Emoji-Fonts
-	// (Qt skaliert deren Glyphen nicht).
+	// Pre-render at 2× the logical base size – it stays sharp at the peak scale.
+	// emojiPixmap guarantees the target size for bitmap emoji fonts as well
+	// (Qt does not scale their glyphs).
 	burst.emojiPm = EmojiPicker::emojiPixmap(burst.emoji, int(kBaseSize * 2));
 
-	// Partikel einer expliziten Spezifikation in den Winkelbereich a0..a1
-	// werfen.
+	// Throw the particles of an explicit specification into the angle range
+	// a0..a1.
 	auto spawn = [&burst](const FxSpec &spec, int delay) {
 		for (int i = 0; i < spec.count; ++i) {
 			Particle p;
@@ -538,10 +538,10 @@ void ReactionFxOverlay::buildBurst(Burst &burst)
 		burst.rings.append(r);
 		spec = glyphs({"💥", "✦"}, 8, 15, 0, 360, 70, 0, 800);
 	} else if (spec.preset == QLatin1String("boom")) {
-		// 💣: Die Bombe fällt zuerst ("drop"), erst beim Aufschlag explodiert
-		// sie – daher der Versatz von 420 ms; der zweite Ring folgt 120 ms
-		// später. Beide Zeiten sind an der Choreografie ausgerichtet und
-		// werden mit ihr gestreckt (kDurationScale).
+		// 💣: the bomb falls first ("drop"), it only explodes on impact
+		// – hence the offset of 420 ms; the second ring follows 120 ms
+		// later. Both times are aligned to the choreography and
+		// are stretched with it (kDurationScale).
 		Ring r;
 		r.dur = 900;
 		r.color = QColor("#ff9040");
@@ -573,13 +573,13 @@ void ReactionFxOverlay::buildBurst(Burst &burst)
 			p.life = int(rnd(1300, 1700));
 			burst.particles.append(p);
 		}
-		spec = FxSpec();   // keine weiteren Partikel
+		spec = FxSpec();   // no further particles
 	} else if (spec.preset == QLatin1String("gunshot")) {
-		// 🔫: Mündungsfeuer, ein goldenes Leuchtspur-Geschoss nach LINKS (der
-		// Glyph zeigt in allen Emoji-Fonts nach links), sein Funkenschweif und
-		// die nach rechts oben ausgeworfene Hülse. Das Emoji selbst spielt dazu
-		// die Choreografie "recoil".
-		Particle flash;                  // bleibt an der Laufmündung
+		// 🔫: muzzle flash, a golden tracer projectile to the LEFT (the
+		// glyph points left in all emoji fonts), its spark trail and
+		// the cartridge ejected to the upper right. The emoji itself plays
+		// the choreography "recoil" along with it.
+		Particle flash;                  // stays at the muzzle
 		flash.pm = EmojiPicker::emojiPixmap(QStringLiteral("💥"), 40);
 		flash.size = 20;
 		flash.ox = -20;
@@ -587,7 +587,7 @@ void ReactionFxOverlay::buildBurst(Burst &burst)
 		flash.pulse = true;
 		flash.life = 240;
 		burst.particles.append(flash);
-		Particle bullet;                 // das Geschoss
+		Particle bullet;                 // the projectile
 		bullet.kind = 1;
 		bullet.color = QColor("#E3C800");
 		bullet.size = 7;
@@ -598,12 +598,12 @@ void ReactionFxOverlay::buildBurst(Burst &burst)
 		burst.particles.append(bullet);
 		spawn(glyphs({"✦"}, 5, 9, 172, 188, 120, 0, 420), 0);
 		spawn(glyphs({"✨"}, 2, 10, -110, -60, 40, 55, 650), 0);
-		spec = FxSpec();   // keine weiteren Partikel
+		spec = FxSpec();   // no further particles
 	}
 
 	spawn(spec, delay);
 
-	// Gesamtdauer = längste Teilanimation (Emoji, Partikel, Ringe).
+	// Total duration = the longest sub-animation (emoji, particles, rings).
 	burst.life = burst.anim->dur;
 	for (const Particle &p : burst.particles)
 		burst.life = qMax(burst.life, p.delay + p.life);
@@ -651,8 +651,8 @@ void ReactionFxOverlay::drawBurst(QPainter &painter, const Burst &burst, qint64 
 		if (pt < 0 || pt > p.life)
 			continue;
 		const qreal frac = qreal(pt) / p.life;
-		// Bahn: 65 % der Zeit vom Start- zum Zielpunkt (OutCubic), danach Fall
-		// um g (InQuad).
+		// Path: 65 % of the time from the start to the target point (OutCubic), then a fall
+		// by g (InQuad).
 		qreal px, py;
 		if (frac <= 0.65) {
 			const qreal e = QEasingCurve(QEasingCurve::OutCubic).valueForProgress(frac / 0.65);
@@ -664,8 +664,8 @@ void ReactionFxOverlay::drawBurst(QPainter &painter, const Burst &burst, qint64 
 			py = p.dy + p.g * e;
 		}
 		qreal opacity = frac <= 0.65 ? 1.0 : 1.0 - (frac - 0.65) / 0.35;
-		// Mündungsfeuer: statt der vollen Deckkraft blitzt das Zeichen auf
-		// (Größe 0.4 → 1.25 → 0.7) und verblasst wieder.
+		// Muzzle flash: instead of the full opacity the character flashes up
+		// (size 0.4 → 1.25 → 0.7) and fades again.
 		qreal pulse = 1.0;
 		if (p.pulse) {
 			if (frac <= 0.35) {
@@ -699,7 +699,7 @@ void ReactionFxOverlay::drawBurst(QPainter &painter, const Burst &burst, qint64 
 		painter.restore();
 	}
 
-	// ── Großes Emoji: Keyframes der Choreografie ──
+	// ── Large emoji: keyframes of the choreography ──
 	const ReactionAnim &a = *burst.anim;
 	if (t > a.dur || burst.emojiPm.isNull())
 		return;
@@ -715,15 +715,15 @@ void ReactionFxOverlay::drawBurst(QPainter &painter, const Burst &burst, qint64 
 	painter.translate(burst.anchor.x() + xOff, burst.anchor.y() + yOff);
 	painter.scale(scale, scale);
 	painter.rotate(sample(a, a.r, f, 0));
-	// Kartendreher ("flip"): Drehung um die Y-Achse als horizontale Stauchung
-	// (der Glyph spiegelt sich dabei wie im Web-Client).
+	// Card turner ("flip"): rotation around the Y axis as a horizontal squeeze
+	// (the glyph mirrors itself in the process as in the web client).
 	if (!a.ry.isEmpty())
 		painter.scale(std::cos(sample(a, a.ry, f, 0) * M_PI / 180.0), 1.0);
 	painter.setOpacity(opacity);
 	painter.setRenderHint(QPainter::SmoothPixmapTransform);
 	const QRectF target(-kBaseSize / 2, -kBaseSize / 2, kBaseSize, kBaseSize);
 	painter.drawPixmap(target, burst.emojiPm, burst.emojiPm.rect());
-	// Aufblitzen der "shine"-Choreografie: additiv aufhellen.
+	// Flash of the "shine" choreography: brighten additively.
 	const qreal bright = sample(a, a.b, f, 0);
 	if (bright > 0.0) {
 		painter.setCompositionMode(QPainter::CompositionMode_Plus);

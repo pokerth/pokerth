@@ -1,11 +1,11 @@
-// CheckBox, die direkt an einen Integer-Config-Key gebunden ist:
+// CheckBox bound directly to an integer config key:
 //   checked  = readConfigInt(configKey) != 0
 //   onToggled→ writeConfigInt(configKey, checked ? 1 : 0)
-// Ersetzt das überall wiederholte read/write-Paar in den Settings. `text` (und
-// alles Übrige) setzt der Aufrufer wie bei einer normalen CheckBox.
-// defaultChecked greift, solange der SettingsManager (noch) nicht verfügbar ist.
-// Basis ist AppCheckBox – die Beschriftung bricht also um, statt in schmalen
-// Fenstern rechts abgeschnitten zu werden.
+// Replaces the read/write pair repeated all over the settings. `text` (and
+// everything else) is set by the caller as on a normal CheckBox.
+// defaultChecked applies as long as the SettingsManager is not (yet) available.
+// The base is AppCheckBox – so the caption wraps instead of being cut off on
+// the right in narrow windows.
 AppCheckBox {
     id: control
     property string configKey: ""

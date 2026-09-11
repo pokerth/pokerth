@@ -18,16 +18,16 @@ ApplicationWindow {
     Universal.theme: Config.StaticData.isDark ? Universal.Dark : Universal.Light
 
     // portraitMode is now provided by Config.Responsive.portrait
-    // Topbar-Icons im Splash/PreLoader ausblenden – sonst kann ein zu früher
-    // Klick eine Seite über den PreLoader pushen, die dann von dessen
-    // replaceCurrentItem(startPage) den Stack durcheinanderbringt.
+    // Hide the top bar icons in the splash/PreLoader – otherwise a click that is
+    // too early can push a page above the PreLoader, which then messes up the
+    // stack with its replaceCurrentItem(startPage).
     readonly property bool topBarIconsVisible:
         mainStackView.currentItem
         && mainStackView.currentItem.objectName !== "preLoaderPage"
 
-    // ── Private Nachrichten (Posteingang) ──────────────────────────────────
-    // Zähler und Anzahl der Unterhaltungen für das Brief-Symbol der Kopfzeile.
-    // privateMessagesRevision ist die reaktive Abhängigkeit des Verlaufs.
+    // ── Private messages (the inbox) ───────────────────────────────────────
+    // The counter and the number of conversations for the letter symbol of the header.
+    // privateMessagesRevision is the reactive dependency of the history.
     readonly property int unreadPrivateMessages:
         (typeof Lobby !== "undefined" && Lobby) ? Lobby.unreadPrivateMessages : 0
     readonly property int privateConversationCount: {
@@ -36,20 +36,20 @@ ApplicationWindow {
                 ? Lobby.privateConversationPartners().length : 0
     }
 
-    // Öffnet den Posteingang; playerName leer => zuletzt aktives Gespräch.
-    // Die Spielerlisten der Seiten rufen das mit dem angeklickten Spieler auf.
+    // Opens the inbox; an empty playerName => the conversation that was active last.
+    // The player lists of the pages call it with the player that was clicked.
     function openPrivateMessages(playerName) {
         privateMessageDialog.openWith(playerName)
     }
 
-    // True zwischen Beginn einer automatischen Wiederverbindung und ihrem
-    // Ausgang. Trägt den Fall, dass die Wiederverbindung aufgegeben wird:
-    // die Lobby ist dann bereits abgebaut, inLobbySession also false, die
-    // Fehlermeldung muss den Spieler aber trotzdem erreichen.
+    // True between the beginning of an automatic reconnect and its
+    // outcome. It covers the case that the reconnect is given up:
+    // the lobby is already torn down then, so inLobbySession is false, but the
+    // error message still has to reach the player.
     property bool reconnectPending: false
 
-    // True, sobald die Lobby betreten wurde (Lobby-Seite liegt im Stack) – steuert
-    // die globale Statusleiste. Re-Eval bei jeder Navigation (depth/currentItem).
+    // True as soon as the lobby has been entered (the lobby page lies in the stack) – it controls
+    // the global status bar. It is re-evaluated on every navigation (depth/currentItem).
     readonly property bool inLobbySession: {
         var _d = mainStackView.depth
         var _c = mainStackView.currentItem
@@ -58,27 +58,27 @@ ApplicationWindow {
         }) !== null
     }
 
-    // Overlay-Seiten der Topbar-Icons (Settings + Community/Ranking + Forum-
-    // Neuigkeiten inkl. der Unterseiten). Alles, was NICHT hier steht, gilt als
-    // Basisseite (Gametable, Lobby, Startseite) – dorthin wird beim Schließen
-    // zurückgesetzt.
+    // The overlay pages of the top bar icons (settings + community/ranking + forum
+    // news incl. their sub-pages). Everything that is NOT listed here counts as a
+    // base page (the game table, the lobby, the start page) – that is where it is reset
+    // to when closing.
     readonly property var settingsSectionPages: ["settingsPage"]
     readonly property var rankingSectionPages:
         ["communityRankingPage", "rankingPage", "bbcRankingPage", "wecRankingPage",
          "pokerthPlayerPage", "communityPlayerPage"]
     readonly property var forumSectionPages: ["forumNewsPage", "forumPostPage"]
 
-    // Alle Overlay-Seiten zusammen – Grundlage von closeTopBarOverlay() und
+    // All overlay pages together – the basis of closeTopBarOverlay() and
     // saveOverlayStack().
     readonly property var overlaySectionPages:
         settingsSectionPages.concat(rankingSectionPages, forumSectionPages)
 
-    // Gemerkter Ranking-Unterstapel beim Schließen über den Globus, damit ein
-    // erneutes Toggle wieder auf der letzten Ranking-Seite landet (statt auf der
-    // Auswahlseite). Liste von { url, props } in Stack-Reihenfolge.
+    // The ranking substack remembered when closing via the globe, so that
+    // toggling again lands on the last ranking page (instead of on the
+    // selection page). A list of { url, props } in stack order.
     property var savedRankingStack: []
 
-    // Aktiv = oberste Seite gehört zur jeweiligen Sektion → Icon hervorheben.
+    // Active = the topmost page belongs to the respective section → highlight the icon.
     readonly property bool settingsSectionActive:
         topBarSectionOpen(settingsSectionPages)
     readonly property bool rankingSectionActive:
@@ -91,9 +91,9 @@ ApplicationWindow {
         return c && sectionPages.indexOf(c.objectName) !== -1
     }
 
-    // Alle Overlay-Seiten (Settings/Ranking/Forum) vom Stack poppen, sodass die
-    // darunterliegende Basisseite (Gametable, Lobby oder Startseite) wieder
-    // erscheint. Hält NIE auf der Zwischen-Auswahlseite (CommunityRankingPage).
+    // Pop all overlay pages (settings/ranking/forum) off the stack, so that the
+    // base page below (the game table, the lobby or the start page)
+    // appears again. It NEVER stops at the intermediate selection page (CommunityRankingPage).
     function closeTopBarOverlay() {
         var overlay = overlaySectionPages
         for (var i = mainStackView.depth - 1; i >= 0; --i) {
@@ -105,8 +105,8 @@ ApplicationWindow {
         }
     }
 
-    // objectName → Quell-URL (relativ zu pokerth.qml) für das Wiederherstellen
-    // eines gemerkten Overlay-Stacks.
+    // objectName → the source URL (relative to pokerth.qml) for restoring
+    // a remembered overlay stack.
     function overlayUrlFor(objectName) {
         switch (objectName) {
         case "communityRankingPage": return "pages/CommunityRankingPage.qml"
@@ -122,7 +122,7 @@ ApplicationWindow {
         return ""
     }
 
-    // Konstruktions-Properties, die eine Seite zum Wiederaufbau braucht.
+    // The construction properties a page needs for the rebuild.
     function overlayPropsFor(item) {
         if (item.objectName === "forumPostPage")
             return { post: item.post }
@@ -130,14 +130,14 @@ ApplicationWindow {
             return { playerId: item.playerId, username: item.username }
         if (item.objectName === "communityPlayerPage")
             return { baseUrl: item.baseUrl, nickname: item.nickname, blocks: item.blocks }
-        // Ranking-Listen-Seiten merken ihren Filter-Zustand über captureState().
+        // The ranking list pages remember their filter state via captureState().
         if (typeof item.captureState === "function")
             return { restoreState: item.captureState() }
         return {}
     }
 
-    // Aktuellen Ranking-Overlay-Unterstapel (über der Basisseite) als Liste von
-    // { url, props } sichern, um ihn später 1:1 wiederherzustellen.
+    // Save the current ranking overlay substack (above the base page) as a list of
+    // { url, props }, in order to restore it 1:1 later.
     function saveOverlayStack() {
         var overlay = overlaySectionPages
         var saved = []
@@ -161,11 +161,11 @@ ApplicationWindow {
         }
     }
 
-    // Topbar-Icon als Toggle: ist die Sektion bereits offen, wird sie (und jede
-    // andere offene Overlay-Sektion) bis zur Basisseite geschlossen; sonst wird
-    // ihre Einstiegsseite geöffnet – ggf. nach Kollaps einer anderen Sektion.
-    // restore=true (Ranking) merkt sich beim Schließen den Unterstapel und stellt
-    // ihn beim erneuten Öffnen wieder her (statt nur die Einstiegsseite).
+    // The top bar icon as a toggle: if the section is already open, it (and every
+    // other open overlay section) is closed down to the base page; otherwise
+    // its entry page is opened – possibly after collapsing another section.
+    // restore=true (ranking) remembers the substack when closing and restores
+    // it when opening again (instead of only the entry page).
     function toggleTopBarSection(entryUrl, sectionPages, restore) {
         var open = topBarSectionOpen(sectionPages)
         if (open && restore)
@@ -182,22 +182,22 @@ ApplicationWindow {
 
     property StartPage startPage: StartPage {}
     property SideMenu sideMenu: SideMenu {}
-    // Start-Auflösung = Default-Größe des Qt-Widgets-Clients am Gametable
-    // (gametable.ui: 1024×621). Beim Komponenten-Aufbau wird die Größe
-    // zusätzlich auf den verfügbaren Bildschirm geclampt.
+    // The start resolution = the default size of the Qt widgets client at the game table
+    // (gametable.ui: 1024×621). When the component is built, the size is
+    // additionally clamped to the available screen.
     width: 1024
     height: 621
-    // Initiale Portrait-Breite als untere Schranke – das Fenster darf nicht
-    // schmaler werden als der Standard-Portrait-Modus, damit das Layout
-    // (Slot-Spalten, Self-Box, Action-Buttons) immer komplett ins Bild passt.
+    // The initial portrait width as a lower bound – the window must not become
+    // narrower than the standard portrait mode, so that the layout
+    // (slot columns, the self box, the action buttons) always fits into the picture completely.
     //
-    // NUR DESKTOP. Auf Android/iOS gibt es kein frei skalierbares Fenster: die
-    // Fläche IST der Bildschirm. Eine Mindestbreite, die über der logischen
-    // Display-Breite liegt, lässt Qt die Szene breiter aufziehen als die
-    // Anzeige – der Rand wird abgeschnitten, der Spieler sieht "nicht die
-    // volle Breite". Genau das passiert auf verbreiteten 1080p-Phones: ein
-    // Samsung S20 FE (1080×2400) meldet je nach gerundetem devicePixelRatio
-    // 360×800 dp – 30 dp schmaler als die hier geforderten 390.
+    // DESKTOP ONLY. On Android/iOS there is no freely scalable window: the
+    // area IS the screen. A minimum width that lies above the logical
+    // display width makes Qt draw the scene wider than the
+    // display – the edge is cut off, the player sees "not the
+    // full width". Exactly that happens on widespread 1080p phones: a
+    // Samsung S20 FE (1080×2400) reports 360×800 dp depending on the rounded
+    // devicePixelRatio – 30 dp narrower than the 390 demanded here.
     minimumWidth: Config.Responsive.isMobile ? 0 : 390
     minimumHeight: Config.Responsive.isMobile ? 0 : 600
     // TRY to center the window, doesn't work on my Ubuntu but should work on other platforms.
@@ -225,20 +225,20 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        // Aspect-erhaltender Clamp auf den verfügbaren Bildschirm. 2316×1080
-        // ist die Phone-Landscape-Testgröße (Aspect 2.144); auf Notebooks mit
-        // 1920×1080 oder 2560×1440 würde das Fenster sonst entweder rausragen
-        // oder sein Seitenverhältnis verlieren — beides hebelt den
-        // landscapeCompact-Modus aus (Aspect-Schwelle 1.85).
+        // An aspect preserving clamp to the available screen. 2316×1080
+        // is the phone landscape test size (aspect 2.144); on notebooks with
+        // 1920×1080 or 2560×1440 the window would otherwise either stick out
+        // or lose its aspect ratio — both disable the
+        // landscapeCompact mode (the aspect threshold 1.85).
         //
-        // Reine DESKTOP-Logik: Größe, Mindestgröße und Zentrierung ergeben nur
-        // dort einen Sinn, wo es ein Fenster IM Bildschirm gibt. Auf Android/
-        // iOS legt das System die Fläche fest (Vollbild); jede eigene Geometrie
-        // arbeitet dagegen. Konkret rechnete der Clamp auf einem 360×800-dp-
-        // Phone: scale = (360−20)/1024 = 0.33 → width = max(390, 340) = 390 und
-        // x = 180 − 195 = −15, also ein Fenster BREITER als das Display und
-        // dazu nach links versetzt → beide Ränder der Szene liegen außerhalb
-        // der Anzeige. Auf Mobil daher gar nichts anfassen.
+        // Purely DESKTOP logic: the size, the minimum size and the centring only make
+        // sense where there is a window IN a screen. On Android/
+        // iOS the system determines the area (fullscreen); any geometry of our own
+        // works against it. Concretely the clamp computed on a 360×800 dp
+        // phone: scale = (360−20)/1024 = 0.33 → width = max(390, 340) = 390 and
+        // x = 180 − 195 = −15, i.e. a window WIDER than the display and
+        // offset to the left as well → both edges of the scene lie outside
+        // the display. So do not touch anything at all on mobile.
         if (!Config.Responsive.isMobile && screen) {
             var maxW = screen.width  - 20
             var maxH = screen.height - 60   // Taskleiste/Titelbar
@@ -254,35 +254,35 @@ ApplicationWindow {
         Config.Responsive.windowHeight = height
         Config.Theme.windowWidth       = width
         Config.Theme.windowHeight      = height
-        // Sprache kommt aus dem ConfigFile (Key "Language") – derselbe Wert, den
-        // auch der Widgets-Client nutzt. Parameters.language ist nur noch der
-        // Laufzeitwert für die Oberfläche.
+        // The language comes from the ConfigFile (the key "Language") – the same value that
+        // the widgets client uses as well. Parameters.language is only the
+        // runtime value for the user interface.
         Config.Parameters.language = Config.StaticData.configLanguageToLocale(
                     SettingsManager ? SettingsManager.language : "")
         LanguageManager.switchLanguage(Config.Parameters.language)
-        // Initialise dark/light mode from stored preference. "Automatisch"
-        // (2) folgt dem System – der Wert kommt aus C++ (darkmode.h) und wird
-        // von systemDarkSync nachgeführt, wenn das System-Theme wechselt.
+        // Initialise dark/light mode from the stored preference. "Automatic"
+        // (2) follows the system – the value comes from C++ (darkmode.h) and is
+        // updated by systemDarkSync when the system theme changes.
         var dm = SettingsManager ? SettingsManager.readConfigInt("DarkMode") : 1
         applySystemDark()
         Config.StaticData.darkMode = dm
         Config.Theme.darkMode = dm
-        // Dekorative Effekte (Schatten/Glow/Blur) aus persistenter Einstellung.
+        // Decorative effects (shadow/glow/blur) from the persistent setting.
         Config.Theme.effectsEnabled = SettingsManager
             ? SettingsManager.readConfigInt("QmlReduceEffects") === 0 : true
-        // Sitz-Stil der Spielerboxen (Einsatz im Sockel oder daneben). Ein
-        // leerer Wert bedeutet "Vorgabe" – dann bleibt der Default des
-        // Singletons stehen.
+        // The seat style of the player boxes (the bet in the base or next to it). An
+        // empty value means "default" – then the default of the
+        // singleton stays.
         var seatStyle = SettingsManager
             ? SettingsManager.readConfigString("QmlSeatStyle") : ""
         if (seatStyle === "inset" || seatStyle === "classic")
             Config.SeatStyle.variant = seatStyle
     }
 
-    // Hell/Dunkel des Betriebssystems in die Singletons spiegeln (die eine
-    // Context-Property nicht selbst lesen können). Wirkt nur bei DarkMode =
-    // "Automatisch"; bei fest eingestelltem Hell/Dunkel bleibt der Wert
-    // ungenutzt.
+    // Mirror the light/dark of the operating system into the singletons (which
+    // cannot read a context property themselves). It only applies with DarkMode =
+    // "automatic"; with a fixed light/dark setting the value stays
+    // unused.
     function applySystemDark() {
         var sd = SettingsManager ? SettingsManager.systemDark : true
         Config.StaticData.systemDark = sd
@@ -302,30 +302,30 @@ ApplicationWindow {
 
         var current = mainStackView.currentItem
 
-        // Warteraum und laufendes Spiel: vor dem Verlassen IMMER nachfragen
-        // (egal ob per Esc, Android-Back oder Tür-Icon), damit ein
-        // versehentlicher Tastendruck das Spiel nicht ungewollt verlässt. Das
-        // eigentliche Verlassen erledigt performLeaveGame() nach Bestätigung.
+        // The waiting room and a running game: ALWAYS ask before leaving
+        // (no matter whether via Esc, Android back or the door icon), so that an
+        // accidental keystroke does not leave the game unintentionally. The
+        // actual leaving is done by performLeaveGame() after the confirmation.
         if (current && (current.objectName === "gameWaitPage"
                         || current.objectName === "gamePage")) {
             leaveGameConfirmPopup.open()
             return true
         }
 
-        // Lobby: vor dem Zurückkehren zur Startseite IMMER nachfragen und die
-        // Server-Verbindung trennen (sonst bleibt man im Hintergrund verbunden
-        // und erhält weiter Lobby-Chat/Mentions). Das eigentliche Verlassen
-        // erledigt performLeaveLobby() nach Bestätigung.
+        // The lobby: ALWAYS ask before returning to the start page and disconnect
+        // from the server (otherwise you stay connected in the background
+        // and keep receiving lobby chat/mentions). The actual leaving is done
+        // by performLeaveLobby() after the confirmation.
         if (current && current.objectName === "lobbyPage") {
             leaveLobbyConfirmPopup.open()
             return true
         }
 
-        // Seiten mit einem eigenen Zurück-Schritt (z. B. Login-Formular →
-        // Auswahl) bekommen den Vorrang vor dem Verlassen der Seite. Escape
-        // erreicht die Seiten nicht selbst: Der Shortcut oben greift VOR den
-        // Keys-Handlern der Items, ein Keys.onEscapePressed auf einer Seite
-        // würde nie feuern. Deshalb fragt die Navigation hier nach.
+        // Pages with a back step of their own (e.g. the login form →
+        // the selection) take precedence over leaving the page. Escape
+        // does not reach the pages itself: the shortcut above applies BEFORE the
+        // Keys handlers of the items, a Keys.onEscapePressed on a page
+        // would never fire. That is why the navigation asks here.
         // qmllint disable missing-property
         if (current && typeof current.handleBack === "function" && current.handleBack())
             return true
@@ -335,31 +335,31 @@ ApplicationWindow {
         return true
     }
 
-    // Sicherheitsnetz beim Verlassen eines NETZWERK-Spiels.
+    // A safety net when leaving a NETWORK game.
     //
-    // Regulär vollzieht nicht performLeaveGame() den Wechsel zurück zur Lobby,
-    // sondern erst die Server-Bestätigung: Lobby.leaveGame() schickt das Paket,
-    // der Server antwortet mit removedFromGame, und GameWaitPage (liegt unter der
-    // GamePage im Stack) poppt bis zur Lobby. Ist die Verbindung tot – auf iOS
-    // reisst das System beim Suspendieren TCP-Sockets ab, ohne dass der Client es
-    // merkt –, kommt diese Antwort NIE. Der Nutzer sitzt dann dauerhaft im
-    // Spielbildschirm fest: die Abfrage erscheint, „Ja" bewirkt aber nichts, und
-    // nur ein Neustart der App hilft (genau so im Testbericht + Debug-Log:
-    // zwei Leave-Versuche, beide ohne Wirkung).
+    // Regularly it is not performLeaveGame() that performs the change back to the lobby
+    // but the server confirmation: Lobby.leaveGame() sends the packet,
+    // the server answers with removedFromGame, and GameWaitPage (which lies below the
+    // GamePage in the stack) pops up to the lobby. If the connection is dead – on iOS
+    // the system tears TCP sockets down when suspending, without the client
+    // noticing –, this answer NEVER arrives. The user is then stuck in the
+    // game screen permanently: the prompt appears, but "yes" does nothing, and
+    // only a restart of the app helps (exactly so in the test report + the debug log:
+    // two leave attempts, both without effect).
     //
-    // Der Timer poppt deshalb nach Ablauf selbst zur Lobby. Er wird von
-    // onRemovedFromGame gestoppt, sodass er im Normalfall (Antwort in
-    // Millisekunden) nie feuert und das Verhalten unverändert bleibt.
+    // The timer therefore pops to the lobby itself when it expires. It is stopped by
+    // onRemovedFromGame, so that in the normal case (an answer within
+    // milliseconds) it never fires and the behaviour stays unchanged.
     Timer {
         id: leaveGameFallbackTimer
         interval: 5000
         repeat: false
         onTriggered: {
-            // Nur eingreifen, wenn Spiel/Warteraum ueberhaupt noch im Stack liegen.
-            // Bewusst der ganze Stack statt nur currentItem: der Nutzer kann
-            // waehrend des Wartens ein Overlay (z.B. die Einstellungen) geoeffnet
-            // haben – im Testbericht war genau das moeglich, waehrend das Spiel
-            // stand. Das Overlay wird vom pop() zur Lobby mit entfernt.
+            // Only intervene if the game/waiting room is still in the stack at all.
+            // Deliberately the whole stack instead of only currentItem: the user may have
+            // opened an overlay (e.g. the settings) while waiting – in the
+            // test report exactly that was possible while the game
+            // stood still. The overlay is removed by the pop() to the lobby as well.
             var stuck = mainStackView.find(function(item) {
                 return item && (item.objectName === "gamePage"
                                 || item.objectName === "gameWaitPage")
@@ -375,15 +375,15 @@ ApplicationWindow {
             if (lobby)
                 mainStackView.pop(lobby)
             else
-                mainStackView.pop(null)   // keine Lobby im Stack → zur Startseite
+                mainStackView.pop(null)   // no lobby in the stack → to the start page
         }
     }
 
     function performLeaveLobby() {
-        // Bewusster Disconnect meldet keinen connectionFailed – eine offene
-        // Timeout-Warnung der beendeten Session hier direkt schließen.
+        // A deliberate disconnect reports no connectionFailed – close an open
+        // timeout warning of the session that has ended directly here.
         timeoutWarningPopup.close()
-        // Wer bewusst geht, will nicht automatisch zurückgeholt werden.
+        // Whoever leaves deliberately does not want to be fetched back automatically.
         if (typeof ServerConnection !== "undefined" && ServerConnection)
             ServerConnection.abortAutoReconnect()
         if (typeof Lobby !== "undefined" && Lobby)
@@ -401,15 +401,15 @@ ApplicationWindow {
                         && GameTable
                         && GameTable.isLocalGameRunning()
 
-        // Warteraum bzw. laufendes Netzwerkspiel: serverseitig verlassen und
-        // zurück in die LOBBY (nicht in den darunterliegenden Warteraum). Der
-        // StackView wird durch onRemovedFromGame bis zur Lobby gepoppt – hier
-        // NICHT poppen.
+        // The waiting room or a running network game: leave it on the server side and
+        // go back into the LOBBY (not into the waiting room below it). The
+        // StackView is popped to the lobby by onRemovedFromGame – do NOT
+        // pop here.
         if (isWaitPage || (isGamePage && !localGame)) {
             if (typeof Lobby !== "undefined" && Lobby)
                 Lobby.leaveGame()
-            // Sicherheitsnetz starten: kommt die Server-Bestätigung nicht, holt
-            // uns leaveGameFallbackTimer trotzdem aus dem Spiel (s. dort).
+            // Start the safety net: if the server confirmation does not arrive,
+            // leaveGameFallbackTimer gets us out of the game anyway (see there).
             leaveGameFallbackTimer.restart()
             return
         }
@@ -422,15 +422,15 @@ ApplicationWindow {
             mainStackView.pop()
     }
     
-    // ── Randlose Anzeige (Android 15+) ──────────────────────────────────────
-    // Ab targetSdk 35 zeichnet Android ZWINGEND randlos: das „Fullscreen“-Flag
-    // des App-Themes wird ignoriert, Status- und Navigationsleiste liegen über
-    // dem Fensterinhalt. Die Ränder, die dafür frei bleiben müssen, meldet
-    // SafeArea (QtQuick 6.9) – gekapselt in einer eigenen Datei, weil der Typ
-    // auf Qt 6.7 (Android-8-APK-Variante) noch nicht existiert und ein direkter
-    // Zugriff dort das ganze Fenster nicht mehr laden ließe. Scheitert der
-    // Loader, bleiben die Abstände 0 und alles ist wie bisher; ebenso, wenn die
-    // Plattform die Leisten selbst schon freihält.
+    // ── Edge-to-edge display (Android 15+) ──────────────────────────────────
+    // From targetSdk 35 on, Android draws edge to edge MANDATORILY: the "fullscreen" flag
+    // of the app theme is ignored, the status and navigation bar lie above
+    // the window content. The insets that have to stay free for them are reported by
+    // SafeArea (QtQuick 6.9) – encapsulated in a file of its own, because the type
+    // does not exist yet on Qt 6.7 (the Android 8 APK variant) and a direct
+    // access there would make the whole window fail to load. If the
+    // loader fails, the insets stay 0 and everything is as before; likewise when the
+    // platform already keeps the bars free itself.
     Loader {
         id: safeAreaLoader
         anchors.fill: parent
@@ -447,8 +447,8 @@ ApplicationWindow {
     readonly property real safeAreaRight:
         safeAreaLoader.item ? safeAreaLoader.item.insetRight : 0
 
-    // Hintergrund bewusst OHNE Sicherheitsabstände: die Systemleisten sollen auf
-    // der App-Hintergrundfarbe liegen, nicht auf einem schwarzen Streifen.
+    // The background deliberately WITHOUT safe area insets: the system bars should lie on
+    // the app background colour, not on a black strip.
     Rectangle {
         anchors.fill: parent
         color: Config.StaticData.palette.secondary.col700
@@ -457,7 +457,7 @@ ApplicationWindow {
     ColumnLayout {
         id: mainLayout
         anchors.fill: parent
-        // Inhalt aus Status-/Navigationsleiste und Notch heraushalten.
+        // Keep the content out of the status/navigation bar and the notch.
         anchors.topMargin:    mainWindow.safeAreaTop
         anchors.bottomMargin: mainWindow.safeAreaBottom
         anchors.leftMargin:   mainWindow.safeAreaLeft
@@ -468,8 +468,8 @@ ApplicationWindow {
         Rectangle {
             id: topBar
             Layout.preferredWidth: parent.width
-            // Kompakter App-Header auf kurzen Landscape-Phones (spart vertikalen
-            // Platz für den Tisch -> weniger Gegnerbox-Überlappung).
+            // A compact app header on short landscape phones (it saves vertical
+            // room for the table -> less opponent box overlap).
             Layout.preferredHeight: Config.Responsive.landscapeCompact ? 30 : 38
             Layout.alignment: Qt.AlignTop
             color: Config.Theme.colorBox
@@ -486,8 +486,8 @@ ApplicationWindow {
                     Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
                     source: "resources/threeLines.svg"
                     visible: mainWindow.topBarIconsVisible
-                    // Tooltip folgt der Funktion des Buttons: Tür-Icon = Lobby/Spiel
-                    // verlassen (je nach Seite), Caret = Zurück, sonst Menü.
+                    // The tooltip follows the function of the button: the door icon = leave the lobby/game
+                    // (depending on the page), the caret = back, otherwise the menu.
                     ToolTip.visible: menuArea.containsMouse
                                      && !Config.Responsive.isMobile && Config.Parameters.showTooltips
                     ToolTip.delay: 600
@@ -531,19 +531,19 @@ ApplicationWindow {
                     Layout.horizontalStretchFactor: 2
                 }
 
-                // Posteingang für private Nachrichten. Steht links neben den
-                // Neuigkeiten und trägt – wie diese – seinen Zähler als
-                // Plakette am Icon (kein Kind des Icons: der MultiEffect-Layer
-                // würde sie sonst mit einfärben).
+                // The inbox for private messages. It stands to the left of the
+                // news and carries – like it – its counter as a
+                // badge on the icon (not a child of the icon: the MultiEffect layer
+                // would otherwise colourise it as well).
                 Item {
                     id: topBarInboxButton
                     Layout.preferredWidth: 24
                     Layout.preferredHeight: 24
                     Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
-                    // Nur online: der Verlauf überdauert Sitzungen, ein Posteingang
-                    // auf der Startseite (ohne Verbindung) könnte aber nichts als
-                    // alte Nachrichten zeigen. Am laufenden Tisch ebenfalls weg –
-                    // dort sind PMs gesperrt.
+                    // Online only: the history outlives sessions, but an inbox
+                    // on the start page (without a connection) could show nothing but
+                    // old messages. At a running table it is gone as well –
+                    // PMs are blocked there.
                     visible: mainWindow.topBarIconsVisible
                              && mainWindow.inLobbySession
                              && !(typeof Lobby !== "undefined" && Lobby && Lobby.atRunningTable)
@@ -591,8 +591,8 @@ ApplicationWindow {
                             font.bold: true
                         }
 
-                        // Kurz aufpoppen, sobald eine neue PM eintrifft – zusammen
-                        // mit dem Ton der Hinweis, dass etwas eingegangen ist.
+                        // Pop briefly as soon as a new PM arrives – together
+                        // with the sound, the hint that something has come in.
                         onVisibleChanged: if (visible) inboxPop.restart()
                         Connections {
                             target: (typeof Lobby !== "undefined") ? Lobby : null
@@ -619,10 +619,10 @@ ApplicationWindow {
                     }
                 }
 
-                // Forum-Neuigkeiten – wie das Ranking überall erreichbar. Der
-                // Zähler ungelesener Beiträge sitzt als Plakette am Icon; er
-                // darf KEIN Kind des Icons sein, sonst färbt dessen
-                // MultiEffect-Layer ihn mit ein.
+                // The forum news – reachable everywhere like the ranking. The
+                // counter of unread posts sits as a badge on the icon; it
+                // must NOT be a child of the icon, otherwise its
+                // MultiEffect layer colourises it as well.
                 Item {
                     id: topBarForumButton
                     Layout.preferredWidth: 24
@@ -687,7 +687,7 @@ ApplicationWindow {
                     }
                 }
 
-                // Community / Ranking – überall erreichbar (auch in Lobby & Spiel).
+                // Community / ranking – reachable everywhere (in the lobby & the game as well).
                 SvgIcon {
                     id: topBarRankingIcon
                     Layout.preferredWidth: 24
@@ -786,27 +786,27 @@ ApplicationWindow {
                 var isLobby = (currentItem && currentItem.objectName === "lobbyPage");
                 var isGame  = (currentItem && currentItem.objectName === "gamePage");
                 var isGameWait = (currentItem && currentItem.objectName === "gameWaitPage");
-                // Sichtbarkeit der Topbar-Icons folgt dem Binding
-                // topBarIconsVisible (im Splash aus) – hier nur das Quell-Icon
-                // des Menü-/Zurück-Buttons je nach Seite wählen.
+                // The visibility of the top bar icons follows the binding
+                // topBarIconsVisible (off in the splash) – here only the source icon
+                // of the menu/back button is chosen depending on the page.
                 if (depth <= 1) {
                     topBarMenuIcon.source = sideMenu.visible ? "resources/caretLeft.svg" : "resources/threeLines.svg";
                 } else if (isLobby || isGame || isGameWait) {
-                    // Lobby, Spiel UND Warteraum: Tür-Icon zum Verlassen.
+                    // The lobby, the game AND the waiting room: a door icon for leaving.
                     topBarMenuIcon.source = "resources/doorExit.svg";
                 } else {
                     topBarMenuIcon.source = "resources/caretLeft.svg";
                 }
-                // Bildschirm während Spiel und Warteraum wach halten (Android:
-                // FLAG_KEEP_SCREEN_ON via JNI). Beim Verlassen freigeben.
+                // Keep the screen awake during the game and the waiting room (Android:
+                // FLAG_KEEP_SCREEN_ON via JNI). Release it when leaving.
                 ScreenHelper.setKeepScreenOn(isGame || isGameWait);
             }
         }
 
-        // Globale Statusleiste (verbundene Spieler / laufende & offene Spiele):
-        // erscheint unten auf allen Seiten, sobald die Lobby betreten wurde –
-        // ausgenommen der Spieltisch (GamePage hat eine eigene Statusleiste und
-        // braucht den vertikalen Platz).
+        // The global status bar (connected players / running & open games):
+        // it appears at the bottom on all pages as soon as the lobby has been entered –
+        // except at the game table (the GamePage has a status bar of its own and
+        // needs the vertical room).
         LobbyStatsBar {
             Layout.fillWidth: true
             Layout.leftMargin: Config.Theme.margin
@@ -819,7 +819,7 @@ ApplicationWindow {
         }
     }
 
-    // ── Tastenkürzel ──────────────────────────────────────────────────────────
+    // ── Keyboard shortcuts ────────────────────────────────────────────────────
     Shortcut {
         sequence: "Escape"
         onActivated: {
@@ -837,8 +837,8 @@ ApplicationWindow {
         }
     }
 
-    // Vollbild: gilt auf JEDER Seite (Startseite, Lobby, Warteraum, Tisch) –
-    // deshalb am Fenster und nicht auf der GamePage. Zuschauer eingeschlossen.
+    // Fullscreen: it applies on EVERY page (the start page, the lobby, the waiting room, the table) –
+    // which is why it is on the window and not on the GamePage. Spectators included.
     Shortcut {
         sequence: "F11"
         context: Qt.ApplicationShortcut
@@ -849,7 +849,7 @@ ApplicationWindow {
     Shortcut {
         sequence: "Alt+S"
         onActivated: {
-            // Nicht im Splash/PreLoader öffnen (Stack-Reset, s. topBarIconsVisible).
+            // Do not open it in the splash/PreLoader (a stack reset, see topBarIconsVisible).
             if (mainWindow.topBarIconsVisible)
                 mainWindow.toggleTopBarSection(
                     "pages/SettingsPage.qml", mainWindow.settingsSectionPages)
@@ -858,9 +858,9 @@ ApplicationWindow {
 
     SideMenu {}
 
-    // Der Forum-Abruf folgt der Einstellung: ausgeschaltet = kein Netzverkehr
-    // und kein Zähler. (Config.ForumNews darf die Parameters nicht selbst
-    // lesen – innerhalb des Moduls Config wäre das eine Zirkelabhängigkeit.)
+    // The forum fetch follows the setting: switched off = no network traffic
+    // and no counter. (Config.ForumNews must not read the Parameters itself –
+    // inside the module Config that would be a circular dependency.)
     Binding {
         target: Config.ForumNews
         property: "enabled"
@@ -875,16 +875,16 @@ ApplicationWindow {
     // Re-apply FLAG_KEEP_SCREEN_ON when the app returns to the foreground.
     // Android may clear window flags during lifecycle transitions (pause/resume),
     // so we can't rely solely on the one-time call from onCurrentItemChanged.
-    // ── AFK-Timeout-Warnung (Port von timeoutMsgBoxImpl, Lobby wie ingame) ──
-    // Erscheint global über allen Seiten; OK stoppt den Server-Countdown
-    // (resetNetworkTimeout). Der Beep kommt aus LobbyHandler::onTimeoutWarning.
+    // ── The AFK timeout warning (a port of timeoutMsgBoxImpl, lobby as well as in-game) ──
+    // It appears globally above all pages; OK stops the server countdown
+    // (resetNetworkTimeout). The beep comes from LobbyHandler::onTimeoutWarning.
     Popup {
         id: timeoutWarningPopup
-        // Ohne focus:true bekäme das Popup keine Tastatureingaben: Escape würde
-        // geschluckt (Popup bliebe offen, und der Escape-Shortcut des Fensters
-        // greift bei offenem Popup ebenfalls nicht) und Enter liefe ins Leere.
+        // Without focus:true the popup would get no keyboard input: Escape would be
+        // swallowed (the popup would stay open, and the Escape shortcut of the window
+        // does not apply with an open popup either) and Enter would go nowhere.
         focus: true
-        // Startfokus auf OK – Enter stoppt den Countdown.
+        // The initial focus on OK – Enter stops the countdown.
         onOpened: timeoutOkButton.forceActiveFocus()
         parent: Overlay.overlay
         anchors.centerIn: parent
@@ -936,7 +936,7 @@ ApplicationWindow {
             }
             AppLabel {
                 Layout.fillWidth: true
-                // Texte 1:1 wie timeoutMsgBoxImpl::timerRefresh.
+                // The texts 1:1 as in timeoutMsgBoxImpl::timerRefresh.
                 text: {
                     if (timeoutWarningPopup.expired)
                         return timeoutWarningPopup.reason === 2
@@ -976,14 +976,14 @@ ApplicationWindow {
         }
     }
 
-    // ── Server-Meldung (Port von startWindowImpl::networkMessage) ──────────
+    // ── A server message (a port of startWindowImpl::networkMessage) ───────
     Popup {
         id: networkMessagePopup
-        // Ohne focus:true bekäme das Popup keine Tastatureingaben: Escape würde
-        // geschluckt (Popup bliebe offen, und der Escape-Shortcut des Fensters
-        // greift bei offenem Popup ebenfalls nicht) und Enter liefe ins Leere.
+        // Without focus:true the popup would get no keyboard input: Escape would be
+        // swallowed (the popup would stay open, and the Escape shortcut of the window
+        // does not apply with an open popup either) and Enter would go nowhere.
         focus: true
-        // Startfokus auf Schließen – Enter quittiert die Meldung.
+        // The initial focus on close – Enter acknowledges the message.
         onOpened: networkMessageCloseButton.forceActiveFocus()
         parent: Overlay.overlay
         anchors.centerIn: parent
@@ -1029,20 +1029,20 @@ ApplicationWindow {
         }
     }
 
-    // ── Bestätigung beim Verlassen eines laufenden Spiels ─────────────────
-    // Erscheint bei Esc / Android-Back / Tür-Icon, solange man sich auf der
-    // GamePage befindet, damit ein versehentlicher Tastendruck nicht
-    // ungewollt das laufende Spiel beendet.
+    // ── The confirmation when leaving a running game ─────────────────────
+    // It appears on Esc / Android back / the door icon while you are on the
+    // GamePage, so that an accidental keystroke does not
+    // end the running game unintentionally.
     Popup {
         id: leaveGameConfirmPopup
-        // Ohne focus:true bekäme das Popup keine Tastatureingaben: Escape würde
-        // geschluckt (Popup bliebe offen, und der Escape-Shortcut des Fensters
-        // greift bei offenem Popup ebenfalls nicht) und Enter liefe ins Leere.
+        // Without focus:true the popup would get no keyboard input: Escape would be
+        // swallowed (the popup would stay open, and the Escape shortcut of the window
+        // does not apply with an open popup either) and Enter would go nowhere.
         focus: true
-        // Startfokus bewusst auf ABBRECHEN: Diese Abfrage existiert laut
-        // navigateBackFromTopBar() genau deshalb, damit ein versehentlicher
-        // Tastendruck das Spiel nicht verlässt. Enter darf das nicht aushebeln;
-        // zum Verlassen einmal Tab drücken.
+        // The initial focus deliberately on CANCEL: according to
+        // navigateBackFromTopBar() this prompt exists exactly so that an accidental
+        // keystroke does not leave the game. Enter must not undermine that;
+        // to leave, press Tab once.
         onOpened: leaveGameCancelButton.forceActiveFocus()
         parent: Overlay.overlay
         anchors.centerIn: parent
@@ -1097,17 +1097,17 @@ ApplicationWindow {
         }
     }
 
-    // ── Bestätigung beim Verlassen der Lobby (zurück zur Startseite) ───────
-    // Erscheint bei Esc / Android-Back / Tür-Icon, solange man sich in der
-    // Lobby befindet. Bei Bestätigung wird die Server-Verbindung getrennt.
+    // ── The confirmation when leaving the lobby (back to the start page) ───────
+    // It appears on Esc / Android back / the door icon while you are in the
+    // lobby. On confirmation the server connection is cut.
     Popup {
         id: leaveLobbyConfirmPopup
-        // Ohne focus:true bekäme das Popup keine Tastatureingaben: Escape würde
-        // geschluckt (Popup bliebe offen, und der Escape-Shortcut des Fensters
-        // greift bei offenem Popup ebenfalls nicht) und Enter liefe ins Leere.
+        // Without focus:true the popup would get no keyboard input: Escape would be
+        // swallowed (the popup would stay open, and the Escape shortcut of the window
+        // does not apply with an open popup either) and Enter would go nowhere.
         focus: true
-        // Startfokus bewusst auf ABBRECHEN – wie beim Verlassen des Spiels:
-        // Enter soll die Verbindung nicht versehentlich trennen.
+        // The initial focus deliberately on CANCEL – as when leaving the game:
+        // Enter should not cut the connection accidentally.
         onOpened: leaveLobbyCancelButton.forceActiveFocus()
         parent: Overlay.overlay
         anchors.centerIn: parent
@@ -1162,30 +1162,30 @@ ApplicationWindow {
         }
     }
 
-    // ── Automatische Wiederverbindung läuft ───────────────────────────────
-    // Ein Verbindungsverlust im laufenden Betrieb (Android: App war im
-    // Hintergrund; Desktop: WLAN-Schlaf) wirft den Spieler nicht mehr sofort
-    // auf die Login-Seite: Der ServerConnectionHandler meldet sich still neu
-    // an, der LobbyHandler nimmt das Rejoin-Angebot des Servers automatisch
-    // an, und der vorhandene showLobby-Weg baut Lobby/Warteraum/Tisch wieder
-    // auf. Sichtbar ist davon nur dieser Hinweis – mit Abbruch-Möglichkeit,
-    // denn niemand soll gegen seinen Willen festgehalten werden.
+    // ── An automatic reconnect is running ─────────────────────────────────
+    // A connection loss during operation (Android: the app was in the
+    // background; desktop: WLAN sleep) no longer throws the player onto the
+    // login page immediately: the ServerConnectionHandler logs in again
+    // silently, the LobbyHandler accepts the rejoin offer of the server automatically,
+    // and the existing showLobby path rebuilds the lobby/waiting room/table.
+    // The only visible part of that is this notice – with the possibility to cancel,
+    // because nobody should be held against their will.
     Popup {
         id: reconnectPopup
-        // Ohne focus:true bekäme das Popup keine Tastatureingaben: Escape würde
-        // geschluckt (Popup bliebe offen, und der Escape-Shortcut des Fensters
-        // greift bei offenem Popup ebenfalls nicht) und Enter liefe ins Leere.
+        // Without focus:true the popup would get no keyboard input: Escape would be
+        // swallowed (the popup would stay open, and the Escape shortcut of the window
+        // does not apply with an open popup either) and Enter would go nowhere.
         focus: true
-        // Einzige Aktion während des Wiederverbindens: Startfokus auf Abbrechen.
-        // (closePolicy NoAutoClose – Escape schließt hier absichtlich nicht.)
+        // The only action during the reconnect: the initial focus on cancel.
+        // (closePolicy NoAutoClose – Escape deliberately does not close here.)
         onOpened: reconnectCancelButton.forceActiveFocus()
         parent: Overlay.overlay
         anchors.centerIn: parent
         modal: true
         padding: 20
         width: Math.min(mainWindow.width * 0.85, 380)
-        // Nicht wegtippbar: Der Zustand endet von selbst (Erfolg, Aufgabe)
-        // oder über den Abbrechen-Knopf.
+        // It cannot be tapped away: the state ends by itself (success, giving up)
+        // or via the cancel button.
         closePolicy: Popup.NoAutoClose
 
         property int attempt: 0
@@ -1241,18 +1241,18 @@ ApplicationWindow {
         }
     }
 
-    // ── Verbindungsverlust nach dem Login (Lobby/Warteraum/Spiel) ──────────
-    // Die Verbindungs-/Beitrittsseiten behandeln connectionFailed selbst
-    // (Statuszeile während des Verbindens); nach dem Login gab es aber keinen
-    // Konsumenten: Ein Verbindungsabbruch im laufenden Spiel blieb unsichtbar.
-    // Greift jetzt erst, wenn die automatische Wiederverbindung aufgegeben hat.
+    // ── A connection loss after the login (lobby/waiting room/game) ──────────
+    // The connection/join pages handle connectionFailed themselves
+    // (the status line while connecting); after the login there was no
+    // consumer though: a connection loss during a running game stayed invisible.
+    // It now only applies once the automatic reconnect has given up.
     Popup {
         id: connectionLostPopup
-        // Ohne focus:true bekäme das Popup keine Tastatureingaben: Escape würde
-        // geschluckt (Popup bliebe offen, und der Escape-Shortcut des Fensters
-        // greift bei offenem Popup ebenfalls nicht) und Enter liefe ins Leere.
+        // Without focus:true the popup would get no keyboard input: Escape would be
+        // swallowed (the popup would stay open, and the Escape shortcut of the window
+        // does not apply with an open popup either) and Enter would go nowhere.
         focus: true
-        // Startfokus auf OK – Enter quittiert.
+        // The initial focus on OK – Enter acknowledges.
         onOpened: connectionLostOkButton.forceActiveFocus()
         parent: Overlay.overlay
         anchors.centerIn: parent
@@ -1297,33 +1297,33 @@ ApplicationWindow {
         }
     }
 
-    // Posteingang für private Nachrichten. Bewusst hier und nicht in den Seiten:
-    // Kopfzeilen-Symbol und Brief-Symbol der Spielerliste sollen denselben
-    // Dialog öffnen, und ein Seitenwechsel darf ein offenes Gespräch nicht
-    // mitsamt der Seite verwerfen.
+    // The inbox for private messages. Deliberately here and not in the pages:
+    // the header symbol and the letter symbol of the player list should open the same
+    // dialog, and a page change must not discard an open conversation
+    // together with the page.
     PrivateMessageDialog {
         id: privateMessageDialog
     }
 
-    // Verlässt man die Lobby (oder bricht die Verbindung ab), gehört auch der
-    // offene Posteingang weg – ohne Verbindung ließe sich darin nur noch lesen.
+    // If you leave the lobby (or the connection breaks), the open inbox
+    // has to go as well – without a connection you could only read in it.
     onInLobbySessionChanged: if (!inLobbySession) privateMessageDialog.close()
 
     Connections {
         target: ServerConnection
 
-        // Beginn/Ende der automatischen Wiederverbindung (nur Android/iOS –
-        // am Desktop wird das Signal nie ausgelöst).
+        // The beginning/end of the automatic reconnect (Android/iOS only –
+        // on the desktop the signal is never triggered).
         function onReconnectingChanged() {
             if (ServerConnection.reconnecting) {
                 mainWindow.reconnectPending = true
                 timeoutWarningPopup.close()
                 leaveGameConfirmPopup.close()
                 leaveLobbyConfirmPopup.close()
-                // Wie beim harten Verbindungsverlust zur StartPage abbauen und
-                // die Verbindungsseite auflegen – deren onShowLobby bringt uns
-                // nach erfolgreichem Re-Login ohne Zutun zurück in die Lobby,
-                // von dort übernimmt der automatische Rejoin.
+                // Tear down to the StartPage as with a hard connection loss and
+                // put the connection page on top – its onShowLobby brings us
+                // back into the lobby without any action after a successful re-login,
+                // and from there the automatic rejoin takes over.
                 mainStackView.pop(null)
                 mainStackView.push("pages/ServerConnectionDialog.qml")
                 reconnectPopup.open()
@@ -1338,28 +1338,28 @@ ApplicationWindow {
         }
 
         function onConnectionFailed(errorMessage) {
-            // Timeout-Warnung ist mit der Verbindung obsolet – IMMER schließen,
-            // auch wenn die Lobby bereits verlassen wurde (sonst bleibt das
-            // Popup nach Ablauf mangels aktivem OK-Button für immer offen).
+            // The timeout warning is obsolete with the connection – ALWAYS close it,
+            // even when the lobby has already been left (otherwise the popup stays
+            // open forever after it expires, for lack of an active OK button).
             timeoutWarningPopup.close()
-            // Nach aufgegebener Wiederverbindung ist die Lobby längst abgebaut,
-            // inLobbySession also false – der Spieler braucht die Meldung aber
-            // gerade dann. reconnectPending trägt diesen Fall.
+            // After a reconnect that was given up, the lobby has long been torn down,
+            // so inLobbySession is false – but the player needs the message
+            // exactly then. reconnectPending covers this case.
             const afterReconnect = mainWindow.reconnectPending
-            // Nur nach abgeschlossenem Login (Lobby im Stack) – während des
-            // Verbindens zeigen die Verbindungsseiten den Fehler selbst an.
+            // Only after a completed login (the lobby in the stack) – while
+            // connecting, the connection pages show the error themselves.
             if (!mainWindow.inLobbySession && !afterReconnect)
                 return
             mainWindow.reconnectPending = false
             reconnectPopup.close()
-            // Offene Modals (Verlassen-Bestätigungen) schließen.
+            // Close open modals (the leave confirmations).
             leaveGameConfirmPopup.close()
             leaveLobbyConfirmPopup.close()
             connectionLostPopup.message = errorMessage
-            // Zurück zur StartPage (baut Lobby-/Spiel-Seiten ab) und direkt die
-            // Login-Seite öffnen, damit ein erneuter Login nur einen Tap kostet.
-            // Nach einer gescheiterten Wiederverbindung liegt die Login-Seite
-            // bereits oben – dann nicht noch einmal umbauen.
+            // Back to the StartPage (it tears the lobby/game pages down) and open the
+            // login page directly, so that another login costs only one tap.
+            // After a failed reconnect the login page already lies
+            // on top – then do not rebuild it again.
             if (!afterReconnect) {
                 mainStackView.pop(null)
                 mainStackView.push("pages/ServerConnectionDialog.qml")
@@ -1367,8 +1367,8 @@ ApplicationWindow {
             connectionLostPopup.open()
         }
 
-        // Erfolgreiche Wiederverbindung: Die Lobby ist wieder da, der Rejoin
-        // läuft automatisch weiter. Nur noch den Merker zurücksetzen.
+        // A successful reconnect: the lobby is back, the rejoin
+        // continues automatically. Only reset the flag.
         function onShowLobby() {
             mainWindow.reconnectPending = false
         }
@@ -1379,17 +1379,17 @@ ApplicationWindow {
         function onTimeoutWarningReceived(reason, remainingSec) {
             timeoutWarningPopup.show(reason, remainingSec)
         }
-        // Nach Ablauf des Countdowns trennt der Server NICHT immer die
-        // Verbindung: beim AFK-Kick im Spiel und beim Admin-Timeout eines
-        // offenen Spiels wird man nur aus dem Spiel entfernt (Session lebt
-        // weiter). Der Widget-Client versteckt den Dialog dafür in
-        // networkNotification() – Pendant hier: die Entfernung aus dem Spiel
-        // macht die Warnung gegenstandslos, Popup schließen.
+        // After the countdown expires the server does NOT always cut the
+        // connection: on an AFK kick during a game and on an admin timeout of an
+        // open game you are only removed from the game (the session lives
+        // on). For that the widget client hides the dialog in
+        // networkNotification() – the counterpart here: the removal from the game
+        // makes the warning void, so close the popup.
         function onRemovedFromGame(reason) {
-            // Server hat das Verlassen bestätigt → das Sicherheitsnetz
-            // (leaveGameFallbackTimer) wird nicht mehr gebraucht. Ohne dieses
-            // Stoppen würde es nach einem regulären Verlassen nachfeuern und
-            // könnte eine inzwischen geöffnete Seite wegpoppen.
+            // The server has confirmed the leaving → the safety net
+            // (leaveGameFallbackTimer) is not needed any more. Without this
+            // stopping it would fire after a regular leaving and
+            // could pop away a page that has been opened meanwhile.
             leaveGameFallbackTimer.stop()
             timeoutWarningPopup.close()
         }
@@ -1397,16 +1397,16 @@ ApplicationWindow {
             networkMessagePopup.message = message
             networkMessagePopup.open()
         }
-        // "Show player stats" (Lobby-Icon / Tisch-Kontextmenü): native
-        // Player-Page statt Browser-Link. Quelle = im Backend vorausgewählte
-        // Default-Community (bei aktiven Community-Inhalten), sonst PokerTH.
+        // "Show player stats" (the lobby icon / the table context menu): the native
+        // player page instead of a browser link. The source = the default community
+        // preselected in the backend (with community content active), otherwise PokerTH.
         function onPlayerStatsRequested(playerName) {
             var comm = (Config.Parameters.showCommunityContent
                         && Config.Community.has(Config.Parameters.defaultCommunity))
                        ? Config.Parameters.defaultCommunity : "pokerth"
             var c = mainStackView.currentItem
-            // Doppelklick-Schutz: Page desselben Spielers liegt bereits oben
-            // (PokerTH per username, BBC/WEC per nickname).
+            // Double click protection: the page of the same player already lies on top
+            // (PokerTH by username, BBC/WEC by nickname).
             if (c && ((comm === "pokerth" && c.objectName === "pokerthPlayerPage"
                        && c.username === playerName)
                       || (comm !== "pokerth" && c.objectName === "communityPlayerPage"
@@ -1426,11 +1426,11 @@ ApplicationWindow {
                     item !== null &&
                     (item.objectName === "gamePage" || item.objectName === "gameWaitPage")
                 )
-                // Resume-Probe: Nach einer Hintergrund-Phase aktiv ein Paket
-                // schicken (AFK-Reset – Rückkehr IST Nutzeraktivität). Ist die
-                // Verbindung im Hintergrund gestorben, schlägt der Send fehl
-                // und der Verbindungsverlust wird sofort gemeldet (Popup +
-                // Login-Seite) statt erst beim ersten Tap oder per Keepalive.
+                // The resume probe: after a background phase actively send a
+                // packet (an AFK reset – returning IS user activity). If the
+                // connection has died in the background, the send fails
+                // and the connection loss is reported immediately (a popup +
+                // the login page) instead of only at the first tap or via the keepalive.
                 if (mainWindow.inLobbySession)
                     Lobby.resetNetworkTimeout()
             }

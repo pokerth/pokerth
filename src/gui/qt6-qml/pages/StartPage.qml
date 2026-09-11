@@ -8,15 +8,15 @@ import "../components"
 
 Rectangle {
     id: startPage
-    // An den sichtbaren Bereich (StackView unterhalb der Topbar) binden, nicht
-    // an das ganze Fenster – sonst ist die Box vertikal nicht zentriert.
+    // Bind to the visible area (StackView below the top bar), not to the whole
+    // window – otherwise the box is not centred vertically.
     width: mainStackView.width
     height: mainStackView.height
     color: "transparent"
 
-    // Startfokus auf die Hauptaktion – wie beim Öffnen eines Dialogs. Qt.callLater,
-    // weil der Fokus während der Stack-Animation sonst verpufft. Ohne Fokusgrund
-    // bleibt der Fokusrahmen aus; er erscheint erst beim ersten Tab.
+    // Initial focus on the main action – as when opening a dialog. Qt.callLater,
+    // because the focus would otherwise fizzle out during the stack animation.
+    // Without a focus reason there is no focus frame; it appears on the first Tab.
     StackView.onActivated: Qt.callLater(internetGameButton.forceActiveFocus)
 
     Image {
@@ -26,57 +26,57 @@ Rectangle {
         fillMode: Image.PreserveAspectCrop
     }
 
-    // Innenabstände der Box – identisch zum Login-Dialog (Config.Theme.margin).
+    // Inner margins of the box – identical to the login dialog (Config.Theme.margin).
     readonly property real hPad: Config.Theme.margin
     readonly property real vPad: Config.Theme.margin
     readonly property real innerSpacing: Config.Theme.spacing
-    // Abstand zwischen Logo-Block und Button-Raster (Column-spacing).
+    // Distance between the logo block and the button grid (column spacing).
     readonly property real contentSpacing: 20
 
-    // ── Höhenbudget: die Fußzeile bleibt immer sichtbar ───────────────────
-    // Unten ist fest der Platz der Fußzeile reserviert; die Box weicht in
-    // dieser Reihenfolge aus: kleineres Logo → flachere Buttons → zweispaltig.
-    // Alle Vergleichshöhen werden aus Tokens berechnet und NICHT aus den
-    // gemessenen Höhen von Header/Box – sonst entstünde eine Binding-Schleife
-    // (kleineres Logo → mehr Platz → größeres Logo → …).
+    // ── Height budget: the footer always stays visible ────────────────────
+    // At the bottom the room for the footer is reserved firmly; the box gives way
+    // in this order: smaller logo → flatter buttons → two columns.
+    // All comparison heights are computed from tokens and NOT from the
+    // measured heights of the header/box – otherwise a binding loop would arise
+    // (smaller logo → more room → larger logo → …).
     readonly property real footerReserve: Config.Theme.startFooterReserve
     readonly property real minButtonHeight: 36
     readonly property real boxBudget: height - Config.Theme.margin * 2 - footerReserve
 
     readonly property int buttonCount: Config.Parameters.showCommunityContent ? 6 : 5
 
-    // Nicht schrumpfender Anteil der Box: Innenabstände + Zeilenabstände.
+    // The non-shrinking part of the box: inner margins + row spacings.
     function chromeHeight(rows) {
         return vPad * 2 + contentSpacing + (rows - 1) * innerSpacing
     }
-    // Kleinstmögliche Box-Höhe (Logo und Buttons am Anschlag) – Grundlage für
-    // den Umschaltpunkt auf zwei Spalten und für die Sichtbarkeit der Fußzeile.
+    // Smallest possible box height (logo and buttons at their limit) – the basis for
+    // the switching point to two columns and for the visibility of the footer.
     function minBoxHeight(rows) {
         return chromeHeight(rows)
                + Config.Theme.brandHeaderHeight(Config.Theme.brandLogoSizeMin)
                + rows * minButtonHeight
     }
 
-    // ── Zweispaltiger Button-Modus ────────────────────────────────────────
-    // Reicht der Platz auch mit kleinstem Logo und flachen Buttons nicht, werden
-    // die Buttons zweispaltig angeordnet statt vertikal zu scrollen –
-    // vorausgesetzt, die breitere Box passt horizontal.
+    // ── Two column button mode ────────────────────────────────────────────
+    // If the room is not enough even with the smallest logo and flat buttons, the
+    // buttons are arranged in two columns instead of scrolling vertically –
+    // provided the wider box fits horizontally.
     readonly property real twoColumnBoxWidth: 620
     readonly property bool twoColumns:
         minBoxHeight(buttonCount) > boxBudget
         && width >= twoColumnBoxWidth + Config.Theme.margin * 2
     readonly property int buttonRows: twoColumns ? Math.ceil(buttonCount / 2) : buttonCount
 
-    // Buttons bleiben auf Touch-Größe, solange das Logo den Platz ausgleichen
-    // kann; erst wenn dieses am Minimum ist, werden sie flacher.
+    // The buttons stay at touch size as long as the logo can compensate for the
+    // room; only when that is at its minimum do they get flatter.
     readonly property real buttonHeight:
         Math.max(minButtonHeight,
                  Math.min(Config.Theme.touchTarget,
                           (boxBudget - chromeHeight(buttonRows)
                            - Config.Theme.brandHeaderHeight(Config.Theme.brandLogoSizeMin))
                           / buttonRows))
-    // Logo bekommt, was nach Buttons und Abständen übrig bleibt – gedeckelt auf
-    // die reguläre Größe (Config.Theme.brandLogoSize, wie im Login-Dialog).
+    // The logo gets what is left after the buttons and the spacings – capped at
+    // the regular size (Config.Theme.brandLogoSize, as in the login dialog).
     readonly property real logoSize:
         Math.max(Config.Theme.brandLogoSizeMin,
                  Math.min(Config.Theme.brandLogoSize,
@@ -87,8 +87,8 @@ Rectangle {
     Flickable {
         id: startScroll
         anchors.fill: parent
-        // Unterer Rand bleibt für die Fußzeile frei – die Box zentriert sich im
-        // verbleibenden Bereich, statt die Fußzeile zu überdecken.
+        // The lower edge stays free for the footer – the box centres itself in the
+        // remaining area instead of covering the footer.
         anchors.bottomMargin: startPage.footerReserve
         contentWidth: width
         contentHeight: startContent.implicitHeight
@@ -98,12 +98,12 @@ Rectangle {
         Item {
             id: startContent
             width: startScroll.width
-            // Mindesthöhe = Viewport → Box bleibt vertikal zentriert, solange sie
-            // passt; sonst kann gescrollt werden.
+            // Minimum height = viewport → the box stays vertically centred as long as it
+            // fits; otherwise it can be scrolled.
             implicitHeight: Math.max(startScroll.height,
                                      startPageMainButtonsBox.height + Config.Theme.margin * 2)
 
-            // ── Overlay-Box: enthält Logo + Navigations-Buttons ──────────────
+            // ── Overlay box: contains the logo + navigation buttons ──────────
             Rectangle {
                 id: startPageMainButtonsBox
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -111,14 +111,14 @@ Rectangle {
                 width: Math.min(startContent.width - Config.Theme.margin * 2,
                                 startPage.twoColumns ? startPage.twoColumnBoxWidth
                                                      : Config.Theme.brandBoxWidth)
-                // Höhe folgt dem Inhalt (Logo + Buttons) inkl. oben/unten gleichem
-                // Innenabstand – so bleibt die Box bei beliebig vielen Buttons
-                // vertikal zentriert, statt unten herauszulaufen.
+                // The height follows the content (logo + buttons) incl. the same inner
+                // margin at the top and the bottom – that way the box stays vertically
+                // centred with any number of buttons instead of running out at the bottom.
                 height: startBoxContent.implicitHeight + startPage.vPad * 2
                 color: "transparent"
 
-                // Dunkler Hintergrund – immer dunkel damit der Kontrast zum Feuer-
-                // Hintergrund stimmt, unabhängig vom Hell/Dunkel-Theme.
+                // Dark background – always dark so that the contrast to the fire
+                // background is right, independently of the light/dark theme.
                 Rectangle {
                     anchors.fill: parent
                     color: "#1d222b"
@@ -128,9 +128,9 @@ Rectangle {
 
                 Column {
                     id: startBoxContent
-                    // Icon fix am oberen Rand der Box positioniert (Config.Theme.margin)
-                    // – identisch zum Login-Dialog. Die Box selbst ist im Fenster
-                    // vertikal zentriert.
+                    // The icon is positioned fixed at the upper edge of the box (Config.Theme.margin)
+                    // – identical to the login dialog. The box itself is centred vertically
+                    // in the window.
                     anchors {
                         left: parent.left; right: parent.right; top: parent.top
                         leftMargin: startPage.hPad
@@ -146,9 +146,9 @@ Rectangle {
                         logoSize: startPage.logoSize
                     }
 
-                    // ── Navigations-Buttons ───────────────────────────────────
-                    // Gleiche preferredWidth auf allen Buttons → im zweispaltigen
-                    // Modus bekommen beide Spalten exakt dieselbe Breite.
+                    // ── Navigation buttons ────────────────────────────────────
+                    // The same preferredWidth on all buttons → in two column
+                    // mode both columns get exactly the same width.
                     GridLayout {
                         id: startPageMainButtons
                         width: parent.width
@@ -195,8 +195,8 @@ Rectangle {
                             Layout.preferredWidth: 100
                             Layout.preferredHeight: startPage.buttonHeight
                             visible: Config.Parameters.showCommunityContent
-                            // Über denselben Toggle wie der Globus → gemerkter
-                            // Ranking-Stand wird wiederhergestellt.
+                            // Via the same toggle as the globe → the remembered
+                            // ranking state is restored.
                             onClicked: mainWindow.toggleTopBarSection(
                                 "pages/CommunityRankingPage.qml",
                                 mainWindow.rankingSectionPages, true)
@@ -215,11 +215,11 @@ Rectangle {
         }
     }
 
-    // ── Fußzeile: Community-Links + Lizenz/Quelle ─────────────────────────
-    // Sitzt im unten reservierten Streifen (footerReserve), den die Flickable
-    // freilässt – sie überdeckt die Box also nie. Ausgeblendet wird sie nur
-    // noch, wenn die Box selbst mit kleinstem Logo und flachen Buttons nicht
-    // mehr passt: dann wird gescrollt und der Streifen zusätzlich gebraucht.
+    // ── Footer: community links + license/source ──────────────────────────
+    // It sits in the strip reserved at the bottom (footerReserve) that the Flickable
+    // leaves free – so it never covers the box. It is only hidden
+    // when the box itself does not fit any more even with the smallest logo and flat
+    // buttons: then it scrolls and the strip is needed as well.
     StartFooter {
         id: startFooter
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }

@@ -4,26 +4,26 @@
 #include <QRegularExpression>
 #include <QDateTime>
 
-// Symbole. 🌐 = Toggle (Übersetzung ein/aus), ⏳ = läuft. Über den Codepoint
-// bauen (nicht per "\xF0…"-Literal – das würde als Latin-1 gelesen und "ð…"-
-// Mojibake statt Emoji ergeben).
+// Symbols. 🌐 = toggle (translation on/off), ⏳ = running. Built via the code
+// point (not via a "\xF0…" literal – that would be read as Latin-1 and yield
+// "ð…" mojibake instead of an emoji).
 static const QString kGlobeGlyph   = QString::fromUcs4(U"\U0001F310"); // 🌐
 static const QString kSpinnerGlyph = QString::fromUcs4(U"\U000023F3"); // ⏳
-// Unsichtbarer Platzhalter für Zeilen, die gerade NICHT unter dem Mauszeiger
-// liegen. Der Anker bleibt damit in der Zeile (und die Zeile über ihren href
-// auffindbar), zeigt aber nichts an. Geschütztes Leerzeichen, weil normale
-// Leerzeichen am Zeilenende vom RichText-Renderer wegfallen können.
+// Invisible placeholder for lines that are currently NOT under the mouse
+// cursor. The anchor thus stays in the line (and the line findable via its href),
+// but shows nothing. A non-breaking space, because normal
+// spaces at the end of a line can be dropped by the rich text renderer.
 static const QString kHiddenGlyph  = QStringLiteral("&nbsp;");
 
-// Abstand zwischen zwei Fehlschlag-Hinweisen. Klickt jemand bei ausgefallenem
-// Dienst mehrere Zeilen an, soll der Verlauf nicht mit demselben Hinweis
-// zulaufen.
+// Distance between two failure notices. If somebody clicks several lines while
+// the service is down, the history should not fill up with the same
+// notice.
 static const qint64 kFailNoteIntervalMs = 60 * 1000;
 
-// Hover-Modus: Auf Desktop erscheint der Globus nur an der Zeile unter dem
-// Mauszeiger (der Verlauf war sonst mit Symbolen zugepflastert). Auf Touch-
-// Geräten gibt es kein Hover – dort bleiben die Symbole sichtbar, sonst wäre
-// die Funktion nicht mehr erreichbar.
+// Hover mode: on the desktop the globe only appears on the line under the
+// mouse cursor (otherwise the history was plastered with symbols). On touch
+// devices there is no hover – there the symbols stay visible, otherwise the
+// function would no longer be reachable.
 #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
 static const bool kHoverOnly = false;
 #else
@@ -52,11 +52,11 @@ bool ChatTranslator::enabled() const
 
 void ChatTranslator::reset()
 {
-	// Der Verlauf, auf den sich die Zeilen-Zustände beziehen, ist weg – die
-	// Zeilen selbst müssen (anders als in refreshEnabled) nicht mehr bereinigt
-	// werden. Noch laufende Core-Antworten laufen anschließend ins Leere:
-	// onCoreTranslated verwirft unbekannte Request-Ids. m_nextId läuft weiter,
-	// damit alte und neue Anker-Ids sich nie überschneiden.
+	// The history the line states refer to is gone – the lines themselves
+	// (unlike in refreshEnabled) no longer have to be cleaned up. Core replies
+	// still running then go nowhere afterwards:
+	// onCoreTranslated discards unknown request ids. m_nextId keeps running,
+	// so that old and new anchor ids never overlap.
 	m_entries.clear();
 	m_reqToLine.clear();
 	m_hoveredId = 0;
@@ -64,12 +64,12 @@ void ChatTranslator::reset()
 
 QString ChatTranslator::anchorFor(int id, const QString &glyph)
 {
-	// text-decoration:none, damit das Symbol nicht als unterstrichener Link
-	// erscheint. Der Scheme-Präfix "pokerthtranslate:" wird von der ChatBox
-	// abgefangen (nicht extern geöffnet). Das Symbol wird wie ein Chat-Emoji
-	// gerendert (Noto Color Emoji), aber bewusst etwas kleiner als die
-	// Nachrichten-Emojis (enlargeEmojis: 22px) – gut erkennbar, ohne die Zeile
-	// zu dominieren. Größe ist fix, also unabhängig von der Chat-Textgröße.
+	// text-decoration:none, so that the symbol does not appear as an underlined
+	// link. The scheme prefix "pokerthtranslate:" is intercepted by the ChatBox
+	// (not opened externally). The symbol is rendered like a chat emoji
+	// (Noto Color Emoji), but deliberately a bit smaller than the
+	// message emojis (enlargeEmojis: 22px) – clearly recognisable without dominating
+	// the line. The size is fixed, i.e. independent of the chat text size.
 	return QStringLiteral("<a href=\"pokerthtranslate:%1\" style=\"text-decoration:none;\">"
 						  "<span style=\"font-size:15px; font-family:'Noto Color Emoji';\">%2</span></a>")
 		   .arg(id)
@@ -80,9 +80,9 @@ QString ChatTranslator::glyphFor(const Pending &p, int id) const
 {
 	if (p.inFlight)
 		return kSpinnerGlyph;
-	// Sichtbar, solange die Übersetzung eingeblendet ist (zeigt an, dass die
-	// Zeile übersetzt ist, und ist der Rückweg zum Original) – sonst nur an der
-	// Zeile unter dem Mauszeiger.
+	// Visible while the translation is shown (it indicates that the line is
+	// translated, and is the way back to the original) – otherwise only on the
+	// line under the mouse cursor.
 	if (!kHoverOnly || p.shown || m_hoveredId == id)
 		return kGlobeGlyph;
 	return kHiddenGlyph;
@@ -109,7 +109,7 @@ int ChatTranslator::findLineIndex(int id) const
 {
 	if (!m_chatLog)
 		return -1;
-	// Der href ist über alle Symbolzustände konstant -> eindeutige Zeilenkennung.
+	// The href is constant across all symbol states -> a unique line identifier.
 	const QString needle = QStringLiteral("pokerthtranslate:%1\"").arg(id);
 	for (int i = m_chatLog->size() - 1; i >= 0; --i) {
 		if ((*m_chatLog)[i].contains(needle))
@@ -143,7 +143,7 @@ void ChatTranslator::setHoveredLine(int lineIndex)
 	if (!kHoverOnly || !m_chatLog)
 		return;
 
-	// Zeile -> Anker-id: der href steht als Klartext in der (HTML-)Zeile.
+	// Line -> anchor id: the href stands as plain text in the (HTML) line.
 	int id = 0;
 	if (lineIndex >= 0 && lineIndex < m_chatLog->size()) {
 		static const QString kHref = QStringLiteral("pokerthtranslate:");
@@ -161,7 +161,7 @@ void ChatTranslator::setHoveredLine(int lineIndex)
 		return;
 	const int prev = m_hoveredId;
 	m_hoveredId = id;
-	// Symbol an der alten Zeile ausblenden, an der neuen einblenden.
+	// Hide the symbol on the old line, show it on the new one.
 	if (prev > 0)
 		updateGlobe(prev);
 	if (id > 0)
@@ -177,7 +177,7 @@ void ChatTranslator::setBodyShown(int id, bool shown)
 	if (idx < 0)
 		return;
 	const QString tb = ChatTranslatorCore::styledTranslation(it->bodyHtml, it->translated);
-	const QString from = it->shown ? tb : it->bodyHtml;   // gerade in der Zeile
+	const QString from = it->shown ? tb : it->bodyHtml;   // currently in the line
 	const QString to   = shown    ? tb : it->bodyHtml;
 	QString &line = (*m_chatLog)[idx];
 	const int pos = line.indexOf(from);
@@ -186,8 +186,8 @@ void ChatTranslator::setBodyShown(int id, bool shown)
 	line.replace(pos, from.size(), to);
 	it->shown = shown;
 	emit chatLogMutated();
-	// Das Symbol hängt am „shown"-Zustand (eingeblendete Übersetzung behält den
-	// Globus als Rückweg, auch wenn die Maus weiterzieht).
+	// The symbol depends on the "shown" state (a shown translation keeps the
+	// globe as the way back, even when the mouse moves on).
 	updateGlobe(id);
 }
 
@@ -197,12 +197,12 @@ void ChatTranslator::requestTranslation(int id)
 	if (!enabled() || it == m_entries.end() || it->inFlight)
 		return;
 
-	// Toggle: eingeblendete Übersetzung wieder ausblenden (Original zeigen).
+	// Toggle: hide a shown translation again (show the original).
 	if (it->shown) {
 		setBodyShown(id, false);
 		return;
 	}
-	// Schon einmal übersetzt -> aus dem Cache einblenden (keine neue Anfrage).
+	// Already translated once -> show it from the cache (no new request).
 	if (!it->translated.isEmpty()) {
 		setBodyShown(id, true);
 		return;
@@ -234,15 +234,15 @@ void ChatTranslator::finish(int id, const QString &translated, bool ok)
 	const bool haveText = ok && !translated.trimmed().isEmpty();
 	if (haveText) {
 		it->translated = translated;
-		setBodyShown(id, true); // Übersetzung einblenden (ersetzt das Original)
+		setBodyShown(id, true); // Show the translation (it replaces the original)
 	}
-	// Spinner zurück auf Globus – bzw. auf den unsichtbaren Platzhalter, falls
-	// die Zeile inzwischen weder eingeblendet ist noch unter der Maus liegt.
-	// NACH setBodyShown, weil das Symbol vom „shown"-Zustand abhängt.
+	// Spinner back to the globe – or to the invisible placeholder, in case
+	// the line is meanwhile neither shown nor under the mouse.
+	// AFTER setBodyShown, because the symbol depends on the "shown" state.
 	updateGlobe(id);
-	// Bei Fehler bleibt das Original stehen (Globus erlaubt einen erneuten
-	// Versuch) – dazu ein Hinweis, sonst sieht der Nutzer nur eine kurz
-	// aufblitzende Sanduhr und hält die Funktion für kaputt.
+	// On an error the original stays (the globe allows another
+	// attempt) – plus a notice, otherwise the user only sees a briefly
+	// flashing hourglass and thinks the function is broken.
 	if (!haveText)
 		postFailureNote();
 }
@@ -256,11 +256,11 @@ void ChatTranslator::postFailureNote()
 		return;
 	m_lastFailNoteMs = now;
 
-	// Bewusst OHNE Farb-Platzhalter und ohne Zeitstempel: dieselbe Zeile landet
-	// im Lobby-Verlauf UND im Tisch-Chat, und beide expandieren ihre Rollen aus
-	// unterschiedlichen Quellen (App-Palette bzw. Tisch-Theme). Ein neutrales
-	// Grau ist in beiden lesbar. Eine Zeile = ein Eintrag – die Zuordnung, über
-	// die setHoveredLine die Symbole findet, bleibt damit unberührt.
+	// Deliberately WITHOUT colour placeholders and without a timestamp: the same line
+	// ends up in the lobby history AND in the table chat, and both expand their roles
+	// from different sources (app palette or table theme). A neutral
+	// grey is readable in both. One line = one entry – the mapping by which
+	// setHoveredLine finds the symbols thus stays untouched.
 	m_chatLog->append(QStringLiteral("<i><span style=\"color:#9e9e9e;\">")
 					  + tr("Translation is currently unavailable. Please try again later.").toHtmlEscaped()
 					  + QStringLiteral("</span></i>"));
@@ -271,10 +271,10 @@ void ChatTranslator::refreshEnabled()
 {
 	emit enabledChanged();
 	if (enabled())
-		return; // Aktivieren wirkt auf neue Nachrichten (decorate()); Bestehende bleiben.
+		return; // Enabling affects new messages (decorate()); existing ones stay.
 
-	// Deaktiviert: in jeder betroffenen Zeile die Übersetzung (falls sichtbar)
-	// durch das Original ersetzen und das Globus-Symbol entfernen.
+	// Disabled: in every affected line replace the translation (if visible)
+	// by the original and remove the globe symbol.
 	if (m_chatLog) {
 		for (auto it = m_entries.begin(); it != m_entries.end(); ++it) {
 			const int idx = findLineIndex(it.key());

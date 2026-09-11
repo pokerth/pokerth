@@ -3,14 +3,14 @@ import QtQuick.Controls
 
 import "../config" as Config
 
-// Auswahl-Panel für Emoji-Reaktionen – wie der Reaction-Picker des
-// Web-Clients: 90 Emojis auf drei thematischen Seiten (Emotionen /
-// Stimmung & Gesten / Poker & Glück), je 30 in einem 6-spaltigen Raster.
-// Zwischen den Seiten führen die Pfeile ‹ › (sie laufen um) und – auf
-// Touch-Geräten – das seitliche Wischen; die zuletzt benutzte Seite wird in
-// der Konfiguration gemerkt.
-// Sichtbarkeit/Position/z setzt der Aufrufer; ausgewählte Emojis werden
-// über picked() gemeldet.
+// Selection panel for emoji reactions – like the reaction picker of the
+// web client: 90 emojis on three thematic pages (emotions /
+// mood & gestures / poker & luck), 30 each in a 6 column grid.
+// Between the pages you move with the arrows ‹ › (they wrap around) and – on
+// touch devices – by swiping sideways; the page used last is remembered in
+// the configuration.
+// Visibility/position/z is set by the caller; selected emojis are reported
+// via picked().
 Rectangle {
     id: root
 
@@ -18,13 +18,13 @@ Rectangle {
 
     readonly property var pages: Config.ReactionCatalog.pages
     readonly property int columns: 6
-    // Maße wie im Chat-Emoji-Picker (EmojiPicker.qml): Raster 38, Fläche 34,
-    // Glyphe 24.
+    // Dimensions as in the chat emoji picker (EmojiPicker.qml): grid 38, area 34,
+    // glyph 24.
     readonly property int cell: 34
     readonly property int cellSpacing: 4
     readonly property int rows: Math.ceil(30 / columns)
 
-    // Aktuelle Seite; wird in der Konfiguration gemerkt (Web-Client:
+    // Current page; it is remembered in the configuration (web client:
     // localStorage "pth_react_page").
     property int page: 0
     onPageChanged: {
@@ -39,12 +39,12 @@ Rectangle {
         page = Math.max(0, Math.min(pages.length - 1, saved))
     }
 
-    // Die Pfeile laufen um (Seite 3 → 1), wie im Web-Client.
+    // The arrows wrap around (page 3 → 1), as in the web client.
     function step(dir) {
         page = (page + dir + pages.length) % pages.length
     }
 
-    // Pfeil-Schaltfläche des Pagers.
+    // Arrow button of the pager.
     component PagerArrow: Item {
         id: arrowRoot
         property string label: ""
@@ -115,7 +115,7 @@ Rectangle {
             PagerArrow { label: "›"; dir: 1 }
         }
 
-        // ── Die drei Seiten (seitliches Wischen auf Touch-Geräten) ──
+        // ── The three pages (swiping sideways on touch devices) ──
         SwipeView {
             id: pager
             width: parent.width

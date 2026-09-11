@@ -28,13 +28,13 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 
-// pokerth_globalnotice - Admin-Werkzeug: meldet sich kurz mit einem Admin-Account
-// am Server an, sendet eine AdminGlobalNoticeMessage und trennt die Verbindung
-// wieder. Der Server verteilt die Durchsage als globalen Chat an alle Clients.
+// pokerth_globalnotice - admin tool: logs in briefly with an admin account
+// on the server, sends an AdminGlobalNoticeMessage and disconnects
+// again. The server distributes the announcement as a global chat to all clients.
 //
-// Ablauf entspricht dem GUI-Client (siehe net/clientstate.cpp):
+// The flow corresponds to the GUI client (see net/clientstate.cpp):
 //   TCP (+ TLS) -> AnnounceMessage -> InitMessage (authenticatedLogin,
-//   Passwort im Klartext im TLS-Tunnel) -> InitAckMessage
+//   password in plain text inside the TLS tunnel) -> InitAckMessage
 //   -> AdminGlobalNoticeMessage -> AdminGlobalNoticeAckMessage.
 
 #include <boost/asio.hpp>
@@ -77,8 +77,8 @@ using boost::asio::ip::tcp;
 namespace
 {
 
-// Default aus ConfigFile ("InternetServerListAddress"), damit dieses Werkzeug
-// dieselbe Serverliste benutzt wie der Client.
+// Default from the ConfigFile ("InternetServerListAddress"), so that this tool
+// uses the same server list as the client.
 const char *const DEFAULT_SERVERLIST_URL = "pokerth.net/serverlist.xml.z";
 const unsigned DEFAULT_PROTOBUF_PORT = 7236;
 const size_t RECV_BUF_SIZE = 4096;
@@ -143,8 +143,8 @@ parseOnOff(const string &value, bool &result)
 	return false;
 }
 
-// Passworteingabe ohne Echo: das Admin-Passwort soll weder in der Shell-History
-// noch (via --password) in der Prozessliste landen.
+// Password entry without an echo: the admin password should end up neither in the
+// shell history nor (via --password) in the process list.
 string
 promptPassword(const string &prompt)
 {
@@ -172,7 +172,7 @@ bool
 confirm(const string &question)
 {
 	if (!isatty(STDIN_FILENO))
-		return true; // Nicht-interaktiv (Skript/Cron): keine Rückfrage möglich.
+		return true; // Non-interactive (script/cron): no confirmation possible.
 	cout << question << " [y/N] " << flush;
 	string answer;
 	getline(cin, answer);
@@ -183,10 +183,10 @@ confirm(const string &question)
 // Serverliste
 //-----------------------------------------------------------------------------
 
-// Lädt die Serverliste über denselben DownloadHelper wie der Client (setzt den
-// User-Agent "PokerTH/2.0 (Qt Network)", den der Angriffsfilter von pokerth.net
-// durchlässt) und entpackt sie mit zlib - .z ist ein normaler zlib-Stream,
-// erzeugt von zlib_compress bzw. create_serverlist.sh.
+// Loads the server list via the same DownloadHelper as the client (it sets the
+// user agent "PokerTH/2.0 (Qt Network)" that the attack filter of pokerth.net
+// lets through) and unpacks it with zlib - .z is a normal zlib stream,
+// produced by zlib_compress or create_serverlist.sh.
 vector<ServerInfo>
 downloadServerList(const string &url)
 {
@@ -205,9 +205,9 @@ downloadServerList(const string &url)
 
 	DownloadHelper downloader;
 	downloader.Init(url, targetPath.toStdString());
-	// Process() wartet intern in einer Qt-Eventloop (Safety-Timeout 30s) und
-	// liefert erst true, wenn der Transfer fertig ist. Der Zähler begrenzt die
-	// Gesamtwartezeit, falls das finished-Signal ausbleibt.
+	// Process() waits internally in a Qt event loop (safety timeout 30s) and
+	// only returns true once the transfer is finished. The counter limits the
+	// total waiting time in case the finished signal fails to appear.
 	int rounds = 0;
 	while (!downloader.Process()) {
 		if (++rounds > 3)
@@ -242,7 +242,7 @@ downloadServerList(const string &url)
 	if (!xmlDoc.setContent(xmlData))
 		throw runtime_error("could not parse the server list XML");
 
-	// Feldnamen und Defaults wie in ClientStateReadingServerList::Enter().
+	// Field names and defaults as in ClientStateReadingServerList::Enter().
 	vector<ServerInfo> servers;
 	QDomElement nextServer = xmlDoc.documentElement().firstChildElement("Server");
 	while (!nextServer.isNull()) {
@@ -261,14 +261,14 @@ downloadServerList(const string &url)
 			serverInfo.port = portNode.attribute("value").toInt();
 			if (!countryNode.isNull())
 				serverInfo.country = countryNode.attribute("value").toStdString();
-			// Fehlender TLS-Eintrag bedeutet TLS an (Default von ServerInfo).
+			// A missing TLS entry means TLS on (the default of ServerInfo).
 			if (!tlsNode.isNull()) {
 				bool useTls = true;
 				if (parseOnOff(tlsNode.attribute("value").toStdString(), useTls))
 					serverInfo.useTLS = useTls;
 			}
-			// Gepinnte Serverschlüssel wie im GUI-Client, damit ein
-			// Schlüsselwechsel per Serverliste auch hier ankommt.
+			// Pinned server keys as in the GUI client, so that a
+			// key change via the server list arrives here as well.
 			for (QDomElement pinNode = nextServer.firstChildElement("TLSPin");
 					!pinNode.isNull();
 					pinNode = pinNode.nextSiblingElement("TLSPin")) {
@@ -302,9 +302,9 @@ public:
 		  m_recvBuf(RECV_BUF_SIZE, 0),
 		  m_recvBufUsed(0)
 	{
-		// Wie im GUI-Client: die Serverzertifikate sind selbstsigniert. Geprüft
-		// wird deshalb nicht gegen eine CA, sondern gegen den eingebauten Pin
-		// des Servers - siehe Connect(), wo der Zielhost bekannt ist.
+		// As in the GUI client: the server certificates are self-signed. The check is
+		// therefore not against a CA but against the built-in pin
+		// of the server - see Connect(), where the target host is known.
 		m_sslCtx.set_verify_mode(ssl::verify_none);
 		m_sslCtx.set_options(
 			ssl::context::default_workarounds |
@@ -343,8 +343,8 @@ public:
 		m_stream.lowest_layer().set_option(tcp::no_delay(true), ec);
 
 		if (m_useTls) {
-			// Dieses Werkzeug meldet sich mit einem Admin-Passwort an, ein
-			// unauthentifizierter Kanal wäre hier besonders teuer.
+			// This tool logs in with an admin password, an
+			// unauthenticated channel would be particularly expensive here.
 			vector<string> pins(TlsPinning::GetBuiltinPins(host));
 			for (const string &listPin : serverListPins) {
 				if (find(pins.begin(), pins.end(), listPin) == pins.end())
@@ -373,9 +373,9 @@ public:
 
 	void Disconnect()
 	{
-		// Kein SSL-Shutdown: der wartet synchron auf das close_notify der
-		// Gegenstelle und kann hängen bleiben. Für ein kurzlebiges Werkzeug
-		// reicht das Schließen des TCP-Sockets.
+		// No SSL shutdown: that waits synchronously for the close_notify of the
+		// peer and can hang. For a short-lived tool
+		// closing the TCP socket is enough.
 		boost::system::error_code ec;
 		if (m_stream.lowest_layer().is_open()) {
 			m_stream.lowest_layer().shutdown(tcp::socket::shutdown_both, ec);
@@ -385,8 +385,8 @@ public:
 
 	void Send(const boost::shared_ptr<NetPacket> &packet)
 	{
-		// Framing wie in AsioSendBuffer::InternalStorePacket: 4 Byte Länge
-		// (network byte order) gefolgt von der serialisierten Nachricht.
+		// Framing as in AsioSendBuffer::InternalStorePacket: 4 bytes of length
+		// (network byte order) followed by the serialized message.
 		const uint32_t packetSize = static_cast<uint32_t>(packet->GetMsg()->ByteSizeLong());
 		vector<google::protobuf::uint8> buf(packetSize + NET_HEADER_SIZE);
 		const uint32_t netSize = htonl(packetSize);
@@ -402,7 +402,7 @@ public:
 			throw runtime_error("send failed: " + ec.message());
 	}
 
-	// Liefert das nächste vollständige Paket oder wirft bei Timeout/Fehler.
+	// Returns the next complete packet or throws on a timeout/error.
 	boost::shared_ptr<NetPacket> Receive()
 	{
 		const chrono::steady_clock::time_point deadline = chrono::steady_clock::now() + m_timeout;
@@ -447,10 +447,10 @@ public:
 	}
 
 private:
-	// Wartet höchstens die angegebene Zeit auf den Abschluss einer asynchronen
-	// Operation. Beim Timeout wird der Vorgang abgebrochen und der Handler noch
-	// abgearbeitet - sonst würden die per Referenz gefangenen lokalen Variablen
-	// nach der Rückkehr weiterbenutzt.
+	// Waits at most the given time for an asynchronous operation to finish.
+	// On a timeout the operation is cancelled and the handler is still
+	// processed - otherwise the local variables captured by reference would be
+	// used further after the return.
 	bool RunWithTimeout(const bool &done, chrono::milliseconds duration)
 	{
 		m_io.restart();
@@ -470,7 +470,7 @@ private:
 		return RunWithTimeout(done, chrono::duration_cast<chrono::milliseconds>(m_timeout));
 	}
 
-	// Entnimmt ein vollständiges Paket aus dem Empfangspuffer (Framing wie in
+	// Takes a complete packet out of the receive buffer (framing as in
 	// AsioReceiveBuffer::HandleRead).
 	boost::shared_ptr<NetPacket> ExtractPacket()
 	{
@@ -503,8 +503,8 @@ private:
 	size_t m_recvBufUsed;
 };
 
-// Meldet sich an und setzt die Durchsage ab. Wirft bei Netzwerk-/Loginfehlern,
-// liefert false, wenn der Server die Durchsage ablehnt (fehlende Adminrechte).
+// Logs in and issues the announcement. Throws on network/login errors,
+// returns false if the server rejects the announcement (missing admin rights).
 bool
 sendGlobalNotice(NoticeClient &client, const string &userName, const string &password, const string &noticeText)
 {
@@ -527,8 +527,8 @@ sendGlobalNotice(NoticeClient &client, const string &userName, const string &pas
 			throw runtime_error("server error: " + errorReasonToString(msg->errormessage().errorreason()));
 	}
 
-	// 2. Anmeldung. Das Passwort geht - wie beim GUI-Client - im Klartext durch
-	// den TLS-Tunnel (siehe ServerLobbyThread::UserValid).
+	// 2. Login. The password goes - as with the GUI client - in plain text through
+	// the TLS tunnel (see ServerLobbyThread::UserValid).
 	{
 		boost::shared_ptr<NetPacket> init(new NetPacket);
 		init->GetMsg()->set_messagetype(PokerTHMessage::Type_InitMessage);
@@ -542,7 +542,7 @@ sendGlobalNotice(NoticeClient &client, const string &userName, const string &pas
 		client.Send(init);
 	}
 
-	// 3. Auf InitAck warten (der Server kann davor weitere Pakete schicken).
+	// 3. Wait for InitAck (the server may send further packets before it).
 	for (;;) {
 		boost::shared_ptr<NetPacket> packet = client.Receive();
 		const PokerTHMessage *msg = packet->GetMsg();
@@ -563,8 +563,8 @@ sendGlobalNotice(NoticeClient &client, const string &userName, const string &pas
 		client.Send(notice);
 	}
 
-	// 5. Auf die Bestätigung warten. Dazwischen laufen Spieler-/Spiellisten ein,
-	// die hier nicht interessieren.
+	// 5. Wait for the confirmation. In between player/game lists arrive
+	// that are of no interest here.
 	for (;;) {
 		boost::shared_ptr<NetPacket> packet = client.Receive();
 		const PokerTHMessage *msg = packet->GetMsg();
@@ -582,8 +582,8 @@ sendGlobalNotice(NoticeClient &client, const string &userName, const string &pas
 int
 main(int argc, char *argv[])
 {
-	// QCoreApplication wird für den Qt-Netzwerk-Download der Serverliste
-	// (DownloadHelper) und dessen Eventloop benötigt.
+	// QCoreApplication is needed for the Qt network download of the server list
+	// (DownloadHelper) and its event loop.
 	QCoreApplication app(argc, argv);
 
 	po::options_description desc("Options");
@@ -697,8 +697,8 @@ main(int argc, char *argv[])
 
 	const string userName = vm["user"].as<string>();
 
-	// Der Server verteilt die Durchsage als Chat-Nachricht, daher dieselbe
-	// 128-Byte-Grenze wie beim Chat (sonst verwirft sie der Paket-Validator).
+	// The server distributes the announcement as a chat message, hence the same
+	// 128 byte limit as for the chat (otherwise the packet validator discards it).
 	QString noticeText = QString::fromStdString(vm["message"].as<string>()).trimmed();
 	if (noticeText.isEmpty()) {
 		cerr << "Error: the notice text is empty." << endl;
@@ -727,8 +727,8 @@ main(int argc, char *argv[])
 		return EXIT_USAGE;
 	}
 
-	// Die Durchsage geht an alle verbundenen Spieler - vor dem Absenden
-	// bestätigen lassen (außer bei -y oder nicht-interaktivem Aufruf).
+	// The announcement goes to all connected players - have it confirmed
+	// before sending (except with -y or a non-interactive call).
 	if (!vm["yes"].as<bool>()) {
 		cout << endl << "Notice to all players on \"" << serverName << "\":" << endl
 			 << "  " << noticeText.toStdString() << endl;

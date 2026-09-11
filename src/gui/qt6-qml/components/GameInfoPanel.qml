@@ -5,21 +5,21 @@ import QtQuick.Window
 
 import "../config" as Config
 
-// Inhalt des rechten Info-Panels im Spiel: Tab-Leiste „Verlauf" / „Chancen".
-//   • Verlauf: der Spielverlauf (Log).
-//   • Chancen: 10 Pokerblatt-Kategorien mit Wahrscheinlichkeit + Balken
-//     (Port des CardsChanceMonitor aus dem Qt-Widgets-Client).
-// Datenquelle ist GameTable (GameHandler): gameLog, cardsChance,
-// cardsChanceFolded. Wird sowohl im schwebenden Overlay (GameSidePanel) als
-// auch im permanent angedockten Desktop-Modus verwendet.
+// Content of the right info panel in the game: the tab bar "history" / "odds".
+//   • History: the game history (log).
+//   • Odds: 10 poker hand categories with a probability + a bar
+//     (a port of the CardsChanceMonitor from the Qt widgets client).
+// The data source is GameTable (GameHandler): gameLog, cardsChance,
+// cardsChanceFolded. It is used both in the floating overlay (GameSidePanel) and
+// in the permanently docked desktop mode.
 ColumnLayout {
     id: root
     spacing: 8
 
-    // Tisch-Theme-Farben (unabhängig vom Hell/Dunkel-Modus der App – maßgeblich
-    // ist allein das Tisch-Theme). Auch der Spielverlauf-Text folgt ihnen: seine
-    // Zeilen tragen nur Farb-Rollen, die GameHandler mit genau diesen Werten
-    // füllt (chatcolors.h).
+    // Table theme colours (independent of the light/dark mode of the app – only
+    // the table theme is authoritative). The game history text follows them as well: its
+    // lines only carry colour roles, which the GameHandler fills with exactly these
+    // values (chatcolors.h).
     readonly property color colText:
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogText : "#eff1f5"
     readonly property color colTextMuted:
@@ -32,28 +32,28 @@ ColumnLayout {
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogBackground : "#1d222b"
     readonly property color colAccent:
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogAccent : "#E3C800"
-    // Schrift AUF dem Akzent (markierter Text) – der Akzent ist bei hellen
-    // Themes dunkel, "#101010" wäre dort unlesbar.
+    // Text ON the accent (highlighted text) – with light themes the accent is
+    // dark, "#101010" would be unreadable there.
     readonly property color colAccentText:
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogAccentText : "#101010"
-    // Zurückgenommene, aber noch klar lesbare Schrift für die unmöglichen
-    // Chancen-Zeilen. colTextMuted ist die Farbe für Platzhalter/Nebensachen –
-    // auf zehn Zeilen angewandt wirkte damit die ganze Liste ausgegraut.
-    // Mitte zwischen Haupt- und gedämpftem Text: dimmt, ohne zu verschlucken.
+    // Restrained but still clearly readable text for the impossible
+    // odds lines. colTextMuted is the colour for placeholders/side matters –
+    // applied to ten lines it made the whole list look greyed out.
+    // Halfway between the main and the muted text: it dims without swallowing.
     readonly property color colTextDim: Qt.tint(root.colTextMuted,
                                                 Config.Theme.withAlpha(root.colText, 0.45))
 
-    // Aktiver Tab von außen steuerbar (Shortcuts/Toggle): 0 Verlauf · 1 Chancen
+    // The active tab is controllable from outside (shortcuts/toggle): 0 history · 1 odds
     property alias currentIndex: tabs.currentIndex
 
-    // Schriftgröße der Chancen-Texte (Kategorie + Prozent).
-    // Overlay: 12 (Default), gedockt: 11 (vom Aufrufer gesetzt).
+    // Font size of the odds texts (category + percentage).
+    // Overlay: 12 (the default), docked: 11 (set by the caller).
     property int messageFontSize: 12
 
-    // Der Spielverlauf (Log) läuft wie der Chat als fortlaufender Text und wird
-    // größer gesetzt als die kompakte Chancen-Liste – analog zur ChatBox
-    // (messageFontSize dort). +2 hält Log und Chat auf gleicher Größe:
-    // Overlay 14, gedockt 13.
+    // The game history (log) runs as continuous text like the chat and is set
+    // larger than the compact odds list – analogous to the ChatBox
+    // (messageFontSize there). +2 keeps the log and the chat at the same size:
+    // overlay 14, docked 13.
     property int logFontSize: messageFontSize + 2
 
     // ── Datenanbindung ────────────────────────────────────────────────────────
@@ -62,8 +62,8 @@ ColumnLayout {
     readonly property bool folded:
         (typeof GameTable !== "undefined" && GameTable) ? GameTable.cardsChanceFolded : false
 
-    // Kategorie-Index (0 = Höchste Karte … 9 = Royal Flush) → Name + SVG-Icon.
-    // Reihenfolge identisch zur cardsChance-Indizierung im GameHandler.
+    // Category index (0 = high card … 9 = royal flush) → name + SVG icon.
+    // The order is identical to the cardsChance indexing in the GameHandler.
     readonly property var handDefs: [
         { name: qsTr("Höchste Karte"),  icon: "highcard" },
         { name: qsTr("Paar"),           icon: "onepair" },
@@ -82,22 +82,22 @@ ColumnLayout {
             ? "qrc:resources/hands/" + handDefs[cat].icon + ".svg" : ""
     }
 
-    // Rechter Freiraum für die vertikale Scrollbar, damit sie den Inhalt nie
-    // überlappt (Scrollbars liegen im Overlay-Stil sonst über dem Text).
+    // Free space on the right for the vertical scrollbar, so that it never
+    // overlaps the content (in the overlay style scrollbars otherwise lie above the text).
     readonly property int scrollGutter: 14
 
     // ── Tab-Leiste ────────────────────────────────────────────────────────────
     CustomTabBar {
         id: tabs
-        // „Verlauf" und „Chancen" sind immer beide erreichbar – der
-        // Kartenchancenmonitor wird nicht mehr separat in den Einstellungen
-        // abgeschaltet, sondern über den Info-Panel-Toggle ein-/ausgeblendet.
+        // "History" and "odds" are always both reachable – the
+        // card odds monitor is no longer switched off separately in the settings
+        // but shown/hidden via the info panel toggle.
         Layout.fillWidth: true
         Layout.preferredHeight: implicitHeight
         tabHeight: 18
         tabFontPointSize: 8
-        // Die Leiste sitzt auf der Panel-Fläche des Tisch-Themes – ihre Farben
-        // müssen von dort kommen, nicht aus der App-Palette.
+        // The bar sits on the panel surface of the table theme – its colours
+        // have to come from there, not from the app palette.
         colTextActive: root.colText
         colTextIdle:   root.colTextMuted
         colTabActive:  root.colSurface
@@ -110,14 +110,14 @@ ColumnLayout {
         Layout.fillHeight: true
         currentIndex: tabs.currentIndex
 
-        // ── Tab „Verlauf" (Spielverlauf / Log) ────────────────────────────────
-        // EIN zusammenhängendes RichText-Dokument (wie die ChatBox), KEINE
-        // ListView: deren contentHeight ist bei variabel hohen RichText-
-        // Delegates nur geschätzt und fluktuiert beim Scrollen (Delegate-
-        // Recycling) – das ließ den Auto-Scroll ständig neu feuern und unten
-        // festklemmen. Mit einer Flickable über deterministischer contentHeight
-        // (= TextEdit.implicitHeight) ist das stabil; zusätzlich gibt es so die
-        // durchgehende Maus-Selektion + Kopieren/Alles-auswählen.
+        // ── Tab "history" (game history / log) ────────────────────────────────
+        // ONE contiguous rich text document (like the ChatBox), NOT a
+        // ListView: with variably tall rich text delegates its contentHeight is
+        // only estimated and fluctuates while scrolling (delegate
+        // recycling) – that made the auto-scroll fire again and again and jam
+        // at the bottom. With a Flickable over a deterministic contentHeight
+        // (= TextEdit.implicitHeight) this is stable; in addition it gives
+        // continuous mouse selection + copy/select all.
         Flickable {
             id: logFlick
             clip: true
@@ -129,13 +129,13 @@ ColumnLayout {
                 id: logScrollBar
                 policy: logFlick.contentHeight > logFlick.height + 4
                         ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
-                // Ziehen am Griff setzt contentY direkt und erzeugt KEINE
-                // movementStarted/Ended-Signale – von Hand anhängen.
+                // Dragging the handle sets contentY directly and produces NO
+                // movementStarted/Ended signals – attach them by hand.
                 onPressedChanged: pressed ? logFlick.userScrollStarted()
                                           : logFlick.userScrollEnded()
             }
-            // Auto-Scroll: pausiert beim Hochscrollen, Position bleibt bei neuen
-            // Zeilen erhalten, nach 15 s Inaktivität wieder ans Ende.
+            // Auto-scroll: it pauses when scrolling up, the position is kept on new
+            // lines, and after 15 s of inactivity it goes back to the end.
             property bool autoScroll: true
             property real savedContentY: 0
             Timer {
@@ -143,9 +143,9 @@ ColumnLayout {
                 interval: 15000
                 onTriggered: { logFlick.autoScroll = true; logFlick.scrollToBottom() }
             }
-            // Ans Ende kleben. pinBottom() prüft selbst autoScroll, damit ein
-            // nachgelagerter (Qt.callLater-)Aufruf nichts tut, wenn der Nutzer
-            // inzwischen weggescrollt hat.
+            // Stick to the end. pinBottom() checks autoScroll itself, so that a
+            // deferred (Qt.callLater) call does nothing if the user has
+            // scrolled away meanwhile.
             function pinBottom() {
                 if (autoScroll) contentY = Math.max(0, contentHeight - height)
             }
@@ -153,33 +153,33 @@ ColumnLayout {
             function restoreScroll() {
                 contentY = Math.min(savedContentY, Math.max(0, contentHeight - height))
             }
-            // Bei Auto-Scroll ZWEIMAL ans Ende ziehen: sofort (contentHeight ist im
-            // Change-Handler bereits der neue Wert) UND einmal per Qt.callLater.
-            // QQuickTextEdit aktualisiert seine implicitHeight erst in der Polish-
-            // Phase und QQuickFlickable seine interne Scroll-Grenze ebenfalls dort;
-            // je nach Reihenfolge klemmt die noch alte Grenze das sofortige Setzen
-            // nach unten – dann greift der callLater nach dem Polish. Einer der
-            // beiden landet immer korrekt, doppeltes Setzen ist folgenlos.
+            // With auto-scroll, pull to the end TWICE: immediately (contentHeight is
+            // already the new value in the change handler) AND once via Qt.callLater.
+            // QQuickTextEdit only updates its implicitHeight in the polish
+            // phase and QQuickFlickable its internal scroll limit there as well;
+            // depending on the order the still old limit clamps the immediate setting
+            // downwards – then the callLater after the polish takes effect. One of the
+            // two always lands correctly, setting it twice has no consequence.
             function followBottom() {
-                // Während einer laufenden Nutzergeste gar nichts anfassen.
+                // Do not touch anything at all during a running user gesture.
                 if (moving || logScrollBar.pressed)
                     return
                 if (autoScroll) { pinBottom(); Qt.callLater(pinBottom) }
-                // Pausiert: gemerkte Position halten, während der Text komplett
-                // ersetzt wird.
+                // Paused: keep the remembered position while the text is replaced
+                // completely.
                 else restoreScroll()
             }
-            // An contentHeight hängen: feuert bei JEDER Höhenänderung – neue Zeile,
-            // async umbrechende RichText-Zeilen und komplettes Ersetzen des Texts.
+            // Hang off contentHeight: it fires on EVERY height change – a new line,
+            // rich text lines wrapping asynchronously and a complete replacement of the text.
             onContentHeightChanged: followBottom()
-            // Resize (z. B. geänderte Spieleranzahl) – gleich behandeln.
+            // A resize (e.g. a changed number of players) – treat it the same way.
             onHeightChanged: followBottom()
 
-            // Auto-Scroll-Zustand NUR aus echten Nutzergesten ableiten (siehe
-            // ausführliche Begründung in ChatBox.qml): `moving` gilt auch für
-            // die Positionskorrektur, die die Flickable bei jeder Höhen-
-            // änderung selbst vornimmt – deren Zwischenwerte dürfen den
-            // Auto-Scroll nicht abschalten, sonst bleibt die letzte Zeile
+            // Derive the auto-scroll state ONLY from real user gestures (see the
+            // detailed reasoning in ChatBox.qml): `moving` also applies to
+            // the position correction that the Flickable performs itself on every
+            // height change – its intermediate values must not switch off the
+            // auto-scroll, otherwise the last line stays cut off.
             // angeschnitten stehen.
             function userScrollStarted() {
                 autoScroll = false
@@ -187,9 +187,9 @@ ColumnLayout {
             }
             function userScrollEnded() {
                 savedContentY = contentY
-                // Mit Toleranz prüfen statt exaktem atYEnd: knapp am Ende reicht
-                // (Subpixel/async wachsende RichText-Zeilen), damit der
-                // Auto-Scroll am unteren Rand zuverlässig wieder anspringt.
+                // Check with a tolerance instead of an exact atYEnd: close to the end is enough
+                // (subpixels/rich text lines growing asynchronously), so that the
+                // auto-scroll reliably kicks in again at the lower edge.
                 autoScroll = contentY >= contentHeight - height - 4
                 if (autoScroll) { logAutoScrollTimer.stop(); pinBottom() }
                 else logAutoScrollTimer.restart()
@@ -197,9 +197,9 @@ ColumnLayout {
             onMovementStarted: userScrollStarted()
             onMovementEnded: userScrollEnded()
 
-            // Read-only TextEdit hält den gesamten Verlauf als EIN HTML-Dokument
-            // (GameLogModel.html – Zeilen mit <br> verkettet). Die Zeilen sind
-            // serverseitig bereits hell eingefärbt (GameHandler::formatLogLine).
+            // A read-only TextEdit holds the whole history as ONE HTML document
+            // (GameLogModel.html – the lines concatenated with <br>). The lines are
+            // already coloured brightly on the server side (GameHandler::formatLogLine).
             TextEdit {
                 id: logText
                 width: logFlick.width - root.scrollGutter
@@ -238,12 +238,12 @@ ColumnLayout {
                 width: chanceFlick.width - root.scrollGutter
                 spacing: 0
 
-                // Royal Flush oben, Höchste Karte unten (wie im Widgets-Client).
+                // Royal flush at the top, high card at the bottom (as in the widgets client).
                 Repeater {
                     model: 10
                     delegate: Item {
                         required property int index
-                        // 9 → Royal Flush … 0 → Höchste Karte
+                        // 9 → royal flush … 0 → high card
                         readonly property int cat: 9 - index
                         readonly property var entry:
                             (root.chance && root.chance.length > cat) ? root.chance[cat] : null
@@ -253,12 +253,12 @@ ColumnLayout {
                         width: chanceCol.width
                         height: 26
 
-                        // Wahrscheinlichkeits-Balken als Zeilen-Hintergrund – kostet
-                        // keine horizontale Breite, sodass der Name den vollen Platz
-                        // bekommt (statt früh mit „…" abgeschnitten zu werden).
-                        // Wie der Chat: keine Bubbles/Ränder – die Zeilen füllen die
-                        // volle Höhe ohne Abstand und ergeben so eine durchgehende,
-                        // einheitliche Fläche; nur der Füllbalken hebt sich ab.
+                        // The probability bar as the row background – it costs
+                        // no horizontal width, so that the name gets the full room
+                        // (instead of being cut off early with "…").
+                        // As in the chat: no bubbles/margins – the lines fill the
+                        // full height without spacing and thereby form a continuous,
+                        // uniform surface; only the fill bar stands out.
                         Rectangle {
                             anchors.fill: parent
                             color: Config.Theme.withAlpha(root.colBorder, 0.22)
@@ -285,9 +285,9 @@ ColumnLayout {
                                 Layout.alignment: Qt.AlignVCenter
                                 fillMode: Image.PreserveAspectFit
                                 smooth: true
-                                // Unmögliche Kategorien bleiben zurückgenommen, aber
-                                // lesbar – bei 0.32 verschwanden sie auf hellen
-                                // Tisch-Themes fast völlig.
+                                // Impossible categories stay restrained but
+                                // readable – at 0.32 they almost vanished completely on light
+                                // table themes.
                                 opacity: possible ? 1.0 : 0.5
                                 source: root.handIcon(cat)
                                 sourceSize.width: Math.ceil(38 * Screen.devicePixelRatio)
@@ -298,7 +298,7 @@ ColumnLayout {
                                 Layout.fillWidth: true
                                 Layout.alignment: Qt.AlignVCenter
                                 text: root.handDefs[cat].name
-                                // Eine Zeile pro Kategorie – kompakt; bei Platzmangel „…".
+                                // One line per category – compact; with too little room "…".
                                 elide: Text.ElideRight
                                 font.pixelSize: root.messageFontSize
                                 color: possible ? root.colText : root.colTextDim
@@ -320,8 +320,8 @@ ColumnLayout {
         }
     }
 
-    // ── Rechtsklick-Kontextmenü für den Verlauf (Kopieren / Alles auswählen) ──
-    // Einheitlich gestylt, folgt den Tisch-Theme-Farben (wie die ChatBox).
+    // ── Right click context menu for the history (copy / select all) ──
+    // Styled uniformly, it follows the table theme colours (like the ChatBox).
     component CtxItem: MenuItem {
         height: visible ? implicitHeight : 0
         contentItem: Text {

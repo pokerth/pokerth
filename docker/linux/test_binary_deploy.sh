@@ -7,7 +7,7 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 echo "=== Binary Deploy Test ==="
 echo ""
 
-# Prüfe, ob Binary Deploy existiert
+# Check whether the binary deploy exists
 if [ ! -d "$SCRIPT_DIR/pokerth-linux-binary" ]; then
     echo "FEHLER: Binary Deploy nicht gefunden!"
     echo "Bitte erst im DevContainer ausführen: ./docker/linux/create_binary_deploy.sh"

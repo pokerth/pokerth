@@ -12,18 +12,18 @@
 class ConfigFile;
 class QNetworkReply;
 
-/* Toolkit-unabhängiger Netzwerk-Kern der Chat-Übersetzung. Von BEIDEN Clients
- * genutzt (QML: ChatTranslator; Widgets: ChatTools), damit die Dienst-/Sprach-
- * Logik nur an einer Stelle existiert.
+/* Toolkit independent network core of the chat translation. Used by BOTH
+ * clients (QML: ChatTranslator; widgets: ChatTools), so that the service/
+ * language logic exists in one place only.
  *
- * Zielsprache = im Client eingestellte Sprache (Config "Language").
- * Primärquelle: Google-Translate "gtx"-Endpoint (kein Key, Auto-Quellsprache,
- * Anfrage von der Client-IP). Fallback: MyMemory. Rechtliche Hinweise zu beiden
- * Diensten: docs/third_party_services.md.
+ * Target language = the language set in the client (config "Language").
+ * Primary source: the Google Translate "gtx" endpoint (no key, automatic source
+ * language, request from the client IP). Fallback: MyMemory. Legal notes on both
+ * services: docs/third_party_services.md.
  *
- * Der Kern kennt weder Chat-Zeilen noch HTML – er nimmt Text entgegen und
- * liefert die Übersetzung asynchron über translated() zurück. Das Einbetten des
- * Symbols und das Ersetzen in der jeweiligen Anzeige übernimmt der Aufrufer.
+ * The core knows neither chat lines nor HTML – it takes text and returns the
+ * translation asynchronously via translated(). Embedding the symbol and
+ * replacing it in the respective display is done by the caller.
  */
 class ChatTranslatorCore : public QObject
 {
@@ -32,28 +32,28 @@ public:
 	explicit ChatTranslatorCore(ConfigFile *config, QObject *parent = nullptr);
 
 	void setConfig(ConfigFile *config);
-	// Global an/aus (Config "AllowChatTranslation").
+	// Globally on/off (config "AllowChatTranslation").
 	bool enabled() const;
 
-	// Startet eine Übersetzung des Textes in die Client-Sprache. Liefert eine
-	// Request-ID; das Ergebnis kommt asynchron über translated(requestId, …).
+	// Starts a translation of the text into the client language. Returns a
+	// request ID; the result arrives asynchronously via translated(requestId, …).
 	int translate(const QString &text);
 
-	// Zielsprache als API-Code ("de", "pt-BR", "zh-CN", …). Quelle ist der
-	// ConfigFile-Key "Language", den beide Clients pflegen.
+	// Target language as an API code ("de", "pt-BR", "zh-CN", …). The source is
+	// the ConfigFile key "Language", which both clients maintain.
 	QString targetLang() const;
 
-	// Normalisiert einen Sprachcode auf einen von den Diensten verstandenen
-	// Code. Deckt QML-Locales ("de_DE") ebenso ab wie die PokerTH-Kürzel der
-	// Widget-ts-Dateien ("cz", "dk", "gr", "jp", "ptbr", "zhcn" …), die teils
-	// von ISO 639-1 abweichen.
+	// Normalizes a language code to a code understood by the services. Covers
+	// QML locales ("de_DE") as well as the PokerTH abbreviations of the
+	// widget ts files ("cz", "dk", "gr", "jp", "ptbr", "zhcn" …), which partly
+	// deviate from ISO 639-1.
 	static QString normalizeLangCode(const QString &raw);
 
-	// Baut das HTML für die eingeblendete Übersetzung, die den Originaltext an
-	// gleicher Stelle ERSETZT. Übernimmt – wenn möglich – den umschließenden
-	// <span> (und damit die Farbe) der Originalnachricht, damit die Übersetzung
-	// im selben Look erscheint (theme-/tischfarben-korrekt), nur kursiv als
-	// Kennzeichnung. Von beiden Clients genutzt.
+	// Builds the HTML for the inserted translation, which REPLACES the original
+	// text in place. If possible it adopts the enclosing <span> (and thereby the
+	// colour) of the original message, so that the translation appears in the
+	// same look (correct for the theme/table colours), only in italics as a
+	// marker. Used by both clients.
 	static QString styledTranslation(const QString &originalBodyHtml,
 									 const QString &translated);
 
@@ -70,7 +70,7 @@ private:
 
 	ConfigFile *m_config;
 	QNetworkAccessManager m_nam;
-	QHash<int, QString> m_sourceById;  // Rohtext je Request (für den Fallback)
+	QHash<int, QString> m_sourceById;  // raw text per request (for the fallback)
 	int m_nextId = 1;
 };
 

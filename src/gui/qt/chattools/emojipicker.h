@@ -1,17 +1,17 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
  *                                                                           *
- * Emoji-Picker-Popup für die Chat-Eingabefelder (Lobby, LAN-Lobby,          *
- * Gametable) sowie für die Emoji-Reaktionen am Spieltisch.                  *
+ * Emoji picker popup for the chat input fields (lobby, LAN lobby,          *
+ * game table) as well as for the emoji reactions at the game table.        *
  *****************************************************************************/
 #ifndef EMOJIPICKER_H
 #define EMOJIPICKER_H
 
 #include <QtWidgets>
 
-// Popup-Raster mit Emoji-Buttons. Ein Klick liefert das Emoji über das
-// picked()-Signal und schließt das Popup. Ohne explizite Liste wird die
-// umfangreiche Standard-Emoji-Auswahl angezeigt (wie im QML-Client).
+// Popup grid with emoji buttons. A click delivers the emoji via the
+// picked() signal and closes the popup. Without an explicit list the
+// comprehensive default emoji selection is shown (as in the QML client).
 class EmojiPicker : public QWidget
 {
 	Q_OBJECT
@@ -21,28 +21,28 @@ public:
 						 const QStringList &emojis = QStringList(),
 						 int columns = 10);
 
-	// Reaktions-Picker: die 90 Schnell-Reaktionen auf drei Seiten, dazu ein
-	// Pager ‹ N/3 › im Kopf (identisch zu QML-/Web-Client). startPage ist die
-	// zuletzt benutzte Seite, pageChanged meldet jeden Seitenwechsel.
+	// Reaction picker: the 90 quick reactions on three pages, plus a
+	// pager ‹ N/3 › in the header (identical to the QML/web client). startPage is
+	// the page used last, pageChanged reports every page change.
 	static EmojiPicker *createReactionPicker(QWidget *parent, int startPage);
 
-	// Popup unterhalb (bzw. oberhalb, falls kein Platz) des Ankers anzeigen.
+	// Show the popup below (or above, if there is no room) the anchor.
 	void showAt(QWidget *anchor);
 
-	// Die 90 Schnell-Reaktionen, drei Seiten à 30 (identisch zu QML-/Web-Client).
+	// The 90 quick reactions, three pages of 30 (identical to the QML/web client).
 	static QList<QStringList> reactionEmojiPages();
-	// Umfangreiche Standard-Auswahl für den Chat.
+	// Comprehensive default selection for the chat.
 	static QStringList defaultEmojis();
-	// Emoji als Icon rendern (für QLineEdit-Actions/Buttons).
+	// Render an emoji as an icon (for QLineEdit actions/buttons).
 	static QIcon emojiIcon(const QString &emoji, int size = 18);
-	// Family-Name des gebündelten Farb-Emoji-Fonts (Noto Color Emoji,
-	// CBDT/CBLC-Bitmap-Variante – rendert auch auf älterer FreeType, anders
-	// als COLRv1). Registriert wird der Font in src/pokerth.cpp aus data/fonts/.
+	// Family name of the bundled colour emoji font (Noto Color Emoji,
+	// CBDT/CBLC bitmap variant – renders on older FreeType as well, unlike
+	// COLRv1). The font is registered in src/pokerth.cpp from data/fonts/.
 	static QString emojiFontFamily();
-	// Emoji in GARANTIERTER Zielgröße rendern. Farb-Emoji-Fonts sind
-	// Bitmap-Fonts, deren Glyphen Qt beim Text-Rendering nicht hochskaliert –
-	// hier wird gerendert, der tatsächlich gezeichnete Bereich gemessen und
-	// auf targetPx skaliert.
+	// Render an emoji in a GUARANTEED target size. Colour emoji fonts are
+	// bitmap fonts whose glyphs Qt does not scale up when rendering text –
+	// here it is rendered, the area actually drawn is measured and scaled
+	// to targetPx.
 	static QPixmap emojiPixmap(const QString &emoji, int targetPx);
 
 signals:
@@ -50,13 +50,13 @@ signals:
 	void pageChanged(int page);
 
 private:
-	// Konstruktor des mehrseitigen Reaktions-Pickers (siehe
+	// Constructor of the multi-page reaction picker (see
 	// createReactionPicker).
 	EmojiPicker(QWidget *parent, const QList<QStringList> &pages,
 				int columns, int startPage);
 
 	void buildGrid(const QStringList &emojis, int columns);
-	// Mehrseitiges Raster mit Pager im Kopf (Reaktions-Picker).
+	// Multi-page grid with a pager in the header (reaction picker).
 	void buildPages(const QList<QStringList> &pages, int columns, int startPage);
 	QWidget *buildGridWidget(const QStringList &emojis, int columns, QWidget *parent);
 	void setCurrentPage(int page);

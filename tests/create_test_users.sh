@@ -1,6 +1,6 @@
 #!/bin/bash
 # PokerTH - Test User Creation Script
-# Erstellt test1 bis test100 in der Datenbank für Bot-Tests
+# Creates test1 through test100 in the database for bot tests
 
 # Konfiguration
 DB_HOST="${1:-localhost}"
@@ -39,7 +39,7 @@ for i in $(seq 1 $NUM_USERS); do
     PASSWORD="$USERNAME"  # Passwort = Username
     EMAIL="$USERNAME@pokerth.test"
     
-    # Lösche existierenden User (falls vorhanden)
+    # Delete the existing user (if present)
     echo "DELETE FROM player WHERE username = '$USERNAME';" >> "$SQL_FILE"
     echo "DELETE FROM player_ranking WHERE username = '$USERNAME';" >> "$SQL_FILE"
     
@@ -65,7 +65,7 @@ INSERT INTO player (
 
 EOF
 
-    # Get player_id für player_ranking (via LAST_INSERT_ID)
+    # Get player_id for player_ranking (via LAST_INSERT_ID)
     cat >> "$SQL_FILE" << EOF
 INSERT INTO player_ranking (
     player_id,
@@ -90,7 +90,7 @@ echo "SQL script generated: $SQL_FILE"
 echo ""
 echo "Executing SQL..."
 
-# SQL ausführen
+# Run the SQL
 mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" < "$SQL_FILE"
 
 if [ $? -eq 0 ]; then

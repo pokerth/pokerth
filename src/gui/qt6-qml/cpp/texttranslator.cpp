@@ -23,7 +23,7 @@ int TextTranslator::translate(const QString &text)
 
 void TextTranslator::refreshEnabled()
 {
-	// enabled() liest den Config-Wert live; hier wird nur die Bindung neu
-	// ausgewertet (der Schalter liegt im Einstellungsdialog).
+	// enabled() reads the config value live; here only the binding is
+	// re-evaluated (the switch lives in the settings dialog).
 	emit enabledChanged();
 }

@@ -12,10 +12,10 @@ QtObject {
     property real windowWidth:  900
     property real windowHeight: 600
 
-    // Plattform: echte Mobilgeräte (Android/iOS) vs. Desktop. Wird gebraucht,
-    // um bei gleicher Fenstergeometrie (z. B. breites Aspect-Ratio) zwischen
-    // Touch-Layout (kompakte Action-Bar) und Desktop-Layout (große Buttons,
-    // selbst auf Ultrawide/HiDPI) zu unterscheiden.
+    // Platform: real mobile devices (Android/iOS) vs. desktop. It is needed to
+    // distinguish, at the same window geometry (e.g. a wide aspect ratio),
+    // between the touch layout (compact action bar) and the desktop layout
+    // (large buttons, even on ultrawide/HiDPI).
     readonly property bool isMobile: Qt.platform.os === "android" || Qt.platform.os === "ios"
 
     // Orientation
@@ -29,14 +29,14 @@ QtObject {
     // desktop        >= 1400 wide
     readonly property bool phonePortrait:  portrait  && windowWidth  < 600
     readonly property bool phoneLandscape: landscape && windowHeight < 600
-    // compact = „nutze mobile Layout-Variante" (Slide-in-Panels statt
-    // 3-Spalten-Layout in Lobby/GameWait, schmälere Margins etc.).
-    //   Mobile (Android/iOS): schmales Portrait ODER Phone-Landscape.
-    //   Desktop: NUR wenn die Fensterbreite nicht für das 3-Spalten-Layout
-    //   reicht (Spielerliste 200 + Spieleliste ~350 + Info/Chat 250 + Ränder).
-    //   Die Geometrie-Heuristik landscapeCompact greift hier bewusst NICHT –
-    //   breite Desktop-Fenster (Aspect > 1.85, z. B. HiDPI/Ultrawide) haben
-    //   trotzdem locker Platz für drei Spalten.
+    // compact = "use the mobile layout variant" (slide-in panels instead of the
+    // 3 column layout in lobby/game wait, narrower margins etc.).
+    //   Mobile (Android/iOS): narrow portrait OR phone landscape.
+    //   Desktop: ONLY if the window width is not enough for the 3 column layout
+    //   (player list 200 + game list ~350 + info/chat 250 + margins).
+    //   The geometry heuristic landscapeCompact deliberately does NOT apply here –
+    //   wide desktop windows (aspect > 1.85, e.g. HiDPI/ultrawide) still have
+    //   plenty of room for three columns.
     readonly property int  threeColumnMinWidth: 900
     readonly property bool compact:
         isMobile ? (windowWidth < 600 || landscapeCompact)
@@ -44,18 +44,18 @@ QtObject {
     readonly property bool tablet:         windowWidth >= 900  && windowWidth < 1400
     readonly property bool desktop:        windowWidth >= 1400
 
-    // Landscape mit wenig vertikalem Platz: die Action-Bar + Status-Leiste würden
-    // sonst 25–35 % der Höhe fressen → Boxen werden so groß, dass die Topreihe an
-    // den oberen Rand stößt / Gegnerboxen überlappen.
-    //   Mobile (Android/iOS): an der HÖHE festmachen (jedes Phone im Landscape),
-    //   NICHT am Aspect. Sonst fallen 16:9-Phones wie das Galaxy A5 2017
-    //   (1920×1080 → ~640×360 logisch, Ratio 1.78 < 1.85) durch und bekommen die
-    //   Kompakt-Behandlung nicht.
-    //   Desktop: an der Aspect-Heuristik (NUR echtes Ultrawide). Schwelle 2.1,
-    //   damit ein MAXIMIERTES 16:9-Fenster (1920×1006 mit Taskleiste → Ratio
-    //   ~1.91) das volle Desktop-Layout bekommt statt des Phone-Compact-Layouts
-    //   (oberste Box bündig oben). Echtes 21:9 (≈2.33) bleibt compact;
-    //   windowHeight < 1300 schließt große Ultrawide-Fenster aus.
+    // Landscape with little vertical room: the action bar + status bar would
+    // otherwise eat 25–35 % of the height → the boxes become so large that the top
+    // row bumps into the upper edge / opponent boxes overlap.
+    //   Mobile (Android/iOS): tie it to the HEIGHT (every phone in landscape),
+    //   NOT to the aspect. Otherwise 16:9 phones such as the Galaxy A5 2017
+    //   (1920×1080 → ~640×360 logical, ratio 1.78 < 1.85) fall through and do not
+    //   get the compact treatment.
+    //   Desktop: tie it to the aspect heuristic (ONLY real ultrawide). Threshold
+    //   2.1, so that a MAXIMIZED 16:9 window (1920×1006 with a taskbar → ratio
+    //   ~1.91) gets the full desktop layout instead of the phone compact layout
+    //   (topmost box flush at the top). Real 21:9 (≈2.33) stays compact;
+    //   windowHeight < 1300 excludes large ultrawide windows.
     readonly property bool landscapeCompact:
         landscape
         && windowHeight > 0

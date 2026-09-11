@@ -1,17 +1,17 @@
 import QtQuick
 
-// Kreisdiagramm der Platzierungs-Verteilung (Season Stats), gezeichnet mit
-// Canvas – bewusst ohne QtCharts, um keine zusätzliche Qt-Modul-Abhängigkeit
-// einzuführen. `values` sind die Häufigkeiten je Platz (Index 0 = Platz 1),
-// `colors` die zugehörige Palette (Config.StaticData.placementColors). Slices
-// werden – wie auf pokerth.net – mit weißer Trennlinie abgesetzt.
+// Pie chart of the placement distribution (season stats), drawn with a
+// Canvas – deliberately without QtCharts, so as not to introduce another Qt
+// module dependency. `values` are the frequencies per place (index 0 = place 1),
+// `colors` the matching palette (Config.StaticData.placementColors). Slices are
+// set apart with a white separating line – just like on pokerth.net.
 Canvas {
     id: pie
 
     property var values: []
     property var colors: []
 
-    // Neu zeichnen, sobald sich Daten, Palette oder Größe ändern.
+    // Redraw as soon as data, palette or size change.
     onValuesChanged: requestPaint()
     onColorsChanged: requestPaint()
     onWidthChanged: requestPaint()
@@ -31,7 +31,7 @@ Canvas {
         var cy = height / 2
         var r = Math.min(width, height) / 2 - 2
 
-        // Start oben (−90°) und im Uhrzeigersinn – wie Chart.js.
+        // Start at the top (−90°) and go clockwise – like Chart.js.
         var start = -Math.PI / 2
         ctx.lineWidth = 2
         ctx.strokeStyle = "#ffffff"

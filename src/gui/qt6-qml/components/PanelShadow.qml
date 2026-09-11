@@ -3,15 +3,15 @@ import QtQuick.Effects
 
 import "../config" as Config
 
-// Dezenter, weicher Schlagschatten für Panel-Karten (Lobby-Spalten,
-// Settings-Boxen). Als Kind mit `anchors.fill: parent` ins Panel legen und
-// `radius`/`color` an die Panel-Fläche angleichen.
+// Subtle, soft drop shadow for panel cards (lobby columns,
+// settings boxes). Place it as a child inside the panel with `anchors.fill: parent`
+// and match `radius`/`color` to the panel surface.
 //
-// Es wird ausschließlich die farbige Rundrechteck-Silhouette in eine eigene
-// Layer-Textur gerendert – NICHT der Panel-Inhalt – damit scrollende ListViews
-// und der Chat scharf bleiben und nicht bei jedem Frame neu in eine Textur
-// gezeichnet werden müssen. Über `z: -1` liegt der Schatten hinter dem Inhalt,
-// der Halo ragt dank `autoPaddingEnabled` über die Panel-Grenzen hinaus.
+// Only the coloured rounded-rectangle silhouette is rendered into its own
+// layer texture – NOT the panel content – so that scrolling ListViews
+// and the chat stay sharp and are not redrawn into a texture on
+// every frame. Via `z: -1` the shadow sits behind the content,
+// and thanks to `autoPaddingEnabled` the halo extends beyond the panel bounds.
 Rectangle {
     id: panelShadow
 
@@ -19,7 +19,7 @@ Rectangle {
     radius: 5
     color: Config.Theme.colorPanel
 
-    // Feinjustierung pro Verwendung möglich (Default = Theme-Tokens).
+    // Fine-tuning per use case is possible (default = theme tokens).
     property real shadowOpacity: Config.Theme.panelShadowOpacity
     property real shadowBlur:    Config.Theme.panelShadowBlur
     property real shadowOffset:  Config.Theme.panelShadowOffset

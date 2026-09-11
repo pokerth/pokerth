@@ -10,7 +10,7 @@ Rectangle {
     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
     color: "transparent"
 
-    // Manuelle Blind-Liste (wird beim Laden initialisiert)
+    // Manual blind list (initialized on load)
     property var manualBlindsList: []
     property int selectedBlindIndex: -1
 
@@ -69,7 +69,7 @@ Rectangle {
                 width: parent.width - 12
                 spacing: 12
 
-                // Spieler & Startkapital
+                // Players & starting money
                 GroupBox {
                     Layout.fillWidth: true
                     title: qsTr("Spieler & Startkapital")
@@ -135,7 +135,7 @@ Rectangle {
                     }
                 }
 
-                // Blinds erhöhen
+                // Raise blinds
                 GroupBox {
                     Layout.fillWidth: true
                     title: qsTr("Blinds erhöhen")
@@ -234,7 +234,7 @@ Rectangle {
                     }
                 }
 
-                // Blind-Erhöhungsreihenfolge
+                // Blind raise order
                 GroupBox {
                     Layout.fillWidth: true
                     title: qsTr("Blind-Erhöhungsreihenfolge")
@@ -273,7 +273,7 @@ Rectangle {
                             }
                         }
 
-                        // Manuelle Blind-Reihenfolge – Listeneditor (nur aktiv wenn ausgewählt)
+                        // Manual blind order – list editor (only active when selected)
                         GroupBox {
                             Layout.fillWidth: true
                             title: qsTr("Manuelle Blind-Reihenfolge")
@@ -283,7 +283,7 @@ Rectangle {
                                 anchors.fill: parent
                                 spacing: 6
 
-                                // Liste der eingestellten Blinds
+                                // List of the configured blinds
                                 Rectangle {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 120
@@ -312,7 +312,7 @@ Rectangle {
                                     }
                                 }
 
-                                // Eingabe + Hinzufügen/Löschen
+                                // Input + add/delete
                                 RowLayout {
                                     Layout.fillWidth: true
                                     spacing: 6
@@ -480,7 +480,7 @@ Rectangle {
                             // Index 0 = klassische Engine (Config 0),
                             // Index 1 = EV-basierte Engine 4 (Config 4)
                             model: [qsTr("Klassisch"), qsTr("Stark")]
-                            currentIndex: 1   // entspricht dem Standardwert der Konfiguration
+                            currentIndex: 1   // matches the default value of the configuration
                             Component.onCompleted: {
                                 if (SettingsManager)
                                     currentIndex = (SettingsManager.readConfigInt("EngineVersion") >= 4) ? 1 : 0

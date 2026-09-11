@@ -88,9 +88,9 @@ public:
 public slots:
 
 	void createGame();
-	// Community-„Suggest": schlägt für das eigene BBC-/WEC-Invite-Spiel passende
-	// Spieler vor; das Ergebnis erscheint NUR lokal im Chat (wie die PM-Antwort
-	// des bbcbot an den Anfragenden).
+	// Community "suggest": suggests matching players for your own BBC/WEC invite
+	// game; the result appears ONLY locally in the chat (like the PM reply of
+	// the bbcbot to the requester).
 	void runCommunitySuggest();
 	void joinGame();
 	void gameSelected(const QModelIndex &);
@@ -138,10 +138,10 @@ public slots:
 	void clearDialog();
 	void keyPressEvent(QKeyEvent * keyEvent) override;
 	void showEvent(QShowEvent *event) override;
-	// Warnt einmal je Programmlauf, wenn der eingestellte eigene Avatar von
-	// der Engine abgelehnt wird: lokal ist er weiterhin zu sehen, die
-	// Mitspieler bekommen ihn aber nicht mehr - ohne Hinweis merkt das
-	// niemand. Auf Wunsch wird das Bild gleich verkleinert.
+	// Warns once per program run if the configured own avatar is rejected by
+	// the engine: locally it is still visible, but the fellow players do not
+	// get it any more - without a notice nobody notices that. On request the
+	// image is scaled down right away.
 	void checkMyAvatar();
 	bool event(QEvent * event) override;
 	void showGameDescription(bool show);
@@ -178,9 +178,9 @@ public slots:
 	void closeAllChildDialogs();
 	void reportBadGameName();
 	void adminActionCloseGame();
-	// Kontextmenü der Nickliste: private Nachricht an den gewählten Spieler.
-	// Text wird in einem kleinen Eingabedialog erfragt; die Bestätigung samt
-	// vollem Wortlaut erscheint anschließend im Lobby-Chat (ChatTools).
+	// Context menu of the nick list: private message to the selected player.
+	// The text is asked for in a small input dialog; the confirmation including
+	// the full wording then appears in the lobby chat (ChatTools).
 	void sendPrivateMessageToPlayer();
 	void adminActionTotalKickBan();
 	void addConnectedSpectator(unsigned spectatorId, QString spectatorName);
@@ -190,9 +190,9 @@ public slots:
 	void updateGameListStyleSheet();
 
 private:
-	// Sichtbarkeit des Suggest-Buttons: Ersteller des eigenen Invite-Spiels mit
-	// BBC-/WEC-Vorlage ODER BBC-Admin an einem fremden BBC-Step-Tisch, jeweils
-	// bei aktivem Community-Inhalt. Details bei effectiveSuggestType().
+	// Visibility of the suggest button: creator of your own invite game with a
+	// BBC/WEC template OR BBC admin at a foreign BBC step table, in each case
+	// with community content active. Details at effectiveSuggestType().
 	void updateSuggestButtonVisibility();
 	QString effectiveSuggestType();
 
@@ -202,8 +202,8 @@ private:
 	boost::shared_ptr<Session> mySession;
 	createInternetGameDialogImpl *myCreateInternetGameDialog;
 	CommunitySuggest *mySuggest;
-	// Suggest-Typ des eigenen erstellten Spiels ("step1".."step4"|"wec"|"").
-	// Explizit aus der gewählten Vorlage – NICHT aus dem (editierbaren) Namen.
+	// Suggest type of the game you created yourself ("step1".."step4"|"wec"|"").
+	// Explicitly from the selected template – NOT from the (editable) name.
 	QString myCreatedSuggestType;
 	QPushButton *pushButton_suggestPlayers;
 	QString currentGameName;

@@ -12,61 +12,61 @@ Rectangle {
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
 
-    // Ranking-Konstanten (vom Server vorgegeben)
+    // Ranking constants (given by the server)
     readonly property bool isRanking: gameTypeCombo.currentIndex === 3
     readonly property bool isInviteOnly: gameTypeCombo.currentIndex === 2
-    // Gäste dürfen serverseitig nur Standardspiele mit ihrem eigenen Spielnamen
-    // eröffnen (PLAYER_RIGHTS_GUEST, NTF_NET_JOIN_GUEST_FORBIDDEN).
+    // On the server side, guests may only open standard games with their own
+    // player name (PLAYER_RIGHTS_GUEST, NTF_NET_JOIN_GUEST_FORBIDDEN).
     readonly property bool isGuest: Lobby ? Lobby.isMyPlayerGuest : false
-    // Rangliste: der Server verbietet ein Passwort; Einladungsspiele regeln den
-    // Zugang über die Einladung.
+    // Ranking: the server forbids a password; invitation games control
+    // access via the invitation.
     readonly property bool passwordAllowed: !isRanking && !isInviteOnly
     property string nameError: ""
 
-    // Default-Button der Seite: Enter erstellt das Spiel, egal wo der Fokus steht.
-    // Ein fokussierter Button verbraucht Return selbst und behält Vorrang.
+    // Default button of the page: Enter creates the game, no matter where the focus is.
+    // A focused button consumes Return itself and keeps precedence.
     Keys.onReturnPressed: createBtn.clicked()
     Keys.onEnterPressed: createBtn.clicked()
 
-    // Startfokus in das Spielnamen-Feld – auf Mobilgeräten NICHT, das zöge
-    // ungefragt die Bildschirmtastatur hoch. Gäste dürfen den Namen nicht ändern.
+    // Initial focus into the game name field – NOT on mobile devices, that would
+    // pull up the on-screen keyboard unasked. Guests may not change the name.
     StackView.onActivated: {
         if (!Config.Responsive.isMobile && !lobbyCreateGamePage.isGuest)
             Qt.callLater(gameNameField.forceActiveFocus)
     }
-    // Erst nach dem Befüllen des Formulars reagieren die Eingabefelder
-    // aufeinander (ComboBox-Signale feuern schon beim Seitenaufbau).
+    // The input fields only react to each other after the form has been filled
+    // (ComboBox signals already fire while the page is being built).
     property bool formReady: false
 
-    // ── Community-Vorlagen (BBC / Monthly Cup / WEC) ─────────────────────────
-    // Offizielle Turnier-Settings der PokerTH-Community. Nur für Custom-Spiele
-    // vom Typ "Nur eingeladene Spieler" und nur bei aktiviertem Community-
-    // Inhalt wählbar. BBC Steps nutzen eine feste Blindliste (Erhöhung alle
-    // 5 Minuten), Monthly Cup und WEC verdoppeln die Blinds nach Handzahl.
-    // Community-Vorlagen liegen im Singleton Config.BotSuggest – dieselbe
-    // Tabelle dient dort der Typ-Erkennung fremder Tische (Settings-Fingerprint),
-    // sie darf deshalb nicht doppelt gepflegt werden.
+    // ── Community templates (BBC / monthly cup / WEC) ────────────────────────
+    // Official tournament settings of the PokerTH community. Selectable only for custom
+    // games of the type "invited players only" and only with community
+    // content enabled. BBC steps use a fixed blind list (raised every
+    // 5 minutes), the monthly cup and WEC double the blinds after a number of hands.
+    // The community templates live in the singleton Config.BotSuggest – the same
+    // table serves there to detect the type of foreign tables (a settings fingerprint),
+    // so it must not be maintained twice.
     readonly property var communityPresets: Config.BotSuggest.presets
     readonly property var activePreset: (Config.Parameters.showCommunityContent
                                          && isInviteOnly
                                          && presetCombo.currentIndex > 0)
         ? communityPresets[presetCombo.currentIndex - 1] : null
     readonly property bool presetActive: activePreset !== null
-    // Sperrt die vom Server (Ranking) bzw. von der Vorlage vorgegebenen Felder.
+    // Locks the fields given by the server (ranking) or by the template.
     readonly property bool fieldsLocked: isRanking || presetActive
 
-    // In den Netzwerkspiel-Optionen hinterlegte manuelle Blindreihenfolge.
+    // The manual blind order stored in the network game options.
     property bool savedManualBlindsOrder: false
     property var savedManualBlinds: []
 
-    // Blindliste des Spiels: eine Community-Vorlage sticht die gespeicherte
-    // Reihenfolge. Eine leere Liste bedeutet "Blinds verdoppeln".
+    // Blind list of the game: a community template trumps the stored
+    // order. An empty list means "double the blinds".
     readonly property var effectiveBlinds: presetActive
         ? activePreset.blinds
         : (savedManualBlindsOrder ? savedManualBlinds : [])
 
-    // Überträgt die gewählte Vorlage in die Formularfelder bzw. stellt bei
-    // "Eigene Einstellungen" die Werte aus den Optionen wieder her.
+    // Transfers the selected template into the form fields or, for
+    // "custom settings", restores the values from the options.
     function applyPreset() {
         var p = activePreset
         if (!p) {
@@ -75,10 +75,10 @@ Rectangle {
             return
         }
         gameNameField.text = p.name
-        // Vorlagen mit monatlich wechselndem Tischnamen (Monthly Cup): aktuellen
-        // Titel-Prefix aus den botfiles ziehen und – sofern der Nutzer den
-        // (Fallback-)Namen nicht selbst geändert hat und dieselbe Vorlage noch
-        // gewählt ist – übernehmen. Asynchron; bei Fehlschlag bleibt p.name.
+        // Templates with a monthly changing table name (monthly cup): pull the current
+        // title prefix from the botfiles and – provided the user has not changed the
+        // (fallback) name themselves and the same template is still
+        // selected – adopt it. Asynchronous; on failure p.name stays.
         if (p.titleCommand) {
             var fallbackName = p.name
             Config.BotSuggest.gameTitlePrefix(p.titleCommand, function(title) {
@@ -96,11 +96,11 @@ Rectangle {
         raiseEveryHandsSpinBox.value = p.raiseEveryHands
         raiseEveryMinutesSpinBox.value = p.raiseEveryMinutes
         playerActionTimeoutSpinBox.value = p.playerActionTimeout
-        delayBetweenHandsSpinBox.value = 7   // alle Vorlagen: DelayBetweenHands=7
+        delayBetweenHandsSpinBox.value = 7   // all templates: DelayBetweenHands=7
     }
 
-    // Zeitlimits aus den Netzwerkspiel-Optionen. Sie hängen – wie im Widget-
-    // Client – nicht vom Spieltyp ab und werden nur einmal übernommen.
+    // Time limits from the network game options. As in the widget
+    // client they do not depend on the game type and are adopted only once.
     function loadTimingSettings() {
         if (!SettingsManager)
             return
@@ -108,7 +108,7 @@ Rectangle {
         delayBetweenHandsSpinBox.value   = SettingsManager.readConfigInt("NetDelayBetweenHands")
     }
 
-    // Tisch- und Blind-Einstellungen aus den Netzwerk-/Internetspiel-Optionen.
+    // Table and blind settings from the network/internet game options.
     function loadGameSettings() {
         if (!SettingsManager)
             return
@@ -122,8 +122,8 @@ Rectangle {
         raiseEveryHandsSpinBox.value   = SettingsManager.readConfigInt("NetRaiseSmallBlindEveryHands")
         raiseEveryMinutesSpinBox.value = SettingsManager.readConfigInt("NetRaiseSmallBlindEveryMinutes")
         savedManualBlindsOrder         = SettingsManager.readConfigInt("NetManualBlindsOrder") !== 0
-        // readConfigIntList() liefert eine QList<int>-Sequenz; als echtes
-        // JS-Array ist sie stabil und lässt sich per join()/length auswerten.
+        // readConfigIntList() delivers a QList<int> sequence; as a real
+        // JS array it is stable and can be evaluated via join()/length.
         var saved = SettingsManager.readConfigIntList("NetManualBlindsList")
         var blinds = []
         for (var i = 0; i < saved.length; ++i)
@@ -131,9 +131,9 @@ Rectangle {
         savedManualBlinds = blinds
     }
 
-    // Pendant zu createInternetGameDialogImpl::gameTypeChanged(): Ranglisten-
-    // spiele sind vom Server vorgegeben, alle anderen Spieltypen starten mit
-    // den gespeicherten Einstellungen.
+    // Counterpart to createInternetGameDialogImpl::gameTypeChanged(): ranking
+    // games are given by the server, all other game types start with
+    // the stored settings.
     function applyGameType() {
         if (!passwordAllowed)
             passwordToggle.checked = false
@@ -150,10 +150,10 @@ Rectangle {
         loadGameSettings()
     }
 
-    // Pendant zu createInternetGameDialogImpl::fillFormular().
+    // Counterpart to createInternetGameDialogImpl::fillFormular().
     Component.onCompleted: {
         if (isGuest) {
-            // Gäste eröffnen immer ein Standardspiel unter ihrem Spielernamen.
+            // Guests always open a standard game under their player name.
             gameTypeCombo.currentIndex = 0
             gameNameField.text = qsTr("%1's game").arg(Lobby ? Lobby.myPlayerName : "")
         } else if (SettingsManager) {
@@ -163,8 +163,8 @@ Rectangle {
             if (name.trim().length > 0)
                 gameNameField.text = name
         }
-        // Auch nötig, wenn der gespeicherte Spieltyp dem Vorgabeindex 0
-        // entspricht und onCurrentIndexChanged deshalb nicht auslöst.
+        // Also needed when the stored game type corresponds to the default index 0
+        // and onCurrentIndexChanged therefore does not fire.
         applyGameType()
         loadTimingSettings()
         if (SettingsManager && passwordAllowed
@@ -172,11 +172,11 @@ Rectangle {
             passwordToggle.checked = true
             passwordField.text = SettingsManager.readConfigString("InternetGamePassword")
         }
-        // Die Titel der Community-Spiele schon jetzt holen: bei der Auswahl
-        // einer Monthly-Cup-Vorlage steht der aktuelle Name (z. B. "August Cup
-        // Final") dann sofort im Feld, statt asynchron nachgereicht zu werden –
-        // sonst verschickt ein schneller Klick auf „Spiel erstellen" den
-        // Vorlagen-Fallbacknamen.
+        // Fetch the titles of the community games already now: when selecting
+        // a monthly cup template the current name (e.g. "August Cup
+        // Final") then stands in the field immediately instead of being delivered asynchronously –
+        // otherwise a quick click on "create game" sends the
+        // template fallback name.
         if (Config.Parameters.showCommunityContent)
             Config.BotSuggest.prefetchGameTitles()
         formReady = true
@@ -303,9 +303,9 @@ Rectangle {
         anchors.fill: parent
         contentWidth: availableWidth
         clip: true
-        // Die vertikale Scrollleiste liegt als Overlay über dem Inhalt und ist
-        // in availableWidth nicht enthalten - ohne Abzug schneidet sie bei
-        // schmalem Fenster in den Text.
+        // The vertical scrollbar lies as an overlay above the content and is
+        // not included in availableWidth - without subtracting it, it cuts into
+        // the text in a narrow window.
         readonly property real scrollBarSpace: ScrollBar.vertical.visible ? 12 : 0
 
         ColumnLayout {
@@ -422,25 +422,25 @@ Rectangle {
                             qsTr("Ranglistenspiel")
                         ]
                         onCurrentIndexChanged: {
-                            // Beim Aufbau der Seite füllt Component.onCompleted
-                            // das Formular; erst danach ist ein Wechsel echt.
+                            // While the page is being built, Component.onCompleted fills
+                            // the form; only after that is a change a real one.
                             if (!lobbyCreateGamePage.formReady)
                                 return
-                            // Vorlagen gelten nur für "Nur eingeladene Spieler":
-                            // beim Wechsel des Spieltyps Vorlage zurücksetzen.
+                            // Templates only apply to "invited players only":
+                            // reset the template when the game type changes.
                             var hadPreset = presetCombo.currentIndex > 0
                             if (currentIndex !== 2)
                                 presetCombo.currentIndex = 0
                             lobbyCreateGamePage.applyGameType()
-                            // Die Vorlage hatte auch die Zeitlimits gesetzt.
+                            // The template had set the time limits as well.
                             if (hadPreset)
                                 lobbyCreateGamePage.loadTimingSettings()
                         }
                     }
                 }
 
-                // Community-Vorlage (nur für Einladungsspiele bei aktiviertem
-                // Community-Inhalt)
+                // Community template (only for invitation games with community
+                // content enabled)
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
@@ -467,7 +467,7 @@ Rectangle {
                     }
                 }
 
-                // Passwort-Zeile
+                // Password row
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
@@ -517,7 +517,7 @@ Rectangle {
                     }
                 }
 
-                // Max. Spieler
+                // Max. players
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
@@ -607,7 +607,7 @@ Rectangle {
                     }
                 }
 
-                // Erhöhungsintervall
+                // Raise interval
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: 6
@@ -620,9 +620,9 @@ Rectangle {
                         font.pixelSize: 12
                     }
 
-                    // Die beiden Radios liegen in unterschiedlichen RowLayouts
-                    // und wären ohne explizite Gruppe nicht wechselseitig
-                    // exklusiv (autoExclusive wirkt nur unter Geschwistern).
+                    // The two radios lie in different RowLayouts
+                    // and without an explicit group would not be mutually
+                    // exclusive (autoExclusive only works among siblings).
                     ButtonGroup {
                         id: raiseIntervalGroup
                         buttons: [raiseByHandsRadio, raiseByMinutesRadio]
@@ -684,8 +684,8 @@ Rectangle {
                         }
                     }
 
-                    // Feste Blindliste: aus der Community-Vorlage (BBC) oder aus
-                    // der in den Optionen gespeicherten Blindreihenfolge.
+                    // Fixed blind list: from the community template (BBC) or from
+                    // the blind order stored in the options.
                     AppLabel {
                         visible: !lobbyCreateGamePage.isRanking
                                  && lobbyCreateGamePage.effectiveBlinds.length > 0
@@ -740,7 +740,7 @@ Rectangle {
                     }
                 }
 
-                // Pause zwischen Händen
+                // Pause between hands
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
@@ -795,25 +795,25 @@ Rectangle {
                                 return
                             }
 
-                            // Ranking: Werte vom Server vorgegeben
-                            var gType   = gameTypeCombo.currentIndex + 1  // 1-basiert
+                            // Ranking: the values are given by the server
+                            var gType   = gameTypeCombo.currentIndex + 1  // 1 based
                             var maxP    = isRanking ? 10    : maxPlayersSpinBox.value
                             var sCash   = isRanking ? 10000 : startCashSpinBox.value
                             var fBlind  = isRanking ? 50    : firstBlindSpinBox.value
                             var riMode  = isRanking ? 1 : (raiseByHandsRadio.checked ? 1 : 2)
                             var rHands  = isRanking ? 11   : raiseEveryHandsSpinBox.value
                             var rMins   = raiseEveryMinutesSpinBox.value
-                            // Feste Blindliste (Community-Vorlage oder gespeicherte
-                            // Reihenfolge) → manuelle Blindreihenfolge, sonst
-                            // immer verdoppeln. Ranglistenspiele verdoppeln stets.
+                            // A fixed blind list (community template or the stored
+                            // order) → a manual blind order, otherwise
+                            // always double. Ranking games always double.
                             var blinds  = isRanking ? [] : lobbyCreateGamePage.effectiveBlinds
                             var rMode   = blinds.length > 0 ? 2 : 1  // MANUAL_BLINDS_ORDER : DOUBLE_BLINDS
                             var specs   = isRanking ? true : spectatorsToggle.checked
                             var pw      = (passwordToggle.checked && passwordAllowed) ? passwordField.text : ""
 
-                            // Suggest-Typ des erstellten Spiels merken (explizit
-                            // aus dem Preset, NICHT aus dem – frei editierbaren –
-                            // Namen). Ohne Community-Preset: kein Suggest.
+                            // Remember the suggest type of the created game (explicitly
+                            // from the preset, NOT from the – freely editable –
+                            // name). Without a community preset: no suggest.
                             Config.BotSuggest.createdSuggestType =
                                 (activePreset && activePreset.suggestType)
                                     ? activePreset.suggestType : ""
@@ -834,7 +834,7 @@ Rectangle {
                                 delayBetweenHandsSpinBox.value,
                                 blinds
                             )
-                            // Navigation erfolgt über onSelfJoinedGame in LobbyPage
+                            // The navigation happens via onSelfJoinedGame in LobbyPage
                         }
                     }
                 }

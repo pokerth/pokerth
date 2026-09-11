@@ -45,18 +45,18 @@ Log::~Log()
 	// at that point.
 	if (!myConnectionName.isEmpty()) {
 		const QString prefix = myConnectionName;
-		// Nur die Verbindung DIESES Threads dürfen wir öffnen/schließen. Für
-		// Verbindungen anderer Threads (z. B. der Netzwerk-ClientThread legt beim
-		// Loggen eine eigene an) würde QSqlDatabase::database() sonst
-		// "requested database does not belong to the calling thread" warnen –
-		// diese entfernen wir nur per Namen (removeDatabase prüft den Thread nicht).
+		// We may only open/close the connection of THIS thread. For connections of
+		// other threads (e.g. the network ClientThread creates one of its own when
+		// logging) QSqlDatabase::database() would otherwise warn
+		// "requested database does not belong to the calling thread" –
+		// those we only remove by name (removeDatabase does not check the thread).
 		const QString ownThreadConn =
 			QString("%1_thread_%2").arg(prefix).arg((qulonglong)QThread::currentThreadId());
 		const QStringList allConns = QSqlDatabase::connectionNames();
 		for (const QString &name : allConns) {
 			if (name == prefix || name.startsWith(prefix + "_thread_")) {
 				if (name == ownThreadConn) {
-					// Handle vor removeDatabase() zerstören (sonst "still in use").
+					// Destroy the handle before removeDatabase() (otherwise "still in use").
 					QSqlDatabase db = QSqlDatabase::database(name, false);
 					if (db.isOpen())
 						db.close();
@@ -70,9 +70,9 @@ Log::~Log()
 QSqlDatabase
 Log::getDatabase() const
 {
-	// Solange die Datei nicht angelegt wurde (createLogDb()), darf hier nichts
-	// geoeffnet werden: QSQLITE wuerde die .pdb-Datei sonst als leere Datei
-	// erzeugen.
+	// As long as the file has not been created (createLogDb()), nothing may be
+	// opened here: QSQLITE would otherwise create the .pdb file as an empty
+	// file.
 	if (!myDbCreated || myConnectionName.isEmpty() || myDatabaseFileName.isEmpty()) {
 		return QSqlDatabase();
 	}
@@ -113,12 +113,12 @@ Log::init()
 {
 	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
-	// Legt nur den Namen der Logdatei fest (Zeitstempel = Programmstart). Die
-	// Datei selbst wird erst beim ersten echten Log-Eintrag angelegt, siehe
-	// createLogDb(): so entstehen keine leeren .pdb-Dateien, wenn gar nicht
-	// gespielt (oder nur zugeschaut) wird.
+	// Only sets the name of the log file (timestamp = program start). The
+	// file itself is only created with the first real log entry, see
+	// createLogDb(): that way no empty .pdb files are produced when nobody
+	// plays (or only spectates).
 
-	// SQLITE_LOG wird weiterhin als Konfig-Flag benutzt
+	// SQLITE_LOG is still used as a config flag
 	if(SQLITE_LOG) {
 
 		// logging activated
@@ -127,12 +127,12 @@ Log::init()
 			DIR *logDir;
 			logDir = opendir((myConfig->readConfigString("LogDir")).c_str());
 			bool dirExists = logDir != NULL;
-			// closedir() nur auf ein gueltiges Handle: opendir() gibt bei nicht
-			// existierendem Verzeichnis NULL zurueck, und closedir(NULL) ist
-			// undefiniertes Verhalten (SIGSEGV in fdclosedir). Auf Desktop faellt
-			// das nie auf, weil LogDir von ConfigFile stets angelegt wird; auf iOS
-			// existiert das Verzeichnis beim allerersten Start noch nicht -> Absturz
-			// direkt im Log::init() beim App-Launch.
+			// closedir() only on a valid handle: opendir() returns NULL for a
+			// non-existent directory, and closedir(NULL) is undefined behaviour
+			// (SIGSEGV in fdclosedir). On the desktop this never shows because
+			// LogDir is always created by ConfigFile; on iOS the directory does not
+			// exist yet on the very first start -> a crash right in Log::init() at
+			// app launch.
 			if(logDir != NULL) {
 				closedir(logDir);
 			}
@@ -162,8 +162,8 @@ Log::getOrCreateDatabase()
 {
 	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
-	// Zuschauer nehmen am Spiel nicht teil -> kein Logfile, auch keine leere
-	// Datei (siehe setRecordingSuspended()).
+	// Spectators do not take part in the game -> no log file, not even an
+	// empty one (see setRecordingSuspended()).
 	if (myRecordingSuspended) {
 		return QSqlDatabase();
 	}
@@ -181,8 +181,8 @@ Log::createLogDb()
 	if (myDbCreated) {
 		return true;
 	}
-	// init() konnte keinen Dateinamen bestimmen (Logging aus oder LogDir
-	// ungueltig) -> es wird nicht geloggt.
+	// init() could not determine a file name (logging off or LogDir
+	// invalid) -> nothing is logged.
 	if (myDatabaseFileName.isEmpty()) {
 		return false;
 	}
@@ -202,7 +202,7 @@ Log::createLogDb()
 	mySqliteLogDb.setDatabaseName(myDatabaseFileName);
 
 	if (!mySqliteLogDb.open()) {
-		// open failed: du kannst hier Fehlerlog ergänzen
+		// open failed: you can add an error log here
 		cout << "Failed to open sqlite (Qt)" << endl;
 		mySqliteLogDb = QSqlDatabase();
 		QSqlDatabase::removeDatabase(myConnectionName);
@@ -423,7 +423,7 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 					exec_transaction();
 				}
 
-				// !! TODO !! Hack, weil Button-Regel noch falsch und dealerPosition noch teilweise falsche ID enthält (HeadsUp: dealerPosition=bigBlindPosition <-- falsch)
+				// !! TODO !! hack, because the button rule is still wrong and dealerPosition still partly contains a wrong ID (heads-up: dealerPosition=bigBlindPosition <-- wrong)
 				bool dealerButtonOnTable = false;
 				int countActivePlayer = 0;
 				for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
@@ -454,7 +454,7 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 					}
 				}
 
-				// (*it_c)->getMySet() ist ein Hack, da es im Internetspiel vorkam, dass ein Spieler zweimal geloggt wurde mit Blind - einmal jedoch mit $0
+				// (*it_c)->getMySet() is a hack, because in internet games it happened that a player was logged twice with a blind - once with $0 though
 
 				// !! TODO !! Hack
 
@@ -525,7 +525,7 @@ Log::logPlayerAction(int seat, PlayerActionLog action, int amount)
 					sql += "," + boost::lexical_cast<string>(currentRound);
 					sql += "," + boost::lexical_cast<string>(seat);
 
-					// Erzeuge Action-Text und einen einzelnen Wert für Amount (Zahl oder NULL)
+					// Build the action text and a single value for the amount (number or NULL)
 					std::string actionText;
 					std::string amountText = "NULL";
 					switch(action) {
@@ -857,9 +857,9 @@ Log::exec_transaction()
 	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
 	// Execute accumulated SQL statements using QSqlQuery inside a Qt transaction.
-	// Absichtlich getDatabase() (nicht getOrCreateDatabase()): hier wird nur
-	// geschrieben, was zuvor ueber getOrCreateDatabase() gepuffert wurde. Gibt es
-	// noch keine Logdatei, darf sie an dieser Stelle auch nicht entstehen.
+	// Deliberately getDatabase() (not getOrCreateDatabase()): only what was
+	// buffered via getOrCreateDatabase() before is written here. If there is no
+	// log file yet, it must not come into existence at this point either.
 	if (!myConnectionName.isEmpty()) {
 		QSqlDatabase db = getDatabase();
 		if (!(db.isValid() && db.isOpen())) {

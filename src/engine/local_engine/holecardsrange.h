@@ -35,19 +35,19 @@
 #include <string>
 #include <vector>
 
-/* Menge von Starthaenden ("Range") fuer die AI-Engine 4.
+/* Set of starting hands ("range") for AI engine 4.
  *
- * Intern eine Maske ueber die 169 Starthand-Typen. Gebaut wird sie aus der
- * ueblichen Pokernotation, damit die Charts im Code lesbar bleiben:
+ * Internally a mask over the 169 starting hand types. It is built from the
+ * usual poker notation so that the charts stay readable in the code:
  *
- *   "AA"        genau ein Typ
- *   "77+"       alle Paare ab Sieben aufwaerts
- *   "22-55"     Paare in einer Spanne
- *   "AKs"       Ass-Koenig gleichfarbig, "AKo" ungleichfarbig
- *   "A9s+"      alle Ass-x gleichfarbig ab Neun aufwaerts
- *   "KTo-K7o"   Spanne bei gleicher hoher Karte
+ *   "AA"        exactly one type
+ *   "77+"       all pairs from sevens upwards
+ *   "22-55"     pairs within a span
+ *   "AKs"       ace-king suited, "AKo" offsuit
+ *   "A9s+"      all ace-x suited from nine upwards
+ *   "KTo-K7o"   span with the same high card
  *
- * Mehrere Ausdruecke werden per Komma getrennt.
+ * Several expressions are separated by commas.
  */
 class HoleCardsRange
 {
@@ -55,22 +55,22 @@ public:
 	HoleCardsRange();
 	explicit HoleCardsRange(const std::string& notation);
 
-	// Fuegt weitere Ausdruecke hinzu. Liefert false bei unlesbarer Notation.
+	// Adds further expressions. Returns false on unreadable notation.
 	bool add(const std::string& notation);
 
 	void clear();
 
-	// Ist die Starthand (Karten 0..51) Teil der Range?
+	// Is the starting hand (cards 0..51) part of the range?
 	bool contains(int cardA, int cardB) const;
 
 	bool empty() const;
 
-	// Anteil aller 1326 Kartenkombinationen, den die Range abdeckt (0..1).
-	// Beruecksichtigt, dass Paare 6, gleichfarbige 4 und ungleichfarbige
-	// Haende 12 Kombinationen haben.
+	// Share of all 1326 card combinations covered by the range (0..1).
+	// Takes into account that pairs have 6, suited hands 4 and offsuit
+	// hands 12 combinations.
 	double combinationShare() const;
 
-	// Index 0..168 eines Starthand-Typs; -1 bei ungueltigen Karten.
+	// Index 0..168 of a starting hand type; -1 for invalid cards.
 	static int typeIndex(int cardA, int cardB);
 
 private:

@@ -1,23 +1,23 @@
 #!/bin/bash
 set -e
 
-# Baut das ZIP-Binary-Deploy von pokerth_globalnotice (Admin-CLI) in einem
-# Ubuntu-24.04-Docker-Container.
+# Builds the ZIP binary deploy of pokerth_globalnotice (admin CLI) in an
+# Ubuntu 24.04 Docker container.
 #
-# Warum Ubuntu 24.04? Wie beim GUI-Tarball: das ZIP bündelt kein glibc, also ist
-# die glibc des Build-Containers der Host-Floor (siehe Kommentar in
-# Dockerfile.globalnotice-ubuntu24). Die Toolchain-Layer sind wortgleich mit
-# Dockerfile.binary-ubuntu24 und werden daher aus dem Docker-Layer-Cache
-# wiederverwendet, wenn das GUI-Image schon einmal gebaut wurde.
+# Why Ubuntu 24.04? As with the GUI tarball: the ZIP bundles no glibc, so the
+# glibc of the build container is the host floor (see the comment in
+# Dockerfile.globalnotice-ubuntu24). The toolchain layers are word for word the
+# same as in Dockerfile.binary-ubuntu24 and are therefore reused from the Docker
+# layer cache once the GUI image has been built.
 #
-# Voraussetzung: Docker installiert und laufend.
+# Requirement: Docker installed and running.
 #
-# Aufruf:
-#   cd <projekt-root>
+# Usage:
+#   cd <project-root>
 #   bash docker/linux/build_globalnotice_deploy_ubuntu24.sh
-#   # optional andere Qt-Version:
+#   # optionally a different Qt version:
 #   QT_VERSION=6.9.2 bash docker/linux/build_globalnotice_deploy_ubuntu24.sh
-#   # optional Cache umgehen:
+#   # optionally bypass the cache:
 #   bash docker/linux/build_globalnotice_deploy_ubuntu24.sh --no-cache
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -31,7 +31,7 @@ echo "Projekt-Root:  $PROJECT_ROOT"
 echo "Docker-Image:  $IMAGE_NAME"
 echo ""
 
-# Branch-Hinweis (der Build kopiert den aktuellen Arbeitsstand via COPY)
+# Branch note (the build copies the current working state via COPY)
 CURRENT_BRANCH=$(git -C "$PROJECT_ROOT" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unbekannt")
 echo "Branch: $CURRENT_BRANCH  (wird via COPY in den Container kopiert)"
 echo ""
@@ -55,7 +55,7 @@ docker build \
     -t "$IMAGE_NAME" \
     "$PROJECT_ROOT"
 
-# --- ZIP aus dem Container extrahieren ---
+# --- Extract the ZIP from the container ---
 echo ""
 echo "=== Extrahiere ZIP ==="
 CONTAINER_ID=$(docker create "$IMAGE_NAME")

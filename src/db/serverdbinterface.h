@@ -54,11 +54,11 @@ public:
 	virtual void AsyncPlayerLogin(unsigned requestId, const std::string &playerName) = 0;
 	virtual void AsyncCheckAvatarBlacklist(unsigned requestId, const std::string &avatarHash) = 0;
 	virtual void PlayerPostLogin(DB_id playerId, const std::string &avatarHash, const std::string &avatarType) = 0;
-	// Wie PlayerPostLogin(), laesst die Avatar-Spalten aber unangetastet.
-	// Fuer den Fall, dass der Client einen Avatar angekuendigt hat, der Server
-	// ihn aber nicht uebernehmen konnte: Der bereits eingetragene Hash gehoert
-	// dann weiterhin zum Spieler (das Bild liegt auf dem Webserver), er darf
-	// nur nicht bestaetigt und schon gar nicht geleert werden.
+	// Like PlayerPostLogin(), but leaves the avatar columns untouched.
+	// For the case that the client announced an avatar which the server
+	// could not accept: the hash already stored still belongs to the player
+	// (the image lives on the web server), it must merely not be confirmed
+	// and certainly not cleared.
 	virtual void PlayerPostLoginKeepAvatar(DB_id playerId) = 0;
 	virtual void PlayerLogout(DB_id playerId) = 0;
 

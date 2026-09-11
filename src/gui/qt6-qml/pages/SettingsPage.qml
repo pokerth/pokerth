@@ -15,12 +15,12 @@ Rectangle {
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
 
-    // Aktuelle Kategorie für den Compact-Strip
+    // Current category for the compact strip
     property int currentCategoryIndex: 0
 
-    // Kategoriewechsel – gemeinsam für Kompaktleiste, Kategorieliste und
-    // Tastatur. Vorher hing das Laden der Seite in den beiden Maus-Handlern:
-    // Die Pfeiltasten hätten die Auswahl bewegt, ohne dass der Inhalt folgt.
+    // Category change – shared by the compact bar, the category list and the
+    // keyboard. Previously loading the page hung in the two mouse handlers:
+    // the arrow keys would have moved the selection without the content following.
     function showCategory(index) {
         if (index < 0 || index >= settingsMenuListItems.count)
             return
@@ -31,7 +31,7 @@ Rectangle {
             {}, StackView.Immediate)
     }
 
-    // Compact: horizontale Icon-Tabs für Kategorien
+    // Compact: horizontal icon tabs for the categories
     Rectangle {
         id: compactCategoryStrip
         anchors { top: parent.top; left: parent.left; right: parent.right }
@@ -59,7 +59,7 @@ Rectangle {
 
                         Behavior on color { ColorAnimation { duration: 130 } }
 
-                        // Gold-Akzent-Unterstrich beim aktiven Kategorie-Tab
+                        // Gold accent underline on the active category tab
                         Rectangle {
                             anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
                             anchors.margins: 4
@@ -124,8 +124,8 @@ Rectangle {
             radius: 5
             color: "transparent"
 
-            // Dezenter Schatten ragt nach außen; Innenfläche (1px innerhalb des
-            // Rahmens) bleibt in Seitenfarbe, damit die Box-Optik unverändert wirkt.
+            // The subtle shadow extends outwards; the inner area (1px inside the
+            // frame) stays in the page colour so that the box look is unchanged.
             PanelShadow {
                 anchors.fill: parent
                 anchors.margins: 1
@@ -141,9 +141,9 @@ Rectangle {
                 anchors.centerIn: parent
                 currentIndex: 0
 
-                // Tastaturbedienung der Kategorieliste: Tab führt hierher, Pfeile
-                // wechseln die Kategorie (der Inhalt folgt über showCategory),
-                // Pos1/Ende springen an den Rand.
+                // Keyboard operation of the category list: Tab leads here, the arrows
+                // change the category (the content follows via showCategory),
+                // Home/End jump to the ends.
                 activeFocusOnTab: true
                 keyNavigationEnabled: true
                 onCurrentIndexChanged: settingsPage.showCategory(currentIndex)
@@ -169,7 +169,7 @@ Rectangle {
 
                     Behavior on color { ColorAnimation { duration: 130 } }
 
-                    // Gold-Akzentbalken links beim aktiven Eintrag
+                    // Gold accent bar on the left of the active entry
                     Rectangle {
                         anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                         width: 3

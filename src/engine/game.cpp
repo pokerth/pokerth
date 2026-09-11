@@ -163,8 +163,8 @@ void Game::initHand()
 	// set player action none
 	for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
 		(*it)->setMyAction(PLAYER_ACTION_NONE);
-		// Gegnermodell der AI-Engine 4: neue Hand zaehlen und die Merker
-		// fuer freiwilligen Einsatz und Erhoehung zuruecksetzen.
+		// Opponent model of AI engine 4: count the new hand and reset the
+		// flags for voluntary bet and raise.
 		(*it)->beginStatisticsHand();
 	}
 

@@ -5,50 +5,50 @@ import QtQuick.Effects
 
 import "../config" as Config
 
-// Status-Leiste oben am Tisch: links die Pott-Info (Total/Bets), rechts
-// Spielphase, Game-ID und Hand-Nummer – analog zum Qt-Widgets-Client neben
-// den Community-Cards. Höhe/Layout werden vom Aufrufer über Layout.* gesetzt.
+// Status bar at the top of the table: on the left the pot info (total/bets), on the
+// right the game phase, game ID and hand number – analogous to the Qt widgets client
+// next to the community cards. Height/layout are set by the caller via Layout.*.
 Rectangle {
     color: Qt.rgba(0, 0, 0, 0.78)
 
-    // Horizontal zentriert oben: Tischname (nur Netzwerkspiele). Bei Local-
-    // Games ist Lobby.currentGameId == 0 → currentGameName() leer, die Anzeige
-    // verschwindet automatisch. Die Bindung referenziert currentGameId, damit
-    // sie beim Spielwechsel/Beitritt reaktiv neu ausgewertet wird.
+    // Horizontally centred at the top: table name (network games only). For local
+    // games Lobby.currentGameId == 0 → currentGameName() is empty and the display
+    // disappears automatically. The binding references currentGameId so that it is
+    // re-evaluated reactively when changing/joining a game.
     readonly property string tableName:
         (typeof Lobby !== "undefined" && Lobby && Lobby.currentGameId > 0)
             ? Lobby.currentGameName() : ""
 
-    // URL der Tisch-Statistikübersicht des laufenden Netzwerktisches, gebaut aus
-    // den Live-Seats des GameHandlers (1:1 wie der Widgets-Client). An
-    // GameTable.players gebunden, damit sie bei Beitritt/Verlassen/Ausscheiden
-    // reaktiv neu ausgewertet wird. Bei Local-Games liefert sie leer.
+    // URL of the table statistics overview of the running network table, built from
+    // the live seats of the GameHandler (1:1 like the widgets client). Bound to
+    // GameTable.players so that it is re-evaluated reactively on join/leave/knockout.
+    // For local games it returns empty.
     readonly property string tableStatsUrl:
         (GameTable && GameTable.players) ? GameTable.tableStatsUrl() : ""
 
-    // Öffnet das Tisch-Ranking als native Seite (XHR auf den JSON-Endpunkt der
-    // pokerth.net-Tischansicht) – wie die Community-Ranking-Seiten, kein
-    // Browser nötig. mainStackView löst über die Kontextkette auf (Muster
-    // GameWaitPage), da GameStatusBar tief in GamePage steckt und die
-    // StackView-Attached-Properties dort nicht verfügbar sind.
+    // Opens the table ranking as a native page (XHR on the JSON endpoint of the
+    // pokerth.net table view) – like the community ranking pages, no browser
+    // needed. mainStackView resolves via the context chain (pattern
+    // GameWaitPage), because GameStatusBar sits deep inside GamePage and the
+    // StackView attached properties are not available there.
     function openTableStatsPage() {
         if (tableStatsUrl === "" || !GameTable)
             return
-        // Doppelklick-Schutz: Seite nicht zweimal übereinander pushen.
+        // Double click protection: do not push the page twice on top of each other.
         if (mainStackView.currentItem
                 && mainStackView.currentItem.objectName === "gameTableStatsPage")
             return
         mainStackView.push("../pages/GameTableStatsPage.qml", {
             nicks: GameTable.tableStatsNicks(),
             tableName: tableName,
-            // Einstellungen des laufenden Tisches als Momentaufnahme mitgeben.
+            // Pass the settings of the running table along as a snapshot.
             gameInfo: (typeof Lobby !== "undefined" && Lobby)
                       ? Lobby.currentGameInfo() : ({})
         })
     }
 
-    // Browser-Fallback (Kontextmenü): die ursprüngliche pokerth.net-Seite über
-    // denselben AppImage-sicheren Opener wie "Show Player Stats".
+    // Browser fallback (context menu): the original pokerth.net page via
+    // the same AppImage safe opener as "Show Player Stats".
     function openTableStats() {
         if (tableStatsUrl !== "" && typeof Lobby !== "undefined" && Lobby)
             Lobby.openExternalUrl(tableStatsUrl)
@@ -59,7 +59,7 @@ Rectangle {
         z: 1
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        // Nicht in die Pot-/Phasen-Spalten an den Rändern hineinragen.
+        // Do not stick into the pot/phase columns at the edges.
         width: Math.min(implicitWidth, parent.width * 0.5)
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignHCenter
@@ -73,9 +73,9 @@ Rectangle {
         font.underline: clickable && nameMouse.containsMouse
     }
 
-    // Klickfläche als GESCHWISTER des Labels (nicht als Kind des Text) und mit
-    // höherem z – so hängt sie nicht an Eigenheiten der Text-Größe und liegt
-    // sicher über der RowLayout. Nur bei vorhandener URL aktiv/anklickbar.
+    // Click area as a SIBLING of the label (not as a child of the Text) and with
+    // a higher z – that way it does not depend on peculiarities of the text size and
+    // lies safely above the RowLayout. Only active/clickable when a URL is present.
     MouseArea {
         id: nameMouse
         z: 2
@@ -84,8 +84,8 @@ Rectangle {
         enabled: tableNameLabel.visible && tableStatsUrl !== ""
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        // Linksklick öffnet direkt die native Seite; Rechtsklick bietet das
-        // Menü mit Browser-Fallback.
+        // A left click opens the native page directly; a right click offers the
+        // menu with the browser fallback.
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onClicked: (mouse) => {
             if (mouse.button === Qt.RightButton)
@@ -111,8 +111,8 @@ Rectangle {
         anchors { fill: parent; leftMargin: 16; rightMargin: 16 }
         spacing: 0
 
-        // Links: Pot-Info (1:1 wie Widget-Client links neben den Community-Cards)
-        // "Total" = aufgelaufener Pot (getPot), "Bets" = laufende Einsätze dieser Runde (getSets)
+        // Left: pot info (1:1 like the widget client to the left of the community cards)
+        // "Total" = accumulated pot (getPot), "Bets" = running bets of this round (getSets)
         Column {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
             spacing: 0
@@ -150,8 +150,8 @@ Rectangle {
 
         Item { Layout.fillWidth: true }
 
-        // Deutlicher Hinweis, dass wir nur zuschauen: der Tisch sieht sonst
-        // (bis auf die fehlende Action-Leiste) aus wie ein normales Spiel.
+        // A clear hint that we are only spectating: otherwise the table looks
+        // (apart from the missing action bar) like a normal game.
         Rectangle {
             Layout.alignment: Qt.AlignVCenter
             Layout.rightMargin: 10
@@ -173,9 +173,9 @@ Rectangle {
             }
         }
 
-        // Zuschauer-Anzeige (Auge + Anzahl) links neben der rechtsbündigen
-        // Phasen-/Game-Info. Nur sichtbar, wenn das laufende Spiel mindestens
-        // einen Zuschauer hat – analog zum Qt-Widgets-Client. Namen im Tooltip.
+        // Spectator display (eye + count) to the left of the right-aligned
+        // phase/game info. Only visible if the running game has at least
+        // one spectator – analogous to the Qt widgets client. Names in the tooltip.
         Row {
             Layout.alignment: Qt.AlignVCenter
             Layout.rightMargin: 12
@@ -209,7 +209,7 @@ Rectangle {
             }
         }
 
-        // Rechts: Phase + Game-ID + Hand-Nummer (1:1 wie Widget-Client rechts neben den Community-Cards)
+        // Right: phase + game ID + hand number (1:1 like the widget client to the right of the community cards)
         Column {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
             spacing: 0

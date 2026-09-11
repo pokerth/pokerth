@@ -4,11 +4,11 @@ import QtQuick.Layouts
 
 import "../config" as Config
 
-// Beschriftetes Filter-Auswahlfeld (Label + ComboBox) der Community-Cup-Ranking-
-// Seiten (BBC/WEC). Die Modelle nutzen durchgängig textRole "label" / valueRole
-// "value". `activated(value)` feuert mit dem gewählten Wert; `currentIndex` und
-// `indexOfValue()` reichen ComboBox-Funktionen für das Wiederherstellen durch.
-// Im Compact-Modus dehnen sich Feld und ComboBox (sonst feste comboWidth).
+// Labelled filter selection field (label + ComboBox) of the community cup
+// ranking pages (BBC/WEC). The models consistently use textRole "label" /
+// valueRole "value". `activated(value)` fires with the selected value;
+// `currentIndex` and `indexOfValue()` pass ComboBox functions through for restoring.
+// In compact mode the field and the ComboBox stretch (otherwise a fixed comboWidth).
 RowLayout {
     id: field
     property alias label: lbl.text

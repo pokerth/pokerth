@@ -3,26 +3,26 @@ import QtQuick.Effects
 
 import "../config" as Config
 
-// Gewinner-Hand (z.B. "Full House") – nur während des Showdowns.
-// Bewusst als eigenständiges Element (NICHT in den Community-Cards), damit es
-// unabhängig von deren z/Scale immer ÜBER den Spielerboxen liegt – in Hoch-
-// UND Querformat. Positioniert knapp unter den (skalierten) Community Cards.
+// Winning hand (e.g. "full house") – only during the showdown.
+// Deliberately a standalone element (NOT inside the community cards), so that
+// it always sits ABOVE the player boxes independently of their z/scale – in
+// portrait AND landscape. Positioned just below the (scaled) community cards.
 Rectangle {
     id: winHandBadge
 
-    // Bezugselement (Community-Cards) für die vertikale Position.
+    // Reference element (community cards) for the vertical position.
     property Item community: null
     property bool wide: false
     property real communityScale: 1.0
 
-    z: 50   // über Boxen (z:1), unter den Overlays (z:150)
+    z: 50   // above the boxes (z:1), below the overlays (z:150)
     visible: (typeof GameTable !== "undefined" && GameTable)
              ? GameTable.winningHandText !== "" : false
     anchors.horizontalCenter: parent.horizontalCenter
-    // Abstand zur Kartenreihe identisch zum Pot-Badge oben (Portrait 6,
-    // Querformat 8 – jeweils · communityScale). Setzt direkt am (skalierten)
-    // Mittelpunkt der Community-Cards an, folgt damit deren Zentrierung in
-    // Hoch- UND Querformat.
+    // Distance to the card row identical to the pot badge above (portrait 6,
+    // landscape 8 – each · communityScale). It starts from the (scaled)
+    // centre of the community cards and thus follows their centring in
+    // portrait AND landscape.
     y: community
        ? community.y + community.height / 2
          + (community.height * community.scale) / 2
@@ -36,8 +36,8 @@ Rectangle {
     border.width: 1
     transformOrigin: Item.Center
 
-    // Gleicher weicher Schein wie das Pot-Badge – hier in Gold passend
-    // zum Rahmen, damit die Gewinner-Hand ebenso hervorgehoben wird.
+    // Same soft glow as the pot badge – here in gold to match the
+    // frame, so that the winning hand is highlighted just as much.
     layer.enabled: Config.Theme.effectsEnabled
     layer.effect: MultiEffect {
         shadowEnabled: true
@@ -57,7 +57,7 @@ Rectangle {
         font.bold: true
     }
 
-    // Poppt beim Erscheinen der Gewinner-Hand – analog potPop.
+    // Pops when the winning hand appears – analogous to potPop.
     SequentialAnimation {
         id: winHandPop
         NumberAnimation { target: winHandBadge; property: "scale"; from: 1.0; to: 1.18; duration: 110; easing.type: Easing.OutQuad }

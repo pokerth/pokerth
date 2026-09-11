@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Community-„Suggest" für den Widget-Client (siehe communitysuggest.h).
- * Portiert aus dem Legacy-bbcbot (bbcbotplayerdb) und deckungsgleich mit der
- * QML-Fassung (BotSuggest.qml).
+ * Community "suggest" for the widget client (see communitysuggest.h).
+ * Ported from the legacy bbcbot (bbcbotplayerdb) and identical to the
+ * QML version (BotSuggest.qml).
  *****************************************************************************/
 #include "communitysuggest.h"
 
@@ -18,10 +18,10 @@ namespace
 
 const char *const BASE_URL = "https://bbc.pokerth.net/exp3/bbcbot/";
 const qint64 CACHE_TTL_MS = 15 * 60 * 1000;
-// Von Cloudflare allowlistet – identisch zum Qt-Widgets-Client (upload-/downloadhelper).
+// Allowlisted by Cloudflare – identical to the Qt widgets client (upload/download helper).
 const char *const POKERTH_USER_AGENT = "PokerTH/2.0 (Qt Network)";
 
-// suggestionscore2 des bbcbot: keine Tickets ⇒ 0; sonst (tickets<<11)+(games<<4)+rating.
+// suggestionscore2 of the bbcbot: no tickets ⇒ 0; otherwise (tickets<<11)+(games<<4)+rating.
 int score2(int rating, int tickets, int games)
 {
 	if (tickets <= 0)
@@ -29,20 +29,20 @@ int score2(int rating, int tickets, int games)
 	return (tickets << 11) + (games << 4) + rating;
 }
 
-// Nachschlage-Schlüssel für den Abgleich Lobby-Nick ⇔ Botfile. Server-Nicks
-// dürfen führende/anhängende Leerzeichen enthalten (der registrierte Account
-// "tammnt " z. B.), die Botfiles führen denselben Spieler getrimmt – und
-// umgekehrt steht in der minidb auch "silver skies- " mit Leerzeichen. Ohne
-// diese Normalisierung fällt so ein Spieler stillschweigend aus jedem Vorschlag
-// heraus. Nur der Schlüssel wird getrimmt, der ausgegebene Name bleibt
-// unverändert (Namen dürfen Zierzeichen tragen, z. B. "* ghoti *").
+// Lookup key for matching the lobby nick ⇔ the botfile. Server nicks
+// may contain leading/trailing spaces (the registered account
+// "tammnt " for instance), the botfiles carry the same player trimmed – and
+// the other way round the minidb contains "silver skies- " with a space. Without
+// this normalization such a player silently drops out of every suggestion.
+// Only the key is trimmed, the name that is output stays
+// unchanged (names may carry decorative characters, e.g. "* ghoti *").
 QString suggestKey(const QString &name)
 {
 	return name.trimmed().toLower();
 }
 
-// Anfrage auf eine Botfile-Datei. Der von Cloudflare erwartete User-Agent muss
-// an JEDER dieser Anfragen hängen, sonst antwortet der Filter statt der Datei.
+// Request for a botfile. The user agent expected by Cloudflare has to hang
+// on EVERY one of these requests, otherwise the filter replies instead of the file.
 QNetworkRequest botFileRequest(const QString &filename)
 {
 	QNetworkRequest request(QUrl(QString::fromLatin1(BASE_URL) + filename));
@@ -52,7 +52,7 @@ QNetworkRequest botFileRequest(const QString &filename)
 }
 
 struct Scored {
-	QString name;   // auszugebender Name (DB- bzw. WEC-Listenname)
+	QString name;   // the name to output (the DB or WEC list name)
 	int score;
 	QString game;   // gesetzt = spielt gerade an diesem Tisch
 };
@@ -62,12 +62,12 @@ bool scoreDesc(const Scored &a, const Scored &b)
 	return a.score > b.score;
 }
 
-// Baut den Vorschlagstext: Kopfzeile, danach EIN Spieler pro Zeile – zuerst die
-// idle Spieler, dann an letzter Stelle die gerade spielenden, je mit
-// " (playing in game …)" annotiert. Beide Gruppen auf `limit` begrenzt;
-// emptyText, falls beide leer.
-// Der Zeilenumbruch ist ein echtes "\n"; die Chat-Anzeige setzt es in <br> um
-// (ChatTools::showLocalNote), weil der Chat-Verlauf HTML ist.
+// Builds the suggestion text: header row, then ONE player per line – first the
+// idle players, then in last place those currently playing, each annotated with
+// " (playing in game …)". Both groups are limited to `limit`;
+// emptyText if both are empty.
+// The line break is a real "\n"; the chat display converts it into <br>
+// (ChatTools::showLocalNote), because the chat history is HTML.
 QString buildMessage(const QString &headline, const QList<Scored> &idle,
 					 const QList<Scored> &busy, int limit, const QString &emptyText)
 {
@@ -88,7 +88,7 @@ CommunitySuggest::CommunitySuggest(QObject *parent)
 {
 }
 
-// Deckungsgleich mit den communityPresets des QML-Clients (Config.BotSuggest.presets).
+// Identical to the communityPresets of the QML client (Config.BotSuggest.presets).
 const QList<CommunitySuggest::CommunityTemplate> &CommunitySuggest::templates()
 {
 	static const QList<CommunityTemplate> table = QList<CommunityTemplate> {
@@ -138,8 +138,8 @@ QString CommunitySuggest::suggestTypeForGame(const GameData &data)
 			if (!same)
 				continue;
 		} else {
-			// Blinds verdoppeln (WEC): Startgeld + Small Blind sind hier keine
-			// Signatur, deshalb zusätzlich Raise-Intervall und Timeout prüfen.
+			// Double the blinds (WEC): starting money + small blind are no
+			// signature here, so check the raise interval and the timeout as well.
 			const bool onHands = data.raiseIntervalMode == RAISE_ON_HANDNUMBER;
 			if (t.raiseOnHands != onHands)
 				continue;
@@ -192,12 +192,12 @@ void CommunitySuggest::requestCommunityAdmin(const QString &type, const QString 
 
 	const qint64 now = QDateTime::currentMSecsSinceEpoch();
 	if (list.loaded && (now - list.ts) < CACHE_TTL_MS) {
-		applyCommunityAdmin(file, nick);   // frischer Cache ⇒ ohne Netz
+		applyCommunityAdmin(file, nick);   // fresh cache ⇒ without the network
 		return;
 	}
-	// Auch FEHLSCHLÄGE drosseln: der Aufrufer hängt an der Button-Sichtbarkeit
-	// und fragt bei jeder Änderung der Spielerliste erneut – ohne diese Sperre
-	// liefe bei fehlender/unerreichbarer Datei ein Download pro Join/Leave.
+	// Throttle FAILURES as well: the caller hangs off the button visibility
+	// and asks again on every change of the player list – without this lock
+	// a missing/unreachable file would cause one download per join/leave.
 	if (list.lastTry != 0 && (now - list.lastTry) < CACHE_TTL_MS)
 		return;
 	list.lastTry = now;
@@ -219,8 +219,8 @@ void CommunitySuggest::requestCommunityAdmin(const QString &type, const QString 
 			entry.loaded = true;
 			entry.ts = QDateTime::currentMSecsSinceEpoch();
 		}
-		// Fehlschlag ⇒ auf (ggf. abgelaufene) Altdaten zurückfallen; ist gar
-		// nichts da, bleibt der Button aus – wie ohne das Feature.
+		// Failure ⇒ fall back to the (possibly expired) old data; if there is
+		// nothing at all, the button stays off – as without the feature.
 		applyCommunityAdmin(file, wanted);
 	});
 }
@@ -247,13 +247,13 @@ void CommunitySuggest::ensure(const QString &kind, const std::function<void(bool
 	FileCache &c = m_files[kind];
 	const qint64 now = QDateTime::currentMSecsSinceEpoch();
 	if (c.loaded && (now - c.ts) < CACHE_TTL_MS) {
-		done(true);   // frischer Cache ⇒ ohne Netz und ohne Umweg
+		done(true);   // fresh cache ⇒ without the network and without a detour
 		return;
 	}
 
 	c.queue.append(done);
 	if (c.inFlight)
-		return;       // läuft schon: dieser Aufrufer hängt sich nur an
+		return;       // already running: this caller only attaches itself
 	c.inFlight = true;
 
 	if (!m_nam)
@@ -277,12 +277,12 @@ void CommunitySuggest::ensure(const QString &kind, const std::function<void(bool
 			entry.loaded = true;
 			entry.ts = QDateTime::currentMSecsSinceEpoch();
 		}
-		// Fehlschlag ⇒ auf (ggf. abgelaufene) Altdaten zurückfallen; ist gar
-		// nichts da, meldet der Callback false (der Aufrufer zeigt dann nichts).
+		// Failure ⇒ fall back to the (possibly expired) old data; if there is
+		// nothing at all, the callback reports false (the caller then shows nothing).
 		const bool ok = entry.loaded;
-		// Warteschlange VOR dem Aufrufen kopieren und leeren: ein Callback darf
-		// ensure() erneut aufrufen, und das Einfügen in m_files würde die
-		// Referenz `entry` ungültig machen (QHash-Rehash).
+		// Copy and clear the queue BEFORE calling: a callback may call
+		// ensure() again, and inserting into m_files would invalidate the
+		// reference `entry` (QHash rehash).
 		const QList<std::function<void(bool)> > waiting = entry.queue;
 		entry.queue.clear();
 		for (int i = 0; i < waiting.size(); ++i)
@@ -290,10 +290,10 @@ void CommunitySuggest::ensure(const QString &kind, const std::function<void(bool
 	});
 }
 
-// minidb.txt: Name<TAB>ts2<TAB>ts3<TAB>ts4<TAB>rating<TAB>games. Der ausgegebene
-// Name wird NICHT getrimmt (kann führende/anhängende Zeichen enthalten, z. B.
-// "* ghoti *"), nur der Schlüssel (suggestKey); nur Zeilen mit rating > 0
-// übernehmen (wie der Bot).
+// minidb.txt: name<TAB>ts2<TAB>ts3<TAB>ts4<TAB>rating<TAB>games. The name that is
+// output is NOT trimmed (it may contain leading/trailing characters, e.g.
+// "* ghoti *"), only the key (suggestKey); only take over lines with rating > 0
+// (like the bot).
 void CommunitySuggest::parseDb(const QByteArray &data)
 {
 	m_db.clear();
@@ -319,8 +319,8 @@ void CommunitySuggest::parseDb(const QByteArray &data)
 	}
 }
 
-// weclist.txt / bbcadmins.txt: ein Spielername pro Zeile → { lowercase:
-// originalName }. Beide Botfiles teilen dieses Format.
+// weclist.txt / bbcadmins.txt: one player name per line → { lowercase:
+// originalName }. Both botfiles share this format.
 void CommunitySuggest::parseNameList(const QByteArray &data, QHash<QString, QString> &target)
 {
 	target.clear();
@@ -333,8 +333,8 @@ void CommunitySuggest::parseNameList(const QByteArray &data, QHash<QString, QStr
 	}
 }
 
-// gameslist.txt: "#command#permgroup#Game Title Prefix#" (mind. 4×'#'; Kommentare
-// "//" und Zeilen mit weniger '#' ignorieren) → { command: titlePrefix }.
+// gameslist.txt: "#command#permgroup#Game Title Prefix#" (at least 4×'#'; ignore
+// comments "//" and lines with fewer '#') → { command: titlePrefix }.
 void CommunitySuggest::parseGameslist(const QByteArray &data)
 {
 	m_gameslist.clear();
@@ -368,9 +368,9 @@ QString CommunitySuggest::suggestStep(int step, const QStringList &idleNames,
 			continue;
 		idle << Scored{ it->name, s, QString() };
 	}
-	// Step 1 rechnet mit festem Ticket=1 → praktisch jeder DB-Spieler
-	// qualifiziert sich. Die gerade spielenden dann NICHT mit vorschlagen, sonst
-	// wird die Liste zu lang (erst ab Step 2 einblenden).
+	// Step 1 computes with a fixed ticket=1 → practically every DB player
+	// qualifies. So do NOT suggest those currently playing as well, otherwise
+	// the list gets too long (only show them from step 2 on).
 	QList<Scored> busy;
 	if (step != 1) {
 		for (const PlayingPlayer &p : playing) {
@@ -398,7 +398,7 @@ QString CommunitySuggest::suggestWec(const QStringList &idleNames,
 		auto it = m_wec.constFind(suggestKey(n));
 		if (it == m_wec.constEnd())
 			continue;
-		// Zufalls-Score wie im Legacy-Bot → zufällige Reihenfolge.
+		// Random score as in the legacy bot → a random order.
 		idle << Scored{ it.value(), int(QRandomGenerator::global()->bounded(1, 1000000)), QString() };
 	}
 	QList<Scored> busy;
@@ -418,8 +418,8 @@ void CommunitySuggest::suggest(const QString &type, const QStringList &idleNames
 							   const QList<PlayingPlayer> &playing,
 							   QObject *context, const ResultCallback &onReady)
 {
-	// Wächter für den Aufrufer: der Download läuft asynchron, der Dialog kann
-	// bis zur Antwort geschlossen (und zerstört) worden sein.
+	// A guard for the caller: the download runs asynchronously, the dialog may
+	// have been closed (and destroyed) by the time the reply arrives.
 	const QPointer<QObject> guard(context);
 	static const QRegularExpression stepRe(QStringLiteral("^step([1-4])$"));
 	const QRegularExpressionMatch m = stepRe.match(type);

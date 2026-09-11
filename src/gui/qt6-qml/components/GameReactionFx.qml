@@ -3,18 +3,18 @@ import QtQuick.Effects
 
 import "../config" as Config
 
-// Reaktions-Animation – Port der Web-Client-Choreografie (playReactionFx):
-// ein großes Emoji erscheint am Sitz des Spielers, spielt eine von 16
-// Choreografien (Aufstieg, Wackeln, Drehen, Fallen …) und verblasst; dazu ein
-// Partikel-Burst (Funken/Konfetti/Tropfen/Münzen … je nach Emoji).
+// Reaction animation – a port of the web client choreography (playReactionFx):
+// a large emoji appears at the player's seat, plays one of 16
+// choreographies (rise, wobble, spin, fall …) and fades; plus a
+// particle burst (sparks/confetti/drops/coins … depending on the emoji).
 //
-// Katalog, Keyframes und Partikel-Spezifikationen stehen in
-// config/ReactionCatalog.qml (gemeinsam mit dem ReactionPicker).
+// The catalogue, the keyframes and the particle specifications live in
+// config/ReactionCatalog.qml (shared with the ReactionPicker).
 //
-// Verwendung:  reactionFx.play("🎉", x, y)
-//   (x, y) = Ankerpunkt in Koordinaten dieses Items (Mitte/Oberkante der
-//   Spielerbox). Jede Reaktion ist eine eigene, selbstzerstörende Instanz –
-//   mehrere gleichzeitige Reaktionen sind möglich.
+// Usage:  reactionFx.play("🎉", x, y)
+//   (x, y) = anchor point in the coordinates of this item (centre/top edge of
+//   the player box). Every reaction is a separate, self-destroying instance –
+//   several simultaneous reactions are possible.
 Item {
     id: root
 
@@ -30,11 +30,11 @@ Item {
         })
     }
 
-    // ── Partikel einer Spezifikation/eines Presets erzeugen ─────────────────
-    // Rückgabe: Liste von {kind, ch, color, w, h, size, ox, oy, dx, dy, g, rot,
-    // pulse, life, delay}; kind = "glyph" (Emoji), "dot" (farbiger Punkt) oder
-    // "confetti". (ox, oy) ist der Startpunkt, (dx, dy) das Ziel – beide
-    // relativ zum Ankerpunkt.
+    // ── Create the particles of a specification/preset ──────────────────────
+    // Return value: list of {kind, ch, color, w, h, size, ox, oy, dx, dy, g, rot,
+    // pulse, life, delay}; kind = "glyph" (emoji), "dot" (coloured dot) or
+    // "confetti". (ox, oy) is the start point, (dx, dy) the target – both
+    // relative to the anchor point.
     function buildParticles(spec) {
         var delay = 0
         if (spec === "sparkle")
@@ -44,9 +44,9 @@ Item {
             spec = { chars: ["💥", "✦"], count: 8, size: 15,
                      a0: 0, a1: 360, dist: 70, life: 800 }
         else if (spec === "boom") {
-            // 💣: Die Bombe fällt zuerst ("drop"), erst beim Aufschlag
-            // explodiert sie – daher der Versatz von 420 ms, der mit der
-            // Choreografie gestreckt wird (durationScale).
+            // 💣: the bomb falls first ("drop"), it only explodes on
+            // impact – hence the offset of 420 ms, which is stretched
+            // along with the choreography (durationScale).
             spec = { chars: ["💥", "🔥", "✦"], count: 14, size: 18,
                      a0: 0, a1: 360, dist: 95, life: 950, rot: true }
             delay = catalog.scaled(420)
@@ -72,8 +72,8 @@ Item {
         return spawn(spec, delay)
     }
 
-    // Partikel einer expliziten Spezifikation in den Winkelbereich a0..a1
-    // werfen.
+    // Throw the particles of an explicit specification into the angle range
+    // a0..a1.
     function spawn(spec, delay) {
         if (!spec || typeof spec !== "object")
             return []
@@ -99,17 +99,17 @@ Item {
         return pts
     }
 
-    // 🔫 "gunshot": Mündungsfeuer, ein goldenes Leuchtspur-Geschoss nach LINKS
-    // (der Glyph zeigt in allen Emoji-Fonts nach links), sein Funkenschweif und
-    // die nach rechts oben ausgeworfene Hülse. Das Emoji selbst spielt dazu die
-    // Choreografie "recoil".
+    // 🔫 "gunshot": muzzle flash, a golden tracer projectile to the LEFT
+    // (the glyph points left in all emoji fonts), its spark trail and
+    // the cartridge ejected to the upper right. The emoji itself plays the
+    // choreography "recoil" along with it.
     function gunshotParticles() {
         var pts = [
-            // Mündungsfeuer: bleibt an der Laufmündung und blitzt kurz auf.
+            // Muzzle flash: stays at the muzzle and flashes briefly.
             { kind: "glyph", ch: "💥", color: "#E3C800", w: 0, h: 0, size: 20,
               ox: -20, oy: 0, dx: -30, dy: 0, g: 0, rot: 0, pulse: true,
               life: 240, delay: 0 },
-            // Das Geschoss.
+            // The projectile.
             { kind: "dot", ch: "", color: "#E3C800", w: 0, h: 0, size: 7,
               ox: -24, oy: 0, dx: -195, dy: 10, g: 0, rot: 0, pulse: false,
               life: 420, delay: 0 }
@@ -121,8 +121,8 @@ Item {
                     dist: 40, g: 55, life: 650 }, 0))
     }
 
-    // Druckwellen-Ringe: goldener Ring beim Preset "shock", zwei breite
-    // orangene beim "boom" (der zweite 120 ms versetzt).
+    // Shock wave rings: a golden ring for the preset "shock", two wide
+    // orange ones for "boom" (the second offset by 120 ms).
     function buildRings(spec) {
         if (spec === "shock")
             return [{ delay: 0, dur: 800, color: "#FFE066", width: 3, to: 4 }]
@@ -138,8 +138,8 @@ Item {
         Item {
             id: burst
 
-            // Beim Erzeugen gesetzt (siehe play): Emoji, Choreografie,
-            // Partikel und Druckwellen-Ringe.
+            // Set on creation (see play): emoji, choreography,
+            // particles and shock wave rings.
             property string emoji: ""
             property var anim: null
             property var particles: []
@@ -148,11 +148,11 @@ Item {
             readonly property real k: Config.ReactionCatalog.pxPerPercent
             readonly property int animDur: Config.ReactionCatalog.durationOf(anim)
 
-            // Fortschritt der Choreografie (0..1, linear). Die Timing-Function
-            // steckt – wie in CSS – in der Auswertung jedes Keyframe-Abschnitts.
+            // Progress of the choreography (0..1, linear). The timing function
+            // sits – as in CSS – in the evaluation of each keyframe section.
             property real prog
 
-            // Lebensdauer = längste Teilanimation (Emoji, Partikel, Ringe).
+            // Lifetime = the longest sub-animation (emoji, particles, rings).
             readonly property int lifeMs: {
                 var m = animDur
                 for (var i = 0; i < particles.length; i++)
@@ -199,13 +199,13 @@ Item {
                 }
             }
 
-            // ── Großes Emoji ──
+            // ── Large emoji ──
             Text {
                 id: bigEmoji
                 text: burst.emoji
-                // Farb-Emojis ignorieren color; falls ein Glyph monochrom
-                // gerendert wird (Font-Fallback), erscheint er weiß statt
-                // schwarz (Tisch-Hintergrund ist dunkelgrün).
+                // Colour emojis ignore color; if a glyph is rendered
+                // monochrome (font fallback), it appears white instead of
+                // black (the table background is dark green).
                 color: "#FFFFFF"
                 font.family: Config.StaticData.emojiFamily
                 font.pixelSize: Config.ReactionCatalog.baseSize
@@ -217,7 +217,7 @@ Item {
                 rotation: Config.ReactionCatalog.sample(burst.anim, "r", burst.prog, 0)
                 opacity: Config.ReactionCatalog.sample(burst.anim, "o", burst.prog, 1)
 
-                // Kartendreher ("flip"): Drehung um die Y-Achse.
+                // Card turner ("flip"): rotation around the Y axis.
                 transform: Rotation {
                     origin.x: bigEmoji.width / 2
                     origin.y: bigEmoji.height / 2
@@ -225,7 +225,7 @@ Item {
                     angle: Config.ReactionCatalog.sample(burst.anim, "ry", burst.prog, 0)
                 }
 
-                // Aufblitzen der "shine"-Choreografie.
+                // Flash of the "shine" choreography.
                 layer.enabled: burst.anim.b !== undefined
                 layer.effect: MultiEffect {
                     brightness: Config.ReactionCatalog.sample(burst.anim, "b", burst.prog, 0)
@@ -238,8 +238,8 @@ Item {
                 delegate: Item {
                     id: pt
                     required property var modelData
-                    // Mündungsfeuer des Presets "gunshot": statt der vollen
-                    // Deckkraft blitzt das Zeichen auf und verblasst wieder.
+                    // Muzzle flash of the preset "gunshot": instead of the full
+                    // opacity the character flashes up and fades again.
                     readonly property bool pulse: modelData.pulse === true
                     x: modelData.ox; y: modelData.oy
                     opacity: 0
@@ -261,7 +261,7 @@ Item {
                         radius: width / 2
                         color: pt.modelData.color
                     }
-                    // … oder Konfetti-Rechteck
+                    // … or a confetti rectangle
                     Rectangle {
                         visible: pt.modelData.kind === "confetti"
                         anchors.centerIn: parent
@@ -270,7 +270,7 @@ Item {
                         color: pt.modelData.color
                     }
 
-                    // Aufblitzen: Größe 0.4 → 1.25 → 0.7 über die Lebensdauer.
+                    // Flash: size 0.4 → 1.25 → 0.7 over the lifetime.
                     SequentialAnimation {
                         running: pt.pulse
                         PauseAnimation { duration: pt.modelData.delay }
@@ -314,7 +314,7 @@ Item {
                 }
             }
 
-            // Selbstzerstörung nach Ablauf aller Animationen.
+            // Self-destruction after all animations have finished.
             Timer {
                 interval: burst.lifeMs
                 running: true

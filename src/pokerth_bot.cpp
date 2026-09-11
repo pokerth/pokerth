@@ -28,8 +28,8 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 
-// Headless Bot Client für PokerTH - Automatisierte Test-Clients
-// Nutzt modernes Protocol Buffer Protokoll und TLS-basierte Plain-Auth
+// A headless bot client for PokerTH - automated test clients
+// It uses the modern protocol buffer protocol and TLS based plain auth
 
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
@@ -58,7 +58,7 @@ using boost::asio::ip::tcp;
 namespace po = boost::program_options;
 namespace ssl = boost::asio::ssl;
 
-// Global flag für graceful shutdown
+// A global flag for a graceful shutdown
 static atomic<bool> g_shutdownRequested(false);
 
 #define NET_VERSION_MAJOR 5
@@ -78,7 +78,7 @@ static string getTimestamp()
 	return string(buf);
 }
 
-// Bot Session - Ein Bot-Client
+// Bot session - one bot client
 class BotSession
 {
 public:
@@ -94,12 +94,12 @@ public:
 		recBuf_.fill(0);
 	}
 
-	// Check ob dieser Bot zufällig folden soll (basierend auf foldPercent_)
-	// Die ersten 2 Bots (test1, test2) folden NIE - garantierte Caller
+	// Check whether this bot should fold randomly (based on foldPercent_)
+	// The first 2 bots (test1, test2) NEVER fold - guaranteed callers
 	bool shouldRandomFold()
 	{
 		if (foldPercent_ <= 0) return false;
-		// test1 und test2 sind "permanente Caller" - folden nie
+		// test1 and test2 are "permanent callers" - they never fold
 		if (name_ == "test1" || name_ == "test2") return false;
 		if (foldPercent_ >= 100) return true;
 		std::uniform_int_distribution<int> dist(1, 100);
@@ -196,13 +196,13 @@ public:
 		isAllIn_ = val;
 	}
 
-	// Empfange Nachricht (non-blocking: gibt nullptr zurück wenn keine vollständige Nachricht verfügbar)
+	// Receive a message (non-blocking: it returns nullptr if no complete message is available)
 	boost::shared_ptr<NetPacket> receiveMessage(bool blocking = false)
 	{
 		boost::shared_ptr<NetPacket> tmpPacket;
 
 		do {
-			// Prüfe ob ein vollständiges Paket im Buffer ist
+			// Check whether a complete packet is in the buffer
 			if (recBufPos_ >= NET_HEADER_SIZE) {
 				uint32_t nativeVal;
 				memcpy(&nativeVal, recBuf_.data(), sizeof(uint32_t));
@@ -222,7 +222,7 @@ public:
 							if (recBufPos_) {
 								memmove(recBuf_.data(), recBuf_.data() + packetSize + NET_HEADER_SIZE, recBufPos_);
 							}
-							return tmpPacket;  // Vollständiges Paket gefunden!
+							return tmpPacket;  // A complete packet was found!
 						}
 					} catch (const exception &e) {
 						recBufPos_ = 0;
@@ -232,7 +232,7 @@ public:
 				}
 			}
 
-			// Prüfe ob mehr Daten verfügbar sind
+			// Check whether more data is available
 			boost::system::error_code ec;
 			size_t available = socket_.lowest_layer().available(ec);
 
@@ -241,14 +241,14 @@ public:
 				return boost::shared_ptr<NetPacket>();
 			}
 
-			// Wenn keine Daten verfügbar und non-blocking, sofort zurückkehren
+			// If no data is available and we are non-blocking, return immediately
 			if (available == 0 && !blocking) {
 				return boost::shared_ptr<NetPacket>();
 			}
 
-			// Lese verfügbare Daten (oder blockiere wenn blocking=true)
-			// Bei non-TLS direkt über den TCP-Socket lesen (next_layer()),
-			// da ssl::stream ohne Handshake nicht funktioniert.
+			// Read the available data (or block if blocking=true)
+			// With non-TLS read directly via the TCP socket (next_layer()),
+			// because ssl::stream does not work without a handshake.
 			size_t bytesRead = useTls_
 							   ? socket_.read_some(
 								   boost::asio::buffer(recBuf_.data() + recBufPos_, BUF_SIZE - recBufPos_), ec)
@@ -259,7 +259,7 @@ public:
 				cerr << "[" << name_ << "] Connection closed by server" << endl;
 				return boost::shared_ptr<NetPacket>();
 			} else if (ec == boost::asio::error::would_block || ec == boost::asio::error::try_again) {
-				// Non-blocking socket hat keine Daten - das ist OK
+				// The non-blocking socket has no data - that is OK
 				if (!blocking) {
 					return boost::shared_ptr<NetPacket>();
 				}
@@ -298,7 +298,7 @@ public:
 		packet->GetMsg()->SerializeWithCachedSizesToArray(&buf[NET_HEADER_SIZE]);
 
 		boost::system::error_code ec;
-		// Bei non-TLS direkt über den TCP-Socket schreiben
+		// With non-TLS write directly via the TCP socket
 		if (useTls_)
 			boost::asio::write(socket_, boost::asio::buffer(buf), ec);
 		else
@@ -324,31 +324,31 @@ private:
 	uint32_t playerId_;
 	uint32_t gameId_;
 	uint32_t handNum_;
-	uint32_t mySet_;        // Mein aktueller Einsatz in der Runde
-	uint32_t highestSet_;   // Höchster Einsatz am Tisch
-	uint32_t myCash_;       // Verfügbares Cash
-	NetGameState lastGameState_; // Letzter GameState für Rejection-Fallback
-	NetGameState currentGameState_; // Aktueller GameState (Preflop/Flop/Turn/River)
-	bool isAllIn_;          // Merke ob Bot All-In ist in dieser Hand
-	int foldPercent_;       // Wahrscheinlichkeit für zufälliges Fold (0-100)
-	mutable std::mt19937 rng_;  // Random number generator für fold
+	uint32_t mySet_;        // My current bet in the round
+	uint32_t highestSet_;   // The highest bet at the table
+	uint32_t myCash_;       // The available cash
+	NetGameState lastGameState_; // The last game state for the rejection fallback
+	NetGameState currentGameState_; // The current game state (preflop/flop/turn/river)
+	bool isAllIn_;          // Remember whether the bot is all-in in this hand
+	int foldPercent_;       // The probability of a random fold (0-100)
+	mutable std::mt19937 rng_;  // A random number generator for the fold
 	boost::array<char, BUF_SIZE> recBuf_;
 	size_t recBufPos_;
 };
 
-// Bot Controller - Verwaltet alle Bots
+// Bot controller - it manages all bots
 class BotController
 {
 public:
 	BotController(const string &server, const string &port, bool useTls, int foldPercent = 0)
-		: io_(), sslCtx_(ssl::context::sslv23_client),  // sslv23 = TLS 1.0-1.3 (wie GUI Client)
+		: io_(), sslCtx_(ssl::context::sslv23_client),  // sslv23 = TLS 1.0-1.3 (as in the GUI client)
 		  server_(server), port_(port), useTls_(useTls), foldPercent_(foldPercent)
 	{
 
 		if (useTls_) {
 			sslCtx_.set_verify_mode(ssl::verify_none);
-			// Gegen den offiziellen Server wird der eingebaute Pin geprüft, für
-			// lokale Testserver bleibt es beim reinen Transportschutz.
+			// Against the official server the built-in pin is checked, for
+			// local test servers it stays at the pure transport protection.
 			TlsPinning::ApplyPins(sslCtx_, TlsPinning::GetBuiltinPins(server_),
 			[](const string &msg) {
 				cerr << msg << endl;
@@ -363,7 +363,7 @@ public:
 		}
 	}
 
-	// Erstelle und starte N Bots
+	// Create and start N bots
 	bool createBots(int numBots, int startId, const string &password)
 	{
 		cout << "Creating " << numBots << " bots...";
@@ -384,7 +384,7 @@ public:
 			bots_.push_back(bot);
 			cout << "[" << getTimestamp() << "] [" << botName << "] Connected" << endl;
 
-			// Pause zwischen Bot-Logins
+			// A pause between the bot logins
 			if (i < numBots - 1) {
 				this_thread::sleep_for(chrono::milliseconds(500));
 			}
@@ -393,7 +393,7 @@ public:
 		return true;
 	}
 
-	// Ein spezifischer Bot joint ein Game
+	// One specific bot joins a game
 	bool joinBotToGame(int botIndex, uint32_t gameId)
 	{
 		if (botIndex < 0 || botIndex >= (int)bots_.size()) {
@@ -405,7 +405,7 @@ public:
 		return sendJoinGame(bot, gameId);
 	}
 
-	// Alle Bots joinen ein Game
+	// All bots join a game
 	bool joinGame(uint32_t gameId)
 	{
 		cout << "All bots joining game " << gameId << "..." << endl;
@@ -420,7 +420,7 @@ public:
 		return true;
 	}
 
-	// Erster Bot erstellt ein Game
+	// The first bot creates a game
 	uint32_t createGame(const string &gameName, const string &password)
 	{
 		if (bots_.empty()) {
@@ -442,33 +442,33 @@ public:
 
 		NetGameInfo *gameInfo = newGameMsg->mutable_gameinfo();
 
-		// Ranking Game mit FESTEN Server-Einstellungen (siehe game_defs.h):
+		// A ranking game with FIXED server settings (see game_defs.h):
 		// RANKING_GAME_START_CASH = 10000
 		// RANKING_GAME_NUMBER_OF_PLAYERS = 10
 		// RANKING_GAME_START_SBLIND = 50
 		// RANKING_GAME_RAISE_EVERY_HAND = 11
-		// raiseMode MUSS doubleBlinds sein
-		// Kein Passwort erlaubt, allowSpectators muss true sein
+		// raiseMode MUST be doubleBlinds
+		// No password allowed, allowSpectators has to be true
 
 		gameInfo->set_gamename(gameName);
 		gameInfo->set_netgametype(NetGameInfo::rankingGame);
 		gameInfo->set_maxnumplayers(10);
 		gameInfo->set_raiseintervalmode(NetGameInfo::raiseOnHandNum);
-		gameInfo->set_raiseeveryhands(11);  // MUSS 11 sein für Ranking Games!
-		gameInfo->set_endraisemode(NetGameInfo::doubleBlinds);  // MUSS doubleBlinds sein!
+		gameInfo->set_raiseeveryhands(11);  // MUST be 11 for ranking games!
+		gameInfo->set_endraisemode(NetGameInfo::doubleBlinds);  // MUST be doubleBlinds!
 		gameInfo->set_proposedguispeed(5);
 		gameInfo->set_delaybetweenhands(5);
 		gameInfo->set_playeractiontimeout(5);
 		gameInfo->set_endraisesmallblindvalue(0);
-		gameInfo->set_firstsmallblind(50);  // MUSS 50 sein
-		gameInfo->set_startmoney(10000);    // MUSS 10000 sein für Ranking Games!
-		gameInfo->set_allowspectators(true); // MUSS true sein
+		gameInfo->set_firstsmallblind(50);  // MUST be 50
+		gameInfo->set_startmoney(10000);    // MUST be 10000 for ranking games!
+		gameInfo->set_allowspectators(true); // MUST be true
 
 		if (!creator->sendMessage(packet)) {
 			return 0;
 		}
 
-		// Warte auf JoinGameAck (Server kann mehrere Messages senden)
+		// Wait for the JoinGameAck (the server may send several messages)
 		uint32_t createdGameId = 0;
 		for (int attempts = 0; attempts < 20; attempts++) {  // Max 20 Messages
 			auto reply = creator->receiveMessage(true);  // blocking: wait for JoinGameAck
@@ -484,7 +484,7 @@ public:
 				creator->setGameId(createdGameId);
 				cout << "[" << creator->name() << "] Created game ID: " << createdGameId << endl;
 
-				// WICHTIG: Nach Game-Create pending Messages konsumieren!
+				// IMPORTANT: consume the pending messages after creating the game!
 				this_thread::sleep_for(chrono::milliseconds(100));
 				flushPendingMessages(creator);
 
@@ -494,7 +494,7 @@ public:
 				cerr << "[" << creator->name() << "] JoinGameFailed, reason: " << reason << endl;
 				return 0;
 			}
-			// Alle anderen Messages ignorieren (nicht mehr loggen)
+			// Ignore all other messages (do not log them any more)
 		}
 
 		cerr << "[" << creator->name() << "] Timeout waiting for JoinGameAck" << endl;
@@ -510,26 +510,26 @@ public:
 			bool anyActivity = false;
 
 			for (auto &bot : bots_) {
-				// ALLE verfügbaren Messages sofort verarbeiten (non-blocking)
+				// Process ALL available messages immediately (non-blocking)
 				auto msg = bot->receiveMessage();  // non-blocking by default
 				while (msg) {
 					handleMessage(bot, msg);
 					anyActivity = true;
-					msg = bot->receiveMessage();  // Nächste Message
+					msg = bot->receiveMessage();  // The next message
 				}
 			}
 
-			// Nur schlafen wenn keine Aktivität war (verhindert unnötiges Warten)
+			// Only sleep if there was no activity (it prevents unnecessary waiting)
 			if (!anyActivity) {
 				this_thread::sleep_for(chrono::milliseconds(1));  // Minimaler Poll-Interval
 			}
 		}
 
-		// Graceful Shutdown: Alle Bots sauber disconnecten
+		// A graceful shutdown: disconnect all bots cleanly
 		cout << "Shutting down gracefully..." << endl;
 		for (auto &bot : bots_) {
 			try {
-				// LeaveGameRequestMessage senden falls in einem Spiel
+				// Send a LeaveGameRequestMessage if we are in a game
 				if (bot->gameId() != 0) {
 					cout << "[" << bot->name() << "] Leaving game " << bot->gameId() << "..." << endl;
 					boost::shared_ptr<NetPacket> leave(new NetPacket);
@@ -537,7 +537,7 @@ public:
 					LeaveGameRequestMessage *leaveMsg = leave->GetMsg()->mutable_leavegamerequestmessage();
 					leaveMsg->set_gameid(bot->gameId());
 					bot->sendMessage(leave);
-					this_thread::sleep_for(chrono::milliseconds(100));  // Warte auf Server-Verarbeitung
+					this_thread::sleep_for(chrono::milliseconds(100));  // Wait for the server to process it
 				}
 
 				cout << "[" << bot->name() << "] Closing connection..." << endl;
@@ -545,12 +545,12 @@ public:
 				// SSL Shutdown (bidirektional - wichtig!)
 				boost::system::error_code ec;
 
-				// Erst SSL shutdown versuchen (aber mit Timeout, falls Server nicht antwortet)
+				// Try an SSL shutdown first (but with a timeout, in case the server does not answer)
 				if (useTls_) {
-					// Setze non-blocking für den Shutdown um nicht zu blocken
+					// Set non-blocking for the shutdown, in order not to block
 					bot->socket().lowest_layer().non_blocking(true, ec);
 
-					// SSL async_shutdown mit kurzem Timeout
+					// An SSL async_shutdown with a short timeout
 					auto shutdownTimer = std::make_shared<boost::asio::steady_timer>(io_);
 					shutdownTimer->expires_after(std::chrono::seconds(2));
 
@@ -570,14 +570,14 @@ public:
 						shutdownDone = true;
 					});
 
-					// Poll bis shutdown fertig oder timeout
+					// Poll until the shutdown is finished or it times out
 					while (!shutdownDone) {
 						io_.poll_one();
 						this_thread::sleep_for(chrono::milliseconds(10));
 					}
 				}
 
-				// Socket schließen (falls noch offen)
+				// Close the socket (if it is still open)
 				if (bot->socket().lowest_layer().is_open()) {
 					bot->socket().lowest_layer().shutdown(tcp::socket::shutdown_both, ec);
 					bot->socket().lowest_layer().close(ec);
@@ -587,7 +587,7 @@ public:
 			} catch (const std::exception& e) {
 				cerr << "[" << bot->name() << "] Shutdown error: " << e.what() << endl;
 			} catch (...) {
-				// Ignoriere Fehler beim Shutdown
+				// Ignore errors during the shutdown
 			}
 		}
 		cout << "All bots disconnected." << endl;
@@ -596,11 +596,11 @@ public:
 private:
 	bool connectBot(shared_ptr<BotSession>& bot)
 	{
-		// Retry-Logik: Bis zu 2 Versuche (initial + 1 retry)
+		// Retry logic: up to 2 attempts (the initial one + 1 retry)
 		for (int attempt = 0; attempt < 2; attempt++) {
 			if (attempt > 0) {
 				cout << "\n[" << getTimestamp() << "] [" << bot->name() << "] Retry " << attempt << "/1..." << endl;
-				this_thread::sleep_for(chrono::milliseconds(500)); // 0.5s delay vor retry
+				this_thread::sleep_for(chrono::milliseconds(500)); // A 0.5s delay before the retry
 			}
 
 			try {
@@ -657,7 +657,7 @@ private:
 					return false;
 				}
 
-				// Deaktiviere Nagle's Algorithm für sofortiges Senden
+				// Disable Nagle's algorithm for immediate sending
 				boost::system::error_code ec;
 				tcp::no_delay no_delay_option(true);
 				bot->socket().lowest_layer().set_option(no_delay_option, ec);
@@ -665,21 +665,21 @@ private:
 					cerr << "\n[" << bot->name() << "] Warning: Could not set TCP_NODELAY: " << ec.message() << endl;
 				}
 
-				// TLS Handshake mit async + steady_timer (exakt wie GUI Client)
+				// A TLS handshake with async + steady_timer (exactly as in the GUI client)
 				if (useTls_) {
 					cout << " [" << getTimestamp() << "] TLS handshake..." << flush;
 
 					atomic<bool> handshakeComplete(false);
 					boost::system::error_code handshakeEc;
 
-					// Erstelle Timeout-Timer (als shared_ptr um Lebensdauer zu kontrollieren)
+					// Create the timeout timer (as a shared_ptr in order to control its lifetime)
 					auto handshakeTimer = make_shared<boost::asio::steady_timer>(io_);
 					handshakeTimer->expires_after(std::chrono::seconds(12));
 
-					// Timer-Callback für Timeout
+					// The timer callback for the timeout
 					handshakeTimer->async_wait([&handshakeComplete, &handshakeEc, &bot, handshakeTimer](const boost::system::error_code& ec) {
 						if (!ec && !handshakeComplete) {
-							// Timeout! Socket schließen um Handshake abzubrechen
+							// A timeout! Close the socket to abort the handshake
 							boost::system::error_code closeEc;
 							bot->socket().lowest_layer().close(closeEc);
 							handshakeEc = boost::asio::error::timed_out;
@@ -692,49 +692,49 @@ private:
 						ssl::stream_base::client,
 					[&handshakeComplete, &handshakeEc, handshakeTimer](const boost::system::error_code& ec) {
 						if (!handshakeComplete) {
-							handshakeTimer->cancel();  // WICHTIG: Timer canceln bei Erfolg
+							handshakeTimer->cancel();  // IMPORTANT: cancel the timer on success
 							handshakeEc = ec;
 							handshakeComplete = true;
 						}
 					});
 
-					// Warte bis Handshake fertig (blocking mit run_one)
+					// Wait until the handshake is finished (blocking with run_one)
 					while (!handshakeComplete) {
 						io_.run_one();
 					}
 
-					// CRITICAL: Timer explizit canceln um sicherzustellen dass keine callbacks mehr kommen
+					// CRITICAL: cancel the timer explicitly to make sure that no callbacks arrive any more
 					handshakeTimer->cancel();
-					// Alle pending handler verarbeiten (damit cancel-callbacks durchlaufen)
+					// Process all pending handlers (so that the cancel callbacks run through)
 					io_.poll();
-					io_.restart();  // Restart io_context für nächsten Bot/Retry
+					io_.restart();  // Restart the io_context for the next bot/retry
 
 					if (handshakeEc) {
 						cerr << "\n[" << getTimestamp() << "] [" << bot->name() << "] TLS handshake failed: " << handshakeEc.message()
 							 << " (code: " << handshakeEc.value() << ")" << endl;
 
-						// WICHTIG: Speichere Name/Passwort VOR reset()
+						// IMPORTANT: save the name/password BEFORE reset()
 						string botName = bot->name();
 						string botPassword = bot->password();
 
-						// Sauber schließen - bei Timeout KEIN shutdown() (verhindert 'stream truncated')
+						// Close cleanly - on a timeout NO shutdown() (it prevents 'stream truncated')
 						try {
 							boost::system::error_code closeEc;
 							if (handshakeEc != boost::asio::error::timed_out) {
-								// Nur bei echten Fehlern graceful shutdown versuchen
+								// Only try a graceful shutdown on real errors
 								bot->socket().lowest_layer().shutdown(tcp::socket::shutdown_both, closeEc);
 							}
-							// Socket immer schließen
+							// Always close the socket
 							bot->socket().lowest_layer().close(closeEc);
 						} catch (...) {
-							// Ignoriere Fehler beim Cleanup
+							// Ignore errors during the cleanup
 						}
 
 						if (attempt < 1) {
 							cerr << "[" << getTimestamp() << "] [" << botName << "] Will retry with new connection..." << endl;
-							// WICHTIG: Altes Socket-Objekt vollständig verwerfen
+							// IMPORTANT: discard the old socket object completely
 							bot.reset();
-							// Neues Socket erstellen für retry mit gespeicherten Werten
+							// Create a new socket for the retry with the stored values
 							bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_, useTls_);
 							continue; // Retry
 						}
@@ -742,7 +742,7 @@ private:
 					}
 				}
 
-				// TLS Handshake erfolgreich (oder übersprungen) - weiter mit Announce/Init
+				// The TLS handshake succeeded (or was skipped) - on to announce/init
 				cout << " Waiting for announce..." << flush;
 				// Empfange AnnounceMessage
 				auto announce = bot->receiveMessage(true);  // blocking: wait for AnnounceMessage
@@ -751,7 +751,7 @@ private:
 					if (attempt < 1) {
 						string botName = bot->name();
 						string botPassword = bot->password();
-						// Socket sauber schließen vor Retry
+						// Close the socket cleanly before the retry
 						try {
 							boost::system::error_code closeEc;
 							bot->socket().lowest_layer().close(closeEc);
@@ -773,7 +773,7 @@ private:
 				initMsg->set_buildid(POKERTH_BUILD_ID);
 				initMsg->set_login(InitMessage::authenticatedLogin);
 				initMsg->set_nickname(bot->name());
-				initMsg->set_clientuserdata(bot->name());  // Password = username (für test* accounts)
+				initMsg->set_clientuserdata(bot->name());  // Password = username (for test* accounts)
 
 				if (!bot->sendMessage(init)) {
 					cerr << "\n[" << bot->name() << "] Failed to send init" << endl;
@@ -837,14 +837,14 @@ private:
 				if (attempt < 1) {
 					string botName = bot->name();
 					string botPassword = bot->password();
-					// Socket sauber schließen
+					// Close the socket cleanly
 					try {
 						boost::system::error_code closeEc;
 						bot->socket().lowest_layer().close(closeEc);
 					} catch (...) {}
-					// Altes Objekt vollständig verwerfen
+					// Discard the old object completely
 					bot.reset();
-					// Neues Socket erstellen für retry
+					// Create a new socket for the retry
 					bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_, useTls_);
 					continue; // Retry
 				}
@@ -852,7 +852,7 @@ private:
 			}
 		} // Ende retry-loop
 
-		return false; // Alle Versuche fehlgeschlagen
+		return false; // All attempts failed
 	}
 
 	bool sendJoinGame(shared_ptr<BotSession> bot, uint32_t gameId)
@@ -868,7 +868,7 @@ private:
 			return false;
 		}
 
-		// Warte auf JoinGameAck - ALLE Messages konsumieren!
+		// Wait for the JoinGameAck - consume ALL messages!
 		for (int attempts = 0; attempts < 50; attempts++) {
 			auto reply = bot->receiveMessage(true);  // blocking: wait for JoinGameReply
 			if (!reply) {
@@ -882,8 +882,8 @@ private:
 				bot->setGameId(gameId);
 				cout << "[" << bot->name() << "] Joined game " << gameId << endl;
 
-				// WICHTIG: Nach dem Join alle pending Messages konsumieren!
-				// Der Server sendet GamePlayerJoinedMessage, GameListPlayerJoinedMessage, etc.
+				// IMPORTANT: consume all pending messages after the join!
+				// The server sends GamePlayerJoinedMessage, GameListPlayerJoinedMessage, etc.
 				this_thread::sleep_for(chrono::milliseconds(100));
 				flushPendingMessages(bot);
 
@@ -893,14 +893,14 @@ private:
 				cerr << "[" << bot->name() << "] JoinGameFailed, reason: " << reason << endl;
 				return false;
 			}
-			// ALLE anderen Messages einfach ignorieren (nicht loggen - zu viel Output)
+			// Simply ignore ALL other messages (do not log them - too much output)
 		}
 
 		cerr << "[" << bot->name() << "] Timeout waiting for JoinGameAck" << endl;
 		return false;
 	}
 
-	// Konsumiere alle verfügbaren Messages ohne zu warten
+	// Consume all available messages without waiting
 	void flushPendingMessages(shared_ptr<BotSession> bot)
 	{
 		for (int i = 0; i < 10; i++) {  // Max 10 pending messages
@@ -918,7 +918,7 @@ private:
 	{
 		auto msgType = msg->GetMsg()->messagetype();
 
-//         // DEBUG: Nur unbekannte Message-Types loggen
+//         // DEBUG: only log unknown message types
 //         if (msgType != PokerTHMessage::Type_PlayersTurnMessage &&
 //             msgType != PokerTHMessage::Type_HandStartMessage &&
 //             msgType != PokerTHMessage::Type_PlayersActionDoneMessage &&
@@ -932,13 +932,13 @@ private:
 //         }
 
 		if (msgType == PokerTHMessage::Type_HandStartMessage) {
-			// Hand-Nummer inkrementieren, Sets zurücksetzen
+			// Increment the hand number, reset the sets
 			bot->setHandNum(bot->handNum() + 1);
 			bot->setMySet(0);
 			bot->setHighestSet(0);
-			bot->setIsAllIn(false); // Reset All-In Status für neue Hand
-			bot->setCurrentGameState(netStatePreflop); // Start in Preflop
-			// myCash bleibt unverändert - wird von EndOfHandShowCardsMessage der vorherigen Hand gesetzt
+			bot->setIsAllIn(false); // Reset the all-in status for the new hand
+			bot->setCurrentGameState(netStatePreflop); // Start in preflop
+			// myCash stays unchanged - it is set by the EndOfHandShowCardsMessage of the previous hand
 //             cout << "[" << bot->name() << "] Hand #" << bot->handNum() << " started (myCash=" << bot->myCash() << ")" << endl;
 		} else if (msgType == PokerTHMessage::Type_EndOfHandShowCardsMessage) {
 			// End of hand: Update cash from playerResults
@@ -961,12 +961,12 @@ private:
 			}
 
 		} else if (msgType == PokerTHMessage::Type_PlayersActionDoneMessage) {
-			// Tracke highestSet und mySet
+			// Track highestSet and mySet
 			auto actionDone = msg->GetMsg()->playersactiondonemessage();
 
-			// CRITICAL: Nur Messages aus der aktuellen Runde verarbeiten
-			// Nach Flop/Turn/River kommen noch verspätete Messages aus Preflop/Flop/Turn
-			// die highestSet auf alte Werte setzen würden
+			// CRITICAL: only process messages from the current round
+			// After the flop/turn/river, late messages from the preflop/flop/turn still arrive
+			// which would set highestSet to old values
 			bool isCurrentRound = false;
 			switch (actionDone.gamestate()) {
 			case netStatePreflopSmallBlind:
@@ -989,18 +989,18 @@ private:
 			}
 
 			if (!isCurrentRound) {
-				// Ignoriere Messages aus alten Runden
+				// Ignore messages from old rounds
 				return;
 			}
 
 			bot->setHighestSet(actionDone.highestset());
 
-			// Wenn es meine Action war, update mySet UND Cash
+			// If it was my action, update mySet AND the cash
 			if (actionDone.playerid() == bot->playerId()) {
 				bot->setMySet(actionDone.totalplayerbet());
 				bot->setMyCash(actionDone.playermoney());
 
-				// WICHTIG: Wenn Cash=0, dann sind wir All-In!
+				// IMPORTANT: if the cash is 0, then we are all-in!
 				if (bot->myCash() == 0) {
 					bot->setIsAllIn(true);
 //                     cout << "[" << bot->name() << "] Now All-In! (myCash=0)" << endl;
@@ -1010,15 +1010,15 @@ private:
 //                     << ", highestSet=" << bot->highestSet()
 //                     << ", myCash=" << bot->myCash() << endl;
 			}
-			// WICHTIG: Update myCash auch für ANDERE Spieler wenn sie All-In gehen
-			// Das hilft, wenn der Bot selbst mal gewinnt aber keine Action macht
-			// (dann kriegen wir den neuen Cash-Stand über die Actions anderer Spieler mit)
+			// IMPORTANT: update myCash for OTHER players as well when they go all-in
+			// That helps when the bot itself wins at some point but makes no action
+			// (then we learn the new cash level through the actions of other players)
 
 		} else if (msgType == PokerTHMessage::Type_DealFlopCardsMessage ||
 				   msgType == PokerTHMessage::Type_DealTurnCardMessage ||
 				   msgType == PokerTHMessage::Type_DealRiverCardMessage) {
-			// Neue Betting-Runde: Sets zurücksetzen (aber nicht die Hand!)
-			// Debug-Ausgabe nur bei DealFlopCardsMessage (erste neue Runde)
+			// A new betting round: reset the sets (but not the hand!)
+			// Debug output only on a DealFlopCardsMessage (the first new round)
 			if (msgType == PokerTHMessage::Type_DealFlopCardsMessage) {
 				bot->setCurrentGameState(netStateFlop);
 //                 cout << "[" << bot->name() << "] Flop dealt - resetting sets" << endl;
@@ -1031,24 +1031,24 @@ private:
 			bot->setHighestSet(0);
 
 		} else if (msgType == PokerTHMessage::Type_PlayersTurnMessage) {
-			// Ein Spieler ist am Zug - prüfen ob wir es sind
+			// A player is to act - check whether it is us
 			auto playersTurn = msg->GetMsg()->playersturnmessage();
 
-			// Debug nur wenn ich am Zug bin
+			// Debug only when I am to act
 			if (playersTurn.playerid() == bot->playerId()) {
 //                cout << "[" << bot->name() << "] MY TURN (hand=" << bot->handNum()
 //                     << ") - mySet=" << bot->mySet() << ", highestSet=" << bot->highestSet() << ", myCash=" << bot->myCash() << endl;
 
-				// WICHTIG: Erst ALLE ausstehenden Messages verarbeiten (z.B. PlayersActionDoneMessage)
-				// um sicherzustellen, dass mySet/highestSet aktuell sind!
+				// IMPORTANT: process ALL outstanding messages first (e.g. PlayersActionDoneMessage)
+				// in order to make sure that mySet/highestSet are up to date!
 				auto pendingMsg = bot->receiveMessage();  // non-blocking
 				while (pendingMsg) {
 					handleMessage(bot, pendingMsg);
 					pendingMsg = bot->receiveMessage();
 				}
 
-				// Wenn Bot bereits All-In ist (kein Cash mehr), sende CALL 0
-				// Der Server erkennt das und handhabt es korrekt (skip oder auto-check)
+				// If the bot is already all-in (no cash left), send CALL 0
+				// The server recognises that and handles it correctly (skip or auto-check)
 				if (bot->myCash() == 0 || bot->isAllIn()) {
 //                     cout << "[" << bot->name() << "] Already All-In, sending CALL 0" << endl;
 					bot->setIsAllIn(true); // Merke All-In Status
@@ -1061,10 +1061,10 @@ private:
 					actionMsg->set_myaction(netActionCall);
 					actionMsg->set_myrelativebet(0);
 					bot->sendMessage(action);
-					return;  // Keine Bestätigung abwarten - run() Loop verarbeitet weitere Messages
+					return;  // Do not wait for a confirmation - the run() loop processes further messages
 				}
 
-				// Random fold check (nur wenn foldPercent > 0)
+				// A random fold check (only if foldPercent > 0)
 				if (bot->shouldRandomFold()) {
 //                     cout << "[" << bot->name() << "] RANDOM FOLD (hand=" << bot->handNum() << ")" << endl;
 					boost::shared_ptr<NetPacket> foldAction(new NetPacket);
@@ -1079,7 +1079,7 @@ private:
 					return;
 				}
 
-				// Jetzt mit aktuellen Werten reagieren - Auto-check/auto-call Logik
+				// Now react with the current values - the auto-check/auto-call logic
 				boost::shared_ptr<NetPacket> action(new NetPacket);
 				action->GetMsg()->set_messagetype(PokerTHMessage::Type_MyActionRequestMessage);
 				MyActionRequestMessage *actionMsg = action->GetMsg()->mutable_myactionrequestmessage();
@@ -1087,22 +1087,22 @@ private:
 				actionMsg->set_handnum(bot->handNum());
 				actionMsg->set_gamestate(playersTurn.gamestate());
 
-				// Speichere gamestate für eventuelle Rejection-Fallback
+				// Save the game state for a possible rejection fallback
 				bot->setLastGameState(playersTurn.gamestate());
 
-				// Prüfe ob check möglich ist (kein zusätzliches Geld nötig)
+				// Check whether a check is possible (no additional money needed)
 				if (bot->highestSet() == bot->mySet()) {
-					// CHECK: Kein Bet liegt oder bereits gematched
+					// CHECK: no bet is pending or it is already matched
 					actionMsg->set_myaction(netActionCheck);
 					actionMsg->set_myrelativebet(0);
 					// cout << "[" << bot->name() << "] CHECK (hand=" << bot->handNum()
 					//      << ", final mySet=" << bot->mySet() << ", highestSet=" << bot->highestSet() << ")" << endl;
 				} else {
-					// CALL: Gehe mit bis zum höchsten Bet (aber max. verfügbares Cash)
+					// CALL: go along up to the highest bet (but at most the available cash)
 					uint32_t callAmount = bot->highestSet() - bot->mySet();
 					if (callAmount > bot->myCash()) {
-						callAmount = bot->myCash(); // All-In mit verfügbarem Cash
-						bot->setIsAllIn(true); // Merke All-In Status
+						callAmount = bot->myCash(); // All-in with the available cash
+						bot->setIsAllIn(true); // Remember the all-in status
 					}
 					actionMsg->set_myaction(netActionCall);
 					actionMsg->set_myrelativebet(callAmount);
@@ -1118,7 +1118,7 @@ private:
 //            cerr << "[" << bot->name() << "] ACTION REJECTED! Reason: " << rejected.rejectionreason()
 //                 << " Action: " << rejected.youraction() << " Bet: " << rejected.yourrelativebet() << endl;
 
-			// Fallback: Sende neue Action basierend auf verfügbarem Cash
+			// Fallback: send a new action based on the available cash
 			boost::shared_ptr<NetPacket> fallbackAction(new NetPacket);
 			fallbackAction->GetMsg()->set_messagetype(PokerTHMessage::Type_MyActionRequestMessage);
 			MyActionRequestMessage *fallbackMsg = fallbackAction->GetMsg()->mutable_myactionrequestmessage();
@@ -1128,12 +1128,12 @@ private:
 
 			// Auto-Check/Auto-Call Verhalten: NIEMALS FOLD!
 			if (bot->myCash() == 0) {
-				// Kein Cash mehr: CALL 0 (Server handled als Skip oder Auto-Check)
+				// No cash left: CALL 0 (the server handles it as a skip or an auto-check)
 				fallbackMsg->set_myaction(netActionCall);
 				fallbackMsg->set_myrelativebet(0);
 //                 cerr << "[" << bot->name() << "] Fallback: CALL 0 (All-In)" << endl;
 			} else {
-				// Noch Cash vorhanden: Calle mit allem was ich habe (All-In)
+				// There is still cash: call with everything I have (all-in)
 				fallbackMsg->set_myaction(netActionCall);
 				fallbackMsg->set_myrelativebet(bot->myCash());
 //                 cerr << "[" << bot->name() << "] Fallback: CALL " << bot->myCash() << " (All-In)" << endl;
@@ -1148,7 +1148,7 @@ private:
 		} else if (msgType == PokerTHMessage::Type_StartEventMessage) {
 //             cout << "[" << bot->name() << "] Game starting! Sending Ack..." << endl;
 
-			// WICHTIG: StartEventAckMessage senden, sonst hängt der Server!
+			// IMPORTANT: send a StartEventAckMessage, otherwise the server hangs!
 			boost::shared_ptr<NetPacket> ack(new NetPacket);
 			ack->GetMsg()->set_messagetype(PokerTHMessage::Type_StartEventAckMessage);
 			StartEventAckMessage *ackMsg = ack->GetMsg()->mutable_starteventackmessage();
@@ -1170,9 +1170,9 @@ private:
 };
 
 // ============================================================================
-// Chatcleaner Test Mode
-// Verbindet sich direkt zum Chatcleaner-Server (plain TCP), sendet einen
-// Test-String und gibt die Antwort aus. Einmaliger Durchlauf, dann Exit.
+// Chatcleaner test mode
+// It connects directly to the chatcleaner server (plain TCP), sends a
+// test string and prints the reply. One single run, then exit.
 // ============================================================================
 
 #define CLEANER_NET_HEADER_SIZE     4
@@ -1206,7 +1206,7 @@ static int runChatcleanerTest(const string &server, const string &port,
 			return 1;
 		}
 
-		// 2. TCP Connect (plain, kein TLS)
+		// 2. TCP connect (plain, no TLS)
 		cout << "[2/4] Connecting..." << endl;
 		tcp::socket socket(io);
 		boost::asio::connect(socket, endpoints, ec);
@@ -1404,7 +1404,7 @@ static int runChatcleanerTest(const string &server, const string &port,
 
 int main(int argc, char *argv[])
 {
-	// SIGINT Handler für graceful shutdown
+	// A SIGINT handler for the graceful shutdown
 	signal(SIGINT, [](int) {
 		cout << "\nReceived interrupt signal, shutting down..." << endl;
 		g_shutdownRequested = true;
@@ -1500,9 +1500,9 @@ int main(int argc, char *argv[])
 			return 1;
 		}
 
-		// -H hat Priorität: Immer 10 - humans berechnen
-		// -b wird nur verwendet wenn -H nicht angegeben wurde (für join-game Szenarien)
-		if (vm.count("bots") && numHumans != 1) {  // numHumans != 1 bedeutet -H wurde explizit gesetzt
+		// -H has priority: always compute 10 - humans
+		// -b is only used if -H was not given (for join-game scenarios)
+		if (vm.count("bots") && numHumans != 1) {  // numHumans != 1 means that -H was set explicitly
 			cout << "Warning: Both --bots and --humans specified. Using --humans, ignoring --bots." << endl;
 		}
 
@@ -1546,10 +1546,10 @@ int main(int argc, char *argv[])
 				return 1;
 			}
 
-			// Weitere Bots joinen lassen (test1 hat schon das Game erstellt)
+			// Let the further bots join (test1 has already created the game)
 			if (numBots > 1) {
 				this_thread::sleep_for(chrono::milliseconds(500));
-				int botsToJoin = numBots - 1;  // -1 weil test1 bereits im Game ist
+				int botsToJoin = numBots - 1;  // -1 because test1 is already in the game
 				cout << "Joining " << botsToJoin << " more bots to game " << gameId << "..." << endl;
 
 				for (int i = 1; i <= botsToJoin; i++) {

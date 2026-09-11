@@ -51,19 +51,19 @@ class createInternetGameDialogImpl: public QDialog, public Ui::createInternetGam
 {
 	Q_OBJECT
 public:
-	// Offizielle Community-Turnier-Vorlagen (BBC Steps / Monthly Cup / WEC) –
-	// deckungsgleich mit den communityPresets des QML-Clients.
-	// Die Vorlagentabelle selbst liegt in CommunitySuggest (dieselbe Tabelle
-	// dient dort als Fingerprint zur Typ-Erkennung fremder Tische) – hier wird
-	// sie nur noch gelesen.
+	// Official community tournament templates (BBC steps / monthly cup / WEC) –
+	// identical to the communityPresets of the QML client.
+	// The template table itself lives in CommunitySuggest (the same table also
+	// serves as a fingerprint there for detecting the type of foreign tables) –
+	// here it is only read.
 
 	createInternetGameDialogImpl(QWidget *parent = 0, ConfigFile *c = 0, CommunitySuggest *suggest = 0);
 
 	void exec(bool guestMode, QString playerName);
 
-	// Suggest-Typ der aktuell gewählten Community-Vorlage ("" wenn keine bzw.
-	// wenn kein Invite-Spiel/Community-Inhalt). Vom Warteraum nach dem Anlegen
-	// gelesen, um den Suggest-Button des eigenen Spiels zu steuern.
+	// Suggest type of the currently selected community template ("" if there is
+	// none or if it is no invite game/community content). Read by the waiting
+	// room after creation to control the suggest button of your own game.
 	QString selectedSuggestType() const;
 	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog()
 	{
@@ -80,13 +80,13 @@ public slots:
 	void keyPressEvent ( QKeyEvent * event ) override;
 	void clearGamePassword(bool);
 	void gameTypeChanged();
-	// Wendet die gewählte Community-Vorlage auf das Formular an (bzw. stellt bei
-	// „Eigene Einstellungen" die Werte aus gameTypeChanged() wieder her).
+	// Applies the selected community template to the form (or restores the
+	// values from gameTypeChanged() for "custom settings").
 	void applyCommunityTemplate();
 
 	void callChangeBlindsDialog(bool);
 private:
-	// Sichtbarkeit der Vorlagen-Auswahl: nur bei Invite-Spiel + Community-Inhalt.
+	// Visibility of the template selection: only for an invite game + community content.
 	void updateCommunityTemplateVisibility();
 
 	ConfigFile *myConfig;

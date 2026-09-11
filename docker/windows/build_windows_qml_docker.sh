@@ -1,21 +1,21 @@
 #!/bin/bash
 set -e
 
-# Baut den PokerTH QML-Client Windows-Installer (.exe) in einem
-# Ubuntu-25.10-Docker-Container (MinGW-Crosskompilierung).
+# Builds the PokerTH QML client Windows installer (.exe) in an
+# Ubuntu 25.10 Docker container (MinGW cross compilation).
 #
-# Warum Docker?
-#   Der Build benötigt Qt 6.x für Windows (win64_mingw), vcpkg-Abhängigkeiten
-#   und NSIS – alles wird im Container bereitgestellt, ohne das Host-System
-#   zu verändern. Das Docker-Image wird gecacht, d. h. nach dem ersten Build
-#   (ca. 30–60 min für Qt + vcpkg) läuft jeder weitere Build in ~5–10 min.
+# Why Docker?
+#   The build needs Qt 6.x for Windows (win64_mingw), vcpkg dependencies
+#   and NSIS – all of it is provided in the container without changing the
+#   host system. The Docker image is cached, i.e. after the first build
+#   (about 30–60 min for Qt + vcpkg) every further build runs in ~5–10 min.
 #
-# Voraussetzung: Docker installiert und laufend.
+# Requirement: Docker installed and running.
 #
-# Aufruf:
-#   cd <projekt-root>
+# Usage:
+#   cd <project-root>
 #   bash docker/windows/build_windows_qml_docker.sh
-#   # Cache-buste:
+#   # bust the cache:
 #   bash docker/windows/build_windows_qml_docker.sh --no-cache
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -47,7 +47,7 @@ docker build \
     -t "$IMAGE_NAME" \
     "$PROJECT_ROOT"
 
-# --- Installer aus dem Container extrahieren ----------------------------------
+# --- Extract the installer from the container ---------------------------------
 echo ""
 echo "=== Extrahiere Windows-Installer ==="
 CONTAINER_ID=$(docker create "$IMAGE_NAME")

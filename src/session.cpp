@@ -52,10 +52,10 @@
 
 using namespace std;
 
-// Der Client-Typ, mit dem sich dieses Binary am Server meldet. Einzige Stelle
-// der Entscheidung: QML_CLIENT_PRODUCTION_MODE gilt für Internet- wie für
-// LAN-Verbindungen, damit ein abgeschalteter Produktionsmodus nicht nur den
-// halben Client zurück auf den Widget-Typ stellt.
+// The client type this binary reports to the server. Single place of
+// decision: QML_CLIENT_PRODUCTION_MODE applies to internet as well as LAN
+// connections, so that a disabled production mode does not put just half
+// the client back onto the widget type.
 static unsigned OwnClientType()
 {
 #if defined(QML_CLIENT) && QML_CLIENT_PRODUCTION_MODE
@@ -125,7 +125,7 @@ void Session::startLocalGame(const GameData &gameData, const StartData &startDat
 	PlayerDataList playerDataList;
 	for(int i = 0; i < startData.numberOfPlayers; i++) {
 
-		//Namen und Avatarpfad abfragen
+		//query names and avatar path
 		ostringstream myName;
 		if (i==0) {
 			myName << "MyName";

@@ -4,10 +4,10 @@ import QtQuick.Layouts
 
 import "../config" as Config
 
-// Notiz + Bewertung zu einem Mitspieler bearbeiten (Port des Sterne-/Tooltip-
-// Systems aus dem Qt-Widgets-Client, MyAvatarLabel). Gespeichert wird über
-// SettingsManager in der Config-Liste "PlayerTooltips" – demselben Speicher,
-// den auch der Widgets-Client liest und schreibt.
+// Edit the note + rating for a fellow player (port of the star/tooltip system
+// from the Qt widgets client, MyAvatarLabel). Saving goes through the
+// SettingsManager into the config list "PlayerTooltips" – the same storage
+// the widgets client reads and writes.
 Popup {
     id: root
 
@@ -17,17 +17,17 @@ Popup {
     padding: 20
     width: Math.min((parent ? parent.width : 420) * 0.9, 420)
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-    // Ohne focus:true blieb der Startfokus aus onOpened wirkungslos und das
-    // Popup schluckte Escape, ohne sich zu schließen.
+    // Without focus:true the initial focus from onOpened had no effect and the
+    // popup swallowed Escape without closing.
     focus: true
 
-    // Spieler, dessen Notiz bearbeitet wird (Schlüssel im Speicher ist der Name).
+    // Player whose note is being edited (the key in the storage is the name).
     property string playerName: ""
 
-    // Notizlänge begrenzen: der Eintrag landet als eine Zeile in der config.xml.
+    // Limit the note length: the entry ends up as a single line in the config.xml.
     readonly property int maxNoteLength: 500
 
-    // Bestehende Notiz/Bewertung laden und öffnen.
+    // Load the existing note/rating and open.
     function openFor(name) {
         playerName = name
         var sm = (typeof SettingsManager !== "undefined") ? SettingsManager : null
@@ -98,8 +98,8 @@ Popup {
 
                 TextArea {
                     id: noteInput
-                    // Mehrzeiliges Feld: Enter macht einen Absatz, gespeichert
-                    // wird mit Strg+Enter (wie in Chat-/Notizfeldern üblich).
+                    // Multi-line field: Enter makes a paragraph, saving is done
+                    // with Ctrl+Enter (as usual in chat/note fields).
                     Keys.onReturnPressed: (event) => {
                         if (event.modifiers & Qt.ControlModifier)
                             root.save()
@@ -119,7 +119,7 @@ Popup {
                     placeholderTextColor: Config.Theme.colorTextMuted
                     placeholderText: qsTr("Your private note about this player ...")
                     font.pixelSize: 13
-                    // Nur die eigene Notiz – der Text wird nie übertragen.
+                    // Only your own note – the text is never transmitted.
                     onTextChanged: {
                         if (length > root.maxNoteLength)
                             remove(root.maxNoteLength, length)

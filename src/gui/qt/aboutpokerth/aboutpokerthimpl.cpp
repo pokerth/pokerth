@@ -78,7 +78,7 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	int api = -2;
 	MobileInputHelper::prepareAndroidDialog(this);
 #ifndef ANDROID_TEST
-	// Qt6: Verwende QJniEnvironment für Android API-Zugriff
+	// Qt6: use QJniEnvironment for Android API access
 	QJniEnvironment env;
 	if (env.isValid()) {
 		QJniObject versionClass = QJniObject::fromString("android.os.Build$VERSION");
@@ -150,11 +150,11 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	fillChangelog();
 }
 
-// ChangeLog-Tab: misc/ChangeLog wird von CMake aus dem ChangeLog im Projekt-
-// wurzelverzeichnis gespiegelt und liegt damit im selben Verzeichnis wie
-// agpl.html und third_party_libs.txt.
-// Die Versionszeilen ("2026-08-13 version 2.1.7:") werden fett gesetzt - ohne
-// eigene Farbe, damit es zu jedem Stylesheet passt.
+// ChangeLog tab: misc/ChangeLog is mirrored by CMake from the ChangeLog in
+// the project root directory and therefore sits in the same directory as
+// agpl.html and third_party_libs.txt.
+// The version lines ("2026-08-13 version 2.1.7:") are set in bold - without
+// a colour of their own, so that it fits every stylesheet.
 void aboutPokerthImpl::fillChangelog()
 {
 	QFile changelogFile(QDir::toNativeSeparators(myAppDataPath+"misc/ChangeLog"));

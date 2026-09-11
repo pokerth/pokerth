@@ -1,21 +1,21 @@
 /*****************************************************************************
- * Community-„Suggest" für den Widget-Client – dieselbe Logik wie im QML-Client
- * (Config.BotSuggest): schlägt für ein eigenes BBC-Step-/WEC-Invite-Spiel passende
- * Spieler vor. Aus dem Legacy-bbcbot portiert (bbcbotplayerdb: printsuggest/
- * wecsuggest, Scoring, DB/WEC/gameslist-Parsing).
+ * Community "suggest" for the widget client – the same logic as in the QML client
+ * (Config.BotSuggest): suggests matching players for your own BBC step/WEC invite
+ * game. Ported from the legacy bbcbot (bbcbotplayerdb: printsuggest/
+ * wecsuggest, scoring, DB/WEC/gameslist parsing).
  *
- * Die Botfiles (minidb.txt, weclist.txt, gameslist.txt) werden per HTTP von
- * bbc.pokerth.net gezogen und 15 Minuten gecacht (danach beim nächsten Bedarf
- * frisch). Der von Cloudflare erwartete User-Agent "PokerTH/2.0 (Qt Network)"
- * wird gesetzt (wie upload-/downloadhelper des Clients).
+ * The botfiles (minidb.txt, weclist.txt, gameslist.txt) are pulled via HTTP from
+ * bbc.pokerth.net and cached for 15 minutes (afterwards fetched freshly on the next
+ * demand). The user agent "PokerTH/2.0 (Qt Network)" expected by Cloudflare
+ * is set (as in the upload/download helper of the client).
  *
- * ALLE Downloads laufen asynchron. Früher zog suggest()/gameTitlePrefix() die
- * Datei in einem verschachtelten QEventLoop – das fror bei jedem Ablauf des
- * Caches die gesamte GUI ein (bis zum Transfer-Timeout von 15 s), und weil in
- * dieser Schleife weiter Events verarbeitet wurden, konnte ein zweiter Klick
- * eine weitere Schleife darüberstapeln. Ergebnisse kommen deshalb per Callback;
- * der Aufrufer übergibt sich selbst als Kontextobjekt und wird nicht mehr
- * gerufen, wenn er inzwischen zerstört wurde (wie connect(..., context, ...)).
+ * ALL downloads run asynchronously. Previously suggest()/gameTitlePrefix() pulled the
+ * file in a nested QEventLoop – that froze the whole GUI whenever the
+ * cache expired (until the transfer timeout of 15 s), and because events kept
+ * being processed in that loop, a second click could stack
+ * another loop on top. Results therefore come via a callback;
+ * the caller passes itself as the context object and is no longer
+ * called if it has been destroyed meanwhile (like connect(..., context, ...)).
  *****************************************************************************/
 #ifndef COMMUNITYSUGGEST_H
 #define COMMUNITYSUGGEST_H
@@ -39,17 +39,17 @@ class CommunitySuggest : public QObject
 {
 	Q_OBJECT
 public:
-	// Ein gerade spielender Kandidat: Name + Tischname (für "(playing in game …)").
+	// A candidate currently playing: name + table name (for "(playing in game …)").
 	struct PlayingPlayer {
 		QString name;
 		QString game;
 	};
 
-	// Eine offizielle Community-Turniervorlage (BBC / Monthly Cup / WEC).
+	// An official community tournament template (BBC / monthly cup / WEC).
 	struct CommunityTemplate {
 		QString name;
-		QString suggestType;    // "step1".."step4" | "wec" | "" (kein Suggest)
-		QString titleCommand;   // "mcup"/"mcupfinal" (monatl. Titel) | ""
+		QString suggestType;    // "step1".."step4" | "wec" | "" (no suggest)
+		QString titleCommand;   // "mcup"/"mcupfinal" (monthly title) | ""
 		int startCash;
 		int firstSmallBlind;
 		bool raiseOnHands;
@@ -61,80 +61,80 @@ public:
 
 	explicit CommunitySuggest(QObject *parent = 0);
 
-	// Ist der Typ ein gültiges Suggest-Ziel? ("step1".."step4" | "wec")
+	// Is the type a valid suggest target? ("step1".."step4" | "wec")
 	static bool isSuggestType(const QString &type);
 
-	// Die Vorlagentabelle. Sie liegt hier und nicht mehr im Create-Dialog, weil
-	// sie zwei Aufgaben hat: die Dialogfelder beim Erstellen füllen UND als
-	// Fingerprint dienen, um den Typ eines FREMDEN Tisches zu erkennen (siehe
-	// suggestTypeForGame). Beides muss aus derselben Quelle kommen.
+	// The template table. It lives here and no longer in the create dialog, because
+	// it has two jobs: filling the dialog fields when creating AND serving as a
+	// fingerprint to recognise the type of a FOREIGN table (see
+	// suggestTypeForGame). Both have to come from the same source.
 	static const QList<CommunityTemplate> &templates();
 
-	// Suggest-Typ eines Tisches aus SEINEN EINSTELLUNGEN ableiten. Ein
-	// beitretender Spieler kennt den Vorlagen-Typ nicht (der steckt nur im
-	// Client des Erstellers), und das Protokoll überträgt ihn nicht. Der
-	// Tischname taugt NICHT als Quelle – er ist frei editierbar. Startgeld +
-	// erster Small Blind + die vollständige manuelle Blindreihenfolge
-	// identifizieren einen BBC-Step dagegen eindeutig.
-	// Die WEC-Vorlagen verdoppeln die Blinds und haben keine solche Liste; für
-	// sie müssen zusätzlich Raise-Intervall (Modus + Wert) und Aktions-Timeout
-	// passen – Startgeld + Small Blind allein wären keine Signatur. Bekannte
-	// Unschärfe: „Monthly Cup Final" hat exakt dieselben Einstellungen wie
-	// „WEC"; die beiden sind über die Einstellungen nicht trennbar (der
-	// Vorschlag landet nur lokal beim Klickenden, deshalb in Kauf genommen).
-	// Rückgabe: "step1".."step4", "wec" oder "" (unbekannt).
+	// Derive the suggest type of a table from ITS SETTINGS. A
+	// joining player does not know the template type (that only sits in the
+	// client of the creator), and the protocol does not transmit it. The
+	// table name is NOT suitable as a source – it is freely editable. The starting money +
+	// the first small blind + the complete manual blind order, by contrast,
+	// identify a BBC step unambiguously.
+	// The WEC templates double the blinds and have no such list; for
+	// them the raise interval (mode + value) and the action timeout have to match
+	// in addition – the starting money + the small blind alone would be no signature. A known
+	// fuzziness: "Monthly Cup Final" has exactly the same settings as
+	// "WEC"; the two cannot be separated by their settings (the
+	// suggestion only lands locally at whoever clicks, so this is accepted).
+	// Return value: "step1".."step4", "wec" or "" (unknown).
 	static QString suggestTypeForGame(const GameData &data);
 
-	// ── Community-Admin-Abgleich ────────────────────────────────────────────
-	// Je Community eine Adminliste im Format von weclist.txt: bbcadmins.txt für
-	// die BBC-Steps, wecadmins.txt für die WEC-Tische. Sie entscheidet, ob der
-	// eigene Spieler an einem FREMDEN Tisch dieser Community vorschlagen darf.
-	// Der Abgleich hängt an der Sichtbarkeit des Buttons, läuft also in den
-	// Signalpfaden des Warteraums: Fehlschläge werden zusätzlich gedrosselt
-	// (lastTry), sonst liefe bei unerreichbarer Datei ein Download pro
-	// Join/Leave.
-	// Erst aufrufen, wenn suggestTypeForGame bereits einen Typ liefert; dann
-	// kostet das Feature an allen anderen Tischen keinen Request. Antwort kommt
-	// über communityAdminResolved(); bis dahin liefert isCommunityAdmin() false.
+	// ── Community admin match ───────────────────────────────────────────────
+	// One admin list per community in the format of weclist.txt: bbcadmins.txt for
+	// the BBC steps, wecadmins.txt for the WEC tables. It decides whether your
+	// own player may suggest at a FOREIGN table of this community.
+	// The match hangs off the visibility of the button, so it runs in the
+	// signal paths of the waiting room: failures are throttled in addition
+	// (lastTry), otherwise an unreachable file would cause one download per
+	// join/leave.
+	// Only call it once suggestTypeForGame already delivers a type; then
+	// the feature costs no request at all other tables. The reply comes
+	// via communityAdminResolved(); until then isCommunityAdmin() returns false.
 	void requestCommunityAdmin(const QString &type, const QString &nick);
 	bool isCommunityAdmin(const QString &type) const;
 
-	// Ergebnis eines asynchronen Aufrufs (leerer String = nicht ermittelbar).
+	// Result of an asynchronous call (an empty string = not determinable).
 	typedef std::function<void(const QString &)> ResultCallback;
 
 signals:
-	// Ergebnis des Admin-Abgleichs liegt vor (auch bei Fehlschlag).
+	// The result of the admin match is available (on failure as well).
 	void communityAdminResolved();
 
 public:
-	// Erzeugt die Vorschlagszeile für den gegebenen Typ. idleNames = idle
-	// Nicht-Gast-Spieler; playing = Nicht-Gast-Spieler an ANDEREN Tischen (der
-	// eigene Tisch wird vom Aufrufer bereits ausgefiltert). Bei Fehlschlag der
-	// (nötigen) Datei wird auf ggf. vorhandene Altdaten zurückgegriffen; ist gar
-	// nichts verfügbar, kommt ein leerer String.
-	// onReady läuft sofort (frischer Cache) oder nach dem Download; context ist
-	// der Aufrufer, dessen Zerstörung den Callback verfallen lässt.
+	// Creates the suggestion line for the given type. idleNames = idle
+	// non-guest players; playing = non-guest players at OTHER tables (your
+	// own table is already filtered out by the caller). If the (needed)
+	// file fails, any old data available is used; if nothing
+	// at all is available, an empty string comes back.
+	// onReady runs immediately (fresh cache) or after the download; context is
+	// the caller, whose destruction lets the callback lapse.
 	void suggest(const QString &type,
 				 const QStringList &idleNames,
 				 const QList<PlayingPlayer> &playing,
 				 QObject *context,
 				 const ResultCallback &onReady);
 
-	// Aktueller "Game Title Prefix" eines Community-Spiels aus gameslist.txt
-	// (z. B. command "mcup"/"mcupfinal" → "July Cup"/"July Cup Final"). ""
-	// wenn nicht ermittelbar.
+	// The current "game title prefix" of a community game from gameslist.txt
+	// (e.g. command "mcup"/"mcupfinal" → "July Cup"/"July Cup Final"). ""
+	// if it cannot be determined.
 	void gameTitlePrefix(const QString &command, QObject *context,
 						 const ResultCallback &onReady);
 
-	// gameslist.txt vorab in den Cache holen (beim Öffnen des Erstellen-Dialogs
-	// aufrufen, die Datei ist ~1 kB). Ohne das käme der monatliche Titel erst
-	// nach dem Download an – wer sofort bestätigt, verschickte den
-	// Vorlagen-Fallbacknamen ("Monthly Cup Final" statt "August Cup Final").
+	// Fetch gameslist.txt into the cache in advance (call it when opening the create
+	// dialog, the file is ~1 kB). Without that the monthly title would only arrive
+	// after the download – whoever confirms immediately would send the
+	// template fallback name ("Monthly Cup Final" instead of "August Cup Final").
 	void prefetchGameTitles();
 
 private:
 	struct DbEntry {
-		QString name;   // Original-Schreibweise aus der DB
+		QString name;   // the original spelling from the DB
 		int ts2 = 0;
 		int ts3 = 0;
 		int ts4 = 0;
@@ -142,17 +142,17 @@ private:
 		int games = 0;
 	};
 
-	// Zustand einer Adminliste (eine je Community-Datei).
+	// State of an admin list (one per community file).
 	struct AdminList {
 		QHash<QString, QString> names;   // key: lowercase name → Original
 		qint64 ts = 0;
-		qint64 lastTry = 0;              // drosselt auch fehlgeschlagene Versuche
+		qint64 lastTry = 0;              // throttles failed attempts as well
 		bool loaded = false;
 		bool inFlight = false;
 		bool isAdmin = false;
 	};
 
-	// Zustand einer der drei Botfiles (minidb/weclist/gameslist).
+	// State of one of the three botfiles (minidb/weclist/gameslist).
 	struct FileCache {
 		qint64 ts = 0;                              // letztes erfolgreiches Laden
 		bool loaded = false;
@@ -160,10 +160,10 @@ private:
 		QList<std::function<void(bool)> > queue;    // wartende Aufrufer
 	};
 
-	// Datei sicherstellen (Download+Parse, wenn Cache älter als 15 min oder
-	// leer). kind: "db" | "wec" | "gameslist". done(true) = brauchbare Daten da,
-	// sofort aus dem Cache oder nach dem Download; mehrere Aufrufer derselben
-	// Datei teilen sich EINEN Download (queue).
+	// Ensure the file (download+parse if the cache is older than 15 min or
+	// empty). kind: "db" | "wec" | "gameslist". done(true) = usable data is there,
+	// either immediately from the cache or after the download; several callers of the same
+	// file share ONE download (queue).
 	void ensure(const QString &kind, const std::function<void(bool)> &done);
 	static QString fileNameForKind(const QString &kind);
 
@@ -171,9 +171,9 @@ private:
 	void parseNameList(const QByteArray &data, QHash<QString, QString> &target);
 	void parseGameslist(const QByteArray &data);
 
-	// Suggest-Typ → Dateiname der zuständigen Adminliste ("" = keine).
+	// Suggest type → file name of the responsible admin list ("" = none).
 	static QString adminFile(const QString &type);
-	// Ergebnis aus dem (ggf. gerade geladenen) Admin-Cache setzen + melden.
+	// Set and report the result from the admin cache (possibly just loaded).
 	void applyCommunityAdmin(const QString &file, const QString &nick);
 
 	QString suggestStep(int step, const QStringList &idleNames,
@@ -191,7 +191,7 @@ private:
 	// Adminlisten, siehe requestCommunityAdmin();
 	// key: Dateiname ("bbcadmins.txt" / "wecadmins.txt").
 	QHash<QString, AdminList> m_admins;
-	QNetworkAccessManager *m_nam = 0;      // für alle Botfiles
+	QNetworkAccessManager *m_nam = 0;      // for all botfiles
 };
 
 #endif // COMMUNITYSUGGEST_H

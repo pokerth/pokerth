@@ -28,9 +28,9 @@ public:
 
 	~Log();
 
-	// Legt den Namen der Logdatei fest. Die Datei selbst entsteht erst mit dem
-	// ersten echten Log-Eintrag (createLogDb()) - wer nicht spielt, hinterlaesst
-	// also keine leere .pdb-Datei.
+	// Sets the name of the log file. The file itself is only created with the
+	// first real log entry (createLogDb()) - so whoever does not play leaves
+	// no empty .pdb file behind.
 	void init();
 	void logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned dealerPosition, PlayerList seatsList);
 	void logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned smallBlindPosition, int bigBlind, unsigned bigBlindPosition, PlayerList seatsList);
@@ -48,9 +48,9 @@ public:
 	void flushLog();  // Force flush pending SQL statements (used when leaving game early)
 //    void closeLogDbAtExit();
 
-	// Zuschauer-Modus: Solange gesetzt, schreibt der Log nichts in die .pdb-Datei.
-	// Ein Zuschauer nimmt am Spiel nicht teil, also entsteht auch kein Logfile-
-	// Inhalt. Gesetzt/zurueckgesetzt von ClientThread::SetSpectating().
+	// Spectator mode: while set, the log writes nothing into the .pdb file.
+	// A spectator does not take part in the game, so no log file content is
+	// produced either. Set/reset by ClientThread::SetSpectating().
 	void setRecordingSuspended(bool suspended)
 	{
 		myRecordingSuspended = suspended;
@@ -78,9 +78,9 @@ private:
 	};
 
 	void exec_transaction();
-	QSqlDatabase getDatabase() const; // Verbindung zur bereits angelegten Logdatei (legt nichts an)
-	QSqlDatabase getOrCreateDatabase(); // wie getDatabase(), legt die Logdatei beim ersten Eintrag an
-	bool createLogDb(); // Logdatei + Tabellen anlegen (einmalig)
+	QSqlDatabase getDatabase() const; // connection to the already created log file (creates nothing)
+	QSqlDatabase getOrCreateDatabase(); // like getDatabase(), creates the log file on the first entry
+	bool createLogDb(); // create the log file + tables (once)
 
 	QString myConnectionName;
 	QString myDatabaseFileName;  // Store DB filename for thread-local connections
@@ -94,11 +94,11 @@ private:
 	std::vector<PendingPlayerLog> pendingPlayerLogs;
 	std::set<std::string> loggedSitsOut;  // Track players already logged as "sits out"
 
-	// Gesetzt, solange wir nur zuschauen (siehe setRecordingSuspended()). Wird
-	// vom Netzwerk-Thread gesetzt und in getOrCreateDatabase() gelesen -> atomic.
+	// Set while we are only spectating (see setRecordingSuspended()). Set by
+	// the network thread and read in getOrCreateDatabase() -> atomic.
 	std::atomic<bool> myRecordingSuspended{false};
 
-	// true, sobald die Logdatei samt Tabellen existiert (createLogDb()).
+	// true as soon as the log file including its tables exists (createLogDb()).
 	bool myDbCreated = false;
 
 	// Serializes every access to sql and every exec_transaction(). The log is

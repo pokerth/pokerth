@@ -3,9 +3,9 @@ import QtQuick.Controls
 
 import "../config" as Config
 
-// Label (QtQuick.Controls) mit dem App-Font voreingestellt – das Pendant zu
-// AppText für Stellen, die bewusst ein Control-Label nutzen. Alle übrigen
-// Eigenschaften setzt der Aufrufer wie bei einem gewöhnlichen Label.
+// Label (QtQuick.Controls) with the app font preset – the counterpart to
+// AppText for places that deliberately use a control label. All remaining
+// properties are set by the caller as on an ordinary Label.
 Label {
     // User-controlled names and messages are plain text by default. Callers
     // that intentionally render trusted markup can opt in explicitly.

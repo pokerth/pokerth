@@ -143,7 +143,7 @@ Rectangle {
                     }
                 }
 
-                // Gegner 1-9 Namen und Avatare
+                // Opponents 1-9 names and avatars
                 Repeater {
                     model: 9
                     delegate: GroupBox {
@@ -264,9 +264,9 @@ Rectangle {
         }
     }
 
-    // Galerie der mitgelieferten Beispiel-Avatare. Ein gemeinsamer Picker für
-    // alle Spielerfelder; das jeweils anzusprechende Feld wird vor dem Öffnen
-    // über onPicked gesetzt.
+    // Gallery of the bundled example avatars. One shared picker for all
+    // player fields; the field to be addressed is set via onPicked before
+    // opening it.
     ExampleAvatarPicker {
         id: avatarPicker
 

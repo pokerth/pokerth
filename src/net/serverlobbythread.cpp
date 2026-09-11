@@ -105,21 +105,21 @@ using namespace std::chrono;
 using namespace boost::chrono;
 #endif
 
-// Hilfsfunktion: Prüft, ob ein Username zu den Test-/Dev-Accounts gehört
+// Helper function: checks whether a user name belongs to the test/dev accounts
 static bool IsTestOrDevAccount(const std::string &username)
 {
 	// test* Bots (test1, test2, ..., test100)
 	if (username.length() >= 4 && username.substr(0, 4) == "test") {
 		return true;
 	}
-	// Entwickler-Accounts für Tests
+	// Developer accounts for tests
 	if (username == "sp0ck" || username == "q4z1" || username == "boehmi") {
 		return true;
 	}
 	return false;
 }
 
-// Hilfsfunktion: Client-Typ aus dem High-Byte der buildId als Klartext.
+// Helper function: client type from the high byte of the buildId as plain text.
 // Single token without spaces, so that log analysis can grep for it.
 static const char *GetClientTypeName(unsigned clientType)
 {
@@ -135,8 +135,8 @@ static const char *GetClientTypeName(unsigned clientType)
 	}
 }
 
-// Hilfsfunktion: gemeldete Plattform als Klartext. Ebenfalls ein Token ohne
-// Leerzeichen, aus dem gleichen Grund wie beim Client-Typ.
+// Helper function: reported platform as plain text. A token without spaces as
+// well, for the same reason as with the client type.
 static const char *GetClientPlatformName(unsigned platform)
 {
 	switch (platform) {
@@ -155,9 +155,9 @@ static const char *GetClientPlatformName(unsigned platform)
 	}
 }
 
-// Hilfsfunktion: buildId und Plattform als "<Typ>/<Plattform> <major>.<minor>.<revision>"
-// für die Logs. Clients vor 2.1.9 melden keine Plattform, deren Zeilen bleiben
-// beim reinen "<Typ> <version>".
+// Helper function: buildId and platform as "<type>/<platform> <major>.<minor>.<revision>"
+// for the logs. Clients before 2.1.9 report no platform, their lines stay
+// at the plain "<type> <version>".
 static std::string FormatClientBuildId(unsigned buildId, unsigned platform)
 {
 	std::ostringstream stream;
@@ -1413,9 +1413,9 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 		new PlayerData(GetNextUniquePlayerId(), 0, PLAYER_TYPE_HUMAN, validGuest ? PLAYER_RIGHTS_GUEST : PLAYER_RIGHTS_NORMAL, false));
 	tmpPlayerData->SetName(playerName);
 	tmpPlayerData->SetAvatarMD5(avatarMD5);
-	// Merken, was der Client angekuendigt hat: die Fehlerpfade leeren
-	// SetAvatarMD5(), und ohne diesen Wert waere danach nicht mehr zu
-	// unterscheiden, ob der Spieler gar keinen Avatar hat.
+	// Remember what the client announced: the error paths clear
+	// SetAvatarMD5(), and without this value it would no longer be possible
+	// to tell afterwards whether the player has no avatar at all.
 	tmpPlayerData->SetAnnouncedAvatarMD5(avatarMD5);
 	if (initMessage.has_mylastsessionid()) {
 		tmpPlayerData->SetOldGuid(initMessage.mylastsessionid());
@@ -1522,10 +1522,10 @@ ServerLobbyThread::HandleNetPacketAvatarEnd(boost::shared_ptr<SessionData> sessi
 				if (GetAvatarManager().GetAvatarFileName(avatarMD5, avatarFileName))
 					session->GetPlayerData()->SetAvatarFile(avatarFileName);
 				else {
-					// Hash ohne Datei ist kein gueltiger Zustand: der Hash
-					// wuerde in jede Spielerauskunft wandern, ohne dass ein
-					// Avatar-Typ dazu ermittelbar waere. Lieber ohne Avatar
-					// weitermachen, als den Spieler unauffindbar zu machen.
+					// A hash without a file is not a valid state: the hash
+					// would end up in every player info without an avatar
+					// type being determinable for it. Better to carry on
+					// without an avatar than to make the player unfindable.
 					session->GetPlayerData()->SetAvatarMD5(MD5Buf());
 					LOG_ERROR("Avatar of session #" << session->GetId()
 							  << " was stored but cannot be resolved - continuing without avatar.");
@@ -1576,15 +1576,15 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(boost::shared_ptr<SessionDa
 			if (!tmpPlayer->GetCountry().empty()) {
 				data->set_countrycode(tmpPlayer->GetCountry());
 			}
-			// Der Avatar-Typ ergibt sich aus dem Dateinamen. Ist keine Datei
-			// bekannt, waere er AVATAR_FILE_TYPE_UNKNOWN - und ein Wert
-			// ausserhalb von NetAvatarType laesst beim Empfaenger das
-			// required-Feld durchfallen, womit die *gesamte* Antwort
-			// unlesbar wird und kommentarlos verworfen wird: der Spieler
-			// bliebe in jedem Client dauerhaft als "#<id>" stehen. Ohne
-			// gueltigen Typ also lieber ohne Avatar antworten - die Clients
-			// holen Avatare ohnehin separat. Denselben Schutz hat
-			// AvatarManager::AvatarFileToNetPackets bereits.
+			// The avatar type follows from the file name. If no file is
+			// known it would be AVATAR_FILE_TYPE_UNKNOWN - and a value
+			// outside NetAvatarType makes the required field fail at the
+			// receiver, which renders the *entire* reply unreadable and
+			// makes it be discarded without comment: the player would
+			// stay as "#<id>" permanently in every client. So without a
+			// valid type better to reply without an avatar - the clients
+			// fetch avatars separately anyway. AvatarManager::AvatarFileToNetPackets
+			// already has the same protection.
 			if (!tmpPlayer->GetAvatarMD5().IsZero()) {
 				const AvatarFileType avatarFileType =
 					AvatarManager::GetAvatarFileType(tmpPlayer->GetAvatarFile());
@@ -1667,7 +1667,7 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_INVALID_SETTINGS);
 	} else if (!session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank(m_serverConfig.readConfigString("ServerLimitRankNum"), m_serverConfig.readConfigString("ServerLimitRankPeriod"))
 			   && tmpData.gameType == GAME_TYPE_RANKING
-			   // Ausnahme: Test-/Dev-Accounts dürfen Ranking Games erstellen (für Test-Infrastruktur)
+			   // Exception: test/dev accounts may create ranking games (for the test infrastructure)
 			   && !IsTestOrDevAccount(session->GetPlayerData()->GetName())) {
 		LOG_ERROR("not allowed due to ranklimit");
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_IP_BLOCKED);
@@ -1728,7 +1728,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
 					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4V6
 					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
-					   // Ausnahme: Test-/Dev-Accounts dürfen mehrere von gleicher IP (für Test-Infrastruktur)
+					   // Exception: test/dev accounts may have several from the same IP (for the test infrastructure)
 					   && !IsTestOrDevAccount(session->GetPlayerData()->GetName())
 					   && game->IsClientAddressConnected(session->GetClientAddr())) {
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
@@ -1994,8 +1994,8 @@ ServerLobbyThread::HandleNetPacketAdminGlobalNotice(boost::shared_ptr<SessionDat
 		SendGlobalChat(globalNotice.noticetext());
 		netNoticeAck->set_globalnoticeresult(AdminGlobalNoticeAckMessage::globalNoticeAccepted);
 	} else {
-		// Ablehnung ebenfalls protokollieren: sonst ist im Serverlog nicht zu
-		// unterscheiden, ob das Paket gar nicht ankam oder die Rechte fehlten.
+		// Log the rejection as well: otherwise it is impossible to tell in the server
+		// log whether the packet did not arrive at all or the rights were missing.
 		LOG_ERROR("Global notice rejected: player "
 				  << (session && session->GetPlayerData() ? session->GetPlayerData()->GetName() : "<no player>")
 				  << " (dbId " << (session && session->GetPlayerData() ? (int)session->GetPlayerData()->GetDBId() : -1)
@@ -2114,14 +2114,14 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 		if (!tmpAvatarType.empty())
 			tmpAvatarType.erase(0, 1); // Only store extension without the "."
 	}
-	// Der Client hat einen Avatar angekuendigt, verwertbar ist er hier aber
-	// nicht (Upload abgelehnt, Datei nicht aufloesbar, Client kennt sie nicht
-	// mehr). Dann bleiben die Avatar-Spalten, wie sie sind: Der eingetragene
-	// Hash gehoert nach wie vor zu diesem Spieler - das per Upload auf den
-	// Webserver gelegte Bild liegt dort weiterhin, und die Webseite findet es
-	// nur ueber diesen Hash. Ihn hier zu leeren, waere nicht rueckholbar, denn
-	// kein Client schickt den alten Hash je wieder. Ohne Avatar spielt der
-	// Spieler in dieser Sitzung trotzdem weiter.
+	// The client announced an avatar, but it is not usable here
+	// (upload rejected, file not resolvable, client does not know it any
+	// more). Then the avatar columns stay as they are: the stored
+	// hash still belongs to this player - the image put onto the web server
+	// by the upload is still there, and the website finds it
+	// only via this hash. Clearing it here would not be recoverable, because
+	// no client ever sends the old hash again. Without an avatar the player
+	// still plays on in this session.
 	if (tmpAvatarHash.empty() && !session->GetPlayerData()->GetAnnouncedAvatarMD5().IsZero()) {
 		LOG_MSG("Player \"" << session->GetPlayerData()->GetName()
 				<< "\" announced avatar " << session->GetPlayerData()->GetAnnouncedAvatarMD5().ToString()

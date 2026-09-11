@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 #
-# PokerTH QML-Client – Karten-Vorschauen aus den SVGs bauen (KEIN Client-Screenshot).
+# PokerTH QML client – build the card previews from the SVGs (NO client screenshot).
 #
-#   * Kartenstapel  (data/gfx/qml/cards/<name>):    zwei Karten wie in der Hand
-#                                                   gehalten – leicht überlappt und
-#                                                   gegeneinander gewinkelt.
-#   * Kartenrückseite (data/gfx/qml/backside/<name>): einfach die Rückseiten-SVG.
+#   * card deck     (data/gfx/qml/cards/<name>):    two cards as held in the
+#                                                   hand – slightly overlapping and
+#                                                   angled against each other.
+#   * card back   (data/gfx/qml/backside/<name>): simply the backside SVG.
 #
-# Für beide Kategorien gibt es bewusst NUR ein Querformat-Vorschaubild
-# (preview.png) – kein Portrait.
+# For both categories there is deliberately ONLY a landscape preview image
+# (preview.png) – no portrait one.
 #
-# Gerastert wird mit rsvg-convert (Paket librsvg2-bin), zusammengesetzt mit
-# ImageMagick (magick bzw. convert). ImageMagick darf die SVGs nicht selbst
-# rastern: sein interner MSVG-Renderer ignoriert linearGradient und malt die
-# Karten schwarz.
+# Rasterizing is done with rsvg-convert (package librsvg2-bin), compositing with
+# ImageMagick (magick or convert). ImageMagick must not rasterize the SVGs
+# itself: its internal MSVG renderer ignores linearGradient and paints the
+# cards black.
 #
-# Aufruf:  preview/build_card_previews.sh
+# Usage:  preview/build_card_previews.sh
 #
 set -euo pipefail
 
@@ -32,23 +32,23 @@ if [ -z "$RSVG" ]; then
     exit 1
 fi
 
-# SVG in ein transparentes PNG rastern, das unter Beibehaltung des Seiten-
-# verhältnisses in $2 x $3 passt. $1=SVG, $4=Ausgabe-PNG.
+# Rasterize an SVG into a transparent PNG that fits into $2 x $3 while keeping
+# the aspect ratio. $1=SVG, $4=output PNG.
 rasterize() {
     "$RSVG" --keep-aspect-ratio -w "$2" -h "$3" "$1" -o "$4"
 }
 
-# Weicher Schlagschatten hinter einer (transparenten) Karten-Grafik. Hebt die
-# Karten vom hellen Hintergrund ab und trennt überlappende Karten voneinander
-# (die vordere wirft Schatten auf die hintere). $1=Eingabe-PNG, $2=Ausgabe-PNG.
-SHADOW="55x8+3+8"   # Deckkraft x Weichzeichnung + Versatz(x,y)
+# Soft drop shadow behind a (transparent) card graphic. Sets the cards apart
+# from the light background and separates overlapping cards from each other
+# (the front one casts a shadow onto the back one). $1=input PNG, $2=output PNG.
+SHADOW="55x8+3+8"   # opacity x blur + offset(x,y)
 drop_shadow() {
     "$MAGICK" "$1" \( +clone -background black -shadow "$SHADOW" \) \
         +swap -background none -layers merge +repage "$2"
 }
 
-# Kartenstapel: zwei Karten in der Hand – "Ace-King". K♥ (Engine-Index 24) hinten,
-# A♠ (38) vorne – eine rote und eine schwarze Karte.
+# Card deck: two cards in the hand – "ace-king". K♥ (engine index 24) at the back,
+# A♠ (38) in front – one red and one black card.
 build_deck() {
     local dir="$1"
     local back="$dir/24.svg" front="$dir/38.svg"
@@ -70,9 +70,9 @@ build_deck() {
     echo "  -> $dir/preview.png"
 }
 
-# Kartenrückseite: einzelne Karte mit Schlagschatten, mittig auf einer für alle
-# Stile gleich großen, transparenten Leinwand – die Stil-Auswahl zeigt die
-# Vorschauen nebeneinander, unterschiedlich große Bilder wirken dort schief.
+# Card back: a single card with a drop shadow, centred on a transparent canvas
+# of the same size for all styles – the style selection shows the previews
+# next to each other, differently sized images look skewed there.
 BACK_CANVAS="424x561"
 build_back() {
     local dir="$1"

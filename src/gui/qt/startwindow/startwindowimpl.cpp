@@ -110,7 +110,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 				this, &startWindowImpl::onScreenDpiChanged, Qt::UniqueConnection);
 	}
 
-	//Widgets Grafiken per Stylesheets setzen
+	//set the widget graphics via stylesheets
 	QString myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 	this->setWindowIcon(QIcon(myAppDataPath+"gfx/gui/misc/windowicon.png"));
 
@@ -412,7 +412,7 @@ startWindowImpl::~startWindowImpl()
 void startWindowImpl::callNewGameDialog()
 {
 
-	//wenn Dialogfenster gezeigt werden soll
+	//if the dialog window should be shown
 	if(myConfig->readConfigInt("ShowGameSettingsDialogOnNewGame")) {
 
 #ifdef ANDROID
@@ -423,7 +423,7 @@ void startWindowImpl::callNewGameDialog()
 			startNewLocalGame(myNewGameDialog);
 		}
 	}
-	// sonst mit gespeicherten Werten starten
+	// otherwise start with the stored values
 	else {
 		startNewLocalGame();
 	}
@@ -571,7 +571,7 @@ void startWindowImpl::joinGameLobby()
 	//start internet client with config values for user and pw TODO
 	mySession->startInternetClient();
 
-	//Dialog mit Statusbalken
+	//dialog with a status bar
 	myConnectToServerDialog->exec();
 	if (myConnectToServerDialog->result() == QDialog::Accepted ) {
 		showLobbyDialog();
@@ -743,7 +743,7 @@ void startWindowImpl::callJoinNetworkGameDialog()
 			myJoinNetworkGameDialog->checkBox_ipv6->isChecked(),
 			myJoinNetworkGameDialog->checkBox_sctp->isChecked());
 
-		//Dialog mit Statusbalken
+		//dialog with a status bar
 		myConnectToServerDialog->exec();
 
 		if (myConnectToServerDialog->result() == QDialog::Rejected ) {
@@ -854,9 +854,9 @@ void startWindowImpl::callSettingsDialog(bool ingame)
 		// Update lobby dialog dark mode styling if visible
 		myGameLobbyDialog->updateGameListStyleSheet();
 
-		// Echtzeit: Chat-Übersetzung auf allen Chats anwenden (Globus/
-		// Übersetzungen ein-/ausblenden), sobald "AllowChatTranslation"
-		// geändert wurde – ohne Neustart.
+		// Real time: apply the chat translation to all chats (show/hide
+		// globe/translations) as soon as "AllowChatTranslation" has been
+		// changed – without a restart.
 		if(myGameLobbyDialog->getMyChat())
 			myGameLobbyDialog->getMyChat()->refreshTranslationEnabled();
 		if(myStartNetworkGameDialog->getMyChat())
@@ -882,8 +882,8 @@ void startWindowImpl::showTimeoutDialog(int msgID, unsigned duration)
 		myTimeoutDialog->activateWindow();
 		myTimeoutDialog->startTimeout();
 
-		// Audio-Hinweis zum AFK-Countdown (Lobby wie ingame) – das Popup
-		// kann hinter anderen Fenstern liegen oder übersehen werden.
+		// Audio notice for the AFK countdown (lobby as well as in-game) – the popup
+		// can sit behind other windows or be overlooked.
 		if(myGuiInterface && myGuiInterface->getMyW()
 				&& myGuiInterface->getMyW()->getMySoundEventHandler()) {
 			myGuiInterface->getMyW()->getMySoundEventHandler()->playSound("yourturn", 0);

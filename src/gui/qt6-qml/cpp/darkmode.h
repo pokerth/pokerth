@@ -4,23 +4,23 @@
 #include <QGuiApplication>
 #include <QStyleHints>
 
-/* Bedeutung des Config-Werts "DarkMode" – identisch zum Widgets-Client
- * (DarkModeHelper::isDarkMode): 0 = Hell, 1 = Dunkel, 2 = Automatisch.
- * „Automatisch" folgt dem System; früher hat der QML-Client den Wert 2 wie
- * „Dunkel" behandelt, sodass die Einstellung auf einem hell eingestellten
- * Windows/macOS wirkungslos blieb.
+/* Meaning of the config value "DarkMode" – identical to the widgets client
+ * (DarkModeHelper::isDarkMode): 0 = light, 1 = dark, 2 = automatic.
+ * "Automatic" follows the system; the QML client used to treat the value 2
+ * like "dark", so that the setting had no effect on a Windows/macOS set to
+ * a light theme.
  *
- * Einzige Wahrheit für C++ (SettingsManager, LobbyHandler) UND – über
- * SettingsManager.systemDark – für die QML-Singletons StaticData/Theme.
+ * Single source of truth for C++ (SettingsManager, LobbyHandler) AND – via
+ * SettingsManager.systemDark – for the QML singletons StaticData/Theme.
  */
 namespace DarkMode
 {
 
 enum Setting { Light = 0, Dark = 1, Auto = 2 };
 
-// Vom System gemeldeter Modus. Meldet die Plattform nichts (Qt::ColorScheme::
-// Unknown, z. B. auf schlichten X11-Setups), bleibt es beim dunklen Standard
-// der Oberfläche.
+// Mode reported by the system. If the platform reports nothing (Qt::ColorScheme::
+// Unknown, e.g. on plain X11 setups), the dark default of the user interface
+// stays in effect.
 inline bool systemPrefersDark()
 {
 	const QStyleHints *hints = QGuiApplication::styleHints();

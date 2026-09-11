@@ -6,7 +6,7 @@ import QtQuick.Layouts
 import "../config" as Config
 import "../components"
 
-// Auswahl-Zwischenseite für die verschiedenen Ranglisten:
+// Intermediate selection page for the various rankings:
 //   • PokerTH Ranking  (offizielle Rangliste, pokerth.net)
 //   • BBC Ranking      (Best Brainies Cup, bbc.pokerth.net)
 //   • WEC Ranking      (World Elite Cup, wec.pokerth.net)
@@ -17,9 +17,9 @@ Rectangle {
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
 
-    // Startfokus auf die Hauptaktion – wie beim Öffnen eines Dialogs. Qt.callLater,
-    // weil der Fokus während der Stack-Animation sonst verpufft. Ohne Fokusgrund
-    // bleibt der Fokusrahmen aus; er erscheint erst beim ersten Tab.
+    // Initial focus on the main action – as when opening a dialog. Qt.callLater,
+    // because the focus would otherwise fizzle out during the stack animation.
+    // Without a focus reason there is no focus frame; it appears on the first Tab.
     StackView.onActivated: Qt.callLater(pokerthRankingButton.forceActiveFocus)
 
     Flickable {

@@ -11,10 +11,10 @@ AbstractButton {
     implicitWidth:  Config.Theme.buttonWidth < 0 ? 160 : Config.Theme.buttonWidth
     implicitHeight: Config.Theme.touchTarget
 
-    // Tastaturbedienung wie in Web-Formularen und Win32-Dialogen: Space löst
-    // AbstractButton bereits selbst aus, Return/Enter kommt hier dazu. Das Event
-    // ist damit verbraucht, sodass ein fokussierter Button Vorrang vor dem
-    // Default-Button des umgebenden Formulars hat.
+    // Keyboard operation as in web forms and Win32 dialogs: space already
+    // triggers AbstractButton itself, Return/Enter is added here. The event is
+    // thereby consumed, so that a focused button takes precedence over the
+    // default button of the surrounding form.
     Keys.onReturnPressed: customButton.clicked()
     Keys.onEnterPressed: customButton.clicked()
 
@@ -27,13 +27,13 @@ AbstractButton {
                  ? Config.StaticData.palette.secondary.col600
                  : Config.Theme.colorBox
 
-        // Fokusrahmen selbst zeichnen statt über den Universal-Stil
-        // (useSystemFocusVisuals): Dessen FocusRectangle hängt an der
-        // ApplicationWindow und erscheint nur auf Seiten – in Popups blieb der
-        // Tastaturfokus unsichtbar (im echten Client nachgemessen: Tab in der
-        // "Spiel verlassen"-Abfrage wechselte den Button ohne jede Anzeige).
-        // visualFocus statt activeFocus: nur bei Tastaturfokus, nicht nach
-        // einem Mausklick – wie :focus-visible im Web.
+        // Draw the focus frame ourselves instead of using the universal style
+        // (useSystemFocusVisuals): its FocusRectangle hangs off the
+        // ApplicationWindow and only appears on pages – in popups the keyboard
+        // focus stayed invisible (measured in the real client: Tab in the
+        // "leave game" prompt changed the button without any indication).
+        // visualFocus instead of activeFocus: only on keyboard focus, not after
+        // a mouse click – like :focus-visible on the web.
         border.color: customButton.visualFocus
                       ? Config.Theme.colorAccent
                       : (customButton.hovered || customButton.pressed

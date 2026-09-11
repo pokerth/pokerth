@@ -96,12 +96,12 @@ using namespace boost::chrono;
 #define MAX_SERVERLIST_SERVERS 256
 
 
-// Die buildId, mit der sich dieser Client meldet. Der Client-Typ steht erst zur
-// Laufzeit fest (Session::OwnClientType), deshalb hängt sie am Kontext und nicht
-// an einem Compile-Schalter: ein QML-Client sendet seine eigene Version, die der
-// Server gegen MIN_BUILD_ID_QML prüft, jeder andere die des Widget-Clients.
-// Auch der Versionsvergleich unten liest seine Werte hieraus, damit Meldung und
-// Anmeldung nie auseinanderlaufen.
+// The buildId this client reports. The client type is only determined at
+// runtime (Session::OwnClientType), which is why it depends on the context and not
+// on a compile switch: a QML client sends its own version, which the
+// server checks against MIN_BUILD_ID_QML, every other one that of the widget client.
+// The version comparison below reads its values from here as well, so that the report and
+// the login never drift apart.
 static unsigned GetOwnBuildId(const ClientContext &context)
 {
 	return context.GetClientType() == CLIENT_TYPE_QML
@@ -109,14 +109,14 @@ static unsigned GetOwnBuildId(const ClientContext &context)
 		   : POKERTH_BUILD_ID;
 }
 
-// Das Betriebssystem, auf dem dieses Binary läuft. Es steckt bewusst nicht in
-// der buildId: der Client-Typ dort sagt nur, welche GUI spricht, und der
-// QML-Client läuft auf Android wie auf dem Desktop. Ohne diese Angabe sind die
-// beiden am Server nicht zu unterscheiden.
+// The operating system this binary runs on. It deliberately does not sit in
+// the buildId: the client type there only says which GUI is talking, and the
+// QML client runs on Android as well as on the desktop. Without this information the
+// two cannot be distinguished on the server.
 static InitMessage::ClientPlatform GetOwnClientPlatform()
 {
 #if defined(__ANDROID__)
-	// Vor __linux__ prüfen: Android definiert es ebenfalls.
+	// Check before __linux__: Android defines it as well.
 	return InitMessage::platformAndroid;
 #elif defined(_WIN32)
 	return InitMessage::platformWindows;
@@ -614,13 +614,13 @@ ClientStateStartConnect::Exit(boost::shared_ptr<ClientThread> client)
 	client->GetStateTimer().cancel();
 	if (m_retryTimer) {
 		m_retryTimer->cancel();
-		m_retryTimer.reset();  // Komplett zurücksetzen
+		m_retryTimer.reset();  // Reset completely
 	}
 	if (m_handshakeTimer) {
 		m_handshakeTimer->cancel();
-		m_handshakeTimer.reset();  // Komplett zurücksetzen
+		m_handshakeTimer.reset();  // Reset completely
 	}
-	// Retry-Counter auch zurücksetzen für den nächsten Verbindungsversuch
+	// Reset the retry counter as well for the next connection attempt
 	m_handshakeRetryCount = 0;
 }
 
@@ -1053,7 +1053,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		const RemovedFromGameMessage &netRemoved = tmpPacket->GetMsg()->removedfromgamemessage();
 
 		client->ClearPlayerDataList();
-		// Der Zuschauer-Modus gilt immer nur für das gerade verlassene Spiel.
+		// The spectator mode always applies only to the game just left.
 		client->SetSpectating(false);
 		// Resubscribe Lobby messages.
 		client->ResubscribeLobbyMsg();
@@ -1153,9 +1153,9 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		const TimeoutWarningMessage &tmpTimeout = tmpPacket->GetMsg()->timeoutwarningmessage();
 		client->GetCallback().SignalNetClientShowTimeoutDialog((NetTimeoutReason)tmpTimeout.timeoutreason(), tmpTimeout.remainingseconds());
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_YourActionRejectedMessage) {
-		// Server hat unsere Aktion abgelehnt – im Client bisher völlig
-		// ignoriert (kein Handler-Zweig, kein Log). Genau dieser stille
-		// Verlust ist der gesuchte UTG/SB-preflop-Bug-Indikator.
+		// The server rejected our action – so far completely ignored in the
+		// client (no handler branch, no log). Exactly this silent
+		// loss is the indicator of the UTG/SB preflop bug we are looking for.
 		const YourActionRejectedMessage &rej = tmpPacket->GetMsg()->youractionrejectedmessage();
 		qDebug() << "[REJECT] YourActionRejected"
 				 << "gamestate=" << (int)rej.gamestate()
@@ -1182,10 +1182,10 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			if (tmpPlayer.get()) {
 				playerName = tmpPlayer->GetName();
 			} else {
-				// Zuschauer dürfen mitreden (der Server verteilt ihren Chat an
-				// Spieler wie Zuschauer), sitzen aber nicht am Tisch und stehen
-				// daher in KEINER Spielerliste. Ihr Name steht in den gecachten
-				// PlayerInfos – GameSpectatorJoinedMessage fordert sie an.
+				// Spectators may talk along (the server distributes their chat to
+				// players and spectators alike), but they do not sit at the table and are
+				// therefore in NO player list. Their name is in the cached
+				// PlayerInfos – GameSpectatorJoinedMessage requests them.
 				PlayerInfo info;
 				if (client->GetCachedPlayerInfo(playerId, info))
 					playerName = info.playerName;
@@ -1454,9 +1454,9 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 		// Server has send announcement - check data.
 		const AnnounceMessage &netAnnounce = tmpPacket->GetMsg()->announcemessage();
 		ClientContext &context = client->GetContext();
-		// Check current game version - gegen die Version des eigenen Clients,
-		// nicht gegen die des Widget-Clients. Beide folgen dem 2.1.x-Schema, das
-		// der Server ankündigt.
+		// Check the current game version - against the version of our own client,
+		// not against that of the widget client. Both follow the 2.1.x scheme that
+		// the server announces.
 		const unsigned ownBuildId = GetOwnBuildId(context);
 		if (netAnnounce.latestgameversion().majorversion() != BUILD_ID_GET_MAJOR(ownBuildId)
 				|| netAnnounce.latestgameversion().minorversion() != BUILD_ID_GET_MINOR(ownBuildId)) {
@@ -1487,9 +1487,9 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 			if (!context.GetSessionGuid().empty()) {
 				netInit->set_mylastsessionid(context.GetSessionGuid());
 			}
-			// Rejoin-Diagnose: das gesendete mylastsessionid entscheidet, ob der
-			// Server ein laufendes Spiel zum Wiedereinstieg anbieten kann. Leer =
-			// keine gespeicherte GUID (guid.tmp fehlt/nicht gelesen) => kein Rejoin.
+			// Rejoin diagnostics: the mylastsessionid that is sent decides whether the
+			// server can offer a running game for a rejoin. Empty =
+			// no stored GUID (guid.tmp missing/not read) => no rejoin.
 			LOG_MSG("[REJOIN] sending Init (unauth), mylastsessionid size="
 					<< context.GetSessionGuid().size());
 			if (!context.GetServerPassword().empty()) {
@@ -1574,8 +1574,8 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 			if (!context.GetSessionGuid().empty()) {
 				netInit->set_mylastsessionid(context.GetSessionGuid());
 			}
-			// Rejoin-Diagnose (siehe unauth-Pfad oben): leere mylastsessionid =>
-			// kein Wiedereinstieg möglich.
+			// Rejoin diagnostics (see the unauth path above): an empty mylastsessionid =>
+			// no rejoin possible.
 			LOG_MSG("[REJOIN] sending Init (auth), mylastsessionid size="
 					<< context.GetSessionGuid().size());
 			if (!context.GetServerPassword().empty()) {
@@ -1753,11 +1753,11 @@ ClientStateWaitSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cli
 		client->GetContext().SetSessionGuid(netInitAck.yoursessionid());
 		client->SetSessionEstablished(true);
 		client->GetCallback().SignalNetClientConnect(MSG_SOCK_SESSION_DONE);
-		// Rejoin-Diagnose: liegt hier eine rejoingameid an, hält der Server noch
-		// unseren Sitz in einem laufenden Spiel bereit und wir bieten den
-		// Wiedereinstieg an. Fehlt sie trotz vorher gesendeter mylastsessionid,
-		// liegt es serverseitig (Sitz nach 5 min freigegeben, Name/GUID/Cash-
-		// Mismatch, oder als "in Lobby" deaktiviert), nicht am Client.
+		// Rejoin diagnostics: if a rejoingameid arrives here, the server still holds
+		// our seat in a running game and we offer the
+		// rejoin. If it is missing despite a mylastsessionid sent before,
+		// the cause is on the server side (seat released after 5 min, name/GUID/cash
+		// mismatch, or deactivated as "in the lobby"), not on the client.
 		if (netInitAck.has_rejoingameid()) {
 			LOG_MSG("[REJOIN] InitAck offers rejoin, gameId=" << netInitAck.rejoingameid());
 			client->GetCallback().SignalNetClientRejoinPossible(netInitAck.rejoingameid());
@@ -1779,14 +1779,14 @@ ClientStateWaitSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cli
 		if (!avatarError) {
 			client->GetSender().Send(client->GetContext().GetSessionData(), tmpList);
 		} else {
-			// Der eigene Avatar ist nicht uebertragbar - seit die Engine auch
-			// die Bildabmessungen begrenzt, betrifft das aeltere Avatare, die
-			// jahrelang in Ordnung waren. Frueher flog der Spieler hier mit
-			// einer Exception aus dem Login und kam gar nicht erst in die
-			// Lobby, um seinen Avatar zu wechseln. Stattdessen dem Server
-			// melden, dass wir den Avatar nicht liefern koennen: Er stellt die
-			// Sitzung ohne Avatar her (und laesst den in der Datenbank
-			// eingetragenen Hash in Ruhe), die Lobby weist beim Betreten
+			// Our own avatar cannot be transferred - since the engine limits
+			// the image dimensions as well, this affects older avatars that were
+			// fine for years. Previously the player flew out of the login here
+			// with an exception and did not even get into the
+			// lobby to change their avatar. Instead we tell the server
+			// that we cannot deliver the avatar: it establishes the
+			// session without an avatar (and leaves the hash stored in the
+			// database alone), the lobby points this out when entering.
 			// darauf hin.
 			LOG_ERROR("Own avatar file \"" << client->GetContext().GetAvatarFile()
 					  << "\" cannot be sent (error " << avatarError << ") - continuing without avatar.");
@@ -1843,11 +1843,11 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		client->SetSpectating(netJoinAck.spectateonly());
 
 		if (netJoinAck.spectateonly()) {
-			// Ein Zuschauer belegt keinen Sitz. Legten wir hier PlayerData an,
-			// zöge InitGame() daraus einen zusätzlichen Phantom-Sitz am Tisch.
-			// Der GUI muss der Beitritt trotzdem gemeldet werden – sonst
-			// bekäme sie das sonst über AddPlayerData() ausgelöste
-			// SignalNetClientSelfJoined nie zu sehen.
+			// A spectator occupies no seat. If we created PlayerData here,
+			// InitGame() would derive an additional phantom seat at the table from it.
+			// The GUI still has to be told about the join – otherwise it would
+			// never get to see the SignalNetClientSelfJoined that is otherwise
+			// triggered via AddPlayerData().
 			client->GetCallback().SignalNetClientSelfJoined(
 				client->GetGuiPlayerId(), context.GetPlayerName(), false);
 		} else {
@@ -1964,14 +1964,14 @@ ClientStateWaitGame::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		client->SetState(ClientStateSynchronizeStart::Instance());
 	} else if (client->IsSpectating()
 			   && tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameStartRejoinMessage) {
-		// Einen Zuschauer setzt der Server zu Beginn der nächsten Hand in das
-		// laufende Spiel (ServerGameStateHand::InitNewSpectators) und schickt
-		// ihm den Spielstand direkt als GameStartRejoinMessage. Es gibt dabei
-		// KEIN StartEvent und keine Start-Synchronisation – Zuschauer zählen
-		// nicht zu den Sessions, auf deren StartEventAck der Server wartet.
+		// A spectator is put into the running game by the server at the beginning of the
+		// next hand (ServerGameStateHand::InitNewSpectators) and gets
+		// the game state sent directly as a GameStartRejoinMessage. There is
+		// NO StartEvent and no start synchronization – spectators do not count
+		// among the sessions whose StartEventAck the server waits for.
 		client->UnsubscribeLobbyMsg();
 		client->SetState(ClientStateWaitStart::Instance());
-		// Den Spielstart an den nächsten Zustand weiterreichen.
+		// Pass the game start on to the next state.
 		client->GetState().HandlePacket(client, tmpPacket);
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_InviteNotifyMessage) {
 		const InviteNotifyMessage &netInvNotify = tmpPacket->GetMsg()->invitenotifymessage();
@@ -2206,9 +2206,9 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		// Hand was started.
 		// These are the cards. Good luck.
 		const HandStartMessage &netHandStart = tmpPacket->GetMsg()->handstartmessage();
-		// -1 = "unbekannte Karte" (Rückseite). Der Server schickt einem
-		// Zuschauer weder plainCards noch encryptedCards, so dass unten keiner
-		// der beiden Zweige greift.
+		// -1 = "unknown card" (the backside). The server sends a
+		// spectator neither plainCards nor encryptedCards, so that neither of the
+		// two branches below applies.
 		int myCards[2] = { -1, -1 };
 		string userPassword(client->GetContext().GetPassword());
 		if (netHandStart.has_plaincards() && userPassword.empty()) {
@@ -2329,9 +2329,9 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		}
 		// CRITICAL: Refresh Set display BEFORE starting hand to clear stale bets from eliminated players
 		client->GetGui().refreshSet();
-		// Start new hand. Sitz 0 ist der GUI-Spieler – nur er kennt seine
-		// Hole Cards. Als Zuschauer sitzt dort ein fremder Spieler, dessen
-		// Karten verdeckt bleiben (bereits oben auf -1 zurückgesetzt).
+		// Start a new hand. Seat 0 is the GUI player – only they know their
+		// hole cards. As a spectator a foreign player sits there, whose
+		// cards stay covered (already reset to -1 above).
 		if (!client->IsSpectating()) {
 			client->GetGame()->getSeatsList()->front()->setMyCards(myCards);
 		}
@@ -2637,11 +2637,11 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		}
 
 		// Next player's turn.
-		// UNIQUE-ID, nicht Sitz-ID: currentPlayersTurnId ist im gesamten Engine-
-		// Code eine Unique-ID (LocalBeRoPreflop::run, ClientHand::switchRounds,
-		// Game::getCurrentPlayer() → getPlayerByUniqueId()). Hier stand bisher
-		// getMyID() (= Sitznummer), sodass der Wert je nach Schreiber aus zwei
-		// verschiedenen ID-Räumen kam und als "wer ist am Zug" unbrauchbar war.
+		// UNIQUE ID, not seat ID: currentPlayersTurnId is a unique ID throughout the
+		// whole engine code (LocalBeRoPreflop::run, ClientHand::switchRounds,
+		// Game::getCurrentPlayer() → getPlayerByUniqueId()). Here getMyID()
+		// (= the seat number) used to stand, so that the value came from two
+		// different ID spaces depending on the writer and was useless as "who is to act".
 		curGame->getCurrentHand()->getCurrentBeRo()->setCurrentPlayersTurnId(tmpPlayer->getMyUniqueID());
 
 		// Mark current player in GUI.
@@ -2656,8 +2656,8 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		// Start displaying the timeout for the player.
 		client->GetGui().startTimeoutAnimation(tmpPlayer->getMyID(), client->GetGameData().playerActionTimeoutSec);
 
-		// Sitz 0 ist der GUI-Spieler – aber nur, wenn wir mitspielen. Als
-		// Zuschauer sitzt dort ein fremder Spieler; wir sind nie am Zug.
+		// Seat 0 is the GUI player – but only if we play along. As a
+		// spectator a foreign player sits there; we are never to act.
 		if (tmpPlayer->getMyID() == 0 && !client->IsSpectating()) {
 			auto bero0 = curGame->getCurrentHand()->getCurrentBeRo();
 			qDebug() << "[BBDBG] PlayersTurnMessage seat0"
@@ -2685,7 +2685,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		tmpCards[2] = static_cast<int>(netDealFlop.flopcard3());
 		tmpCards[3] = tmpCards[4] = 0;
 		curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
-		// collectPot() summiert jetzt selbst die Spieler-Sets und setzt sie zurück
+		// collectPot() now sums the player sets itself and resets them
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		// CRITICAL: Immediately refresh and sync GUI BEFORE any other operations
 		// to prevent race condition with stale PlayersActionDoneMessages
@@ -2709,7 +2709,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->getBoard()->getMyCards(tmpCards);
 		tmpCards[3] = static_cast<int>(netDealTurn.turncard());
 		curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
-		// collectPot() summiert jetzt selbst die Spieler-Sets und setzt sie zurück
+		// collectPot() now sums the player sets itself and resets them
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		// CRITICAL: Immediately refresh and sync GUI BEFORE any other operations
 		// to prevent race condition with stale PlayersActionDoneMessages
@@ -2733,7 +2733,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->getBoard()->getMyCards(tmpCards);
 		tmpCards[4] = static_cast<int>(netDealRiver.rivercard());
 		curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
-		// collectPot() summiert jetzt selbst die Spieler-Sets und setzt sie zurück
+		// collectPot() now sums the player sets itself and resets them
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		// CRITICAL: Immediately refresh and sync GUI BEFORE any other operations
 		// to prevent race condition with stale PlayersActionDoneMessages
@@ -2785,7 +2785,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		}
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_EndOfHandHideCardsMessage) {
 		const EndOfHandHideCardsMessage &hideCards = tmpPacket->GetMsg()->endofhandhidecardsmessage();
-		// collectPot() summiert jetzt selbst die Spieler-Sets und setzt sie zurück
+		// collectPot() now sums the player sets itself and resets them
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		// Reset player sets
 		ResetPlayerSets(*curGame);
@@ -2824,7 +2824,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		const EndOfHandShowCardsMessage &showCards = tmpPacket->GetMsg()->endofhandshowcardsmessage();
 
 
-		// collectPot() summiert jetzt selbst die Spieler-Sets und setzt sie zurück
+		// collectPot() now sums the player sets itself and resets them
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		// Reset player sets
 		ResetPlayerSets(*curGame);
@@ -2918,8 +2918,8 @@ ClientStateRunHand::ResetPlayerActions(Game &curGame)
 	PlayerListIterator i = curGame.getActivePlayerList()->begin();
 	PlayerListIterator end = curGame.getActivePlayerList()->end();
 	while (i != end) {
-		// WICHTIG: FOLD-Actions NIEMALS zurücksetzen!
-		// Sonst wissen wir beim Showdown nicht mehr wer gefoldet hat.
+		// IMPORTANT: NEVER reset FOLD actions!
+		// Otherwise we no longer know at the showdown who folded.
 		if ((*i)->getMyAction() != PLAYER_ACTION_FOLD) {
 			(*i)->setMyAction(PLAYER_ACTION_NONE);
 		}

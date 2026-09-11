@@ -1,11 +1,11 @@
 pragma Singleton
 import QtQuick
 
-// Zentrale Registry der Ranglisten-Quellen (PokerTH / BBC / WEC): Reihenfolge im
-// Umschalter, Basis-URLs und das Routing zur passenden Player-Page. Bündelt, was
-// vorher in CommunitySwitch, Bbc-/WecRankingPage und CommunityPlayerView
-// mehrfach dupliziert war. Die Anzeige-Namen sind Eigennamen und werden nicht
-// übersetzt (wie bisher im CommunitySwitch).
+// Central registry of the ranking sources (PokerTH / BBC / WEC): order in the
+// switch, base URLs and the routing to the matching player page. Bundles what
+// used to be duplicated in CommunitySwitch, Bbc-/WecRankingPage and
+// CommunityPlayerView. The display names are proper names and are not
+// translated (as before in the CommunitySwitch).
 QtObject {
     readonly property var entries: [
         { label: "PokerTH", key: "pokerth" },
@@ -25,9 +25,9 @@ QtObject {
                                    : "https://wec.pokerth.net"
     }
 
-    // Player-Page der Quelle: PokerTH hat eine eigene Seite, BBC/WEC teilen sich
-    // die CommunityPlayerView (die ihre Basis-URL + Stat-Blöcke aus `community`
-    // selbst ableitet).
+    // Player page of the source: PokerTH has a page of its own, BBC/WEC share
+    // the CommunityPlayerView (which derives its base URL + stat blocks from
+    // `community` itself).
     function playerPageUrl(community) {
         return community === "pokerth"
                ? "qrc:/pages/PokerthPlayerPage.qml"

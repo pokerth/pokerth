@@ -357,9 +357,9 @@ SessionManager::Clear()
 
 	while (i != end) {
 		try {
-			// Setze State auf Closed ZUERST um weitere async-Operationen zu verhindern
+			// Set the state to Closed FIRST to prevent further async operations
 			i->second->SetState(SessionData::Closed);
-			// Cancel alle Timer
+			// Cancel all timers
 			i->second->CancelTimers();
 			// Close all raw handles.
 			i->second->CloseSocketHandle();
@@ -427,11 +427,11 @@ SessionManager::SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPac
 
 	while (i != end) {
 		SessionMap::iterator next = i;
-		++next;  // Sichere nächste Position vor möglicher Modifikation
+		++next;  // Save the next position before a possible modification
 
 		try {
 			if (i->second.get()) {
-				// Prüfe ob Session noch offen ist (nicht Closed)
+				// Check whether the session is still open (not Closed)
 				SessionData::State sessionState = i->second->GetState();
 				if (sessionState != SessionData::Closed && (sessionState & state) != 0) {
 					sender.Send(i->second, packet);
@@ -457,11 +457,11 @@ SessionManager::SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_pt
 
 	while (i != end) {
 		SessionMap::iterator next = i;
-		++next;  // Sichere nächste Position vor möglicher Modifikation
+		++next;  // Save the next position before a possible modification
 
 		try {
 			if (i->second.get()) {
-				// Prüfe ob Session noch offen ist (nicht Closed)
+				// Check whether the session is still open (not Closed)
 				SessionData::State sessionState = i->second->GetState();
 				if (sessionState != SessionData::Closed && (sessionState & state) != 0 && i->second->WantsLobbyMsg()) {
 					sender.Send(i->second, packet);
@@ -487,11 +487,11 @@ SessionManager::SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<
 
 	while (i != end) {
 		SessionMap::iterator next = i;
-		++next;  // Sichere nächste Position vor möglicher Modifikation
+		++next;  // Save the next position before a possible modification
 
 		try {
 			if (i->second.get() && i->first != except) {
-				// Prüfe ob Session noch offen ist (nicht Closed)
+				// Check whether the session is still open (not Closed)
 				SessionData::State sessionState = i->second->GetState();
 				if (sessionState != SessionData::Closed && (sessionState & state) != 0) {
 					sender.Send(i->second, packet);

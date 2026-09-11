@@ -145,19 +145,19 @@ void LocalBeRoPreflop::run()
 
 	setCurrentPlayersTurnId( (*currentPlayersTurnIt)->getMyUniqueID() );
 
-	// prfen, ob Preflop wirklich dran ist
+	// check whether preflop is really up
 	if(!getFirstRound() && allHighestSet) {
 
-		// Preflop nicht dran, weil wir nicht mehr in erster PreflopRunde und alle Sets gleich sind
-		//also gehe in Flop
+		// preflop is not up, because we are no longer in the first preflop round and all sets are equal
+		//so go to the flop
 		getMyHand()->setCurrentRound(GAME_STATE_FLOP);
 
-		//Action loeschen und ActionButtons refresh
+		//clear the action and refresh the action buttons
 		for(it_c=getMyHand()->getRunningPlayerList()->begin(); it_c!=getMyHand()->getRunningPlayerList()->end(); ++it_c) {
 			(*it_c)->setMyAction(PLAYER_ACTION_NONE);
 		}
 
-		//Sets in den Pot verschieben und Sets = 0 und Pot-refresh
+		//move the sets into the pot, set sets = 0 and refresh the pot
 		getMyHand()->getBoard()->collectSets();
 		getMyHand()->getBoard()->collectPot();
 		getMyHand()->getGuiInterface()->refreshPot();
@@ -187,10 +187,10 @@ void LocalBeRoPreflop::run()
 
 
 		if( getCurrentPlayersTurnId() == 0) {
-			// Wir sind dran
+			// It is our turn
 			getMyHand()->getGuiInterface()->meInAction();
 		} else {
-			//Gegner sind dran
+			//it is the opponents' turn
 			getMyHand()->getGuiInterface()->beRoAnimation2(getMyBeRoID());
 		}
 	}

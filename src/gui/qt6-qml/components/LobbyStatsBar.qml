@@ -4,9 +4,9 @@ import QtQuick.Layouts
 
 import "../config" as Config
 
-// Gemeinsame Statusleiste (ganz unten): Anzahl verbundener Spieler sowie
-// laufende/offene Spiele links, PokerTH.net-Link rechts. Liest die Werte
-// selbst aus dem Lobby-Handler, damit sie auf jeder Seite identisch ist.
+// Shared status bar (at the very bottom): number of connected players plus
+// running/open games on the left, PokerTH.net link on the right. Reads the
+// values from the lobby handler itself so it is identical on every page.
 RowLayout {
     id: statsBar
     Layout.fillWidth: true
@@ -16,7 +16,7 @@ RowLayout {
     readonly property int runningGames: Lobby ? Lobby.gameListModel.runningCount : 0
     readonly property int openGames: Lobby ? Lobby.gameListModel.openCount : 0
 
-    // Compact: eine Zeile mit Kurzform + elide
+    // Compact: one line with a short form + elide
     AppLabel {
         visible: Config.Responsive.compact
         Layout.fillWidth: true

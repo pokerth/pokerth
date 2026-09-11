@@ -187,8 +187,8 @@ protected:
 	void HandleAccept(boost::shared_ptr<P_socket> acceptedSocket,
 					  const boost::system::error_code &error)
 	{
-		// IMMER neuen async_accept starten - auch bei Fehlern!
-		// Das verhindert dass der Accept-Loop stoppt
+		// ALWAYS start a new async_accept - even on errors!
+		// This prevents the accept loop from stopping
 		auto startNextAccept = [this]() {
 			try {
 				if (!m_acceptor || !m_acceptor->is_open()) {
@@ -292,8 +292,8 @@ protected:
 				return;
 			}
 
-			// Sofort neuen async_accept starten BEVOR wir den Handshake machen
-			// Das erlaubt parallele Handshakes!
+			// Start a new async_accept immediately BEFORE we do the handshake
+			// This allows parallel handshakes!
 			startNextAccept();
 
 			// A trusted proxy (the web client proxy) announces the real client
@@ -315,7 +315,7 @@ protected:
 			}
 		} else {
 			LOG_ERROR("[TLS-SERVER] Accept failed: " << error.message() << " - starting new accept");
-			// WICHTIG: Auch bei Accept-Fehlern neuen async_accept starten!
+			// IMPORTANT: start a new async_accept on accept errors as well!
 			try {
 				if (!m_acceptor || !m_acceptor->is_open()) {
 					LOG_ERROR("[TLS-SERVER] CRITICAL: Acceptor is closed, cannot restart after error");
@@ -361,7 +361,7 @@ protected:
 				auto handshakeTimer = std::make_shared<boost::asio::steady_timer>(*m_ioService);
 				handshakeTimer->expires_after(std::chrono::seconds(12));
 
-				// Wichtig: Alle Lambdas müssen thread-safe sein
+				// Important: all lambdas must be thread-safe
 				handshakeTimer->async_wait(
 				[handshakeCompleted, sslStream, handshakeTimer, peerAddrShared](const boost::system::error_code& ec) {
 					try {
@@ -382,7 +382,7 @@ protected:
 					boost::asio::ssl::stream_base::server,
 				[this, sslStream, handshakeTimer, handshakeCompleted, peerAddrShared, proxyClientAddr](const boost::system::error_code& error) {
 					try {
-						// Mark handshake as completed before any other action (memory_order_release für synchronization)
+						// Mark handshake as completed before any other action (memory_order_release for synchronization)
 						bool wasCompleted = handshakeCompleted->exchange(true, std::memory_order_acq_rel);
 
 

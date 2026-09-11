@@ -3,17 +3,17 @@ import QtQuick.Effects
 
 import "../config" as Config
 
-// Karten-Hintergrund der Spielerboxen: dezenter Verlauf + weicher Schlagschatten,
-// damit die Box als angehobene Karte statt als flache Fläche wirkt.
+// Card background of the player boxes: subtle gradient + soft drop shadow, so
+// that the box looks like a raised card instead of a flat surface.
 //
-// Ein Tisch-Stil darf die Box über <PlayerBoxAccent> einfärben (z. B. der Star-
-// Trek-Stil mit dem Blau der Brücken-Konsolen). Der Akzent tönt Verlauf und Rahmen, ersetzt
-// sie aber nicht – die Box bleibt dunkel und der Text darauf lesbar. Ohne den
-// Tag bleibt der neutrale, gebündelte Look.
+// A table style may tint the box via <PlayerBoxAccent> (e.g. the Star Trek
+// style with the blue of the bridge consoles). The accent tints the gradient and the frame,
+// but does not replace them – the box stays dark and the text on it readable. Without
+// the tag the neutral, bundled look remains.
 //
-// Die Stärken gelten für ALLE Stile gemeinsam. Bei kräftigeren Werten müssen
-// warme Akzente vorsichtig gewählt werden: Orange auf dem blaugrauen Basiston
-// kippt schnell ins Bräunliche.
+// The strengths apply to ALL styles together. With stronger values, warm
+// accents have to be chosen carefully: orange on the blue-grey base tone
+// quickly turns brownish.
 Rectangle {
     id: boxBackground
 
@@ -23,7 +23,7 @@ Rectangle {
     readonly property bool hasAccent: accentName !== ""
     readonly property color accent: hasAccent ? accentName : "transparent"
 
-    // Basis-Verlauf des neutralen Looks.
+    // Base gradient of the neutral look.
     readonly property color baseTop: Qt.lighter("#394150", 1.18)
     readonly property color baseBottom: "#1d222b"
 

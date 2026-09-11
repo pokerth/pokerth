@@ -6,8 +6,8 @@ import QtQuick.Layouts
 import "../config" as Config
 import "../components"
 
-// BBC (Best Brainies Cup) Rangliste – https://bbc.pokerth.net/results/ranking
-// Filter wie dort: Saison-Auswahl + All-Time. Spalte "Step1" nur in Saison 9/10.
+// BBC (Best Brainies Cup) ranking – https://bbc.pokerth.net/results/ranking
+// Filters as there: season selection + all-time. Column "Step1" only in season 9/10.
 Rectangle {
     id: bbcPage
     objectName: "bbcRankingPage"
@@ -17,8 +17,8 @@ Rectangle {
 
     readonly property bool compact: Config.Responsive.compact
 
-    // Startfokus ins Suchfeld (filtert live) – auf Mobilgeräten NICHT, das zöge
-    // ungefragt die Bildschirmtastatur hoch.
+    // Initial focus into the search field (filters live) – NOT on mobile devices,
+    // that would pull up the on-screen keyboard unasked.
     StackView.onActivated: {
         if (!Config.Responsive.isMobile)
             Qt.callLater(searchField.forceActiveFocus)
@@ -28,7 +28,7 @@ Rectangle {
     property int currentSeason: 0
     property bool alltime: false
 
-    // Vom Globus-Toggle gesetzt → Filter (Saison/All-Time) wiederherstellen.
+    // Set by the globe toggle → restore the filter (season/all-time).
     property var restoreState: null
     function captureState() {
         return { currentSeason: currentSeason, alltime: alltime }
@@ -46,8 +46,8 @@ Rectangle {
             font.bold: true
         }
 
-        // Filterleiste – Saison + All-Time + Suche. Im Compact-Modus (Portrait)
-        // bricht das Grid auf zwei Spalten um, damit nichts abgeschnitten wird.
+        // Filter bar – season + all-time + search. In compact mode (portrait) the
+        // grid wraps to two columns so that nothing is cut off.
         GridLayout {
             Layout.fillWidth: true
             columns: bbcPage.compact ? 2 : 4
@@ -77,7 +77,7 @@ Rectangle {
                 }
             }
 
-            // Abstandshalter nur im Desktop-Layout (drückt die Suche nach rechts).
+            // Spacer only in the desktop layout (pushes the search to the right).
             Item { Layout.fillWidth: true; visible: !bbcPage.compact }
 
             TextField {
@@ -106,7 +106,7 @@ Rectangle {
                 })
             }
 
-            // "Step1" nur sichtbar in Saison 9/10 (wie auf der Webseite).
+            // "Step1" only visible in season 9/10 (as on the website).
             extraColumns: (!bbcPage.alltime
                            && (bbcPage.currentSeason === 9 || bbcPage.currentSeason === 10))
                           ? [{ label: qsTr("Step1"), field: "step1" }] : []
@@ -123,7 +123,7 @@ Rectangle {
                     m.push({ value: seasons[i], label: qsTr("Season %1").arg(seasons[i]) })
                 bbcPage.seasonModel = m
                 if (bbcPage.restoreState) {
-                    // Gemerkten Filter wiederherstellen und dessen Daten laden.
+                    // Restore the remembered filter and load its data.
                     sel = bbcPage.restoreState.currentSeason
                     bbcPage.alltime = bbcPage.restoreState.alltime
                     bbcPage.restoreState = null
@@ -134,7 +134,7 @@ Rectangle {
                 }
                 bbcPage.currentSeason = sel
                 seasonField.currentIndex = Math.max(0, seasonField.indexOfValue(sel))
-                // Eingebettete Initialdaten der aktuellen Saison anzeigen.
+                // Show the embedded initial data of the current season.
                 rows = jsonAttr(html, "results") || []
             }
 

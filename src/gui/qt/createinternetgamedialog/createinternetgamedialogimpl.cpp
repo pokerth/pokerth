@@ -80,19 +80,19 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 	connect( comboBox_gameType, SIGNAL(currentIndexChanged(int)), this, SLOT( gameTypeChanged() ) );
 
 
-	// ── Community-Turnier-Vorlagen (BBC / Monthly Cup / WEC) ────────────────
-	// Offizielle Turnier-Settings der Community, Tabelle in CommunitySuggest
-	// (deckungsgleich mit den communityPresets des QML-Clients). Nur für Spiele
-	// vom Typ "Nur eingeladene Spieler" und nur bei aktiviertem Community-Inhalt.
+	// ── Community tournament templates (BBC / monthly cup / WEC) ────────────
+	// Official tournament settings of the community, the table lives in
+	// CommunitySuggest (identical to the communityPresets of the QML client). Only
+	// for games of type "invited players only" and only with community content enabled.
 	label_communityTemplate = new QLabel(tr("Community template:"), this);
 	comboBox_communityTemplate = new QComboBox(this);
 	comboBox_communityTemplate->addItem(tr("Own settings"));
 	for (const CommunitySuggest::CommunityTemplate &t : CommunitySuggest::templates())
-		comboBox_communityTemplate->addItem(t.name);   // Eigennamen, nicht übersetzt
+		comboBox_communityTemplate->addItem(t.name);   // proper names, not translated
 	QHBoxLayout *communityRow = new QHBoxLayout();
 	communityRow->addWidget(label_communityTemplate);
 	communityRow->addWidget(comboBox_communityTemplate);
-	// Als eigene Zeile unten in das bestehende Grid einhängen (spannt beide Spalten).
+	// Hook it into the existing grid as a row of its own at the bottom (spans both columns).
 	gridLayout->addLayout(communityRow, gridLayout->rowCount(), 0, 1, 2);
 	connect( comboBox_communityTemplate, SIGNAL(currentIndexChanged(int)), this, SLOT( applyCommunityTemplate() ) );
 }
@@ -104,11 +104,11 @@ void createInternetGameDialogImpl::exec(bool guestMode, QString playerName)
 	currentGuestMode = guestMode;
 	currentPlayerName = playerName;
 	fillFormular(guestMode, playerName);
-	// gameslist.txt vorab holen (~1 kB): der monatlich wechselnde Titel der
-	// Monthly-Cup-Vorlagen kommt asynchron, ohne Vorabladen stünde beim
-	// sofortigen Bestätigen noch der Vorlagen-Fallbackname im Feld ("Monthly
-	// Cup Final" statt "August Cup Final"). Wie im QML-Client
-	// (Config.BotSuggest.prefetchGameTitles beim Öffnen der Erstellen-Seite).
+	// Fetch gameslist.txt in advance (~1 kB): the monthly changing title of the
+	// monthly cup templates arrives asynchronously; without prefetching, an
+	// immediate confirmation would still leave the template fallback name in the
+	// field ("Monthly Cup Final" instead of "August Cup Final"). As in the QML client
+	// (Config.BotSuggest.prefetchGameTitles when opening the create page).
 	if (mySuggest && !guestMode && myConfig && myConfig->readConfigInt("ShowCommunityContent"))
 		mySuggest->prefetchGameTitles();
 	QDialog::exec();
@@ -296,9 +296,9 @@ void createInternetGameDialogImpl::gameTypeChanged()
 		myChangeCompleteBlindsDialog->radioButton_afterThisStayAtLastBlind->setChecked(myConfig->readConfigInt("NetAfterMBStayAtLastBlind"));
 	}
 
-	// Ein Wechsel des Spieltyps verwirft eine ggf. gewählte Community-Vorlage
-	// (die Werte oben sind bereits die Typ-Standardwerte) und aktualisiert die
-	// Sichtbarkeit der Vorlagen-Auswahl.
+	// Changing the game type discards a possibly selected community template
+	// (the values above are already the type defaults) and updates the
+	// visibility of the template selection.
 	if (comboBox_communityTemplate) {
 		comboBox_communityTemplate->blockSignals(true);
 		comboBox_communityTemplate->setCurrentIndex(0);
@@ -323,18 +323,18 @@ void createInternetGameDialogImpl::applyCommunityTemplate()
 {
 	const int idx = comboBox_communityTemplate->currentIndex();
 	if (idx <= 0) {
-		// „Eigene Einstellungen": Standardwerte des Spieltyps wiederherstellen.
+		// "Custom settings": restore the default values of the game type.
 		gameTypeChanged();
 		return;
 	}
 	const CommunitySuggest::CommunityTemplate &t = CommunitySuggest::templates().at(idx - 1);
 
 	lineEdit_gameName->setText(t.name);
-	// Monthly Cup: monatlich wechselnder Titel – aktuellen Prefix ziehen. Der
-	// Download läuft asynchron (exec() holt die Datei vorab, meist ist sie also
-	// schon da). Der Titel wird nur noch eingesetzt, solange im Namensfeld
-	// unverändert der Vorlagenname steht: bis zur Antwort kann der Nutzer die
-	// Vorlage gewechselt oder einen eigenen Namen getippt haben.
+	// Monthly cup: monthly changing title – pull the current prefix. The
+	// download runs asynchronously (exec() fetches the file in advance, so it is
+	// usually already there). The title is only inserted as long as the name field
+	// still holds the unchanged template name: until the reply arrives the user may
+	// have switched the template or typed a name of their own.
 	if (!t.titleCommand.isEmpty() && mySuggest) {
 		const QString templateName = t.name;
 		mySuggest->gameTitlePrefix(t.titleCommand, this,
@@ -364,7 +364,7 @@ void createInternetGameDialogImpl::applyCommunityTemplate()
 		cb->radioButton_manualBlindsOrder->setChecked(true);
 		for (int b : t.blinds)
 			cb->listWidget_blinds->addItem(QString::number(b, 10));
-		// Nach der festen Blindliste verdoppeln (BBC-Step-Konvention).
+		// Double after the fixed blind list (BBC step convention).
 		cb->radioButton_afterThisAlwaysDoubleBlinds->setChecked(true);
 		cb->radioButton_afterThisAlwaysRaiseAbout->setChecked(false);
 		cb->radioButton_afterThisStayAtLastBlind->setChecked(false);
@@ -376,8 +376,8 @@ QString createInternetGameDialogImpl::selectedSuggestType() const
 {
 	if (!comboBox_communityTemplate)
 		return QString();
-	// Nicht isVisible() prüfen (Dialog ist beim Aufruf bereits geschlossen) –
-	// dieselben Bedingungen wie updateCommunityTemplateVisibility().
+	// Do not check isVisible() (the dialog is already closed when this is called) –
+	// the same conditions as updateCommunityTemplateVisibility().
 	const bool inviteOnly = comboBox_gameType->itemData(
 								comboBox_gameType->currentIndex(), Qt::UserRole).toInt() == GAME_TYPE_INVITE_ONLY;
 	if (!inviteOnly || currentGuestMode

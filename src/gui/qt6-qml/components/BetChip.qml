@@ -1,10 +1,10 @@
 import QtQuick
 
-// Einsatz-Anzeige: Chip-Symbol + „$Betrag". Poppt beim Erscheinen kurz auf.
-// Sichtbarkeit/Position setzt der Aufrufer (z.B. visible: amount > 0).
-// Größen sind einstellbar, damit derselbe Chip sowohl frei neben der Box
-// (Sitz-Stil "classic") als auch im schmaleren Box-Sockel ("inset", s.
-// PlayerBetStrip) sitzen kann.
+// Bet display: chip symbol + "$amount". Pops briefly when it appears.
+// Visibility/position is set by the caller (e.g. visible: amount > 0).
+// The sizes are adjustable so that the same chip can sit both freely next
+// to the box (seat style "classic") and in the narrower box base ("inset",
+// see PlayerBetStrip).
 Row {
     id: betChip
     property int amount: 0

@@ -2,10 +2,10 @@ import QtQuick
 
 import "../config" as Config
 
-// Text mit dem App-Font voreingestellt. Spart das überall wiederholte
-// `font.family: Config.StaticData.loadedFont.font.family`. Alle übrigen
-// Eigenschaften (color, font.pixelSize, font.bold, …) setzt der Aufrufer wie
-// bei einem gewöhnlichen Text.
+// Text with the app font preset. Saves repeating
+// `font.family: Config.StaticData.loadedFont.font.family` everywhere. All
+// remaining properties (color, font.pixelSize, font.bold, …) are set by the
+// caller as on an ordinary Text.
 Text {
     // User-controlled names and messages are plain text by default. Callers
     // that intentionally render trusted markup can opt in explicitly.

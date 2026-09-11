@@ -5,27 +5,27 @@ import QtQuick.Layouts
 
 import "../config" as Config
 
-// Wiederverwendbarer Tabellen-Block für die Community-Cup-Ranglisten (BBC/WEC).
-// Beide laufen auf Laravel (CSRF-geschützt) und liefern die Rangliste über
-//   POST <baseUrl>/results/ranking   mit einem seiten-spezifischen Body.
-// Die Initialdaten sind bereits als Vue-Prop ins Seiten-HTML gerendert – die
-// werden beim Laden geparst (ohne CSRF), sodass immer etwas angezeigt wird;
-// Filter-Änderungen gehen danach über den POST-Endpunkt.
+// Reusable table block for the community cup rankings (BBC/WEC).
+// Both run on Laravel (CSRF protected) and deliver the ranking via
+//   POST <baseUrl>/results/ranking   with a page specific body.
+// The initial data is already rendered into the page HTML as a Vue prop – it is
+// parsed on load (without CSRF), so that something is always shown;
+// filter changes then go through the POST endpoint.
 //
-// Die konkrete Seite zeichnet Titel + Filterleiste selbst und bettet diese
-// View als Tabellenbereich ein. Sie setzt baseUrl, extraColumns und makeBody,
-// reagiert auf initialData(html) (Seasons/Jahr/Monat + eingebettete Zeilen)
-// und ruft load() / applyFilter().
+// The concrete page draws the title + filter bar itself and embeds this
+// view as the table area. It sets baseUrl, extraColumns and makeBody,
+// reacts to initialData(html) (seasons/year/month + embedded rows)
+// and calls load() / applyFilter().
 Rectangle {
     id: view
 
     property string baseUrl: ""
-    // Zusätzliche, seiten-spezifische Spalten: [{ label, field, width }]
+    // Additional, page specific columns: [{ label, field, width }]
     property var extraColumns: []
-    // Rohdaten-Zeilen (Array von Objekten mit nickname/score/games/…).
+    // Raw data rows (array of objects with nickname/score/games/…).
     property var rows: []
     property string searchText: ""
-    // Clientseitig gefiltertes Subset – Basis für die ListView.
+    // Client side filtered subset – the basis for the ListView.
     readonly property var filteredRows: {
         if (searchText === "")
             return rows
@@ -40,19 +40,19 @@ Rectangle {
     property bool loading: false
     property string errorText: ""
     property string csrfToken: ""
-    // Body für den POST – wird von der Seite gesetzt (Funktion → Objekt).
+    // Body for the POST – set by the page (function → object).
     property var makeBody: function() { return {} }
 
-    // ── Sortierung & Pagination (clientseitig) ────────────────────────────────
-    // Alle Zeilen kommen auf einmal vom Server; Sortieren/Blättern passiert hier.
-    property string sortKey: "score"        // Default: nach Score (= Rangliste)
+    // ── Sorting & pagination (client side) ────────────────────────────────────
+    // All rows come from the server at once; sorting/paging happens here.
+    property string sortKey: "score"        // Default: by score (= the ranking)
     property string sortOrder: "desc"       // "asc" | "desc"
     property int currentPage: 1
     property int pageSize: 25
     readonly property bool ascending: sortOrder.indexOf("asc") === 0
 
-    // Gefiltert → sortiert. Numerische Felder (score/games/…) werden numerisch
-    // verglichen, alles andere (nickname) alphabetisch.
+    // Filtered → sorted. Numeric fields (score/games/…) are compared
+    // numerically, everything else (nickname) alphabetically.
     readonly property var sortedRows: {
         var arr = filteredRows.slice()
         var key = sortKey
@@ -72,14 +72,14 @@ Rectangle {
     }
     readonly property int total: filteredRows.length
     readonly property int pageCount: Math.max(1, Math.ceil(total / pageSize))
-    // Sichtbarer Ausschnitt der aktuellen Seite.
+    // Visible excerpt of the current page.
     readonly property var pageRows: {
         var start = (currentPage - 1) * pageSize
         return sortedRows.slice(start, start + pageSize)
     }
 
-    // Klick auf einen Spaltenkopf: gleiches Feld → Richtung umkehren, sonst neues
-    // Feld (Zahlen absteigend, Namen aufsteigend als sinnvolle Voreinstellung).
+    // Click on a column header: the same field → reverse the direction, otherwise a
+    // new field (numbers descending, names ascending as a sensible default).
     function requestSort(key) {
         if (sortKey === key)
             sortOrder = ascending ? "desc" : "asc"
@@ -90,16 +90,16 @@ Rectangle {
         currentPage = 1
     }
 
-    // Neuer Datensatz oder geänderte Suche → zurück auf Seite 1.
+    // New data set or a changed search → back to page 1.
     onRowsChanged: currentPage = 1
     onSearchTextChanged: currentPage = 1
 
-    // Mobil/schmal: Nebenspalten ausblenden, nur #/Nickname/Score zeigen, damit
-    // die Tabelle ohne horizontales Scrollen passt.
+    // Mobile/narrow: hide the secondary columns, show only #/nickname/score, so that
+    // the table fits without horizontal scrolling.
     readonly property bool compact: Config.Responsive.compact
 
     signal initialData(string html)
-    // Klick auf einen Spielernamen – die Seite öffnet die Player-Page.
+    // Click on a player name – the page opens the player page.
     signal playerActivated(string nickname)
 
     color: Config.StaticData.palette.secondary.col600
@@ -107,9 +107,9 @@ Rectangle {
     border.width: 1
     radius: 4
 
-    // ── HTML-Attribut-Helfer ───────────────────────────────────────────────
-    // Liest ein (HTML-entity-kodiertes) Vue-Prop wie :results="[…]" aus dem
-    // Seiten-HTML und gibt den dekodierten String zurück ("" wenn nicht da).
+    // ── HTML attribute helpers ─────────────────────────────────────────────
+    // Reads an (HTML entity encoded) Vue prop such as :results="[…]" from the
+    // page HTML and returns the decoded string ("" if it is not there).
     function attr(html, name) {
         var m = html.match(new RegExp(":" + name + "=\"([^\"]*)\""))
         if (!m)
@@ -125,10 +125,10 @@ Rectangle {
         try { return JSON.parse(s) } catch (e) { return null }
     }
 
-    // ── Netzwerk ────────────────────────────────────────────────────────────
-    // Holt das CSRF-Token aus dem Seiten-HTML (GET). Das Session-Cookie wird
-    // vom Netzwerk-Manager der QML-Engine zwischengespeichert und beim POST
-    // automatisch mitgeschickt. cb(ok, html) wird am Ende aufgerufen.
+    // ── Network ─────────────────────────────────────────────────────────────
+    // Fetches the CSRF token from the page HTML (GET). The session cookie is
+    // cached by the network manager of the QML engine and sent along
+    // automatically with the POST. cb(ok, html) is called at the end.
     function fetchToken(cb) {
         var xhr = new XMLHttpRequest()
         xhr.open("GET", baseUrl + "/results/ranking")
@@ -146,8 +146,8 @@ Rectangle {
         xhr.send()
     }
 
-    // Initialer Aufruf: Token holen + eingebettete Initialdaten an die Seite
-    // geben (funktioniert ohne CSRF, zeigt also immer die aktuelle Rangliste).
+    // Initial call: fetch the token + hand the embedded initial data to the page
+    // (works without CSRF, so it always shows the current ranking).
     function load() {
         loading = true
         errorText = ""
@@ -161,10 +161,10 @@ Rectangle {
         })
     }
 
-    // Wendet die aktuellen Filter an (POST mit makeBody()). Bei 419 (Token/
-    // Session abgelaufen) wird das Token genau einmal erneuert und der POST
-    // wiederholt – kein erneuter Versuch danach (verhindert Endlosschleifen,
-    // falls das Session-Cookie nicht mitgeführt wird).
+    // Applies the current filters (POST with makeBody()). On 419 (token/
+    // session expired) the token is renewed exactly once and the POST is
+    // repeated – no further attempt after that (prevents endless loops
+    // in case the session cookie is not carried along).
     function applyFilter(isRetry) {
         loading = true
         errorText = ""
@@ -213,7 +213,7 @@ Rectangle {
         anchors.margins: 1
         spacing: 0
 
-        // Kopfzeile der Tabelle
+        // Header row of the table
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 30
@@ -293,7 +293,7 @@ Rectangle {
                 id: rankDelegate
                 required property int index
                 required property var modelData
-                // Fortlaufende Position über alle Seiten hinweg (1-basiert).
+                // Continuous position across all pages (1 based).
                 readonly property int rankNo: (view.currentPage - 1) * view.pageSize + index + 1
                 width: ListView.view.width
                 height: 34
@@ -308,7 +308,7 @@ Rectangle {
                 RowLayout {
                     anchors.fill: parent
                     anchors.leftMargin: 10
-                    // Platz für die Scrollbar, wenn sie sichtbar ist.
+                    // Room for the scrollbar when it is visible.
                     anchors.rightMargin: rankList.contentHeight > rankList.height + 4 ? 16 : 10
                     spacing: 8
 
@@ -326,7 +326,7 @@ Rectangle {
                         text: rankDelegate.modelData.nickname || ""
                         Layout.fillWidth: true
                         elide: Text.ElideRight
-                        // Klickbar → leicht hervorgehoben/unterstrichen beim Hover.
+                        // Clickable → slightly highlighted/underlined on hover.
                         color: nickHover.hovered ? Config.Theme.colorAccent
                                                  : Config.StaticData.palette.secondary.col100
                         font.pixelSize: Config.Theme.fontSizeBody
@@ -350,7 +350,7 @@ Rectangle {
                         AppLabel {
                             required property var modelData
                             visible: !view.compact
-                            // Wert per Feldname aus der Zeile holen.
+                            // Get the value from the row by field name.
                             text: rankDelegate.modelData[modelData.field] !== undefined
                                   ? rankDelegate.modelData[modelData.field] : ""
                             Layout.preferredWidth: modelData.width || 70
@@ -371,8 +371,8 @@ Rectangle {
             }
         }
 
-        // Seiten-Navigation – clientseitig, da alle Zeilen bereits geladen sind.
-        // Nur sichtbar, wenn es mehr als eine Seite gibt.
+        // Page navigation – client side, since all rows are already loaded.
+        // Only visible if there is more than one page.
         RowLayout {
             Layout.fillWidth: true
             Layout.leftMargin: 10

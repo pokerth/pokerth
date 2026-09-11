@@ -6,32 +6,32 @@
 #ifndef IOSBACKGROUNDSESSION_H
 #define IOSBACKGROUNDSESSION_H
 
-// iOS-Gegenstueck zu AndroidConnectionService.
+// iOS counterpart to AndroidConnectionService.
 //
-// WICHTIG - die Plattformen unterscheiden sich grundlegend:
-// Android kann den Prozess ueber einen Foreground-Service dauerhaft am Leben
-// halten; die Server-Verbindung uebersteht damit beliebig lange Hintergrund-
-// Phasen. Ein solches Konstrukt gibt es auf iOS NICHT. Wechselt der Nutzer die
-// App (z.B. kurz zu WhatsApp) oder sperrt das Geraet, wird der Prozess nach
-// kurzer Zeit eingefroren: keine Timer, kein Socket-I/O, und die TCP-Verbindung
-// stirbt anschliessend still - genau der beobachtete "Freeze", bei dem die GUI
-// noch reagiert, vom Server aber nichts mehr kommt.
+// IMPORTANT - the platforms differ fundamentally:
+// Android can keep the process alive permanently via a foreground service;
+// the server connection thus survives arbitrarily long background phases.
+// Such a construct does NOT exist on iOS. If the user switches apps
+// (e.g. briefly to WhatsApp) or locks the device, the process is frozen after
+// a short while: no timers, no socket I/O, and the TCP connection
+// then dies silently - exactly the observed "freeze" in which the GUI still
+// reacts but nothing comes from the server any more.
 //
-// Das einzige, was iOS anbietet, ist beginBackgroundTask: eine Gnadenfrist von
-// typischerweise ~30 Sekunden, in der die App nach dem Wechsel weiterlaufen
-// darf. Damit ueberlebt der haeufigste Fall - kurz in eine andere App schauen
-// und zurueckkommen. Laengere Abwesenheit kann sie NICHT abdecken; dafuer
-// braucht es die Erkennung beim Zurueckkehren (Resume-Probe in pokerth.qml).
+// The only thing iOS offers is beginBackgroundTask: a grace period of
+// typically ~30 seconds during which the app may keep running after the
+// switch. That covers the most frequent case - looking into another app
+// briefly and coming back. It can NOT cover a longer absence; that needs
+// the detection on returning (resume probe in pokerth.qml).
 //
-// start()/stop() markieren "es gibt eine aktive Online-Session" und werden an
-// denselben Stellen aufgerufen wie AndroidConnectionService. Das Anfordern und
-// Freigeben der Gnadenfrist erledigt die Implementierung selbst anhand der
-// UIApplication-Benachrichtigungen.
+// start()/stop() mark "there is an active online session" and are called at
+// the same places as AndroidConnectionService. Requesting and releasing the
+// grace period is done by the implementation itself, based on the
+// UIApplication notifications.
 //
-// Auf allen anderen Plattformen sind beide Funktionen No-ops. Sie stehen als
-// inline-Definitionen hier im Header, weil iosbackgroundsession.mm nur im
-// iOS-Zweig der CMakeLists zum Target gehoert (eine .mm laesst sich anderswo
-// nicht uebersetzen) - sonst faenden die Aufrufer beim Linken keine Symbole.
+// On all other platforms both functions are no-ops. They are here in the
+// header as inline definitions because iosbackgroundsession.mm only belongs
+// to the target in the iOS branch of the CMakeLists (a .mm cannot be compiled
+// elsewhere) - otherwise the callers would find no symbols when linking.
 #include <QtGlobal>
 
 namespace IosBackgroundSession

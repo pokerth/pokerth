@@ -5,12 +5,12 @@ import QtQuick.Layouts
 
 import "../config" as Config
 
-// Spielerprofil für die Community-Cups (BBC/WEC). Die Player-Seite
+// Player profile for the community cups (BBC/WEC). The player page
 //   GET <baseUrl>/player/<nickname>
-// bettet Spieler- und Statistik-Blöcke als Vue-Props ins HTML ein – die werden
-// hier geparst (kein CSRF nötig). `blocks` legt fest, welche Stat-Blöcke (z.B.
-// season/alltime bei BBC, month/year/alltime bei WEC) in welcher Reihenfolge
-// und mit welcher Überschrift angezeigt werden.
+// embeds player and statistics blocks as Vue props into the HTML – those are
+// parsed here (no CSRF needed). `blocks` defines which stat blocks (e.g.
+// season/alltime for BBC, month/year/alltime for WEC) are shown in which order
+// and with which heading.
 Rectangle {
     id: playerView
     objectName: "communityPlayerPage"
@@ -18,13 +18,13 @@ Rectangle {
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
 
-    // Quelle ("bbc" | "wec") – legt Basis-URL und Stat-Blöcke fest.
+    // Source ("bbc" | "wec") – defines the base URL and the stat blocks.
     property string community: ""
     property string nickname: ""
 
     readonly property string baseUrl: community !== "" ? Config.Community.baseUrlFor(community) : ""
-    // [{ label, key }] – key referenziert einen Block in stats. Reihenfolge +
-    // Überschrift je Quelle (BBC: Saison/All-time, WEC: Monat/Jahr/All-time).
+    // [{ label, key }] – key references a block in stats. Order +
+    // heading per source (BBC: season/all-time, WEC: month/year/all-time).
     readonly property var blocks: {
         if (community === "bbc")
             return [ { label: qsTr("This season"), key: "season" },
@@ -37,7 +37,7 @@ Rectangle {
     }
 
     readonly property bool compact: Config.Responsive.compact
-    // Awards: responsive – auf Desktop groß genug zum Lesen, auf Mobilgeräten kompakter.
+    // Awards: responsive – large enough to read on the desktop, more compact on mobile devices.
     readonly property int awardSize: compact ? 80 : 120
 
     property var player: null
@@ -45,14 +45,14 @@ Rectangle {
     property var awards: []
     property bool loading: false
     property string errorText: ""
-    // Avatar-URL aus PokerTH – wird nach dem Laden des Players nachgeladen.
+    // Avatar URL from PokerTH – loaded after the player has been loaded.
     property string avatarUrl: ""
 
     function datePart(s) { return s ? String(s).substring(0, 10) : "" }
 
-    // Quellen-Umschalter: ersetzt diese Seite durch die Player-Page der gewählten
-    // Quelle (gleicher Nickname). Als Funktion, weil der Umschalter je nach Layout
-    // an zwei Stellen (inline / eigene Zeile) sitzt und beide dieselbe Logik brauchen.
+    // Source switch: replaces this page with the player page of the selected
+    // source (same nickname). As a function, because depending on the layout the
+    // switch sits in two places (inline / its own row) and both need the same logic.
     function switchCommunity(community) {
         var nick = (player && player.nickname) ? player.nickname : nickname
         StackView.view.replace(Config.Community.playerPageUrl(community),
@@ -73,7 +73,7 @@ Rectangle {
         try { return JSON.parse(s) } catch (e) { return null }
     }
 
-    // Avatar von PokerTH nachladen (BBC/WEC haben kein eigenes Avatar-System).
+    // Load the avatar from PokerTH (BBC/WEC have no avatar system of their own).
     function loadAvatar(nick) {
         var xhr = new XMLHttpRequest()
         xhr.open("GET", "https://www.pokerth.net/pthranking/player/show?username="
@@ -117,7 +117,7 @@ Rectangle {
                 playerView.errorText = qsTr("Could not parse server response.")
                 return
             }
-            // Avatar asynchron von PokerTH nachladen.
+            // Load the avatar from PokerTH asynchronously.
             playerView.loadAvatar(playerView.player.nickname || playerView.nickname)
         }
         xhr.send()
@@ -131,16 +131,16 @@ Rectangle {
         anchors.topMargin: 16
         anchors.bottomMargin: 16
         anchors.leftMargin: 16
-        // Scrollbar näher an den Fensterrand rücken, statt rechts Platz zu
-        // verschwenden – der gewonnene Raum dient als Abstand zum Inhalt.
+        // Move the scrollbar closer to the window edge instead of wasting room on
+        // the right – the space gained serves as the distance to the content.
         anchors.rightMargin: 6
         contentWidth: width
         contentHeight: content.implicitHeight
         clip: true
         boundsBehavior: Flickable.StopAtBounds
 
-        // Inhalt schmaler halten, solange die Scrollbar sichtbar ist, damit sie
-        // den Inhalt rechts nicht überlappt.
+        // Keep the content narrower while the scrollbar is visible, so that it
+        // does not overlap the content on the right.
         readonly property bool scrolling: contentHeight > height
         ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
 
@@ -149,10 +149,10 @@ Rectangle {
             width: contentFlick.width - (contentFlick.scrolling ? 16 : 0)
             spacing: 14
 
-            // ── Kopf: Avatar + Name + Eckdaten ──────────────────────────────
-            // Im Kompakt-/Portrait-Modus wandert der Quellen-Umschalter in eine
-            // eigene Zeile darunter (rechtsbündig), damit der Kopf nicht breiter
-            // wird als das Display. Auf Desktop/Tablet bleibt er oben rechts inline.
+            // ── Header: avatar + name + key data ────────────────────────────
+            // In compact/portrait mode the source switch moves into a row of its
+            // own below it (right-aligned), so that the header does not get wider
+            // than the display. On desktop/tablet it stays inline at the top right.
             ColumnLayout {
                 Layout.fillWidth: true
                 spacing: 8
@@ -200,7 +200,7 @@ Rectangle {
                         }
                     }
 
-                    // Desktop/Tablet: Umschalter inline oben rechts.
+                    // Desktop/tablet: switch inline at the top right.
                     CommunitySwitch {
                         visible: !playerView.compact
                         Layout.alignment: Qt.AlignTop
@@ -209,7 +209,7 @@ Rectangle {
                     }
                 }
 
-                // Kompakt/Portrait: Umschalter in eigener Zeile, rechtsbündig.
+                // Compact/portrait: switch in its own row, right-aligned.
                 RowLayout {
                     Layout.fillWidth: true
                     visible: playerView.compact
@@ -221,9 +221,9 @@ Rectangle {
                 }
             }
 
-            // ── Awards (BBC) – eigene Zeile über die volle Breite, damit der
-            // Kopf im Portrait nicht überläuft. Der dünne Scroll-Indikator sitzt
-            // UNTER den Awards (überlappt sie nicht).
+            // ── Awards (BBC) – a row of its own over the full width, so that the
+            // header does not overflow in portrait. The thin scroll indicator sits
+            // BELOW the awards (it does not overlap them).
             ColumnLayout {
                 Layout.fillWidth: true
                 visible: playerView.awards.length > 0
@@ -239,7 +239,7 @@ Rectangle {
                 Flickable {
                     id: awardsFlick
                     Layout.fillWidth: true
-                    // +10 px reservierte Höhe für den dünnen Scroll-Indikator darunter.
+                    // +10 px of reserved height for the thin scroll indicator below it.
                     Layout.preferredHeight: playerView.awardSize + 10
                     contentWidth: awardsRow.implicitWidth
                     contentHeight: playerView.awardSize
@@ -281,7 +281,7 @@ Rectangle {
                         }
                     }
 
-                    // Schlanker Indikator (5 px) am unteren Rand – nur wenn scrollbar.
+                    // Slim indicator (5 px) at the lower edge – only if it is scrollable.
                     ScrollBar.horizontal: ScrollBar {
                         id: awardsScroll
                         height: 5
@@ -298,7 +298,7 @@ Rectangle {
             }
 
             // ── Tickets (BBC) ────────────────────────────────────────────────
-            // s2/s3/s4_tickets sind nur im BBC-Player-Objekt vorhanden.
+            // s2/s3/s4_tickets only exist in the BBC player object.
             ColumnLayout {
                 Layout.fillWidth: true
                 spacing: 6
@@ -353,7 +353,7 @@ Rectangle {
                 }
             }
 
-            // ── Stat-Blöcke ─────────────────────────────────────────────────
+            // ── Stat blocks ─────────────────────────────────────────────────
             Repeater {
                 model: playerView.blocks
                 ColumnLayout {
@@ -362,10 +362,10 @@ Rectangle {
                     readonly property var statData:
                         (playerView.stats && playerView.stats[modelData.key])
                         ? playerView.stats[modelData.key] : null
-                    // BBC vs. WEC: places ist bei BBC ein Array von Steps (je ein
-                    // 10er-Array Platz 1–10 oder null), bei WEC eine einzelne flache
-                    // 10er-Verteilung. `stepped` = BBC-Form (Step-Tabs), sonst genau
-                    // ein Ergebnis ohne Tabs.
+                    // BBC vs. WEC: for BBC places is an array of steps (each a
+                    // 10 element array place 1–10 or null), for WEC a single flat
+                    // 10 element distribution. `stepped` = the BBC form (step tabs), otherwise exactly
+                    // one result without tabs.
                     readonly property bool stepped: {
                         var pl = (statData && statData.places) ? statData.places : []
                         return pl.length > 0 && Array.isArray(pl[0])
@@ -481,7 +481,7 @@ Rectangle {
     Popup {
         id: awardPopup
         parent: Overlay.overlay
-        // Explizites x/y – zuverlässige Zentrierung auf jeder Auflösung.
+        // Explicit x/y – reliable centring at every resolution.
         readonly property int sz: parent
             ? Math.min(parent.width - 48, parent.height - 96, 480) : 360
         x: parent ? Math.round((parent.width  - width)  / 2) : 0
@@ -491,8 +491,8 @@ Rectangle {
         modal: true
         dim: true
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-        // Reine Bildanzeige – ohne focus:true schluckt das Popup Escape, ohne
-        // sich zu schließen.
+        // Pure image display – without focus:true the popup swallows Escape without
+        // closing.
         focus: true
         padding: 0
         background: null

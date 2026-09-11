@@ -1,26 +1,26 @@
 #!/bin/bash
 set -e
 
-# Baut die PokerTH-QML-APK (arm64-v8a) mit Qt 6.7.3 und minSdkVersion 26
-# (Android 8.0) in einem Docker-Container.
+# Builds the PokerTH QML APK (arm64-v8a) with Qt 6.7.3 and minSdkVersion 26
+# (Android 8.0) in a Docker container.
 #
-# Zielgerät:  HUAWEI RNE-L21 (Mate 10 Lite), Android 8.0.0, Kirin 659 (arm64-v8a).
+# Target device:  HUAWEI RNE-L21 (Mate 10 Lite), Android 8.0.0, Kirin 659 (arm64-v8a).
 #
-# Warum Qt 6.7 für den QML-Client?
-#   Qt 6.8+ unterstützt kein Android < 9 mehr. Der QML-Client nutzte als einzige
-#   6.8-Abhängigkeit QtQuick.VectorImage; das ist durch den Image-basierten
-#   components/SvgIcon.qml ersetzt, sodass der Client auf Qt 6.7 baut.
-#   Der QML-Client umgeht zudem die Qt-6.7-Android-Backend-Bugs des Widget-
-#   Clients (doppelte Touch-Events, unsichtbare modale Dialoge), weil QML in
-#   EINEM Fenster rendert und keine modalen QDialog-Fenster nutzt.
+# Why Qt 6.7 for the QML client?
+#   Qt 6.8+ no longer supports Android < 9. The QML client used QtQuick.VectorImage
+#   as its only 6.8 dependency; that is replaced by the image based
+#   components/SvgIcon.qml, so that the client builds on Qt 6.7.
+#   The QML client also avoids the Qt 6.7 Android backend bugs of the widget
+#   client (duplicate touch events, invisible modal dialogs), because QML renders
+#   in ONE window and uses no modal QDialog windows.
 #
-#   Es wird dasselbe Image wie der Widget-6.7-Build verwendet (Dockerfile.qt67),
-#   nur mit eigenem Tag und TARGET=pokerth_qml-client.
+#   The same image as the widget 6.7 build is used (Dockerfile.qt67),
+#   only with its own tag and TARGET=pokerth_qml-client.
 #
-# Aufruf:
-#   cd <projekt-root>
+# Usage:
+#   cd <project-root>
 #   bash docker/android/build_android_qml_arm64_qt67_docker.sh
-#   # oder ohne Image-Cache:
+#   # or without the image cache:
 #   bash docker/android/build_android_qml_arm64_qt67_docker.sh --no-cache
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -46,7 +46,7 @@ CURRENT_BRANCH=$(git -C "$PROJECT_ROOT" rev-parse --abbrev-ref HEAD 2>/dev/null 
 echo "Branch: $CURRENT_BRANCH  (wird via Volume in den Container eingebunden)"
 echo ""
 
-# Laufende/gestoppte Container dieses Images bereinigen
+# Clean up running/stopped containers of this image
 RUNNING=$(docker ps -q --filter "ancestor=$IMAGE_NAME" 2>/dev/null)
 if [ -n "$RUNNING" ]; then
     echo "=== Stoppe laufende Container ==="
@@ -56,8 +56,8 @@ fi
 STOPPED=$(docker ps -aq --filter "ancestor=$IMAGE_NAME" 2>/dev/null)
 [ -n "$STOPPED" ] && docker rm $STOPPED 2>/dev/null || true
 
-# Docker-Image bauen (Qt 6.7.3). Gleicher Dockerfile-Inhalt wie der Widget-6.7-
-# Build -> Docker-Layer-Cache greift, das Tag wird i.d.R. in Sekunden erstellt.
+# Build the Docker image (Qt 6.7.3). Same Dockerfile content as the widget 6.7
+# build -> the Docker layer cache applies, the tag is usually created in seconds.
 echo "=== Baue Docker-Image (Qt 6.7.3) ==="
 echo "    Bei vorhandenem Cache (vom Widget-6.7-Build) nur Sekunden."
 echo ""
@@ -74,9 +74,9 @@ echo "    Lokale Quellen: $PROJECT_ROOT"
 echo "    Container-Pfad: /opt/pokerth-android/pokerth"
 echo "    Build-Target:   pokerth_qml-client"
 echo ""
-# ANDROID_API_LEVEL=34: compileSdk/targetSdk = 34 (androidx.core:1.13.1 verlangt
-#   >= 34; das Image hebt AGP auf 8.2.2, dessen aapt2 android-34 lesen kann).
-# ANDROID_NATIVE_API_LEVEL=26: native Libs gezielt für Android 8.0 (RNE-L21).
+# ANDROID_API_LEVEL=34: compileSdk/targetSdk = 34 (androidx.core:1.13.1 requires
+#   >= 34; the image raises AGP to 8.2.2, whose aapt2 can read android-34).
+# ANDROID_NATIVE_API_LEVEL=26: native libs targeted at Android 8.0 (RNE-L21).
 docker run --rm \
     -e TARGET=pokerth_qml-client \
     -e ANDROID_MIN_SDK="$MIN_SDK" \

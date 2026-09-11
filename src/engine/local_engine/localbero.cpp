@@ -184,19 +184,19 @@ void LocalBeRo::run()
 			}
 		}
 
-		// prfen, ob aktuelle bero wirklich dran ist
+		// check whether the current bero is really up
 		if(!firstRound && allHighestSet) {
 
-			// aktuelle bero nicht dran, weil alle Sets gleich sind
-			//also gehe in naechste bero
+			// the current bero is not up, because all sets are equal
+			//so go to the next bero
 			myHand->setCurrentRound(GameState(myBeRoID+1));
 
-			//Action loeschen und ActionButtons refresh
+			//clear the action and refresh the action buttons
 			for(it_c=myHand->getRunningPlayerList()->begin(); it_c!=myHand->getRunningPlayerList()->end(); ++it_c) {
 				(*it_c)->setMyAction(PLAYER_ACTION_NONE);
 			}
 
-			//Sets in den Pot verschieben und Sets = 0 und Pot-refresh
+			//move the sets into the pot, set sets = 0 and refresh the pot
 			myHand->getBoard()->collectSets();
 			myHand->getBoard()->collectPot();
 			myHand->getGuiInterface()->refreshPot();
@@ -209,7 +209,7 @@ void LocalBeRo::run()
 
 			myHand->switchRounds();
 		} else {
-			// aktuelle bero ist wirklich dran
+			// the current bero really is up
 
 			// determine next running player
 			PlayerListConstIterator currentPlayersTurnIt = myHand->getRunningPlayerIt( currentPlayersTurnId );
@@ -239,11 +239,11 @@ void LocalBeRo::run()
 			}
 
 			if( currentPlayersTurnId == 0) {
-				// Wir sind dran
+				// It is our turn
 				myHand->getGuiInterface()->meInAction();
 			} else {
 
-				//Gegner sind dran
+				//it is the opponents' turn
 				myHand->getGuiInterface()->beRoAnimation2(myBeRoID);
 			}
 

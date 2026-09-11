@@ -2,26 +2,26 @@ import QtQuick
 
 import "../config" as Config
 
-// Einsatz-Sockel INNERHALB einer Spielerbox (Sitz-Stil "inset"). Sitzt bündig
-// am unteren Boxrand, 1 px innerhalb des Rahmens von PlayerBoxBackground,
-// damit dessen Rand (bei Tisch-Stilen mit <PlayerBoxAccent> deutlich sichtbar)
-// nicht überdeckt wird.
+// Bet base INSIDE a player box (seat style "inset"). Sits flush at the lower
+// box edge, 1 px inside the frame of PlayerBoxBackground, so that its border
+// (clearly visible with table styles using <PlayerBoxAccent>) is not
+// covered.
 //
-// Der Sockel klappt nur auf, solange der Spieler tatsächlich etwas gesetzt hat
-// (`open`); die Box wächst dabei um seine Höhe. Der PLATZ dafür ist am Tisch
-// permanent reserviert (s. tableZone.betStripH in GamePage) – das Auf- und
-// Zuklappen verschiebt also weder die Nachbarboxen noch die Tisch-Skalierung.
-// clip, damit der Inhalt während der Animation nicht aus der Box ragt.
+// The base only unfolds while the player has actually bet something
+// (`open`); the box grows by its height. The SPACE for it is reserved
+// permanently at the table (see tableZone.betStripH in GamePage) – so folding
+// it in and out shifts neither the neighbouring boxes nor the table scaling.
+// clip, so that the content does not stick out of the box during the animation.
 Item {
     id: strip
 
     property int amount: 0
-    // Aufgeklappt? Steuert die Höhe – die Box folgt ihr.
+    // Unfolded? Controls the height – the box follows it.
     property bool open: false
 
-    // Volle Sockelhöhe im aufgeklappten Zustand – exakt die Höhe, die am Tisch
-    // dafür reserviert ist. Die 1 px Einrückung zum Boxrand steckt im inneren
-    // Rechteck, damit die Höhenrechnung der Box glatt bleibt.
+    // Full base height in the unfolded state – exactly the height reserved for
+    // it at the table. The 1 px indent from the box edge sits in the inner
+    // rectangle so that the height calculation of the box stays clean.
     readonly property int openHeight: Config.SeatStyle.betStripHeight
 
     height: open ? openHeight : 0
@@ -36,12 +36,12 @@ Item {
         anchors.rightMargin: 1
         anchors.bottomMargin: 1
         height: strip.openHeight - 1
-        // Nur unten runden – oben schließt der Sockel bündig an den Boxkörper an.
+        // Round only at the bottom – at the top the base joins the box body flush.
         bottomLeftRadius: 5
         bottomRightRadius: 5
         color: Qt.rgba(0, 0, 0, 0.26)
 
-        // Trennlinie zum Info-Bereich darüber.
+        // Separator to the info area above.
         Rectangle {
             anchors.left: parent.left
             anchors.right: parent.right

@@ -7,30 +7,30 @@ import QtQuick.Effects
 import "../config" as Config
 import "../components"
 
-// Einzelner Forenbeitrag – im Web-Client öffnet der Link den Browser, hier wird
-// der Beitrag in der App gezeigt: der Atom-Feed liefert den kompletten Text
-// gleich mit, Config.ForumNews bereitet ihn für Qt-RichText auf (Bilder als
-// eigene Blöcke, damit sie auf die Spaltenbreite passen).
+// A single forum post – in the web client the link opens the browser, here the
+// post is shown in the app: the Atom feed delivers the complete text right
+// away, Config.ForumNews prepares it for Qt rich text (images as separate
+// blocks so that they fit the column width).
 //
-// Oben rechts (neben Titel und Autor) sitzt das Globus-Symbol: es übersetzt den
-// Beitrag in die eingestellte Sprache – derselbe Dienst und derselbe Schalter
-// wie bei der Chat-Übersetzung (siehe Translator/TextTranslator). Erneutes
-// Antippen zeigt wieder das Original.
+// At the top right (next to the title and the author) sits the globe symbol: it
+// translates the post into the configured language – the same service and the same
+// switch as the chat translation (see Translator/TextTranslator). Tapping it
+// again shows the original.
 Rectangle {
     id: postPage
     objectName: "forumPostPage"
     Layout.fillWidth: true
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
-    // Der Lesebereich bekommt beim Öffnen den Fokus, damit der Beitrag ohne
-    // Mausklick scrollbar ist.
+    // The reading area gets the focus when opening, so that the post is
+    // scrollable without a mouse click.
     StackView.onActivated: Qt.callLater(postScroll.forceActiveFocus)
 
-    // Beitrag aus der Liste (ForumNewsPage) – siehe Config.ForumNews.posts.
+    // Post from the list (ForumNewsPage) – see Config.ForumNews.posts.
     property var post: null
 
-    // Aufbereitete Blöcke; hängt an Theme.isDark, damit ein Themenwechsel die
-    // Farben des Beitrags neu anpasst.
+    // Prepared blocks; depends on Theme.isDark so that a theme change adjusts
+    // the colours of the post again.
     readonly property var blocks: {
         var _dark = Config.Theme.isDark
         if (!post)
@@ -39,7 +39,7 @@ Rectangle {
             dark: _dark, basePx: Config.Theme.fontSizeBody })
     }
 
-    // ── Übersetzung ──────────────────────────────────────────────────────────
+    // ── Translation ──────────────────────────────────────────────────────────
     property bool translationShown: false
     property bool translating: false
     property string translatedText: ""
@@ -60,8 +60,8 @@ Rectangle {
         }
         if (translating || !translateAvailable || !post)
             return
-        // Der Dienst bekommt nur den reinen Text (ohne HTML) und nur so viel,
-        // wie in eine Anfrage passt.
+        // The service only gets the plain text (without HTML) and only as much
+        // as fits into one request.
         var source = Config.ForumNews.plainText(post.html, 1800)
         if (source === "")
             return
@@ -87,12 +87,12 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        // Angesehen = gelesen (im Web-Client zählt das Öffnen im Browser).
+        // Viewed = read (in the web client opening it in the browser counts).
         if (post)
             Config.ForumNews.markRead(post)
     }
 
-    // Öffnet einen Link im externen Browser (Begründung siehe ForumNewsPage).
+    // Opens a link in the external browser (for the reasoning see ForumNewsPage).
     function openExternal(link) {
         if (!link || link === "")
             return
@@ -157,7 +157,7 @@ Rectangle {
                 implicitHeight: 26
             }
 
-            // Globus: Beitrag übersetzen / Original wieder anzeigen.
+            // Globe: translate the post / show the original again.
             Item {
                 id: translateButton
                 visible: postPage.translateAvailable && !postPage.translating
@@ -211,11 +211,11 @@ Rectangle {
             ScrollView {
                 id: postScroll
                 anchors.fill: parent
-                // Lesen ohne Maus: Pfeil hoch/runter scrollt die Flickable
-                // selbst, Bild-auf/ab und Pos1/Ende kennt sie nicht – die kommen
-                // hier dazu. Bewusst ein einzelner Keys.onPressed statt mehrerer
-                // Einzelhandler: Sobald ein Item einen speziellen Tastenhandler
-                // hat, sieht sein onPressed die betreffende Taste nicht mehr.
+                // Reading without a mouse: arrow up/down scrolls the Flickable
+                // itself, page up/down and Home/End are unknown to it – those are
+                // added here. Deliberately a single Keys.onPressed instead of several
+                // individual handlers: as soon as an item has a special key handler,
+                // its onPressed no longer sees the key in question.
                 Keys.onPressed: (event) => {
                     var f = postScroll.contentItem
                     if (!f)
@@ -240,9 +240,9 @@ Rectangle {
                 clip: true
                 contentWidth: availableWidth
                 ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                // Die vertikale Scrollleiste liegt als Overlay über dem Inhalt
-                // und ist in availableWidth nicht enthalten - ohne Abzug
-                // schneidet sie bei schmalem Fenster in den Text.
+                // The vertical scrollbar lies as an overlay above the content
+                // and is not included in availableWidth - without subtracting it,
+                // it cuts into the text in a narrow window.
                 readonly property real scrollBarSpace: ScrollBar.vertical.visible ? 12 : 0
 
                 Column {
@@ -276,9 +276,9 @@ Rectangle {
                                 font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: Config.Theme.fontSizeBody
 
-                                // Links per TapHandler + linkAt: onLinkActivated
-                                // feuert innerhalb einer Flickable nicht
-                                // zuverlässig (Details siehe ChatBox/AboutPage).
+                                // Links via TapHandler + linkAt: onLinkActivated
+                                // does not fire reliably inside a Flickable
+                                // (for details see ChatBox/AboutPage).
                                 HoverHandler {
                                     cursorShape: blockText.hoveredLink !== ""
                                                  ? Qt.PointingHandCursor : Qt.IBeamCursor
@@ -295,10 +295,10 @@ Rectangle {
                                 }
                             }
 
-                            // Bilder liegen als eigener Block vor: so lassen sie
-                            // sich auf die Spaltenbreite begrenzen (Qt-RichText
-                            // kennt kein max-width) – kleine Bilder bleiben in
-                            // Originalgröße, große werden proportional verkleinert.
+                            // Images are present as a separate block: that way they can
+                            // be limited to the column width (Qt rich text knows no
+                            // max-width) – small images keep their original size, large
+                            // ones are scaled down proportionally.
                             Image {
                                 id: blockImage
                                 visible: blockItem.isImage
@@ -313,8 +313,8 @@ Rectangle {
                         }
                     }
 
-                    // Eingeblendete Übersetzung ersetzt den Beitragstext
-                    // (gleiches Umschalten wie im Chat), kursiv als Kennzeichnung.
+                    // The inserted translation replaces the post text
+                    // (the same toggling as in the chat), in italics as a marker.
                     TextEdit {
                         width: contentColumn.width
                         visible: postPage.translationShown
@@ -334,7 +334,7 @@ Rectangle {
             }
         }
 
-        // ── Fußzeile: Forum-Link, Übersetzen ─────────────────────────────────
+        // ── Footer: forum link, translate ────────────────────────────────────
         RowLayout {
             Layout.fillWidth: true
             spacing: 8
@@ -346,7 +346,7 @@ Rectangle {
                 onClicked: postPage.openExternal(postPage.post ? postPage.post.link : "")
             }
 
-            // Meldung, wenn die Übersetzung nicht geklappt hat.
+            // Message if the translation did not work.
             AppText {
                 Layout.fillWidth: true
                 text: postPage.translateError

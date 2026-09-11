@@ -1,12 +1,12 @@
 import QtQuick
 import QtQuick.Window
 
-// Image-basierter SVG-Wrapper (QtSvg-Rasterizer). Fallback für Qt < 6.8
-// (QtQuick.VectorImage gibt es dort nicht) – wird per CMake-Auswahl als
-// components/SvgIcon.qml ins Resource aliased. sourceSize ist an die
-// Anzeigegröße × devicePixelRatio gekoppelt, damit die SVGs auf High-DPI
-// möglichst scharf rastern. Schnittstelle ist quellkompatibel zur
-// VectorImage-Variante (source / fillMode / width / height / visible …).
+// Image-based SVG wrapper (QtSvg rasterizer). Fallback for Qt < 6.8
+// (QtQuick.VectorImage does not exist there) – aliased into the resource as
+// components/SvgIcon.qml by the CMake selection. sourceSize is coupled to the
+// display size × devicePixelRatio so that the SVGs rasterize as sharply as
+// possible on high DPI. The interface is source compatible with the
+// VectorImage variant (source / fillMode / width / height / visible …).
 Image {
     fillMode: Image.PreserveAspectFit
     smooth: true

@@ -167,7 +167,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	//Flipside festlegen;
 	loadFlipside();
 
-	//Flipside Animation noch nicht erledigt
+	//flipside animation not done yet
 	flipHolecardsAllInAlreadyDone = false;
 
 #ifndef GUI_800x480
@@ -578,24 +578,24 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	lineEdit_ChatInput->installEventFilter(this);
 #endif
 
-	// Emoji-Reaktionen: empfangene "/emoji"-Nachrichten als Animation am Sitz
-	// abspielen.
+	// Emoji reactions: play received "/emoji" messages as an animation at the
+	// seat.
 	connect(myChat, SIGNAL(reactionReceived(QString,QString)), this, SLOT(showEmojiReaction(QString,QString)));
 #ifdef Q_OS_ANDROID
-	// Android: Reaktions-Picker über einen Button oben links auf dem Spieltisch
-	// öffnen (wie im QML-Client) – nicht in der Chat-Zeile, damit er auch
-	// erreichbar ist, wenn der Chat in einem separaten Dialog liegt.
+	// Android: open the reaction picker via a button at the top left of the game table
+	// (as in the QML client) – not in the chat line, so that it is reachable
+	// even when the chat lies in a separate dialog.
 	myReactionButton = new QToolButton(this);
 	const int reactBtnSize = 44;
 	const int reactIconSize = reactBtnSize - 12;
-	// Icon direkt in der Zielgröße rendern (scharf, nicht hochskaliert).
+	// Render the icon directly in the target size (sharp, not scaled up).
 	myReactionButton->setIcon(EmojiPicker::emojiIcon(QStringLiteral("🎉"), reactIconSize));
 	myReactionButton->setIconSize(QSize(reactIconSize, reactIconSize));
 	myReactionButton->setFixedSize(reactBtnSize, reactBtnSize);
 	myReactionButton->setAutoRaise(true);
 	myReactionButton->setCursor(Qt::PointingHandCursor);
 	myReactionButton->setToolTip(tr("Send reaction"));
-	// Kein Tastatur-Fokus → auf Touch-Geräten poppt keine virtuelle Tastatur auf.
+	// No keyboard focus → on touch devices no virtual keyboard pops up.
 	myReactionButton->setFocusPolicy(Qt::NoFocus);
 	repositionReactionButton();
 	myReactionButton->show();
@@ -604,14 +604,14 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 		myReactionPicker->showAt(myReactionButton);
 	});
 #else
-	// Desktop: Reaktions-Picker (🎉) wie bisher als Aktion in der Chat-Zeile.
+	// Desktop: the reaction picker (🎉) as before as an action in the chat line.
 #ifdef GUI_800x480
 	QLineEdit *reactionLineEdit = tabs.lineEdit_ChatInput;
 #else
 	QLineEdit *reactionLineEdit = lineEdit_ChatInput;
 #endif
-	// Größe passend zum vergrößerten Auslöser-Icon-Maß der Chat-Zeile (siehe
-	// ChatTools::setupEmojiPickerAction, BiggerActionIconStyle auf Desktop = 22).
+	// The size matches the enlarged trigger icon measure of the chat line (see
+	// ChatTools::setupEmojiPickerAction, BiggerActionIconStyle on the desktop = 22).
 	myReactionAction = reactionLineEdit->addAction(EmojiPicker::emojiIcon(QStringLiteral("🎉"), 22),
 					   QLineEdit::TrailingPosition);
 	myReactionAction->setToolTip(tr("Send reaction"));
@@ -621,7 +621,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	});
 #endif
 
-	// Reaktions-Auslöser gemäß Einstellung "DisableEmojiReactions" ein-/ausblenden.
+	// Show/hide the reaction trigger according to the setting "DisableEmojiReactions".
 	updateReactionControlsVisibility();
 
 	this->installEventFilter(this);
@@ -651,8 +651,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	//hide left and right icon and menubar from maemo gui for ANDROID
 #ifdef ANDROID
-	// fullscreenButton existiert nur in Desktop-Version
-	// Entfernen oder kommentieren Sie die Zeile:
+	// fullscreenButton only exists in the desktop version
+	// Remove or comment out the line:
 	// fullscreenButton->hide();
 	this->setMenuBar(0);
 #endif
@@ -700,7 +700,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(enableCallCheckPushButtonTimer, SIGNAL(timeout()), this, SLOT(enableCallCheckPushButton()));
 
 #ifdef ANDROID
-	// tabs ist nur für GUI_800x480 definiert
+	// tabs is only defined for GUI_800x480
 #ifdef GUI_800x480
 	connect( tabs.pushButton_settings, SIGNAL( clicked() ), this, SLOT( callSettingsDialog() ) );
 #endif
@@ -734,7 +734,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 #ifdef GUI_800x480
 	connect( tabs.horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
-	connect( tabs.pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
+	connect( tabs.pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // start it again as well!!!!
 
 	connect( tabs.tabWidget_Left, SIGNAL( currentChanged(int) ), this, SLOT( tabSwitchAction() ) );
 	connect( tabs.lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
@@ -749,7 +749,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect( tabs.pushButton_voteOnKickNo, SIGNAL( clicked() ), this, SLOT( voteOnKickNo() ) );
 #else
 	connect( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
-	connect( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
+	connect( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // start it again as well!!!!
 
 	connect( tabWidget_Left, SIGNAL( currentChanged(int) ), this, SLOT( tabSwitchAction() ) );
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
@@ -825,8 +825,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 #endif
 
 #ifdef ANDROID
-	// Qt6 Android: Setze explizite Geometrie nach Initialisierung für korrektes Vollbild
-	// Dies behebt das Querformat-Problem, bei dem der untere/rechte Bereich abgeschnitten wird
+	// Qt6 Android: set an explicit geometry after the initialization for a correct fullscreen
+	// This fixes the landscape problem where the lower/right area is cut off
 	QScreen *screen = QGuiApplication::primaryScreen();
 	if (screen) {
 		QRect screenGeometry = screen->availableGeometry();
@@ -951,7 +951,7 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 	//Add avatar (if set)
 	myStartWindow->getSession()->addOwnAvatar(QString::fromUtf8(myConfig->readConfigString("MyAvatar").c_str()).toLocal8Bit().constData());
 
-	//Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
+	//if the player names were changed --> redraw --> only read in again on the next restart
 	if (mySettingsDialog->getPlayerNickIsChanged() && myStartWindow->getSession()->getCurrentGame() && !myStartWindow->getSession()->isNetworkClientRunning()) {
 
 		boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
@@ -1478,10 +1478,10 @@ void gameTableImpl::refreshGroupbox(int playerID, int status)
 		for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
 
 			if((*it_c)->getMyTurn()) {
-				//Groupbox glow wenn der Spiele dran ist.
+				//group box glow when the player is to act.
 				myGameTableStyle->setPlayerSeatActiveStyle(groupBoxArray[(*it_c)->getMyID()]);
 			} else {
-				//Groupbox auf Hintergrundfarbe setzen wenn der Spiele nicht dran aber aktiv ist.
+				//set the group box to the background colour when the player is not to act but is active.
 				if((*it_c)->getMyActiveStatus()) {
 					if((*it_c)->getMyID()==0) {
 						//show buttons
@@ -1499,7 +1499,7 @@ void gameTableImpl::refreshGroupbox(int playerID, int status)
 					myGameTableStyle->setPlayerSeatInactiveStyle(groupBoxArray[(*it_c)->getMyID()]);
 
 				}
-				//Groupbox verdunkeln wenn der Spiele inactive ist.
+				//darken the group box when the player is inactive.
 				else {
 					if((*it_c)->getMyID()==0) {
 						//hide buttons
@@ -1670,7 +1670,7 @@ void gameTableImpl::dealHoleCards()
 	QPixmap tempCardsPixmapArray[2];
 	int tempCardsIntArray[2];
 
-	// Karten der Gegner und eigene Karten austeilen
+	// Deal the opponents' cards and our own cards
 	int j;
 	boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
 
@@ -1774,7 +1774,7 @@ void gameTableImpl::dealFlopCards4()
 	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
 	QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[0], 10)+".png"));
 
-	//Config? mit oder ohne Eye-Candy?
+	//config? with or without eye candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
 		//with Eye-Candy
 		boardCardsArray[0]->startFlipCards(guiGameSpeed, card, flipside);
@@ -1793,7 +1793,7 @@ void gameTableImpl::dealFlopCards5()
 	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
 	QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[1], 10)+".png"));
 
-	//Config? mit oder ohne Eye-Candy?
+	//config? with or without eye candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
 		//with Eye-Candy
 		boardCardsArray[1]->startFlipCards(guiGameSpeed, card, flipside);
@@ -1812,7 +1812,7 @@ void gameTableImpl::dealFlopCards6()
 	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
 	QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[2], 10)+".png"));
 
-	//Config? mit oder ohne Eye-Candy?
+	//config? with or without eye candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
 		//with Eye-Candy
 		boardCardsArray[2]->startFlipCards(guiGameSpeed, card, flipside);
@@ -1823,11 +1823,11 @@ void gameTableImpl::dealFlopCards6()
 	}
 
 	// stable
-	// wenn alle All In
+	// if everybody is all in
 	if(myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getAllInCondition()) {
 		dealFlopCards6Timer->start(AllInDealCardsSpeed);
 	}
-	// sonst normale Variante
+	// otherwise the normal variant
 	else {
 		updateMyButtonsState(0);  //mode 0 == called from dealberocards
 		dealFlopCards6Timer->start(postDealCardsSpeed);
@@ -1856,7 +1856,7 @@ void gameTableImpl::dealTurnCards2()
 	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
 	QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[3], 10)+".png"));
 
-	//Config? mit oder ohne Eye-Candy?
+	//config? with or without eye candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
 		//with Eye-Candy
 		boardCardsArray[3]->startFlipCards(guiGameSpeed, card, flipside);
@@ -1867,11 +1867,11 @@ void gameTableImpl::dealTurnCards2()
 	}
 
 	// stable
-	// wenn alle All In
+	// if everybody is all in
 	if(myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getAllInCondition()) {
 		dealTurnCards2Timer->start(AllInDealCardsSpeed);
 	}
-	// sonst normale Variante
+	// otherwise the normal variant
 	else {
 		updateMyButtonsState(0);  //mode 0 == called from dealberocards
 		dealTurnCards2Timer->start(postDealCardsSpeed);
@@ -1901,7 +1901,7 @@ void gameTableImpl::dealRiverCards2()
 	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
 	QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[4], 10)+".png"));
 
-	//Config? mit oder ohne Eye-Candy?
+	//config? with or without eye candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
 		//with Eye-Candy
 		boardCardsArray[4]->startFlipCards(guiGameSpeed, card, flipside);
@@ -1912,11 +1912,11 @@ void gameTableImpl::dealRiverCards2()
 	}
 
 	// stable
-	// wenn alle All In
+	// if everybody is all in
 	if(myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getAllInCondition()) {
 		dealRiverCards2Timer->start(AllInDealCardsSpeed);
 	}
-	// sonst normale Variante
+	// otherwise the normal variant
 	else {
 		updateMyButtonsState(0);  //mode 0 == called from dealberocards
 		dealRiverCards2Timer->start(postDealCardsSpeed);
@@ -2306,7 +2306,7 @@ void gameTableImpl::myFold()
 
 		// 		statusBar()->clearMessage();
 
-		//Spiel läuft weiter
+		//the game goes on
 		myActionDone();
 	}
 }
@@ -2324,7 +2324,7 @@ void gameTableImpl::myCheck()
 
 	// 	statusBar()->clearMessage();
 
-	//Spiel läuft weiter
+	//the game goes on
 	myActionDone();
 }
 
@@ -2395,7 +2395,7 @@ void gameTableImpl::myCall()
 
 	// 	statusBar()->clearMessage();
 
-	//Spiel läuft weiter
+	//the game goes on
 	myActionDone();
 }
 
@@ -2456,10 +2456,10 @@ void gameTableImpl::mySet()
 		//set that i was the last active player. need this for unhighlighting groupbox
 		currentHand->setPreviousPlayerID(0);
 
-		// lastPlayerAction für Karten umblättern reihenfolge setzrn
+		// set lastPlayerAction for the order of turning the cards over
 		currentHand->setLastActionPlayerID(humanPlayer->getMyUniqueID());
 
-		//Spiel läuft weiter
+		//the game goes on
 		myActionDone();
 	}
 }
@@ -2486,7 +2486,7 @@ void gameTableImpl::myAllIn()
 
 			currentHand->getCurrentBeRo()->setHighestSet(humanPlayer->getMySet());
 
-			// lastPlayerAction für Karten umblättern reihenfolge setzrn
+			// set lastPlayerAction for the order of turning the cards over
 			currentHand->setLastActionPlayerID(humanPlayer->getMyUniqueID());
 
 		}
@@ -2499,7 +2499,7 @@ void gameTableImpl::myAllIn()
 		//set that i was the last active player. need this for unhighlighting groupbox
 		currentHand->setPreviousPlayerID(0);
 
-		//Spiel läuft weiter
+		//the game goes on
 		myActionDone();
 	}
 }
@@ -2846,7 +2846,7 @@ void gameTableImpl::postRiverRunAnimation2()
 					showShowMyCardsButton();
 				}
 			}
-			//Wenn einmal umgedreht dann fertig!!
+			//once turned over, it is done!!
 			flipHolecardsAllInAlreadyDone = true;
 		} else {
 			for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
@@ -2873,10 +2873,10 @@ void gameTableImpl::postRiverRunAnimation2()
 
 void gameTableImpl::postRiverRunAnimation3()
 {
-	// Stacks erst hier aktualisieren: der Winner-Badge erscheint in dieser
-	// Funktion – synchron mit der Pot-Verteilung sichtbar zu machen, wie es
-	// der Spieler erwartet. Ein früheres refreshCash() (z.B. nach der letzten
-	// Spieler-Aktion) würde die neuen Chips zeigen, bevor der Gewinner bekannt ist.
+	// Only update the stacks here: the winner badge appears in this
+	// function – making it visible in sync with the pot distribution, as
+	// the player expects. An earlier refreshCash() (e.g. after the last
+	// player action) would show the new chips before the winner is known.
 	refreshCash();
 
 	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
@@ -2911,8 +2911,8 @@ void gameTableImpl::postRiverRunAnimation3()
 	}
 
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
-		// Nur echte Winner anzeigen: in der winners-Liste UND tatsächlich profitiert
-		// (Spieler die nur ihren Überschuss zurückbekommen sind keine echten Gewinner)
+		// Only show real winners: in the winners list AND actually profited
+		// (players who only get their surplus back are no real winners)
 		bool isWinner = std::find(winners.begin(), winners.end(), (*it_c)->getMyUniqueID()) != winners.end();
 		bool hasActuallyWon = isWinner && (*it_c)->getLastMoneyWon() > 0;
 
@@ -3010,8 +3010,8 @@ void gameTableImpl::postRiverRunAnimation3()
 					boardCardsArray[4]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index6" << endl;*/
 				}
 			}
-			//Pot-Verteilung Loggen
-			//Wenn River dann auch das Blatt loggen!
+			//log the pot distribution
+			//if it is the river, log the hand as well!
 			// 			if (textLabel_handLabel->text() == "River") {
 
 			// Log as main pot (already filtered above)
@@ -3026,7 +3026,7 @@ void gameTableImpl::postRiverRunAnimation3()
 			if( activePlayerList->size() != 1 && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && myConfig->readConfigInt("ShowFadeOutCardsAnimation")
 			  ) {
 
-				//aufgedeckte Gegner auch ausblenden
+				//hide revealed opponents as well
 				holeCardsArray[(*it_c)->getMyID()][0]->startFadeOut(guiGameSpeed);
 				holeCardsArray[(*it_c)->getMyID()][1]->startFadeOut(guiGameSpeed);
 			}
@@ -3111,7 +3111,7 @@ void gameTableImpl::postRiverRunAnimation6()
 	if (myStartWindow->getSession()->isNetworkClientRunning())
 		return;
 
-	// wenn nur noch ein Spieler aktive "neues Spiel"-Dialog anzeigen
+	// if only one player is left active, show the "new game" dialog
 	int playersPositiveCashCounter = 0;
 
 	PlayerListConstIterator it_c;
@@ -3152,7 +3152,7 @@ void gameTableImpl::postRiverRunAnimation6()
 			}
 		} else {
 			myStartWindow->callNewGameDialog();
-			//Bei Cancel nichts machen!!!
+			//do nothing on cancel!!!
 		}
 		return;
 	}
@@ -3200,7 +3200,7 @@ void gameTableImpl::flipHolecardsAllIn()
 	boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
 
 	if(!flipHolecardsAllInAlreadyDone && currentGame->getCurrentHand()->getCurrentRound() < GAME_STATE_RIVER) {
-		//Aktive Spieler zählen --> wenn nur noch einer nicht-folded dann keine Karten umdrehen
+		//count the active players --> if only one is left not folded, do not turn any cards over
 		int nonfoldPlayersCounter = 0;
 		PlayerListConstIterator it_c;
 		PlayerList activePlayerList = currentGame->getActivePlayerList();
@@ -3217,7 +3217,7 @@ void gameTableImpl::flipHolecardsAllIn()
 			}
 		}
 
-		//Wenn einmal umgedreht dann fertig!!
+		//once turned over, it is done!!
 		flipHolecardsAllInAlreadyDone = true;
 	}
 }
@@ -3290,7 +3290,7 @@ void gameTableImpl::nextRoundCleanGui()
 	postRiverRunAnimation6Timer->stop();
 	potDistributeTimer->stop();
 
-	// GUI bereinigen - Bilder löschen, Animationen unterbrechen
+	// Clean up the GUI - delete images, interrupt animations
 	QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
 	for (i=0; i<5; i++ ) {
 		boardCardsArray[i]->setPixmap(onePix, false);
@@ -3317,7 +3317,7 @@ void gameTableImpl::nextRoundCleanGui()
 
 	flipHolecardsAllInAlreadyDone = false;
 
-	//Wenn Pause zwischen den Hands in der Konfiguration steht den Stop Button drücken!
+	//if a pause between the hands is configured, press the stop button!
 	if (myConfig->readConfigInt("PauseBetweenHands") /*&& blinkingStartButtonAnimationTimer->isActive() == false*/ && myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
 #ifdef GUI_800x480
 		tabs.pushButton_break->click();
@@ -3412,16 +3412,16 @@ void gameTableImpl::setSpeeds()
 
 	gameSpeed = (11-guiGameSpeed)*10;
 	dealCardsSpeed = (gameSpeed/2)*10; //milliseconds
-	preDealCardsSpeed = dealCardsSpeed*2; //Zeit for Karten aufdecken auf dem Board (Flop, Turn, River)
-	postDealCardsSpeed = dealCardsSpeed*3; //Zeit nach Karten aufdecken auf dem Board (Flop, Turn, River)
-	AllInDealCardsSpeed = dealCardsSpeed*4; //Zeit nach Karten aufdecken auf dem Board (Flop, Turn, River) bei AllIn
+	preDealCardsSpeed = dealCardsSpeed*2; //time for revealing the cards on the board (flop, turn, river)
+	postDealCardsSpeed = dealCardsSpeed*3; //time after revealing the cards on the board (flop, turn, river)
+	AllInDealCardsSpeed = dealCardsSpeed*4; //time after revealing the cards on the board (flop, turn, river) on all-in
 	postRiverRunAnimationSpeed = gameSpeed*18;
 	winnerBlinkSpeed = gameSpeed*3; //milliseconds
 	newRoundSpeed = gameSpeed*35;
-	nextPlayerSpeed1 = gameSpeed*10; // Zeit zwischen dem Setzen des Spielers und dem Verdunkeln
-	nextPlayerSpeed2 = gameSpeed*4; // Zeit zwischen Verdunkeln des einen und aufhellen des anderen Spielers
-	nextPlayerSpeed3 = gameSpeed*7; // Zeit bis zwischen Aufhellen und Aktion
-	preflopNextPlayerSpeed = gameSpeed*10; // Zeit bis zwischen Aufhellen und Aktion im Preflop (etwas langsamer da nicht gerechnet wird. )
+	nextPlayerSpeed1 = gameSpeed*10; // time between the player's bet and the darkening
+	nextPlayerSpeed2 = gameSpeed*4; // time between darkening one player and brightening the other
+	nextPlayerSpeed3 = gameSpeed*7; // time between brightening and the action
+	preflopNextPlayerSpeed = gameSpeed*10; // time between brightening and the action preflop (a bit slower, since nothing is computed)
 }
 
 void gameTableImpl::breakButtonClicked()
@@ -3468,7 +3468,7 @@ void gameTableImpl::breakButtonClicked()
 
 			currentGameOver = false;
 			myStartWindow->callNewGameDialog();
-			//Bei Cancel nichts machen!!!
+			//do nothing on cancel!!!
 		} else {
 			startNewHand();
 		}
@@ -3639,9 +3639,9 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 	if (etype == QEvent::KeyPress) {
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-		// Offenes Shortcode-Vorschlags-Popup des Chats: Tab/Hoch/Runter
-		// steuern dann das Popup (dieser Filter hängt an qApp und liefe
-		// sonst VOR dem Popup) – keine Nick-Vervollständigung/History.
+		// An open shortcode suggestion popup of the chat: Tab/up/down then
+		// control the popup (this filter hangs off qApp and would otherwise
+		// run BEFORE the popup) – no nickname completion/history.
 		const bool shortcodePopupOpen = myChat && myChat->shortcodeCompletionActive();
 
 		if (isGameTableFocused && !shortcodePopupOpen && keyEvent->key() == Qt::Key_Tab) {
@@ -4912,9 +4912,9 @@ void gameTableImpl::restoreGameTableGeometry()
 		}
 	}
 #ifdef ANDROID
-	// Für Android: Setze explizit die Vollbild-Geometrie für alle API-Versionen
-	// Dies ist notwendig, da Qt6 setWindowState(Qt::WindowFullScreen) allein
-	// nicht ausreicht, um die korrekte Größe in allen Orientierungen zu gewährleisten
+	// For Android: set the fullscreen geometry explicitly for all API versions
+	// This is necessary because Qt6 setWindowState(Qt::WindowFullScreen) alone
+	// is not enough to guarantee the correct size in all orientations
 	QScreen *screen = QGuiApplication::primaryScreen();
 	if (screen) {
 		QRect screenGeometry = screen->availableGeometry();
@@ -5105,15 +5105,15 @@ void gameTableImpl::checkActionLabelPosition()
 
 void gameTableImpl::repositionReactionButton()
 {
-	// Oben links auf dem Spieltisch, mit kleinem Rand (analog QML-Client).
+	// At the top left of the game table, with a small margin (analogous to the QML client).
 	if (myReactionButton) {
 		myReactionButton->move(6, 6);
 		myReactionButton->raise();
 	}
 }
 
-// Reaktions-Picker beim ersten Öffnen anlegen: 90 Emojis auf drei Seiten,
-// beginnend bei der zuletzt benutzten (wie im QML- und im Web-Client).
+// Create the reaction picker when it is first opened: 90 emojis on three pages,
+// starting at the one used last (as in the QML and the web client).
 void gameTableImpl::ensureReactionPicker(QWidget *anchorParent)
 {
 	if (myReactionPicker)
@@ -5129,8 +5129,8 @@ void gameTableImpl::ensureReactionPicker(QWidget *anchorParent)
 
 void gameTableImpl::updateReactionControlsVisibility()
 {
-	// Sind Emoji-Reaktionen deaktiviert, wird der Picker-Auslöser ausgeblendet
-	// (Desktop: Aktion in der Chat-Zeile, Android: Button auf dem Tisch).
+	// If the emoji reactions are disabled, the picker trigger is hidden
+	// (desktop: the action in the chat line, Android: the button on the table).
 	const bool reactionsEnabled = !myConfig->readConfigInt("DisableEmojiReactions");
 	if (myReactionButton)
 		myReactionButton->setVisible(reactionsEnabled);
@@ -5140,9 +5140,9 @@ void gameTableImpl::updateReactionControlsVisibility()
 
 void gameTableImpl::loadFlipside()
 {
-	// Eigene Bilddatei und Rückseiten-Stil schlagen die flipside.png des
-	// Kartenstapels; lässt sich eines von beiden nicht laden, wird auf den
-	// Stapel zurückgefallen, damit nie eine leere Rückseite entsteht.
+	// A custom image file and a card back style trump the flipside.png of the
+	// card deck; if one of the two cannot be loaded, it falls back to the
+	// deck, so that an empty card back never arises.
 	if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
 		flipside = QPixmap::fromImage(QImage(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str())));
 		if (!flipside.isNull()) return;
@@ -5206,7 +5206,7 @@ int gameTableImpl::getAndroidApiVersion()
 	int api = -1;
 #ifdef ANDROID
 #ifndef ANDROID_TEST
-	// Qt6: Verwende QJniEnvironment für Android API-Zugriff
+	// Qt6: use QJniEnvironment for Android API access
 	QJniEnvironment env;
 	if (env.isValid()) {
 		api = QJniObject::getStaticField<jint>("android/os/Build$VERSION", "SDK_INT");
@@ -5216,18 +5216,18 @@ int gameTableImpl::getAndroidApiVersion()
 	return api;
 }
 
-// ── Emoji-Reaktionen (Port aus QML-/Web-Client, Chat-Konvention "/emoji 🎉") ──
+// ── Emoji reactions (a port from the QML/web client, the chat convention "/emoji 🎉") ──
 
 void gameTableImpl::sendEmojiReaction(const QString &emoji)
 {
 	myLastOwnReactionEmoji = emoji;
 	myLastOwnReactionTime = QDateTime::currentMSecsSinceEpoch();
 
-	// Sofort lokal am eigenen Sitz (ID 0) abspielen …
+	// Play it locally at our own seat (ID 0) right away …
 	playReactionAnimation(0, emoji);
 
-	// … und über den Spiel-Chat an die Mitspieler senden (das eigene
-	// Server-Echo wird in showEmojiReaction per Zeitfenster verworfen).
+	// … and send it to the fellow players via the game chat (our own
+	// server echo is discarded in showEmojiReaction by a time window).
 	boost::shared_ptr<Session> session = myStartWindow->getSession();
 	if (session)
 		session->sendGameChatMessage(QString(QStringLiteral("/emoji ") + emoji).toUtf8().constData());
@@ -5235,13 +5235,13 @@ void gameTableImpl::sendEmojiReaction(const QString &emoji)
 
 void gameTableImpl::showEmojiReaction(QString playerName, QString emoji)
 {
-	// Reaktionen deaktiviert: weder eigene noch fremde Reaktionen anzeigen.
+	// Reactions disabled: show neither our own nor foreign reactions.
 	if (myConfig->readConfigInt("DisableEmojiReactions"))
 		return;
 
 	const QString myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
 	if (playerName == myNick) {
-		// Echo der eigenen, bereits lokal abgespielten Reaktion unterdrücken.
+		// Suppress the echo of our own reaction, which has already been played locally.
 		if (emoji == myLastOwnReactionEmoji
 				&& QDateTime::currentMSecsSinceEpoch() - myLastOwnReactionTime < 3000)
 			return;
@@ -5249,7 +5249,7 @@ void gameTableImpl::showEmojiReaction(QString playerName, QString emoji)
 		return;
 	}
 
-	// Sitz des Absenders ermitteln.
+	// Determine the seat of the sender.
 	boost::shared_ptr<Session> session = myStartWindow->getSession();
 	if (!session || !session->getCurrentGame())
 		return;
@@ -5267,23 +5267,23 @@ void gameTableImpl::playReactionAnimation(int seatId, const QString &emoji)
 {
 	if (seatId < 0 || seatId >= MAX_NUMBER_OF_PLAYERS)
 		return;
-	// Ganze Spielerbox als Anker (horizontal zentriert) – das Avatar-Label
-	// sitzt links in der Box und wäre als Anker seitlich versetzt.
+	// The whole player box as the anchor (horizontally centred) – the avatar label
+	// sits on the left in the box and would be offset sideways as an anchor.
 	QWidget *seatWidget = groupBoxArray[seatId];
 	if (!seatWidget)
 		seatWidget = playerAvatarLabelArray[seatId];
 	if (!seatWidget)
 		return;
 
-	// Overlay (lazy) über dem gesamten Fenster – spielt die 1:1 aus dem
-	// QML-Client portierte Choreografie ab (Pop/Aufstieg/Fade + Partikel).
+	// An overlay (lazy) above the whole window – it plays the choreography
+	// ported 1:1 from the QML client (pop/rise/fade + particles).
 	QWidget *host = centralWidget() ? centralWidget() : static_cast<QWidget *>(this);
 	if (!myReactionFx)
 		myReactionFx = new ReactionFxOverlay(host);
 
 	QPoint anchor = seatWidget->mapTo(host, QPoint(seatWidget->width() / 2, 0)) - QPoint(0, 6);
-	// Die Animation steigt ~200 px auf – bei Sitzen nahe der Oberkante
-	// tiefer starten, sonst wird sie am Fensterrand abgeschnitten.
+	// The animation rises ~200 px – for seats close to the upper edge
+	// start lower, otherwise it is cut off at the window edge.
 	anchor.setY(qMax(anchor.y(), 200));
 	myReactionFx->play(emoji, anchor);
 }

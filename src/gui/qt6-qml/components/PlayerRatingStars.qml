@@ -2,10 +2,10 @@ import QtQuick
 
 import "../config" as Config
 
-// Eingabe-Leiste für die Spieler-Bewertung (0–5 Sterne) im Notiz-Dialog.
-// Bewusst Unicode-Glyphen (★/☆) statt SVG-Icons – wie im Qt-Widgets-Client:
-// sie skalieren mit der Schriftgröße und lassen sich einfärben, ohne dass für
-// jede Größe ein eigenes Raster nötig wäre.
+// Input bar for the player rating (0–5 stars) in the note dialog.
+// Deliberately Unicode glyphs (★/☆) instead of SVG icons – as in the Qt widgets
+// client: they scale with the font size and can be colourised without needing
+// a separate raster image for every size.
 Row {
     id: root
 
@@ -34,9 +34,9 @@ Row {
                 opacity: cell.index < root.rating ? 1.0 : 0.5
             }
 
-            // Klick auf Stern i setzt die Bewertung auf i; ein erneuter Klick auf
-            // den zuletzt gesetzten Stern nimmt ihn zurück (i−1). So kommt man
-            // ohne zusätzlichen Knopf wieder auf 0.
+            // A click on star i sets the rating to i; clicking the last set star
+            // again takes it back (i−1). That way you get back to 0 without an
+            // additional button.
             MouseArea {
                 anchors.fill: parent
                 anchors.margins: -4

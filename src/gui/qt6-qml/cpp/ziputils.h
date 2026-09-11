@@ -1,7 +1,7 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
  *                                                                           *
- * Schlanke ZIP-Helfer (miniz) für den Stil-Import/-Export des QML-Clients.   *
+ * Slim ZIP helpers (miniz) for the style import/export of the QML client.   *
  *****************************************************************************/
 
 #ifndef ZIPUTILS_H
@@ -10,24 +10,24 @@
 #include <QString>
 #include <QByteArray>
 
-// Dünne Wrapper um miniz für den Stil-Import/-Export (.zip). Ein- und Ausgabe
-// laufen bewusst über QByteArray statt über FILE*, damit auch Flatpak-Portal-
-// und Android-content://-Pfade bedient werden (die kein reguläres FILE* öffnen
-// lassen, wohl aber über QFile lesbar/schreibbar sind).
+// Thin wrappers around miniz for the style import/export (.zip). Input and
+// output deliberately go through QByteArray instead of FILE*, so that Flatpak
+// portal and Android content:// paths are served as well (they do not let a
+// regular FILE* be opened, but can be read/written via QFile).
 namespace ZipUtils
 {
-// Entpackt ein als Speicherblock übergebenes ZIP nach destDir. Abgesichert
-// gegen Zip-Slip (Pfad-Traversal via "../" oder absolute Einträge) und gegen
-// Zip-Bomben (Gesamt-Entpackgröße und Eintragszahl begrenzt). Bei Fehlern wird
-// error gesetzt und false zurückgegeben; ein evtl. Teil-Ergebnis in destDir
-// muss der Aufrufer aufräumen.
+// Extracts a ZIP passed as a memory block into destDir. Secured against
+// zip slip (path traversal via "../" or absolute entries) and against zip
+// bombs (total extracted size and entry count limited). On errors, error is
+// set and false is returned; a possible partial result in destDir has to be
+// cleaned up by the caller.
 bool extractArchive(const QByteArray &zipData, const QString &destDir, QString &error);
 
-// Packt den Inhalt von srcDir rekursiv in ein ZIP und legt alle Einträge unter
-// rootName/… ab, sodass das Archiv einen dedizierten Stil-Ordner enthält (den
-// der Import als Ordnernamen = Stilname erkennt). Rückgabe ist der Archiv-
-// Speicherblock; bei Fehlern wird error gesetzt und ein leeres QByteArray
-// zurückgegeben.
+// Packs the content of srcDir recursively into a ZIP and puts all entries
+// under rootName/…, so that the archive contains a dedicated style folder
+// (which the import recognises as the folder name = style name). The return
+// value is the archive memory block; on errors, error is set and an empty
+// QByteArray is returned.
 QByteArray createArchive(const QString &srcDir, const QString &rootName, QString &error);
 }
 

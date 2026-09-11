@@ -5,35 +5,35 @@ import QtQuick.Effects
 
 import "../config" as Config
 
-// Schwebendes Seiten-Panel für Spielverlauf & Chat: abgerundetes Sheet mit
-// Header (Titel + Schließen) und freiem Inhaltsbereich darunter.
-//   – Querformat/Vollbild: Sidebar (~1/3 Breite) an einer Seite.
-//   – Hochformat: volles Overlay über den Tisch.
-// Der Inhalt (ListView, ChatBox …) wird als Default-Kind übergeben und landet
-// unterhalb der Kopfzeile im Body-Layout.
+// Floating side panel for the game history & chat: rounded sheet with a
+// header (title + close) and a free content area below it.
+//   – landscape/fullscreen: sidebar (~1/3 width) at one side.
+//   – portrait: full overlay above the table.
+// The content (ListView, ChatBox …) is passed as the default child and ends up
+// below the header in the body layout.
 Item {
     id: root
 
     property string title: ""
-    // Kopfzeile (Titel + Schließen + Trennlinie) ein-/ausblenden. Das Info-Panel
-    // braucht keine Überschrift – dort genügt die Tab-Leiste, und geschlossen wird
-    // über den Umschalt-Button oben. Der Chat nutzt weiterhin die Kopfzeile.
+    // Show/hide the header (title + close + separator). The info panel needs no
+    // heading – the tab bar is enough there, and it is closed via the toggle
+    // button at the top. The chat still uses the header.
     property bool showHeader: true
     property int edge: Qt.LeftEdge          // Qt.LeftEdge | Qt.RightEdge
     property bool wide: false
     signal closeRequested()
 
-    // Tisch-Theme-Farben (unabhängig vom Hell/Dunkel-Modus der App).
-    // StyleProvider liefert immer gültige Werte; der Fallback deckt nur den Fall
-    // ab, dass die Context-Property mal nicht gesetzt ist (z. B. Vorschau).
+    // Table theme colours (independent of the light/dark mode of the app).
+    // The StyleProvider always delivers valid values; the fallback only covers the
+    // case that the context property is not set (e.g. in a preview).
     readonly property color colBackground:
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogBackground : "#1d222b"
     readonly property color colBorder:
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogBorder : "#576378"
     readonly property color colTextSecondary:
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogTextSecondary : "#cdd3e0"
-    // Titelfarbe: der Akzent des TISCH-Themes, nicht der App-Akzent – auf einem
-    // hellen Panel wäre das App-Gold kaum zu lesen.
+    // Title colour: the accent of the TABLE theme, not the app accent – on a
+    // light panel the app gold would hardly be readable.
     readonly property color colAccent:
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogAccent : "#E3C800"
 
@@ -46,16 +46,16 @@ Item {
     anchors.right: edge === Qt.RightEdge ? parent.right : undefined
     width: wide ? Math.max(parent.width / 3, 300) : parent.width
 
-    // Chrome (Sheet-Hintergrund, Klick-Fänger, Header-Layout) EXPLIZIT als
-    // children zuweisen – sonst würden diese über die Default-Property
-    // (content → bodyLayout.data) ins Inhalts-Layout umgeleitet. So fließt nur
-    // der vom Aufrufer deklarierte Inhalt in bodyLayout.
+    // Assign the chrome (sheet background, click catcher, header layout)
+    // EXPLICITLY as children – otherwise they would be redirected into the
+    // content layout via the default property (content → bodyLayout.data). That
+    // way only the content declared by the caller flows into bodyLayout.
     children: [
-        // Schwebendes Sheet: eingerückt, abgerundet, mit Elevation.
+        // Floating sheet: indented, rounded, with elevation.
         Rectangle {
             id: panel
             anchors.fill: parent
-            anchors.topMargin: 50   // Abstand zum Umschalt-Icon oben
+            anchors.topMargin: 50   // Distance to the toggle icon above
             anchors.bottomMargin: 10
             anchors.leftMargin: root.wide ? 10 : 8
             anchors.rightMargin: root.wide ? 10 : 8
@@ -75,7 +75,7 @@ Item {
             }
         },
 
-        // Klicks innerhalb des Sheets abfangen (Tisch daneben bleibt nutzbar)
+        // Catch clicks inside the sheet (the table next to it stays usable)
         MouseArea { anchors.fill: panel },
 
         ColumnLayout {
@@ -84,7 +84,7 @@ Item {
             anchors.margins: 12
             spacing: 8
 
-            // Header: Titel + Schließen
+            // Header: title + close
             RowLayout {
                 Layout.fillWidth: true
                 spacing: 6

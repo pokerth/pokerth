@@ -7,38 +7,38 @@
 class ConfigFile;
 class ChatTranslatorCore;
 
-/* Übersetzung beliebiger Texte für QML. Dünne Hülle um ChatTranslatorCore
- * (derselbe Dienst und dieselbe Zielsprache wie die Chat-Übersetzung), aber
- * ohne dessen Chat-Zeilen-Bezug: ChatTranslator operiert auf der chatLog-Liste
- * eines Handlers und taugt deshalb nicht für Texte außerhalb des Chats.
+/* Translation of arbitrary texts for QML. A thin shell around ChatTranslatorCore
+ * (the same service and the same target language as the chat translation), but
+ * without its relation to chat lines: ChatTranslator operates on the chatLog
+ * list of a handler and is therefore unsuitable for texts outside the chat.
  *
- * Genutzt vom Globus-Symbol der Forum-Beitragsseite (ForumPostPage). Als
- * Kontext-Property "Translator" global registriert (pokerth.cpp).
+ * Used by the globe symbol of the forum post page (ForumPostPage). Registered
+ * globally as the context property "Translator" (pokerth.cpp).
  *
- *   var id = Translator.translate(text)      // -> Request-ID
+ *   var id = Translator.translate(text)      // -> request ID
  *   Connections { target: Translator
  *       function onTranslated(requestId, text, ok) { … } }
  *
- * Es wird erst etwas gesendet, wenn der Nutzer das Symbol antippt; der globale
- * Schalter ist derselbe wie beim Chat (Config "AllowChatTranslation").
+ * Nothing is sent before the user taps the symbol; the global switch is the
+ * same one as for the chat (config "AllowChatTranslation").
  */
 class TextTranslator : public QObject
 {
 	Q_OBJECT
-	// Global an/aus (Config "AllowChatTranslation") – steuert die Sichtbarkeit
-	// des Globus-Symbols.
+	// Globally on/off (config "AllowChatTranslation") – controls the visibility
+	// of the globe symbol.
 	Q_PROPERTY(bool enabled READ enabled NOTIFY enabledChanged)
 public:
 	explicit TextTranslator(ConfigFile *config, QObject *parent = nullptr);
 
 	bool enabled() const;
 
-	// Startet die Übersetzung in die eingestellte Client-Sprache und liefert
-	// die Request-ID; das Ergebnis kommt asynchron über translated().
+	// Starts the translation into the configured client language and returns
+	// the request ID; the result arrives asynchronously via translated().
 	Q_INVOKABLE int translate(const QString &text);
 
-	// Vom Einstellungsdialog aufgerufen, wenn "AllowChatTranslation" umgelegt
-	// wurde – meldet den neuen Zustand an die QML-Bindungen.
+	// Called by the settings dialog when "AllowChatTranslation" has been
+	// toggled – reports the new state to the QML bindings.
 	Q_INVOKABLE void refreshEnabled();
 
 signals:

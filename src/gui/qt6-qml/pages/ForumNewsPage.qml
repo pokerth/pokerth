@@ -6,11 +6,11 @@ import QtQuick.Layouts
 import "../config" as Config
 import "../components"
 
-// Forum-Neuigkeiten – die letzten Beiträge von www.pokerth.net, wie im
-// Web-Client (dort das Fenster „Forum news"). Ein Tippen öffnet den Beitrag
-// IN der App (ForumPostPage), nicht im Browser.
+// Forum news – the latest posts from www.pokerth.net, as in the
+// web client (the "Forum news" window there). A tap opens the post
+// IN the app (ForumPostPage), not in the browser.
 //
-// Daten, Entdopplung und Gelesen-Status liegen in Config.ForumNews.
+// Data, deduplication and read status live in Config.ForumNews.
 Rectangle {
     id: forumPage
     objectName: "forumNewsPage"
@@ -21,8 +21,8 @@ Rectangle {
     readonly property bool compact: Config.Responsive.compact
     readonly property bool listEmpty: Config.ForumNews.posts.length === 0
 
-    // Beim Öffnen aktualisieren; die TTL im Singleton verhindert, dass jedes
-    // Öffnen einen Abruf auslöst.
+    // Refresh when opening; the TTL in the singleton prevents every
+    // open from triggering a fetch.
     Component.onCompleted: Config.ForumNews.refresh(false)
 
     function openPost(post) {
@@ -30,9 +30,9 @@ Rectangle {
             mainStackView.push("ForumPostPage.qml", { post: post })
     }
 
-    // Öffnet einen Link im externen Browser. NICHT direkt Qt.openUrlExternally:
-    // im AppImage/Bundle erbt QDesktopServices das gebundelte LD_LIBRARY_PATH →
-    // xdg-open stürzt ab (gleiche Begründung wie ChatBox/AboutPage).
+    // Opens a link in the external browser. NOT Qt.openUrlExternally directly:
+    // in the AppImage/bundle QDesktopServices inherits the bundled LD_LIBRARY_PATH →
+    // xdg-open crashes (same reasoning as ChatBox/AboutPage).
     function openExternal(link) {
         if (!link || link === "")
             return
@@ -86,13 +86,13 @@ Rectangle {
                 model: Config.ForumNews.posts
                 boundsBehavior: Flickable.StopAtBounds
 
-                // Tastaturbedienung: Tab führt in die Liste, Pfeile wechseln die
-                // Zeile, Enter öffnet den Beitrag (wie ein Klick).
+                // Keyboard operation: Tab leads into the list, the arrows change the
+                // row, Enter opens the post (like a click).
                 activeFocusOnTab: true
                 keyNavigationEnabled: true
-                // Direkt aus dem Modell statt über currentItem: Eine ListView
-                // erzeugt nur die sichtbaren Delegates, currentItem kann also
-                // null sein.
+                // Directly from the model instead of via currentItem: a ListView
+                // only creates the visible delegates, so currentItem can be
+                // null.
                 function openCurrent() {
                     var post = Config.ForumNews.posts[postList.currentIndex]
                     if (post)
@@ -110,9 +110,9 @@ Rectangle {
                     required property int index
                     required property var modelData
 
-                    // readRevision lesen, damit die Zeile nach „gelesen" neu
-                    // ausgewertet wird (ein Funktionsaufruf allein erzeugt
-                    // keine Bindungsabhängigkeit).
+                    // Read readRevision so that the row is re-evaluated after
+                    // "read" (a function call alone creates no binding
+                    // dependency).
                     readonly property bool unread: {
                         var _rev = Config.ForumNews.readRevision
                         return Config.ForumNews.isUnread(modelData)
@@ -122,9 +122,9 @@ Rectangle {
                     height: Math.max(forumPage.compact ? 58 : 50,
                                      textColumn.implicitHeight + 16)
 
-                    // Aktuelle Zeile der Tastaturnavigation – nur solange die
-                    // Liste den Fokus hat, sonst sähe der Mausnutzer eine
-                    // Markierung, die er nie angefasst hat.
+                    // Current row of the keyboard navigation – only while the
+                    // list has the focus, otherwise the mouse user would see a
+                    // highlight they never touched.
                     readonly property bool keyboardCurrent: ListView.isCurrentItem
                                                             && postList.activeFocus
 
@@ -136,7 +136,7 @@ Rectangle {
                                   ? Config.Theme.colorBox
                                   : Config.StaticData.palette.secondary.col600)
 
-                        // Akzentstreifen links markiert die Tastaturauswahl.
+                        // The accent stripe on the left marks the keyboard selection.
                         Rectangle {
                             anchors.left: parent.left
                             anchors.top: parent.top
@@ -198,8 +198,8 @@ Rectangle {
                             }
                         }
 
-                        // Zustands-Punkt: gefüllt = ungelesen, leerer Ring = gelesen
-                        // (wie .fn-dot / .fn-dot-read im Web-Client).
+                        // State dot: filled = unread, empty ring = read
+                        // (like .fn-dot / .fn-dot-read in the web client).
                         Rectangle {
                             Layout.alignment: Qt.AlignVCenter
                             implicitWidth: 9
@@ -237,9 +237,9 @@ Rectangle {
             }
         }
 
-        // Fußzeile wie im Web-Client: alles als gelesen markieren + Forum öffnen.
-        // Im Hochformat untereinander – nebeneinander reicht die Breite für
-        // „Alles als gelesen markieren" nicht (CustomButton kürzt nicht).
+        // Footer as in the web client: mark everything as read + open the forum.
+        // In portrait below each other – next to each other the width is not
+        // enough for "mark all as read" (CustomButton does not elide).
         GridLayout {
             Layout.fillWidth: true
             columns: forumPage.compact ? 1 : 2

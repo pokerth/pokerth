@@ -1,26 +1,26 @@
 #!/bin/bash
 set -e
 
-# Baut EINEN PokerTH Windows-Installer, der BEIDE Clients enthält
-# (Widget + QML), in einem Ubuntu-25.10-Docker-Container (MinGW-Cross).
+# Builds ONE PokerTH Windows installer containing BOTH clients
+# (widget + QML) in an Ubuntu 25.10 Docker container (MinGW cross).
 #
-# Warum Docker?
-#   Der Build benötigt Qt 6.x für Windows (win64_mingw), vcpkg-Abhängigkeiten
-#   und NSIS – alles wird im Container bereitgestellt, ohne das Host-System
-#   zu verändern. Das Docker-Image wird gecacht, d. h. nach dem ersten Build
-#   (ca. 30–60 min für Qt + vcpkg) läuft jeder weitere Build in ~5–10 min.
+# Why Docker?
+#   The build needs Qt 6.x for Windows (win64_mingw), vcpkg dependencies
+#   and NSIS – all of it is provided in the container without changing the
+#   host system. The Docker image is cached, i.e. after the first build
+#   (about 30–60 min for Qt + vcpkg) every further build runs in ~5–10 min.
 #
-# Ergebnis:
+# Result:
 #   PokerTH-Combined-<version>-<timestamp>-Setup.exe
-#   installiert pokerth_client.exe UND pokerth_qml-client.exe in ein
-#   gemeinsames Verzeichnis (geteilte DLLs / data / plugins / qml).
+#   installs pokerth_client.exe AND pokerth_qml-client.exe into a
+#   shared directory (shared DLLs / data / plugins / qml).
 #
-# Voraussetzung: Docker installiert und laufend.
+# Requirement: Docker installed and running.
 #
-# Aufruf:
-#   cd <projekt-root>
+# Usage:
+#   cd <project-root>
 #   bash docker/windows/build_windows_combined_docker.sh
-#   # Cache-buste:
+#   # bust the cache:
 #   bash docker/windows/build_windows_combined_docker.sh --no-cache
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -52,7 +52,7 @@ docker build \
     -t "$IMAGE_NAME" \
     "$PROJECT_ROOT"
 
-# --- Installer aus dem Container extrahieren ----------------------------------
+# --- Extract the installer from the container ---------------------------------
 echo ""
 echo "=== Extrahiere Windows-Installer ==="
 CONTAINER_ID=$(docker create "$IMAGE_NAME")

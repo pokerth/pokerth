@@ -13,17 +13,17 @@
 
 namespace {
 
-// Laufende Gnadenfrist (UIBackgroundTaskInvalid = keine angefordert).
+// Running grace period (UIBackgroundTaskInvalid = none requested).
 UIBackgroundTaskIdentifier g_task = UIBackgroundTaskInvalid;
-// Beobachter fuer Hintergrund-/Vordergrund-Wechsel; nur waehrend einer aktiven
-// Online-Session registriert.
+// Observers for background/foreground changes; only registered during an
+// active online session.
 id g_didEnterBackgroundObserver = nil;
 id g_willEnterForegroundObserver = nil;
 
-// Alle UIKit-Aufrufe gehoeren auf den Main-Thread. start()/stop() koennen aus
-// Netzwerk-Callbacks kommen (SignalNetClientError laeuft auf dem Netzwerk-
-// Thread), deshalb konsequent dorthin verlagern - analog zum
-// runOnAndroidMainThread() im Android-Pendant.
+// All UIKit calls belong on the main thread. start()/stop() can come from
+// network callbacks (SignalNetClientError runs on the network thread),
+// which is why they are consistently moved there - analogous to
+// runOnAndroidMainThread() in the Android counterpart.
 void onMainThread(void (^block)(void))
 {
     if ([NSThread isMainThread])
@@ -43,9 +43,9 @@ void endTaskIfRunning()
 void beginTask()
 {
     if (g_task != UIBackgroundTaskInvalid)
-        return;  // schon angefordert
-    // Der expirationHandler MUSS die Task beenden. Laesst man sie auslaufen,
-    // beendet iOS den Prozess hart (statt ihn nur einzufrieren).
+        return;  // already requested
+    // The expirationHandler MUST end the task. If you let it run out, iOS
+    // terminates the process hard (instead of merely freezing it).
     g_task = [[UIApplication sharedApplication]
         beginBackgroundTaskWithName:@"PokerTH server connection"
                   expirationHandler:^{
@@ -59,19 +59,19 @@ void IosBackgroundSession::start()
 {
     onMainThread(^{
         if (g_didEnterBackgroundObserver)
-            return;  // Session bereits markiert
+            return;  // session already marked
 
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        // Wechsel in den Hintergrund: Gnadenfrist anfordern, damit ein kurzer
-        // App-Wechsel den Socket nicht sofort einfrieren laesst.
+        // Switching to the background: request a grace period so that a short app
+        // switch does not freeze the socket right away.
         g_didEnterBackgroundObserver =
             [nc addObserverForName:UIApplicationDidEnterBackgroundNotification
                             object:nil
                              queue:[NSOperationQueue mainQueue]
                         usingBlock:^(NSNotification *) { beginTask(); }];
-        // Zurueck im Vordergrund: Frist sofort zurueckgeben. Nicht gehaltene
-        // Zeit spart Akku, und die naechste Hintergrund-Phase bekommt wieder
-        // die volle Spanne.
+        // Back in the foreground: return the grace period immediately. Time not
+        // held saves battery, and the next background phase gets the full span
+        // again.
         g_willEnterForegroundObserver =
             [nc addObserverForName:UIApplicationWillEnterForegroundNotification
                             object:nil

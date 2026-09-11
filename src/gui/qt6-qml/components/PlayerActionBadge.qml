@@ -2,10 +2,10 @@ import QtQuick
 
 import "../config" as Config
 
-// Aktions-Badge (Fold/Check/Call/Bet/Raise/All-In) der Spielerboxen. Farbe und
-// Rand richten sich nach der Aktion (gleiche Logik wie die Action-Buttons, nur
-// dunkler). Poppt beim Erscheinen und bei jedem Aktionswechsel kurz auf.
-// Sichtbarkeit/Position setzt der Aufrufer.
+// Action badge (fold/check/call/bet/raise/all-in) of the player boxes. Colour
+// and border follow the action (same logic as the action buttons, just
+// darker). Pops briefly when it appears and on every action change.
+// Visibility/position is set by the caller.
 Rectangle {
     id: badge
     property int action: 0

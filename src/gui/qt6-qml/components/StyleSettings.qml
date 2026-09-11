@@ -12,14 +12,14 @@ Rectangle {
     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
     color: "transparent"
 
-    // Im data-Verzeichnis (<AppDataDir>/gfx/qml/...) gefundene Stile, vom
-    // SettingsManager (C++) eingelesen. Jeder Eintrag: { name, description,
-    // maintainer, dir, xml, preview, previewPortrait }.
+    // Styles found in the data directory (<AppDataDir>/gfx/qml/...), read in by
+    // the SettingsManager (C++). Each entry: { name, description, maintainer,
+    // dir, xml, preview, previewPortrait }.
     property var tableStyles: []
     property var cardStyles: []
     property var cardBackStyles: []
-    // Aktuell ausgewählter Stil – initialisiert aus den Config-Keys, beim Klick
-    // über den StyleProvider persistiert und sofort auf den Tisch angewendet.
+    // Currently selected style – initialized from the config keys, persisted via
+    // the StyleProvider on a click and applied to the table right away.
     property string selectedTableStyle: ""
     property string selectedCardStyle: ""
     property string selectedCardBackStyle: ""
@@ -39,8 +39,8 @@ Rectangle {
         cardBackStyles = SettingsManager.availableCardBackStyles()
     }
 
-    // Ergebnis eines Stil-Imports (SettingsManager.import*Style) verarbeiten:
-    // Liste auffrischen und eine evtl. Meldung (Warnung/Fehler) anzeigen.
+    // Process the result of a style import (SettingsManager.import*Style):
+    // refresh the list and show a possible message (warning/error).
     function handleImportResult(result) {
         if (!result || result.status === "cancelled")
             return
@@ -49,16 +49,16 @@ Rectangle {
             importResultPopup.openWith(qsTr("Stil hinzufügen"), result.message, qsTr("OK"))
     }
 
-    // Stil als .zip exportieren: der Speichern-Dialog nennt bereits den Zielpfad,
-    // daher läuft der Erfolgsfall still – nur Fehler werden gemeldet.
+    // Export a style as .zip: the save dialog already names the target path,
+    // so the success case runs silently – only errors are reported.
     function exportStyle(category, name) {
         var result = SettingsManager.exportStyle(category, name)
         if (result && result.status === "error" && result.message)
             importResultPopup.openWith(qsTr("Stil exportieren"), result.message, qsTr("OK"))
     }
 
-    // Entfernen eines importierten Stils: war er gerade aktiv, zurück auf
-    // "default" schalten, damit Auswahl und Tisch konsistent bleiben.
+    // Removing an imported style: if it was just active, switch back to
+    // "default" so that the selection and the table stay consistent.
     function removeStyle(category, name) {
         if (!SettingsManager.removeUserStyle(category, name))
             return
@@ -77,23 +77,23 @@ Rectangle {
         refreshStyles()
     }
 
-    // Sitz-Stil der Spielerboxen umschalten (Einsatz im Sockel INNERHALB der
-    // Box oder außerhalb daneben). Config.SeatStyle ist der einzige Schalter,
-    // den Spielerboxen und Platzberechnung lesen – wirkt daher sofort auf einen
-    // offenen Tisch; der Config-Key hält die Wahl über den Neustart.
+    // Switch the seat style of the player boxes (bet in the base INSIDE the
+    // box or outside next to it). Config.SeatStyle is the only switch the
+    // player boxes and the space calculation read – it therefore affects an open
+    // table immediately; the config key keeps the choice across a restart.
     function applySeatStyle(variant) {
         Config.SeatStyle.variant = variant
         if (typeof SettingsManager !== "undefined" && SettingsManager)
             SettingsManager.writeConfigString("QmlSeatStyle", variant)
     }
 
-    // Hinweis-Popup für Import-Warnungen und -Fehler (nur "OK").
+    // Notice popup for import warnings and errors (only "OK").
     ConfirmPopup {
         id: importResultPopup
         showCancel: false
     }
 
-    // Rückfrage vor dem Entfernen eines importierten Stils.
+    // Confirmation before removing an imported style.
     ConfirmPopup {
         id: removeConfirmPopup
         property string category: ""
@@ -139,9 +139,9 @@ Rectangle {
                     clip: true
                     contentWidth: availableWidth
                     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                    // Ist die Scrollleiste eingeblendet, liegt sie über dem
-                    // rechten Rand der Stil-Karten – dann Platz freihalten,
-                    // damit deren Buttons nicht am Rand kleben.
+                    // If the scrollbar is shown, it lies above the right edge of
+                    // the style cards – then keep room free so that their
+                    // buttons do not stick to the edge.
                     readonly property real scrollBarSpace: ScrollBar.vertical.visible ? 12 : 0
 
                     ColumnLayout {
@@ -271,7 +271,7 @@ Rectangle {
                     }
                 }
 
-                // Tab: Kartenrückseite
+                // Tab: card back
                 ScrollView {
                     id: cardsBackgroundTab
                     clip: true

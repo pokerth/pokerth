@@ -4,27 +4,27 @@ import QtQuick.Layouts
 
 import "../config" as Config
 
-// Eine Stil-Karte für die Stil-Auswahl (Spieltisch / Kartenstapel):
-// Vorschaubild links, Beschreibung rechts, Auswahl-Markierung per Klick.
+// One style card for the style selection (game table / card deck):
+// preview image on the left, description on the right, selection mark by click.
 Rectangle {
     id: card
 
-    // Style-Eintrag (Map vom SettingsManager): { name, description, maintainer,
+    // Style entry (map from the SettingsManager): { name, description, maintainer,
     // preview, previewPortrait, dir, xml }.
     property var styleEntry: ({})
     property bool selected: false
-    // Wenn true, IMMER das Querformat-Vorschaubild verwenden (z. B. Kartenstapel
-    // und Kartenrückseite – dort gibt es bewusst kein Portrait-Preview).
+    // If true, ALWAYS use the landscape preview image (e.g. card deck and card
+    // back – there is deliberately no portrait preview for those).
     property bool forceLandscape: false
-    // Importierte Stile (userStyle) lassen sich wieder entfernen; mitgelieferte
-    // nicht – für sie bleibt der Entfernen-Button ausgeblendet.
+    // Imported styles (userStyle) can be removed again; bundled ones cannot –
+    // for them the remove button stays hidden.
     readonly property bool removable: styleEntry.userStyle === true
     signal clicked()
     signal removeRequested()
     signal exportRequested()
 
-    // Auf echten Mobilgeräten das Portrait-Vorschaubild, auf dem Desktop das
-    // Querformat. Fehlt die jeweilige Orientierung, die andere als Ersatz nutzen.
+    // On real mobile devices the portrait preview image, on the desktop the
+    // landscape one. If the respective orientation is missing, use the other as a substitute.
     readonly property bool usePortrait: !forceLandscape && Config.Responsive.isMobile
     readonly property string previewSource:
         usePortrait ? (styleEntry.previewPortrait || styleEntry.preview || "")
@@ -60,7 +60,7 @@ Rectangle {
                 fillMode: Image.PreserveAspectFit
                 asynchronous: true
                 cache: true
-                sourceSize.width: 320 // begrenzt den Speicherbedarf großer PNGs
+                sourceSize.width: 320 // limits the memory footprint of large PNGs
             }
 
             Label {
@@ -113,8 +113,8 @@ Rectangle {
         onClicked: card.clicked()
     }
 
-    // Entfernen-Button (nur importierte Stile), oberhalb der Karten-MouseArea,
-    // damit der Klick nicht gleichzeitig den Stil auswählt.
+    // Remove button (imported styles only), above the card MouseArea so that
+    // the click does not select the style at the same time.
     Rectangle {
         visible: card.removable
         anchors.top: parent.top
@@ -145,8 +145,8 @@ Rectangle {
         ToolTip.text: qsTr("Stil entfernen")
     }
 
-    // Export-Button (als .zip teilen) – für ALLE Stile, auch mitgelieferte.
-    // Liegt links neben dem Entfernen-Button, sofern dieser sichtbar ist.
+    // Export button (share as .zip) – for ALL styles, bundled ones included.
+    // It sits to the left of the remove button, if that one is visible.
     Rectangle {
         anchors.top: parent.top
         anchors.right: parent.right

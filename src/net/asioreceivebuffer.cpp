@@ -52,9 +52,9 @@ AsioReceiveBuffer::AsioReceiveBuffer()
 void
 AsioReceiveBuffer::StartAsyncRead(boost::shared_ptr<SessionData> session)
 {
-	// Prüfe ob Session bereits geschlossen ist
+	// Check whether the session is already closed
 	if (session->GetState() == SessionData::Closed) {
-		return;  // Keine async_read auf geschlossenen Sessions
+		return;  // No async_read on closed sessions
 	}
 
 	if (session->IsSsl()) {
@@ -64,7 +64,7 @@ AsioReceiveBuffer::StartAsyncRead(boost::shared_ptr<SessionData> session)
 			return;
 		}
 
-		// Prüfe ob Socket noch offen ist
+		// Check whether the socket is still open
 		boost::system::error_code ec;
 		if (!sslStream->lowest_layer().is_open()) {
 			LOG_ERROR("Session " << session->GetId() << " - SSL socket is closed, cannot start async read");
@@ -86,7 +86,7 @@ AsioReceiveBuffer::StartAsyncRead(boost::shared_ptr<SessionData> session)
 			return;
 		}
 
-		// Prüfe ob Socket noch offen ist
+		// Check whether the socket is still open
 		boost::system::error_code ec;
 		if (!socket->is_open()) {
 			LOG_ERROR("Session " << session->GetId() << " - Socket is closed, cannot start async read");
@@ -123,14 +123,14 @@ AsioReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> session, const boos
 	}
 	{
 		try {
-			// Prüfe ob Session noch gültig und nicht geschlossen
+			// Check whether the session is still valid and not closed
 			if (!session || session->GetState() == SessionData::Closed) {
 				LOG_VERBOSE("Session " << (session ? session->GetId() : 0) << " - HandleRead on closed session, ignoring");
 				return;
 			}
 
 			if (!error) {
-				// Sanity Check: bytesRead sollte nicht größer sein als der Buffer erlaubt
+				// Sanity check: bytesRead should not be larger than the buffer allows
 				if (bytesRead > RECV_BUF_SIZE - recvBufUsed) {
 					LOG_ERROR("Session " << session->GetId() << " - Buffer overflow prevented: bytesRead="
 							  << bytesRead << " available=" << (RECV_BUF_SIZE - recvBufUsed));
@@ -139,7 +139,7 @@ AsioReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> session, const boos
 				}
 				recvBufUsed += bytesRead;
 				ScanPackets(session);
-				// Prüfe nochmal ob Session nach ScanPackets noch offen ist
+				// Check again whether the session is still open after ScanPackets
 				if (session->GetState() != SessionData::Closed) {
 					ProcessPackets(session);
 					if (session->GetState() != SessionData::Closed) {
@@ -212,8 +212,8 @@ AsioReceiveBuffer::ScanPackets(boost::shared_ptr<SessionData> session)
 	bool dataAvailable = true;
 	do {
 		boost::shared_ptr<NetPacket> tmpPacket;
-		// Wurde ein vollständig gerahmtes Paket aus dem Puffer entfernt? (Auch
-		// dann, wenn sein Inhalt nicht geparst werden konnte – siehe unten.)
+		// Was a completely framed packet removed from the buffer? (Also
+		// when its content could not be parsed – see below.)
 		bool packetConsumed = false;
 		// This is necessary, because we use TCP.
 		// Packets may be received in multiple chunks or
@@ -224,14 +224,14 @@ AsioReceiveBuffer::ScanPackets(boost::shared_ptr<SessionData> session)
 			memcpy(&nativeVal, &recvBuf[0], sizeof(uint32_t));
 			size_t packetSize = ntohl(nativeVal);
 
-			// Server-Härtung: Validiere Paketgröße für ALLE Verbindungen (SSL und non-SSL)
-			// Ungültige Paketgrößen deuten auf fehlerhafte Clients oder Angriffe hin
+			// Server hardening: validate the packet size for ALL connections (SSL and non-SSL)
+			// Invalid packet sizes point to faulty clients or attacks
 			if (packetSize > MAX_PACKET_SIZE || packetSize == 0) {
 				LOG_ERROR(session->GetClientAddr() << "Session " << session->GetId()
 						  << " - Invalid packet size: " << packetSize << " (max: " << MAX_PACKET_SIZE << ") - closing connection");
 				recvBufUsed = 0;
 				session->Close();
-				return;  // Beende sofort die Verarbeitung
+				return;  // Stop processing immediately
 			} else if (recvBufUsed >= packetSize + NET_HEADER_SIZE) {
 				try {
 					tmpPacket = NetPacket::Create(&recvBuf[NET_HEADER_SIZE], packetSize);
@@ -239,25 +239,25 @@ AsioReceiveBuffer::ScanPackets(boost::shared_ptr<SessionData> session)
 					// Reset buffer on error.
 					LOG_ERROR(session->GetClientAddr() << "Session " << session->GetId() << " - Packet parse error: " << e.what());
 					recvBufUsed = 0;
-					// Bei Protokollfehlern: Session schließen um korrupte Zustände zu vermeiden
+					// On protocol errors: close the session to avoid corrupt states
 					session->Close();
 					return;
 				}
 				if (!tmpPacket) {
-					// Der Rahmen ist intakt (Länge geprüft, Paket vollständig da),
-					// nur der Inhalt ließ sich nicht parsen – typisch für eine
-					// Nachrichtenart, die erst eine neuere Version kennt. Das darf
-					// die Verbindung nicht lahmlegen: Bliebe das Paket im Puffer
-					// stehen, scheiterte jeder folgende Scan an denselben Bytes und
-					// die Session verarbeitete gar nichts mehr (bis zum Timeout).
-					// Also verwerfen und weitermachen – wie im WebSocket-Pfad.
+					// The frame is intact (length checked, packet completely there),
+					// only the content could not be parsed – typical for a kind of
+					// message that only a newer version knows. That must not
+					// paralyse the connection: if the packet stayed in the buffer,
+					// every following scan would fail on the same bytes and the
+					// session would process nothing at all any more (until the timeout).
+					// So discard it and carry on – as in the WebSocket path.
 					++unparsablePackets;
 					LOG_ERROR(session->GetClientAddr() << "Session " << session->GetId()
 							  << " - Unparsable packet of size " << packetSize << " - skipped ("
 							  << unparsablePackets << "/" << MAX_UNPARSABLE_PACKETS << ").");
 					if (unparsablePackets >= MAX_UNPARSABLE_PACKETS) {
-						// Dauerhaft unlesbare Daten sind kein Versionsunterschied
-						// mehr, sondern ein defekter Client oder ein Angriff.
+						// Permanently unreadable data is no longer a version difference
+						// but a broken client or an attack.
 						LOG_ERROR(session->GetClientAddr() << "Session " << session->GetId()
 								  << " - Too many unparsable packets - closing connection");
 						recvBufUsed = 0;
@@ -265,7 +265,7 @@ AsioReceiveBuffer::ScanPackets(boost::shared_ptr<SessionData> session)
 						return;
 					}
 				}
-				// Gültig gerahmtes Paket in jedem Fall aus dem Puffer nehmen.
+				// Take a validly framed packet out of the buffer in any case.
 				recvBufUsed -= (packetSize + NET_HEADER_SIZE);
 				if (recvBufUsed) {
 					memmove(recvBuf, recvBuf + packetSize + NET_HEADER_SIZE, recvBufUsed);
@@ -278,15 +278,15 @@ AsioReceiveBuffer::ScanPackets(boost::shared_ptr<SessionData> session)
 				receivedPackets.push_back(tmpPacket);
 			} else {
 				LOG_ERROR(session->GetClientAddr() << "Session " << session->GetId() << " - Invalid packet: " << tmpPacket->GetMsg()->messagetype());
-				// Bei ungültigen Paketen: Session schließen (potentieller Angriff oder kaputte Implementation)
+				// On invalid packets: close the session (potential attack or broken implementation)
 				recvBufUsed = 0;
 				session->Close();
 				return;
 			}
 		} else if (!packetConsumed) {
-			// Kein weiteres vollständiges Paket im Puffer. (Wurde eines verworfen,
-			// wird weitergescannt – dahinter können gültige Pakete liegen, die
-			// sonst bis zum nächsten Read liegen blieben.)
+			// No further complete packet in the buffer. (If one was discarded,
+			// scanning continues – behind it there may be valid packets that
+			// would otherwise stay there until the next read.)
 			dataAvailable = false;
 		}
 	} while(dataAvailable);

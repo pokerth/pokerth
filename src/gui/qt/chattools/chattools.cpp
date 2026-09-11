@@ -55,10 +55,10 @@ using namespace std;
 namespace
 {
 
-// QLineEdit zeichnet Trailing-Action-Icons in PM_SmallIconSize (per Default
-// ~16px) – unabhängig von der Auflösung des übergebenen Icons. Dieser kleine
-// Proxy-Style hebt nur dieses Maß für das jeweilige Eingabefeld an, damit die
-// Emoji-Auslöser-Icons (🙂/🎉) größer und besser tippbar werden.
+// QLineEdit draws trailing action icons in PM_SmallIconSize (by default
+// ~16px) – independently of the resolution of the icon that is passed. This small
+// proxy style raises only this measure for the respective input field, so that the
+// emoji trigger icons (🙂/🎉) become larger and easier to tap.
 class BiggerActionIconStyle : public QProxyStyle
 {
 public:
@@ -74,10 +74,10 @@ private:
 	int myIconSize;
 };
 
-// ── Farbe des Spielernamens im Chat ─────────────────────────────────────────
-// Relative Luminanz und Kontrastverhältnis nach WCAG 2.1. Damit wird die
-// Namensfarbe gegen den TATSÄCHLICHEN Hintergrund des jeweiligen Verlaufs
-// geprüft, statt eine helle oder dunkle Oberfläche anzunehmen.
+// ── Colour of the player name in the chat ───────────────────────────────────
+// Relative luminance and contrast ratio according to WCAG 2.1. With them the
+// name colour is checked against the ACTUAL background of the respective history
+// instead of assuming a light or a dark surface.
 double srgbToLinear(double c)
 {
 	return c <= 0.03928 ? c / 12.92 : std::pow((c + 0.055) / 1.055, 2.4);
@@ -97,13 +97,13 @@ double contrastRatio(const QColor &a, const QColor &b)
 	return (qMax(la, lb) + 0.05) / (qMin(la, lb) + 0.05);
 }
 
-// Namensfarbe zu einem gegebenen Hintergrund. Violett, weil sich dieser Ton von
-// allen anderen im Chat vergebenen Farben unterscheidet: grauer/weißer
-// Nachrichtentext, blaue Links und eigene Zeilen (Palette-Link), rote
-// Bot-Warnung und die gelbe Nick-Benachrichtigung der Tischstile. Die
-// Helligkeit wird so lange vom Hintergrund weggeschoben, bis der Kontrast
-// ausreicht – so bleibt der Name auf hellem Thema, dunklem Thema und auf jedem
-// (frei wählbaren) Tischstil-Filz lesbar.
+// The name colour for a given background. Violet, because this hue differs from
+// all the other colours assigned in the chat: grey/white
+// message text, blue links and own lines (the palette link), the red
+// bot warning and the yellow nick notification of the table styles. The
+// brightness is pushed away from the background until the contrast
+// is sufficient – that way the name stays readable on a light theme, a dark theme and on any
+// (freely choosable) table style felt.
 QColor nickColorForBackground(const QColor &bg)
 {
 	const double hue = 285.0 / 360.0;
@@ -112,10 +112,10 @@ QColor nickColorForBackground(const QColor &bg)
 
 	double lightness = darkBg ? 0.70 : 0.42;
 	QColor nick = QColor::fromHslF(hue, sat, lightness);
-	// Bis zum Zielkontrast (4.5:1, WCAG AA für normalen Text) aufhellen bzw.
-	// abdunkeln. Die Schranken verhindern eine Endlosschleife bei extremen
-	// Hintergründen (z. B. mittleres Grau, wo 4.5:1 mit dieser Sättigung nicht
-	// erreichbar ist) – dort bleibt es beim maximal möglichen Kontrast.
+	// Brighten or darken up to the target contrast (4.5:1, WCAG AA for normal
+	// text). The bounds prevent an endless loop with extreme
+	// backgrounds (e.g. a medium grey, where 4.5:1 is not reachable with this
+	// saturation) – there it stays at the maximum possible contrast.
 	for(int i = 0; i < 30 && contrastRatio(nick, bg) < 4.5; ++i) {
 		lightness += darkBg ? 0.02 : -0.02;
 		if(lightness > 0.92 || lightness < 0.20)
@@ -134,11 +134,11 @@ bool isEmojiCodepoint(uint cp)
 		   || (cp >= 0x1F1E6 && cp <= 0x1F1FF); // Flaggen
 }
 
-// Prüft, ob ein Reaktions-Payload ("/emoji <x>") ausschließlich aus echten
-// Emoji-Zeichen besteht (inkl. Variation-Selektoren, ZWJ und Hautton-Modifiern)
-// und mindestens ein Emoji enthält. So werden als Reaktion getarnte
-// Textnachrichten ("/emoji haha") verworfen, beliebige echte Emojis aber
-// zugelassen.
+// Checks whether a reaction payload ("/emoji <x>") consists exclusively of real
+// emoji characters (incl. variation selectors, ZWJ and skin tone modifiers)
+// and contains at least one emoji. That way text messages disguised as a
+// reaction ("/emoji haha") are discarded, while arbitrary real emojis are
+// allowed.
 bool isEmojiOnlyReaction(const QString &text)
 {
 	if (text.isEmpty())
@@ -159,16 +159,16 @@ bool isEmojiOnlyReaction(const QString &text)
 		if (isEmojiCodepoint(cp))
 			hasEmoji = true;
 		else if (!joiner)
-			return false;   // Buchstabe/Ziffer/Satzzeichen → keine Reaktion
+			return false;   // a letter/digit/punctuation mark → no reaction
 		i += len;
 	}
 	return hasEmoji;
 }
 
-// Unicode-Emojis im (HTML-)Chat-Text vergrößern: jeder Emoji-Lauf (inkl.
-// ZWJ-Sequenzen, Variation Selectors und Hautton-Modifier) wird in einen
-// font-size-Span gewickelt. Inhalte innerhalb von HTML-Tags bleiben
-// unangetastet.
+// Enlarge Unicode emojis in the (HTML) chat text: every emoji run (incl.
+// ZWJ sequences, variation selectors and skin tone modifiers) is wrapped into a
+// font-size span. Content inside HTML tags stays
+// untouched.
 QString wrapEmojisLarger(const QString &msg, int pixelSize)
 {
 	QString out;
@@ -220,27 +220,27 @@ QString wrapEmojisLarger(const QString &msg, int pixelSize)
 } // namespace
 
 
-// Übersetzungs-Symbole. 🌐 = anklickbar, ⏳ = läuft. Über den Codepoint bauen
-// (nicht per "\xF0…"-Literal – das würde als Latin-1 gelesen und Mojibake geben).
+// The translation symbols. 🌐 = clickable, ⏳ = running. Built via the code point
+// (not via a "\xF0…" literal – that would be read as Latin-1 and yield mojibake).
 static const QString kTranslateGlobe   = QString::fromUcs4(U"\U0001F310"); // 🌐
 static const QString kTranslateSpinner = QString::fromUcs4(U"\U000023F3"); // ⏳
-// Unsichtbarer Platzhalter für Zeilen, die nicht unter dem Mauszeiger liegen:
-// der Anker bleibt so im Dokument (und die Zeile über ihn auffindbar), zeigt
-// aber nichts an. Geschütztes Leerzeichen, weil normale Leerzeichen am Zeilen-
-// ende beim HTML-Import wegfallen – ohne Fragment gäbe es keinen Anker mehr.
+// An invisible placeholder for lines that are not under the mouse cursor:
+// the anchor thus stays in the document (and the line findable through it), but shows
+// nothing. A non-breaking space, because normal spaces at the end of a line
+// are dropped during the HTML import – without a fragment there would be no anchor any more.
 static const QString kTranslateHidden  = QStringLiteral("&nbsp;");
 
-// Obergrenze für den Chat-Verlauf (Textblöcke im Dokument). Ohne Grenze wuchs
-// das QTextDocument über die gesamte Sitzung: Speicher, Layout und die lineare
-// Blocksuche des Übersetzen-Symbols (findTranslateBlock, zweimal pro Zeile
-// unter dem Mauszeiger) wurden dabei immer teurer. Gleicher Wert wie im
-// QML-Client (LobbyHandler::pushChatLine).
+// The upper limit for the chat history (text blocks in the document). Without a limit
+// the QTextDocument grew over the whole session: the memory, the layout and the linear
+// block search of the translate symbol (findTranslateBlock, twice per line
+// under the mouse cursor) got more and more expensive. The same value as in the
+// QML client (LobbyHandler::pushChatLine).
 static const int kMaxChatBlocks = 400;
 
-// Hover-Modus: Auf Desktop erscheint der Globus nur an der Zeile unter dem
-// Mauszeiger (der Verlauf war sonst mit Symbolen zugepflastert). Auf Touch-
-// Geräten gibt es kein Hover – dort bleiben die Symbole sichtbar, sonst wäre
-// die Funktion nicht mehr erreichbar.
+// Hover mode: on the desktop the globe only appears on the line under the
+// mouse cursor (otherwise the history was plastered with symbols). On touch
+// devices there is no hover – there the symbols stay visible, otherwise the
+// function would no longer be reachable.
 #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
 static const bool kTranslateHoverOnly = false;
 #else
@@ -253,38 +253,38 @@ ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, 
 	setupEmojiPickerAction();
 	setupShortcodeCompleter();
 
-	// Chat-Übersetzung. Der QTextBrowser navigiert sonst beim Klick selbst
-	// (openExternalLinks in der .ui); wir schalten openLinks aus und behandeln
-	// Klicks selbst: unser Pseudo-Schema übersetzt, http(s) öffnet extern (wie
-	// zuvor über openExternalLinks). So bleibt das externe Öffnen erhalten und
-	// unser Globus-Link löst keine Dokument-Navigation aus.
+	// Chat translation. Otherwise the QTextBrowser navigates by itself on a click
+	// (openExternalLinks in the .ui); we switch openLinks off and handle
+	// the clicks ourselves: our pseudo scheme translates, http(s) opens externally (as
+	// before via openExternalLinks). That way the external opening is kept and
+	// our globe link triggers no document navigation.
 	myTranslator = new ChatTranslatorCore(myConfig, this);
 	connect(myTranslator, &ChatTranslatorCore::translated, this, &ChatTools::onChatTranslated);
 	if(myTextBrowser) {
-		// Verlaufslänge begrenzen (siehe kMaxChatBlocks). Der Verlauf ist
-		// read-only, die damit abgeschaltete Undo-Historie wird hier nicht
-		// gebraucht.
+		// Limit the length of the history (see kMaxChatBlocks). The history is
+		// read-only, the undo history that is switched off with this is not
+		// needed here.
 		myTextBrowser->document()->setMaximumBlockCount(kMaxChatBlocks);
-		// Bei gebündelten Libs (AppImage/Tarball/deb) hat der Dialog-Konstruktor
-		// vorher AppImageUtils::patchExternalLinks() aufgerufen; das hängt an
-		// JEDEN Browser mit openExternalLinks einen eigenen anchorClicked-Handler,
-		// der jede URL an den Desktop weiterreicht. Beim Globus-Klick landete so
-		// "pokerthtranslate:<id>" bei xdg-open ("Failed to open URL"), echte Links
-		// wurden doppelt geöffnet. Für diesen Verlauf sind WIR der einzige
-		// Link-Handler: fremde Verbindungen lösen, openExternalLinks abschalten
-		// (das lässt patchExternalLinks den Verlauf künftig auch auslassen).
+		// With bundled libs (AppImage/tarball/deb) the dialog constructor has
+		// called AppImageUtils::patchExternalLinks() before; that attaches an
+		// anchorClicked handler of its own to EVERY browser with openExternalLinks,
+		// which passes every URL on to the desktop. On a globe click
+		// "pokerthtranslate:<id>" thus ended up at xdg-open ("Failed to open URL"), real links
+		// were opened twice. For this history WE are the only
+		// link handler: dissolve foreign connections, switch openExternalLinks off
+		// (that makes patchExternalLinks skip the history in the future as well).
 		QObject::disconnect(myTextBrowser, SIGNAL(anchorClicked(QUrl)), nullptr, nullptr);
 		myTextBrowser->setOpenExternalLinks(false);
 		myTextBrowser->setOpenLinks(false);
 		connect(myTextBrowser, &QTextBrowser::anchorClicked, this, &ChatTools::onChatAnchorClicked);
-		// Das Globus-Symbol soll nur an der Zeile UNTER DEM MAUSZEIGER stehen
-		// (sonst ist der Verlauf mit Symbolen zugepflastert). Dazu die
-		// Mausbewegungen über dem Verlauf mitlesen; Mouse-Tracking hat der
-		// QTextEdit-Viewport für die Link-Erkennung ohnehin an.
+		// The globe symbol should only stand on the line UNDER THE MOUSE CURSOR
+		// (otherwise the history is plastered with symbols). For that, read
+		// the mouse movements over the history along; the QTextEdit viewport has mouse
+		// tracking on for the link detection anyway.
 		myTextBrowser->viewport()->setMouseTracking(true);
 		myTextBrowser->viewport()->installEventFilter(this);
-		// Beim Scrollen wandern die Zeilen unter dem (stehenden) Mauszeiger
-		// hindurch – das Symbol muss der neuen Zeile folgen.
+		// While scrolling, the lines travel under the (standing) mouse cursor
+		// – the symbol has to follow the new line.
 		connect(myTextBrowser->verticalScrollBar(), &QAbstractSlider::valueChanged,
 		this, [this]() {
 			if(myTextBrowser && myTextBrowser->viewport()->underMouse())
@@ -298,20 +298,20 @@ void ChatTools::setupEmojiPickerAction()
 	if (!myLineEdit)
 		return;
 
-	// Auslöser-Icons im Eingabefeld vergrößern. Der Proxy-Style gilt für dieses
-	// Eingabefeld (und damit auch für das 🎉-Reaktions-Icon, das der Gametable
-	// auf Desktop in dasselbe Feld legt). Größe je nach Plattform.
+	// Enlarge the trigger icons in the input field. The proxy style applies to this
+	// input field (and thereby to the 🎉 reaction icon as well, which the game table
+	// puts into the same field on the desktop). The size depends on the platform.
 #ifdef Q_OS_ANDROID
 	const int triggerIconSize = 30;
 #else
 	const int triggerIconSize = 22;
 #endif
 	BiggerActionIconStyle *iconStyle = new BiggerActionIconStyle(triggerIconSize);
-	iconStyle->setParent(myLineEdit);   // Lebensdauer an das Eingabefeld koppeln
+	iconStyle->setParent(myLineEdit);   // Couple the lifetime to the input field
 	myLineEdit->setStyle(iconStyle);
 
-	// Emoji-Picker-Knopf im Eingabefeld (rechts) – einheitlich für
-	// Internet-Lobby, LAN-Lobby und Gametable-Chat.
+	// The emoji picker button in the input field (on the right) – uniform for the
+	// internet lobby, the LAN lobby and the game table chat.
 	QAction *emojiAction = myLineEdit->addAction(EmojiPicker::emojiIcon(QStringLiteral("🙂"), triggerIconSize),
 						   QLineEdit::TrailingPosition);
 	emojiAction->setToolTip(tr("Insert emoji"));
@@ -321,8 +321,8 @@ void ChatTools::setupEmojiPickerAction()
 			QObject::connect(myEmojiPicker, &EmojiPicker::picked, this, [this](const QString &e) {
 				myLineEdit->insert(e);
 #ifndef Q_OS_ANDROID
-				// Auf Android NICHT zurückfokussieren – das würde die
-				// virtuelle Tastatur erneut aufpoppen lassen.
+				// Do NOT refocus on Android – that would make the
+				// virtual keyboard pop up again.
 				myLineEdit->setFocus();
 #endif
 			});
@@ -331,12 +331,12 @@ void ChatTools::setupEmojiPickerAction()
 	});
 }
 
-// Autovervollständigung für Emoji-Shortcodes (":smi…" → 😄), wie die ChatBox
-// des QML-Clients. Vorschläge kommen aus derselben Map, die beim Anzeigen
-// ersetzt (chat_emote_shortcuts.h) – angeboten wird nur, was auch wirklich
-// funktioniert. Der QCompleter liefert dabei nur Popup, Tastatur-Navigation
-// (Hoch/Runter/Enter/Esc) und activated(); gefiltert und sortiert wird selbst
-// (UnfilteredPopupCompletion), damit Präfix- vor Substring-Treffern stehen.
+// Auto-completion for emoji shortcodes (":smi…" → 😄), like the ChatBox
+// of the QML client. The suggestions come from the same map that replaces them when
+// displaying (chat_emote_shortcuts.h) – only what really works is
+// offered. The QCompleter only delivers the popup, the keyboard navigation
+// (up/down/enter/esc) and activated(); filtering and sorting is done by ourselves
+// (UnfilteredPopupCompletion), so that prefix matches stand before substring matches.
 void ChatTools::setupShortcodeCompleter()
 {
 	if (!myLineEdit)
@@ -356,21 +356,21 @@ void ChatTools::setupShortcodeCompleter()
 	myShortcodeCompleter = new QCompleter(myShortcodeModel, this);
 	myShortcodeCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
 	myShortcodeCompleter->setMaxVisibleItems(8);
-	// Bewusst setWidget() statt QLineEdit::setCompleter(): Letzteres würde bei
-	// Übernahme die GANZE Zeile ersetzen – hier wird nur der Token ersetzt.
+	// Deliberately setWidget() instead of QLineEdit::setCompleter(): the latter would replace the
+	// WHOLE line when accepting – here only the token is replaced.
 	myShortcodeCompleter->setWidget(myLineEdit);
 	QObject::connect(myShortcodeCompleter, QOverload<const QModelIndex &>::of(&QCompleter::activated),
 					 this, &ChatTools::insertShortcodeCompletion);
-	// Tab soll den markierten Vorschlag übernehmen (wie im QML-Client) –
-	// eigener Filter auf dem Popup macht das deterministisch (s. eventFilter).
+	// Tab should accept the highlighted suggestion (as in the QML client) –
+	// a filter of our own on the popup makes that deterministic (see eventFilter).
 	myShortcodeCompleter->popup()->installEventFilter(this);
 
-	// textEdited statt textChanged: programmatisches setText (History-Abruf,
-	// Längen-Kürzung) soll das Popup nicht öffnen.
+	// textEdited instead of textChanged: a programmatic setText (a history recall,
+	// a length truncation) should not open the popup.
 	QObject::connect(myLineEdit, &QLineEdit::textEdited,
 					 this, &ChatTools::updateShortcodeCompletion);
-	// Cursorbewegung kann den Token unter dem Cursor ändern – aber nur bei
-	// bereits offenem Popup neu bewerten (setText bewegt auch den Cursor).
+	// A cursor movement can change the token under the cursor – but only re-evaluate it
+	// when the popup is already open (setText moves the cursor as well).
 	QObject::connect(myLineEdit, &QLineEdit::cursorPositionChanged,
 	this, [this](int, int) {
 		if (shortcodeCompletionActive())
@@ -388,10 +388,10 @@ void ChatTools::updateShortcodeCompletion()
 	if (!myShortcodeCompleter)
 		return;
 	const QString upto = myLineEdit->text().left(myLineEdit->cursorPosition());
-	// Token = ":" (am Anfang oder nach Leerzeichen) + mindestens 2 Code-
-	// Zeichen direkt vor dem Cursor (wie ChatBox.qml): so kollidieren die
-	// ASCII-Kürzel (":P", ":D") nicht mit dem Popup, und der schließende ":"
-	// eines fertig getippten Shortcodes schließt das Popup von selbst.
+	// The token = ":" (at the beginning or after a space) + at least 2 code
+	// characters directly before the cursor (as in ChatBox.qml): that way the
+	// ASCII shortcuts (":P", ":D") do not collide with the popup, and the closing ":"
+	// of a fully typed shortcode closes the popup by itself.
 	static const QRegularExpression tokenRe(QStringLiteral("(?:^|\\s):([a-z0-9_+-]{2,})$"));
 	const QRegularExpressionMatch match = tokenRe.match(upto);
 	if (!match.hasMatch()) {
@@ -401,7 +401,7 @@ void ChatTools::updateShortcodeCompletion()
 	const QString typed = match.captured(1);
 	myShortcodeTokenStart = int(upto.size() - typed.size()) - 1;
 
-	// Präfix-Treffer vor Substring-Treffern, jeweils alphabetisch.
+	// Prefix matches before substring matches, each alphabetically.
 	QList<QPair<QString, QString> > prefix, substr;
 	QListIterator<QPair<QString, QString> > it(myShortcodeList);
 	while (it.hasNext()) {
@@ -419,8 +419,8 @@ void ChatTools::updateShortcodeCompletion()
 	for (int i = 0; i < prefix.size() && i < maxRows; ++i) {
 		const QString &code = prefix.at(i).first;
 		const QString &emoji = prefix.at(i).second;
-		// Emoji als Icon rendern (EmojiPicker::emojiIcon garantiert die
-		// Zielgröße des Bitmap-Emoji-Fonts) und cachen.
+		// Render the emoji as an icon (EmojiPicker::emojiIcon guarantees the
+		// target size of the bitmap emoji font) and cache it.
 		QHash<QString, QIcon>::const_iterator cached = myShortcodeIconCache.constFind(emoji);
 		if (cached == myShortcodeIconCache.constEnd())
 			cached = myShortcodeIconCache.insert(emoji, EmojiPicker::emojiIcon(emoji, 18));
@@ -434,7 +434,7 @@ void ChatTools::updateShortcodeCompletion()
 		return;
 	}
 	myShortcodeCompleter->complete();
-	// Ersten Vorschlag vorauswählen, damit Enter/Tab sofort übernehmen.
+	// Preselect the first suggestion, so that Enter/Tab accept it right away.
 	myShortcodeCompleter->popup()->setCurrentIndex(
 		myShortcodeCompleter->completionModel()->index(0, 0));
 }
@@ -446,16 +446,16 @@ void ChatTools::insertShortcodeCompletion(const QModelIndex &index)
 		return;
 	const QString text = myLineEdit->text();
 	const int cursor = myLineEdit->cursorPosition();
-	// Nur übernehmen, wenn der getippte Token noch unverändert dasteht.
-	// Schutz gegen ein activated() mit veraltetem Zustand (z. B. wenn der
-	// Text zwischen Popup-Anzeige und Übernahme anderweitig geleert wurde).
+	// Only accept it if the typed token still stands there unchanged.
+	// A protection against an activated() with a stale state (e.g. when the
+	// text was cleared otherwise between showing the popup and accepting).
 	if (myShortcodeTokenStart >= text.size()
 			|| text.at(myShortcodeTokenStart) != QLatin1Char(':')
 			|| cursor <= myShortcodeTokenStart)
 		return;
-	// Getippten Token (":smi") durch das Emoji ersetzen – als Emoji statt
-	// ":smile:", genau wie der Emoji-Picker (WYSIWYG und weniger Bytes im
-	// 128-Byte-Server-Limit; checkInputLength greift über textChanged).
+	// Replace the typed token (":smi") by the emoji – as an emoji instead of
+	// ":smile:", exactly like the emoji picker (WYSIWYG and fewer bytes in the
+	// 128 byte server limit; checkInputLength applies via textChanged).
 	myLineEdit->setText(text.left(myShortcodeTokenStart) + emoji + text.mid(cursor));
 	myLineEdit->setCursorPosition(qMin(myShortcodeTokenStart + int(emoji.size()),
 									   int(myLineEdit->text().size())));
@@ -463,26 +463,26 @@ void ChatTools::insertShortcodeCompletion(const QModelIndex &index)
 
 bool ChatTools::eventFilter(QObject *obj, QEvent *event)
 {
-	// Maus über dem Verlauf: das Übersetzen-Symbol folgt der Zeile unter dem
-	// Zeiger. Nur mitlesen, nie verschlucken.
+	// The mouse over the history: the translate symbol follows the line under the
+	// cursor. Only read along, never swallow.
 	if(myTextBrowser && obj == myTextBrowser->viewport()) {
 		if(event->type() == QEvent::MouseMove)
 			updateTranslateHover(static_cast<QMouseEvent*>(event)->position().toPoint());
-		// Beim Verlassen ausblenden – aber nicht, während etwas markiert ist:
-		// das Neusetzen des Blocks würde die Auswahl verwerfen, kurz bevor sie
-		// kopiert wird.
+		// Hide it when leaving – but not while something is selected:
+		// resetting the block would discard the selection shortly before it
+		// is copied.
 		else if(event->type() == QEvent::Leave
 				&& !myTextBrowser->textCursor().hasSelection())
 			setTranslateHoverId(0);
 	}
 
-	// Tab/Enter im offenen Vorschlags-Popup übernehmen den markierten
-	// Vorschlag – HIER, vor dem Filter des QCompleters (dieser Filter ist
-	// später installiert und läuft daher zuerst). Der QCompleter reicht
-	// Return nämlich ERST an das Eingabefeld weiter und übernimmt dann:
-	// returnPressed würde die halb getippte Nachricht (":su…") vorab senden
-	// und das Emoji landete zusätzlich im geleerten Feld. Tab fiele als
-	// Nick-Vervollständigung an die Dialoge durch.
+	// Tab/Enter in the open suggestion popup accept the highlighted
+	// suggestion – HERE, before the filter of the QCompleter (this filter is
+	// installed later and therefore runs first). The QCompleter passes
+	// Return on to the input field FIRST and accepts afterwards:
+	// returnPressed would send the half typed message (":su…") beforehand
+	// and the emoji would land in the cleared field in addition. Tab would fall through
+	// to the dialogs as a nickname completion.
 	if (myShortcodeCompleter && obj == myShortcodeCompleter->popup()
 			&& event->type() == QEvent::KeyPress) {
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
@@ -538,21 +538,21 @@ void ChatTools::sendMessage()
 
 QColor ChatTools::chatBackgroundColor() const
 {
-	// Spiel-Chat: der Verlauf bekommt seinen Hintergrund per Stylesheet aus dem
-	// Tischstil (setChatLogStyle), die Widget-Palette sagt darüber nichts aus.
+	// The game chat: the history gets its background via a stylesheet from the
+	// table style (setChatLogStyle), the widget palette says nothing about it.
 	if(myChatType == INGAME_CHAT && myStyle) {
 		const QColor styleBg("#" + myStyle->getChatLogBgColor());
 		if(styleBg.isValid())
 			return styleBg;
 	}
 
-	// Lobby-Chats: der QTextBrowser malt seine Fläche mit QPalette::Base. Immer
-	// die tatsächlich gesetzte Palette auswerten und NICHT die Dark-Mode-
-	// Einstellung: unter Windows 10 meldet Qt für "Auto" auch dann eine helle
-	// Systempalette, wenn Windows selbst dunkel läuft (Win10 reicht das an
-	// Qt-Anwendungen nicht durch) – der Verlauf ist dann hell, obwohl das
-	// System als dunkel gilt. Umgekehrt greift die erzwungene dunkle Palette
-	// aus DarkModeHelper hier automatisch.
+	// The lobby chats: the QTextBrowser paints its surface with QPalette::Base. Always
+	// evaluate the palette that is actually set and NOT the dark mode
+	// setting: on Windows 10 Qt reports a light system palette for "auto"
+	// even when Windows itself runs dark (Win10 does not pass that on to
+	// Qt applications) – the history is light then, although the
+	// system counts as dark. Conversely the forced dark palette
+	// from DarkModeHelper applies here automatically.
 	if(myTextBrowser) {
 		const QPalette pal = myTextBrowser->palette();
 		QColor base = pal.color(QPalette::Base);
@@ -572,16 +572,16 @@ QString ChatTools::nickHtml(const QString &nickText) const
 
 void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 {
-	// Nachrichten ignorierter Spieler werden komplett verworfen – VOR der
-	// Reaktions-Behandlung, damit auch deren Emoji-Reaktionen stumm bleiben
-	// (sonst spielte der Tisch die Animation ab, weil der Ignore-Filter erst
-	// beim Anhängen an den Chat-Verlauf griff).
+	// Messages of ignored players are discarded completely – BEFORE the
+	// reaction handling, so that their emoji reactions stay silent as well
+	// (otherwise the table played the animation, because the ignore filter only applied
+	// when appending to the chat history).
 	if(nickIsOnIgnoreList(playerName))
 		return;
 
-	// Emoji-Reaktionen (Konvention des QML-/Web-Clients): "/emoji 🎉" bzw.
-	// legacy "[R]🎉" – nur im Spiel-Chat. Nicht anzeigen, sondern als
-	// Reaktions-Animation am Sitz des Absenders abspielen (gametableimpl).
+	// Emoji reactions (the convention of the QML/web client): "/emoji 🎉" or
+	// the legacy "[R]🎉" – only in the game chat. Do not display them, but play them
+	// as a reaction animation at the seat of the sender (gametableimpl).
 	if(myChatType == INGAME_CHAT) {
 		const QString trimmedMsg = message.trimmed();
 		bool isReactionMsg = false;
@@ -594,8 +594,8 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 			reactionEmoji = trimmedMsg.mid(3).trimmed();
 		}
 		if(isReactionMsg) {
-			// Reaktions-Nachrichten erscheinen nie im Chat-Verlauf. Nur echte
-			// Emojis abspielen – als Reaktion getarnter Text wird verworfen.
+			// Reaction messages never appear in the chat history. Only play real
+			// emojis – text disguised as a reaction is discarded.
 			if(isEmojiOnlyReaction(reactionEmoji))
 				emit reactionReceived(playerName, reactionEmoji);
 			return;
@@ -604,17 +604,17 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 
 	if(myTextBrowser) {
 
-		// Rohtext (vor HTML-Escaping/Markup) für die Übersetzung merken; ein
-		// führendes "/me " gehört nicht zur Nachricht.
+		// Remember the raw text (before the HTML escaping/markup) for the translation; a
+		// leading "/me " does not belong to the message.
 		QString rawSource = message;
 		if(rawSource.startsWith("/me "))
 			rawSource = rawSource.mid(4);
 
 		message = message.replace("<","&lt;");
 		message = message.replace(">","&gt;");
-		// ASCII-Kürzel (":-)", "8-)", "<3", …) auf dem escapten Text umsetzen,
-		// bevor Link-/Style-Markup hinzukommt – so kollidieren kurze Kürzel nie
-		// mit eigenem HTML wie "color:#...".
+		// Convert the ASCII shortcuts (":-)", "8-)", "<3", …) on the escaped text
+		// before link/style markup is added – that way short shortcuts never collide
+		// with our own HTML such as "color:#...".
 		message = applyChatEmoteShortcuts(message);
 		//doing the links
 		message = message.replace(QRegularExpression("((?:https?)://\\S+)"), "<a href=\"\\1\">\\1</a>");
@@ -678,8 +678,8 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 
 		}
 
-		// Der Absender selbst ist oben schon abgefangen; hier bleibt nur noch
-		// die Chatbot-Warnung ÜBER einen ignorierten Spieler ("<Nick> …").
+		// The sender themselves is already caught above; here only
+		// the chatbot warning ABOUT an ignored player ("<nick> …") is left.
 		bool chatBotWarnNickFoundOnIgnoreList = false;
 		if(myChatType == INET_LOBBY_CHAT && playerName == "(chat bot)") {
 			const std::list<std::string> ignoreList = myConfig->readConfigStringList("PlayerIgnoreList");
@@ -692,13 +692,13 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 		}
 
 		if(!chatBotWarnNickFoundOnIgnoreList) {
-			// Eingehende private Nachricht: IMMER ein Ton – sie ist direkt an
-			// einen selbst gerichtet und geht im laufenden Lobby-Chat sonst
-			// unter. Anders als der Nick-Treffer unten NICHT über
-			// "PlayLobbyChatNotification" abschaltbar; nur der globale
-			// Sound-Schalter (QtAudioPlayer) entscheidet. Bewusst nur in der
-			// Internet-Lobby-Instanz: dieselbe PM erreicht auch den LAN-Chat,
-			// sonst klänge es doppelt.
+			// An incoming private message: ALWAYS a sound – it is directed at
+			// you directly and would otherwise be lost in the running lobby chat.
+			// Unlike the nick match below it can NOT be switched off via
+			// "PlayLobbyChatNotification"; only the global
+			// sound switch (QtAudioPlayer) decides. Deliberately only in the
+			// internet lobby instance: the same PM reaches the LAN chat as well,
+			// otherwise it would sound twice.
 			if(pm && myChatType == INET_LOBBY_CHAT && myLobby && myLobby->getMyW()) {
 				myLobby->getMyW()->getMySoundEventHandler()->playSound("lobbychatnotify",0);
 			}
@@ -709,22 +709,22 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 				}
 			}
 
-			// Unicode-Emojis größer darstellen (die alten PNG-Emoticons
-			// wurden durch native Emojis ersetzt).
+			// Display Unicode emojis larger (the old PNG emoticons
+			// were replaced by native emojis).
 			tempMsg = wrapEmojisLarger(tempMsg, 20);
 
-			// Zeile ohne Globus zusammenbauen. Der Körper (tempMsg bzw. der
-			// von "/me " befreite Körper) ist ein sauberer, ersetzbarer
-			// Teilstring – beim Einblenden wird er durch die Übersetzung
-			// ERSETZT (nicht rechts daneben gehängt).
+			// Assemble the line without the globe. The body (tempMsg or the
+			// body freed from "/me ") is a clean, replaceable
+			// substring – when the translation is shown it is REPLACED
+			// by it (not hung to the right of it).
 			const bool isAction = (message.indexOf(QString("/me "))==0);
 			QString bodyHtml = tempMsg;
 			if(isAction)
-				bodyHtml.replace("/me ", "");   // "/me " gehört nicht zum Nachrichtenkörper
+				bodyHtml.replace("/me ", "");   // "/me " does not belong to the message body
 			QString lineNoGlobe;
-			// Der Name (samt Trenner) bekommt eine eigene, kräftige Farbe, damit
-			// er sich vom Nachrichtentext abhebt – bisher wurde er ungestylt
-			// angehängt und lief damit in der Textfarbe des Verlaufs mit.
+			// The name (including the separator) gets a strong colour of its own, so that
+			// it stands out from the message text – so far it was appended unstyled
+			// and thus ran along in the text colour of the history.
 			if(isAction)
 				lineNoGlobe = "<i>" + nickHtml("*" + playerName) + " " + bodyHtml + "</i>";
 			else if(pm == true)
@@ -732,8 +732,8 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 			else
 				lineNoGlobe = nickHtml(playerName + ":") + " " + bodyHtml;
 
-			// Übersetzen-Symbol nur an Nachrichten anderer (die eigenen muss
-			// man nicht übersetzen).
+			// The translate symbol only on messages of others (you do not have to
+			// translate your own).
 			if(myTranslator && myTranslator->enabled() && playerName != myNick) {
 				const int xid = myTranslateNextId++;
 				TranslateEntry e;
@@ -742,8 +742,8 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 				e.bodyHtml    = bodyHtml;
 				myTranslateEntries.insert(xid, e);
 				pruneTranslateEntries();
-				// Symbol ist zunächst unsichtbar – es erscheint erst, wenn die
-				// Maus über der Zeile steht (translateGlyph).
+				// The symbol is invisible at first – it only appears when the
+				// mouse is over the line (translateGlyph).
 				myTextBrowser->append(lineNoGlobe + " " + translateAnchorHtml(xid, translateGlyph(xid)));
 			} else {
 				myTextBrowser->append(lineNoGlobe);
@@ -754,14 +754,14 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 
 void ChatTools::showLocalNote(QString message)
 {
-	// Nur lokale Anzeige (kursiv, wie eine eingehende PM) – wird NICHT gesendet.
+	// Local display only (in italics, like an incoming PM) – it is NOT sent.
 	if(!myTextBrowser)
 		return;
 	message = message.replace("<","&lt;").replace(">","&gt;");
 	message = wrapEmojisLarger(message, 20);
-	// Mehrzeilige Hinweise (z. B. der Community-Vorschlag mit einem Spieler pro
-	// Zeile) kommen als Plaintext mit "\n" – append() erwartet HTML, dort wäre
-	// das nur ein Leerzeichen. Erst nach dem Escapen ersetzen.
+	// Multi-line notices (e.g. the community suggestion with one player per
+	// line) come as plain text with "\n" – append() expects HTML, where
+	// that would only be a space. Replace it only after the escaping.
 	message = message.replace(QLatin1Char('\n'), QLatin1String("<br>"));
 	myTextBrowser->append("<i>" + message + "</i>");
 }
@@ -778,8 +778,8 @@ void ChatTools::sendPrivateMessage(unsigned playerId, QString message)
 		return;
 
 	message = message.trimmed();
-	// Gleiche 128-Byte-Grenze wie im Chat: längere Nachrichten verwirft der
-	// Paket-Validator des Servers.
+	// The same 128 byte limit as in the chat: longer messages are discarded by the
+	// packet validator of the server.
 	static const int MAX_CHAT_TEXT_SIZE = 128;
 	while(message.toUtf8().size() > MAX_CHAT_TEXT_SIZE) {
 		message.chop(1);
@@ -787,10 +787,10 @@ void ChatTools::sendPrivateMessage(unsigned playerId, QString message)
 	if(message.isEmpty())
 		return;
 
-	// Gäste können serverseitig gar nicht chatten – auch nicht als EMPFÄNGER.
-	// Die Prüfung sitzt hier, weil neben dem Kontextmenü (das die Aktion bereits
-	// ausblendet) auch der Chat-Befehl hier durchläuft; ohne sie verschwände so
-	// eine Nachricht kommentarlos.
+	// Guests cannot chat at all on the server side – not as a RECIPIENT either.
+	// The check sits here because, besides the context menu (which already hides
+	// the action), the chat command runs through here as well; without it such a
+	// message would disappear without comment.
 	if(mySession->getClientPlayerInfo(playerId).isGuest) {
 		showLocalNote(tr("Guests cannot receive private messages."));
 		return;
@@ -801,20 +801,20 @@ void ChatTools::sendPrivateMessage(unsigned playerId, QString message)
 	const QString playerName = QString::fromUtf8(
 								   mySession->getClientPlayerInfo(playerId).playerName.c_str());
 
-	// Bestätigung im eigenen Verlauf – gleiche Aufbereitung wie eine eingehende
-	// Nachricht (Escaping, ASCII-Kürzel, Links, größere Emojis), damit die Zeile
-	// nicht anders aussieht als der übrige Chat.
+	// A confirmation in your own history – the same preparation as an incoming
+	// message (escaping, ASCII shortcuts, links, larger emojis), so that the line
+	// does not look different from the rest of the chat.
 	QString body = message;
 	body = body.replace("<","&lt;").replace(">","&gt;");
 	body = applyChatEmoteShortcuts(body);
 	body = body.replace(QRegularExpression("((?:https?)://\\S+)"), "<a href=\"\\1\">\\1</a>");
 	body = wrapEmojisLarger(body, 20);
 
-	// Bewusst die seit jeher übersetzte Bestätigungszeile – nur ergänzt um den
-	// Wortlaut, der bisher fehlte (eine gesendete PM war sonst nirgends
-	// nachlesbar).
-	// Gedankenstrich als Trenner (wie kTranslateGlobe bewusst ohne Nicht-ASCII
-	// im Quelltext, damit die Datei encodingunabhängig bleibt).
+	// Deliberately the confirmation line that has always been translated – only extended by the
+	// wording that was missing so far (a sent PM could otherwise not be read
+	// anywhere).
+	// An em dash as the separator (like kTranslateGlobe deliberately without non-ASCII
+	// in the source, so that the file stays independent of the encoding).
 	const QString separator = QStringLiteral(" ") + QChar(0x2013) + QStringLiteral(" ");
 	myTextBrowser->append("<i>" + tr("private message sent to player: %1").arg(nickHtml(playerName))
 						  + separator + body + "</i>");
@@ -826,19 +826,19 @@ void ChatTools::clearChat()
 	if(myTextBrowser)
 		myTextBrowser->clear();
 
-	// Übersetzungs-Zustand gehört zum jetzt geleerten Verlauf.
+	// The translation state belongs to the history that has now been cleared.
 	myTranslateEntries.clear();
 	myTranslateReqToId.clear();
 	myTranslateHoverId = 0;
 }
 
-// Ersetzt den Inhalt eines Textblocks (ohne den Absatztrenner) durch html.
+// Replaces the content of a text block (without the paragraph separator) by html.
 static void replaceBlockContentHtml(const QTextBlock &block, const QString &html)
 {
 	if(!block.isValid())
 		return;
-	// Blockinhalt selektieren OHNE den Absatztrenner (sonst würde der Block mit
-	// dem nächsten verschmelzen). EndOfBlock ist auch für den letzten Block korrekt.
+	// Select the block content WITHOUT the paragraph separator (otherwise the block would merge with
+	// the next one). EndOfBlock is correct for the last block as well.
 	QTextCursor cursor(block);
 	cursor.setPosition(block.position());
 	cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
@@ -847,9 +847,9 @@ static void replaceBlockContentHtml(const QTextBlock &block, const QString &html
 
 QString ChatTools::translateAnchorHtml(int id, const QString &glyph) const
 {
-	// Symbol wie ein Chat-Emoji rendern, aber bewusst etwas kleiner als die
-	// Nachrichten-Emojis (wrapEmojisLarger: 20px) – gut erkennbar, ohne die
-	// Zeile zu dominieren. Größe ist fix, also unabhängig von der Textgröße.
+	// Render the symbol like a chat emoji, but deliberately a bit smaller than the
+	// message emojis (wrapEmojisLarger: 20px) – clearly recognisable without dominating
+	// the line. The size is fixed, i.e. independent of the text size.
 	return QString("<a href=\"pokerthtranslate:%1\" style=\"text-decoration:none;\">"
 				   "<span style=\"font-size:14px; font-family:'%2';\">%3</span></a>")
 		   .arg(id).arg(EmojiPicker::emojiFontFamily()).arg(glyph);
@@ -862,9 +862,9 @@ QString ChatTools::translateGlyph(int id) const
 		return kTranslateHidden;
 	if(it->inFlight)
 		return kTranslateSpinner;
-	// Sichtbar, solange die Übersetzung eingeblendet ist (zeigt an, dass die
-	// Zeile übersetzt ist, und ist der Rückweg zum Original) – sonst nur an der
-	// Zeile unter dem Mauszeiger.
+	// Visible while the translation is shown (it indicates that the
+	// line is translated, and is the way back to the original) – otherwise only on the
+	// line under the mouse cursor.
 	if(!kTranslateHoverOnly || it->shown || myTranslateHoverId == id)
 		return kTranslateGlobe;
 	return kTranslateHidden;
@@ -888,16 +888,16 @@ void ChatTools::updateTranslateHover(const QPoint &viewportPos)
 {
 	if(!kTranslateHoverOnly || !myTextBrowser || myTranslateEntries.isEmpty())
 		return;
-	// Solange etwas markiert ist, NICHT ins Dokument schreiben: das Umsetzen des
-	// Symbols ersetzt den Inhalt ganzer Textblöcke und würde eine bestehende
-	// Auswahl (bzw. ein laufendes Ziehen) zerstören.
+	// While something is selected, do NOT write into the document: resetting the
+	// symbol replaces the content of whole text blocks and would destroy an existing
+	// selection (or a drag in progress).
 	if(myTextBrowser->textCursor().hasSelection())
 		return;
 	const QTextCursor cursor = myTextBrowser->cursorForPosition(viewportPos);
-	// cursorForPosition rastet immer auf die nächstgelegene Stelle ein – im
-	// leeren Bereich unter dem Verlauf wäre das die letzte Zeile. Nur werten,
-	// wenn der Zeiger wirklich auf der Zeile steht (waagerecht ist der ganze
-	// Streifen gemeint, auch rechts neben kurzem Text).
+	// cursorForPosition always snaps to the nearest position – in the
+	// empty area below the history that would be the last line. Only evaluate it
+	// if the cursor really stands on the line (horizontally the whole
+	// strip is meant, to the right of short text as well).
 	const QRect lineRect = myTextBrowser->cursorRect(cursor);
 	if(viewportPos.y() < lineRect.top() || viewportPos.y() > lineRect.bottom()) {
 		setTranslateHoverId(0);
@@ -912,9 +912,9 @@ void ChatTools::setTranslateHoverId(int id)
 		return;
 	const int previous = myTranslateHoverId;
 	myTranslateHoverId = id;
-	if(previous > 0)          // Symbol an der alten Zeile ausblenden …
+	if(previous > 0)          // Hide the symbol on the old line …
 		rebuildTranslateBlock(previous);
-	if(id > 0)                // … und an der neuen einblenden
+	if(id > 0)                // … and show it on the new one
 		rebuildTranslateBlock(id);
 }
 
@@ -942,16 +942,16 @@ void ChatTools::rebuildTranslateBlock(int id)
 		return;
 	const QTextBlock block = findTranslateBlock(id);
 	if(!block.isValid())
-		return; // Zeile nicht mehr vorhanden (z. B. Verlauf geleert)
+		return; // The line no longer exists (e.g. the history was cleared)
 
-	// Körper: Original oder – wenn eingeblendet – die Übersetzung an gleicher
-	// Stelle (Farbe/Look der Originalnachricht via styledTranslation).
+	// The body: the original or – if shown – the translation in the same
+	// place (the colour/look of the original message via styledTranslation).
 	QString bodyLine = it->lineNoGlobe;
 	if(it->shown) {
 		const QString tb = ChatTranslatorCore::styledTranslation(it->bodyHtml, it->translated);
-		// lastIndexOf: der Nachrichtenkörper steht am Zeilenende, davor liegt
-		// jetzt das Markup des eingefärbten Namens. Eine Suche von vorn könnte
-		// (bei unverpacktem Körper) in dessen style-Attribut treffen.
+		// lastIndexOf: the message body stands at the end of the line, before it lies
+		// the markup of the coloured name now. A search from the front could
+		// hit its style attribute (with an unwrapped body).
 		const int p = bodyLine.lastIndexOf(it->bodyHtml);
 		if(p >= 0)
 			bodyLine.replace(p, it->bodyHtml.size(), tb);
@@ -963,10 +963,10 @@ void ChatTools::pruneTranslateEntries()
 {
 	if(myTranslateEntries.size() <= kMaxChatBlocks)
 		return;
-	// Jeder Eintrag gehört zu genau EINEM Textblock, und das Dokument hält
-	// höchstens kMaxChatBlocks Blöcke (die ältesten fallen vorn heraus). Die
-	// ids werden aufsteigend vergeben, also kann alles unterhalb dieser Grenze
-	// keine Zeile mehr im Verlauf haben.
+	// Every entry belongs to exactly ONE text block, and the document holds
+	// at most kMaxChatBlocks blocks (the oldest ones fall out at the front). The
+	// ids are assigned in ascending order, so everything below this limit
+	// can no longer have a line in the history.
 	const int oldestPossible = myTranslateNextId - kMaxChatBlocks;
 	QHash<int, TranslateEntry>::iterator it = myTranslateEntries.begin();
 	while(it != myTranslateEntries.end()) {
@@ -980,9 +980,9 @@ void ChatTools::pruneTranslateEntries()
 void ChatTools::refreshTranslationEnabled()
 {
 	if(!myTranslator || myTranslator->enabled())
-		return; // Aktivieren wirkt auf neue Nachrichten; Bestehende bleiben.
+		return; // Enabling affects new messages; existing ones stay.
 
-	// Deaktiviert: jede Zeile auf das Original OHNE Globus zurückbauen.
+	// Disabled: rebuild every line to the original WITHOUT the globe.
 	if(myTextBrowser) {
 		const QList<int> ids = myTranslateEntries.keys();
 		for(int id : ids) {
@@ -999,8 +999,8 @@ void ChatTools::refreshTranslationEnabled()
 void ChatTools::onChatAnchorClicked(const QUrl &url)
 {
 	if(url.scheme() == QLatin1String("pokerthtranslate")) {
-		// "pokerthtranslate:5" -> id (robust aus dem String, unabhängig davon,
-		// ob QUrl "5" als path oder opaque behandelt).
+		// "pokerthtranslate:5" -> id (robustly from the string, independently of
+		// whether QUrl treats "5" as a path or as opaque).
 		const int id = url.toString().mid(QStringLiteral("pokerthtranslate:").size()).toInt();
 		if(!myTranslator || !myTranslator->enabled())
 			return;
@@ -1008,24 +1008,24 @@ void ChatTools::onChatAnchorClicked(const QUrl &url)
 		if(it == myTranslateEntries.end() || it->inFlight)
 			return;
 
-		if(it->shown) {                    // Toggle: Übersetzung ausblenden (Original zeigen)
+		if(it->shown) {                    // Toggle: hide the translation (show the original)
 			it->shown = false;
 			rebuildTranslateBlock(id);
 			return;
 		}
-		if(!it->translated.isEmpty()) {    // aus Cache einblenden (keine neue Anfrage)
+		if(!it->translated.isEmpty()) {    // show it from the cache (no new request)
 			it->shown = true;
 			rebuildTranslateBlock(id);
 			return;
 		}
-		it->inFlight = true;               // holen
-		rebuildTranslateBlock(id);         // Spinner anzeigen
+		it->inFlight = true;               // fetch it
+		rebuildTranslateBlock(id);         // show the spinner
 		const int req = myTranslator->translate(it->sourceText);
 		myTranslateReqToId.insert(req, id);
 	} else {
-		// Echte Links extern öffnen (früher über openExternalLinks in der .ui).
-		// openUrlSafe statt QDesktopServices::openUrl: bei gebundelten Libs
-		// (AppImage/Tarball) würde xdg-open unser LD_LIBRARY_PATH erben.
+		// Open real links externally (previously via openExternalLinks in the .ui).
+		// openUrlSafe instead of QDesktopServices::openUrl: with bundled libs
+		// (AppImage/tarball) xdg-open would inherit our LD_LIBRARY_PATH.
 		AppImageUtils::openUrlSafe(url);
 	}
 }
@@ -1041,17 +1041,17 @@ void ChatTools::onChatTranslated(int requestId, const QString &text, bool ok)
 	it->inFlight = false;
 	const bool haveText = ok && !text.trimmed().isEmpty();
 	if(haveText) {
-		it->translated = text;   // cachen (erneuter Klick blendet aus/ein)
-		it->shown = true;        // Übersetzung ersetzt das Original
+		it->translated = text;   // cache it (another click hides/shows it)
+		it->shown = true;        // the translation replaces the original
 	}
-	// Spinner zurück auf Globus; ggf. Übersetzung einblenden. Bei Fehler bleibt
-	// das Original stehen (Globus erlaubt erneuten Versuch).
+	// The spinner goes back to the globe; show the translation if there is one. On an error
+	// the original stays (the globe allows another attempt).
 	rebuildTranslateBlock(id);
 
-	// Fehlschlag sichtbar machen: sonst blitzt nur die Sanduhr auf und es
-	// passiert nichts – nicht davon zu unterscheiden, dass die Funktion kaputt
-	// ist. Gedrosselt, damit mehrere Klicks bei ausgefallenem Dienst nicht
-	// denselben Hinweis wiederholen.
+	// Make a failure visible: otherwise only the hourglass flashes up and nothing
+	// happens – indistinguishable from the function being broken.
+	// It is throttled so that several clicks do not repeat the same notice
+	// while the service is down.
 	if(!haveText) {
 		static const qint64 failNoteIntervalMs = 60 * 1000;
 		const qint64 now = QDateTime::currentMSecsSinceEpoch();

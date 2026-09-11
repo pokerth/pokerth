@@ -36,9 +36,9 @@ QString StyleProvider::styleDirPath(const QString &category, const QString &name
 {
 	if (!m_config || name.isEmpty())
 		return QString();
-	// Mitgelieferte Stile liegen unter <AppDataDir>/gfx/qml/, importierte unter
-	// <UserDataDir>/gfx/qml/ (siehe SettingsManager::importStyle). Beide Dirs
-	// enden bereits mit einem Verzeichnis-Trennzeichen.
+	// Bundled styles live under <AppDataDir>/gfx/qml/, imported ones under
+	// <UserDataDir>/gfx/qml/ (see SettingsManager::importStyle). Both dirs
+	// already end with a directory separator.
 	const QString rel = "gfx/qml/" + category + "/" + name;
 	const QString appPath =
 		QString::fromStdString(m_config->readConfigString("AppDataDir")) + rel;
@@ -66,11 +66,11 @@ void StyleProvider::loadTableStyle()
 	m_betRaiseButtonTextColor.clear();
 	m_allInButtonTextColor.clear();
 
-	// Chat-/Log-Box-Farben: erst NACH dem Parsen setzen – welcher Default-Satz
-	// gilt (hell/dunkel), hängt vom eingelesenen <ChatLogBackground> ab.
-	// applyChatLogColors() macht das am Ende dieser Funktion; für den Fall,
-	// dass wir vorher aussteigen (kein Stil-Verzeichnis/keine XML), wird es
-	// dort ebenfalls mit lauter leeren Werten aufgerufen.
+	// Chat/log box colours: only set them AFTER parsing – which default set
+	// applies (light/dark) depends on the <ChatLogBackground> that was read.
+	// applyChatLogColors() does that at the end of this function; in case we
+	// bail out earlier (no style directory/no XML), it is called there with
+	// nothing but empty values as well.
 	ChatLogTags chatLogTags;
 
 	QDir dir(styleDirPath("table", m_tableStyleName));
@@ -94,8 +94,8 @@ void StyleProvider::loadTableStyle()
 		return QUrl::fromLocalFile(abs).toString();
 	};
 
-	// Relative SVG-Pfade + evtl. explizite Schriftfarben sammeln; die effektive
-	// Textfarbe wird nach dem Parsen bestimmt (Override > style-weit > aus SVG).
+	// Collect the relative SVG paths + any explicit text colours; the effective
+	// text colour is determined after parsing (override > style-wide > from the SVG).
 	QString foldRel, callRel, raiseRel, allInRel;
 	QString styleWideTextColor;
 	QString foldTextColor, callTextColor, raiseTextColor, allInTextColor;
@@ -116,17 +116,17 @@ void StyleProvider::loadTableStyle()
 		else if (tag == "TableBackgroundAlign")
 			m_tableBackgroundAlignment = value.toLower().trimmed();
 		else if (tag == "TableBackgroundZoom") {
-			// Optionaler Crop-/Zoom-Faktor (>= 1.0) für den center-Modus: skaliert
-			// das Tischbild über die Minimal-Deckung hinaus → mehr Beschnitt des
-			// äußeren Randes, Tisch wirkt größer. Per Daten justierbar (kein Build).
+			// Optional crop/zoom factor (>= 1.0) for the center mode: scales the
+			// table image beyond the minimum coverage → more of the outer edge is
+			// cropped, the table looks larger. Adjustable via data (no build).
 			bool ok = false;
 			const double z = value.toDouble(&ok);
 			if (ok && z > 0.0)
 				m_tableBackgroundZoom = z;
 		} else if (tag == "ActionButtonBorderRadius") {
-			// Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichen-
-			// fläche. QML rechnet ihn auf die tatsächliche Button-Höhe um und
-			// zeichnet die Zustands-Rahmen damit deckungsgleich zur Button-Form.
+			// Corner radius of the button SVGs, in units of their 168x43 drawing
+			// area. QML converts it to the actual button height and draws the
+			// state frames congruently with the button shape.
 			bool ok = false;
 			const double r = value.toDouble(&ok);
 			if (ok && r >= 0.0)
@@ -161,8 +161,8 @@ void StyleProvider::loadTableStyle()
 			raiseTextColor = value.trimmed();
 		else if (tag == "AllInButtonTextColor")
 			allInTextColor = value.trimmed();
-		// Chat-/Log-Box-Farben (optional je Stil): nur gültige, nicht-leere
-		// Werte übernehmen; was fehlt, füllt applyChatLogColors() auf.
+		// Chat/log box colours (optional per style): only adopt valid, non-empty
+		// values; what is missing is filled in by applyChatLogColors().
 		else if (tag == "ChatLogBackground")
 			chatLogTags.background = value.trimmed();
 		else if (tag == "ChatLogSurface")
@@ -191,9 +191,9 @@ void StyleProvider::loadTableStyle()
 
 	applyChatLogColors(chatLogTags);
 
-	// Effektive Schriftfarbe je Button bestimmen: explizite Theme-Angabe
-	// (per Button oder style-weit) hat Vorrang, sonst automatisch aus der
-	// Button-Helligkeit – so steht die Schrift immer im Kontrast zum Button.
+	// Determine the effective text colour per button: an explicit theme setting
+	// (per button or style-wide) takes precedence, otherwise it is derived
+	// automatically from the button brightness – so the text always contrasts with the button.
 	auto effectiveTextColor = [&](const QString &override, const QString &rel) -> QString {
 		if (!override.isEmpty())
 			return override;
@@ -212,7 +212,7 @@ void StyleProvider::loadTableStyle()
 	m_allInButtonTextColor = effectiveTextColor(allInTextColor, allInRel);
 }
 
-// Helligkeit (0..1) einer Farbe – gewichtet wie in contrastTextColor().
+// Brightness (0..1) of a colour – weighted as in contrastTextColor().
 static qreal colorBrightness(const QColor &c)
 {
 	if (!c.isValid())
@@ -228,11 +228,11 @@ QString StyleProvider::contrastTextOn(const QString &color)
 
 void StyleProvider::applyChatLogColors(const ChatLogTags &tags)
 {
-	// Welcher Default-Satz gilt, entscheidet der Panel-Hintergrund: ein Theme
-	// mit hellem <ChatLogBackground> (z. B. "Ivoire - Chene") bekäme sonst die
-	// Dunkel-Defaults – heller Text auf hellem Grund. Die Dunkel-Werte sind die
-	// bisherigen (App-Dunkelpalette + Gold/Orange des Widgets-Clients), die
-	// Hell-Werte deren abgedunkelte Gegenstücke (Kontrast >= 4.3:1 auf #f5eee1).
+	// Which default set applies is decided by the panel background: a theme
+	// with a light <ChatLogBackground> (e.g. "Ivoire - Chene") would otherwise get
+	// the dark defaults – light text on a light background. The dark values are the
+	// previous ones (app dark palette + gold/orange of the widgets client), the
+	// light values their darkened counterparts (contrast >= 4.3:1 on #f5eee1).
 	struct Defaults {
 		const char *background, *surface, *border, *text, *textSecondary, *textMuted;
 		const char *accent, *winner, *winnerSide, *board, *send;
@@ -263,8 +263,8 @@ void StyleProvider::applyChatLogColors(const ChatLogTags &tags)
 	m_chatLogWinnerSide    = pick(tags.winnerSide,    def.winnerSide);
 	m_chatLogBoard         = pick(tags.board,         def.board);
 	m_chatLogSend          = pick(tags.send,          def.send);
-	// Schrift auf dem Akzent (Selektion): folgt dem – ggf. vom Theme gesetzten –
-	// Akzent, nicht dem Default-Satz.
+	// Text on the accent (selection): follows the accent – possibly set by the
+	// theme – not the default set.
 	m_chatLogAccentText    = tags.accentText.isEmpty() ? contrastTextOn(m_chatLogAccent)
 							 : tags.accentText;
 }
@@ -276,8 +276,8 @@ QString StyleProvider::contrastTextColor(const QString &svgAbsPath) const
 		return QStringLiteral("#FFFFFF");
 	const QString svg = QString::fromUtf8(f.readAll());
 
-	// Repräsentative Hintergrundfarbe aus den Gradient-Stops mitteln. Der helle
-	// Gloss-Streifen (rgba(255,255,255,…)) und der stroke bleiben außen vor.
+	// Average a representative background colour from the gradient stops. The light
+	// gloss stripe (rgba(255,255,255,…)) and the stroke are left out.
 	static const QRegularExpression reStop(
 		QStringLiteral("stop-color\\s*=\\s*\"(#[0-9a-fA-F]{3,8})\""));
 	int r = 0, g = 0, b = 0, n = 0;
@@ -292,7 +292,7 @@ QString StyleProvider::contrastTextColor(const QString &svgAbsPath) const
 		}
 	}
 	if (n == 0) {
-		// Kein Gradient → erstes solides fill="#…" als Notnagel.
+		// No gradient → the first solid fill="#…" as a last resort.
 		static const QRegularExpression reFill(
 			QStringLiteral("fill\\s*=\\s*\"(#[0-9a-fA-F]{3,8})\""));
 		const auto m = reFill.match(svg);
@@ -329,9 +329,9 @@ void StyleProvider::loadCardDeckStyle()
 	if (xmlFiles.isEmpty())
 		return;
 
-	// Karten-Vorderseiten folgen der festen Namenskonvention 0.svg..51.svg
-	// (Engine-Index). Erst wenn mindestens "0.svg" existiert, gilt der
-	// Stil als nutzbar und QML baut die Pfade aus cardDeckDir.
+	// Card fronts follow the fixed naming convention 0.svg..51.svg
+	// (engine index). Only once at least "0.svg" exists is the style
+	// considered usable and QML builds the paths from cardDeckDir.
 	if (QFileInfo::exists(dir.absoluteFilePath("0.svg")))
 		m_cardDeckDir = QUrl::fromLocalFile(dir.absolutePath()).toString();
 }
@@ -348,7 +348,7 @@ void StyleProvider::loadCardBackStyle()
 	if (xmlFiles.isEmpty())
 		return;
 
-	// Genau eine Rückseiten-Grafik je Stil, referenziert über <Backside value=...>.
+	// Exactly one backside graphic per style, referenced via <Backside value=...>.
 	QFile f(dir.absoluteFilePath(xmlFiles.first()));
 	if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
 		return;

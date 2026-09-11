@@ -6,11 +6,11 @@ import QtQuick.Layouts
 import "../config" as Config
 import "../components"
 
-// "Netzwerkspiel erstellen" – portiert aus dem Qt-Widgets createNetworkGameDialog.
-// Konfiguriert die Spielregeln und startet einen eingebetteten lokalen Server
-// (NetworkGame.createGame), der das Spiel hostet und den Host über den
-// bestehenden Lobby-/Warteraum-Fluss (ServerConnection.showLobby → LobbyPage →
-// GameWaitPage) führt.
+// "Create network game" – ported from the Qt widgets createNetworkGameDialog.
+// Configures the game rules and starts an embedded local server
+// (NetworkGame.createGame) that hosts the game and leads the host through the
+// existing lobby/waiting room flow (ServerConnection.showLobby → LobbyPage →
+// GameWaitPage).
 Rectangle {
     id: networkGameCreatePage
     objectName: "networkGameCreatePage"
@@ -21,18 +21,18 @@ Rectangle {
     property bool connecting: false
     property string statusMessage: ""
 
-    // Default-Button der Seite: Enter erstellt das Spiel, egal wo der Fokus steht.
-    // Ein fokussierter Button verbraucht Return selbst und behält Vorrang.
-    // Während der Server startet, liegt die Wartesicht darüber – dann nicht.
+    // Default button of the page: Enter creates the game, no matter where the focus is.
+    // A focused button consumes Return itself and keeps precedence.
+    // While the server starts, the waiting view lies on top – then not.
     Keys.onReturnPressed: if (!networkGameCreatePage.connecting) createGameButton.clicked()
     Keys.onEnterPressed: if (!networkGameCreatePage.connecting) createGameButton.clicked()
 
-    // Startfokus auf die Hauptaktion (Qt.callLater: während der Stack-Animation
-    // greift der Fokus sonst nicht).
+    // Initial focus on the main action (Qt.callLater: during the stack animation
+    // the focus would otherwise not take).
     StackView.onActivated: Qt.callLater(createGameButton.forceActiveFocus)
 
-    // Zurück-Schritt: Läuft der Serverstart, bricht Escape/Android-Back ihn ab,
-    // statt die Seite zu verlassen. Gefragt von navigateBackFromTopBar().
+    // Back step: while the server is starting, Escape/Android back cancels it
+    // instead of leaving the page. Asked by navigateBackFromTopBar().
     function handleBack() {
         if (networkGameCreatePage.connecting) {
             cancelHostingButton.clicked()
@@ -64,7 +64,7 @@ Rectangle {
         delaySpinBox.value   = cfgInt("NetDelayBetweenHands", 7)
     }
 
-    // ── Backend-Signale: Navigation in den Lobby-/Warteraum-Fluss ─────────────
+    // ── Backend signals: navigation into the lobby/waiting room flow ──────────
     Connections {
         target: (typeof ServerConnection !== "undefined") ? ServerConnection : null
         function onShowLobby() {
@@ -106,13 +106,13 @@ Rectangle {
         contentWidth: availableWidth
         clip: true
         visible: !networkGameCreatePage.connecting
-        // AlwaysOff statt transientem Default: sonst blitzt die Scrollbar beim
-        // Seitenaufbau sekundenlang auf, obwohl nichts zu scrollen ist.
+        // AlwaysOff instead of the transient default: otherwise the scrollbar
+        // flashes up for seconds while the page builds, although there is nothing to scroll.
         ScrollBar.vertical.policy: scrollView.contentHeight > scrollView.height + 1
                                    ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
-        // Die Scrollleiste liegt als Overlay über dem Inhalt und ist in
-        // availableWidth nicht enthalten - ohne Abzug schneidet sie bei
-        // schmalem Fenster in den Text.
+        // The scrollbar lies as an overlay above the content and is not
+        // included in availableWidth - without subtracting it, it cuts into
+        // the text in a narrow window.
         readonly property real scrollBarSpace: ScrollBar.vertical.visible ? 12 : 0
 
         ColumnLayout {

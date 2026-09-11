@@ -9,29 +9,29 @@
 
 #include "chat_emote_shortcode_table.h"
 
-// Wandelt ASCII-Emoticon-Kürzel (":-)", "8-)", "<3", ">_<", …) in die
-// entsprechenden Unicode-Emojis um. Gemeinsam genutzt vom Qt-Widgets-Client
-// (chattools.cpp) und vom QML-Client (gamehandler.cpp / lobbyhandler.cpp),
-// damit beide denselben, möglichst umfangreichen Kürzel-Satz kennen.
+// Converts ASCII emoticon shortcuts (":-)", "8-)", "<3", ">_<", …) into the
+// corresponding Unicode emojis. Shared by the Qt widgets client
+// (chattools.cpp) and the QML client (gamehandler.cpp / lobbyhandler.cpp),
+// so that both know the same, as comprehensive as possible set of shortcuts.
 //
-// WICHTIG:
-//  * Die Funktion erwartet bereits HTML-escapten Text und wird VOR dem
-//    Hinzufügen von Style-/Link-Markup angewendet. So treffen kurze Kürzel
-//    nie auf eigenes Markup wie "color:#..." oder "font-weight:bold".
-//  * '<' / '>' liegen als "&lt;" / "&gt;" vor – Kürzel mit Pfeilen werden
-//    daher in ihrer escapten Form gematcht.
-//  * Reihenfolge: Längere bzw. speziellere Kürzel (Engel/Teufel/Lachen,
-//    ">:(" usw.) MÜSSEN vor ihren kürzeren Präfixen (":)", ":(") ersetzt
-//    werden, sonst frisst das kürzere Kürzel einen Teil des längeren.
-//  * Bewusst NICHT enthalten sind mehrdeutige Kürzel, die in normalem Text
-//    häufig auftreten: ":0"/":3" (Uhrzeiten), ":\\"/"D:" (Windows-Pfade),
-//    bare "8)"/"B)" (z. B. "(Plan B)").
-// Discord-/GitHub-Style-Shortcodes (":smile:", ":moon:", ":fire:", …) →
-// Unicode-Emoji. Vollständige GitHub-Shortcode-Liste
-// (https://gist.github.com/rxaviers/7360908), generiert in
-// chat_emote_shortcode_table.h. Separat zugänglich, damit die Chat-
-// Autovervollständigung (ChatBox.qml, via LobbyHandler::chatEmoteShortcodes)
-// EXAKT die Codes anbietet, die applyChatEmoteShortcuts auch wirklich ersetzt.
+// IMPORTANT:
+//  * The function expects text that is already HTML escaped and is applied BEFORE
+//    style/link markup is added. That way short shortcuts never hit
+//    our own markup such as "color:#..." or "font-weight:bold".
+//  * '<' / '>' are present as "&lt;" / "&gt;" – shortcuts with arrows are
+//    therefore matched in their escaped form.
+//  * Order: longer or more specific shortcuts (angel/devil/laughing,
+//    ">:(" etc.) MUST be replaced before their shorter prefixes (":)", ":("),
+//    otherwise the shorter shortcut eats a part of the longer one.
+//  * Deliberately NOT contained are ambiguous shortcuts that occur frequently
+//    in normal text: ":0"/":3" (times of day), ":\\"/"D:" (Windows paths),
+//    a bare "8)"/"B)" (e.g. "(plan B)").
+// Discord/GitHub style shortcodes (":smile:", ":moon:", ":fire:", …) →
+// Unicode emoji. The complete GitHub shortcode list
+// (https://gist.github.com/rxaviers/7360908), generated in
+// chat_emote_shortcode_table.h. Accessible separately, so that the chat
+// auto-completion (ChatBox.qml, via LobbyHandler::chatEmoteShortcodes)
+// offers EXACTLY the codes that applyChatEmoteShortcuts really replaces.
 inline const QHash<QString, QString> &chatEmoteShortcodeMap()
 {
 	static const QHash<QString, QString> shortcodes = buildChatEmoteShortcodeMap();
@@ -42,13 +42,13 @@ inline QString applyChatEmoteShortcuts(QString text)
 {
 	auto emo = [](char32_t cp) -> QString { return QString::fromUcs4(&cp, 1); };
 
-	// ── URLs schützen (Vorrang vor Emote-Kürzeln) ───────────────────────────
-	// Zeichenfolgen in Links (z. B. "?v=Dxyz" → "=D", "…xD…", "…:P…") dürfen
-	// NICHT zu Emojis werden. http/https-URLs werden daher vor der Ersetzung
-	// aus dem Text geschnitten, durch einen kollisionsfreien Platzhalter
-	// (Steuerzeichen \x01<index>\x02) ersetzt und am Ende unverändert wieder
-	// eingesetzt. Der Text ist bereits HTML-escaped; "\S+" matcht deshalb auch
-	// "&amp;" in Query-Strings.
+	// ── Protect URLs (they take precedence over emote shortcuts) ────────────
+	// Character sequences in links (e.g. "?v=Dxyz" → "=D", "…xD…", "…:P…") must
+	// NOT become emojis. http/https URLs are therefore cut out of the text before
+	// the replacement, replaced by a collision free placeholder
+	// (the control characters \x01<index>\x02) and reinserted unchanged
+	// at the end. The text is already HTML escaped; "\S+" therefore matches
+	// "&amp;" in query strings as well.
 	static const QRegularExpression urlRe(QStringLiteral("https?://\\S+"));
 	QStringList savedUrls;
 	{
@@ -69,11 +69,11 @@ inline QString applyChatEmoteShortcuts(QString text)
 		}
 	}
 
-	// ── Discord-/GitHub-Style-Shortcodes (":smile:", ":moon:", ":fire:", …) ──
-	// MUSS vor den ASCII-Kürzeln laufen: Sonst würde z. B. ":s" aus ":smile:"
-	// vorzeitig zu 😟. Nur kleingeschriebene Namen ([a-z0-9_+-]) zwischen zwei
-	// Doppelpunkten matchen – so kollidieren ":D"/":P"/":)" usw. NICHT damit.
-	// Unbekannte Codes (":foobar:") bleiben unverändert stehen.
+	// ── Discord/GitHub style shortcodes (":smile:", ":moon:", ":fire:", …) ──
+	// MUST run before the ASCII shortcuts: otherwise e.g. ":s" from ":smile:"
+	// would turn into 😟 prematurely. Only lowercase names ([a-z0-9_+-]) between two
+	// colons match – so ":D"/":P"/":)" etc. do NOT collide with it.
+	// Unknown codes (":foobar:") stay unchanged.
 	{
 		const QHash<QString, QString> &shortcodes = chatEmoteShortcodeMap();
 		static const QRegularExpression scRe(QStringLiteral(":([a-z0-9_+-]+):"));
@@ -94,14 +94,14 @@ inline QString applyChatEmoteShortcuts(QString text)
 		}
 	}
 
-	// ── HTML-Entities schützen (außer &lt;/&gt;) ────────────────────────────
-	// Der Text ist HTML-escaped; toHtmlEscaped() erzeugt u. a. "&quot;" und
-	// "&amp;". Ihr abschließendes ';' darf NICHT den Anfang eines Kürzels wie
-	// ";D"/";)"/";P" bilden – sonst würde z. B. '"D' → "&quot;D" fälschlich zu
-	// '&quot😜'. Entities werden daher (wie URLs) durch Platzhalter
-	// (\x03<index>\x04) ersetzt und am Ende unverändert wieder eingesetzt.
-	// AUSGENOMMEN sind "&lt;"/"&gt;": Pfeil-Kürzel ("&lt;3", "&gt;:)",
-	// "&gt;_&lt;") matchen bewusst auf ihrer escapten Form.
+	// ── Protect HTML entities (except &lt;/&gt;) ───────────────────────────
+	// The text is HTML escaped; toHtmlEscaped() produces "&quot;" and
+	// "&amp;" among others. Their closing ';' must NOT form the beginning of a shortcut such as
+	// ";D"/";)"/";P" – otherwise e.g. '"D' → "&quot;D" would wrongly become
+	// '&quot😜'. Entities are therefore (like URLs) replaced by placeholders
+	// (\x03<index>\x04) and reinserted unchanged at the end.
+	// EXCLUDED are "&lt;"/"&gt;": arrow shortcuts ("&lt;3", "&gt;:)",
+	// "&gt;_&lt;") match deliberately on their escaped form.
 	static const QRegularExpression entityRe(QStringLiteral(
 				"&(?!lt;)(?!gt;)(?:[a-zA-Z][a-zA-Z0-9]*|#[0-9]+|#x[0-9a-fA-F]+);"));
 	QStringList savedEntities;
@@ -123,7 +123,7 @@ inline QString applyChatEmoteShortcuts(QString text)
 		}
 	}
 
-	// ── Engel / Teufel (enthalten ":-)" bzw. ":)") ──
+	// ── Angel / devil (they contain ":-)" or ":)") ──
 	text.replace(QLatin1String("0:-)"),     emo(0x1F607)); // 😇 angel
 	text.replace(QLatin1String("0:)"),      emo(0x1F607)); // 😇
 	text.replace(QLatin1String("O:-)"),     emo(0x1F607)); // 😇
@@ -133,29 +133,29 @@ inline QString applyChatEmoteShortcuts(QString text)
 	text.replace(QLatin1String("}:-)"),     emo(0x1F608)); // 😈
 	text.replace(QLatin1String("}:)"),      emo(0x1F608)); // 😈
 
-	// ── Lachen (enthält ":-)" / ":)") ──
+	// ── Laughing (contains ":-)" / ":)") ──
 	text.replace(QLatin1String(":-))"),     emo(0x1F602)); // 😂 laughing
 	text.replace(QLatin1String(":))"),      emo(0x1F602)); // 😂
 
-	// ── Wütend / weinend (enthalten ":(" / ":-(") ──
+	// ── Angry / crying (contain ":(" / ":-(") ──
 	text.replace(QLatin1String("&gt;:-("),  emo(0x1F621)); // 😡 angry (>:-()
 	text.replace(QLatin1String("&gt;:("),   emo(0x1F621)); // 😡 (>:()
 	text.replace(QLatin1String(":'-("),     emo(0x1F622)); // 😢 crying
 	text.replace(QLatin1String(":'("),      emo(0x1F622)); // 😢
 
-	// ── Freudentränen (vor ":)" – kollidiert aber nicht) ──
+	// ── Tears of joy (before ":)" – but it does not collide) ──
 	text.replace(QLatin1String(":'-)"),     emo(0x1F972)); // 🥲 happy tears
 	text.replace(QLatin1String(":')"),      emo(0x1F972)); // 🥲
 	text.replace(QLatin1String(":'D"),      emo(0x1F602)); // 😂
 
-	// ── Großes Grinsen / Lachen ──
+	// ── Big grin / laughing ──
 	text.replace(QLatin1String(":-D"),      emo(0x1F603)); // 😃 big grin
 	text.replace(QLatin1String(":D"),       emo(0x1F603)); // 😃
 	text.replace(QLatin1String("=D"),       emo(0x1F604)); // 😄
 	text.replace(QLatin1String("xD"),       emo(0x1F606)); // 😆 laughing
 	text.replace(QLatin1String("XD"),       emo(0x1F606)); // 😆
 
-	// ── Lächeln ──
+	// ── Smile ──
 	text.replace(QLatin1String(":-)"),      emo(0x1F60A)); // 😊 smile
 	text.replace(QLatin1String(":)"),       emo(0x1F60A)); // 😊
 	text.replace(QLatin1String("=)"),       emo(0x1F642)); // 🙂
@@ -179,7 +179,7 @@ inline QString applyChatEmoteShortcuts(QString text)
 	text.replace(QLatin1String(";-P"),      emo(0x1F61C)); // 😜 winking tongue
 	text.replace(QLatin1String(";P"),       emo(0x1F61C)); // 😜
 
-	// ── Cool (nur Nasen-Varianten; "8)"/"B)" wären zu kollisionsanfällig) ──
+	// ── Cool (nose variants only; "8)"/"B)" would be too collision prone) ──
 	text.replace(QLatin1String("B-)"),      emo(0x1F60E)); // 😎 cool
 	text.replace(QLatin1String("8-)"),      emo(0x1F60E)); // 😎
 
@@ -189,16 +189,16 @@ inline QString applyChatEmoteShortcuts(QString text)
 	text.replace(QLatin1String("=("),       emo(0x1F61E)); // 😞
 	text.replace(QLatin1String(":["),       emo(0x1F61E)); // 😞
 
-	// ── Verlegen / neutral / skeptisch ──
+	// ── Embarrassed / neutral / skeptical ──
 	text.replace(QLatin1String(":-["),      emo(0x1F633)); // 😳 embarrassed
 	text.replace(QLatin1String(":-|"),      emo(0x1F610)); // 😐 neutral
 	text.replace(QLatin1String(":|"),       emo(0x1F610)); // 😐
 	text.replace(QLatin1String(":-/"),      emo(0x1F615)); // 😕 skeptical
 	text.replace(QLatin1String(":-\\"),     emo(0x1F615)); // 😕
-	// ":/" ist jetzt unbedenklich – "http(s)://"-URLs wurden oben geschützt.
+	// ":/" is harmless now – "http(s)://" URLs were protected above.
 	text.replace(QLatin1String(":/"),       emo(0x1F615)); // 😕
 
-	// ── Besorgt / krank / überrascht ──
+	// ── Worried / sick / surprised ──
 	text.replace(QLatin1String(":-S"),      emo(0x1F61F)); // 😟 worried
 	text.replace(QLatin1String(":-s"),      emo(0x1F61F)); // 😟
 	text.replace(QLatin1String(":S"),       emo(0x1F61F)); // 😟
@@ -236,15 +236,15 @@ inline QString applyChatEmoteShortcuts(QString text)
 	text.replace(QLatin1String("o_o"),       emo(0x1F633)); // 😳
 	text.replace(QLatin1String("\\o/"),      emo(0x1F64C)); // 🙌 cheering
 
-	// ── Herz (escaped; "</3" vor "<3") ──
+	// ── Heart (escaped; "</3" before "<3") ──
 	text.replace(QLatin1String("&lt;/3"),    emo(0x1F494)); // 💔 broken heart
 	text.replace(QLatin1String("&lt;3"),     emo(0x2764));  // ❤  heart
 
-	// ── Geschützte HTML-Entities unverändert wieder einsetzen ──
+	// ── Reinsert the protected HTML entities unchanged ──
 	for (int i = 0; i < savedEntities.size(); ++i)
 		text.replace(QChar(0x0003) + QString::number(i) + QChar(0x0004), savedEntities.at(i));
 
-	// ── Geschützte URLs unverändert wieder einsetzen ──
+	// ── Reinsert the protected URLs unchanged ──
 	for (int i = 0; i < savedUrls.size(); ++i)
 		text.replace(QChar(0x0001) + QString::number(i) + QChar(0x0002), savedUrls.at(i));
 

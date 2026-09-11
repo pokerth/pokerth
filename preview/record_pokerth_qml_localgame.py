@@ -432,7 +432,7 @@ class LocalGameRecorder:
         )
 
         while not self._log_overlay_stop.is_set():
-            # Erst nach einem kompletten Intervall einblenden.
+            # Only fade in after a complete interval.
             try:
                 await asyncio.wait_for(self._log_overlay_stop.wait(), timeout=self.args.log_cycle_interval)
                 break
@@ -741,8 +741,8 @@ def apply_timing_profile(args: argparse.Namespace) -> None:
     if not profile:
         return
 
-    # Profilwerte zuerst setzen; explizit uebergebene CLI-Werte duerfen danach
-    # weiterhin ueberschrieben werden, da argparse bereits geparst hat.
+    # Set the profile values first; CLI values passed explicitly may still
+    # override them afterwards, since argparse has already parsed them.
     for key, value in profile.items():
         setattr(args, key, value)
 

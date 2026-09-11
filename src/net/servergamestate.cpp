@@ -116,7 +116,7 @@ static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterfa
 	netActionDone->set_playerid(player->getMyUniqueID());
 	netActionDone->set_playermoney(player->getMyCash());
 
-	// Server-Härtung: Validiere totalplayerbet (muss >= 0 sein, sonst Client-Crash)
+	// Server hardening: validate totalplayerbet (must be >= 0, otherwise client crash)
 	int totalBet = player->getMySet();
 	if (totalBet < 0) {
 		LOG_ERROR("CRITICAL: Player " << player->getMyUniqueID() << " has negative totalplayerbet: " << totalBet << " - correcting to 0");
@@ -233,7 +233,7 @@ SetPlayerResult(PlayerResult &playerResult, boost::shared_ptr<PlayerInterface> t
 		playerResult.add_besthandposition(bestHandPos[num]);
 	}
 
-	// Immer cardsvalue senden, auch bei All-In vor River (sonst zeigt Client falsche Winner)
+	// Always send cardsvalue, even on all-in before the river (otherwise the client shows wrong winners)
 	playerResult.set_cardsvalue(tmpPlayer->getMyCardsValueInt());
 	playerResult.set_moneywon(tmpPlayer->getLastMoneyWon());
 	playerResult.set_playermoney(tmpPlayer->getMyCash());

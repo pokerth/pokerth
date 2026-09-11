@@ -38,8 +38,8 @@
 namespace
 {
 
-// Rangzeichen -> Wert 0..12 (0 = Zwei, 12 = Ass), passend zur Kartenkodierung
-// des uebrigen Engine-Codes.
+// Rank character -> value 0..12 (0 = two, 12 = ace), matching the card encoding
+// of the rest of the engine code.
 int rankFromChar(char c)
 {
 	switch(std::toupper(static_cast<unsigned char>(c))) {
@@ -87,7 +87,7 @@ struct HandSpec {
 	}
 };
 
-// Liest "AA", "AKs", "AKo" oder "AK" (dann beide Varianten).
+// Reads "AA", "AKs", "AKo" or "AK" (then both variants).
 bool parseHand(const std::string& text, HandSpec& spec)
 {
 	if(text.size() < 2 || text.size() > 3) return false;
@@ -105,7 +105,7 @@ bool parseHand(const std::string& text, HandSpec& spec)
 		if(s == 'S') spec.suitedness = SUITED_ONLY;
 		else if(s == 'O') spec.suitedness = OFFSUIT_ONLY;
 		else return false;
-		// Ein Paar kann weder gleich- noch ungleichfarbig eingeschraenkt werden.
+		// A pair can be restricted to neither suited nor offsuit.
 		if(spec.isPair()) return false;
 	}
 
@@ -184,7 +184,7 @@ double HoleCardsRange::combinationShare() const
 
 bool HoleCardsRange::add(const std::string& notation)
 {
-	// Markiert einen konkreten Starthand-Typ.
+	// Marks one concrete starting hand type.
 	auto mark = [this](int high, int low, Suitedness suitedness) {
 		if(high == low) {
 			myTypes[high] = true;
@@ -205,7 +205,7 @@ bool HoleCardsRange::add(const std::string& notation)
 
 		if(token.empty()) continue;
 
-		// "77+", "A9s+" -- alles ab dieser Hand aufwaerts
+		// "77+", "A9s+" -- everything from this hand upwards
 		if(token[token.size() - 1] == '+') {
 			HandSpec spec;
 			if(!parseHand(token.substr(0, token.size() - 1), spec)) {
@@ -215,7 +215,7 @@ bool HoleCardsRange::add(const std::string& notation)
 			if(spec.isPair()) {
 				for(int rank = spec.high; rank <= 12; ++rank) mark(rank, rank, SUITED_BOTH);
 			} else {
-				// Die hohe Karte bleibt stehen, die niedrige waechst an sie heran.
+				// The high card stays put, the low card grows towards it.
 				for(int low = spec.low; low < spec.high; ++low) mark(spec.high, low, spec.suitedness);
 			}
 			continue;
@@ -238,7 +238,7 @@ bool HoleCardsRange::add(const std::string& notation)
 				const int highEnd = std::max(from.high, to.high);
 				for(int rank = lowEnd; rank <= highEnd; ++rank) mark(rank, rank, SUITED_BOTH);
 			} else {
-				// Nur sinnvoll, wenn die hohe Karte und die Farbigkeit gleich bleiben.
+				// Only meaningful if the high card and the suitedness stay the same.
 				if(from.high != to.high || from.suitedness != to.suitedness) {
 					allParsed = false;
 					continue;

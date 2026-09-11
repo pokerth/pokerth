@@ -62,7 +62,7 @@ private:
 #ifdef ANDROID_API8
 	AndroidApi8Dummy *myPlayer;
 #else
-	QtAudioPlayer *myPlayer;  // ÄNDERN SIE DIES
+	QtAudioPlayer *myPlayer;  // CHANGE THIS
 #endif
 #else
 	QtAudioPlayer *myPlayer;

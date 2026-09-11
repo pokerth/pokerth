@@ -3,10 +3,10 @@ import QtQuick.Layouts
 
 import "../config" as Config
 
-// Sektions-Kopf einer Settings-Seite: fetter Titel + feine Trennlinie (harte
-// 1px-Linie in col500). Ersetzt den in allen Settings-Komponenten wiederholten
-// Label+Rectangle-Block. `topGap` deckt die zwei Varianten ab (8 bzw. 4); das
-// innere `spacing: 5` reproduziert den Abstand der äußeren ColumnLayouts.
+// Section header of a settings page: bold title + fine separator (hard 1px
+// line in col500). Replaces the label+rectangle block repeated in all
+// settings components. `topGap` covers the two variants (8 and 4); the inner
+// `spacing: 5` reproduces the spacing of the outer ColumnLayouts.
 ColumnLayout {
     id: header
     property alias title: titleLabel.text

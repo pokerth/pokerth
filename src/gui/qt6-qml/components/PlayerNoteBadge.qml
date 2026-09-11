@@ -4,11 +4,11 @@ import QtQuick.Layouts
 
 import "../config" as Config
 
-// Kompakte Anzeige der eigenen Notiz/Bewertung zu einem Mitspieler in der
-// Gegnerbox: "★3" für die Bewertung und eine "i"-Marke, wenn eine Notiz
-// hinterlegt ist (wie das Tooltip-Label des Qt-Widgets-Clients). Die
-// Gegnerboxen sind am Tisch stark skaliert – fünf einzelne Sterne wären dort
-// weder lesbar noch treffbar, deshalb Stern + Zahl.
+// Compact display of your own note/rating for a fellow player in the opponent
+// box: "★3" for the rating and an "i" mark if a note is stored (like the
+// tooltip label of the Qt widgets client). The opponent boxes are scaled down
+// heavily at the table – five individual stars would be neither readable nor
+// hittable there, hence star + number.
 RowLayout {
     id: root
 
@@ -29,8 +29,8 @@ RowLayout {
         font.bold: true
     }
 
-    // Notiz-Marke: kleines "i" wie das Hinweis-Label am Sitz im
-    // Qt-Widgets-Client (gametableImpl::playerTipLabelArray).
+    // Note mark: small "i" like the hint label at the seat in the
+    // Qt widgets client (gametableImpl::playerTipLabelArray).
     Rectangle {
         Layout.alignment: Qt.AlignVCenter
         Layout.preferredWidth: Math.round(root.glyphSize * 0.9)
@@ -52,8 +52,8 @@ RowLayout {
 
         HoverHandler { id: badgeHover }
 
-        // Notiztext beim Überfahren der Marke zeigen (Desktop). Auf Touch führt
-        // der lange Druck auf die Box zum Dialog, der die Notiz ohnehin anzeigt.
+        // Show the note text when hovering the mark (desktop). On touch a long press
+        // on the box opens the dialog, which shows the note anyway.
         ToolTip {
             visible: badgeHover.hovered && root.hasNote
             delay: 300

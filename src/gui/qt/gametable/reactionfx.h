@@ -1,18 +1,18 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
  *                                                                           *
- * Overlay für die Emoji-Reaktions-Choreografie am Spieltisch – 1:1-Port     *
- * der QML-Komponente GameReactionFx: ein großes Emoji erscheint am Sitz,    *
- * spielt eine von 16 Choreografien (Aufstieg, Wackeln, Drehen, Fallen …)   *
- * und verblasst; dazu ein Partikel-Burst (Funken/Konfetti/Tropfen/Münzen …  *
- * je nach Emoji) und – bei 🤯/💣 & Co. – Druckwellen-Ringe.                 *
+ * Overlay for the emoji reaction choreography at the game table – a 1:1     *
+ * port of the QML component GameReactionFx: a large emoji appears at the    *
+ * seat, plays one of 16 choreographies (rise, wobble, spin, fall …)        *
+ * and fades; plus a particle burst (sparks/confetti/drops/coins …          *
+ * depending on the emoji) and – for 🤯/💣 & co. – shock wave rings.        *
  *****************************************************************************/
 #ifndef REACTIONFX_H
 #define REACTIONFX_H
 
 #include <QtWidgets>
 
-// Keyframe-Tabelle einer Choreografie (Definition in reactionfx.cpp).
+// Keyframe table of a choreography (definition in reactionfx.cpp).
 struct ReactionAnim;
 
 class ReactionFxOverlay : public QWidget
@@ -20,8 +20,8 @@ class ReactionFxOverlay : public QWidget
 public:
 	explicit ReactionFxOverlay(QWidget *parent);
 
-	// Choreografie am Ankerpunkt (Parent-Koordinaten, Box-Mitte/Oberkante)
-	// abspielen. Mehrere gleichzeitige Reaktionen sind möglich.
+	// Play the choreography at the anchor point (parent coordinates, box
+	// centre/top edge). Several simultaneous reactions are possible.
 	void play(const QString &emoji, QPoint anchor);
 
 protected:
@@ -29,33 +29,33 @@ protected:
 
 private:
 	struct Particle {
-		QPixmap pm;            // gerendertes Partikelzeichen (nur kind 0)
+		QPixmap pm;            // rendered particle character (kind 0 only)
 		QColor color;
-		int kind = 0;          // 0 = Zeichen, 1 = farbiger Punkt, 2 = Konfetti
-		qreal w = 0, h = 0;    // Konfetti-Maße
-		qreal size = 14;       // Zielgröße (px)
-		qreal ox = 0, oy = 0;  // Start-Versatz (Preset "gunshot")
-		qreal dx = 0, dy = 0;  // Ziel-Versatz
-		qreal g = 0;           // zusätzlicher Fall am Ende
-		qreal rot = 0;         // End-Rotation
-		bool pulse = false;    // kurz aufblitzen statt voller Deckkraft
-		int life = 1000;       // Lebensdauer ms
-		int delay = 0;         // Startverzögerung ms (Preset "boom")
+		int kind = 0;          // 0 = character, 1 = coloured dot, 2 = confetti
+		qreal w = 0, h = 0;    // confetti dimensions
+		qreal size = 14;       // target size (px)
+		qreal ox = 0, oy = 0;  // start offset (preset "gunshot")
+		qreal dx = 0, dy = 0;  // target offset
+		qreal g = 0;           // additional fall at the end
+		qreal rot = 0;         // end rotation
+		bool pulse = false;    // flash briefly instead of full opacity
+		int life = 1000;       // lifetime ms
+		int delay = 0;         // start delay ms (preset "boom")
 	};
 	struct Ring {
-		int delay = 0;         // Startverzögerung ms
+		int delay = 0;         // start delay ms
 		int dur = 800;
 		QColor color;
 		qreal width = 3;
-		qreal to = 4;          // End-Skalierung (Startgröße 30 px, Skalierung 0.3)
+		qreal to = 4;          // end scale (start size 30 px, scale 0.3)
 	};
 	struct Burst {
 		QString emoji;
-		QPixmap emojiPm;       // großes Emoji, vorgerendert (2× für Schärfe)
+		QPixmap emojiPm;       // large emoji, pre-rendered (2× for sharpness)
 		const ReactionAnim *anim = nullptr;
 		QPoint anchor;
 		qint64 start = 0;
-		int life = 2000;       // Gesamtdauer inkl. Partikel und Ringe
+		int life = 2000;       // total duration incl. particles and rings
 		QVector<Particle> particles;
 		QVector<Ring> rings;
 	};

@@ -30,7 +30,7 @@
  *****************************************************************************/
 #include "soundevents.h"
 
-// Verwende QtAudioPlayer für alle Plattformen (Desktop und Android)
+// Use QtAudioPlayer on all platforms (desktop and Android)
 #include "qtaudioplayer.h"
 
 #include "configfile.h"
@@ -42,7 +42,7 @@
 
 SoundEvents::SoundEvents(ConfigFile *c): myConfig(c), lastSBValue(0), lastSBLevel(0), newGameNow(false)
 {
-	// Qt Multimedia funktioniert auf Android genauso wie auf Desktop
+	// Qt Multimedia works on Android just like on desktop
 	myPlayer = new QtAudioPlayer(myConfig);
 }
 

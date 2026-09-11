@@ -14,8 +14,8 @@
 namespace
 {
 
-// Notification-Texte lokalisiert aus den Qt-Übersetzungen an Java übergeben
-// (der Java-Service selbst hat keinen Zugriff auf den Qt-Übersetzer).
+// Pass the notification texts to Java localized from the Qt translations
+// (the Java service itself has no access to the Qt translator).
 void callService(bool start)
 {
 	auto invoke = [start]() {
@@ -43,12 +43,12 @@ void callService(bool start)
 				context.object());
 		}
 
-		// Eine geworfene Java-Exception bleibt sonst nur im Logcat hängen und
-		// der Aufruf sieht von hier aus erfolgreich aus - genau so blieb es
-		// unbemerkt, dass das generierte Manifest den Service gar nicht
-		// deklarierte (startForegroundService wirft dann sofort). Das Ergebnis
-		// gehört in den App-Log (~/.pokerth/pokerth-debug.log), damit ein
-		// Spieler-Report ohne adb auswertbar ist.
+		// Otherwise a thrown Java exception only ends up in the logcat and the
+		// call looks successful from here - that is exactly how it went
+		// unnoticed that the generated manifest did not declare the service at
+		// all (startForegroundService then throws immediately). The result
+		// belongs in the app log (~/.pokerth/pokerth-debug.log) so that a player
+		// report can be evaluated without adb.
 		QJniEnvironment env;
 		if (env.checkAndClearExceptions()) {
 			qWarning() << "[ANDROID-FGS]" << (start ? "start" : "stop")
@@ -59,8 +59,8 @@ void callService(bool start)
 		}
 	};
 
-	// Auf dem Android-UI-Thread ausführen: Aufrufer können auf beliebigen
-	// Threads laufen (Netzwerk-Thread bei Connect/Error-Callbacks).
+	// Run on the Android UI thread: callers may run on arbitrary threads
+	// (network thread on connect/error callbacks).
 	if (auto *iface = qApp->nativeInterface<QNativeInterface::QAndroidApplication>())
 		iface->runOnAndroidMainThread(invoke);
 	else

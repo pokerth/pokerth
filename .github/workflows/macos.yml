@@ -96,11 +96,11 @@ jobs:
 
       # Qt for macOS (~2 GB, several minutes via aqtinstall).
       #
-      # Die Keys hängen bewusst NICHT an hashFiles(build_macos_*.sh): jede
-      # unbeteiligte Skript-Änderung würde sonst beide Caches verwerfen und
-      # vcpkg eine Stunde neu bauen lassen. Ein "zu alter" Cache ist
-      # unkritisch: install-qt und "vcpkg install" laufen ohnehin bei jedem
-      # Lauf und ergänzen nur, was fehlt.
+      # The keys deliberately do NOT depend on hashFiles(build_macos_*.sh): any
+      # unrelated script change would otherwise invalidate both caches and make
+      # vcpkg rebuild for an hour. A cache that is "too old" is
+      # harmless: install-qt and "vcpkg install" run on every run anyway
+      # and only add what is missing.
       - name: Cache Qt
         uses: actions/cache@v4
         with:
@@ -109,9 +109,9 @@ jobs:
 
       # boost/protobuf, once per architecture (release only) plus the merged
       # universal tree. Cold build ≈ 60-90 min, from cache ≈ 1 min.
-      # PORT-REVISION beim Ändern der VCPKG_PORTS-Liste in build_macos_common.sh
-      # hochzählen — ebenso, wenn sich MACOSX_DEPLOYMENT_TARGET ändert, weil die
-      # gecachten Ports sonst gegen das alte Ziel gebaut bleiben.
+      # Bump PORT-REVISION when changing the VCPKG_PORTS list in build_macos_common.sh
+      # — likewise when MACOSX_DEPLOYMENT_TARGET changes, because the cached
+      # ports would otherwise stay built against the old target.
       - name: Cache vcpkg
         uses: actions/cache@v4
         with:

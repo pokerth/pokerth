@@ -39,7 +39,7 @@ Item {
         return (Lobby && itemGameId) ? (Lobby.gamePlayersInGame(itemGameId) || []) : []
     }
 
-    // ── Kontextaktionen (wie im Qt-Widgets-Client) ────────────────────────
+    // ── Context actions (as in the Qt widgets client) ─────────────────────
     readonly property bool canReportGame:   Lobby && itemGameId > 0
     readonly property bool canAdminCloseGame: Lobby && Lobby.isCurrentPlayerAdmin && itemGameId > 0
 
@@ -78,9 +78,9 @@ Item {
         radius: 3
 
         RowLayout {
-            // Über headerMouse, damit die Action-Icons Klicks erhalten;
-            // Klicks neben den Icons fallen durch (kein MouseArea) auf
-            // headerMouse zurück und klappen die Zeile auf/zu.
+            // Above headerMouse, so that the action icons receive clicks;
+            // clicks next to the icons fall through (no MouseArea) to
+            // headerMouse and expand/collapse the row.
             z: 1
             anchors { fill: parent; leftMargin: 8; rightMargin: 8 }
             spacing: 5
@@ -138,7 +138,7 @@ Item {
                 }
             }
 
-            // Kontextaktionen (rechtsbündig neben dem Tischnamen)
+            // Context actions (right-aligned next to the table name)
             PlayerActionIcon {
                 visible: gameItem.canReportGame
                 iconSize: 16
@@ -204,8 +204,8 @@ Item {
 
         Repeater {
             model: gameItem.gamePlayers
-            // Länderflagge + Name (wie die Spielerliste der Game-Info-Ansicht)
-            // statt einer Aufzählung mit vorangestelltem Punkt.
+            // Country flag + name (like the player list of the game info view)
+            // instead of a bullet list with a leading dot.
             delegate: Item {
                 required property var modelData
                 width: playersCol.width - playersCol.leftPadding - 8
@@ -224,7 +224,7 @@ Item {
                     smooth: true
                 }
 
-                // Tisch-Admin (Host) hervorheben – wie im Widget-Client
+                // Highlight the table admin (host) – as in the widget client
                 GameAdminBadge {
                     id: adminBadge
                     visible: !!parent.modelData.isGameAdmin

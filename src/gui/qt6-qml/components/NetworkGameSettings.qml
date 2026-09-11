@@ -32,7 +32,7 @@ Rectangle {
             ColumnLayout {
                 width: parent.width - 12
 
-                // Spieler & Startkapital
+                // Players & starting money
                 GroupBox {
                     Layout.fillWidth: true
                     title: qsTr("Spieler & Startkapital")
@@ -98,7 +98,7 @@ Rectangle {
                     }
                 }
 
-                // Blinds erhöhen
+                // Raise blinds
                 GroupBox {
                     Layout.fillWidth: true
                     title: qsTr("Blinds erhöhen")
@@ -197,7 +197,7 @@ Rectangle {
                     }
                 }
 
-                // Blind-Erhöhungsreihenfolge
+                // Blind raise order
                 GroupBox {
                     Layout.fillWidth: true
                     title: qsTr("Blind-Erhöhungsreihenfolge")
@@ -241,7 +241,7 @@ Rectangle {
                             text: qsTr("Manuelle Blind-Reihenfolge bearbeiten...")
                             enabled: netManualBlindsOrder.checked
                             onClicked: {
-                                // TODO: Dialog für manuelle Blind-Reihenfolge öffnen
+                                // TODO: open dialog for the manual blind order
                             }
                         }
                     }

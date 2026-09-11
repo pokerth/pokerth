@@ -6,10 +6,10 @@ import QtQuick.Layouts
 import "../config" as Config
 import "../components"
 
-// Log-Viewer – portiert aus dem Qt-Widgets LogFileDialog.
-// Listet die SQLite-Logdateien (.pdb) im LogDir, erlaubt Spielauswahl, zeigt
-// eine formatierte Vorschau und unterstützt Export (HTML/TXT), Speichern unter,
-// Löschen sowie die Analyse (Upload zu pokerth.net).
+// Log viewer – ported from the Qt widgets LogFileDialog.
+// Lists the SQLite log files (.pdb) in the LogDir, allows selecting a game, shows
+// a formatted preview and supports export (HTML/TXT), save as,
+// delete as well as the analysis (upload to pokerth.net).
 Rectangle {
     id: logsPage
     objectName: "logsPage"
@@ -24,7 +24,7 @@ Rectangle {
         (selectedIndex >= 0 && selectedIndex < files.length) ? files[selectedIndex].path : ""
     property var gameModel: []
 
-    // Hochformat / schmales Fenster → vertikal stapeln statt nebeneinander.
+    // Portrait / a narrow window → stack vertically instead of side by side.
     readonly property bool compact: Config.Responsive.compact
 
     readonly property int selectedGameId:
@@ -69,7 +69,7 @@ Rectangle {
 
     Connections {
         target: (typeof LogStore !== "undefined") ? LogStore : null
-        // Erfolg öffnet den Browser direkt in C++ (bereinigte Umgebung).
+        // On success the browser is opened directly in C++ (cleaned environment).
         function onAnalyseFailed(message) {
             messageLabel.text = message
             messageDialog.open()
@@ -107,7 +107,7 @@ Rectangle {
             Item { Layout.fillWidth: true }
         }
 
-        // Dateiliste + Vorschau – nebeneinander (breit) bzw. gestapelt (schmal)
+        // The file list + the preview – side by side (wide) or stacked (narrow)
         GridLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -115,12 +115,12 @@ Rectangle {
             columnSpacing: 12
             rowSpacing: 10
 
-            // Liste der Logdateien
+            // List of the log files
             Rectangle {
                 Layout.fillWidth: logsPage.compact
                 Layout.preferredWidth: logsPage.compact ? 0 : 220
                 Layout.fillHeight: !logsPage.compact
-                // schmal: begrenzte, scrollbare Höhe; breit: füllt die Spalte
+                // narrow: limited, scrollable height; wide: fills the column
                 Layout.preferredHeight: logsPage.compact
                     ? Math.min(fileList.contentHeight + 2, logsPage.height * 0.30) : 0
                 color: Config.StaticData.palette.secondary.col600
@@ -130,11 +130,11 @@ Rectangle {
 
                 ListView {
                     id: fileList
-                    // Tastaturbedienung: Tab führt in die Liste, Pfeile wechseln
-                    // die Datei. keyNavigationEnabled bleibt AUS, weil es
-                    // currentIndex direkt zuweisen würde – das zerstörte die
-                    // Bindung an selectedIndex unten. Stattdessen ändern die
-                    // Pfeile die Auswahl der Seite, der currentIndex folgt.
+                    // Keyboard operation: Tab leads into the list, the arrows change
+                    // the file. keyNavigationEnabled stays OFF because it would
+                    // assign currentIndex directly – that would destroy the
+                    // binding to selectedIndex below. Instead the arrows change
+                    // the selection of the page, and currentIndex follows.
                     activeFocusOnTab: true
                     keyNavigationEnabled: false
                     Keys.onUpPressed: {
@@ -201,7 +201,7 @@ Rectangle {
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    // Dark/Light: Panel etwas abgesetzt vom Seitenhintergrund (col700)
+                    // Dark/light: panel slightly set apart from the page background (col700)
                     color: Config.StaticData.palette.secondary.col600
                     border.color: Config.StaticData.palette.secondary.col500
                     border.width: 1
@@ -219,7 +219,7 @@ Rectangle {
                             selectByMouse: true
                             textFormat: TextEdit.RichText
                             wrapMode: TextEdit.WordWrap
-                            // Textfarbe folgt dem Theme (HTML enthält keine Farben)
+                            // The text colour follows the theme (the HTML contains no colours)
                             color: Config.StaticData.palette.secondary.col100
                             font.pixelSize: 13
                         }
@@ -228,7 +228,7 @@ Rectangle {
             }
         }
 
-        // Aktions-Buttons – schmal: 2 Spalten (gefüllt); breit: 4 nebeneinander
+        // Action buttons – narrow: 2 columns (filled); wide: 4 next to each other
         GridLayout {
             Layout.fillWidth: true
             columns: logsPage.compact ? 2 : 4
@@ -276,10 +276,10 @@ Rectangle {
             Item { Layout.fillWidth: !logsPage.compact }
             CustomButton {
                 Layout.fillWidth: logsPage.compact
-                // Öffnet den Client-Debug-Log (pokerth-debug.log) direkt in der
-                // App. Auf Mobilgeräten liegt die Datei in privatem Speicher, den
-                // der Nutzer sonst nicht erreicht – so kann ein Spieler den Log
-                // z. B. bei einem Rejoin-Problem lesen und weitergeben.
+                // Opens the client debug log (pokerth-debug.log) directly in the
+                // app. On mobile devices the file lies in private storage that
+                // the user cannot reach otherwise – that way a player can read
+                // and pass on the log, e.g. for a rejoin problem.
                 text: qsTr("Show debug log")
                 onClicked: {
                     debugLogView.text = (typeof LogStore !== "undefined" && LogStore)
@@ -304,9 +304,9 @@ Rectangle {
         modal: true
         title: qsTr("PokerTH - Delete log files")
         standardButtons: Dialog.Yes | Dialog.No
-        // Ohne focus:true bleibt der Dialog für die Tastatur unerreichbar.
-        // Qt Quick kennt keinen Default-Button: Ein fokussierter Standard-Button
-        // reagiert nur auf Space, deshalb nimmt der Inhalt Enter entgegen.
+        // Without focus:true the dialog stays unreachable for the keyboard.
+        // Qt Quick has no default button: a focused standard button
+        // only reacts to space, which is why the content accepts Enter.
         focus: true
         onOpened: deleteDialogLabel.forceActiveFocus()
         AppLabel {
@@ -328,9 +328,9 @@ Rectangle {
         modal: true
         title: qsTr("Uploading log file")
         standardButtons: Dialog.Close
-        // Ohne focus:true bleibt der Dialog für die Tastatur unerreichbar.
-        // Qt Quick kennt keinen Default-Button: Ein fokussierter Standard-Button
-        // reagiert nur auf Space, deshalb nimmt der Inhalt Enter entgegen.
+        // Without focus:true the dialog stays unreachable for the keyboard.
+        // Qt Quick has no default button: a focused standard button
+        // only reacts to space, which is why the content accepts Enter.
         focus: true
         onOpened: messageLabel.forceActiveFocus()
         AppLabel {
@@ -343,17 +343,17 @@ Rectangle {
         }
     }
 
-    // Debug-Log-Viewer: zeigt das (getailte) pokerth-debug.log lesbar an. Text
-    // ist selektierbar → kopieren/teilen; "Save as ..." exportiert die Datei.
+    // Debug log viewer: shows the (tailed) pokerth-debug.log readably. The text
+    // is selectable → copy/share; "Save as ..." exports the file.
     Dialog {
         id: debugLogDialog
         anchors.centerIn: parent
         modal: true
         title: qsTr("Debug log")
         standardButtons: Dialog.Close
-        // Escape schließt (Popup), Enter ebenfalls – der Inhalt ist nur Lesestoff.
-        // Die Keys-Handler müssen am Inhalt hängen: Keys auf einem Dialog/Popup
-        // ist stillschweigend wirkungslos (das ist kein Item).
+        // Escape closes (popup), Enter as well – the content is only reading matter.
+        // The Keys handlers have to hang off the content: Keys on a dialog/popup
+        // is silently without effect (that is not an Item).
         focus: true
         onOpened: debugLogDialogContent.forceActiveFocus()
         width: Math.min(logsPage.width * 0.92, 680)

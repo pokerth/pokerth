@@ -177,10 +177,10 @@ public:
 	unsigned GetGameId() const;
 	unsigned GetGuiPlayerId() const;
 	int GetOrigGuiPlayerNum() const;
-	// true, wenn wir dem aktuellen Spiel als Zuschauer beigetreten sind
-	// (JoinGameAck.spectateOnly). Ein Zuschauer besitzt KEINEN Sitz: er
-	// taucht nicht in der Spielerliste des Spiels auf, bekommt keine
-	// Hole Cards und ist nie am Zug.
+	// true if we joined the current game as a spectator
+	// (JoinGameAck.spectateOnly). A spectator has NO seat: it
+	// does not show up in the player list of the game, gets no
+	// hole cards and is never to act.
 	bool IsSpectating() const;
 	void SetSpectating(bool spectating);
 
@@ -364,7 +364,7 @@ private:
 	unsigned m_guiPlayerId;
 	mutable boost::mutex m_guiPlayerIdMutex;
 	int m_origGuiPlayerNum;
-	// Vom Netzwerk-Thread gesetzt (JoinGameAck), vom GUI-Thread gelesen.
+	// Set by the network thread (JoinGameAck), read by the GUI thread.
 	std::atomic<bool> m_spectating;
 	bool m_sessionEstablished;
 

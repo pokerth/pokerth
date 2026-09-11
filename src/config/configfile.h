@@ -93,9 +93,9 @@ private:
 	// silently dropping the user's settings. Returns true on success.
 	bool writeConfigDocument(const QString &xmlContent) const;
 
-	// Biegt in einem geladenen Konfigurations-Dokument alle gespeicherten Pfade
-	// vom alten auf das neue Datenverzeichnis um (Stile, Avatare, ...). Gibt
-	// true zurueck, wenn etwas geaendert wurde.
+	// Rewrites all stored paths in a loaded configuration document from the
+	// old to the new data directory (styles, avatars, ...). Returns true
+	// if anything was changed.
 	static bool remapAppDataPaths(QDomElement &config, const QString &oldPath, const QString &newPath);
 
 

@@ -251,8 +251,8 @@ bool startNetworkGameDialogImpl::eventFilter(QObject *obj, QEvent *event)
 {
 	if (obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && event->type() == QEvent::KeyPress) {
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-		// Bei offenem Shortcode-Vorschlags-Popup übernimmt Tab den Vorschlag
-		// (ChatTools) – dann keine Nick-Vervollständigung.
+		// While the shortcode suggestion popup is open, Tab accepts the suggestion
+		// (ChatTools) – so no nickname completion then.
 		if (keyEvent->key() == Qt::Key_Tab && !myChat->shortcodeCompletionActive()) {
 			myChat->nickAutoCompletition();
 			return true;

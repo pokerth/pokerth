@@ -3,10 +3,10 @@ import QtQuick.Controls
 
 import "../config" as Config
 
-// Griff für SplitView (Lobby/GameWait): dünne Leiste mit zentralem
-// Greif-Indikator. `horizontal` = true für vertikale Trennlinie zwischen
-// nebeneinanderliegenden Spalten (waagerechtes Ziehen), false für eine
-// waagerechte Trennlinie zwischen übereinanderliegenden Boxen.
+// Handle for SplitView (lobby/game wait): thin bar with a central grip
+// indicator. `horizontal` = true for a vertical separator between columns
+// sitting next to each other (horizontal dragging), false for a horizontal
+// separator between boxes stacked on top of each other.
 Rectangle {
     id: handle
     property bool horizontal: true

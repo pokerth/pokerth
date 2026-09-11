@@ -25,11 +25,11 @@
 
 class ConfigFile;
 
-// Liefert dem QML-Client die Asset-URLs des aktuell gewählten Tisch- bzw.
-// Kartenstapel-Stils aus <AppDataDir>/gfx/qml/. Ein leerer String bedeutet
-// "kein Stil-Asset vorhanden" → die QML-Seite fällt auf das gebündelte
-// qrc-Default zurück. Über NOTIFY changed() rebinden alle Bindungen, sobald
-// per setTableStyle()/setCardDeckStyle() ein anderer Stil gewählt wird.
+// Delivers the asset URLs of the currently selected table or card deck style
+// from <AppDataDir>/gfx/qml/ to the QML client. An empty string means
+// "no style asset present" → the QML page falls back to the bundled
+// qrc default. Via NOTIFY changed() all bindings rebind as soon as
+// a different style is chosen via setTableStyle()/setCardDeckStyle().
 class StyleProvider : public QObject
 {
 	Q_OBJECT
@@ -39,49 +39,49 @@ class StyleProvider : public QObject
 	Q_PROPERTY(QString tableBackground READ tableBackground NOTIFY changed)
 	Q_PROPERTY(QString tableBackgroundAlignment READ tableBackgroundAlignment NOTIFY changed)
 	Q_PROPERTY(qreal tableBackgroundZoom READ tableBackgroundZoom NOTIFY changed)
-	// Eckenradius der Aktions-Buttons, in Einheiten der 168x43-Zeichenfläche
-	// der Button-SVGs. Der Client zeichnet Zustands-Rahmen (Vorwahl gold,
-	// primäre Aktion) als Rechteck über das SVG – ohne diesen Wert passten
-	// dessen Ecken nicht zur Button-Form. Default 9 = gebündelter Stil.
+	// Corner radius of the action buttons, in units of the 168x43 drawing area
+	// of the button SVGs. The client draws state frames (preselection gold,
+	// primary action) as a rectangle above the SVG – without this value its
+	// corners did not match the button shape. Default 9 = bundled style.
 	Q_PROPERTY(qreal actionButtonBorderRadius READ actionButtonBorderRadius NOTIFY changed)
-	// Akzentfarbe der Spielerboxen (<PlayerBoxAccent>). Tönt Verlauf und Rahmen
-	// der Box. Leer = neutraler, gebündelter Default.
+	// Accent colour of the player boxes (<PlayerBoxAccent>). Tints the gradient and
+	// the frame of the box. Empty = neutral, bundled default.
 	Q_PROPERTY(QString playerBoxAccent READ playerBoxAccent NOTIFY changed)
 	Q_PROPERTY(QString dealerPuck READ dealerPuck NOTIFY changed)
 	Q_PROPERTY(QString smallBlindPuck READ smallBlindPuck NOTIFY changed)
 	Q_PROPERTY(QString bigBlindPuck READ bigBlindPuck NOTIFY changed)
-	// Aktions-Button-Grafiken (nur Optik/Rahmen – der dynamische Text mit
-	// Beträgen wird im QML darüber gelegt). Leer = Fallback auf den
-	// hartcodierten Gradient-Button in GameActionBar.qml.
+	// Action button graphics (look/frame only – the dynamic text with the
+	// amounts is laid over it in QML). Empty = fallback to the
+	// hardcoded gradient button in GameActionBar.qml.
 	Q_PROPERTY(QString foldButton READ foldButton NOTIFY changed)
 	Q_PROPERTY(QString checkCallButton READ checkCallButton NOTIFY changed)
 	Q_PROPERTY(QString betRaiseButton READ betRaiseButton NOTIFY changed)
 	Q_PROPERTY(QString allInButton READ allInButton NOTIFY changed)
-	// Schriftfarbe der Aktions-Buttons: explizit per Theme-XML
-	// (<FoldButtonTextColor> … bzw. style-weit <ActionButtonTextColor>) oder
-	// sonst automatisch aus der Button-Helligkeit abgeleitet (heller Hintergrund
-	// → dunkle Schrift). Leer = kein Theme-Button → QML nimmt seinen Default.
+	// Text colour of the action buttons: explicitly via the theme XML
+	// (<FoldButtonTextColor> … or style-wide <ActionButtonTextColor>) or
+	// otherwise derived automatically from the button brightness (light background
+	// → dark text). Empty = no theme button → QML uses its default.
 	Q_PROPERTY(QString foldButtonTextColor READ foldButtonTextColor NOTIFY changed)
 	Q_PROPERTY(QString checkCallButtonTextColor READ checkCallButtonTextColor NOTIFY changed)
 	Q_PROPERTY(QString betRaiseButtonTextColor READ betRaiseButtonTextColor NOTIFY changed)
 	Q_PROPERTY(QString allInButtonTextColor READ allInButtonTextColor NOTIFY changed)
-	// Farben der Chat- und Log-Box (schwebende Seiten-Panels am Tisch). Bewusst
-	// unabhängig vom Hell/Dunkel-Modus der übrigen App: maßgeblich ist allein
-	// das Tisch-Theme. Per Tisch-Theme-XML überschreibbar, sonst gelten die
-	// gebündelten Defaults (dunkel). Solide Hex-Farben – die Transluzenz
-	// (withAlpha) macht der QML-Client.
+	// Colours of the chat and log box (floating side panels at the table). Deliberately
+	// independent of the light/dark mode of the rest of the app: only the table theme
+	// is authoritative. Overridable via the table theme XML, otherwise the
+	// bundled defaults (dark) apply. Solid hex colours – the translucency
+	// (withAlpha) is done by the QML client.
 	Q_PROPERTY(QString chatLogBackground READ chatLogBackground NOTIFY changed)
 	Q_PROPERTY(QString chatLogSurface READ chatLogSurface NOTIFY changed)
 	Q_PROPERTY(QString chatLogBorder READ chatLogBorder NOTIFY changed)
 	Q_PROPERTY(QString chatLogText READ chatLogText NOTIFY changed)
 	Q_PROPERTY(QString chatLogTextSecondary READ chatLogTextSecondary NOTIFY changed)
 	Q_PROPERTY(QString chatLogTextMuted READ chatLogTextMuted NOTIFY changed)
-	// Inhaltsfarben derselben Boxen: Akzent (Panel-Titel, aktiver Tab,
-	// Selektion, Erwähnung im Chat, Chancen-Balken), Schrift AUF dem Akzent,
-	// die drei Rollen des Spielverlaufs und das Senden-Symbol. Auch sie sind
-	// per XML setzbar (<ChatLogAccent> …); fehlt ein Tag, greift der zur
-	// Helligkeit von <ChatLogBackground> passende Default – sonst stünde z. B.
-	// bei einem hellen Tisch-Theme Weiß/Gold auf hellem Grund.
+	// Content colours of the same boxes: accent (panel title, active tab,
+	// selection, mention in the chat, odds bar), text ON the accent,
+	// the three roles of the game history and the send symbol. They can be set
+	// via XML as well (<ChatLogAccent> …); if a tag is missing, the default
+	// matching the brightness of <ChatLogBackground> applies – otherwise e.g. a
+	// light table theme would show white/gold on a light background.
 	Q_PROPERTY(QString chatLogAccent READ chatLogAccent NOTIFY changed)
 	Q_PROPERTY(QString chatLogAccentText READ chatLogAccentText NOTIFY changed)
 	Q_PROPERTY(QString chatLogWinner READ chatLogWinner NOTIFY changed)
@@ -91,7 +91,7 @@ class StyleProvider : public QObject
 	// Kartenstapel-Stil (52 Vorderseiten)
 	Q_PROPERTY(QString cardDeckName READ cardDeckName NOTIFY changed)
 	Q_PROPERTY(QString cardDeckDir READ cardDeckDir NOTIFY changed)
-	// Kartenrückseite – eigene Stil-Kategorie (gfx/qml/backside/<name>/)
+	// Card back – a style category of its own (gfx/qml/backside/<name>/)
 	Q_PROPERTY(QString cardBackName READ cardBackName NOTIFY changed)
 	Q_PROPERTY(QString cardBack READ cardBack NOTIFY changed)
 
@@ -231,11 +231,11 @@ public:
 		return m_cardBack;
 	}
 
-	// Stil setzen: schreibt den Config-Key, lädt die Assets neu und meldet changed().
+	// Set the style: writes the config key, reloads the assets and reports changed().
 	Q_INVOKABLE void setTableStyle(const QString &name);
 	Q_INVOKABLE void setCardDeckStyle(const QString &name);
 	Q_INVOKABLE void setCardBackStyle(const QString &name);
-	// Config-Keys erneut einlesen (z. B. nach resetToDefaults).
+	// Re-read the config keys (e.g. after resetToDefaults).
 	Q_INVOKABLE void reload();
 
 signals:
@@ -246,20 +246,20 @@ private:
 	void loadCardDeckStyle();
 	void loadCardBackStyle();
 	QString styleDirPath(const QString &category, const QString &name) const;
-	// Liefert eine gut lesbare Schriftfarbe (#1A1A1A oder #FFFFFF) anhand der
-	// gemittelten Helligkeit der Gradient-Farben einer Action-Button-SVG.
+	// Delivers a well readable text colour (#1A1A1A or #FFFFFF) based on the
+	// averaged brightness of the gradient colours of an action button SVG.
 	QString contrastTextColor(const QString &svgAbsPath) const;
-	// Gut lesbare Schriftfarbe (#101010 oder #FFFFFF) auf einer gegebenen
-	// Flächenfarbe – für die Schrift auf dem Akzent (Selektion).
+	// Well readable text colour (#101010 or #FFFFFF) on a given
+	// surface colour – for the text on the accent (selection).
 	static QString contrastTextOn(const QString &color);
 
-	// Rohe <ChatLog*>-Werte, wie sie im Theme-XML stehen (leer = nicht gesetzt).
+	// Raw <ChatLog*> values as they stand in the theme XML (empty = not set).
 	struct ChatLogTags {
 		QString background, surface, border, text, textSecondary, textMuted;
 		QString accent, accentText, winner, winnerSide, board, send;
 	};
-	// Setzt die m_chatLog*-Member: gesetzte Tags gewinnen, für den Rest gilt
-	// der zur Helligkeit des Panel-Hintergrunds passende Default-Satz.
+	// Sets the m_chatLog* members: tags that are set win, for the rest the
+	// default set matching the brightness of the panel background applies.
 	void applyChatLogColors(const ChatLogTags &tags);
 
 	boost::shared_ptr<ConfigFile> m_config;
@@ -282,7 +282,7 @@ private:
 	QString m_betRaiseButtonTextColor;
 	QString m_allInButtonTextColor;
 
-	// Chat-/Log-Box-Farben (Dunkel-Defaults; per Tisch-XML überschreibbar).
+	// Chat/log box colours (dark defaults; overridable via the table XML).
 	QString m_chatLogBackground;
 	QString m_chatLogSurface;
 	QString m_chatLogBorder;

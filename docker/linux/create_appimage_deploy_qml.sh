@@ -1,18 +1,18 @@
 #!/bin/bash
 set -e
 
-# AppImage Deploy Script für den PokerTH QtQuick/QML-Client (pokerth_qml-client).
+# AppImage deploy script for the PokerTH QtQuick/QML client (pokerth_qml-client).
 #
-# Bündelt glibc + ld-linux (identischer Ansatz wie create_appimage_deploy.sh):
-#   Qt Quick / QSGRenderLoop + bundled glibc ist in der Praxis stabil, solange
-#   GPU-Libs (libGL/libEGL) NICHT gebündelt werden (die kommen weiterhin vom Host).
-#   Ohne gebündeltes glibc crasht Qt6Core beim static initializer auf neueren
-#   Host-Systemen (Ubuntu 26.04 / GCC 16), weil aqtinstall-Prebuilds und das
-#   Host-Laufzeitsystem inkompatibel sind.
+# It bundles glibc + ld-linux (the identical approach to create_appimage_deploy.sh):
+#   Qt Quick / QSGRenderLoop + a bundled glibc is stable in practice as long as
+#   GPU libs (libGL/libEGL) are NOT bundled (those still come from the host).
+#   Without a bundled glibc, Qt6Core crashes in the static initializer on newer
+#   host systems (Ubuntu 26.04 / GCC 16), because the aqtinstall prebuilds and the
+#   host runtime are incompatible.
 #
-# Was gebündelt wird:   Qt-Libs, QML-Module, Qt-Plugins, glibc, ld-linux,
-#                       libstdc++, libgcc_s, app-eigene Deps (boost, protobuf, ssl)
-# Was NICHT gebündelt:  GPU/GL, Windowing (X11/XCB/Wayland), Fonts
+# What is bundled:      Qt libs, QML modules, Qt plugins, glibc, ld-linux,
+#                       libstdc++, libgcc_s, the app's own deps (boost, protobuf, ssl)
+# What is NOT bundled:  GPU/GL, windowing (X11/XCB/Wayland), fonts
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
@@ -28,7 +28,7 @@ echo "AppDir:       $APPDIR"
 echo "Output:       $APPIMAGE_NAME"
 echo ""
 
-# --- Voraussetzungen prüfen ---
+# --- Check the requirements ---
 
 if [ ! -d "$BUILD_DIR" ]; then
     echo "ERROR: Build-Verzeichnis nicht gefunden: $BUILD_DIR"
@@ -42,7 +42,7 @@ if [ ! -f "$BUILD_DIR/bin/pokerth_qml-client" ]; then
     exit 1
 fi
 
-# appimagetool herunterladen falls nicht vorhanden
+# Download appimagetool if it is not present
 APPIMAGETOOL_VERSION="continuous"
 APPIMAGETOOL="${SCRIPT_DIR}/appimagetool-${ARCH}.AppImage"
 if [ ! -f "$APPIMAGETOOL" ]; then
@@ -64,29 +64,29 @@ mkdir -p "$APPDIR"/usr/{bin,lib,share/pokerth,plugins,qml}
 echo "=== Kopiere Binaries ==="
 cp -v "$BUILD_DIR/bin/pokerth_qml-client" "$APPDIR/usr/bin/"
 
-# Botfiles kopieren (für lokale Spiele gegen Computergegner)
+# Copy the botfiles (for local games against computer opponents)
 if [ -d "$BUILD_DIR/bin/botfiles" ]; then
     cp -rv "$BUILD_DIR/bin/botfiles" "$APPDIR/usr/bin/"
 fi
 
-# --- Abhängigkeiten sammeln (inkl. glibc) ---
+# --- Collect the dependencies (incl. glibc) ---
 
 echo ""
 echo "=== Sammle ALLE Abhängigkeiten (inkl. glibc) ==="
 
-# Bibliotheken, die NICHT gebündelt werden dürfen:
+# Libraries that must NOT be bundled:
 #
-# 1. GPU/Grafiktreiber: eng an Host-Kernel & GPU-Treiber gebunden.
-#    Gebündelt scheitert die OpenGL/EGL-Initialisierung ("EGL not available").
+# 1. GPU/graphics drivers: tightly bound to the host kernel & GPU driver.
+#    Bundled, the OpenGL/EGL initialization fails ("EGL not available").
 #
-# 2. Windowing (X11/Wayland/XCB/XKB) + GLib/DBus: tief ins Host-Desktop-
-#    Environment integriert; gemischte Versionen führen zu Crashes oder
-#    IPC-Fehlern (z. B. D-Bus-Socket-Protokoll-Mismatch).
+# 2. Windowing (X11/Wayland/XCB/XKB) + GLib/DBus: deeply integrated into the host
+#    desktop environment; mixed versions lead to crashes or
+#    IPC errors (e.g. a D-Bus socket protocol mismatch).
 #
-# 3. Fontconfig/Freetype: nutzen die Host-Font-Datenbank; gebündelt werden
-#    Systemschriften nicht gefunden.
+# 3. Fontconfig/freetype: they use the host font database; bundled, the
+#    system fonts are not found.
 #
-# glibc + ld-linux werden MITGEBÜNDELT (siehe glibc-Bundle-Sektion unten).
+# glibc + ld-linux ARE bundled (see the glibc bundle section below).
 is_excluded_lib() {
     case "$1" in
         # --- GPU / Grafiktreiber ---
@@ -113,22 +113,22 @@ is_excluded_lib() {
         libxcb-render*.so*|libxcb-shape.so*|libxcb-shm.so*)   return 0 ;;
         libxcb-sync.so*|libxcb-xfixes.so*|libxcb-xinerama.so*) return 0 ;;
         libxcb-xkb.so*|libxcb-dri*.so*)                       return 0 ;;
-        # libxcb-cursor.so* wird BEWUSST NICHT ausgeschlossen (= mitgebündelt):
-        # Ab Qt 6.5 ist sie Pflichtabhängigkeit des xcb-Plattform-Plugins
-        # (libqxcb.so), aber auf vielen Zielsystemen nicht vorinstalliert.
-        # Fehlt sie, scheitert der Start mit:
+        # libxcb-cursor.so* is DELIBERATELY not excluded (= it is bundled):
+        # from Qt 6.5 on it is a mandatory dependency of the xcb platform plugin
+        # (libqxcb.so), but it is not preinstalled on many target systems.
+        # If it is missing, the start fails with:
         #   "xcb-cursor0 or libxcb-cursor0 is needed to load the Qt xcb platform plugin"
-        # Ihre eigenen Abhängigkeiten (libxcb, libxcb-render, …) bleiben Host-Libs.
+        # Its own dependencies (libxcb, libxcb-render, …) stay host libs.
         libxkbcommon.so*|libxkbcommon-x11.so*)                 return 0 ;;
 
         # --- GLib / GObject / GIO / DBus ---
-        # Fuer Jammy-Kompatibilitaet werden diese bewusst mitgebuendelt,
-        # da Qt6-Multimedia-Backends (z. B. libpxbackend) sonst an fehlenden
-        # oder zu alten Host-Symbolen scheitern koennen.
+        # For Jammy compatibility these are deliberately bundled along,
+        # because Qt6 multimedia backends (e.g. libpxbackend) could otherwise fail on missing
+        # or too old host symbols.
 
-        # --- Audio-Backends (PipeWire/pxbackend) ---
-        # Ebenfalls mitbuendeln, damit keine Host-Abhaengigkeit auf
-        # libpxbackend-1.0.so besteht.
+        # --- Audio backends (PipeWire/pxbackend) ---
+        # Bundle them as well, so that there is no host dependency on
+        # libpxbackend-1.0.so.
 
         # --- Fonts / System-Infrastruktur ---
         libfontconfig.so*|libfreetype.so*) return 0 ;;
@@ -155,7 +155,7 @@ collect_all_dependencies() {
             local lib
             lib=$(echo "$line" | grep "=>" | awk '{print $3}')
             [ -n "$lib" ] && [ -f "$lib" ] && libs+=("$lib")
-            # ld-linux (hat kein "=>")
+            # ld-linux (has no "=>")
             local ld
             ld=$(echo "$line" | grep -oP '/\S*ld-linux\S+' || true)
             [ -n "$ld" ] && [ -f "$ld" ] && libs+=("$ld")
@@ -190,9 +190,9 @@ collect_all_dependencies() {
 
 collect_all_dependencies "$APPDIR/usr/bin/pokerth_qml-client" "$APPDIR/usr/lib"
 
-# Zusatzabsicherung fuer Qt6-Multimedia auf Jammy:
-# Falls der initiale ldd-Rekursionslauf bestimmte Audio-Backend-Libs nicht
-# erfasst (z. B. durch abweichende Paketlayouts), sammeln wir sie explizit.
+# An additional safeguard for Qt6 multimedia on Jammy:
+# in case the initial ldd recursion run does not catch certain audio backend libs
+# (e.g. because of differing package layouts), we collect them explicitly.
 for forced_audio_lib in libpxbackend-1.0.so libpipewire-0.3.so.0 libspa-0.2.so; do
     forced_path=$(ldconfig -p 2>/dev/null | grep "${forced_audio_lib}" | head -1 | awk '{print $NF}')
     if [ -n "$forced_path" ] && [ -f "$forced_path" ]; then
@@ -201,12 +201,12 @@ for forced_audio_lib in libpxbackend-1.0.so libpipewire-0.3.so.0 libspa-0.2.so; 
     fi
 done
 
-# Qt-6.5+-Pflicht: libxcb-cursor.so.0 explizit mitbündeln.
-# Das xcb-Plattform-Plugin (libqxcb.so) linkt diese Lib direkt, sie ist aber
-# auf vielen Zielsystemen nicht vorinstalliert. Ohne sie startet das AppImage
-# nicht ("xcb-cursor0 ... is needed to load the Qt xcb platform plugin").
-# Direkt kopieren (nicht über collect_all_dependencies, das nur die Deps der
-# übergebenen Lib bündelt, nicht die Lib selbst).
+# Mandatory for Qt 6.5+: bundle libxcb-cursor.so.0 explicitly.
+# The xcb platform plugin (libqxcb.so) links this lib directly, but it is
+# not preinstalled on many target systems. Without it the AppImage does not
+# start ("xcb-cursor0 ... is needed to load the Qt xcb platform plugin").
+# Copy it directly (not via collect_all_dependencies, which only bundles the deps of the
+# lib that is passed, not the lib itself).
 xcb_cursor_path=$(ldconfig -p 2>/dev/null | grep "libxcb-cursor.so.0" | head -1 | awk '{print $NF}')
 [ -z "$xcb_cursor_path" ] && for cand in \
     "/usr/lib/${ARCH}-linux-gnu/libxcb-cursor.so.0" \
@@ -237,7 +237,7 @@ for glibc_lib in libc.so.6 libm.so.6 libdl.so.2 libpthread.so.0 librt.so.1 libre
     fi
 done
 
-# ld-linux Loader kopieren (KRITISCH für glibc-Isolation)
+# Copy the ld-linux loader (CRITICAL for the glibc isolation)
 LD_LINUX="/lib64/ld-linux-${ARCH//_/-}.so.2"
 [ ! -f "$LD_LINUX" ] && LD_LINUX="/lib/${ARCH}-linux-gnu/ld-linux-${ARCH//_/-}.so.2"
 [ ! -f "$LD_LINUX" ] && LD_LINUX=$(ldconfig -p | grep "ld-linux" | head -1 | awk '{print $NF}')
@@ -253,7 +253,7 @@ rm -f "$APPDIR/usr/lib/.processed_libs"
 
 echo ""
 echo "=== Sammle Qt-Plugins ==="
-# QT_DIR kann als Umgebungsvariable übergeben werden (z. B. bei aqtinstall-Qt).
+# QT_DIR can be passed as an environment variable (e.g. with an aqtinstall Qt).
 if [ -n "${QT_DIR:-}" ]; then
     QT6_PLUGINS="${QT_DIR}/plugins"
     echo "QT_DIR gesetzt: ${QT_DIR}"
@@ -281,7 +281,7 @@ else
     echo "WARNUNG: Qt6 Plugins nicht gefunden!"
 fi
 
-# --- Qt-QML-Module (für den QtQuick/QML-Client zwingend nötig) ---
+# --- Qt QML modules (mandatory for the QtQuick/QML client) ---
 
 echo ""
 echo "=== Sammle Qt-QML-Module ==="
@@ -316,16 +316,16 @@ fi
 
 echo ""
 echo "=== Kopiere Data ==="
-# Mit gebündeltem ld-linux zeigt /proc/self/exe auf usr/lib/ld-linux-*.so.2,
-# daher: applicationDirPath() = usr/lib/
-# getDataPathStdString() findet "bin/?$" nicht → Fallback sucht in usr/lib/data/
-# Lösung: Data in usr/share/pokerth/data/ ablegen UND Symlink usr/lib/data anlegen.
+# With a bundled ld-linux, /proc/self/exe points to usr/lib/ld-linux-*.so.2,
+# hence: applicationDirPath() = usr/lib/
+# getDataPathStdString() does not find "bin/?$" → the fallback looks in usr/lib/data/
+# Solution: put the data in usr/share/pokerth/data/ AND create a symlink usr/lib/data.
 mkdir -p "$APPDIR/usr/share/pokerth"
 if [ -d "$PROJECT_ROOT/data" ]; then
     cp -r "$PROJECT_ROOT/data" "$APPDIR/usr/share/pokerth/"
 fi
 
-# Symlink damit data gefunden wird wenn applicationDirPath() auf usr/lib/ zeigt
+# A symlink so that the data is found when applicationDirPath() points to usr/lib/
 ln -sf "../share/pokerth/data" "$APPDIR/usr/lib/data"
 echo "  Symlink: usr/lib/data → ../share/pokerth/data (für ld-linux /proc/self/exe)"
 
@@ -336,7 +336,7 @@ echo "  Symlink: usr/lib/data → ../share/pokerth/data (für ld-linux /proc/sel
 
 echo ""
 echo "=== Erstelle qt.conf ==="
-# In usr/bin/ für normalen Start
+# In usr/bin/ for a normal start
 cat > "$APPDIR/usr/bin/qt.conf" << 'EOF'
 [Paths]
 Plugins = ../plugins
@@ -344,7 +344,7 @@ QmlImports = ../qml
 Libraries = ../lib
 EOF
 
-# In usr/lib/ für gebündelten ld-linux (applicationDirPath = usr/lib/)
+# In usr/lib/ for the bundled ld-linux (applicationDirPath = usr/lib/)
 cat > "$APPDIR/usr/lib/qt.conf" << 'EOF'
 [Paths]
 Plugins = ../plugins
@@ -355,9 +355,9 @@ EOF
 # --- Desktop-Datei + Icon (AppImage-Pflicht) ---
 
 echo "=== Erstelle Desktop-Datei und Icon ==="
-# Dateiname = pokerth_qml (Unterstrich): muss zur app_id passen, die der Client
-# via QGuiApplication::setDesktopFileName("pokerth_qml") setzt. So ordnet ein
-# Compositor ohne xdg-toplevel-icon (Fallback-Pfad) Fenster und Icon korrekt zu.
+# File name = pokerth_qml (with an underscore): it has to match the app_id that the client
+# sets via QGuiApplication::setDesktopFileName("pokerth_qml"). That way a
+# compositor without xdg-toplevel-icon (the fallback path) assigns the window and the icon correctly.
 cat > "$APPDIR/pokerth_qml.desktop" << 'EOF'
 [Desktop Entry]
 Name=PokerTH QML
@@ -383,10 +383,10 @@ else
     printf '\x89PNG\r\n\x1a\n' > "$APPDIR/pokerth.png"
 fi
 
-# .DirIcon bestimmt das Icon der AppImage-DATEI im Dateimanager. appimagetool
-# würde sonst nur einen Symlink .DirIcon -> pokerth.png anlegen, den manche
-# Thumbnailer nicht auflösen. Als echte Datei (kein Symlink) ist es überall
-# zuverlässig sichtbar.
+# .DirIcon determines the icon of the AppImage FILE in the file manager. appimagetool
+# would otherwise only create a symlink .DirIcon -> pokerth.png, which some
+# thumbnailers do not resolve. As a real file (not a symlink) it is reliably
+# visible everywhere.
 cp "$APPDIR/pokerth.png" "$APPDIR/.DirIcon"
 
 # --- Lizenz & Docs ---
@@ -395,18 +395,18 @@ cp "$APPDIR/pokerth.png" "$APPDIR/.DirIcon"
 [ -f "$PROJECT_ROOT/ChangeLog" ] && cp "$PROJECT_ROOT/ChangeLog" "$APPDIR/"
 [ -d "$PROJECT_ROOT/docs" ]      && { mkdir -p "$APPDIR/usr/share/doc/pokerth"; cp -r "$PROJECT_ROOT/docs"/* "$APPDIR/usr/share/doc/pokerth/"; }
 
-# --- AppRun erstellen (KERNSTÜCK für glibc-Isolation) ---
+# --- Create the AppRun (the CORE PIECE for the glibc isolation) ---
 
 echo ""
 echo "=== Erstelle AppRun ==="
 
-# Ermittle den genauen Dateinamen des ld-linux Loaders
+# Determine the exact file name of the ld-linux loader
 LD_LINUX_NAME=$(basename "$LD_LINUX" 2>/dev/null || echo "ld-linux-x86-64.so.2")
 
 cat > "$APPDIR/AppRun" << 'RUNEOF'
 #!/bin/bash
-# AppRun: Startet den PokerTH QML-Client mit gebündeltem glibc + ld-linux Loader.
-# Dadurch ist die glibc-Version des Host-Systems irrelevant.
+# AppRun: starts the PokerTH QML client with the bundled glibc + ld-linux loader.
+# That makes the glibc version of the host system irrelevant.
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -425,15 +425,15 @@ if [ -n "${APPIMAGE_LAUNCHER_VERSION:-}" ] || \
     echo "" >&2
 fi
 
-# PokerTH AppImage Marker — wird im C++ Code via AppImageUtils geprüft
+# PokerTH AppImage marker — checked in the C++ code via AppImageUtils
 export POKERTH_APPIMAGE=1
 
-# Originale LD_LIBRARY_PATH sichern BEVOR wir sie modifizieren.
-# AppImageUtils::cleanProcessEnvironment() stellt diesen Wert wieder her,
-# damit externe Prozesse (xdg-open, paplay, etc.) die System-Libs nutzen.
+# Save the original LD_LIBRARY_PATH BEFORE we modify it.
+# AppImageUtils::cleanProcessEnvironment() restores this value,
+# so that external processes (xdg-open, paplay, etc.) use the system libs.
 export POKERTH_ORIG_LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
 
-# Gebündelte Libs zuerst, System-Libs als Fallback (für GPU-Treiber etc.)
+# The bundled libs first, the system libs as a fallback (for GPU drivers etc.)
 export LD_LIBRARY_PATH="${HERE}/usr/lib:${LD_LIBRARY_PATH}"
 export QT_PLUGIN_PATH="${HERE}/usr/plugins"
 export QT_QPA_PLATFORM_PLUGIN_PATH="${HERE}/usr/plugins/platforms"
@@ -442,13 +442,13 @@ export QML2_IMPORT_PATH="${HERE}/usr/qml"
 export QT_MEDIA_BACKEND=ffmpeg
 export XDG_DATA_DIRS="${HERE}/usr/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 
-# Host-Library-Pfade explizit sammeln. Diese werden dem gebündelten Loader
-# zusaetzlich uebergeben, damit absichtlich nicht gebuendelte GPU/GL/EGL-Libs
-# (z. B. libEGL.so.1, libGLX, Mesa/NVIDIA-Treiber) auf dem Zielsystem gefunden
-# werden. Die Reihenfolge bleibt: zuerst AppImage-Libs, dann Host-Libs.
+# Collect the host library paths explicitly. They are passed to the bundled
+# loader in addition, so that GPU/GL/EGL libs that are deliberately not bundled
+# (e.g. libEGL.so.1, libGLX, Mesa/NVIDIA drivers) are found on the target
+# system. The order stays: first the AppImage libs, then the host libs.
 HOST_LIB_DIRS=""
-# Kein externes `uname`: mit gebuendelter libc kann ein Host-Binary hier
-# symbol lookup errors erzeugen. Deshalb nur Bash-interne Architekturableitung.
+# No external `uname`: with a bundled libc a host binary can produce
+# symbol lookup errors here. Hence only a bash-internal architecture derivation.
 APP_ARCH="${MACHTYPE%%-*}"
 [ -z "$APP_ARCH" ] && APP_ARCH="${HOSTTYPE:-x86_64}"
 for d in /lib /usr/lib /lib64 /usr/lib64 /lib/${APP_ARCH}-linux-gnu /usr/lib/${APP_ARCH}-linux-gnu /lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu; do
@@ -461,10 +461,10 @@ for d in /lib /usr/lib /lib64 /usr/lib64 /lib/${APP_ARCH}-linux-gnu /usr/lib/${A
     fi
 done
 
-# Prüfe ob der gebündelte ld-linux Loader vorhanden ist
+# Check whether the bundled ld-linux loader is present
 RUNEOF
 
-# ld-linux Name in das Script einsetzen (muss außerhalb von 'HEREDOC' sein)
+# Insert the ld-linux name into the script (has to be outside of 'HEREDOC')
 cat >> "$APPDIR/AppRun" << RUNEOF
 BUNDLED_LD="\${HERE}/usr/lib/${LD_LINUX_NAME}"
 RUNEOF
@@ -472,12 +472,12 @@ RUNEOF
 cat >> "$APPDIR/AppRun" << 'RUNEOF'
 
 if [ -x "${BUNDLED_LD}" ]; then
-    # WICHTIG: Nutze den gebündelten ld-linux Loader!
-    # Das umgeht das System-glibc komplett und nutzt unsere eigene Version.
+    # IMPORTANT: use the bundled ld-linux loader!
+    # That bypasses the system glibc completely and uses our own version.
     exec "${BUNDLED_LD}" --inhibit-cache --library-path "${HERE}/usr/lib${HOST_LIB_DIRS:+:${HOST_LIB_DIRS}}" \
          "${HERE}/usr/bin/pokerth_qml-client" "$@"
 else
-    # Fallback: Normaler Start (funktioniert nur wenn Host-glibc kompatibel ist)
+    # Fallback: a normal start (works only if the host glibc is compatible)
     echo "WARNUNG: Gebündelter Loader nicht gefunden, verwende System-Loader" >&2
     exec "${HERE}/usr/bin/pokerth_qml-client" "$@"
 fi

@@ -4,20 +4,20 @@ import QtQuick.Layouts
 
 import "../config" as Config
 
-// Umschalter zwischen den Ranglisten-Quellen PokerTH / BBC / WEC – Buttonbox
-// mit Aktiv-/Inaktiv-Zustand. Die einbettende Seite setzt `current` und
-// reagiert auf selected(community): Player-Pages ersetzen sich damit selbst
-// (StackView.replace), die Tisch-Übersicht lädt ihre Daten neu.
+// Switch between the ranking sources PokerTH / BBC / WEC – a button box with
+// an active/inactive state. The embedding page sets `current` and reacts to
+// selected(community): player pages replace themselves with it
+// (StackView.replace), the table overview reloads its data.
 //
-// Quell-Registry und Routing (Einträge, Basis-URL, Player-Page-URL+Props)
-// liegen zentral in Config.Community, damit sie nicht in jeder aufrufenden
-// Seite dupliziert werden müssen.
+// Source registry and routing (entries, base URL, player page URL+props) live
+// centrally in Config.Community so that they do not have to be duplicated in
+// every calling page.
 Rectangle {
     id: sw
 
     // "pokerth" | "bbc" | "wec"
     property string current: "pokerth"
-    // Klick auf einen NICHT aktiven Eintrag (aktiver Eintrag löst nichts aus).
+    // Click on a NON-active entry (the active entry does not trigger anything).
     signal selected(string community)
 
     implicitWidth: segmentRow.implicitWidth + 2

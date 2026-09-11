@@ -32,7 +32,7 @@
 #ifndef APPIMAGE_UTILS_H
 #define APPIMAGE_UTILS_H
 
-#include <QtGlobal>   // QT_CONFIG(process) – auf iOS ist QProcess wegkonfiguriert
+#include <QtGlobal>   // QT_CONFIG(process) – on iOS QProcess is configured out
 #include <QUrl>
 #include <QProcess>
 #include <QProcessEnvironment>
@@ -224,11 +224,11 @@ inline bool startDetachedSafe(const QString& program, const QStringList& args)
 #if QT_CONFIG(process)
 	return QProcess::startDetached(program, args);
 #else
-	// Qt für iOS ist ohne Process-Feature gebaut – das System erlaubt keine
-	// Kindprozesse, QProcess ist dort nicht deklariert (QProcessEnvironment
-	// dagegen schon, deshalb übersetzt der Rest dieses Headers). Der einzige
-	// Aufrufer ist der paplay/pw-play-Fallback des Audio-Backends, das auf iOS
-	// gar nicht erst ausgewählt wird (initAudio() gated auf Q_OS_LINUX).
+	// Qt for iOS is built without the process feature – the system does not allow
+	// child processes, QProcess is not declared there (QProcessEnvironment is,
+	// which is why the rest of this header compiles). The only caller is the
+	// paplay/pw-play fallback of the audio backend, which is not even selected on
+	// iOS (initAudio() gated on Q_OS_LINUX).
 	Q_UNUSED(program);
 	Q_UNUSED(args);
 	return false;
@@ -259,8 +259,8 @@ inline bool startDetachedSafe(const QString& program, const QStringList& args)
 inline void patchExternalLinks(QWidget* root)
 {
 #ifdef Q_OS_LINUX
-	// Gleiche Bedingung wie openUrlSafe(): der Tarball bundelt Qt ebenfalls
-	// per LD_LIBRARY_PATH, setzt aber kein POKERTH_APPIMAGE=1.
+	// Same condition as openUrlSafe(): the tarball bundles Qt via LD_LIBRARY_PATH
+	// as well, but does not set POKERTH_APPIMAGE=1.
 	if (!runningWithBundledLibs() || !root) {
 		return;
 	}

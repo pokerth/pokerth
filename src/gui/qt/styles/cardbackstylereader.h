@@ -43,7 +43,7 @@ enum CbStyleState {
 	CB_STYLE_UNDEFINED
 };
 
-/** Reader for a stand alone card back style (Kartenrückseite).
+/** Reader for a stand alone card back style.
  *
  * A card back style consists of exactly one picture plus its meta data, so
  * unlike GameTableStyleReader/CardDeckStyleReader there is neither a fallback

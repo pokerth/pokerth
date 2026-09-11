@@ -12,18 +12,18 @@ Rectangle {
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
 
-    // Default-Button der Seite: Enter startet das Spiel, egal in welchem Feld der
-    // Fokus steht. Ein fokussierter Button verbraucht Return selbst und behält
-    // Vorrang (Enter auf "Abbrechen" bricht also ab).
+    // Default button of the page: Enter starts the game, no matter which field
+    // has the focus. A focused button consumes Return itself and keeps
+    // precedence (Enter on "cancel" therefore cancels).
     Keys.onReturnPressed: startGameButton.clicked()
     Keys.onEnterPressed: startGameButton.clicked()
 
-    // Startfokus auf die Hauptaktion – wie beim Öffnen eines Dialogs. Qt.callLater,
-    // weil der Fokus während der Stack-Animation sonst verpufft. Ohne Fokusgrund
-    // bleibt der Fokusrahmen aus; er erscheint erst beim ersten Tab.
+    // Initial focus on the main action – as when opening a dialog. Qt.callLater,
+    // because the focus would otherwise fizzle out during the stack animation.
+    // Without a focus reason there is no focus frame; it appears on the first Tab.
     StackView.onActivated: Qt.callLater(startGameButton.forceActiveFocus)
 
-    // Gibt eine lesbare Zusammenfassung der aktuellen Blinds-Einstellungen zurück
+    // Returns a readable summary of the current blinds settings
     function blindsSummary() {
         if (!SettingsManager) return ""
         var fsb = SettingsManager.readConfigInt("FirstSmallBlind")
@@ -53,10 +53,10 @@ Rectangle {
         clip: true
 
         ScrollBar.vertical: ScrollBar {
-            // AlwaysOff statt AsNeeded: AsNeeded blendet die Bar bei jeder
-            // contentHeight-Änderung transient ein (mehrsekündiges Fade) –
-            // sichtbar als kurz aufblitzende Scrollbar beim Seitenaufbau,
-            // obwohl nichts zu scrollen ist.
+            // AlwaysOff instead of AsNeeded: AsNeeded shows the bar transiently on
+            // every contentHeight change (a fade of several seconds) –
+            // visible as a scrollbar flashing up briefly while the page builds,
+            // although there is nothing to scroll.
             policy: scroller.contentHeight > scroller.height + 1
                     ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
         }
@@ -64,9 +64,9 @@ Rectangle {
         Item {
             id: scrollContent
             width: scroller.width
-            // Min-Höhe = Viewport (damit fillHeight-Spacer das vertikale
-            // Zentrieren halten), aber wachsen sobald der Layout-Inhalt
-            // mehr Platz braucht → dann scrollt der Flickable.
+            // Minimum height = viewport (so that the fillHeight spacers keep the
+            // vertical centring), but grow as soon as the layout content needs
+            // more room → then the Flickable scrolls.
             height: Math.max(scroller.height,
                              pageColumn.implicitHeight + Config.Theme.margin * 2)
 
@@ -91,7 +91,7 @@ Rectangle {
 
         Item { Layout.fillHeight: true }
 
-        // Einstellungs-Karte (entspricht dem Qt-Widgets newGameDialog)
+        // Settings card (corresponds to the Qt widgets newGameDialog)
         GroupBox {
             Layout.fillWidth: true
             title: qsTr("Lokale Spiel-Einstellungen")
@@ -103,7 +103,7 @@ Rectangle {
                 columnSpacing: 12
                 rowSpacing: 10
 
-                // --- Anzahl Spieler ---
+                // --- Number of players ---
                 Label {
                     text: qsTr("Anzahl der Spieler:")
                     color: Config.StaticData.palette.secondary.col200
@@ -155,7 +155,7 @@ Rectangle {
                             checked: true
                         }
 
-                        // Zusammenfassung der aktuell gespeicherten Blinds
+                        // Summary of the currently stored blinds
                         Label {
                             Layout.leftMargin: 28
                             text: localGamePagePage.blindsSummary()
@@ -172,7 +172,7 @@ Rectangle {
                             ButtonGroup.group: blindsChoiceGroup
                         }
 
-                        // Inline-Blinds-Editor (nur sichtbar wenn "ändern" gewählt)
+                        // Inline blinds editor (only visible when "change" is selected)
                         GridLayout {
                             Layout.leftMargin: 28
                             Layout.fillWidth: true
@@ -329,7 +329,7 @@ Rectangle {
                 text: qsTr("Spiel starten")
                 Layout.fillWidth: true
                 onClicked: {
-                    // Doppelklick-Schutz: sonst liegen zwei GamePages im Stack.
+                    // Double click protection: otherwise two GamePages end up in the stack.
                     if (mainStackView.currentItem
                             && mainStackView.currentItem.objectName === "gamePage")
                         return

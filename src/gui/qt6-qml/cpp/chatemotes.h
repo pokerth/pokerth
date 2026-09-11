@@ -6,10 +6,10 @@
 #include <QDateTime>
 #include <configfile.h>
 
-// Baut den Zeitstempel-Präfix "[HH:mm:ss] " einer Chatzeile – oder einen leeren
-// String, wenn der Nutzer den Zeitstempel per Einstellung ausgeblendet hat
-// (Config-Key "ShowChatTimestamp", Default an). Zentrale Stelle für Format,
-// Schlüssel und Default, damit Game- und Lobby-Chat identisch bleiben.
+// Builds the timestamp prefix "[HH:mm:ss] " of a chat line – or an empty
+// string if the user has hidden the timestamp via the setting
+// (config key "ShowChatTimestamp", default on). Central place for the format,
+// the key and the default, so that the game and lobby chat stay identical.
 inline QString chatTimestampPrefix(ConfigFile *config)
 {
 	if (config && config->readConfigInt("ShowChatTimestamp") == 0)
@@ -19,13 +19,13 @@ inline QString chatTimestampPrefix(ConfigFile *config)
 		   + QLatin1String("] ");
 }
 
-// Zeichenklassen der Emoji-Erkennung – gemeinsam genutzt von enlargeEmojis
-// und isEmojiOnlyReaction, damit beide denselben Emoji-Begriff haben.
+// Character classes of the emoji detection – shared by enlargeEmojis
+// and isEmojiOnlyReaction, so that both have the same notion of an emoji.
 //
-// „Echte" Emoji-Codepoints. Deckt die komplette GitHub-Shortcode-Liste
-// (chat_emote_shortcode_table.h) ab – AUSSER ©/®/™ (:copyright:/:registered:/
-// :tm:): die sind auch normale Textzeichen („Qt® …") und sollen im Chat weder
-// vergrößert noch als Emoji-Reaktion gewertet werden.
+// "Real" emoji code points. Covers the complete GitHub shortcode list
+// (chat_emote_shortcode_table.h) – EXCEPT ©/®/™ (:copyright:/:registered:/
+// :tm:): those are ordinary text characters as well ("Qt® …") and should be
+// neither enlarged in the chat nor counted as an emoji reaction.
 inline const QString &emojiCharClass()
 {
 	static const QString cls = QStringLiteral(
@@ -37,9 +37,9 @@ inline const QString &emojiCharClass()
 	return cls;
 }
 
-// Verbindungs-/Modifier-Zeichen (nur zusammen mit Emojis sinnvoll): Hauttöne,
-// Variation-Selektoren, ZWJ, Keycap-Kombinierer sowie Tag-Zeichen
-// (Flaggen England/Schottland/Wales, z. B. 🏴󠁧󠁢󠁥󠁮󠁧󠁿 = 1F3F4 + E0067…E007F).
+// Joining/modifier characters (only meaningful together with emojis): skin
+// tones, variation selectors, ZWJ, keycap combiners as well as tag characters
+// (flags England/Scotland/Wales, e.g. 🏴󠁧󠁢󠁥󠁮󠁧󠁿 = 1F3F4 + E0067…E007F).
 inline const QString &emojiJoinerClass()
 {
 	static const QString cls = QStringLiteral(
@@ -48,16 +48,16 @@ inline const QString &emojiJoinerClass()
 	return cls;
 }
 
-// Vergrößert Unicode-Emoji in einer (bereits HTML-formatierten) Chatzeile auf
-// ~22px – ähnlich den Bild-Emotes des Qt-Widgets-Clients. Zusammenhängende
-// Emoji-Sequenzen (inkl. Variations-Selektoren / ZWJ / Keycaps) werden in einen
-// größeren font-size-Span gewrappt. Wird von Game- und Lobby-Chat genutzt.
+// Enlarges Unicode emojis in an (already HTML formatted) chat line to
+// ~22px – similar to the image emotes of the Qt widgets client. Contiguous
+// emoji sequences (incl. variation selectors / ZWJ / keycaps) are wrapped into a
+// larger font-size span. Used by the game and the lobby chat.
 inline QString enlargeEmojis(const QString &html)
 {
-	// Keycap-Sequenzen (#⃣ 1⃣ …) als Alternative VOR der Zeichenklasse: ihre
-	// Basiszeichen (#, *, Ziffern) gehören nur als Teil der kompletten Sequenz
-	// in den Span – sonst bliebe die Ziffer klein und nur der Kombinierer
-	// würde vergrößert (kaputtes Rendering). Bare Ziffern matchen NICHT.
+	// Keycap sequences (#⃣ 1⃣ …) as an alternative BEFORE the character class: their
+	// base characters (#, *, digits) only belong into the span as part of the
+	// complete sequence – otherwise the digit would stay small and only the
+	// combiner would be enlarged (broken rendering). Bare digits do NOT match.
 	static const QRegularExpression emojiRe(
 		QStringLiteral("((?:[#*0-9]\\x{FE0F}?\\x{20E3}|[")
 		+ emojiCharClass() + emojiJoinerClass() + QStringLiteral("])+)"));
@@ -67,31 +67,31 @@ inline QString enlargeEmojis(const QString &html)
 	return r;
 }
 
-// Prüft, ob ein Reaktions-Payload ("/emoji <x>") ausschließlich aus echten
-// Emoji-Zeichen besteht (inkl. Variation-Selektoren, ZWJ, Keycaps und Hautton-
-// Modifiern) und mindestens ein Emoji enthält. So werden als Reaktion getarnte
-// Textnachrichten ("/emoji haha") verworfen, beliebige echte Emojis (auch
-// außerhalb der Picker-Liste) aber zugelassen.
+// Checks whether a reaction payload ("/emoji <x>") consists exclusively of real
+// emoji characters (incl. variation selectors, ZWJ, keycaps and skin tone
+// modifiers) and contains at least one emoji. That way text messages disguised
+// as a reaction ("/emoji haha") are discarded, while arbitrary real emojis (also
+// outside the picker list) are allowed.
 inline bool isEmojiOnlyReaction(const QString &text)
 {
 	if (text.isEmpty())
 		return false;
-	// Keycap-Sequenzen zuerst herausschneiden: ihre Basiszeichen (#, *,
-	// Ziffern) sind für sich genommen KEINE Emojis (sonst wäre "/emoji 123"
-	// gültig) und zählen nur als komplette Sequenz.
+	// Cut out the keycap sequences first: their base characters (#, *,
+	// digits) are NOT emojis on their own (otherwise "/emoji 123" would be
+	// valid) and only count as a complete sequence.
 	static const QRegularExpression keycapRe(
 		QStringLiteral("[#*0-9]\\x{FE0F}?\\x{20E3}"));
 	QString t = text;
 	t.remove(keycapRe);
 	const bool hadKeycap = t.size() != text.size();
 	if (t.isEmpty())
-		return hadKeycap;                          // nur Keycap-Emojis
+		return hadKeycap;                          // keycap emojis only
 	static const QRegularExpression hasEmojiRe(
 		QStringLiteral("[") + emojiCharClass() + QStringLiteral("]"));
 	static const QRegularExpression foreignRe(
 		QStringLiteral("[^") + emojiCharClass() + emojiJoinerClass() + QStringLiteral("]"));
-	return (hasEmojiRe.match(t).hasMatch() || hadKeycap) // mindestens ein Emoji …
-		   && !foreignRe.match(t).hasMatch();      // … und sonst nur Emoji-Zeichen
+	return (hasEmojiRe.match(t).hasMatch() || hadKeycap) // at least one emoji …
+		   && !foreignRe.match(t).hasMatch();      // … and otherwise only emoji characters
 }
 
 #endif // CHATEMOTES_H

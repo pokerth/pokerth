@@ -52,10 +52,10 @@ using namespace std;
 
 CleanerConfig::CleanerConfig()
 {
-	// !!!! Revisionsnummer der Configdefaults !!!!!
+	// !!!! Revision number of the config defaults !!!!!
 	configRev = 10;
 
-	// Pfad und Dateinamen setzen
+	// Set the path and file names
 #ifdef _WIN32
 	const char *appDataPath = getenv("AppData");
 	if (appDataPath && appDataPath[0] != 0) {
@@ -67,17 +67,17 @@ CleanerConfig::CleanerConfig()
 		_getcwd(curDir, MaxPathSize);
 		curDir[MaxPathSize] = 0;
 		configFileName = curDir;
-		// Testen ob das Verzeichnis beschreibbar ist
+		// Test whether the directory is writable
 		ofstream tmpFile;
 		const char *tmpFileName = "pokerth_test.tmp";
 		tmpFile.open((configFileName + "\\" + tmpFileName).c_str());
 		if (tmpFile) {
-			// Erfolgreich, Verzeichnis beschreibbar.
-			// Datei wieder loeschen.
+			// Succeeded, directory is writable.
+			// Delete the file again.
 			tmpFile.close();
 			remove((configFileName + "\\" + tmpFileName).c_str());
 		} else {
-			// Fehlgeschlagen, Verzeichnis nicht beschreibbar
+			// Failed, directory is not writable
 			curDir[0] = 0;
 			GetTempPathA(MaxPathSize, curDir);
 			curDir[MaxPathSize] = 0;
@@ -197,7 +197,7 @@ CleanerConfig::CleanerConfig()
 
 	configFileName += "cleanerconfig.xml";
 
-	// Prüfen ob Configfile existiert --> sonst anlegen
+	// Check whether the config file exists --> otherwise create it
 	QDomDocument xmlDoc;
 	QFile file(QString::fromStdString(configFileName));
 	if (!file.open(QIODevice::ReadOnly) || !xmlDoc.setContent(&file)) {
@@ -216,7 +216,7 @@ CleanerConfig::CleanerConfig()
 		}
 
 		if (tempRevision < configRev) {
-			/*löschen()*/
+			/*delete()*/
 			myConfigState = OLD;
 			updateConfig(myConfigState);
 		}

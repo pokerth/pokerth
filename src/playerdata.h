@@ -96,14 +96,14 @@ public:
 	void SetAvatarFile(const std::string &avatarFile);
 	MD5Buf GetAvatarMD5() const;
 	void SetAvatarMD5(const MD5Buf &avatarMD5);
-	// Der beim Login angekündigte Avatar-Hash. Anders als m_avatarMD5 wird er
-	// nie zurückgesetzt: Scheitert die Übernahme des Avatars (Upload
-	// abgelehnt, Client kennt ihn nicht mehr), leert der Server m_avatarMD5,
-	// damit die Spielerauskunft ohne Avatar rausgeht. Für die Datenbank muss
-	// aber unterscheidbar bleiben, ob der Spieler gar keinen Avatar hat oder
-	// ob nur die Übernahme misslang - sonst löscht ein einziger fehlgeschlagener
-	// Upload den seit Jahren eingetragenen Hash (und damit das Bild auf der
-	// Webseite) unwiederbringlich.
+	// The avatar hash announced at login. Unlike m_avatarMD5 it is never reset:
+	// if taking over the avatar fails (upload rejected, client does not know it
+	// any more), the server clears m_avatarMD5 so that the player info goes out
+	// without an avatar. For the database, though, it must remain possible to
+	// tell whether the player has no avatar at all or whether only taking it
+	// over failed - otherwise a single failed upload would irrecoverably delete
+	// the hash that has been stored for years (and with it the image on the
+	// website).
 	MD5Buf GetAnnouncedAvatarMD5() const;
 	void SetAnnouncedAvatarMD5(const MD5Buf &avatarMD5);
 	boost::shared_ptr<AvatarFile> GetNetAvatarFile() const;

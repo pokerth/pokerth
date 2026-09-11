@@ -72,15 +72,15 @@
 // the GUI thread blocks inside the SQLite log flush.
 static void pokerthQmlMessageHandler(QtMsgType type, const QMessageLogContext & /*ctx*/, const QString &msg)
 {
-	// Debug-Meldungen werden NICHT mehr verarbeitet: die per-Aktion-
-	// Instrumentierung (z. B. [ACTDBG] im GameHandler) stammt aus der damaligen
-	// Freeze-Untersuchung (gelöst) und schrieb pro Aktion synchron nach stderr
-	// UND auf Platte (fflush je Zeile) → unnötige I/O im Spiel. Nur noch
-	// Info/Warning/Critical/Fatal (selten, echte Diagnose) werden geloggt.
+	// Debug messages are NOT processed any more: the per-action
+	// instrumentation (e.g. [ACTDBG] in the GameHandler) stems from the freeze
+	// investigation at the time (solved) and wrote synchronously to stderr
+	// AND to disk per action (an fflush per line) → unnecessary I/O in the game. Only
+	// info/warning/critical/fatal (rare, real diagnostics) are logged.
 	//
-	// Ausnahme: Diagnose-Build (-DPOKERTH_DIAG_LOG=ON, siehe qt6-qml/CMakeLists.txt).
-	// Dort ist die per-Aktion-Instrumentierung genau das Gesuchte, also muessen
-	// die Debug-Zeilen hier durchgelassen werden.
+	// The exception: a diagnostic build (-DPOKERTH_DIAG_LOG=ON, see qt6-qml/CMakeLists.txt).
+	// There the per-action instrumentation is exactly what is wanted, so the
+	// debug lines have to be let through here.
 #ifndef POKERTH_DIAG_LOG
 	if (type == QtDebugMsg)
 		return;
@@ -112,26 +112,26 @@ static void pokerthQmlMessageHandler(QtMsgType type, const QMessageLogContext & 
 		abort();
 }
 
-// Erzwingt nach jeder Größenänderung einen vollständigen Neuaufbau des
-// Fensterinhalts.
+// Forces a complete rebuild of the window content after every
+// resize.
 //
-// Hintergrund (Forum-Bug „QML - Button 'hit zone' is sometimes wrong",
-// Windows 10, 2.1.5): Zieht man das Fenster am UNTEREN Rand auf, präsentiert
-// das D3D11-RHI-Backend weiterhin den alten Frame. Die Szene ist korrekt für
-// die neue Größe layoutet – nur das Bild hängt hinterher: die obere App-Leiste
-// fehlt darin, unten bleibt ein gleich hoher Streifen unbemalt (man sieht
-// fremde Fenster durch). Da alle Klickzonen der GÜLTIGEN Geometrie folgen,
-// wirkt es, als lägen die Buttons ~15–40 px zu tief – im schlimmsten Fall
-// trifft ein zu hoch gezielter Fold-Klick den All-In-Button darüber.
-// Verschiebt man das Fenster an der Titelleiste, ist alles wieder korrekt:
-// EIN zusätzlicher Renderdurchlauf genügt, um den Zustand aufzulösen.
-// Bestätigt hat das der Melder per Backend-Test: mit QSG_RHI_BACKEND=opengl
-// tritt der Fehler nicht auf, QSG_RENDER_LOOP=basic ändert dagegen nichts.
+// The background (the forum bug "QML - Button 'hit zone' is sometimes wrong",
+// Windows 10, 2.1.5): if you pull the window open at the BOTTOM edge,
+// the D3D11 RHI backend keeps presenting the old frame. The scene is laid out
+// correctly for the new size – only the image lags behind: the upper app bar
+// is missing in it, and at the bottom an equally high strip stays unpainted (you see
+// other windows through it). Since all click zones follow the VALID geometry,
+// it looks as if the buttons were ~15–40 px too low – in the worst case
+// a fold click aimed too high hits the all-in button above it.
+// If you move the window by its title bar, everything is correct again:
+// ONE additional render pass is enough to resolve the state.
+// The reporter confirmed that with a backend test: with QSG_RHI_BACKEND=opengl
+// the bug does not occur, whereas QSG_RENDER_LOOP=basic changes nothing.
 //
-// Genau diesen zusätzlichen Durchlauf stößt der Filter an. Das Nachzügler-
-// Update ist nötig, weil Windows während des interaktiven Resize-Loops die
-// Event-Schleife blockiert – der Timer feuert erst, wenn der Anwender die
-// Maus losgelassen hat und die letzte Größe wirklich feststeht.
+// Exactly this additional pass is what the filter triggers. The trailing
+// update is necessary because Windows blocks the event loop during the interactive
+// resize loop – the timer only fires once the user has released the
+// mouse and the final size really is settled.
 class ResizeRepaintGuard : public QObject
 {
 public:
@@ -154,7 +154,7 @@ protected:
 			m_window->requestUpdate();
 			m_settle.start();
 		}
-		// Nur mitlesen, nie schlucken.
+		// Only read along, never swallow.
 		return QObject::eventFilter(watched, event);
 	}
 
@@ -165,12 +165,12 @@ private:
 
 int main(int argc, char *argv[])
 {
-	// QT_QUICK_CONTROLS_STYLE wird beim frühen Style-Resolve ausgewertet.
-	// Unter KDE/Plasma ist oft bereits ein nativer Style im Environment
-	// gesetzt ("Desktop" / "org.kde.desktop"), der im Deploy das fehlende
-	// Modul verlangt. Daher problematische Werte früh auf Universal
-	// normalisieren, noch vor Q(Gui)Application und vor dem ersten
-	// QtQuick-Controls-Zugriff.
+	// QT_QUICK_CONTROLS_STYLE is evaluated during the early style resolve.
+	// Under KDE/Plasma a native style is often already set in the environment
+	// ("Desktop" / "org.kde.desktop"), which demands the missing
+	// module in the deploy. So normalize problematic values early to Universal,
+	// before Q(Gui)Application and before the first
+	// QtQuick Controls access.
 	const QByteArray quickControlsStyle = qgetenv("QT_QUICK_CONTROLS_STYLE");
 	const QByteArray quickControlsStyleLower = quickControlsStyle.toLower();
 	if (quickControlsStyle.isEmpty()
@@ -179,24 +179,24 @@ int main(int argc, char *argv[])
 		qputenv("QT_QUICK_CONTROLS_STYLE", "Universal");
 	}
 
-	// QML-Disk-Cache (.qmlc) zentral abschalten – vor jeder Engine-Nutzung, also
-	// wirksam auf JEDEM Startpfad (Wrapper, mitgelieferte .desktop, direktes
-	// Binary, AppImage) und jeder Plattform. Grund: Qt validiert den Cache über
-	// Datei-mtimes; nach einem Update behält es teils den alten .qmlc einer
-	// *bestehenden* QML-Datei, sodass NEU hinzugefügte Properties/Funktionen als
-	// `undefined` gelesen werden (z. B. Config.Parameters.showCommunitySuggest →
-	// Suggest-Button verschwindet). Bisher setzte das nur der pokerth-qml-Wrapper
-	// bzw. das Flatpak-Manifest – hier gilt es garantiert überall. Der minimale
-	// Neucompile-Aufwand beim Start ist vernachlässigbar.
+	// Switch off the QML disk cache (.qmlc) centrally – before any use of the engine, i.e.
+	// effective on EVERY start path (the wrapper, the bundled .desktop, the direct
+	// binary, the AppImage) and on every platform. The reason: Qt validates the cache via
+	// file mtimes; after an update it sometimes keeps the old .qmlc of an
+	// *existing* QML file, so that properties/functions that were NEWLY added are read as
+	// `undefined` (e.g. Config.Parameters.showCommunitySuggest →
+	// the suggest button disappears). So far only the pokerth-qml wrapper
+	// or the Flatpak manifest set this – here it applies everywhere for sure. The minimal
+	// recompile effort at the start is negligible.
 	qputenv("QML_DISABLE_DISK_CACHE", "1");
 
-	// Qt6 nutzt auf Wayland standardmäßig den THREADED Scene-Graph-Render-Loop.
-	// Dessen Teardown beim Programmende kann mit der GUI-Thread-Zerstörung der
-	// QML-Items kollidieren → Absturz in QQuickWindowPrivate::cleanup(QSGNode*).
-	// Der BASIC-Render-Loop rendert auf dem GUI-Thread und baut synchron/ohne
-	// Race ab. Nur erzwingen, wenn der User nichts gesetzt hat UND wir auf
-	// Wayland laufen (X11 ist vom Problem nicht betroffen; Funktionsumfang/
-	// Effekte bleiben identisch, nur die Render-Thread-Aufteilung ändert sich).
+	// On Wayland Qt6 uses the THREADED scene graph render loop by default.
+	// Its teardown at the end of the program can collide with the GUI thread destruction of the
+	// QML items → a crash in QQuickWindowPrivate::cleanup(QSGNode*).
+	// The BASIC render loop renders on the GUI thread and tears down synchronously/without
+	// a race. Only force it if the user has set nothing AND we run on
+	// Wayland (X11 is not affected by the problem; the feature set/
+	// effects stay identical, only the render thread split changes).
 	if (qEnvironmentVariableIsEmpty("QSG_RENDER_LOOP")) {
 		const bool onWayland = !qEnvironmentVariableIsEmpty("WAYLAND_DISPLAY")
 							   || qgetenv("XDG_SESSION_TYPE") == QByteArrayLiteral("wayland");
@@ -253,21 +253,21 @@ int main(int argc, char *argv[])
 	// captured for after-the-fact analysis of the rare leave-game freeze.
 	loghelper_init(myConfig->readConfigString("LogDir"), 1);
 	qInstallMessageHandler(pokerthQmlMessageHandler);
-	// Crash-Handler direkt nach dem Log installieren – er schreibt in dessen
-	// Datei. Ab hier hinterlässt ein SIGSEGV/abort() eine [CRASH]-Zeile samt
-	// Backtrace, statt das Log einfach mitten im Satz abreißen zu lassen; das
-	// Coredump entsteht unverändert weiter (coredumpctl).
+	// Install the crash handler right after the log – it writes into its
+	// file. From here on a SIGSEGV/abort() leaves a [CRASH] line including a
+	// backtrace, instead of letting the log simply break off mid-sentence; the
+	// core dump is still produced unchanged (coredumpctl).
 	loghelper_install_crash_handler();
 	qInfo().noquote() << "[BOOT] PokerTH QML client starting; debug log in"
 					  << QString::fromStdString(myConfig->readConfigString("LogDir"));
 
-	// Der QtQuick-Controls-Style ist durch die QT_QUICK_CONTROLS_STYLE-
-	// Normalisierung oben (vor QApplication) bereits vollständig bestimmt;
-	// QtQuick liest die Env-Variable selbst. KEIN QSettings auf config.xml
-	// mehr: der frühere XML-Handler (settingsxmlhandler) las nur die value-
-	// Attribute und verwarf beim Zurückschreiben sämtliche Listen-Einträge
-	// (PlayerTooltips = Spieler-Notizen/-Bewertungen, PlayerIgnoreList,
-	// ManualBlindsList, ...). An config.xml schreibt ausschließlich ConfigFile.
+	// The QtQuick Controls style is already fully determined by the
+	// QT_QUICK_CONTROLS_STYLE normalization above (before QApplication);
+	// QtQuick reads the env variable itself. NO more QSettings on config.xml:
+	// the earlier XML handler (settingsxmlhandler) only read the value
+	// attributes and discarded all list entries when writing back
+	// (PlayerTooltips = player notes/ratings, PlayerIgnoreList,
+	// ManualBlindsList, ...). Only ConfigFile writes to config.xml.
 
 	const QLocale locale;
 	const QString baseName = "pokerth";
@@ -286,21 +286,21 @@ int main(int argc, char *argv[])
 	ServerConnectionHandler *connectionHandler = new ServerConnectionHandler(&app);
 	connectionHandler->setConfig(myConfig.get());
 
-	// Genau ein Sound-Handler für die ganze App: jede SoundEvents-Instanz
-	// öffnet einen eigenen Audio-Stream – auf Android jeweils einen eigenen
-	// OpenSL-ES-Player, dessen Initialisierung zusätzlich das globale
-	// AudioManager-Routing neu setzt.  Lobby- und Game-Handler teilen sich
-	// deshalb diese Instanz (sie besitzen sie nicht).
+	// Exactly one sound handler for the whole app: every SoundEvents instance
+	// opens an audio stream of its own – on Android an OpenSL ES player of
+	// its own each time, whose initialization additionally resets the global
+	// AudioManager routing.  The lobby and game handlers therefore share
+	// this instance (they do not own it).
 	std::unique_ptr<SoundEvents> soundEvents(new SoundEvents(myConfig.get()));
 
 	LobbyHandler *lobbyHandler = new LobbyHandler(&app);
 	lobbyHandler->setConfig(myConfig.get());
 	lobbyHandler->setSoundEvents(soundEvents.get());
 
-	// Automatische Wiederverbindung: Der ServerConnectionHandler schaltet das
-	// Rejoin im LobbyHandler scharf, damit das Angebot des Servers (InitAck)
-	// ohne Rückfrage angenommen wird und der Spieler wieder an seinem Tisch
-	// landet statt auf der Login-Seite.
+	// Automatic reconnect: the ServerConnectionHandler arms the
+	// rejoin in the LobbyHandler, so that the offer of the server (InitAck) is
+	// accepted without a question and the player lands at their table again
+	// instead of on the login page.
 	QObject::connect(connectionHandler, &ServerConnectionHandler::autoRejoinArmed,
 					 lobbyHandler, &LobbyHandler::setAutoRejoin);
 
@@ -353,17 +353,17 @@ int main(int argc, char *argv[])
 	StyleProvider styleProvider(myConfig);
 	LanguageManager langMgr(&engine);
 	ScreenHelper screenHelper;
-	// Übersetzung beliebiger Texte (Globus auf der Forum-Beitragsseite) – nutzt
-	// denselben Dienst/Schalter wie die Chat-Übersetzung, ist aber nicht an
-	// eine Chat-Zeilenliste gebunden.
+	// Translation of arbitrary texts (the globe on the forum post page) – it uses
+	// the same service/switch as the chat translation, but is not bound to
+	// a chat line list.
 	TextTranslator textTranslator(myConfig.get());
-	// Derselbe Übersetzer bedient die Blasen im privaten Nachrichten-Dialog.
+	// The same translator serves the bubbles in the private message dialog.
 	lobbyHandler->setTextTranslator(&textTranslator);
 	engine.rootContext()->setContextProperty("SettingsManager", &settingsMgr);
 	engine.rootContext()->setContextProperty("StyleProvider", &styleProvider);
-	// Chat und Spielverlauf am Tisch beziehen ihre Schriftfarben aus dem
-	// Tisch-Theme (helle Themes brauchen dunkle Schrift) und färben sich bei
-	// jedem Stilwechsel neu ein.
+	// The chat and the game history at the table take their text colours from the
+	// table theme (light themes need dark text) and recolour themselves on
+	// every style change.
 	gameHandler->setStyleProvider(&styleProvider);
 	engine.rootContext()->setContextProperty("LanguageManager", &langMgr);
 	engine.rootContext()->setContextProperty("ScreenHelper", &screenHelper);
@@ -383,8 +383,8 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	// Repaint-Absicherung für Größenänderungen (s. ResizeRepaintGuard). Der
-	// Guard hängt am Fenster und wird mit ihm zerstört.
+	// A repaint safeguard for resizes (see ResizeRepaintGuard). The
+	// guard hangs off the window and is destroyed with it.
 	for (QObject *root : engine.rootObjects()) {
 		if (auto *w = qobject_cast<QQuickWindow *>(root))
 			new ResizeRepaintGuard(w);
@@ -392,12 +392,12 @@ int main(int argc, char *argv[])
 
 	int result = app.exec();
 
-	// Scene-Graph sauber herunterfahren, BEVOR die Engine (und damit die
-	// QML-Items samt Fenster) beim Stack-Unwind zerstört wird. Auf Wayland mit
-	// Threaded-Render-Loop stürzt sonst QQuickWindowPrivate::cleanup() beim
-	// Zerstören der Items ab (derefWindow → Cleanup eines bereits halb
-	// abgebauten SG). hide() stoppt den Render-Thread und gibt die SG-Ressourcen
-	// frei, solange GUI-Thread und App noch voll leben.
+	// Shut the scene graph down cleanly BEFORE the engine (and with it the
+	// QML items including the window) is destroyed during the stack unwind. On Wayland with
+	// a threaded render loop QQuickWindowPrivate::cleanup() otherwise crashes when
+	// destroying the items (derefWindow → the cleanup of an already half
+	// torn down SG). hide() stops the render thread and frees the SG resources
+	// while the GUI thread and the app are still fully alive.
 	for (QObject *root : engine.rootObjects()) {
 		if (auto *w = qobject_cast<QQuickWindow *>(root))
 			w->hide();
@@ -440,21 +440,21 @@ int main(int argc, char *argv[])
 	// the last shared_ptr<Log> ref drops (a leaked network
 	// thread may briefly hold one – the Log stays valid for it)
 
-	// Wayland-Workaround gegen den reproduzierbaren Shutdown-Crash: der
-	// QQmlApplicationEngine-Destruktor (Stack-Unwind am main-Ende) baut die
-	// QtQuickLayouts-Items ab; auf Wayland dereferenziert dabei ein Item ein
-	// bereits halb zerstörtes Fenster → SIGSEGV in QQuickWindowPrivate::cleanup
-	// (auch mit Basic-Render-Loop und hide() nicht zuverlässig vermeidbar).
-	// Da sämtliche Persistenz bereits erledigt ist – Config-XML eager via
-	// writeBuffer(), Log-SQL via ~Session() oben, und die QtQuick-Settings
-	// (Parameters.qml) sichern wir hier noch explizit auf Platte – beenden wir
-	// den Prozess hart, ohne den fehlerhaften QML-/Qt-Teardown auszuführen.
-	// Abschluss-Marker: Fehlt er am Ende eines Log-Abschnitts, wurde die Session
-	// NICHT sauber beendet (Crash, Kill, Stromausfall) – ohne ihn ist im
-	// Nachhinein nicht zu unterscheiden, ob der Client abgestürzt ist oder der
-	// Spieler ihn geschlossen hat. Er steht bewusst hier, nach dem gesamten
-	// Teardown; stürzt danach doch noch etwas ab, schreibt der Crash-Handler
-	// seine [CRASH]-Zeile hinter diese Zeile.
+	// A Wayland workaround against the reproducible shutdown crash: the
+	// QQmlApplicationEngine destructor (the stack unwind at the end of main) tears the
+	// QtQuickLayouts items down; on Wayland an item dereferences an
+	// already half destroyed window in the process → a SIGSEGV in QQuickWindowPrivate::cleanup
+	// (not reliably avoidable with a basic render loop and hide() either).
+	// Since all persistence is already done – the config XML eagerly via
+	// writeBuffer(), the log SQL via ~Session() above, and the QtQuick settings
+	// (Parameters.qml) we save explicitly to disk here – we end
+	// the process hard, without running the faulty QML/Qt teardown.
+	// A closing marker: if it is missing at the end of a log section, the session
+	// was NOT ended cleanly (a crash, a kill, a power failure) – without it, it is
+	// impossible to tell afterwards whether the client crashed or the
+	// player closed it. It deliberately stands here, after the whole
+	// teardown; if something does crash after that, the crash handler writes
+	// its [CRASH] line below this line.
 	loghelper_write_raw("[SHUTDOWN] clean exit (code " + std::to_string(result) + ")");
 
 	if (QGuiApplication::platformName().startsWith(QLatin1String("wayland"))) {
@@ -649,9 +649,9 @@ int main( int argc, char **argv )
 
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/n019003l.pfb");
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/DejaVuSans-Bold.ttf");
-	// Gebündelter Farb-Emoji-Font (Noto Color Emoji, CBDT/CBLC-Bitmap-Variante),
-	// damit Emojis distributionsunabhängig erscheinen und nicht von der
-	// System-FreeType-Version (COLRv1 erst ab 2.13) abhängen.
+	// The bundled colour emoji font (Noto Color Emoji, the CBDT/CBLC bitmap variant),
+	// so that emojis appear independently of the distribution and do not depend on the
+	// system FreeType version (COLRv1 only from 2.13 on).
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/NotoColorEmoji.ttf");
 
 #ifdef _WIN32

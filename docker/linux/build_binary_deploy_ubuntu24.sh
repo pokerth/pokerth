@@ -1,24 +1,24 @@
 #!/bin/bash
 set -e
 
-# Baut das PokerTH ZIP-Binary-Deploy in einem Ubuntu-24.04-Docker-Container.
+# Builds the PokerTH ZIP binary deploy in an Ubuntu 24.04 Docker container.
 #
-# Warum Ubuntu 24.04 (und nicht 26.04 wie das AppImage)?
-#   Der ZIP-Tarball bündelt KEIN glibc. Damit ist das glibc des Build-Containers
-#   die minimale Host-Anforderung. Auf dem ältesten unterstützten LTS gebaut
-#   (24.04 = glibc 2.39) läuft der Tarball auf 24.04 und allem Neueren — inkl.
-#   Linux Mint 22.x (Noble-Basis). Zusätzlich passen so die gebündelten Audio-
-#   Codec-Libs (libFLAC.so.12 etc.) zum Host-PulseAudio-Client → Ton funktioniert.
-#   (Details siehe Kommentar in Dockerfile.binary-ubuntu24.)
+# Why Ubuntu 24.04 (and not 26.04 like the AppImage)?
+#   The ZIP tarball bundles NO glibc. That makes the glibc of the build container
+#   the minimum host requirement. Built on the oldest supported LTS
+#   (24.04 = glibc 2.39), the tarball runs on 24.04 and everything newer — incl.
+#   Linux Mint 22.x (Noble base). In addition the bundled audio codec libs
+#   (libFLAC.so.12 etc.) match the host PulseAudio client this way → sound works.
+#   (For details see the comment in Dockerfile.binary-ubuntu24.)
 #
-# Voraussetzung: Docker installiert und laufend.
+# Requirement: Docker installed and running.
 #
-# Aufruf:
-#   cd <projekt-root>
+# Usage:
+#   cd <project-root>
 #   bash docker/linux/build_binary_deploy_ubuntu24.sh
-#   # optional andere Qt-Version:
+#   # optionally a different Qt version:
 #   QT_VERSION=6.9.2 bash docker/linux/build_binary_deploy_ubuntu24.sh
-#   # optional Cache umgehen:
+#   # optionally bypass the cache:
 #   bash docker/linux/build_binary_deploy_ubuntu24.sh --no-cache
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -32,7 +32,7 @@ echo "Projekt-Root:  $PROJECT_ROOT"
 echo "Docker-Image:  $IMAGE_NAME"
 echo ""
 
-# Branch-Hinweis (der Build kopiert den aktuellen Arbeitsstand via COPY)
+# Branch note (the build copies the current working state via COPY)
 CURRENT_BRANCH=$(git -C "$PROJECT_ROOT" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unbekannt")
 echo "Branch: $CURRENT_BRANCH  (wird via COPY in den Container kopiert)"
 echo ""
@@ -56,7 +56,7 @@ docker build \
     -t "$IMAGE_NAME" \
     "$PROJECT_ROOT"
 
-# --- ZIP aus dem Container extrahieren ---
+# --- Extract the ZIP from the container ---
 echo ""
 echo "=== Extrahiere ZIP ==="
 CONTAINER_ID=$(docker create "$IMAGE_NAME")

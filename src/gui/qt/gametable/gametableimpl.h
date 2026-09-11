@@ -207,10 +207,10 @@ public slots:
 	void guiUpdateDone();
 	void waitForGuiUpdateDone();
 
-	// Karten-Funktionen
+	// Card functions
 	void dealHoleCards();
 
-	//Spieler-Funktionen
+	//Player functions
 	void provideMyActions(int mode = -1);  //mode 0 == called from dealberocards
 	void meInAction();
 	void disableMyButtons();
@@ -395,9 +395,9 @@ private slots:
 	void onScreenChanged(QScreen *screen);
 	void onScreenGeometryChanged(const QRect &geometry);
 	void onScreenDpiChanged(qreal dpi);
-	// Emoji-Reaktionen (Chat-Konvention "/emoji 🎉", kompatibel zu QML-/
-	// Web-Client): empfangene Reaktion am Sitz des Absenders abspielen
-	// bzw. eigene Reaktion senden.
+	// Emoji reactions (chat convention "/emoji 🎉", compatible with the QML/
+	// web client): play a received reaction at the sender's seat
+	// or send your own reaction.
 	void showEmojiReaction(QString playerName, QString emoji);
 	void sendEmojiReaction(const QString &emoji);
 
@@ -405,15 +405,15 @@ private:
 	void applyPotFraction(double fraction);
 	void setPotButtonsEnabled(bool enabled);
 	void playReactionAnimation(int seatId, const QString &emoji);
-	// Reaktions-Button oben links auf dem Spieltisch positionieren (Android).
+	// Position the reaction button at the top left of the game table (Android).
 	void repositionReactionButton();
-	// Reaktions-Picker (drei Seiten à 30 Emojis) beim ersten Öffnen anlegen.
+	// Create the reaction picker (three pages of 30 emojis) when first opened.
 	void ensureReactionPicker(QWidget *anchorParent);
-	// Reaktions-Bedienelemente (Picker-Auslöser) gemäß Einstellung
-	// "DisableEmojiReactions" ein-/ausblenden.
+	// Show/hide the reaction controls (picker trigger) according to the
+	// "DisableEmojiReactions" setting.
 	void updateReactionControlsVisibility();
-	// Kartenrückseite gemäß Einstellungen laden: eigene Bilddatei, eigener
-	// Rückseiten-Stil oder die flipside.png des gewählten Kartenstapels.
+	// Load the card back according to the settings: custom image file, custom
+	// card back style or the flipside.png of the selected card deck.
 	void loadFlipside();
 
 	boost::shared_ptr<GuiInterface> myServerGuiInterface;
@@ -423,8 +423,8 @@ private:
 
 	// Emoji-Reaktionen
 	class EmojiPicker *myReactionPicker;
-	class QToolButton *myReactionButton;   // Android: Reaktions-Button auf dem Tisch
-	class QAction *myReactionAction;       // Desktop: Reaktions-Auslöser in der Chat-Zeile
+	class QToolButton *myReactionButton;   // Android: reaction button on the table
+	class QAction *myReactionAction;       // Desktop: reaction trigger in the chat line
 	class ReactionFxOverlay *myReactionFx;
 	QString myLastOwnReactionEmoji;
 	qint64 myLastOwnReactionTime;

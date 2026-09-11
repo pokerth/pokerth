@@ -43,33 +43,33 @@
 #include <core/avatarmanager.h>
 
 /**
- * Auswahl und Prüfung eigener Avatar-Bilder – gemeinsam genutzt vom
- * QML-Client (SettingsManager) und vom Qt-Widgets-Client (Avatar-Dialog).
+ * Selection and validation of your own avatar images – shared by the
+ * QML client (SettingsManager) and the Qt widgets client (avatar dialog).
  *
- * Ob ein Bild taugt, entscheidet nicht diese Datei, sondern die Engine:
- * AvatarManager::OpenAvatarFileForChunkRead() ist dieselbe Funktion, die den
- * Avatar später zum Server hochlädt und die der Server beim Ausliefern
- * anwendet. Nur so können Warnung und Server-Prüfung nicht auseinanderlaufen.
+ * Whether an image is suitable is not decided by this file but by the engine:
+ * AvatarManager::OpenAvatarFileForChunkRead() is the same function that later
+ * uploads the avatar to the server and that the server applies when serving
+ * it. Only that way can the warning and the server check not drift apart.
  *
- * Wichtig ist dabei, dass die Dateigröße allein nichts aussagt: Der Server
- * begrenzt seit 2.1.8 auch die Bildabmessungen (eine stark komprimierte Datei
- * kann beim Dekodieren im Client sonst beliebig viel Speicher belegen). Ein
- * flächiges 2000x2000-PNG bleibt aber locker unter 30 KB – genau solche
- * Bilder waren jahrelang als Avatar gesetzt und werden seither abgelehnt.
+ * What matters here is that the file size alone says nothing: since 2.1.8 the
+ * server also limits the image dimensions (a heavily compressed file
+ * could otherwise take arbitrarily much memory when decoded in the client). A
+ * flat 2000x2000 PNG stays easily below 30 KB though – exactly such
+ * images were set as avatars for years and have been rejected ever since.
  */
 namespace AvatarImport
 {
 
-// Kantenlängen, auf die ein zu großes Bild der Reihe nach heruntergerechnet
-// wird, bis es die Engine-Prüfung besteht (Avatare werden ohnehin klein
-// dargestellt).
+// Edge lengths to which a too large image is scaled down one after another
+// until it passes the engine check (avatars are displayed small
+// anyway).
 inline QList<int> scaleSteps()
 {
 	return QList<int> { 192, 128, 96, 64 };
 }
 
-// Engine-Prüfung einer Datei: Größe, Format und Bildabmessungen. Ein leerer
-// Pfad gilt als in Ordnung – kein Avatar gewählt ist kein Fehler.
+// Engine check of a file: size, format and image dimensions. An empty
+// path counts as fine – no avatar chosen is not an error.
 inline bool isUsable(const QString &path)
 {
 	if (path.isEmpty())
@@ -81,15 +81,15 @@ inline bool isUsable(const QString &path)
 			   path.toStdString(), fileSize, fileType).get() != nullptr;
 }
 
-// Dieselbe Prüfung auf bereits eingelesenen Daten – für Bilder, die noch gar
-// nicht als Datei vorliegen (Android-content://-URIs, frisch skalierte Bilder).
+// The same check on data already read in – for images that do not exist
+// as a file at all yet (Android content:// URIs, freshly scaled images).
 inline bool isDataUsable(const QByteArray &data, const QString &ext)
 {
 	if (data.size() < MIN_AVATAR_FILE_SIZE || data.size() > MAX_AVATAR_FILE_SIZE)
 		return false;
-	// GetAvatarFileType() erwartet einen Dateinamen und liest dessen Endung.
-	// Ein blosses ".png" wäre für boost::filesystem ein Name ohne Endung,
-	// daher der Dummy-Stamm davor.
+	// GetAvatarFileType() expects a file name and reads its extension.
+	// A bare ".png" would be a name without an extension for boost::filesystem,
+	// hence the dummy stem in front of it.
 	const AvatarFileType type =
 		AvatarManager::GetAvatarFileType((QStringLiteral("avatar") + ext).toStdString());
 	return AvatarManager::IsValidAvatarFileType(
@@ -98,24 +98,24 @@ inline bool isDataUsable(const QByteArray &data, const QString &ext)
 }
 
 /**
- * Übernimmt eine Bildauswahl als eigenen Avatar.
+ * Adopts an image selection as your own avatar.
  *
- * Engine-taugliche lokale Dateien werden unverändert durchgereicht (der
- * Widget-Client speichert seit jeher den gewählten Pfad). In zwei Fällen
- * entsteht dagegen eine neue Datei unter <userDataDir>gfx/avatars/user/:
- *  - Android-content://-URIs sind nur für die laufende Sitzung lesbar und
- *    weder von der Bildvorschau noch von der Engine (std::ifstream beim
- *    Avatar-Upload) zu öffnen.
- *  - Bilder, welche die Engine ablehnt: zu groß in Kilobyte (typisch für
- *    Fotos aus der Galerie) oder zu groß in Pixeln (typisch für flächige
- *    Grafiken, die trotz großer Abmessungen winzige Dateien ergeben).
+ * Local files suitable for the engine are passed through unchanged (the
+ * widget client has always stored the chosen path). In two cases, by contrast,
+ * a new file is created under <userDataDir>gfx/avatars/user/:
+ *  - Android content:// URIs are only readable for the running session and
+ *    can be opened neither by the image preview nor by the engine (std::ifstream
+ *    during the avatar upload).
+ *  - Images that the engine rejects: too large in kilobytes (typical for
+ *    photos from the gallery) or too large in pixels (typical for flat
+ *    graphics that result in tiny files despite large dimensions).
  *
- * Der Dateiname ist der MD5 des Inhalts (Namenskonvention des
- * AvatarManagers), so entstehen bei wiederholter Auswahl keine Duplikate.
- * Rückgabe: der zu speichernde Pfad, leer bei Abbruch oder Fehler.
+ * The file name is the MD5 of the content (the naming convention of the
+ * AvatarManager), so repeated selection creates no duplicates.
+ * Return value: the path to be stored, empty on cancel or error.
  *
- * userDataDir muss mit einem Verzeichnis-Trennzeichen enden (wie der
- * gleichnamige Config-Wert).
+ * userDataDir has to end with a directory separator (like the
+ * config value of the same name).
  */
 inline QString importImage(const QString &picked, const QString &userDataDir)
 {
@@ -133,8 +133,8 @@ inline QString importImage(const QString &picked, const QString &userDataDir)
 	if (data.isEmpty())
 		return QString();
 
-	// Dateiendung anhand des Dateikopfs bestimmen (content://-URIs haben
-	// keine; die Engine erkennt den Avatar-Typ an der Endung).
+	// Determine the file extension from the file header (content:// URIs have
+	// none; the engine recognises the avatar type by the extension).
 	QString ext;
 	if (data.startsWith("\x89PNG"))
 		ext = QStringLiteral(".png");
@@ -146,11 +146,11 @@ inline QString importImage(const QString &picked, const QString &userDataDir)
 		return QString();
 
 	if (!isDataUsable(data, ext)) {
-		// Neu kodieren und stufenweise verkleinern, bis das Ergebnis die
-		// Engine-Prüfung besteht. Animierte GIFs werden dabei zum Standbild.
-		// QImage::fromData() liefert bei absurd großen Bildern ein Nullbild
-		// (Qt begrenzt die Allokation beim Dekodieren), was hier korrekt als
-		// Fehlschlag ankommt.
+		// Re-encode and scale down step by step until the result passes the
+		// engine check. Animated GIFs become a still image in the process.
+		// QImage::fromData() returns a null image for absurdly large images
+		// (Qt limits the allocation when decoding), which arrives here correctly
+		// as a failure.
 		const QImage img = QImage::fromData(data);
 		if (img.isNull())
 			return QString();

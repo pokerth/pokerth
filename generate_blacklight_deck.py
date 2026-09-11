@@ -12,10 +12,10 @@ import re, os
 SRC = "/opt/pokerth_env/repos/pokerth-test/data/gfx/qml/cards/default4c"
 DST = "/opt/pokerth_env/repos/pokerth-test/data/gfx/qml/cards/blacklight_4c"
 
-# Farbe = idx//13: 0 Karo, 1 Herz, 2 Pik, 3 Kreuz.
-# Schwarzlicht = invertierte default4c-Farben, auf Neon gezogen:
-#   Karo blau -> Bernstein, Herz rot -> Cyan, Pik schwarz -> Weiss,
-#   Kreuz gruen -> Magenta.
+# Suit = idx//13: 0 diamonds, 1 hearts, 2 spades, 3 clubs.
+# Blacklight = inverted default4c colours, pulled towards neon:
+#   diamonds blue -> amber, hearts red -> cyan, spades black -> white,
+#   clubs green -> magenta.
 SUITS = [
     dict(name="Karo",  ink="#FFC400", rim="#FFC400"),
     dict(name="Herz",  ink="#00EFFF", rim="#00EFFF"),
@@ -23,15 +23,15 @@ SUITS = [
     dict(name="Kreuz", ink="#FF4DE8", rim="#FF4DE8"),
 ]
 
-# Glow-Schichten: (Breite in Kartenkoordinaten, Deckkraft). Von aussen nach
-# innen, darueber liegt die volle Fuellung.
+# Glow layers: (width in card coordinates, opacity). From the outside in,
+# with the full fill on top.
 GLOW = [(10.6, 0.038), (8.2, 0.05), (6.2, 0.07), (4.4, 0.095),
         (3.0, 0.13), (1.9, 0.18), (1.0, 0.28)]
 
-# Die Rangglyphe wandert gegenueber default4c um 7 Einheiten nach oben. Dort
-# stehen Rang (Tinte y 26..94) und Farbsymbol (y 97..149) nur 3 Einheiten aus-
-# einander - eng genug, dass der Glow die Luecke schliesst. Mit dem Versatz sind
-# es 10 Einheiten, und der Satz steht mit 19 Einheiten Rand oben wie unten.
+# The rank glyph moves up by 7 units compared to default4c. There the rank
+# (ink y 26..94) and the suit symbol (y 97..149) are only 3 units apart -
+# close enough for the glow to close the gap. With the offset it is 10 units,
+# and the set has 19 units of margin at the top as well as at the bottom.
 RANK_LIFT = 7.0
 
 PATH_RE = re.compile(
@@ -60,7 +60,7 @@ def main():
         parts = []
         for n, (d, m) in enumerate(hits):
             nums = [float(v) for v in m.split()]
-            if n == 0:                       # Rangglyphe: nach oben ruecken
+            if n == 0:                       # Rank glyph: move up
                 nums[5] -= RANK_LIFT
             scale = nums[0]
             matrix = " ".join("%g" % v for v in nums)

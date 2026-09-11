@@ -1,56 +1,56 @@
 pragma Singleton
 import QtQuick
 
-// Sitz-Stil der Spielerboxen am Tisch – das QML-Gegenstück zu den „Sitz-Packs"
-// des Web-Clients (dort html[data-seat="…"]: classic/plate/card/pokerth). Der
-// Stil bestimmt vorerst NUR, wo der Einsatz eines Spielers steht; weitere
-// Varianten können hier später andocken, ohne die Boxen erneut umzubauen.
+// Seat style of the player boxes at the table – the QML counterpart to the "seat
+// packs" of the web client (html[data-seat="…"] there: classic/plate/card/pokerth). For
+// now the style determines ONLY where a player's bet is shown; further
+// variants can dock on here later without rebuilding the boxes again.
 //
-//   "classic" – Einsatz-Chip AUSSERHALB der Box (links/rechts/über/unter der
-//               Box, je nach Sitzposition). Stand bis 08/2026.
-//   "inset"   – Einsatz-Chip im Sockel INNERHALB der Box; die Box wächst dafür
-//               um betStripHeight in der Höhe.
+//   "classic" – bet chip OUTSIDE the box (left/right/above/below the
+//               box, depending on the seat position). The state until 08/2026.
+//   "inset"   – bet chip in the base INSIDE the box; the box grows by
+//               betStripHeight in height for that.
 //
-// Der Dealer-/Blind-Puck bleibt in BEIDEN Varianten außerhalb der Box.
+// The dealer/blind puck stays outside the box in BOTH variants.
 //
-// Beide Spielerboxen (GamePlayerBox, GamePlayerSelfBox) UND die Platz-
-// berechnung der tableZone (GamePage) lesen ausschließlich diese Werte. Ein
-// späterer Settings-Schalter (Auswahl wie bei den Tisch-Stilen) muss daher nur
-// `variant` schreiben – an den Boxen ist dann nichts mehr zu tun.
+// Both player boxes (GamePlayerBox, GamePlayerSelfBox) AND the space
+// calculation of the tableZone (GamePage) read these values exclusively. A
+// later settings switch (a selection as with the table styles) therefore only has
+// to write `variant` – nothing is left to do at the boxes then.
 QtObject {
     id: root
 
-    // Vorgabe, solange der Nutzer nichts anderes gewählt hat – auf allen
-    // Plattformen gleich: der Sockel innerhalb der Box braucht rund um die
-    // Boxen keinen Platz und kommt gerade auf kleinen Tischen besser weg.
+    // The default as long as the user has not chosen anything else – the same on
+    // all platforms: the base inside the box needs no room around the
+    // boxes and comes off better especially on small tables.
     readonly property string defaultVariant: "inset"
 
-    // Aktiver Sitz-Stil. Wird – wie Theme.darkMode/effectsEnabled – extern von
-    // der ApplicationWindow (Init aus dem Config-Key "QmlSeatStyle") und von
-    // den Stil-Einstellungen (Live-Umschaltung) gesetzt; ein Singleton kann die
-    // SettingsManager-Context-Property nicht selbst lesen. Leerer Config-Wert
-    // bedeutet "Vorgabe" und lässt diesen Default stehen.
+    // Active seat style. Like Theme.darkMode/effectsEnabled it is set externally by
+    // the ApplicationWindow (init from the config key "QmlSeatStyle") and by
+    // the style settings (live switching); a singleton cannot read the
+    // SettingsManager context property itself. An empty config value
+    // means "default" and leaves this default in place.
     property string variant: defaultVariant
 
     readonly property bool betInset: variant === "inset"
 
-    // Höhe des Einsatz-Sockels in Basis-Pixeln (vor boxScale): Chip-Icon 15 +
-    // Luft. Bewusst knapp gehalten – jeder Pixel hier verkleinert über die
-    // Bisektion in GamePage.boxScale den gesamten Tisch.
+    // Height of the bet base in base pixels (before boxScale): chip icon 15 +
+    // air. Deliberately kept tight – every pixel here shrinks the whole table
+    // via the bisection in GamePage.boxScale.
     readonly property int betStripHeight: 20
 
-    // Platz, den Einsatz + Dealer-/Blind-Puck NEBEN der Box brauchen (Basis-
-    // Pixel, vgl. GamePlayerBox.betGroup: 8 px Abstand + Gruppenbreite).
-    //   "classic" – Chip-Icon 20 + Betrag (~40) → 8 + 60 = 68.
-    //   "inset"   – dort steht nur noch der Puck (32) → 8 + 32 = 40.
-    // Die Platz-Bisektion reserviert damit im Stil "classic" ehrlich den Raum,
-    // den der Einsatz neben der Box wirklich braucht (bisher pauschal 48), und
-    // gibt ihn im Stil "inset" für größere Boxen frei.
+    // Room that the bet + dealer/blind puck need NEXT TO the box (base
+    // pixels, cf. GamePlayerBox.betGroup: 8 px spacing + group width).
+    //   "classic" – chip icon 20 + amount (~40) → 8 + 60 = 68.
+    //   "inset"   – only the puck is left there (32) → 8 + 32 = 40.
+    // In style "classic" the space bisection thus honestly reserves the room
+    // the bet really needs next to the box (a flat 48 before), and
+    // frees it in style "inset" for larger boxes.
     readonly property int betSideOutset: betInset ? 40 : 68
 
-    // Zusatzhöhe, die eine Spielerbox für den Sockel braucht (0 bei "classic").
-    // NUR diese Größe geht in die Box-Basismaße ein; alle abgeleiteten Maße
-    // (Avatar-/Kartenreihe, Boxbreite) rechnen sie wieder heraus, damit die Box
-    // ausschließlich in der HÖHE wächst.
+    // Additional height a player box needs for the base (0 for "classic").
+    // ONLY this size goes into the base dimensions of the box; all derived
+    // dimensions (avatar/card row, box width) subtract it again, so that the box
+    // grows in HEIGHT only.
     readonly property int betStripExtra: betInset ? betStripHeight : 0
 }

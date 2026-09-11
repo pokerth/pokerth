@@ -17,32 +17,32 @@ Settings {
 
     property bool tableZoomEnabled: true
 
-    // Sitze von Spielern, die den Tisch verlassen haben (Disconnect, Kick,
-    // Verlassen, Ausgeschieden), als unsichtbare Platzhalter im Ring behalten →
-    // die verbleibenden Spielerboxen behalten ihre Position (Standard). false =
-    // Ellipse wird ohne den freien Sitz neu verteilt (Boxen rücken nach).
+    // Keep seats of players who have left the table (disconnect, kick, leave,
+    // knocked out) as invisible placeholders in the ring → the remaining player
+    // boxes keep their position (default). false = the ellipse is redistributed
+    // without the free seat (the boxes move up).
     property bool keepEmptySeats: true
 
     property bool showCommunityContent: true
 
-    // Forum-Neuigkeiten (Zeitungs-Icon in der Topbar mit Zähler ungelesener
-    // Beiträge, Liste + Beitragsansicht). Unabhängig von den Community-
-    // Inhalten: das Forum ist die offizielle PokerTH-Seite, nicht BBC/WEC.
+    // Forum news (newspaper icon in the top bar with a counter of unread posts,
+    // list + post view). Independent of the community content: the forum is the
+    // official PokerTH site, not BBC/WEC.
     property bool showForumNews: true
 
-    // Vorausgewählte Ranglisten-Quelle ("pokerth" | "bbc" | "wec") für Table
-    // Info und Player Stats, wenn Community-Inhalte aktiv sind. Auswahl siehe
+    // Preselected ranking source ("pokerth" | "bbc" | "wec") for table info and
+    // player stats when community content is active. For the selection see
     // Config.Community.entries.
     property string defaultCommunity: "pokerth"
 
-    // Optionales Admin-Feature: Ersteller eines BBC-Step-/WEC-Invite-Spiels
-    // können im Warteraum passende idle Spieler in den Chat vorschlagen
-    // (Config.BotSuggest). Nur wirksam bei aktivierten Community-Inhalten.
-    // Standardmäßig AUS: nur für die wenigen BBC/WEC-Admins relevant, die
-    // Masse interessiert sich nur für die Community-Ranglisten.
+    // Optional admin feature: creators of a BBC step/WEC invite game can
+    // suggest matching idle players in the chat of the waiting room
+    // (Config.BotSuggest). Only effective with community content enabled.
+    // OFF by default: only relevant for the few BBC/WEC admins, the masses
+    // are only interested in the community rankings.
     property bool showCommunitySuggest: false
 
-    // Tooltips auf Icon-Buttons (nur Desktop – auf Touch gibt es kein Hover).
+    // Tooltips on icon buttons (desktop only – on touch there is no hover).
     property bool showTooltips: true
 
     // From the networkTab ColumnLayout

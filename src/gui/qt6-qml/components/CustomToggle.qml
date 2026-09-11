@@ -5,7 +5,7 @@ import QtQuick.Layouts
 Switch {
     id: control
 
-    // Rückwärtskompatibilität: isToggled und label
+    // Backwards compatibility: isToggled and label
     property alias isToggled: control.checked
     property alias label: control.text
 

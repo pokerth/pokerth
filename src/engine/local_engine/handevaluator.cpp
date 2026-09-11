@@ -36,8 +36,8 @@
 namespace
 {
 
-// Handklassen, aufsteigend. Der Wert wird als (Klasse << 20) | Kicker gepackt,
-// die Kicker als je vier Bit absteigender Wertigkeit.
+// Hand classes, ascending. The value is packed as (class << 20) | kickers,
+// the kickers as four bits each in descending significance.
 enum HandClass {
 	HC_HIGHCARD      = 0,
 	HC_PAIR          = 1,
@@ -50,8 +50,8 @@ enum HandClass {
 	HC_STRAIGHTFLUSH = 8
 };
 
-// Fuer jede der 8192 moeglichen Wert-Bitmasken der hoechste Strassenkopf
-// (4 = Fuenf-hoch bis 12 = Ass-hoch), sonst -1.
+// For each of the 8192 possible value bit masks the highest straight head
+// (4 = five-high up to 12 = ace-high), otherwise -1.
 struct StraightTable {
 	signed char top[8192];
 
@@ -71,15 +71,15 @@ struct StraightTable {
 	}
 };
 
-// Magic static: der Aufbau laeuft threadsicher genau einmal. Wichtig, weil
-// die Engine im Server aus mehreren Spiel-Threads heraus rechnet.
+// Magic static: the build-up runs thread-safely exactly once. Important
+// because the engine computes from several game threads inside the server.
 const StraightTable& straightTable()
 {
 	static const StraightTable table;
 	return table;
 }
 
-// Die n hoechsten gesetzten Bits als 4-Bit-Gruppen, absteigend gepackt.
+// The n highest set bits as 4 bit groups, packed in descending order.
 inline unsigned topRanks(unsigned mask, int n)
 {
 	unsigned packed = 0;
@@ -89,7 +89,7 @@ inline unsigned topRanks(unsigned mask, int n)
 			--n;
 		}
 	}
-	// Fehlen Karten (kommt bei sieben Karten nicht vor), bleibt rechts aufgefuellt.
+	// If cards are missing (does not happen with seven cards), it stays padded to the right.
 	return packed << (4 * n);
 }
 
@@ -121,9 +121,9 @@ unsigned HandEvaluator::value(const int* cards)
 		++rankCount[rank];
 	}
 
-	// Flush und Straight Flush. Bei sieben Karten kann hoechstens eine Farbe
-	// fuenfmal vorkommen, und neben einem Flush ist weder Vierling noch Full
-	// House moeglich -- deshalb darf hier direkt zurueckgegeben werden.
+	// Flush and straight flush. With seven cards at most one suit can occur
+	// five times, and next to a flush neither quads nor a full house is
+	// possible -- which is why we may return directly here.
 	for(int suit = 0; suit < 4; ++suit) {
 		if(std::popcount(suitMask[suit]) >= 5) {
 			const int sf = straights.top[suitMask[suit]];
@@ -146,7 +146,7 @@ unsigned HandEvaluator::value(const int* cards)
 
 	if(trips) {
 		const unsigned t = highestRank(trips);
-		// Zweiter Drilling zaehlt als Paar fuer das Full House.
+		// A second set of trips counts as a pair for the full house.
 		const unsigned rest = (trips & ~(1u << t)) | pairs;
 		if(rest) {
 			return (HC_FULLHOUSE << 20) | (t << 16) | (highestRank(rest) << 12);

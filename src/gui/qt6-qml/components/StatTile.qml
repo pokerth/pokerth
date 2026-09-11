@@ -3,8 +3,8 @@ import QtQuick.Layouts
 
 import "../config" as Config
 
-// Kennzahlen-Kachel „großer Wert über kleinem Label" der Spielerseiten –
-// Kopf-Raster der aktuellen Saison und aufgeklappte Saison-Ergebnisse.
+// Key figure tile "large value above a small label" of the player pages –
+// header grid of the current season and expanded season results.
 Rectangle {
     id: tile
 

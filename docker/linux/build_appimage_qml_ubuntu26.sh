@@ -1,20 +1,20 @@
 #!/bin/bash
 set -e
 
-# Baut das PokerTH-QML-Client AppImage in einem Ubuntu-26.04-Docker-Container.
+# Builds the PokerTH QML client AppImage in an Ubuntu 26.04 Docker container.
 #
-# Warum Ubuntu 26.04?
-#   Das AppImage bündelt glibc + ld-linux. Das gebündelte glibc muss mindestens
-#   so neu sein wie das neueste Zielsystem (Ubuntu 26.04 / glibc 2.43), damit
-#   Host-Libs (libglib etc.) die benötigten Symbole finden.
-#   Ubuntu 26.04 (glibc 2.43) deckt alle Zielsysteme ab Ubuntu 22.04 aufwärts.
+# Why Ubuntu 26.04?
+#   The AppImage bundles glibc + ld-linux. The bundled glibc must be at least
+#   as new as the newest target system (Ubuntu 26.04 / glibc 2.43) so that
+#   host libs (libglib etc.) find the symbols they need.
+#   Ubuntu 26.04 (glibc 2.43) covers all target systems from Ubuntu 22.04 upwards.
 #
-# Voraussetzung: Docker installiert und laufend.
+# Requirement: Docker installed and running.
 #
-# Aufruf:
-#   cd <projekt-root>
+# Usage:
+#   cd <project-root>
 #   bash docker/linux/build_appimage_qml_ubuntu26.sh
-#   # oder mit --no-cache um den Image-Cache zu umgehen:
+#   # or with --no-cache to bypass the image cache:
 #   bash docker/linux/build_appimage_qml_ubuntu26.sh --no-cache
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -27,12 +27,12 @@ echo "Projekt-Root:  $PROJECT_ROOT"
 echo "Docker-Image:  $IMAGE_NAME"
 echo ""
 
-# Sicherstellen, dass wir auf dem richtigen Branch sind
+# Make sure we are on the right branch
 CURRENT_BRANCH=$(git -C "$PROJECT_ROOT" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unbekannt")
 echo "Branch: $CURRENT_BRANCH  (wird via COPY in den Container kopiert)"
 echo ""
 
-# --- Laufende Container des Images stoppen und entfernen ---
+# --- Stop and remove running containers of the image ---
 RUNNING=$(docker ps -q --filter "ancestor=$IMAGE_NAME" 2>/dev/null)
 if [ -n "$RUNNING" ]; then
     echo "=== Stoppe laufende Container ==="
@@ -51,7 +51,7 @@ docker build \
     -t "$IMAGE_NAME" \
     "$PROJECT_ROOT"
 
-# --- AppImage aus dem Container extrahieren ---
+# --- Extract the AppImage from the container ---
 echo ""
 echo "=== Extrahiere AppImage ==="
 CONTAINER_ID=$(docker create "$IMAGE_NAME")

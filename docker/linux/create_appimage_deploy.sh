@@ -1,23 +1,23 @@
 #!/bin/bash
 set -e
 
-# AppImage Deploy Script für PokerTH Linux
-# Erstellt ein AppImage das auf allen glibc-Versionen läuft,
-# da glibc + ld-linux mitgebündelt werden.
+# AppImage deploy script for PokerTH Linux
+# Creates an AppImage that runs on all glibc versions,
+# because glibc + ld-linux are bundled along.
 #
-# Löst das GLIBC_2.38-Kompatibilitätsproblem:
-#   Das Binary wird auf einem aktuellen Ubuntu gebaut, aber viele Nutzer
-#   haben ältere Systeme (z.B. Ubuntu 22.04 mit glibc 2.35).
-#   Das AppImage bündelt ALLES inkl. glibc und nutzt den eigenen ld-linux
-#   Loader, wodurch die Host-glibc-Version irrelevant wird.
+# It solves the GLIBC_2.38 compatibility problem:
+#   The binary is built on a current Ubuntu, but many users
+#   have older systems (e.g. Ubuntu 22.04 with glibc 2.35).
+#   The AppImage bundles EVERYTHING incl. glibc and uses its own ld-linux
+#   loader, which makes the host glibc version irrelevant.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 BUILD_DIR="${PROJECT_ROOT}/build"
 ARCH="$(uname -m)"
 APPDIR="${SCRIPT_DIR}/PokerTH.AppDir"
-# Name per Umgebungsvariable übersteuerbar (z. B. vom Docker-Build mit
-# glibc-Version im Namen), sonst Default mit Arch + Zeitstempel.
+# The name can be overridden via an environment variable (e.g. by the Docker build with
+# the glibc version in the name), otherwise the default with arch + timestamp.
 APPIMAGE_NAME="${APPIMAGE_NAME:-PokerTH-${ARCH}-$(date +%Y%m%d_%H%M%S).AppImage}"
 
 echo "=== PokerTH AppImage Erstellung ==="
@@ -27,7 +27,7 @@ echo "AppDir:       $APPDIR"
 echo "Output:       $APPIMAGE_NAME"
 echo ""
 
-# --- Voraussetzungen prüfen ---
+# --- Check the requirements ---
 
 if [ ! -d "$BUILD_DIR" ]; then
     echo "ERROR: Build-Verzeichnis nicht gefunden: $BUILD_DIR"
@@ -40,9 +40,9 @@ if [ ! -f "$BUILD_DIR/bin/pokerth_client" ]; then
     exit 1
 fi
 
-# appimagetool herunterladen falls nicht vorhanden
-# WICHTIG: Stabilen Release verwenden statt "continuous"!
-# Die continuous-Builds können instabile/inkompatible AppImage-Runtimes enthalten.
+# Download appimagetool if it is not present
+# IMPORTANT: use a stable release instead of "continuous"!
+# The continuous builds can contain unstable/incompatible AppImage runtimes.
 APPIMAGETOOL_VERSION="continuous"
 APPIMAGETOOL="${SCRIPT_DIR}/appimagetool-${ARCH}.AppImage"
 if [ ! -f "$APPIMAGETOOL" ]; then
@@ -72,7 +72,7 @@ if [ -d "$BUILD_DIR/bin/botfiles" ]; then
     cp -rv "$BUILD_DIR/bin/botfiles" "$APPDIR/usr/bin/"
 fi
 
-# --- Abhängigkeiten sammeln (INKLUSIVE glibc) ---
+# --- Collect the dependencies (INCLUDING glibc) ---
 
 echo ""
 echo "=== Sammle ALLE Abhängigkeiten (inkl. glibc) ==="
@@ -93,7 +93,7 @@ collect_all_dependencies() {
             local lib
             lib=$(echo "$line" | grep "=>" | awk '{print $3}')
             [ -n "$lib" ] && [ -f "$lib" ] && libs+=("$lib")
-            # ld-linux (hat kein "=>")
+            # ld-linux (has no "=>")
             local ld
             ld=$(echo "$line" | grep -oP '/\S*ld-linux\S+' || true)
             [ -n "$ld" ] && [ -f "$ld" ] && libs+=("$ld")
@@ -104,12 +104,12 @@ collect_all_dependencies() {
             local libname
             libname="$(basename "$lib")"
 
-            # Audio-Libs (libpulse, libasound) werden MIT-gebündelt.
-            # libpulse ist eine reine Client-Lib die per Socket mit dem
-            # Host-Audio-Server (PulseAudio/PipeWire) kommuniziert.
-            # Ohne Bundling fehlt libpulse.so.0 auf Systemen die nur
-            # PipeWire ohne pulseaudio-Kompatibilitätspaket installiert haben
-            # (z.B. Fedora-Minimalinstallationen).
+            # Audio libs (libpulse, libasound) ARE bundled along.
+            # libpulse is a pure client lib that communicates with the
+            # host audio server (PulseAudio/PipeWire) via a socket.
+            # Without bundling, libpulse.so.0 is missing on systems that have
+            # only PipeWire installed without the pulseaudio compatibility package
+            # (e.g. minimal Fedora installations).
 
             grep -qxF "$lib" "$processed" 2>/dev/null && continue
             echo "$lib" >> "$processed"
@@ -129,7 +129,7 @@ for binary in "$APPDIR/usr/bin/pokerth_client" "$APPDIR/usr/bin/pokerth_qml-clie
     [ -f "$binary" ] && collect_all_dependencies "$binary" "$APPDIR/usr/lib"
 done
 
-# Stelle sicher, dass glibc-Kernbibliotheken vorhanden sind
+# Make sure the glibc core libraries are present
 echo ""
 echo "=== Sicherstellung glibc-Bundle ==="
 for glibc_lib in libc.so.6 libm.so.6 libdl.so.2 libpthread.so.0 librt.so.1 libresolv.so.2 libmvec.so.1; do
@@ -141,7 +141,7 @@ for glibc_lib in libc.so.6 libm.so.6 libdl.so.2 libpthread.so.0 librt.so.1 libre
     fi
 done
 
-# ld-linux Loader kopieren (KRITISCH für glibc-Isolation)
+# Copy the ld-linux loader (CRITICAL for the glibc isolation)
 LD_LINUX="/lib64/ld-linux-${ARCH//_/-}.so.2"
 [ ! -f "$LD_LINUX" ] && LD_LINUX="/lib/${ARCH}-linux-gnu/ld-linux-${ARCH//_/-}.so.2"
 [ ! -f "$LD_LINUX" ] && LD_LINUX=$(ldconfig -p | grep "ld-linux" | head -1 | awk '{print $NF}')
@@ -168,7 +168,7 @@ if [ -d "$QT6_PLUGINS" ]; then
             mkdir -p "$APPDIR/usr/plugins/$cat"
             cp "$QT6_PLUGINS/$cat"/*.so "$APPDIR/usr/plugins/$cat/" 2>/dev/null || true
             chmod +x "$APPDIR/usr/plugins/$cat"/*.so 2>/dev/null || true
-            # Abhängigkeiten der Plugins sammeln
+            # Collect the dependencies of the plugins
             for plugin in "$APPDIR/usr/plugins/$cat"/*.so; do
                 [ -f "$plugin" ] && collect_all_dependencies "$plugin" "$APPDIR/usr/lib"
             done
@@ -183,23 +183,23 @@ fi
 
 echo ""
 echo "=== Kopiere Data ==="
-# WICHTIG: Pfad-Auflösung in getDataPathStdString() (qthelper.cpp):
-#   Qt's applicationDirPath() nutzt /proc/self/exe auf Linux.
-#   Da wir den gebündelten ld-linux Loader verwenden
+# IMPORTANT: path resolution in getDataPathStdString() (qthelper.cpp):
+#   Qt's applicationDirPath() uses /proc/self/exe on Linux.
+#   Since we use the bundled ld-linux loader
 #     (exec ld-linux ... pokerth_client),
-#   zeigt /proc/self/exe auf usr/lib/ld-linux-*.so.2, NICHT auf usr/bin/pokerth_client!
+#   /proc/self/exe points to usr/lib/ld-linux-*.so.2, NOT to usr/bin/pokerth_client!
 #   → applicationDirPath() = usr/lib/
-#   → Keiner der Regex-Checks matched ("bin/?$" matched nicht "lib")
-#   → Fallback: path += "/data/" → sucht in usr/lib/data/
+#   → None of the regex checks match ("bin/?$" does not match "lib")
+#   → Fallback: path += "/data/" → it looks in usr/lib/data/
 #
-# Lösung: Data in usr/share/pokerth/data/ ablegen UND
-#          Symlink usr/lib/data → ../share/pokerth/data erstellen
+# Solution: put the data in usr/share/pokerth/data/ AND
+#          create a symlink usr/lib/data → ../share/pokerth/data
 mkdir -p "$APPDIR/usr/share/pokerth"
 if [ -d "$PROJECT_ROOT/data" ]; then
     cp -r "$PROJECT_ROOT/data" "$APPDIR/usr/share/pokerth/"
 fi
 
-# Symlink damit data gefunden wird wenn applicationDirPath() auf usr/lib/ zeigt
+# A symlink so that the data is found when applicationDirPath() points to usr/lib/
 ln -sf "../share/pokerth/data" "$APPDIR/usr/lib/data"
 echo "  Symlink: usr/lib/data → ../share/pokerth/data (für ld-linux /proc/self/exe)"
 
@@ -233,21 +233,21 @@ Type=Application
 Categories=Qt;Game;CardGame;
 EOF
 
-# Icon kopieren (AppImage braucht das Icon im Root-Verzeichnis)
+# Copy the icon (the AppImage needs the icon in the root directory)
 if [ -f "$PROJECT_ROOT/pokerth.png" ]; then
     cp "$PROJECT_ROOT/pokerth.png" "$APPDIR/pokerth.png"
-    # Zusätzlich in hicolor-Struktur für Desktop-Integration
+    # Additionally into the hicolor structure for the desktop integration
     mkdir -p "$APPDIR/usr/share/icons/hicolor/128x128/apps"
     cp "$PROJECT_ROOT/pokerth.png" "$APPDIR/usr/share/icons/hicolor/128x128/apps/pokerth.png"
 else
     echo "WARNUNG: pokerth.png nicht gefunden, erstelle Platzhalter"
-    # Minimales 1x1 PNG als Fallback (AppImage braucht ein Icon)
+    # A minimal 1x1 PNG as a fallback (the AppImage needs an icon)
     printf '\x89PNG\r\n\x1a\n' > "$APPDIR/pokerth.png"
 fi
 
-# .DirIcon bestimmt das Icon der AppImage-DATEI im Dateimanager. Als echte Datei
-# (statt des von appimagetool erzeugten Symlinks) ist es überall zuverlässig
-# sichtbar.
+# .DirIcon determines the icon of the AppImage FILE in the file manager. As a real file
+# (instead of the symlink created by appimagetool) it is reliably visible
+# everywhere.
 cp "$APPDIR/pokerth.png" "$APPDIR/.DirIcon"
 
 # --- Lizenz & Docs ---
@@ -256,25 +256,25 @@ cp "$APPDIR/pokerth.png" "$APPDIR/.DirIcon"
 [ -f "$PROJECT_ROOT/ChangeLog" ] && cp "$PROJECT_ROOT/ChangeLog" "$APPDIR/"
 [ -d "$PROJECT_ROOT/docs" ]      && { mkdir -p "$APPDIR/usr/share/doc/pokerth"; cp -r "$PROJECT_ROOT/docs"/* "$APPDIR/usr/share/doc/pokerth/"; }
 
-# --- AppRun erstellen (KERNSTÜCK für glibc-Isolation) ---
+# --- Create the AppRun (the CORE PIECE for the glibc isolation) ---
 
 echo ""
 echo "=== Erstelle AppRun ==="
 
-# Ermittle den genauen Dateinamen des ld-linux Loaders
+# Determine the exact file name of the ld-linux loader
 LD_LINUX_NAME=$(basename "$LD_LINUX" 2>/dev/null || echo "ld-linux-x86-64.so.2")
 
 cat > "$APPDIR/AppRun" << 'RUNEOF'
 #!/bin/bash
-# AppRun: Startet PokerTH mit gebündeltem glibc + ld-linux Loader.
-# Dadurch ist die glibc-Version des Host-Systems irrelevant.
+# AppRun: starts PokerTH with the bundled glibc + ld-linux loader.
+# That makes the glibc version of the host system irrelevant.
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# --- AppImageLauncher-Erkennung ---
-# AppImageLauncher ist bekannt dafür, AppImage-Starts zu stören.
-# Symptome: "fuse: memory allocation failed", "Bad address", FUSE-Fehler.
-# Wenn AppImageLauncher erkannt wird, warnen wir den User.
+# --- AppImageLauncher detection ---
+# AppImageLauncher is known for disturbing AppImage starts.
+# Symptoms: "fuse: memory allocation failed", "Bad address", FUSE errors.
+# If AppImageLauncher is detected, we warn the user.
 if [ -n "${APPIMAGE_LAUNCHER_VERSION:-}" ] || \
    [ -f /usr/lib/x86_64-linux-gnu/libappimage_launcher.so ] || \
    dpkg -l appimagelauncher &>/dev/null 2>&1; then
@@ -289,28 +289,28 @@ if [ -n "${APPIMAGE_LAUNCHER_VERSION:-}" ] || \
     echo "" >&2
 fi
 
-# PokerTH AppImage Marker — wird im C++ Code via AppImageUtils geprüft
+# PokerTH AppImage marker — checked in the C++ code via AppImageUtils
 export POKERTH_APPIMAGE=1
 
-# Originale LD_LIBRARY_PATH sichern BEVOR wir sie modifizieren.
-# AppImageUtils::cleanProcessEnvironment() stellt diesen Wert wieder her,
-# damit externe Prozesse (xdg-open, paplay, etc.) die System-Libs nutzen.
+# Save the original LD_LIBRARY_PATH BEFORE we modify it.
+# AppImageUtils::cleanProcessEnvironment() restores this value,
+# so that external processes (xdg-open, paplay, etc.) use the system libs.
 export POKERTH_ORIG_LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
 
-# Bibliotheks- und Plugin-Pfade
+# Library and plugin paths
 export LD_LIBRARY_PATH="${HERE}/usr/lib:${LD_LIBRARY_PATH}"
 export QT_PLUGIN_PATH="${HERE}/usr/plugins"
 export QT_QPA_PLATFORM_PLUGIN_PATH="${HERE}/usr/plugins/platforms"
 export QT_MEDIA_BACKEND=ffmpeg
 export XDG_DATA_DIRS="${HERE}/usr/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 
-# Wechsel in das AppDir damit bin/../share/pokerth/data/ aufgelöst wird
+# Change into the AppDir so that bin/../share/pokerth/data/ resolves
 cd "${HERE}/usr"
 
-# Prüfe ob der gebündelte ld-linux Loader vorhanden ist
+# Check whether the bundled ld-linux loader is present
 RUNEOF
 
-# ld-linux Name in das Script einsetzen (muss außerhalb von 'HEREDOC' sein)
+# Insert the ld-linux name into the script (has to be outside of 'HEREDOC')
 cat >> "$APPDIR/AppRun" << RUNEOF
 BUNDLED_LD="\${HERE}/usr/lib/${LD_LINUX_NAME}"
 RUNEOF
@@ -318,12 +318,12 @@ RUNEOF
 cat >> "$APPDIR/AppRun" << 'RUNEOF'
 
 if [ -x "${BUNDLED_LD}" ]; then
-    # WICHTIG: Nutze den gebündelten ld-linux Loader!
-    # Das umgeht das System-glibc komplett und nutzt unsere eigene Version.
+    # IMPORTANT: use the bundled ld-linux loader!
+    # That bypasses the system glibc completely and uses our own version.
     exec "${BUNDLED_LD}" --inhibit-cache --library-path "${HERE}/usr/lib" \
          "${HERE}/usr/bin/pokerth_client" "$@"
 else
-    # Fallback: Normaler Start (funktioniert nur wenn Host-glibc kompatibel ist)
+    # Fallback: a normal start (works only if the host glibc is compatible)
     echo "WARNUNG: Gebündelter Loader nicht gefunden, verwende System-Loader" >&2
     exec "${HERE}/usr/bin/pokerth_client" "$@"
 fi
@@ -336,7 +336,7 @@ echo ""
 echo "=== Erstelle AppImage ==="
 cd "$SCRIPT_DIR"
 
-# appimagetool im --appimage-extract-and-run Modus für Container ohne FUSE
+# appimagetool in --appimage-extract-and-run mode for containers without FUSE
 export ARCH
 "$APPIMAGETOOL" --appimage-extract-and-run "$APPDIR" "$APPIMAGE_NAME" \
     || { echo "Versuche appimagetool mit --no-appstream..."; \
@@ -351,7 +351,7 @@ echo "Anzahl Bibliotheken:  $(find "$APPDIR/usr/lib" -name '*.so*' | wc -l)"
 echo "Gesamtgröße AppDir:   $(du -sh "$APPDIR" | cut -f1)"
 echo ""
 
-# Prüfe ob glibc gebündelt ist
+# Check whether glibc is bundled
 if [ -f "$APPDIR/usr/lib/libc.so.6" ] && [ -f "$APPDIR/usr/lib/${LD_LINUX_NAME}" ]; then
     echo "✓ glibc + ld-linux gebündelt — sollte auf älteren Systemen funktionieren!"
 else

@@ -87,7 +87,7 @@ int joinNetworkGameDialogImpl::exec()
 
 	spinBox_port->setValue(QString::fromUtf8(myConfig->readConfigString("ServerPort").c_str()).toInt(&toIntTrue, 10));
 
-	//Profile Name darf nicht mit einer Zahl beginnen --> XML konform (gültiger XML-Tag-Name)
+	//Profile name must not start with a digit --> XML conformant (valid XML tag name)
 	QRegularExpression rx("[A-Za-z][A-Za-z0-9]*");
 	QValidator *validator = new QRegularExpressionValidator(rx, this);
 	lineEdit_profileName->setValidator(validator);
@@ -100,7 +100,7 @@ int joinNetworkGameDialogImpl::exec()
 		//if discwrite-access
 		myServerProfilesFile = myConfig->readConfigString("UserDataDir")+"serverprofiles.xml";
 
-		//Anlegen wenn noch nicht existiert!
+		//Create it if it does not exist yet!
 		QFile serverProfilesfile(QString::fromUtf8(myServerProfilesFile.c_str()));
 
 		if(!serverProfilesfile.exists()) {
@@ -124,7 +124,7 @@ int joinNetworkGameDialogImpl::exec()
 			file.close();
 		}
 
-		//Liste Füllen
+		//Fill the list
 		fillServerProfileList();
 	}
 
@@ -249,7 +249,7 @@ void joinNetworkGameDialogImpl::saveServerProfile()
 			}
 
 			if( !testProfile.isNull() ) {
-				// Wenn der Name schon existiert --> Überschreiben?
+				// If the name already exists --> overwrite?
 				MyMessageBox msgBox(QMessageBox::Warning, tr("Save Server Profile Error"),
 									QString(tr("A profile with the name: %1 already exists.\nWould you like to overwrite ?")).arg(lineEdit_profileName->text()), QMessageBox::Yes | QMessageBox::No, this);
 				switch (msgBox.exec()) {
@@ -277,7 +277,7 @@ void joinNetworkGameDialogImpl::saveServerProfile()
 				}
 
 			} else {
-				// Wenn der Name nicht existiert --> speichern (Tag = Profilname, Legacy-Format)
+				// If the name does not exist --> save (tag = profile name, legacy format)
 				QDomElement profile2 = xmlDoc.createElement( lineEdit_profileName->text() );
 				profiles.appendChild( profile2 );
 				profile2.setAttribute("Name", lineEdit_profileName->text());
@@ -340,7 +340,7 @@ void joinNetworkGameDialogImpl::deleteServerProfile()
 		}
 		file2.close();
 
-		//Liste Füllen
+		//Fill the list
 		fillServerProfileList();
 	}
 

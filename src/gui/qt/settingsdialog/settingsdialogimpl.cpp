@@ -70,7 +70,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	if (styleSPageIndex >= 0 && styleSPageIndex < listWidget->count()) {
 		QListWidgetItem* item = listWidget->item(styleSPageIndex);
 		if (item) {
-			item->setHidden(true); // Verstecken statt löschen
+			item->setHidden(true); // Hide instead of delete
 		}
 	}
 
@@ -81,7 +81,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 		rootGrid->setContentsMargins(0, 0, 8, 0);
 	}
 
-	// Setze Column Stretch für listWidget (Spalte 0) und stackedWidget (Spalte 1)
+	// Set the column stretch for listWidget (column 0) and stackedWidget (column 1)
 	QGridLayout* grid = qobject_cast<QGridLayout*>(layout()->itemAt(0)->layout());
 	if (grid) {
 		grid->setColumnStretch(0, 1);  // listWidget
@@ -788,7 +788,7 @@ void settingsDialogImpl::exec(bool in_game)
 	prepareDialog();
 
 #ifdef ANDROID
-	// Ensure Dialog ist sichtbar und hat korrekte Geometrie vor exec()
+	// Ensure the dialog is visible and has the correct geometry before exec()
 	this->show();
 	this->raise();
 	this->activateWindow();
@@ -1082,7 +1082,7 @@ void settingsDialogImpl::isAccepted()
 								  QMessageBox::Ok);
 	}
 
-	//Wenn alles richtig eingegeben wurde --> Dialog schließen
+	//If everything was entered correctly --> close the dialog
 	if(settingsCorrect) {
 		this->accept();
 	}

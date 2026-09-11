@@ -6,9 +6,9 @@ import QtQuick.Layouts
 import "../config" as Config
 import "../components"
 
-// PokerTH-Spielerprofil – https://www.pokerth.net/player?p=<id> bzw. ?u=<name>
-// Daten nativ über  GET /pthranking/player/show?player_id=<id>|username=<name>
-// (kein CSRF). Aufrufer setzt playerId (aus der Ranking-Zeile) oder username.
+// PokerTH player profile – https://www.pokerth.net/player?p=<id> or ?u=<name>
+// Data natively via  GET /pthranking/player/show?player_id=<id>|username=<name>
+// (no CSRF). The caller sets playerId (from the ranking row) or username.
 Rectangle {
     id: playerPage
 
@@ -16,11 +16,11 @@ Rectangle {
     Layout.fillWidth: true
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
-    // Lesen ohne Maus: Der Scrollbereich bekommt beim Öffnen den Fokus. Pfeil
-    // hoch/runter scrollt die Flickable selbst, Bild-auf/ab und Pos1/Ende kennt
-    // sie nicht – die kommen hier dazu. Ein einzelner Keys.onPressed statt
-    // mehrerer Einzelhandler: Sobald ein Item einen speziellen Tastenhandler
-    // hat, sieht sein onPressed die betreffende Taste nicht mehr.
+    // Reading without a mouse: the scroll area gets the focus when opening. Arrow
+    // up/down scrolls the Flickable itself, page up/down and Home/End are unknown
+    // to it – those are added here. A single Keys.onPressed instead of
+    // several individual handlers: as soon as an item has a special key handler,
+    // its onPressed no longer sees the key in question.
     StackView.onActivated: Qt.callLater(contentFlick.forceActiveFocus)
     Keys.onPressed: (event) => {
         var f = contentFlick
@@ -52,35 +52,35 @@ Rectangle {
     property int pos: 0
     property var last5: []
     property var games: []
-    // Season-Stats-Rohdaten der API: barStats = Häufigkeit je Platz 1–10
-    // (bar_stats), stats = rohes stats-Feld (die Section leitet die Prozente ab).
+    // Raw season stats data of the API: barStats = frequency per place 1–10
+    // (bar_stats), stats = the raw stats field (the section derives the percentages).
     property var barStats: []
     property var stats: []
-    // Achtung: `seasons` der API ist die *globale* Liste aller abgeschlossenen
-    // Saisons (Format "<Jahr>_<Quartal>", z. B. "2026_2") – für jeden Spieler
-    // identisch, nicht dessen Teilnahmen. Welche davon der Spieler gespielt hat,
-    // ermittelt erst die PlayerSeasonCard je Saison; Karten ohne Ergebnis
-    // blenden sich selbst aus.
+    // Note: `seasons` of the API is the *global* list of all completed
+    // seasons (format "<year>_<quarter>", e.g. "2026_2") – identical for every
+    // player, not their participations. Which of them the player has played
+    // is only determined by the PlayerSeasonCard per season; cards without a result
+    // hide themselves.
     property var seasons: []
-    // Zahl der Saisons, für die tatsächlich ein Ergebnis vorliegt (von den
-    // Karten hochgezählt); steuert die Überschrift des Saison-Blocks.
+    // Number of seasons for which a result actually exists (counted up by the
+    // cards); controls the heading of the season block.
     property int seasonResults: 0
     property bool loading: false
     property string errorText: ""
 
     function score2(v) { return (Number(v) / 100).toFixed(2) }
     function datePart(s) { return s ? String(s).substring(0, 10) : "" }
-    // "2026_2" → "2026 Q2"; unbekanntes Format unverändert durchreichen.
+    // "2026_2" → "2026 Q2"; an unknown format is passed through unchanged.
     function seasonLabel(s) {
         var parts = String(s).split("_")
         return parts.length === 2 ? (parts[0] + " Q" + parts[1]) : String(s)
     }
 
-    // Quellen-Umschalter: ersetzt diese Seite durch die Player-Page der
-    // gewählten Quelle (gleicher Nickname). BBC/WEC kennen nur Nicknames –
-    // solange keiner bekannt ist (Seite nur mit playerId geöffnet, lädt noch),
-    // passiert nichts. Als Funktion, weil der Umschalter je nach Layout an zwei
-    // Stellen (inline / eigene Zeile) sitzt und beide dieselbe Logik brauchen.
+    // Source switch: replaces this page with the player page of the
+    // selected source (same nickname). BBC/WEC only know nicknames –
+    // as long as none is known (page opened with playerId only, still loading),
+    // nothing happens. As a function, because depending on the layout the switch sits
+    // in two places (inline / its own row) and both need the same logic.
     function switchCommunity(community) {
         var nick = (player && player.username) ? player.username : username
         if (nick === "")
@@ -92,8 +92,8 @@ Rectangle {
     function load() {
         loading = true
         errorText = ""
-        // Saison-Karten werden über `seasons` neu erzeugt und zählen frisch –
-        // den Ergebnis-Zähler daher hier zurücksetzen, nicht kumulieren.
+        // The season cards are recreated via `seasons` and count afresh –
+        // so reset the result counter here instead of accumulating.
         seasonResults = 0
         var q = playerId > 0 ? ("player_id=" + playerId)
                              : ("username=" + encodeURIComponent(username))
@@ -136,16 +136,16 @@ Rectangle {
         anchors.topMargin: 16
         anchors.bottomMargin: 16
         anchors.leftMargin: 16
-        // Scrollbar näher an den Fensterrand rücken, statt rechts Platz zu
-        // verschwenden – der gewonnene Raum dient als Abstand zum Inhalt.
+        // Move the scrollbar closer to the window edge instead of wasting room on
+        // the right – the space gained serves as the distance to the content.
         anchors.rightMargin: 6
         contentWidth: width
         contentHeight: content.implicitHeight
         clip: true
         boundsBehavior: Flickable.StopAtBounds
 
-        // Inhalt schmaler halten, solange die Scrollbar sichtbar ist, damit sie
-        // den Text (v. a. die Datums-Spalte) rechts nicht überlappt.
+        // Keep the content narrower while the scrollbar is visible, so that it does
+        // not overlap the text (above all the date column) on the right.
         readonly property bool scrolling: contentHeight > height
         ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
 
@@ -154,11 +154,11 @@ Rectangle {
             width: contentFlick.width - (contentFlick.scrolling ? 16 : 0)
             spacing: 14
 
-            // ── Kopf: Avatar + Name + Land + Eckdaten ───────────────────────
-            // Im Kompakt-/Portrait-Modus (schmales Phone) wandert der Quellen-
-            // Umschalter in eine eigene Zeile darunter (rechtsbündig), damit der
-            // Kopf – Avatar + Name + 3-Segment-Umschalter – nicht breiter wird als
-            // das Display. Auf Desktop/Tablet bleibt er oben rechts inline.
+            // ── Header: avatar + name + country + key data ──────────────────
+            // In compact/portrait mode (narrow phone) the source switch moves
+            // into a row of its own below it (right-aligned), so that the
+            // header – avatar + name + 3 segment switch – does not get wider than
+            // the display. On desktop/tablet it stays inline at the top right.
             ColumnLayout {
                 Layout.fillWidth: true
                 spacing: 8
@@ -214,8 +214,8 @@ Rectangle {
                                 font.bold: true
                             }
                         }
-                        // Datums-Zeilen füllen die Breite und eliden – so bestimmen
-                        // sie im schmalen Portrait nicht die Kopf-Mindestbreite.
+                        // The date rows fill the width and elide – that way they do not
+                        // determine the minimum header width in narrow portrait.
                         AppLabel {
                             Layout.fillWidth: true
                             elide: Text.ElideRight
@@ -234,7 +234,7 @@ Rectangle {
                         }
                     }
 
-                    // Desktop/Tablet: Umschalter inline oben rechts.
+                    // Desktop/tablet: switch inline at the top right.
                     CommunitySwitch {
                         visible: !playerPage.compact
                         Layout.alignment: Qt.AlignTop
@@ -243,7 +243,7 @@ Rectangle {
                     }
                 }
 
-                // Kompakt/Portrait: Umschalter in eigener Zeile, rechtsbündig.
+                // Compact/portrait: switch in its own row, right-aligned.
                 RowLayout {
                     Layout.fillWidth: true
                     visible: playerPage.compact
@@ -319,7 +319,7 @@ Rectangle {
                 Item { Layout.fillWidth: true }
             }
 
-            // ── Season Stats (Charts wie pokerth.net) ───────────────────────
+            // ── Season stats (charts as on pokerth.net) ─────────────────────
             SeasonStatsSection {
                 Layout.fillWidth: true
                 counts: playerPage.barStats
@@ -338,8 +338,8 @@ Rectangle {
             Rectangle {
                 Layout.fillWidth: true
                 visible: playerPage.games.length > 0
-                // Auf wenige Zeilen begrenzt; längere Historie scrollt intern
-                // (eigene vertikale Scrollbar) statt die ganze Seite zu strecken.
+                // Limited to a few rows; a longer history scrolls internally
+                // (its own vertical scrollbar) instead of stretching the whole page.
                 readonly property int rowH: 30
                 readonly property int maxRows: 6
                 Layout.preferredHeight:
@@ -404,10 +404,10 @@ Rectangle {
                 }
             }
 
-            // ── Gespielte Saisons ───────────────────────────────────────────
-            // Die Überschrift hängt an den tatsächlich gefundenen Ergebnissen,
-            // nicht an der (globalen) Saison-Liste – sonst stünde sie auch bei
-            // Spielern da, die noch keine Saison abgeschlossen haben.
+            // ── Seasons played ──────────────────────────────────────────────
+            // The heading depends on the results actually found, not on the
+            // (global) season list – otherwise it would also appear for
+            // players who have not completed a season yet.
             AppLabel {
                 text: qsTr("Seasons")
                 visible: playerPage.seasonResults > 0

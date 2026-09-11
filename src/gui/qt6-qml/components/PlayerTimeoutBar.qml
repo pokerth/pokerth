@@ -3,9 +3,9 @@ import QtQuick.Effects
 
 import "../config" as Config
 
-// Action-Timeout: schlanker Fortschrittsbalken (Track + animierte Füllung), der
-// über GameTable.timeoutSec herunterzählt. `active` startet/stoppt die
-// Animation; Größe und Sichtbarkeit setzt der Aufrufer.
+// Action timeout: slim progress bar (track + animated fill) counting down
+// via GameTable.timeoutSec. `active` starts/stops the animation; size and
+// visibility are set by the caller.
 Item {
     id: bar
     property bool active: false
@@ -30,8 +30,8 @@ Item {
         }
     }
 
-    // Füllung (animiert) ÜBER dem Track – bewusst NICHT im Layer, damit die
-    // Breiten-Animation zuverlässig läuft.
+    // Fill (animated) ABOVE the track – deliberately NOT in the layer, so that
+    // the width animation runs reliably.
     Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
