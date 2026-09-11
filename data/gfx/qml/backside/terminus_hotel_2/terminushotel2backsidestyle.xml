@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   QML card back style (Kartenrückseite) "Terminus Hotel 2".
+   QML card back style "Terminus Hotel 2".
 
-   Dunkle "World of Assassination" (WoA)-Karte mit Carbon-Verlauf, 3D Struktur
-   und goldenen Verriegelungen. Zentrales 3D-Weltkugel-Münzen-Emblem. Basis Schanier-Optik mit
-   Goldrahmen und Gravurakzente für optimale Lesbarkeit und ausgewählte Gäste im Terminus Hotel.
-   Karte wäre auch extern in der "Blood Oath" Variante verfügbar.
+   A dark "World of Assassination" (WoA) card with a carbon gradient, a 3D
+   structure and golden latches. Central 3D globe coin emblem. A hinge look as
+   the base, with a gold frame and engraving accents for good legibility and for
+   selected guests of the Terminus Hotel. The card would also be available
+   externally in the "Blood Oath" variant.
 -->
 <PokerTH>
   <CardBack>
-     <StyleDescription value="Terminus Hotel 2 WoA (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleDescription value="Terminus Hotel 2 WoA (QML/SVG)" /><!-- Shown in the style selection -->
      <StyleMaintainerName value="BaShFX" />
      <StyleMaintainerEMail value="webmaster@pokerth.net" />
      <StyleCreateDate value="29.07.2026" />
      <PokerTHStyleFileVersion value="1" />
-     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+     <Preview value="preview.png" /><!-- Preview image (landscape only - no portrait needed) -->
 
-     <!-- Rückseiten-Grafik (SVG, beliebig skalierbar) -->
+     <!-- Card back graphic (SVG, scalable to any size) -->
      <Backside value="backside.svg" />
   </CardBack>
 </PokerTH>

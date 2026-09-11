@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   QML card back style (Kartenrückseite) "BBC Anthem".
+   QML card back style "BBC Anthem".
 
-   Schwarz-Graue "Hexagon"-Karte mit Metall-Facetten, flüssigen 3D Chrome-Kontrast
-   und klassischen weißen Casino-Rand. Zentrales Cortex-Brain-Emblem und Hochglanz-Rahmen.
-   Passend zum dunklen Filz und als Andenken für die BBC-Community. 
+   Black and grey "hexagon" card with metal facets, fluid 3D chrome contrast and
+   a classic white casino border. Central cortex brain emblem and a high gloss
+   frame. Matches the dark felt and is a keepsake for the BBC community.
 -->
 <PokerTH>
   <CardBack>
-     <StyleDescription value="BBC Anthem (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleDescription value="BBC Anthem (QML/SVG)" /><!-- Shown in the style selection -->
      <StyleMaintainerName value="BaShFX" />
      <StyleMaintainerEMail value="webmaster@pokerth.net" />
      <StyleCreateDate value="07.08.2026" />
      <PokerTHStyleFileVersion value="1" />
-     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+     <Preview value="preview.png" /><!-- Preview image (landscape only - no portrait needed) -->
 
-     <!-- Rückseiten-Grafik (SVG, beliebig skalierbar) -->
+     <!-- Card back graphic (SVG, scalable to any size) -->
      <Backside value="backside.svg" />
   </CardBack>
 </PokerTH>

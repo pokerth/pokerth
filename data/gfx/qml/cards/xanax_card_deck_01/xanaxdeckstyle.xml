@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   QML card deck style – Nachbau des klassischen "Xanax"-Kartensets
-   (xanax_card_deck_01) als reines SVG.
+   QML card deck style - a rebuild of the classic "Xanax" card set
+   (xanax_card_deck_01) as pure SVG.
 
-   Pergament-Optik (cremefarbener Radial-Verlauf) mit dekorativem, eingelegtem
-   Achteck-Rahmen. 2-farbig: Karo/Herz rot (#a80c08), Pik/Kreuz schwarz (#141414).
-   Jede Karte zeigt zentral einen großen Rang + großes Suit-Symbol.
+   A parchment look (a cream coloured radial gradient) with a decorative, inlaid
+   octagonal frame. Two colours: diamonds/hearts red (#a80c08), spades/clubs
+   black (#141414). Every card shows a large rank + a large suit symbol in the
+   centre.
 
-   Mobile-first: nur die OBEREN Eck-Indizes (oben-links + oben-rechts) – die
-   vertikal gespiegelten unteren Indizes des Originals werden bewusst weggelassen.
+   Mobile first: only the UPPER corner indexes (top left + top right) - the
+   vertically mirrored lower indexes of the original are deliberately left out.
 
-   Aufbau (wie das mitgelieferte cards/default-Set): 0.svg..51.svg nach Engine-Index.
-   Rang-Glyphen aus dem cards/bella_union_4c-Set (einheitliche Zeichenhöhe, keine
-   Unterlängen), Suit-Pfade aus dem cards/default-Set. Die Kartenrückseite ist eine
-   EIGENE Stil-Kategorie (data/gfx/qml/backside/).
+   Structure (like the bundled cards/default set): 0.svg..51.svg after the
+   engine index. Rank glyphs from the cards/bella_union_4c set (a uniform
+   character height, no descenders), suit paths from the cards/default set. The
+   card back is a style category of ITS OWN (data/gfx/qml/backside/).
 
-   Engine-Index -> Karte (siehe CardImage.qml):
-     Farbe = floor(index / 13): 0-12 Karo(♦), 13-25 Herz(♥), 26-38 Pik(♠), 39-51 Kreuz(♣)
-     Rang  = index % 13:        0=2, 1=3, … 8=10, 9=Bube, 10=Dame, 11=König, 12=Ass
+   Engine index -> card (see CardImage.qml):
+     Suit = floor(index / 13): 0-12 diamonds(♦), 13-25 hearts(♥), 26-38 spades(♠), 39-51 clubs(♣)
+     Rank = index % 13:        0=2, 1=3, … 8=10, 9=jack, 10=queen, 11=king, 12=ace
 -->
 <PokerTH>
   <CardDeck>

@@ -149,6 +149,24 @@ Helper tools around the server:
 - `pokerth_globalnotice` — sends a notice to everyone on a server
 - [tools/analyze_server_log.py](tools/analyze_server_log.py) — renders a server log as SVG
 
+## Themes and styles
+
+Game table, card deck and card back are three separate style categories, and
+all of them are pure data — an XML file plus its graphics, no code. The QML
+client ships 20 table themes, 11 card decks and 16 card backs in
+[data/gfx/qml](data/gfx/qml); the Qt Widgets client has its own sets in
+[data/gfx/gui](data/gfx/gui) and [data/gfx/cards](data/gfx/cards).
+
+In the QML client "Settings" → "Style" lists the installed styles with their
+preview, imports a new one from a ZIP archive and exports any of them back into
+one. An imported style is copied into the user data directory and therefore
+survives an update.
+
+Building your own is described in
+[docs/gui_styling_howto.txt](docs/gui_styling_howto.txt) — the XML tags, the
+sizes and naming conventions of the graphics, how to test a style and how to
+get it into the style gallery on pokerth.net.
+
 ## Translations
 
 The UI is available in 29 languages. Translations live in

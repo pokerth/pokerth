@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   QML card back style (Kartenrückseite) "Disco".
+   QML card back style "Disco".
 
-   Spiegelkugel im Schwarzlicht – Gegenstück zum Tischstil "disco" und zum
-   Kartenstapel "blacklight_4c". Die Kugel ist eine echte Facettenkugel:
-   Breiten-/Längengitter, orthographisch projiziert, Rückseite verworfen, jede
-   Facette diffus beleuchtet mit hartem Glanzpunkt; knapp die Hälfte der Spiegel
-   fängt die Schwarzlichtfarben des Decks (Magenta, Cyan, Bernstein, Violett).
-   Die Lichtpunkte auf dem Karton sind das, was die Kugel in den Raum wirft.
+   A mirror ball under black light - the counterpart to the table style "disco"
+   and to the card deck "blacklight_4c". The ball is a real facetted sphere:
+   a latitude/longitude grid, orthographically projected, the back face
+   discarded, every facet diffusely lit with a hard specular highlight; nearly
+   half of the mirrors catch the black light colours of the deck (magenta, cyan,
+   amber, violet). The specks of light on the card stock are what the ball
+   throws into the room.
 
-   Alles aus Pfaden und Verläufen – QtSvg kennt keine Filter. Rahmen wie bei den
-   neueren Rückseiten (matrix/stardust), hier in Magenta.
+   Everything is built from paths and gradients - QtSvg does not know filters.
+   The frame follows the newer card backs (matrix/stardust), here in magenta.
 
-   Erzeugt mit generate_disco_backside.py.
+   Generated with generate_disco_backside.py.
 -->
 <PokerTH>
   <CardBack>
-     <StyleDescription value="Disco (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleDescription value="Disco (QML/SVG)" /><!-- Shown in the style selection -->
      <StyleMaintainerName value="PokerTH Development Team" />
      <StyleMaintainerEMail value="webmaster@pokerth.net" />
      <StyleCreateDate value="29.08.2026" />
      <PokerTHStyleFileVersion value="1" />
-     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+     <Preview value="preview.png" /><!-- Preview image (landscape only - no portrait needed) -->
 
-     <!-- Rückseiten-Grafik (SVG, beliebig skalierbar) -->
+     <!-- Card back graphic (SVG, scalable to any size) -->
      <Backside value="backside.svg" />
   </CardBack>
 </PokerTH>

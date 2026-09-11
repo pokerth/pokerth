@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   Matrix QML table style – Pokertisch in einer dunklen Kammer, passend zur
-   Kartenrückseite "Matrix" und (per Vorschau) zum Deck "Stardust Light".
+   Matrix QML table style - a poker table in a dark chamber, matching the card
+   back "Matrix" and (by preview) the deck "Stardust Light".
 
-   Wie bei star_trek zeigt die Tischgrafik den Tisch mittig/perspektivisch,
-   daher center-Modus: der Client zentriert das Bild auf den Mittelpunkt der
-   Spieler-Ellipse. table.png ist so beschnitten, dass die Tischfläche (grüner
-   Filz) in Größe und Bildposition der Referenz (danuxi/star_trek) entspricht –
-   ~1274 px breit, Mitte ~(793,481) bei 1586x992 – damit sitzt die Spieler-
-   Ellipse bei gleichem Zoom genau am Tischrand. TableBackgroundZoom ist ohne
-   Neubau justierbar (Wert ändern, Client neu starten).
+   As with star_trek the table graphic shows the table centred/in perspective,
+   hence the center mode: the client centres the image on the middle of the
+   player ellipse. table.png is cropped so that the table surface (green felt)
+   matches the size and image position of the reference (danuxi/star_trek) -
+   about 1274 px wide, centre about (793,481) on 1586x992 - so the player
+   ellipse sits exactly on the table edge at the same zoom. TableBackgroundZoom
+   is adjustable without a rebuild (change the value, restart the client).
 
-   Action-Buttons/Pucks: neutrale Default-SVGs. Akzent- und Panel-Farben in
-   Matrix-Grün. Dateinamen relativ zu diesem XML.
+   Action buttons/pucks: the neutral default SVGs. Accent and panel colours in
+   Matrix green. File names are relative to this XML.
 -->
 <PokerTH>
   <TableStyle>
@@ -26,24 +26,25 @@
 
      <Table value="table.png" />
      <TableBackgroundAlign value="center" />
-     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt.
-          Nach dem Einpassen der table.png final justiert. -->
+     <!-- Crop/zoom factor (>= 1.0): larger = a larger table / more of the outer
+          border cropped away. Finally adjusted after fitting table.png. -->
      <TableBackgroundZoom value="1.25" />
 
      <ActionButtonBorderRadius value="9" />
 
-     <!-- Akzentfarbe der Spielerboxen: Matrix-Grün (getönt, nicht Neon –
-          ein zu kräftiges #00ff41 kippt den Box-Verlauf ins Grelle). -->
+     <!-- Accent colour of the player boxes: Matrix green (tinted, not neon - a
+          too strong #00ff41 tips the box gradient into the garish). -->
      <PlayerBoxAccent value="#35c94a" />
 
      <DealerPuck value="dealerPuck.svg" />
      <SmallBlindPuck value="smallblindPuck.svg" />
      <BigBlindPuck value="bigblindPuck.svg" />
 
-     <!-- Action-Buttons: dunkle, entsättigte Palette passend zu Filz + Card-Back.
-          Raise = Matrix-/Filz-Grün, Call = gedämpftes Stahlblau, Fold = Oxblood-
-          Rot (wie die Ledersessel), All-In = tiefstes Rot. Farben stecken in den
-          SVGs; helle Beschriftung explizit gesetzt (dunkle Buttons). -->
+     <!-- Action buttons: a dark, desaturated palette matching the felt + the
+          card back. Raise = Matrix/felt green, call = a muted steel blue,
+          fold = oxblood red (like the leather chairs), all-in = the deepest
+          red. The colours sit in the SVGs; the light label is set explicitly
+          (dark buttons). -->
      <FoldButton value="actionFold.svg" />
      <CheckCallButton value="actionCall.svg" />
      <BetRaiseButton value="actionRaise.svg" />
@@ -53,13 +54,13 @@
      <BetRaiseButtonTextColor value="#e9f5ea" />
      <AllInButtonTextColor value="#f5e4e4" />
 
-     <!-- Chat-/Log-Box: dunkles Terminal-Grün, Rahmen in <PlayerBoxAccent>. -->
-     <ChatLogBackground value="#06120a" />     <!-- Panel-Hintergrund -->
-     <ChatLogSurface value="#0e2314" />        <!-- Eingabefeld / Chat-Bubble -->
-     <ChatLogBorder value="#1f7a3a" />         <!-- Rahmen / Trennlinie -->
-     <ChatLogText value="#d6ffe0" />           <!-- Haupttext -->
-     <ChatLogTextSecondary value="#a7e6ba" />  <!-- Sekundärtext / Icons -->
-     <ChatLogTextMuted value="#5f9e74" />      <!-- gedämpfter Text / Platzhalter -->
+     <!-- Chat/log box: a dark terminal green, the frame in <PlayerBoxAccent>. -->
+     <ChatLogBackground value="#06120a" />     <!-- Panel background -->
+     <ChatLogSurface value="#0e2314" />        <!-- Input field / chat bubble -->
+     <ChatLogBorder value="#1f7a3a" />         <!-- Frame / separator -->
+     <ChatLogText value="#d6ffe0" />           <!-- Main text -->
+     <ChatLogTextSecondary value="#a7e6ba" />  <!-- Secondary text / icons -->
+     <ChatLogTextMuted value="#5f9e74" />      <!-- Muted text / placeholder -->
 
   </TableStyle>
 </PokerTH>

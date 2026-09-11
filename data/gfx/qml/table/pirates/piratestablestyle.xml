@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   Pirates QML table style – Pokertisch in einer Hafenschenke, Rum, Seekarte,
-   Jolly Roger und ein Papagei auf der Stange.
+   Pirates QML table style - a poker table in a harbour tavern, rum, a nautical
+   chart, a Jolly Roger and a parrot on its perch.
 
-   Die Tischgrafik zeigt den Tisch mittig im Bild, deshalb der center-Modus:
-   der Client zentriert das Bild auf den Mittelpunkt der Spieler-Ellipse.
-   table.png ist NUR beschnitten (4 px links, 24 px oben), damit der Filz – das
-   dunkle Tuch innerhalb der Holzumrandung – exakt in der Bildmitte liegt:
-   Kanten bei x 144..1428 und y 362..611, Mitte (786, 486.5) auf 1574x973.
-   Der Client kennt keinen Versatz-Tag: er zentriert das Bild starr auf
-   communityCenterY, also verschiebt AUSSCHLIESSLICH der Zuschnitt den Tisch
-   gegen die Gemeinschaftskarten. TableBackgroundZoom ist ohne Neubau
-   justierbar (Wert ändern, Client neu starten).
+   The table graphic shows the table in the middle of the image, hence the
+   center mode: the client centres the image on the middle of the player
+   ellipse. table.png is ONLY cropped (4 px on the left, 24 px at the top), so
+   that the felt - the dark cloth inside the wooden rim - lies exactly in the
+   middle of the image: edges at x 144..1428 and y 362..611, centre
+   (786, 486.5) on 1574x973. The client does not know an offset tag: it centres
+   the image rigidly on communityCenterY, so ONLY the crop shifts the table
+   against the community cards. TableBackgroundZoom is adjustable without a
+   rebuild (change the value, restart the client).
 
-   Action-Buttons: Decksplanken – Basisverlauf mit Längsmaserung, Astloch,
-   Plankenstößen an den Enden und vier Eisennieten, Kantenlicht oben,
-   Schattenfuge unten. Vier Hölzer statt vier Signalfarben (salzgebleichtes
-   Treibholz/geteerte Eiche/Mahagoni-Rumfass/rot gestrichene Bordwand), damit
-   die Knöpfe unterscheidbar bleiben, aber wie Schiffsholz wirken.
+   Action buttons: deck planks - a base gradient with a lengthwise grain, a
+   knothole, plank joints at the ends and four iron rivets, edge light at the
+   top, a shadow groove at the bottom. Four woods instead of four signal colours
+   (salt bleached driftwood/tarred oak/mahogany rum barrel/red painted hull), so
+   that the buttons stay distinguishable but look like ship timber.
 
-   Pucks: die Blinds sind von Hand geschlagene spanische Dublonen (unrunder
-   Schrötling, Hammerschlag im Rand, Perlkranz, erhabene Type) – Small Blind
-   blass und abgegriffen, Big Blind sattes Rotgold. Der Dealer ist eine
-   gusseiserne Kanonenkugel mit brennender Lunte, Marke weiß in der Mitte.
-   Die Kugel sitzt links-unten in ihrer Zeichenfläche, damit die Lunte in die
-   freie Ecke läuft – so bleibt sie trotz Lunte fast so groß wie die Dublonen.
+   Pucks: the blinds are hand struck Spanish doubloons (an out-of-round blank,
+   hammer marks in the rim, a beaded circle, a raised type) - the small blind
+   pale and worn, the big blind a rich red gold. The dealer is a cast iron
+   cannonball with a burning fuse, the mark white in the middle. The ball sits
+   at the bottom left of its drawing area, so that the fuse runs into the free
+   corner - that way it stays almost as large as the doubloons despite the
+   fuse.
 -->
 <PokerTH>
   <TableStyle>
@@ -38,25 +39,27 @@
 
      <Table value="table.png" />
      <TableBackgroundAlign value="center" />
-     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt.
-          Das Bild hat mit 1.62:1 fast das Seitenverhältnis von Danuxi/Discworld
-          (dort 1.3), der Tisch sitzt hier aber flacher im Bild: der Filz ist nur
-          26 % der Bildhöhe, und im Querformat begrenzt die Bildhöhe die
-          Skalierung. Bei 1.25 stand die Spieler-Ellipse noch neben dem Tisch,
-          bei 1.4 war vom Schankraum kaum mehr etwas zu sehen – mit 1.33 sitzen
-          die Boxen auf dem Tischrand und Rumflasche, Papagei und Truhen bleiben
-          im Bild (per Vorschau-Lauf verglichen). -->
+     <!-- Crop/zoom factor (>= 1.0): larger = a larger table / more of the outer
+          border cropped away. At 1.62:1 the image has almost the aspect ratio
+          of Danuxi/Discworld (1.3 there), but the table sits flatter in the
+          image here: the felt is only 26 per cent of the image height, and in
+          landscape mode the image height limits the scaling. At 1.25 the player
+          ellipse still stood next to the table, at 1.4 hardly anything was left
+          of the taproom - with 1.33 the boxes sit on the table edge and the rum
+          bottle, the parrot and the chests stay in the image (compared by
+          preview runs). -->
      <TableBackgroundZoom value="1.33" />
 
-     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
-          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
-          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
-          Ecken. Planken sind fast rechtwinklig, nur die Kanten sind abgestoßen. -->
+     <!-- Corner radius of the button SVGs, in units of their 168x43 drawing
+          area. The client draws the state frames (preselection gold, primary
+          action) as a rectangle over the SVG and needs its radius for that,
+          otherwise the corners gape. Planks are almost rectangular, only the
+          edges are chipped. -->
      <ActionButtonBorderRadius value="4" />
 
-     <!-- Akzentfarbe der Spielerboxen: das Messing der Sturmlaternen – dasselbe
-          warme Gold wie die Dublonen und die Fassung des Glasauges. Tönt Verlauf
-          und Rahmen der Box. -->
+     <!-- Accent colour of the player boxes: the brass of the storm lanterns -
+          the same warm gold as the doubloons and the mounting of the glass eye.
+          It tints the gradient and the frame of the box. -->
      <PlayerBoxAccent value="#cf9a34" />
 
      <DealerPuck value="dealerPuck.svg" />
@@ -68,24 +71,25 @@
      <BetRaiseButton value="actionRaise.svg" />
      <AllInButton value="actionAllIn.svg" />
 
-     <!-- Alle vier Hölzer sind dunkel – helle, leicht vergilbte Beschriftung
-          (Seekarten-Pergament) statt der aus den Verlaufs-Stops abgeleiteten
-          Farbe. -->
+     <!-- All four woods are dark - a light, slightly yellowed label (the
+          parchment of a nautical chart) instead of the colour derived from the
+          gradient stops. -->
      <FoldButtonTextColor value="#efe6d4" />
      <CheckCallButtonTextColor value="#f1e4c9" />
      <BetRaiseButtonTextColor value="#f8dfb7" />
      <AllInButtonTextColor value="#ffe2d0" />
 
-     <!-- Farben der Chat- und Log-Box (schwebende Seiten-Panels am Tisch).
-          Bewusst unabhängig vom Hell/Dunkel-Modus der App. Dunkles, geteertes
-          Schiffsholz, Rahmen in <PlayerBoxAccent> – Chat-/Log-Box und
-          Spielerboxen tragen denselben Akzent. -->
-     <ChatLogBackground value="#141009" />     <!-- Panel-Hintergrund -->
-     <ChatLogSurface value="#221a11" />        <!-- Eingabefeld / Chat-Bubble -->
-     <ChatLogBorder value="#7d5c26" />         <!-- Rahmen / Trennlinie -->
-     <ChatLogText value="#f3e8d2" />           <!-- Haupttext -->
-     <ChatLogTextSecondary value="#d7c096" />  <!-- Sekundärtext / Icons -->
-     <ChatLogTextMuted value="#998158" />      <!-- gedämpfter Text / Platzhalter -->
+     <!-- Colours of the chat and log box (the floating side panels at the
+          table). Deliberately independent of the light/dark mode of the
+          application. A dark, tarred ship timber, the frame in
+          <PlayerBoxAccent> - chat/log box and player boxes carry the same
+          accent. -->
+     <ChatLogBackground value="#141009" />     <!-- Panel background -->
+     <ChatLogSurface value="#221a11" />        <!-- Input field / chat bubble -->
+     <ChatLogBorder value="#7d5c26" />         <!-- Frame / separator -->
+     <ChatLogText value="#f3e8d2" />           <!-- Main text -->
+     <ChatLogTextSecondary value="#d7c096" />  <!-- Secondary text / icons -->
+     <ChatLogTextMuted value="#998158" />      <!-- Muted text / placeholder -->
 
   </TableStyle>
 </PokerTH>

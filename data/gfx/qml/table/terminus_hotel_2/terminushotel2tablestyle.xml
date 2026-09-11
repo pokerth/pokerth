@@ -17,20 +17,23 @@
 
      <Table value="table.png" />
      <TableBackgroundAlign value="center" />
-     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt.
-          Frei justierbar OHNE Neubau – Wert ändern und Client neu starten. -->
+     <!-- Crop/zoom factor (>= 1.0): larger = a larger table / more of the outer
+          border cropped away. Freely adjustable WITHOUT a rebuild - change the
+          value and restart the client. -->
      <TableBackgroundZoom value="1.3" />
 
-     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
-          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
-          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
-          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <!-- Corner radius of the button SVGs, in units of their 168x43 drawing
+          area. The client draws the state frames (preselection gold, primary
+          action) as a rectangle over the SVG and needs its radius for that,
+          otherwise the corners gape. Without the tag 9 applies (the radius of
+          the bundled default buttons). -->
      <ActionButtonBorderRadius value="6.5" />
 
-     <!-- Akzentfarbe der Spielerboxen: das Schwarz der Lederpolster. Tönt
-          Verlauf und Rahmen der Box; ohne den Tag bleibt der neutrale
-          Default-Look. Bewusst dunkler als der Basiston – die Boxen sollen
-          sich als schwarze Blöcke vom roten Filz abheben. -->
+     <!-- Accent colour of the player boxes: the black of the leather
+          upholstery. It tints the gradient and the frame of the box; without
+          the tag the neutral default look remains. Deliberately darker than the
+          base tone - the boxes are meant to stand out as black blocks against
+          the red felt. -->
      <PlayerBoxAccent value="#1a1a1a" />
 
      <DealerPuck value="dealerPuck.svg" />
@@ -42,15 +45,16 @@
      <BetRaiseButton value="actionRaise.svg" />
      <AllInButton value="actionAllIn.svg" />
 
-     <!-- Farben der Chat-, Verlaufs- und Chancen-Box. Aus <PlayerBoxAccent>
-          abgeleitet: der Rahmen traegt den Akzent, die Flaechen nur einen
-          Hauch, die Schrift bleibt neutral. Unabhaengig vom Hell/Dunkel-Modus. -->
-     <ChatLogBackground value="#28253c" />    <!-- Panel-Hintergrund -->
-     <ChatLogSurface value="#444163" />    <!-- Eingabefeld / Chat-Bubble -->
-     <ChatLogBorder value="#6e53a2" />    <!-- Rahmen / Trennlinie -->
-     <ChatLogText value="#ead6ff" />    <!-- Haupttext -->
-     <ChatLogTextSecondary value="#c7a8e6" />    <!-- Sekundärtext / Icons -->
-     <ChatLogTextMuted value="#8460a9" />    <!-- gedämpfter Text / Platzhalter -->
+     <!-- Colours of the chat, history and odds box. Derived from
+          <PlayerBoxAccent>: the frame carries the accent, the surfaces only a
+          hint of it, the text stays neutral. Independent of the light/dark
+          mode. -->
+     <ChatLogBackground value="#28253c" />    <!-- Panel background -->
+     <ChatLogSurface value="#444163" />    <!-- Input field / chat bubble -->
+     <ChatLogBorder value="#6e53a2" />    <!-- Frame / separator -->
+     <ChatLogText value="#ead6ff" />    <!-- Main text -->
+     <ChatLogTextSecondary value="#c7a8e6" />    <!-- Secondary text / icons -->
+     <ChatLogTextMuted value="#8460a9" />    <!-- Muted text / placeholder -->
 
   </TableStyle>
 </PokerTH>

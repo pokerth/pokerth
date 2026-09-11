@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   Saloon QML table style – Pokertisch im "Silver Nugget", irgendwo im Westen.
+   Saloon QML table style - a poker table in the "Silver Nugget", somewhere in
+   the West.
 
-   Die Tischgrafik zeigt den Tisch mittig im Bild, deshalb der center-Modus:
-   der Client zentriert das Bild auf den Mittelpunkt der Spieler-Ellipse.
-   table.png ist NUR beschnitten (38 px links, 146 px oben, 33 px unten), damit
-   der Filz – das grüne Tuch innerhalb der Holzumrandung – exakt in der Bild-
-   mitte liegt: Kanten bei x 136..1446 und y 288..505, Mitte (790.5, 396.5) auf
-   1581x793. Der Client kennt keinen Versatz-Tag: er zentriert das Bild starr
-   auf communityCenterY, also verschiebt AUSSCHLIESSLICH der Zuschnitt den
-   Tisch gegen die Gemeinschaftskarten. TableBackgroundZoom ist ohne Neubau
-   justierbar (Wert ändern, Client neu starten).
+   The table graphic shows the table in the middle of the image, hence the
+   center mode: the client centres the image on the middle of the player
+   ellipse. table.png is ONLY cropped (38 px on the left, 146 px at the top,
+   33 px at the bottom), so that the felt - the green cloth inside the wooden
+   rim - lies exactly in the middle of the image: edges at x 136..1446 and
+   y 288..505, centre (790.5, 396.5) on 1581x793. The client does not know an
+   offset tag: it centres the image rigidly on communityCenterY, so ONLY the
+   crop shifts the table against the community cards. TableBackgroundZoom is
+   adjustable without a rebuild (change the value, restart the client).
 
-   Action-Buttons: Bohlen aus der Schankwand – Basisverlauf mit Maserung,
-   Kantenlicht oben, Schattenkante unten. Vier Hölzer statt vier Signalfarben
-   (Scheunengrau/Salbei/Whiskeyeiche/Brandzeder), damit die Knöpfe
-   unterscheidbar bleiben, aber wie Tresenholz wirken.
+   Action buttons: planks from the bar wall - a base gradient with grain, edge
+   light at the top, a shadow edge at the bottom. Four woods instead of four
+   signal colours (barn grey/sage/whiskey oak/burnt cedar), so that the buttons
+   stay distinguishable but look like the wood of the bar.
 
-   Pucks: der Dealer trägt den Sheriffstern aus angelaufenem Nickel, die
-   Blinds sind Silber- und Golddollar – geriffelter Rand, vertiefte Type.
+   Pucks: the dealer carries the sheriff star in tarnished nickel, the blinds
+   are a silver and a gold dollar - a milled rim, a recessed type.
 -->
 <PokerTH>
   <TableStyle>
@@ -32,22 +33,25 @@
 
      <Table value="table.png" />
      <TableBackgroundAlign value="center" />
-     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt.
-          Hier 1.0: das Bild ist mit 1.95:1 deutlich breiter als das 1.6:1 von
-          Danuxi/Discworld, im Querformat begrenzt also die Bildhöhe die
-          Skalierung – der Filz füllt damit schon ohne Zoom rund 90 % der
-          Zonenbreite, und Tischfuß und Schankraum bleiben im Bild. -->
+     <!-- Crop/zoom factor (>= 1.0): larger = a larger table / more of the outer
+          border cropped away. 1.0 here: at 1.95:1 the image is clearly wider
+          than the 1.6:1 of Danuxi/Discworld, so in landscape mode the image
+          height limits the scaling - with that the felt already fills about
+          90 per cent of the zone width without any zoom, and the table foot and
+          the taproom stay in the image. -->
      <TableBackgroundZoom value="1.0" />
 
-     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
-          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
-          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
-          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <!-- Corner radius of the button SVGs, in units of their 168x43 drawing
+          area. The client draws the state frames (preselection gold, primary
+          action) as a rectangle over the SVG and needs its radius for that,
+          otherwise the corners gape. Without the tag 9 applies (the radius of
+          the bundled default buttons). -->
      <ActionButtonBorderRadius value="7" />
 
-     <!-- Akzentfarbe der Spielerboxen: das Petroleumlicht der Wandlampen –
-          wärmeres, rötlicheres Gold als bei Discworld. Tönt Verlauf und Rahmen
-          der Box und passt zu Whiskey, Messing und Lampenschein. -->
+     <!-- Accent colour of the player boxes: the kerosene light of the wall
+          lamps - a warmer, more reddish gold than in Discworld. It tints the
+          gradient and the frame of the box and matches whiskey, brass and lamp
+          light. -->
      <PlayerBoxAccent value="#c07f30" />
 
      <DealerPuck value="dealerPuck.svg" />
@@ -59,23 +63,25 @@
      <BetRaiseButton value="actionRaise.svg" />
      <AllInButton value="actionAllIn.svg" />
 
-     <!-- Alle vier Hölzer sind dunkel – helle, leicht vergilbte Beschriftung
-          (Steckbrief-Papier) statt der aus den Verlaufs-Stops abgeleiteten Farbe. -->
+     <!-- All four woods are dark - a light, slightly yellowed label (wanted
+          poster paper) instead of the colour derived from the gradient
+          stops. -->
      <FoldButtonTextColor value="#f2e6cf" />
      <CheckCallButtonTextColor value="#f2e6cf" />
      <BetRaiseButtonTextColor value="#f8e8c4" />
      <AllInButtonTextColor value="#f9e0cd" />
 
-     <!-- Farben der Chat- und Log-Box (schwebende Seiten-Panels am Tisch).
-          Bewusst unabhängig vom Hell/Dunkel-Modus der App. Dunkles Braun wie
-          die Bretterwand der Schankstube, Rahmen in <PlayerBoxAccent> – Chat-/
-          Log-Box und Spielerboxen tragen denselben Akzent. -->
-     <ChatLogBackground value="#17110b" />     <!-- Panel-Hintergrund -->
-     <ChatLogSurface value="#251c13" />        <!-- Eingabefeld / Chat-Bubble -->
-     <ChatLogBorder value="#7b5b2e" />         <!-- Rahmen / Trennlinie -->
-     <ChatLogText value="#f3e6cd" />           <!-- Haupttext -->
-     <ChatLogTextSecondary value="#d6bd93" />  <!-- Sekundärtext / Icons -->
-     <ChatLogTextMuted value="#9b8156" />      <!-- gedämpfter Text / Platzhalter -->
+     <!-- Colours of the chat and log box (the floating side panels at the
+          table). Deliberately independent of the light/dark mode of the
+          application. A dark brown like the board wall of the taproom, the
+          frame in <PlayerBoxAccent> - chat/log box and player boxes carry the
+          same accent. -->
+     <ChatLogBackground value="#17110b" />     <!-- Panel background -->
+     <ChatLogSurface value="#251c13" />        <!-- Input field / chat bubble -->
+     <ChatLogBorder value="#7b5b2e" />         <!-- Frame / separator -->
+     <ChatLogText value="#f3e6cd" />           <!-- Main text -->
+     <ChatLogTextSecondary value="#d6bd93" />  <!-- Secondary text / icons -->
+     <ChatLogTextMuted value="#9b8156" />      <!-- Muted text / placeholder -->
 
   </TableStyle>
 </PokerTH>

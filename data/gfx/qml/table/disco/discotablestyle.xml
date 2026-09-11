@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   Disco QML table style – Pokertisch im Separee eines Clubs der Siebziger:
-   Spiegelkugel über der Tanzfläche, Neonschrift, Samt und Messing.
+   Disco QML table style - a poker table in the private room of a club of the
+   seventies: a mirror ball above the dance floor, neon lettering, velvet and
+   brass.
 
-   Die Tischgrafik zeigt den Tisch mittig im Bild, deshalb der center-Modus:
-   der Client zentriert das Bild auf den Mittelpunkt der Spieler-Ellipse.
-   table.png ist gegenüber der Vorlage (1576x998) oben um 95 und unten um 4 px
-   beschnitten, damit der Filz – die dunkle Spielfläche innerhalb der Holz-
-   umrandung – exakt in der Bildmitte liegt: Kanten bei x 128..1448 und
-   y 322..576, Mitte (788, 449) auf 1576x899. Der Client kennt keinen
-   Versatz-Tag: er zentriert das Bild starr auf communityCenterY, also
-   verschiebt AUSSCHLIESSLICH der Zuschnitt den Tisch gegen die Gemeinschafts-
-   karten. Gegenprobe am fertigen Preview: Filzmitte und Mitte der Kartenreihe
-   liegen 0,5 px auseinander.
+   The table graphic shows the table in the middle of the image, hence the
+   center mode: the client centres the image on the middle of the player
+   ellipse. Compared to the source (1576x998), table.png is cropped by 95 px at
+   the top and 4 px at the bottom, so that the felt - the dark playing surface
+   inside the wooden rim - lies exactly in the middle of the image: edges at
+   x 128..1448 and y 322..576, centre (788, 449) on 1576x899. The client does
+   not know an offset tag: it centres the image rigidly on communityCenterY, so
+   ONLY the crop shifts the table against the community cards. Cross-check on
+   the finished preview: the middle of the felt and the middle of the card row
+   are 0.5 px apart.
 
-   Die Spiegelkugel hängt in table.png 155 px tiefer über der Tanzfläche als in
-   der Vorlage – sonst schnitte der obere Bildrand sie im Querformat auf halber
-   Höhe ab; ihr alter Platz ist mit gespiegelten Streifen des Perlenvorhangs
-   geschlossen.
+   In table.png the mirror ball hangs 155 px lower above the dance floor than in
+   the source - otherwise the upper image edge would cut it in half in landscape
+   mode; its old place is closed with mirrored strips of the bead curtain.
 
-   Action-Buttons: Leuchtkacheln der Tanzfläche – Basisverlauf, Glanz auf der
-   oberen Hälfte, Neonkante oben, Schattenkante unten. Fold trägt bewusst die
-   matte Aubergine des Vorhangs, damit die drei aktiven Knöpfe die Neonfarben
-   tragen: Call Indigo, Raise Magenta, All-In Orange-Rot.
+   Action buttons: the light tiles of the dance floor - a base gradient, gloss
+   on the upper half, a neon edge at the top, a shadow edge at the bottom. Fold
+   deliberately carries the matt aubergine of the curtain, so that the three
+   active buttons carry the neon colours: call indigo, raise magenta, all-in
+   orange red.
 
-   Pucks: dieselben Leuchtkacheln als Quadrat mit Lichthof – Dealer Magenta,
-   Small Blind Violett, Big Blind Orange. Alle Farben sind aus der Tanzfläche
-   der Vorlage gemessen.
+   Pucks: the same light tiles as a square with a halo - dealer magenta, small
+   blind violet, big blind orange. All colours are measured from the dance floor
+   of the source.
 -->
 <PokerTH>
   <TableStyle>
@@ -40,21 +41,22 @@
 
      <Table value="table.png" />
      <TableBackgroundAlign value="center" />
-     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt.
-          Ohne Neubau justierbar – Wert ändern und Client neu starten. Höhere
-          Werte beschneiden im Querformat zuerst die Spiegelkugel am oberen
-          Rand. -->
+     <!-- Crop/zoom factor (>= 1.0): larger = a larger table / more of the outer
+          border cropped away. Adjustable without a rebuild - change the value
+          and restart the client. In landscape mode higher values crop the
+          mirror ball at the upper edge first. -->
      <TableBackgroundZoom value="1.0" />
 
-     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
-          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
-          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
-          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <!-- Corner radius of the button SVGs, in units of their 168x43 drawing
+          area. The client draws the state frames (preselection gold, primary
+          action) as a rectangle over the SVG and needs its radius for that,
+          otherwise the corners gape. Without the tag 9 applies (the radius of
+          the bundled default buttons). -->
      <ActionButtonBorderRadius value="7" />
 
-     <!-- Akzentfarbe der Spielerboxen: das Neon-Magenta von Tanzfläche und
-          "Good Times"-Schriftzug. Tönt Verlauf und Rahmen der Box; ohne den Tag
-          bleibt der neutrale Default-Look. -->
+     <!-- Accent colour of the player boxes: the neon magenta of the dance floor
+          and of the "Good Times" lettering. It tints the gradient and the frame
+          of the box; without the tag the neutral default look remains. -->
      <PlayerBoxAccent value="#d1298f" />
 
      <DealerPuck value="dealerPuck.svg" />
@@ -66,23 +68,24 @@
      <BetRaiseButton value="actionRaise.svg" />
      <AllInButton value="actionAllIn.svg" />
 
-     <!-- Alle vier Kacheln sind dunkel genug für helle Beschriftung; sie wird
-          leicht in die jeweilige Neonfarbe getönt statt aus den Verlaufs-Stops
-          abgeleitet. -->
+     <!-- All four tiles are dark enough for a light label; it is tinted
+          slightly towards the respective neon colour instead of being derived
+          from the gradient stops. -->
      <FoldButtonTextColor value="#f0e2f8" />
      <CheckCallButtonTextColor value="#e6ecff" />
      <BetRaiseButtonTextColor value="#ffe4f4" />
      <AllInButtonTextColor value="#fff0e0" />
 
-     <!-- Farben der Chat-, Verlaufs- und Chancen-Box. Aus <PlayerBoxAccent>
-          abgeleitet: der Rahmen traegt den Akzent, die Flaechen nur einen
-          Hauch, die Schrift bleibt neutral. Unabhaengig vom Hell/Dunkel-Modus. -->
-     <ChatLogBackground value="#200f2c" />     <!-- Panel-Hintergrund -->
-     <ChatLogSurface value="#3a1d4d" />        <!-- Eingabefeld / Chat-Bubble -->
-     <ChatLogBorder value="#a4308c" />         <!-- Rahmen / Trennlinie -->
-     <ChatLogText value="#ffe2f4" />           <!-- Haupttext -->
-     <ChatLogTextSecondary value="#e0b0d8" />  <!-- Sekundärtext / Icons -->
-     <ChatLogTextMuted value="#a06fa8" />      <!-- gedämpfter Text / Platzhalter -->
+     <!-- Colours of the chat, history and odds box. Derived from
+          <PlayerBoxAccent>: the frame carries the accent, the surfaces only a
+          hint of it, the text stays neutral. Independent of the light/dark
+          mode. -->
+     <ChatLogBackground value="#200f2c" />     <!-- Panel background -->
+     <ChatLogSurface value="#3a1d4d" />        <!-- Input field / chat bubble -->
+     <ChatLogBorder value="#a4308c" />         <!-- Frame / separator -->
+     <ChatLogText value="#ffe2f4" />           <!-- Main text -->
+     <ChatLogTextSecondary value="#e0b0d8" />  <!-- Secondary text / icons -->
+     <ChatLogTextMuted value="#a06fa8" />      <!-- Muted text / placeholder -->
 
   </TableStyle>
 </PokerTH>

@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   QML card back style (Kartenrückseite) "Discworld".
+   QML card back style "Discworld".
 
-   Great A'Tuin trägt die Scheibenwelt. Gold auf dunklem Braun – dieselbe
-   Palette wie der Discworld-Tischstil (data/gfx/qml/table/discworld/), damit
-   Tisch, Pucks und Kartenrücken zusammen gelesen werden.
+   Great A'Tuin carries the Discworld. Gold on dark brown - the same palette as
+   the Discworld table style (data/gfx/qml/table/discworld/), so that table,
+   pucks and card back read as one.
 
-   Das Emblem ist eine Bitmap-Vektorisierung (atuin.svg, 1,3 MB, 1874 Pfade)
-   und für die Karte auf Motivgröße reduziert – Verfahren siehe
-   ../../cards/discworld/discworlddeckstyle.xml, hier mit Toleranz 2 und
-   Mindestfläche 10 bei Zeichenfläche 1024x1024 (1,3 MB -> 109 KB). Die
-   feineren Werte als bei den Vorderseiten-Motiven sind nötig, weil die
-   Schuppen der Flossen sonst zu grob werden.
+   The emblem is a bitmap vectorisation (atuin.svg, 1.3 MB, 1874 paths), reduced
+   to motif size for the card - for the procedure see
+   ../../cards/discworld/discworlddeckstyle.xml, here with tolerance 2 and a
+   minimum area of 10 on a 1024x1024 drawing area (1.3 MB -> 109 KB). The finer
+   values compared to the card face motifs are necessary because the scales of
+   the fins would become too coarse otherwise.
 
-   preview.png ist die auf 424x561 gezogene backside.svg (Standardmaß aller
-   Rückseiten-Vorschauen, leicht breiter als das 580x800 der Grafik).
+   preview.png is backside.svg scaled to 424x561 (the standard size of all card
+   back previews, slightly wider than the 580x800 of the graphic).
 
-   Dateinamen sind relativ zu diesem XML zu verstehen.
+   File names are relative to this XML.
 -->
 <PokerTH>
   <CardBack>
-     <StyleDescription value="Discworld (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleDescription value="Discworld (QML/SVG)" /><!-- Shown in the style selection -->
      <StyleMaintainerName value="PokerTH Development Team" />
      <StyleMaintainerEMail value="webmaster@pokerth.net" />
      <StyleCreateDate value="19.07.2026" />
      <PokerTHStyleFileVersion value="1" />
-     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+     <Preview value="preview.png" /><!-- Preview image (landscape only - no portrait needed) -->
 
-     <!-- Rückseiten-Grafik (SVG, beliebig skalierbar) -->
+     <!-- Card back graphic (SVG, scalable to any size) -->
      <Backside value="backside.svg" />
   </CardBack>
 </PokerTH>

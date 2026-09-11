@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   Teal QML table style (portiert aus dem Widget-Client-Stil "teal_table",
-   https://www.pokerth.net, von Pinboc).
+   Teal QML table style (ported from the widget client style "teal_table",
+   https://www.pokerth.net, by Pinboc).
 
-   Aufbau wie das grüne Default: ein Teal-Filz-Hintergrund (HD 1980x1200) mit
-   unterem Rand. Daher KEIN center-Modus, sondern unten ausgerichtet
-   (TableBackgroundAlign=bottom) – die Grafik muss nicht zentriert werden.
+   Built like the green default: a teal felt background (HD 1980x1200) with a
+   lower margin. Hence NO center mode, aligned at the bottom instead
+   (TableBackgroundAlign=bottom) - the graphic does not have to be centred.
 
-   Alle UI-Elemente sind saubere SVGs. Pucks (weiß/blau/gold) entsprechen dem
-   Original; Action-Farben: Fold schwarz / Call blau / Raise lila / All-In rot.
+   All UI elements are clean SVGs. The pucks (white/blue/gold) match the
+   original; action colours: fold black / call blue / raise purple / all-in red.
 -->
 <PokerTH>
   <TableStyle>
@@ -23,15 +23,16 @@
      <Table value="table.png" />
      <TableBackgroundAlign value="bottom" />
 
-     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
-          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
-          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
-          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <!-- Corner radius of the button SVGs, in units of their 168x43 drawing
+          area. The client draws the state frames (preselection gold, primary
+          action) as a rectangle over the SVG and needs its radius for that,
+          otherwise the corners gape. Without the tag 9 applies (the radius of
+          the bundled default buttons). -->
      <ActionButtonBorderRadius value="6.5" />
 
-     <!-- Akzentfarbe der Spielerboxen: Türkis des Tischs.
-          Tönt Verlauf und Rahmen der Box; ohne den Tag bleibt der neutrale
-          Default-Look. -->
+     <!-- Accent colour of the player boxes: the turquoise of the table.
+          It tints the gradient and the frame of the box; without the tag the
+          neutral default look remains. -->
      <PlayerBoxAccent value="#159ba6" />
 
      <DealerPuck value="dealerPuck.svg" />
@@ -43,15 +44,16 @@
      <BetRaiseButton value="actionRaise.svg" />
      <AllInButton value="actionAllIn.svg" />
 
-     <!-- Farben der Chat-, Verlaufs- und Chancen-Box. Aus <PlayerBoxAccent>
-          abgeleitet: der Rahmen traegt den Akzent, die Flaechen nur einen
-          Hauch, die Schrift bleibt neutral. Unabhaengig vom Hell/Dunkel-Modus. -->
-     <ChatLogBackground value="#1c2e37" />    <!-- Panel-Hintergrund -->
-     <ChatLogSurface value="#344e5c" />    <!-- Eingabefeld / Chat-Bubble -->
-     <ChatLogBorder value="#397c8d" />    <!-- Rahmen / Trennlinie -->
-     <ChatLogText value="#d6fcff" />    <!-- Haupttext -->
-     <ChatLogTextSecondary value="#a8e1e6" />    <!-- Sekundärtext / Icons -->
-     <ChatLogTextMuted value="#60a4a9" />    <!-- gedämpfter Text / Platzhalter -->
+     <!-- Colours of the chat, history and odds box. Derived from
+          <PlayerBoxAccent>: the frame carries the accent, the surfaces only a
+          hint of it, the text stays neutral. Independent of the light/dark
+          mode. -->
+     <ChatLogBackground value="#1c2e37" />    <!-- Panel background -->
+     <ChatLogSurface value="#344e5c" />    <!-- Input field / chat bubble -->
+     <ChatLogBorder value="#397c8d" />    <!-- Frame / separator -->
+     <ChatLogText value="#d6fcff" />    <!-- Main text -->
+     <ChatLogTextSecondary value="#a8e1e6" />    <!-- Secondary text / icons -->
+     <ChatLogTextMuted value="#60a4a9" />    <!-- Muted text / placeholder -->
 
   </TableStyle>
 </PokerTH>

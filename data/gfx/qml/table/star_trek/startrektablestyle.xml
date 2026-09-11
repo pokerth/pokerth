@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   Star Trek QML table style – Pokertisch auf der Brücke, passend zum
-   Kartenstapel und zur Kartenrückseite gleichen Namens.
+   Star Trek QML table style - a poker table on the bridge, matching the card
+   deck and the card back of the same name.
 
-   Die Tischgrafik zeigt den Tisch mittig im Bild, deshalb der center-Modus:
-   der Client zentriert das Bild auf den Mittelpunkt der Spieler-Ellipse.
-   table.png ist so beschnitten, dass die Tischfläche (der LCARS-Screen) exakt
-   auf Größe und Bildposition des danuxi-Filzes liegt – 1274 px breit, Mitte
-   (783, 477) – damit sitzt die Spieler-Ellipse bei gleichem Zoom genauso am
-   Tischrand. TableBackgroundZoom ist ohne Neubau justierbar (Wert ändern,
-   Client neu starten).
+   The table graphic shows the table in the middle of the image, hence the
+   center mode: the client centres the image on the middle of the player
+   ellipse. table.png is cropped so that the table surface (the LCARS screen)
+   matches the size and image position of the danuxi felt exactly - 1274 px
+   wide, centre (783, 477) - so the player ellipse sits on the table edge just
+   the same at the same zoom. TableBackgroundZoom is adjustable without a
+   rebuild (change the value, restart the client).
 
-   Action-Buttons: LCARS-Bars – flache Fläche, kein Verlauf, kein Glow, links
-   die abgesetzte Kappe mit der typischen Lücke. Farben aus der klassischen
-   LCARS-Palette (Rot/Salmon, Ice, Butterscotch, Orange). Da LCARS-Bars dunkle
-   Beschriftung tragen, sind die Textfarben unten explizit gesetzt.
+   Action buttons: LCARS bars - a flat surface, no gradient, no glow, on the
+   left the separated cap with the typical gap. The colours come from the
+   classic LCARS palette (red/salmon, ice, butterscotch, orange). Since LCARS
+   bars carry a dark label, the text colours are set explicitly below.
 -->
 <PokerTH>
   <TableStyle>
@@ -28,19 +28,21 @@
 
      <Table value="table.png" />
      <TableBackgroundAlign value="center" />
-     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt. -->
+     <!-- Crop/zoom factor (>= 1.0): larger = a larger table / more of the outer
+          border cropped away. -->
      <TableBackgroundZoom value="1.3" />
 
-     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
-          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
-          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
-          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <!-- Corner radius of the button SVGs, in units of their 168x43 drawing
+          area. The client draws the state frames (preselection gold, primary
+          action) as a rectangle over the SVG and needs its radius for that,
+          otherwise the corners gape. Without the tag 9 applies (the radius of
+          the bundled default buttons). -->
      <ActionButtonBorderRadius value="21.5" />
 
-     <!-- Akzentfarbe der Spielerboxen: Blau der Brücken-Konsolen. Tönt Verlauf
-          und Rahmen der Box. Bewusst NICHT das Orange des Raise-Buttons: der
-          Basiston der Box ist blaugrau, ein kräftiger Orange-Tint kippt darauf
-          ins Bräunliche. -->
+     <!-- Accent colour of the player boxes: the blue of the bridge consoles. It
+          tints the gradient and the frame of the box. Deliberately NOT the
+          orange of the raise button: the base tone of the box is blue grey, a
+          strong orange tint tips it into the brownish. -->
      <PlayerBoxAccent value="#4d9cff" />
 
      <DealerPuck value="dealerPuck.svg" />
@@ -52,24 +54,25 @@
      <BetRaiseButton value="actionRaise.svg" />
      <AllInButton value="actionAllIn.svg" />
 
-     <!-- Ohne diese Tags leitet der StyleProvider die Schriftfarbe aus der
-          mittleren Helligkeit der Gradient-Stops ab. Die LCARS-Bars sind aber
-          flach und hell – gewollt ist die dunkle Beschriftung des Originals. -->
+     <!-- Without these tags the StyleProvider derives the text colour from the
+          average brightness of the gradient stops. The LCARS bars are flat and
+          light though - what is wanted is the dark label of the original. -->
      <FoldButtonTextColor value="#10131a" />
      <CheckCallButtonTextColor value="#10131a" />
      <BetRaiseButtonTextColor value="#10131a" />
      <AllInButtonTextColor value="#10131a" />
 
-     <!-- Farben der Chat- und Log-Box (schwebende Seiten-Panels am Tisch).
-          Bewusst unabhängig vom Hell/Dunkel-Modus der App. Dunkles Konsolen-
-          Blau wie die Displays im Hintergrund, Rahmen in <PlayerBoxAccent> –
-          Chat-/Log-Box und Spielerboxen tragen denselben Akzent. -->
-     <ChatLogBackground value="#080b12" />     <!-- Panel-Hintergrund -->
-     <ChatLogSurface value="#161d2c" />        <!-- Eingabefeld / Chat-Bubble -->
-     <ChatLogBorder value="#527db5" />         <!-- Rahmen / Trennlinie -->
-     <ChatLogText value="#d6e8ff" />           <!-- Haupttext -->
-     <ChatLogTextSecondary value="#a7c6e8" />  <!-- Sekundärtext / Icons -->
-     <ChatLogTextMuted value="#6089b8" />      <!-- gedämpfter Text / Platzhalter -->
+     <!-- Colours of the chat and log box (the floating side panels at the
+          table). Deliberately independent of the light/dark mode of the
+          application. A dark console blue like the displays in the background,
+          the frame in <PlayerBoxAccent> - chat/log box and player boxes carry
+          the same accent. -->
+     <ChatLogBackground value="#080b12" />     <!-- Panel background -->
+     <ChatLogSurface value="#161d2c" />        <!-- Input field / chat bubble -->
+     <ChatLogBorder value="#527db5" />         <!-- Frame / separator -->
+     <ChatLogText value="#d6e8ff" />           <!-- Main text -->
+     <ChatLogTextSecondary value="#a7c6e8" />  <!-- Secondary text / icons -->
+     <ChatLogTextMuted value="#6089b8" />      <!-- Muted text / placeholder -->
 
   </TableStyle>
 </PokerTH>

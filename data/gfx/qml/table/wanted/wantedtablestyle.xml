@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   Wanted QML table style (portiert aus dem Widget-Client-Stil "wanted",
+   Wanted QML table style (ported from the widget client style "wanted",
    https://www.pokerth.net).
 
-   Alle UI-Elemente sind saubere SVGs; nur der Tisch-Hintergrund bleibt eine PNG
-   (das „Wanted: Billy The Kid"-Poster auf Holz, HD 1980x1200). Das Poster wurde
-   exakt zentriert (Holz-Hintergrund oben ergänzt, unten beschnitten) → center-Modus.
+   All UI elements are clean SVGs; only the table background stays a PNG (the
+   "Wanted: Billy The Kid" poster on wood, HD 1980x1200). The poster was centred
+   exactly (the wooden background extended at the top, cropped at the bottom)
+   -> center mode.
 
-   Western-Look: Pucks = Sheriff-Stern (Dealer, Gold) bzw. Bronze-/Silber-Badge
-   (Small/Big Blind); Action-Buttons = dunkle „Wanted"-Holzschilder (einheitlich,
-   wie im Original; der Text kommt vom Client).
+   A western look: the pucks are a sheriff star (dealer, gold) respectively a
+   bronze/silver badge (small/big blind); the action buttons are dark "wanted"
+   wooden signs (uniform, as in the original; the text comes from the client).
 -->
 <PokerTH>
   <TableStyle>
@@ -23,19 +24,21 @@
 
      <Table value="table.png" />
      <TableBackgroundAlign value="center" />
-     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt.
-          Ohne Neubau justierbar – Wert ändern und Client neu starten. -->
+     <!-- Crop/zoom factor (>= 1.0): larger = a larger table / more of the outer
+          border cropped away. Adjustable without a rebuild - change the value
+          and restart the client. -->
      <TableBackgroundZoom value="1.0" />
 
-     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
-          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
-          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
-          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <!-- Corner radius of the button SVGs, in units of their 168x43 drawing
+          area. The client draws the state frames (preselection gold, primary
+          action) as a rectangle over the SVG and needs its radius for that,
+          otherwise the corners gape. Without the tag 9 applies (the radius of
+          the bundled default buttons). -->
      <ActionButtonBorderRadius value="6.5" />
 
-     <!-- Akzentfarbe der Spielerboxen: Sepia-Gold des Steckbriefs.
-          Tönt Verlauf und Rahmen der Box; ohne den Tag bleibt der neutrale
-          Default-Look. -->
+     <!-- Accent colour of the player boxes: the sepia gold of the wanted poster.
+          It tints the gradient and the frame of the box; without the tag the
+          neutral default look remains. -->
      <PlayerBoxAccent value="#c08a3e" />
 
      <DealerPuck value="dealerPuck.svg" />
@@ -47,15 +50,16 @@
      <BetRaiseButton value="actionRaise.svg" />
      <AllInButton value="actionAllIn.svg" />
 
-     <!-- Farben der Chat-, Verlaufs- und Chancen-Box. Aus <PlayerBoxAccent>
-          abgeleitet: der Rahmen traegt den Akzent, die Flaechen nur einen
-          Hauch, die Schrift bleibt neutral. Unabhaengig vom Hell/Dunkel-Modus. -->
-     <ChatLogBackground value="#2d2c2d" />    <!-- Panel-Hintergrund -->
-     <ChatLogSurface value="#4c4b4d" />    <!-- Eingabefeld / Chat-Bubble -->
-     <ChatLogBorder value="#86755e" />    <!-- Rahmen / Trennlinie -->
-     <ChatLogText value="#ffeed6" />    <!-- Haupttext -->
-     <ChatLogTextSecondary value="#e6cca8" />    <!-- Sekundärtext / Icons -->
-     <ChatLogTextMuted value="#a98b60" />    <!-- gedämpfter Text / Platzhalter -->
+     <!-- Colours of the chat, history and odds box. Derived from
+          <PlayerBoxAccent>: the frame carries the accent, the surfaces only a
+          hint of it, the text stays neutral. Independent of the light/dark
+          mode. -->
+     <ChatLogBackground value="#2d2c2d" />    <!-- Panel background -->
+     <ChatLogSurface value="#4c4b4d" />    <!-- Input field / chat bubble -->
+     <ChatLogBorder value="#86755e" />    <!-- Frame / separator -->
+     <ChatLogText value="#ffeed6" />    <!-- Main text -->
+     <ChatLogTextSecondary value="#e6cca8" />    <!-- Secondary text / icons -->
+     <ChatLogTextMuted value="#a98b60" />    <!-- Muted text / placeholder -->
 
   </TableStyle>
 </PokerTH>

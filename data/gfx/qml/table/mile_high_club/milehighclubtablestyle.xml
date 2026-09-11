@@ -2,12 +2,12 @@
 <!--
    Mile High Club QML table style
 
-   KEIN center-Modus, sondern unten ausgerichtet
-   (TableBackgroundAlign=bottom) – die Grafik muss nicht zentriert werden.
+   NO center mode, aligned at the bottom instead
+   (TableBackgroundAlign=bottom) - the graphic does not have to be centred.
 
-   Alle UI-Elemente sind saubere SVGs. Pucks (Dealer weiß / Small Blind blau /
-   Big Blind rot) entsprechen dem Original; Action-Farben: Fold rot / Call blau /
-   Raise grün / All-In lila.
+   All UI elements are clean SVGs. The pucks (dealer white / small blind blue /
+   big blind red) match the original; action colours: fold red / call blue /
+   raise green / all-in purple.
 -->
 <PokerTH>
   <TableStyle>
@@ -22,15 +22,16 @@
      <Table value="table.png" />
      <TableBackgroundAlign value="bottom" />
 
-     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
-          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
-          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
-          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <!-- Corner radius of the button SVGs, in units of their 168x43 drawing
+          area. The client draws the state frames (preselection gold, primary
+          action) as a rectangle over the SVG and needs its radius for that,
+          otherwise the corners gape. Without the tag 9 applies (the radius of
+          the bundled default buttons). -->
      <ActionButtonBorderRadius value="6.5" />
 
-     <!-- Akzentfarbe der Spielerboxen: Leichtes Bordeaux-Rot.
-          Tönt Verlauf und Rahmen der Box; ohne den Tag bleibt der neutrale
-          Default-Look. -->
+     <!-- Accent colour of the player boxes: a light bordeaux red.
+          It tints the gradient and the frame of the box; without the tag the
+          neutral default look remains. -->
      <PlayerBoxAccent value="#e7181c" />
 
      <DealerPuck value="dealerPuck.svg" />
@@ -42,16 +43,17 @@
      <BetRaiseButton value="actionRaise.svg" />
      <AllInButton value="actionAllIn.svg" />
 
-     <!-- Farben der Chat- und Log-Box (schwebende Seiten-Panels am Tisch).
-          Bewusst unabhängig vom Hell/Dunkel-Modus der App. Dunkles Petrol des
-          abgedunkelten Raums statt des roten Box-Akzents: Rot auf dem grünen
-          Filz träte mit den Spielerboxen in Konkurrenz. -->
-     <ChatLogBackground value="#1c2e37" />    <!-- Panel-Hintergrund -->
-     <ChatLogSurface value="#344e5c" />    <!-- Eingabefeld / Chat-Bubble -->
-     <ChatLogBorder value="#397c8d" />    <!-- Rahmen / Trennlinie -->
-     <ChatLogText value="#d6fcff" />    <!-- Haupttext -->
-     <ChatLogTextSecondary value="#a8e1e6" />    <!-- Sekundärtext / Icons -->
-     <ChatLogTextMuted value="#60a4a9" />    <!-- gedämpfter Text / Platzhalter -->
+     <!-- Colours of the chat and log box (the floating side panels at the
+          table). Deliberately independent of the light/dark mode of the
+          application. The dark petrol of the darkened room instead of the red
+          box accent: red on the green felt would compete with the player
+          boxes. -->
+     <ChatLogBackground value="#1c2e37" />    <!-- Panel background -->
+     <ChatLogSurface value="#344e5c" />    <!-- Input field / chat bubble -->
+     <ChatLogBorder value="#397c8d" />    <!-- Frame / separator -->
+     <ChatLogText value="#d6fcff" />    <!-- Main text -->
+     <ChatLogTextSecondary value="#a8e1e6" />    <!-- Secondary text / icons -->
+     <ChatLogTextMuted value="#60a4a9" />    <!-- Muted text / placeholder -->
 
   </TableStyle>
 </PokerTH>

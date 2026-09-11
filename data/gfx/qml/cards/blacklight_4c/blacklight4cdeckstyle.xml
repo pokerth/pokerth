@@ -2,41 +2,41 @@
 <!--
    QML card deck style "Blacklight 4c".
 
-   Vierfarbdeck in Schwarzlicht: Geometrie (Rangglyphen und Farbsymbole samt
-   Transformationen) ist 1:1 aus data/gfx/qml/cards/default4c übernommen – damit
-   bleiben Ranghöhen und Layout exakt die des Vorbilds. Neu sind die Farben und
-   das Leuchten.
+   A four colour deck under black light: the geometry (rank glyphs and suit
+   symbols including their transformations) is taken over 1:1 from
+   data/gfx/qml/cards/default4c - so rank heights and layout stay exactly those
+   of the model. New are the colours and the glow.
 
-   Farben sind die invertierten default4c-Farben, auf Neon gezogen:
-     Karo  blau    #0039ff -> Bernstein #FFC400
-     Herz  rot     #d40000 -> Cyan      #00EFFF
-     Pik   schwarz #1a1a1a -> Weiß      #F2F0FF
-     Kreuz grün    #267126 -> Magenta   #FF4DE8
-   Die Kartenfläche ist entsprechend fast schwarz mit Violettstich.
+   The colours are the inverted default4c colours, pulled towards neon:
+     diamonds blue  #0039ff -> amber   #FFC400
+     hearts   red   #d40000 -> cyan    #00EFFF
+     spades   black #1a1a1a -> white   #F2F0FF
+     clubs    green #267126 -> magenta #FF4DE8
+   The card face is accordingly almost black with a violet tinge.
 
-   QtSvg kennt keine Filter (feGaussianBlur), das Leuchten entsteht deshalb aus
-   sieben immer breiteren, immer schwächeren Konturen unter der Füllung. Der
-   schwache Neonrand der Karte hebt die dunkle Karte vom dunklen Tisch ab.
+   QtSvg does not know filters (feGaussianBlur), so the glow is built from seven
+   ever wider, ever weaker outlines below the fill. The faint neon edge of the
+   card lifts the dark card off the dark table.
 
-   Abweichend von default4c sitzt die Rangglyphe 7 Einheiten höher: dort stehen
-   Rang (Tinte y 26..94) und Farbsymbol (y 97..149) nur 3 Einheiten auseinander,
-   was der Glow zuzieht. Jetzt sind es 10 Einheiten, und der Satz hat oben wie
-   unten 19 Einheiten Rand.
+   Differing from default4c the rank glyph sits 7 units higher: there, rank (ink
+   y 26..94) and suit symbol (y 97..149) are only 3 units apart, which the glow
+   closes up. Now it is 10 units, and the set has 19 units of margin at the top
+   as well as at the bottom.
 
-   Erzeugt mit generate_blacklight_deck.py.
+   Generated with generate_blacklight_deck.py.
 
-   Engine-Index -> Karte (siehe CardImage.qml):
-     Farbe = floor(index / 13): 0-12 Karo(♦), 13-25 Herz(♥), 26-38 Pik(♠), 39-51 Kreuz(♣)
-     Rang  = index % 13:        0=2, 1=3, … 8=10, 9=Bube, 10=Dame, 11=König, 12=Ass
+   Engine index -> card (see CardImage.qml):
+     Suit = floor(index / 13): 0-12 diamonds(♦), 13-25 hearts(♥), 26-38 spades(♠), 39-51 clubs(♣)
+     Rank = index % 13:        0=2, 1=3, … 8=10, 9=jack, 10=queen, 11=king, 12=ace
 -->
 <PokerTH>
   <CardDeck>
-     <StyleDescription value="Blacklight 4c QML card deck" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleDescription value="Blacklight 4c QML card deck" /><!-- Shown in the style selection -->
      <StyleMaintainerName value="PokerTH Development Team" />
      <StyleMaintainerEMail value="webmaster@pokerth.net" />
      <StyleCreateDate value="29.08.2026" />
-     <PokerTHStyleFileVersion value="2" /><!-- Entspricht der vom Widget-Client unterstützten Version -->
-     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
-     <BigIndexesActionBottom value="0" /><!-- Action-Labels nicht zwingend unten -->
+     <PokerTHStyleFileVersion value="2" /><!-- Matches the version supported by the widget client -->
+     <Preview value="preview.png" /><!-- Preview image (landscape only - no portrait needed) -->
+     <BigIndexesActionBottom value="0" /><!-- Action labels not necessarily at the bottom -->
   </CardDeck>
 </PokerTH>

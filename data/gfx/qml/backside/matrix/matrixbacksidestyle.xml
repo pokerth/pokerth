@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   QML card back style (Kartenrückseite) "Matrix".
+   QML card back style "Matrix".
 
-   Matrix "Digital Rain": Spalten vertikal fallender Zeichen auf Schwarz, der
-   Kopf jedes Streams hell weiß-grün, der Schweif zu Dunkelgrün ausfadend. Die
-   Zeichen sind gespiegelte Halfwidth-Katakana (wie im Film) plus einige Ziffern,
-   als SVG-Pfade eingebacken (kein <text>/<use>/Filter -> QtSvg-sicher). Rahmen
-   wie die neuesten Decks (stardust-Rückseite), in Grün. Dateinamen sind relativ
-   zu diesem XML zu verstehen.
+   Matrix "digital rain": columns of vertically falling characters on black, the
+   head of every stream a bright white green, the tail fading out into dark
+   green. The characters are mirrored halfwidth katakana (as in the film) plus a
+   few digits, baked in as SVG paths (no <text>/<use>/filters -> safe for
+   QtSvg). The frame follows the newest decks (the stardust card back), in
+   green. File names are relative to this XML.
 
-   Erzeugt mit generate_matrix_backside.py.
+   Generated with generate_matrix_backside.py.
 -->
 <PokerTH>
   <CardBack>
-     <StyleDescription value="Matrix (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleDescription value="Matrix (QML/SVG)" /><!-- Shown in the style selection -->
      <StyleMaintainerName value="PokerTH Development Team" />
      <StyleMaintainerEMail value="webmaster@pokerth.net" />
      <StyleCreateDate value="10.07.2026" />
      <PokerTHStyleFileVersion value="1" />
-     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+     <Preview value="preview.png" /><!-- Preview image (landscape only - no portrait needed) -->
 
-     <!-- Rückseiten-Grafik (SVG, beliebig skalierbar) -->
+     <!-- Card back graphic (SVG, scalable to any size) -->
      <Backside value="backside.svg" />
   </CardBack>
 </PokerTH>

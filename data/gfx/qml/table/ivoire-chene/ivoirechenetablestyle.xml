@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   Ivoire & Chene — QML game table style (clair).
+   Ivoire & Chene - QML game table style (light).
 
-   Photo d'une table ovale en chene clair (feutre ivoire, filet laiton,
-   porte-gobelets) dans une bibliotheque. Le centre du feutre est le centre
-   de l'image : cale sur le centre des cartes communes (align center).
-   Format identique aux styles officiels (racine <PokerTH><TableStyle>) :
-   compatible client QML et client web. Dateinamen relativ zu diesem XML.
+   A photo of an oval table in light oak (ivory felt, a brass line, cup holders)
+   in a library. The centre of the felt is the centre of the image: aligned on
+   the centre of the community cards (align center). The format is identical to
+   the official styles (root <PokerTH><TableStyle>): compatible with the QML
+   client and the web client. File names are relative to this XML.
 -->
 <PokerTH>
   <TableStyle>
@@ -21,10 +21,10 @@
      <Table value="table.png" />
      <TableBackgroundAlign value="center" />
 
-     <!-- Eckenradius der Button-SVGs (deren Pfade runden mit 6.5), in
-          Einheiten der 168x43-Zeichenflaeche. Der Client zeichnet seine
-          Zustands-Rahmen als Rechteck darueber und braucht dafuer den
-          Radius; ohne den Tag gilt 9 und die Ecken klaffen. -->
+     <!-- Corner radius of the button SVGs (their paths round with 6.5), in
+          units of the 168x43 drawing area. The client draws its state frames as
+          a rectangle over them and needs the radius for that; without the tag 9
+          applies and the corners gape. -->
      <ActionButtonBorderRadius value="6.5" />
 
      <DealerPuck value="dealerPuck.svg" />
@@ -36,9 +36,9 @@
      <BetRaiseButton value="actionRaise.svg" />
      <AllInButton value="actionAllIn.svg" />
 
-     <!-- Der Panel-Grund ist etwas tiefer als das Filz-Elfenbein des Tisches:
-          die Boxen setzen sich so vom Tisch ab, und helle Elemente darin
-          (Emoji-Symbole, Avatare) bekommen eine Kante. -->
+     <!-- The panel ground is a little deeper than the ivory felt of the table:
+          that way the boxes set themselves off from the table, and light
+          elements inside them (emoji symbols, avatars) get an edge. -->
      <ChatLogBackground value="#ece0c9" />
      <ChatLogSurface value="#ddceb0" />
      <ChatLogBorder value="#b89a6c" />
@@ -46,14 +46,14 @@
      <ChatLogTextSecondary value="#5d4a30" />
      <ChatLogTextMuted value="#6f5a3c" />
 
-     <!-- Inhaltsfarben derselben Boxen. Ohne diese Tags wuerde der Client die
-          zur Hintergrundhelligkeit passenden Vorgaben nehmen; hier sind sie auf
-          Eiche/Elfenbein abgestimmt (Kontrast >= 4,5:1 auf #ece0c9). -->
-     <ChatLogAccent value="#7a5a12" />       <!-- Titel, aktiver Tab, Erwaehnung -->
-     <ChatLogWinner value="#6b4e0a" />       <!-- Gewinner Hauptpot -->
-     <ChatLogWinnerSide value="#7d5e20" />   <!-- Gewinner Side-Pot -->
-     <ChatLogBoard value="#a8431a" />        <!-- Flop/Turn/River, sits out -->
-     <ChatLogSend value="#0c6b30" />         <!-- Senden-Symbol -->
+     <!-- Content colours of the same boxes. Without these tags the client would
+          take the defaults matching the background brightness; here they are
+          tuned to oak/ivory (contrast >= 4.5:1 on #ece0c9). -->
+     <ChatLogAccent value="#7a5a12" />       <!-- Title, active tab, mention -->
+     <ChatLogWinner value="#6b4e0a" />       <!-- Winner of the main pot -->
+     <ChatLogWinnerSide value="#7d5e20" />   <!-- Winner of a side pot -->
+     <ChatLogBoard value="#a8431a" />        <!-- Flop/turn/river, sits out -->
+     <ChatLogSend value="#0c6b30" />         <!-- Send icon -->
 
   </TableStyle>
 </PokerTH>

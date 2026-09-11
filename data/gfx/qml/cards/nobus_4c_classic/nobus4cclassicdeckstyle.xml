@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   QML card deck style – Nachbau des klassischen "Nobus 4 colours classic"
-   Widget-Client-Kartensets (nobus_4c_classic) als reines SVG.
+   QML card deck style - a rebuild of the classic "Nobus 4 colours classic"
+   widget client card set (nobus_4c_classic) as pure SVG.
 
-   4-Farben-Deck: Karo=blau, Herz=rot, Pik=schwarz, Kreuz=grün. Jede Karte trägt
-   einen leichten, suit-getönten Farbverlauf, einen Eck-Index (Rang-Buchstabe +
-   kleines Suit-Symbol) und ein großes zentrales Suit-Symbol.
+   A four colour deck: diamonds=blue, hearts=red, spades=black, clubs=green.
+   Every card carries a light, suit-tinted gradient, a corner index (rank letter
+   + small suit symbol) and a large central suit symbol.
 
-   Aufbau (wie das mitgelieferte cards/default-Set): 0.svg..51.svg nach Engine-Index.
-   Die Suit-Pfade stammen aus dem cards/default-Set, die Rang-Glyphen (2-10, J, Q,
-   K, A) aus dem cards/bella_union_4c-Set (kräftige Serif-Ziffern, schriftart-
-   unabhängig als Pfad eingebettet, in Suit-Farbe eingefärbt). Die Kartenrückseite
-   ist eine EIGENE Stil-Kategorie (data/gfx/qml/backside/).
+   Structure (like the bundled cards/default set): 0.svg..51.svg after the
+   engine index. The suit paths come from the cards/default set, the rank glyphs
+   (2-10, J, Q, K, A) from the cards/bella_union_4c set (strong serif digits,
+   embedded as paths independently of any font, coloured in the suit colour).
+   The card back is a style category of ITS OWN (data/gfx/qml/backside/).
 
-   Engine-Index -> Karte (siehe CardImage.qml):
-     Farbe = floor(index / 13): 0-12 Karo(♦), 13-25 Herz(♥), 26-38 Pik(♠), 39-51 Kreuz(♣)
-     Rang  = index % 13:        0=2, 1=3, … 8=10, 9=Bube, 10=Dame, 11=König, 12=Ass
+   Engine index -> card (see CardImage.qml):
+     Suit = floor(index / 13): 0-12 diamonds(♦), 13-25 hearts(♥), 26-38 spades(♠), 39-51 clubs(♣)
+     Rank = index % 13:        0=2, 1=3, … 8=10, 9=jack, 10=queen, 11=king, 12=ace
 -->
 <PokerTH>
   <CardDeck>
-     <StyleDescription value="Nobus 4 colours classic (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleDescription value="Nobus 4 colours classic (QML/SVG)" /><!-- Shown in the style selection -->
      <StyleMaintainerName value="PokerTH Development Team" />
      <StyleMaintainerEMail value="webmaster@pokerth.net" />
      <StyleCreateDate value="07.07.2026" />
-     <PokerTHStyleFileVersion value="2" /><!-- Entspricht der vom Widget-Client unterstützten Version -->
-     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+     <PokerTHStyleFileVersion value="2" /><!-- Matches the version supported by the widget client -->
+     <Preview value="preview.png" /><!-- Preview image (landscape only - no portrait needed) -->
      <BigIndexesActionBottom value="0" />
   </CardDeck>
 </PokerTH>

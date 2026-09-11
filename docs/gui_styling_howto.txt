@@ -2,6 +2,10 @@
 How to create a style for PokerTH
 ++++++++++++++++++++++++++++++++++++++++
 
+PokerTH ships two clients with their own sets of styles. Sections 1 and
+2 describe the styles of the classic widget client, section 3 those of
+the QML client. Section 4 applies to both.
+
 +++++++++++++++++++++++
 1. Game Table Styles
 +++++++++++++++++++++++
@@ -104,7 +108,221 @@ the card deck style and display your changes.
 
 
 +++++++++++++++++++++++++
-3. Distributing Styles
+3. QML Client Styles
++++++++++++++++++++++++++
+
+Sections 1 and 2 describe the styles of the classic widget client. The
+QML client has its own styles below data/gfx/qml/. The XML format was
+kept deliberately close to the widget format - same root element
+<PokerTH>, same section tags, all data in a "value" attribute - so the
+conventions carry over. The differences:
+
+  * All style graphics are SVG (scalable to any size). The only raster
+    image is the game table background.
+  * The card back is a style category of its own; in the QML client it
+    is NOT part of the card deck.
+  * A game table style can additionally carry colors (player boxes,
+    chat/log panels) and a portrait preview for the mobile layout.
+
+There are three categories, each one folder per style:
+
+  data/gfx/qml/table/<name>/     game table   *tablestyle.xml
+  data/gfx/qml/cards/<name>/     card deck    *deckstyle.xml
+  data/gfx/qml/backside/<name>/  card back    *backsidestyle.xml
+
+The folder name IS the style name - that is what the client stores in
+its configuration, so it has to be unique within its category. The XML
+file name is free as long as it ends with the suffix listed above;
+styles are found by that suffix, a differently named file stays
+invisible.
+
+Styles shipped with PokerTH live in the installation directory, styles
+added by the user are copied to the user data directory (on Linux
+~/.pokerth/data/gfx/qml/<category>/<name>/). Both are scanned, the
+bundled ones first.
+
+Every style XML starts with the same block of style information:
+
+  <PokerTH>
+    <TableStyle>   <!-- or <CardDeck> / <CardBack> -->
+       <StyleDescription value="my custom style" />
+       <StyleMaintainerName value="Your Name" />
+       <StyleMaintainerEMail value="you@example.com" />
+       <StyleCreateDate value="18.06.2026" />
+       <PokerTHStyleFileVersion value="3" />
+       <Preview value="preview.png" />
+       ...
+
+PokerTHStyleFileVersion is 3 for a game table, 2 for a card deck and 1
+for a card back. A different version is accepted, but the client warns
+that the style is outdated. All file names are relative to the XML.
+
+
+3.1 Game table style
+--------------------------------
+Start from data/gfx/qml/table/default/defaulttablestyle.xml - it is
+commented and contains every tag. Copy the whole folder, rename it and
+change StyleDescription, then edit the graphics.
+
+Table background (the only raster graphic):
+
+  <Table value="table.png" />
+  <TableBackgroundAlign value="bottom" />   bottom | center
+  <TableBackgroundZoom value="1.3" />       center mode only, >= 1.0
+
+"bottom" draws the image as a classic cover across the table zone.
+"center" is meant for images that show the table in the middle of a
+scene: the client scales the image so that it covers the whole zone and
+centers it on the middle of the player box ellipse. That centering is
+rigid, there is no offset tag - so the felt has to sit exactly in the
+middle of the image, shift it by CROPPING the image, not by a tag.
+TableBackgroundZoom then decides how large the table sits in the frame
+(larger value = more of the outer border is cropped away); it can be
+tuned without rebuilding, just change the value and restart the client.
+
+The bundled backgrounds are between 1024 and 2164 pixels wide; roughly
+1600x1000 or more is a good target for a full screen table.
+
+Pucks and action buttons (SVG):
+
+  <DealerPuck value="dealerPuck.svg" />
+  <SmallBlindPuck value="smallblindPuck.svg" />
+  <BigBlindPuck value="bigblindPuck.svg" />
+  <FoldButton value="actionFold.svg" />
+  <CheckCallButton value="actionCall.svg" />
+  <BetRaiseButton value="actionRaise.svg" />
+  <AllInButton value="actionAllIn.svg" />
+  <ActionButtonBorderRadius value="9" />
+
+The pucks are drawn on a (nearly) square canvas, the bundled ones use
+viewBox "0 0 40 40" up to "0 0 44 45". The action buttons are drawn on a
+168x43 canvas and are pure symbol graphics: the client renders the
+button text and the state frames (preselection, primary action) itself.
+ActionButtonBorderRadius tells it the corner radius of your SVG in units
+of that 168x43 canvas, otherwise the state frame and the button corners
+do not match. Unlike the widget client there are no separate hover or
+checked graphics.
+
+The button text color is derived from the brightness of the button
+(averaged over its gradient stops) so that it always contrasts. Set it
+explicitly if the automatic value does not fit:
+
+  <ActionButtonTextColor value="#efe6d4" />     all four buttons
+  <FoldButtonTextColor value="#efe6d4" />       per button
+  <CheckCallButtonTextColor value="..." />
+  <BetRaiseButtonTextColor value="..." />
+  <AllInButtonTextColor value="..." />
+
+Colors of the table furniture. They are independent of the light/dark
+mode of the application - the table always keeps the look of its style.
+Every tag is optional, what is missing falls back to the bundled default
+set. Which default set is used (dark or light) is decided by the
+brightness of ChatLogBackground, so a bright table has readable panels
+even if only that one tag is given.
+
+  <PlayerBoxAccent value="#cf9a34" />       tints gradient and frame of
+                                            the player boxes
+  <ChatLogBackground value="#1d222b" />     panel background
+  <ChatLogSurface value="#394150" />        input field / chat bubble
+  <ChatLogBorder value="#576378" />         frame / separator
+  <ChatLogText value="#eff1f5" />           main text
+  <ChatLogTextSecondary value="#cdd3e0" />  secondary text / icons
+  <ChatLogTextMuted value="#7787a3" />      muted text / placeholder
+  <ChatLogAccent value="#E3C800" />         title, active tab, mention
+  <ChatLogAccentText value="#101010" />     text on the accent
+  <ChatLogWinner value="#FFFF00" />         winner of the main pot
+  <ChatLogWinnerSide value="#FFFFCC" />     winner of a side pot
+  <ChatLogBoard value="#FF6633" />          flop/turn/river, sits out
+  <ChatLogSend value="#4ade80" />           send icon
+
+Use solid hex colors only, the translucency of the panels is done by the
+client. ChatLogAccentText is derived from ChatLogAccent if omitted.
+
+Previews:
+
+  <Preview value="preview.png" />                    800x500
+  <PreviewPortrait value="preview_portrait.png" />   380x822
+
+PreviewPortrait is a QML addition and shows the style in the portrait
+(mobile) layout. If only one of the two is present it is used for both
+orientations. Both should be real screenshots of the running table, not
+a composition of the source graphics.
+
+
+3.2 Card deck style
+--------------------------------
+A card deck is 52 card faces plus the style XML and a preview; see
+data/gfx/qml/cards/default/. As in the widget client the files are named
+after the engine index, the only difference is the format: 0.svg to
+51.svg instead of PNG. All 52 files must be present, a deck with gaps is
+rejected on import.
+
+  suit = index / 13:  0-12 diamonds, 13-25 hearts,
+                      26-38 spades,  39-51 clubs
+  rank = index % 13:  0=2, 1=3, ... 8=10, 9=jack, 10=queen, 11=king,
+                      12=ace
+
+So 0.svg is the diamond 2, 24.svg the heart king and 51.svg the club
+ace. Do not rename the files.
+
+Draw the cards on a viewBox of "0 0 120 168" - the card is stretched to
+the aspect ratio the table uses, a deviating canvas gets distorted.
+Since all ranks are drawn into the same rectangle it is essential that
+the rank glyphs all have exactly the same height, otherwise the indexes
+jump from card to card.
+
+The card back is NOT part of the deck (see 3.3), so there is no
+flipside.svg. BigIndexesActionBottom exists in the XML for compatibility
+with the widget client only and is ignored by the QML client.
+
+The deck preview is a transparent PNG of about 724x564 showing two
+overlapping, slightly rotated cards.
+
+
+3.3 Card back style
+--------------------------------
+A card back style is one single graphic plus the XML:
+
+  <CardBack>
+     ...
+     <Backside value="backside.svg" />
+  </CardBack>
+
+See data/gfx/qml/backside/default/. The graphic is stretched to the card
+rectangle, so draw it in the card aspect ratio (the bundled backs use
+viewBox "0 0 580 800", "0 0 630 880" or "0 0 120 168"). The preview is a
+PNG of 424x561 showing the back side alone.
+
+
+3.4 Adding and testing a style
+--------------------------------
+In the QML client styles are managed under "Settings" -> "Style". The
+three tabs "Game Table", "Card Deck" and "Card Back" list the available
+styles with their preview; a click activates one, "Add Style..."
+imports a new one.
+
+The import accepts either a ZIP archive of the style folder or, on the
+desktop, the style XML lying in its folder. In both cases the whole
+folder is copied into the user data directory, so the style keeps
+working after the download folder or the USB stick is gone. The import
+refuses an archive whose XML file name does not follow the suffix
+convention, a name that is already taken, and a card deck with missing
+cards; missing optional entries are only reported as a warning and are
+replaced by the bundled defaults at runtime.
+
+The style takes effect immediately after activating it. When you edit an
+already imported style on disk, restart the client to see the changes.
+Note that the import copies the style: editing the folder you imported
+FROM has no effect, edit the copy in the user data directory.
+
+Styles imported by the user can be removed again from the same list.
+Every style, bundled or imported, can be exported there into a ZIP
+archive - which is the simplest way to package your own style for
+distribution.
+
+
++++++++++++++++++++++++++
+4. Distributing Styles
 +++++++++++++++++++++++++
 
 Once your game table or card deck style is finished you should 
@@ -115,7 +333,9 @@ card deck style maybe you like to create a picture like
 data/gfx/cards/default/preview.png
 
 If you style is ready to be shipped please pack the whole directory 
-into a zip archive. 
+into a zip archive. For a style of the QML client the export in
+"Settings" -> "Style" does exactly that: it writes the style folder
+into a ZIP archive ready for distribution.
 
 If you like your style to be added into styles gallery on 
 https://www.pokerth.net please send a link to the address where you 

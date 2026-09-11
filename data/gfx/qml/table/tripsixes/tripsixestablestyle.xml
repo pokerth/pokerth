@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   TripSixes QML table style (portiert aus dem Widget-Client-Stil
+   TripSixes QML table style (ported from the widget client style
    data/gfx/gui/table/tripsixes_table, https://www.pokerth.net).
 
-   Wie bei allen QML-Stilen sind alle UI-Elemente saubere SVGs; nur der Tisch-
-   Hintergrund bleibt eine PNG. Das table.png wurde so aufbereitet, dass der
-   Tisch (Filz-Oval) vertikal UND horizontal exakt zentriert auf dunklem Grund
-   sitzt (Damast-Muster/Tischbeine vorerst entfernt) → center-Modus.
+   As with all QML styles all UI elements are clean SVGs; only the table
+   background stays a PNG. table.png was prepared so that the table (the felt
+   oval) sits exactly centred vertically AND horizontally on a dark ground (the
+   damask pattern/table legs removed for now) -> center mode.
 -->
 <PokerTH>
   <TableStyle>
@@ -20,19 +20,21 @@
 
      <Table value="table.png" />
      <TableBackgroundAlign value="center" />
-     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt.
-          Ohne Neubau justierbar – Wert ändern und Client neu starten. -->
+     <!-- Crop/zoom factor (>= 1.0): larger = a larger table / more of the outer
+          border cropped away. Adjustable without a rebuild - change the value
+          and restart the client. -->
      <TableBackgroundZoom value="1.0" />
 
-     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
-          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
-          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
-          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <!-- Corner radius of the button SVGs, in units of their 168x43 drawing
+          area. The client draws the state frames (preselection gold, primary
+          action) as a rectangle over the SVG and needs its radius for that,
+          otherwise the corners gape. Without the tag 9 applies (the radius of
+          the bundled default buttons). -->
      <ActionButtonBorderRadius value="6.5" />
 
-     <!-- Akzentfarbe der Spielerboxen: Mintgrün des Filzes.
-          Tönt Verlauf und Rahmen der Box; ohne den Tag bleibt der neutrale
-          Default-Look. -->
+     <!-- Accent colour of the player boxes: the mint green of the felt.
+          It tints the gradient and the frame of the box; without the tag the
+          neutral default look remains. -->
      <PlayerBoxAccent value="#4fae7a" />
 
      <DealerPuck value="dealerPuck.svg" />
@@ -44,15 +46,16 @@
      <BetRaiseButton value="actionRaise.svg" />
      <AllInButton value="actionAllIn.svg" />
 
-     <!-- Farben der Chat-, Verlaufs- und Chancen-Box. Aus <PlayerBoxAccent>
-          abgeleitet: der Rahmen traegt den Akzent, die Flaechen nur einen
-          Hauch, die Schrift bleibt neutral. Unabhaengig vom Hell/Dunkel-Modus. -->
-     <ChatLogBackground value="#223033" />    <!-- Panel-Hintergrund -->
-     <ChatLogSurface value="#3c5056" />    <!-- Eingabefeld / Chat-Bubble -->
-     <ChatLogBorder value="#538579" />    <!-- Rahmen / Trennlinie -->
-     <ChatLogText value="#d6ffe9" />    <!-- Haupttext -->
-     <ChatLogTextSecondary value="#a8e6c4" />    <!-- Sekundärtext / Icons -->
-     <ChatLogTextMuted value="#60a981" />    <!-- gedämpfter Text / Platzhalter -->
+     <!-- Colours of the chat, history and odds box. Derived from
+          <PlayerBoxAccent>: the frame carries the accent, the surfaces only a
+          hint of it, the text stays neutral. Independent of the light/dark
+          mode. -->
+     <ChatLogBackground value="#223033" />    <!-- Panel background -->
+     <ChatLogSurface value="#3c5056" />    <!-- Input field / chat bubble -->
+     <ChatLogBorder value="#538579" />    <!-- Frame / separator -->
+     <ChatLogText value="#d6ffe9" />    <!-- Main text -->
+     <ChatLogTextSecondary value="#a8e6c4" />    <!-- Secondary text / icons -->
+     <ChatLogTextMuted value="#60a981" />    <!-- Muted text / placeholder -->
 
   </TableStyle>
 </PokerTH>

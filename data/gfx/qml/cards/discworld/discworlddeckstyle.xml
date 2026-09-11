@@ -2,76 +2,75 @@
 <!--
    QML card deck style "Discworld".
 
-   Pergament-Front mit Goldrahmen in der Palette des Discworld-Tischstils
-   (data/gfx/qml/table/discworld/). Der Index oben links behält bewusst die
-   Original-Glyphen des default-Decks (Rang + klassisches Farbsymbol), damit
-   die Karten am Tisch ohne Umgewöhnung lesbar bleiben; getauscht wird nur das
-   grosse Motiv unten rechts.
+   A parchment face with a gold frame in the palette of the Discworld table
+   style (data/gfx/qml/table/discworld/). The index at the top left deliberately
+   keeps the original glyphs of the default deck (rank + classic suit symbol),
+   so that the cards stay readable at the table without having to get used to
+   anything; only the large motif at the bottom right is exchanged.
 
-   Motive: Pik traegt den Zauberer, Kreuz den Tod der Ratten, Karo den
-   Waechter Nobby Nobbs, Herz die Hexe Nanny Ogg.
+   Motifs: spades carries the wizard, clubs the Death of Rats, diamonds the
+   watchman Nobby Nobbs, hearts the witch Nanny Ogg.
 
-   Alle vier stammen aus Bitmap-Vektorisierungen (1,4-2,3 MB, 3016-6787
-   Pfade); 13x inline waeren das gut 20 MB pro Farbe. Fuer die Karten ist die
-   Geometrie deshalb auf Motivgroesse reduziert: Naht-Strokes entfernt,
-   Kurven abgeflacht, per Douglas-Peucker vereinfacht und Subpfade unter
-   einer Mindestflaeche verworfen - bei Motivgroesse nicht unterscheidbar,
-   aber 13-20x kleiner.
+   All four come from bitmap vectorisations (1.4-2.3 MB, 3016-6787 paths);
+   inlined 13 times that would be a good 20 MB per suit. For the cards the
+   geometry is therefore reduced to motif size: seam strokes removed, curves
+   flattened, simplified via Douglas-Peucker and subpaths below a minimum area
+   discarded - indistinguishable at motif size, but 13-20 times smaller.
 
-   Die Werte gelten in Quell-Einheiten und muessen an die Bounding Box
-   angepasst werden, nicht blind uebernommen: Ziel ist eine Toleranz von rund
-   0,27 px im gerenderten Motiv. Bei Zeichenflaeche 1024x1536 sind das
-   Toleranz 3 / Flaeche 60 (Nobby, Zauberer); der Tod der Ratten kommt aus
-   einer 1024x1024-Flaeche und laeuft deshalb auf 2,5 / 40. Nanny braucht
-   trotz gleicher Flaeche wie Nobby die Schwelle 30 - bei 60 fallen die
-   hellen Buende ihres Banjohalses weg und der Hals wirkt schwarz.
+   The values are in source units and have to be adapted to the bounding box
+   rather than copied blindly: the target is a tolerance of about 0.27 px in the
+   rendered motif. On a 1024x1536 drawing area that means tolerance 3 / area 60
+   (Nobby, the wizard); the Death of Rats comes from a 1024x1024 area and
+   therefore runs at 2.5 / 40. Despite the same area as Nobby, Nanny needs the
+   threshold 30 - at 60 the light frets of her banjo neck disappear and the neck
+   looks black.
 
-   Der Index ist gegenueber dem default-Deck um Faktor 1,3 vergroessert (Rang
-   scale 0.5733 auf Anker 25/10.6, Farbsymbol 0.5603 auf 25/70.72): die
-   detaillierten Motive ziehen den Blick, ein Index in Originalgroesse wirkt
-   daneben zu klein. Die Motive sind im Gegenzug um 10% kleiner.
+   Compared to the default deck the index is enlarged by a factor of 1.3 (rank
+   scale 0.5733 on anchor 25/10.6, suit symbol 0.5603 on 25/70.72): the detailed
+   motifs draw the eye, an index at original size looks too small next to them.
+   In exchange the motifs are 10 per cent smaller.
 
-   Die Anker sind so gesetzt, dass die Tinte links wie oben 6 Einheiten
-   Abstand zum Innenrahmen (x=4,6) haben. Massgeblich ist die breiteste
-   Glyphe ueber alle 52 Karten - das Kreuz-Symbol; wer die Anker aendert,
-   misst die Tinten-Bounding-Box, nicht die Gruppen-Koordinaten.
+   The anchors are set so that the ink has 6 units of distance to the inner
+   frame (x=4.6) on the left as well as at the top. What counts is the widest
+   glyph across all 52 cards - the club symbol; whoever changes the anchors
+   measures the bounding box of the ink, not the group coordinates.
 
-   Platzierung: Unterkante y=160, rechte Kante x=106 (Herz), x=112 (Karo),
-   x=114 (Pik, Kreuz). Karo bleibt knapp unter 114, weil Nobbys Laternenhaken
-   sonst fast am Innenrahmen (x=115,4) klebt.
-   Skaliert wird anhand der tatsaechlichen Bounding Box des
-   Motiv-SVG, nicht seiner Zeichenflaeche - sonst wirken Motive mit Rand
-   kleiner als die uebrigen. Hoehen: Nobby 110, Nanny 99, Zauberer 94, Tod
-   der Ratten 94. Nobby laeuft am groessten, weil er als schmale Figur mit
-   viel Luft zwischen Koerper und Laternenstab sonst kleiner wirkt.
+   Placement: bottom edge y=160, right edge x=106 (hearts), x=112 (diamonds),
+   x=114 (spades, clubs). Diamonds stays just below 114, because otherwise
+   Nobby's lantern hook almost sticks to the inner frame (x=115.4).
+   Scaling is done against the actual bounding box of the motif SVG, not against
+   its drawing area - otherwise motifs with a margin look smaller than the rest.
+   Heights: Nobby 110, Nanny 99, wizard 94, Death of Rats 94. Nobby runs the
+   largest, because as a narrow figure with a lot of air between body and
+   lantern staff he would look smaller otherwise.
 
-   Zwei Sonderfaelle:
-   - Der Zauberstab ragt oben links ueber die Figur hinaus und kommt der
-     Index-Gruppe zu nah (auf x=106 ueberlappt er sie ab Hoehe 108 sogar).
-     Der Zauberer sitzt deshalb auf x=114 und ist als Einziger anisotrop
-     skaliert - 6% schmaler bei voller Hoehe (Verhaeltnis 0.07337 zu 0.07805).
-     6% sieht man der Figur nicht an, ab etwa 12% wirkt sie sichtbar
-     gestaucht.
-   - Der Tod der Ratten ist eine diagonale, fast quadratische Komposition und
-     mit 95 Breite zu 94 Hoehe das breiteste Motiv. Er reicht bis x=19; mehr
-     Hoehe wuerde ihn links aus der Karte laufen lassen.
+   Two special cases:
+   - The magic staff sticks out beyond the figure at the top left and comes too
+     close to the index group (at x=106 it even overlaps it from height 108 on).
+     The wizard therefore sits at x=114 and is the only one scaled
+     anisotropically - 6 per cent narrower at full height (ratio 0.07337 to
+     0.07805). 6 per cent cannot be seen on the figure, from about 12 per cent
+     on it looks visibly squeezed.
+   - The Death of Rats is a diagonal, nearly square composition and, at 95 wide
+     to 94 high, the widest motif. It reaches up to x=19; more height would make
+     it run out of the card on the left.
 
-   Obergrenzen nicht schaetzen, sondern messen: Index-Gruppen und Motiv-Gruppe
-   getrennt auf transparent rendern, Alpha binarisieren, multiplizieren -
-   ueberlappende Pixel > 0 heisst zu gross.
+   Do not estimate the upper limits, measure them: render the index groups and
+   the motif group separately onto transparency, binarise the alpha, multiply -
+   overlapping pixels > 0 means too large.
 
-   Engine-Index -> Karte (siehe CardImage.qml):
-     Farbe = floor(index / 13): 0-12 Karo(♦), 13-25 Herz(♥), 26-38 Pik(♠), 39-51 Kreuz(♣)
-     Rang  = index % 13:        0=2, 1=3, … 8=10, 9=Bube, 10=Dame, 11=König, 12=Ass
+   Engine index -> card (see CardImage.qml):
+     Suit = floor(index / 13): 0-12 diamonds(♦), 13-25 hearts(♥), 26-38 spades(♠), 39-51 clubs(♣)
+     Rank = index % 13:        0=2, 1=3, … 8=10, 9=jack, 10=queen, 11=king, 12=ace
 -->
 <PokerTH>
   <CardDeck>
-     <StyleDescription value="Discworld (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleDescription value="Discworld (QML/SVG)" /><!-- Shown in the style selection -->
      <StyleMaintainerName value="PokerTH Development Team" />
      <StyleMaintainerEMail value="webmaster@pokerth.net" />
      <StyleCreateDate value="19.07.2026" />
      <PokerTHStyleFileVersion value="2" />
-     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+     <Preview value="preview.png" /><!-- Preview image (landscape only - no portrait needed) -->
      <BigIndexesActionBottom value="0" />
   </CardDeck>
 </PokerTH>

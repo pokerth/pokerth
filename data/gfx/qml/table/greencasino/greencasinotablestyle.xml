@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
    Green Casino QML table style.
-   Feutre vert / liseré or, pucks & boutons d'action casino, teinte chat verte/or.
-   Fond plein écran (PreserveAspectCrop), aligné centre. AGPL-3.0.
+   Green felt / gold piping, casino pucks and action buttons, a green/gold chat
+   tint. A full screen background (PreserveAspectCrop), centre aligned.
+   AGPL-3.0.
 -->
 <PokerTH>
   <TableStyle>
@@ -18,10 +19,10 @@
      <TableBackgroundAlign value="center" />
      <TableBackgroundZoom value="1.0" />
 
-     <!-- Eckenradius in Einheiten der 168x43-Zeichenflaeche der Button-SVGs. -->
+     <!-- Corner radius in units of the 168x43 drawing area of the button SVGs. -->
      <ActionButtonBorderRadius value="9" />
 
-     <!-- Accent des boxes joueurs : or casino. -->
+     <!-- Accent of the player boxes: casino gold. -->
      <PlayerBoxAccent value="#c8a84a" />
 
      <DealerPuck value="dealerPuck.svg" />
@@ -33,7 +34,7 @@
      <BetRaiseButton value="actionRaise.svg" />
      <AllInButton value="actionAllIn.svg" />
 
-     <!-- Couleurs chat / journal / cotes : vert sombre + accent or. -->
+     <!-- Chat / log / odds colours: a dark green + a gold accent. -->
      <ChatLogBackground value="#0c1a0e" />
      <ChatLogSurface value="#14281a" />
      <ChatLogBorder value="#5a4a20" />

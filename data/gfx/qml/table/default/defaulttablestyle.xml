@@ -2,60 +2,63 @@
 <!--
    QML game table style.
 
-   Dieses Format orientiert sich bewusst eng am Widget-Client-Tischstil
-   (data/gfx/gui/table/<name>/<name>tablestyle.xml, Root <TableStyle>), damit
-   beide Clients dieselben Konventionen teilen. Unterschiede zum Widget-Stil:
+   This format is deliberately kept close to the widget client table style
+   (data/gfx/gui/table/<name>/<name>tablestyle.xml, root <TableStyle>), so that
+   both clients share the same conventions. The differences to the widget style:
 
-     * Alle Tisch-Elemente sind SVG (beliebig skalierbar) – nur der Tisch-
-       Hintergrund ist eine Rastergrafik (PNG).
-     * Der QML-Client rendert die Action-Buttons mit eigenem Text/Layout; die
-       hier referenzierten Action-SVGs sind die reinen Symbolgrafiken (ohne
-       Hover/Checked-Zustände, die im Widget-Client als separate PNGs vorliegen).
+     * All table elements are SVG (scalable to any size) - only the table
+       background is a raster graphic (PNG).
+     * The QML client renders the action buttons with its own text/layout; the
+       action SVGs referenced here are the pure symbol graphics (without the
+       hover/checked states, which exist as separate PNGs in the widget
+       client).
 
-   Dateinamen sind relativ zu diesem XML zu verstehen.
+   File names are relative to this XML.
 -->
 <PokerTH>
   <TableStyle>
-     <StyleDescription value="PokerTH default QML table style" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleDescription value="PokerTH default QML table style" /><!-- Shown in the style selection -->
      <StyleMaintainerName value="PokerTH Development Team" />
      <StyleMaintainerEMail value="webmaster@pokerth.net" />
      <StyleCreateDate value="18.06.2026" />
-     <PokerTHStyleFileVersion value="3" /><!-- Entspricht der vom Widget-Client unterstützten Version -->
-     <Preview value="preview.png" /><!-- Vorschaubild (Querformat/Desktop) für die Stil-Auswahl -->
-     <PreviewPortrait value="preview_portrait.png" /><!-- QML-Erweiterung: Vorschaubild im Portrait-/Mobile-Modus -->
+     <PokerTHStyleFileVersion value="3" /><!-- Matches the version supported by the widget client -->
+     <Preview value="preview.png" /><!-- Preview image (landscape/desktop) for the style selection -->
+     <PreviewPortrait value="preview_portrait.png" /><!-- QML extension: preview image for portrait/mobile mode -->
 
-     <!-- Tisch-Hintergrund: einzige Rastergrafik des Stils -->
+     <!-- Table background: the only raster graphic of the style -->
      <Table value="table.png" /> <!-- 1980x1200 px -->
      <TableBackgroundAlign value="bottom" />
 
-     <!-- Dealer- / Blind-Pucks (SVG) -->
-     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
-          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
-          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
-          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <!-- Dealer / blind pucks (SVG) -->
+     <!-- Corner radius of the button SVGs, in units of their 168x43 drawing
+          area. The client draws the state frames (preselection gold, primary
+          action) as a rectangle over the SVG and needs its radius for that,
+          otherwise the corners gape. Without the tag 9 applies (the radius of
+          the bundled default buttons). -->
      <ActionButtonBorderRadius value="9" />
 
      <DealerPuck value="dealerPuck.svg" />
      <SmallBlindPuck value="smallblindPuck.svg" />
      <BigBlindPuck value="bigblindPuck.svg" />
 
-     <!-- Action-Symbole (SVG) – ein Vektor je Aktion -->
+     <!-- Action symbols (SVG) - one vector per action -->
      <FoldButton value="actionFold.svg" />
      <CheckCallButton value="actionCall.svg" />
      <BetRaiseButton value="actionRaise.svg" />
      <AllInButton value="actionAllIn.svg" />
 
-     <!-- Farben der Chat- und Log-Box (schwebende Seiten-Panels am Tisch).
-          Bewusst unabhängig vom Hell/Dunkel-Modus der App: der Tisch behält
-          immer dieses Aussehen. Hier lassen sich die Panel-Farben künftig je
-          Stil ändern. Alles solide Hex-Farben – die Transluzenz macht der
-          Client. Fehlt ein Tag, gilt der gebündelte Dunkel-Default. -->
-     <ChatLogBackground value="#1d222b" />     <!-- Panel-Hintergrund -->
-     <ChatLogSurface value="#394150" />        <!-- Eingabefeld / Chat-Bubble -->
-     <ChatLogBorder value="#576378" />         <!-- Rahmen / Trennlinie -->
-     <ChatLogText value="#eff1f5" />           <!-- Haupttext -->
-     <ChatLogTextSecondary value="#cdd3e0" />  <!-- Sekundärtext / Icons -->
-     <ChatLogTextMuted value="#7787a3" />      <!-- gedämpfter Text / Platzhalter -->
+     <!-- Colours of the chat and log box (the floating side panels at the
+          table). Deliberately independent of the light/dark mode of the
+          application: the table always keeps this look. This is where the panel
+          colours can be changed per style in the future. All solid hex colours -
+          the translucency is done by the client. If a tag is missing, the
+          bundled dark default applies. -->
+     <ChatLogBackground value="#1d222b" />     <!-- Panel background -->
+     <ChatLogSurface value="#394150" />        <!-- Input field / chat bubble -->
+     <ChatLogBorder value="#576378" />         <!-- Frame / separator -->
+     <ChatLogText value="#eff1f5" />           <!-- Main text -->
+     <ChatLogTextSecondary value="#cdd3e0" />  <!-- Secondary text / icons -->
+     <ChatLogTextMuted value="#7787a3" />      <!-- Muted text / placeholder -->
 
   </TableStyle>
 </PokerTH>

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   Lemming TA01-MC QML table style (portiert aus dem Widget-Client-Stil
+   Lemming TA01-MC QML table style (ported from the widget client style
    LEMMING-TABLE-01-MC, https://www.pokerth.net).
 
-   Besonderheit gegenüber den anderen QML-Stilen: Dieser Stil hat gar kein
-   Filz-Oval. Der Tisch-Hintergrund ist eine dunkle Carbon-/Wabentextur, aus
-   deren Unterkante weißer Rauch aufsteigt (Original: xx-muurpapier.png,
-   1920x1080). Die Grafik ist reines Graustufen-Bild und wird deshalb als
-   8-Bit-Graustufen-PNG mitgeliefert (verlustfrei, ~1/8 der Originalgröße).
-   Da die Textur flächig ist, genügt der klassische Cover-Modus (kein center).
+   A peculiarity compared to the other QML styles: this style has no felt oval
+   at all. The table background is a dark carbon/honeycomb texture, out of whose
+   lower edge white smoke rises (original: xx-muurpapier.png, 1920x1080). The
+   graphic is a pure greyscale image and is therefore shipped as an 8 bit
+   greyscale PNG (lossless, about 1/8 of the original size). Since the texture
+   is flat, the classic cover mode is enough (no center).
 
-   Alle UI-Elemente sind saubere SVGs. Die Action-Buttons bilden die Signatur
-   des Originals nach: eine Rundrechteck-Form mit konkav eingezogenen Schmal-
-   seiten, vier weiche Glows in den Ecken und eine (fast) transparente Mitte.
-   Die Verlaufs-Stops sind gegen die Original-PNGs kalibriert.
+   All UI elements are clean SVGs. The action buttons reproduce the signature of
+   the original: a rounded rectangle shape with concave narrow sides, four soft
+   glows in the corners and an (almost) transparent middle. The gradient stops
+   are calibrated against the original PNGs.
 -->
 <PokerTH>
   <TableStyle>
@@ -26,19 +26,20 @@
      <PreviewPortrait value="preview_portrait.png" />
 
      <Table value="table.png" />
-     <!-- Kein center-Modus: die Wabentextur ist flächig, der Rauch sitzt an der
-          Unterkante. Klassisches Cover schneidet ihn am wenigsten an. -->
+     <!-- No center mode: the honeycomb texture is flat, the smoke sits at the
+          lower edge. The classic cover cuts into it the least. -->
      <TableBackgroundAlign value="bottom" />
 
-     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
-          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
-          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
-          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <!-- Corner radius of the button SVGs, in units of their 168x43 drawing
+          area. The client draws the state frames (preselection gold, primary
+          action) as a rectangle over the SVG and needs its radius for that,
+          otherwise the corners gape. Without the tag 9 applies (the radius of
+          the bundled default buttons). -->
      <ActionButtonBorderRadius value="6.5" />
 
-     <!-- Akzentfarbe der Spielerboxen: kühles Grau der monochromen Carbon-Optik.
-          Tönt Verlauf und Rahmen der Box; ohne den Tag bleibt der neutrale
-          Default-Look. -->
+     <!-- Accent colour of the player boxes: the cool grey of the monochrome
+          carbon look. It tints the gradient and the frame of the box; without
+          the tag the neutral default look remains. -->
      <PlayerBoxAccent value="#9aa0a6" />
 
      <DealerPuck value="dealerPuck.svg" />
@@ -50,28 +51,28 @@
      <BetRaiseButton value="actionRaise.svg" />
      <AllInButton value="actionAllIn.svg" />
 
-     <!-- Schriftfarben MÜSSEN hier explizit stehen. Ohne sie leitet der
-          StyleProvider die Farbe aus der mittleren Helligkeit der Gradient-Stops
-          ab – das unterstellt einen deckenden Button. Diese Buttons sind aber
-          durchscheinend mit hellen Glows: Call/Raise/All-In bekämen dann fast
-          schwarze Schrift auf fast schwarzem Grund. Die Farben entsprechen den
-          farbigen Beschriftungen des Originals. -->
+     <!-- The text colours MUST be given explicitly here. Without them the
+          StyleProvider derives the colour from the average brightness of the
+          gradient stops - which assumes an opaque button. These buttons are
+          translucent with light glows though: call/raise/all-in would end up
+          with an almost black text on an almost black ground. The colours match
+          the coloured labels of the original. -->
      <FoldButtonTextColor value="#ff5f5f" />
      <CheckCallButtonTextColor value="#5ccfff" />
      <BetRaiseButtonTextColor value="#5cff5c" />
      <AllInButtonTextColor value="#fff200" />
 
-     <!-- Farben der Chat-, Verlaufs- und Chancen-Box. Aus <PlayerBoxAccent>
-          abgeleitet wie in den anderen Stilen: der Rahmen traegt den Akzent,
-          die Flaechen nur einen Hauch. Basis sind hier die eigenen Grautoene des
-          Stils statt der blaustichigen Defaults – die Carbon-Optik bleibt so
-          monochrom. Unabhaengig vom Hell/Dunkel-Modus. -->
-     <ChatLogBackground value="#262627" />    <!-- Panel-Hintergrund -->
-     <ChatLogSurface value="#414243" />    <!-- Eingabefeld / Chat-Bubble -->
-     <ChatLogBorder value="#777a7c" />    <!-- Rahmen / Trennlinie -->
-     <ChatLogText value="#e6e6e6" />    <!-- Haupttext -->
-     <ChatLogTextSecondary value="#c2c2c2" />    <!-- Sekundärtext / Icons -->
-     <ChatLogTextMuted value="#8d8e90" />    <!-- gedämpfter Text / Platzhalter -->
+     <!-- Colours of the chat, history and odds box. Derived from
+          <PlayerBoxAccent> as in the other styles: the frame carries the
+          accent, the surfaces only a hint of it. The basis here are the own
+          grey tones of the style instead of the blueish defaults - that way the
+          carbon look stays monochrome. Independent of the light/dark mode. -->
+     <ChatLogBackground value="#262627" />    <!-- Panel background -->
+     <ChatLogSurface value="#414243" />    <!-- Input field / chat bubble -->
+     <ChatLogBorder value="#777a7c" />    <!-- Frame / separator -->
+     <ChatLogText value="#e6e6e6" />    <!-- Main text -->
+     <ChatLogTextSecondary value="#c2c2c2" />    <!-- Secondary text / icons -->
+     <ChatLogTextMuted value="#8d8e90" />    <!-- Muted text / placeholder -->
 
   </TableStyle>
 </PokerTH>

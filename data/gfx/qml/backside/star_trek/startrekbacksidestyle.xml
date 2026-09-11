@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   QML card back style (Kartenrückseite) "Star Trek".
+   QML card back style "Star Trek".
 
-   Dunkelblaue Karte mit gekacheltem Delta-Muster und zentriertem Starfleet-
-   Emblem. Das Emblem stammt aus dem freien Icons8-Icon "Nächste Generation
-   Abzeichen" (https://icons8.com) und ist unverändert in die backside.svg
-   eingebettet. Dateinamen sind relativ zu diesem XML zu verstehen.
+   A dark blue card with a tiled delta pattern and a centred Starfleet emblem.
+   The emblem comes from the free Icons8 icon "Next Generation badge"
+   (https://icons8.com) and is embedded into backside.svg unchanged. File names
+   are relative to this XML.
 -->
 <PokerTH>
   <CardBack>
-     <StyleDescription value="Star Trek (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleDescription value="Star Trek (QML/SVG)" /><!-- Shown in the style selection -->
      <StyleMaintainerName value="PokerTH Development Team" />
      <StyleMaintainerEMail value="webmaster@pokerth.net" />
      <StyleCreateDate value="10.07.2026" />
      <PokerTHStyleFileVersion value="1" />
-     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+     <Preview value="preview.png" /><!-- Preview image (landscape only - no portrait needed) -->
 
-     <!-- Rückseiten-Grafik (SVG, beliebig skalierbar) -->
+     <!-- Card back graphic (SVG, scalable to any size) -->
      <Backside value="backside.svg" />
   </CardBack>
 </PokerTH>

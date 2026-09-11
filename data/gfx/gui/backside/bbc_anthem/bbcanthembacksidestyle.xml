@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   Widget card back style (Kartenrückseite) "BBC Anthem".
+   Widget card back style "BBC Anthem".
 
-   Passend zum Widget-Tischstil "BBC Anthem - Widget Table". Anders als beim
-   Kartenstapel besteht ein Rückseiten-Stil aus genau einer Grafik; sie ersetzt
-   die flipside.png des gewählten Kartenstapels und lässt sich daher mit jedem
-   Stapel kombinieren (Einstellungen/Stil/Card Back).
+   Matching the widget table style "BBC Anthem - Widget Table". Unlike a card deck,
+   a card back style consists of exactly one graphic; it replaces the
+   flipside.png of the selected card deck and can therefore be combined with any
+   deck (Settings/Style/Card Back).
 
-   Dateinamen sind relativ zu diesem XML zu verstehen.
-   Die Grafik muss die Kartengröße des Widget-Clients haben (48x76).
+   File names are relative to this XML.
+   The graphic has to have the card size of the widget client (48x76).
 -->
 <PokerTH>
   <CardBack>
-     <StyleDescription value="BBC Anthem - Widget Card Back" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleDescription value="BBC Anthem - Widget Card Back" /><!-- Shown in the style selection -->
      <StyleMaintainerName value="BaShFX" />
      <StyleMaintainerEMail value="webmaster@pokerth.net" />
      <StyleCreateDate value="07.08.2026" />
