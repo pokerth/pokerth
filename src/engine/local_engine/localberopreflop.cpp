@@ -182,8 +182,8 @@ void LocalBeRoPreflop::run()
 		(*currentPlayersTurnIt)->setMyTurn(true);
 
 		//highlight active players groupbox and clear action
-		getMyHand()->getGuiInterface()->refreshGroupbox( getCurrentPlayersTurnId() , 2 );
-		getMyHand()->getGuiInterface()->refreshAction( getCurrentPlayersTurnId() , PLAYER_ACTION_NONE );
+		getMyHand()->getGuiInterface()->refreshGroupbox( getCurrentPlayersTurnId(), 2 );
+		getMyHand()->getGuiInterface()->refreshAction( getCurrentPlayersTurnId(), PLAYER_ACTION_NONE );
 
 
 		if( getCurrentPlayersTurnId() == 0) {

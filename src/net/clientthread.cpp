@@ -98,7 +98,7 @@ void
 ClientThread::Init(
 	const string &serverAddress, const string &serverListUrl,
 	const string &serverPassword,
-	bool useServerList, unsigned serverPort, 
+	bool useServerList, unsigned serverPort,
 	bool ipv6, bool sctp, bool tls,
 	const string &avatarServerAddress, const string &playerName,
 	const string &avatarFile, const string &cacheDir)
@@ -174,7 +174,7 @@ ClientThread::SendLeaveCurrentGame()
 	// The leave packet is posted afterwards; since the io_service is processed
 	// in order on a single thread, the flush still completes before we leave.
 	LOG_MSG("SendLeaveCurrentGame: ENTER gameId=" << GetGameId()
-	        << " - posting log flush + leave to io_service");
+			<< " - posting log flush + leave to io_service");
 	// Flush log before leaving game to ensure all data is written to SQLite.
 	// Bind the shared_ptr so the Log stays alive until the handler runs.
 	if (m_clientLog) {
@@ -228,9 +228,9 @@ ClientThread::DoSendPlayerAction()
 		// (the game really ended/we left). Dropping is correct here; this is no
 		// longer the transient GUI-thread race that caused the freeze.
 		LOG_ERROR("[SENDACTDROP] DoSendPlayerAction DROPPED - "
-		          << (curGame ? "currentHand==null" : "game==null")
-		          << " gameId=" << GetGameId()
-		          << " -> game ended/transitioned, action not sent");
+				  << (curGame ? "currentHand==null" : "game==null")
+				  << " gameId=" << GetGameId()
+				  << " -> game ended/transitioned, action not sent");
 		return;
 	}
 	// Create a network packet containing the current player action.
@@ -252,15 +252,15 @@ ClientThread::DoSendPlayerAction()
 	else
 		netMyAction->set_myrelativebet(0);
 	qDebug() << "[SENDACT] MyActionRequest -> server"
-	         << "handnum=" << netMyAction->handnum()
-	         << "gamestate=" << (int)netMyAction->gamestate()
-	         << "(0=Pre,1=F,2=T,3=R)"
-	         << "myaction=" << (int)netMyAction->myaction()
-	         << "(1=FOLD,2=CHK,3=CALL,4=BET,5=RAISE,6=ALLIN)"
-	         << "myrelativebet=" << (int)netMyAction->myrelativebet()
-	         << "| local mySet=" << myPlayer->getMySet()
-	         << "myCash=" << myPlayer->getMyCash()
-	         << "myButton=" << myPlayer->getMyButton();
+			 << "handnum=" << netMyAction->handnum()
+			 << "gamestate=" << (int)netMyAction->gamestate()
+			 << "(0=Pre,1=F,2=T,3=R)"
+			 << "myaction=" << (int)netMyAction->myaction()
+			 << "(1=FOLD,2=CHK,3=CALL,4=BET,5=RAISE,6=ALLIN)"
+			 << "myrelativebet=" << (int)netMyAction->myrelativebet()
+			 << "| local mySet=" << myPlayer->getMySet()
+			 << "myCash=" << myPlayer->getMyCash()
+			 << "myButton=" << myPlayer->getMyButton();
 	// Already on the io_service thread -> send directly.
 	SendSessionPacket(packet);
 }
@@ -672,7 +672,7 @@ ClientThread::Main()
 				// Ignore any errors during cleanup
 			}
 		}
-		
+
 		// Delete the cached server list, as it may be outdated.
 		path tmpServerListPath(GetCacheServerListFileName());
 		if (exists(tmpServerListPath)) {
@@ -718,14 +718,14 @@ ClientThread::CancelTimers()
 void
 ClientThread::InitAuthContext()
 {
-    m_authContext = NULL;
+	m_authContext = NULL;
 }
 
 void
 ClientThread::ClearAuthContext()
 {
-    // GSASL entfernt: nichts zu räumen.
-    m_authContext = NULL;
+	// GSASL entfernt: nichts zu räumen.
+	m_authContext = NULL;
 }
 
 void
@@ -1114,85 +1114,80 @@ ClientThread::GetCacheServerListFileName()
 void
 ClientThread::SslInfoCallback(const SSL *ssl, int where, int ret)
 {
-    const char *state = SSL_state_string_long((SSL*)ssl);
-    
-    if (where & SSL_CB_LOOP) {
-    }
-    else if (where & SSL_CB_ALERT) {
-        const char *alert_type = (where & SSL_CB_READ) ? "read" : "write";
-    }
-    else if (where & SSL_CB_EXIT) {
-        if (ret == 0) {
-        }
-        else if (ret < 0) {
-        }
-    }
-    else if (where & SSL_CB_HANDSHAKE_START) {
-    }
-    else if (where & SSL_CB_HANDSHAKE_DONE) {
-    }
+	const char *state = SSL_state_string_long((SSL*)ssl);
+
+	if (where & SSL_CB_LOOP) {
+	} else if (where & SSL_CB_ALERT) {
+		const char *alert_type = (where & SSL_CB_READ) ? "read" : "write";
+	} else if (where & SSL_CB_EXIT) {
+		if (ret == 0) {
+		} else if (ret < 0) {
+		}
+	} else if (where & SSL_CB_HANDSHAKE_START) {
+	} else if (where & SSL_CB_HANDSHAKE_DONE) {
+	}
 }
 
 void
 ClientThread::CreateContextSession()
 {
-    ClientContext &context = GetContext();
+	ClientContext &context = GetContext();
 
 
-    boost::shared_ptr<boost::asio::ip::tcp::resolver> resolver(new boost::asio::ip::tcp::resolver(*m_ioService));
-    context.SetResolver(resolver);
+	boost::shared_ptr<boost::asio::ip::tcp::resolver> resolver(new boost::asio::ip::tcp::resolver(*m_ioService));
+	context.SetResolver(resolver);
 
-    if (context.GetTls()) {
-        boost::shared_ptr<boost::asio::ssl::context> sslCtx(
-            new boost::asio::ssl::context(boost::asio::ssl::context::sslv23_client));
-        
-        // Trust for the lobby connection comes from the pinned server key: the
-        // pins compiled into the client for known servers plus the pins the
-        // server list announces. Without any pin the connection stays encrypted
-        // but unauthenticated - a man in the middle could read the login data,
-        // which is why this is only acceptable for servers we know nothing about
-        // (LAN games, third party servers).
-        vector<string> pins(TlsPinning::GetBuiltinPins(context.GetServerAddr()));
-        for (const string &listPin : context.GetTlsPins()) {
-            if (find(pins.begin(), pins.end(), listPin) == pins.end())
-                pins.push_back(listPin);
-        }
+	if (context.GetTls()) {
+		boost::shared_ptr<boost::asio::ssl::context> sslCtx(
+			new boost::asio::ssl::context(boost::asio::ssl::context::sslv23_client));
 
-        sslCtx->set_verify_mode(boost::asio::ssl::verify_none);
+		// Trust for the lobby connection comes from the pinned server key: the
+		// pins compiled into the client for known servers plus the pins the
+		// server list announces. Without any pin the connection stays encrypted
+		// but unauthenticated - a man in the middle could read the login data,
+		// which is why this is only acceptable for servers we know nothing about
+		// (LAN games, third party servers).
+		vector<string> pins(TlsPinning::GetBuiltinPins(context.GetServerAddr()));
+		for (const string &listPin : context.GetTlsPins()) {
+			if (find(pins.begin(), pins.end(), listPin) == pins.end())
+				pins.push_back(listPin);
+		}
 
-        SSL_CTX_set_info_callback(sslCtx->native_handle(), &ClientThread::SslInfoCallback);
+		sslCtx->set_verify_mode(boost::asio::ssl::verify_none);
 
-        boost::shared_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> sslStream(
-            new boost::asio::ssl::stream<boost::asio::ip::tcp::socket>(*m_ioService, *sslCtx));
+		SSL_CTX_set_info_callback(sslCtx->native_handle(), &ClientThread::SslInfoCallback);
 
-        SSL_set_info_callback(sslStream->native_handle(), &ClientThread::SslInfoCallback);
+		boost::shared_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> sslStream(
+					new boost::asio::ssl::stream<boost::asio::ip::tcp::socket>(*m_ioService, *sslCtx));
 
-        // The pins have to go on the stream, never on the context above: sslCtx
-        // is local and is destroyed when this function returns, while the stream
-        // outlives it. asio's context destructor deletes the verify callback and
-        // clears SSL_CTX app data; its trampoline then rejects every certificate
-        // without ever calling us - a handshake failing with "certificate verify
-        // failed" and no pinning message of our own. The stream owns its SSL
-        // object, so the callback lives exactly as long as the connection.
-        const TlsPinning::ReportFunc reportMismatch = [](const string &msg) {
-            LOG_ERROR(msg);
-        };
-        if (TlsPinning::ApplyPins(*sslStream, pins, reportMismatch)) {
-            LOG_MSG("TLS: connection to " << context.GetServerAddr()
-                    << " is pinned to " << pins.size() << " server key(s).");
-        } else {
-            LOG_MSG("TLS: no pinned key for " << context.GetServerAddr()
-                    << " - connection is encrypted, but the server is not authenticated.");
-        }
+		SSL_set_info_callback(sslStream->native_handle(), &ClientThread::SslInfoCallback);
 
-        boost::shared_ptr<SessionData> session(new SessionData(sslStream, SESSION_ID_GENERIC, *this, *m_ioService, 0));
-        context.SetSessionData(session);
-    } else {
-        boost::shared_ptr<boost::asio::ip::tcp::socket> sock(new boost::asio::ip::tcp::socket(*m_ioService));
-        boost::shared_ptr<SessionData> session(new SessionData(sock, SESSION_ID_GENERIC, *this, *m_ioService));
-        context.SetSessionData(session);
-    }
-    
+		// The pins have to go on the stream, never on the context above: sslCtx
+		// is local and is destroyed when this function returns, while the stream
+		// outlives it. asio's context destructor deletes the verify callback and
+		// clears SSL_CTX app data; its trampoline then rejects every certificate
+		// without ever calling us - a handshake failing with "certificate verify
+		// failed" and no pinning message of our own. The stream owns its SSL
+		// object, so the callback lives exactly as long as the connection.
+		const TlsPinning::ReportFunc reportMismatch = [](const string &msg) {
+			LOG_ERROR(msg);
+		};
+		if (TlsPinning::ApplyPins(*sslStream, pins, reportMismatch)) {
+			LOG_MSG("TLS: connection to " << context.GetServerAddr()
+					<< " is pinned to " << pins.size() << " server key(s).");
+		} else {
+			LOG_MSG("TLS: no pinned key for " << context.GetServerAddr()
+					<< " - connection is encrypted, but the server is not authenticated.");
+		}
+
+		boost::shared_ptr<SessionData> session(new SessionData(sslStream, SESSION_ID_GENERIC, *this, *m_ioService, 0));
+		context.SetSessionData(session);
+	} else {
+		boost::shared_ptr<boost::asio::ip::tcp::socket> sock(new boost::asio::ip::tcp::socket(*m_ioService));
+		boost::shared_ptr<SessionData> session(new SessionData(sock, SESSION_ID_GENERIC, *this, *m_ioService));
+		context.SetSessionData(session);
+	}
+
 }
 
 ClientState &

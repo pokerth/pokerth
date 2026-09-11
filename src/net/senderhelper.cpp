@@ -68,7 +68,7 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 		if (session->GetState() == SessionData::Closed) {
 			return;  // Session bereits geschlossen, nicht mehr senden
 		}
-		
+
 		bool overflow = false;
 		try {
 			SendBuffer &tmpBuffer = session->GetSendBuffer();
@@ -100,7 +100,7 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 		if (session->GetState() == SessionData::Closed) {
 			return;  // Session bereits geschlossen, nicht mehr senden
 		}
-		
+
 		bool overflow = false;
 		try {
 			SendBuffer &tmpBuffer = session->GetSendBuffer();
@@ -131,7 +131,7 @@ void
 SenderHelper::SetCloseAfterSend(boost::shared_ptr<SessionData> session)
 {
 	if (!session) return;
-	
+
 	try {
 		SendBuffer &tmpBuffer = session->GetSendBuffer();
 		// Add packet to specific queue.

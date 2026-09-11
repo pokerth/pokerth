@@ -69,16 +69,16 @@ SessionData::SessionData(boost::shared_ptr<WebSocketData> webData, SessionId id,
 }
 
 SessionData::SessionData(boost::shared_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> sslStream, SessionId id, SessionDataCallback &cb, boost::asio::io_context &ioService, int /*filler*/)
-    : m_socket(), m_webData(), m_id(id), m_game(), m_state(SessionData::Init), m_clientAddr(),
-      m_receiveBuffer(), m_sendBuffer(), m_readyFlag(false), m_wantsLobbyMsg(true),
-      m_chatWindowStart(std::chrono::steady_clock::now()), m_chatMessagesInWindow(0),
-      m_activityTimeoutSec(0), m_activityWarningRemainingSec(0), m_globalTimeoutSec(0),
-      m_initTimeoutTimer(ioService), m_globalTimeoutTimer(ioService), m_activityTimeoutTimer(ioService),
-      m_callback(cb), m_authSession(NULL), m_curAuthStep(0)
+	: m_socket(), m_webData(), m_id(id), m_game(), m_state(SessionData::Init), m_clientAddr(),
+	  m_receiveBuffer(), m_sendBuffer(), m_readyFlag(false), m_wantsLobbyMsg(true),
+	  m_chatWindowStart(std::chrono::steady_clock::now()), m_chatMessagesInWindow(0),
+	  m_activityTimeoutSec(0), m_activityWarningRemainingSec(0), m_globalTimeoutSec(0),
+	  m_initTimeoutTimer(ioService), m_globalTimeoutTimer(ioService), m_activityTimeoutTimer(ioService),
+	  m_callback(cb), m_authSession(NULL), m_curAuthStep(0)
 {
-    m_sslStream = sslStream;
-    m_receiveBuffer.reset(new AsioReceiveBuffer);
-    m_sendBuffer.reset(new AsioSendBuffer);
+	m_sslStream = sslStream;
+	m_receiveBuffer.reset(new AsioReceiveBuffer);
+	m_sendBuffer.reset(new AsioSendBuffer);
 }
 
 SessionData::~SessionData()
@@ -137,14 +137,14 @@ SessionData::GetWebData()
 
 boost::shared_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> SessionData::GetSslStream()
 {
-    boost::mutex::scoped_lock lock(m_dataMutex);
-    return m_sslStream;
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_sslStream;
 }
 
 bool SessionData::IsSsl() const
 {
-    boost::mutex::scoped_lock lock(m_dataMutex);
-    return (m_sslStream != nullptr);
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return (m_sslStream != nullptr);
 }
 
 bool
@@ -165,7 +165,8 @@ SessionData::CreateClientAuthSession(Gsasl *context, const string &userName, con
 	m_password = password;
 	m_authSession = NULL;
 	m_curAuthStep = 0;
-	(void)context; (void)userName;
+	(void)context;
+	(void)userName;
 	return true;
 }
 
@@ -196,7 +197,7 @@ SessionData::AuthSetPassword(const std::string &password)
 string
 SessionData::AuthGetPassword() const
 {
-    return m_password;
+	return m_password;
 }
 
 void
@@ -216,23 +217,23 @@ SessionData::IsAuthenticationPending() const
 string
 SessionData::AuthGetNextOutMsg() const
 {
-    boost::mutex::scoped_lock lock(m_dataMutex);
-    return m_nextGsaslMsg;
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_nextGsaslMsg;
 }
 
 int
 SessionData::AuthGetCurStepNum() const
 {
-    boost::mutex::scoped_lock lock(m_dataMutex);
-    return m_curAuthStep;
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_curAuthStep;
 }
 
 void
 SessionData::InternalClearAuthSession()
 {
-    m_authSession = NULL;
-    m_curAuthStep = 0;
-    m_nextGsaslMsg.clear();
+	m_authSession = NULL;
+	m_curAuthStep = 0;
+	m_nextGsaslMsg.clear();
 }
 
 void
@@ -388,19 +389,19 @@ SessionData::GetCloseReason() const
 void
 SessionData::CloseSocketHandle()
 {
-    if (m_socket) {
-        boost::system::error_code ec;
-        // Cancel all pending async operations first
-        m_socket->cancel(ec);
-        // Then close the socket
-        m_socket->close(ec);
-    } else if (m_sslStream) {
-        boost::system::error_code ec;
-        // Cancel all pending async operations first
-        m_sslStream->lowest_layer().cancel(ec);
-        // Then close underlying socket
-        m_sslStream->lowest_layer().close(ec);
-    }
+	if (m_socket) {
+		boost::system::error_code ec;
+		// Cancel all pending async operations first
+		m_socket->cancel(ec);
+		// Then close the socket
+		m_socket->close(ec);
+	} else if (m_sslStream) {
+		boost::system::error_code ec;
+		// Cancel all pending async operations first
+		m_sslStream->lowest_layer().cancel(ec);
+		// Then close underlying socket
+		m_sslStream->lowest_layer().close(ec);
+	}
 }
 
 void
@@ -427,7 +428,7 @@ void
 SessionData::StartTimerInitTimeout(unsigned timeoutSec)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
-	m_initTimeoutTimer.expires_after(seconds(timeoutSec)); 
+	m_initTimeoutTimer.expires_after(seconds(timeoutSec));
 	m_initTimeoutTimer.async_wait(
 		boost::bind(
 			&SessionData::TimerInitTimeout, shared_from_this(), boost::asio::placeholders::error));
@@ -515,35 +516,35 @@ SessionData::GetPlayerData()
 std::string
 SessionData::GetRemoteIPAddressFromSocket() const
 {
-    boost::mutex::scoped_lock lock(m_dataMutex);
-    boost::system::error_code ec;
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	boost::system::error_code ec;
 
-    // A trusted proxy announced the real client address before the handshake.
-    if (!m_proxyClientAddr.empty())
-        return m_proxyClientAddr;
+	// A trusted proxy announced the real client address before the handshake.
+	if (!m_proxyClientAddr.empty())
+		return m_proxyClientAddr;
 
-    if (m_sslStream) {
-        try {
-            auto &lowest = m_sslStream->lowest_layer();
-            auto ep = lowest.remote_endpoint(ec);
-            if (!ec) return ep.address().to_string();
-        } catch (...) {
-        }
-    }
+	if (m_sslStream) {
+		try {
+			auto &lowest = m_sslStream->lowest_layer();
+			auto ep = lowest.remote_endpoint(ec);
+			if (!ec) return ep.address().to_string();
+		} catch (...) {
+		}
+	}
 
-    if (m_socket) {
-        try {
-            auto sock = m_socket;
-            auto ep = sock->remote_endpoint(ec);
-            if (!ec) return ep.address().to_string();
-        } catch (...) {
-        }
-    }
+	if (m_socket) {
+		try {
+			auto sock = m_socket;
+			auto ep = sock->remote_endpoint(ec);
+			if (!ec) return ep.address().to_string();
+		} catch (...) {
+		}
+	}
 
-    if (m_webData && m_webData->endpoint) {
-        std::string addr = m_webData->endpoint->RemoteAddress(m_webData->webHandle);
-        if (!addr.empty()) return addr;
-    }
+	if (m_webData && m_webData->endpoint) {
+		std::string addr = m_webData->endpoint->RemoteAddress(m_webData->webHandle);
+		if (!addr.empty()) return addr;
+	}
 
-    return std::string();
+	return std::string();
 }

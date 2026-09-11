@@ -18,8 +18,8 @@ class EmojiPicker : public QWidget
 
 public:
 	explicit EmojiPicker(QWidget *parent = nullptr,
-	                     const QStringList &emojis = QStringList(),
-	                     int columns = 10);
+						 const QStringList &emojis = QStringList(),
+						 int columns = 10);
 
 	// Reaktions-Picker: die 90 Schnell-Reaktionen auf drei Seiten, dazu ein
 	// Pager ‹ N/3 › im Kopf (identisch zu QML-/Web-Client). startPage ist die
@@ -53,7 +53,7 @@ private:
 	// Konstruktor des mehrseitigen Reaktions-Pickers (siehe
 	// createReactionPicker).
 	EmojiPicker(QWidget *parent, const QList<QStringList> &pages,
-	            int columns, int startPage);
+				int columns, int startPage);
 
 	void buildGrid(const QStringList &emojis, int columns);
 	// Mehrseitiges Raster mit Pager im Kopf (Reaktions-Picker).

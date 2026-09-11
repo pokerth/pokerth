@@ -39,16 +39,16 @@ QString ChatTranslatorCore::normalizeLangCode(const QString &raw)
 	// Regionale Varianten, die die Dienste unterscheiden. Beide Schreibweisen
 	// abdecken: QML-Locale ("pt_BR") und PokerTH-Kürzel ("ptbr").
 	if (code.startsWith(QLatin1String("pt_BR"), Qt::CaseInsensitive)
-	    || code.compare(QLatin1String("ptbr"), Qt::CaseInsensitive) == 0)
+			|| code.compare(QLatin1String("ptbr"), Qt::CaseInsensitive) == 0)
 		return QStringLiteral("pt-BR");
 	if (code.startsWith(QLatin1String("pt_PT"), Qt::CaseInsensitive)
-	    || code.compare(QLatin1String("ptpt"), Qt::CaseInsensitive) == 0)
+			|| code.compare(QLatin1String("ptpt"), Qt::CaseInsensitive) == 0)
 		return QStringLiteral("pt-PT");
 	if (code.startsWith(QLatin1String("zh_CN"), Qt::CaseInsensitive)
-	    || code.compare(QLatin1String("zhcn"), Qt::CaseInsensitive) == 0)
+			|| code.compare(QLatin1String("zhcn"), Qt::CaseInsensitive) == 0)
 		return QStringLiteral("zh-CN");
 	if (code.startsWith(QLatin1String("zh_TW"), Qt::CaseInsensitive)
-	    || code.compare(QLatin1String("zhtw"), Qt::CaseInsensitive) == 0)
+			|| code.compare(QLatin1String("zhtw"), Qt::CaseInsensitive) == 0)
 		return QStringLiteral("zh-TW");
 
 	// Sprachteil vor der Region ("de_DE" -> "de").
@@ -74,13 +74,13 @@ QString ChatTranslatorCore::targetLang() const
 	// Clients. Wird bei jeder Anfrage frisch gelesen, ein Sprachwechsel wirkt
 	// damit sofort (ohne Neustart).
 	const QString code = m_config
-		? QString::fromStdString(m_config->readConfigString("Language"))
-		: QString();
+						 ? QString::fromStdString(m_config->readConfigString("Language"))
+						 : QString();
 	return normalizeLangCode(code);
 }
 
 QString ChatTranslatorCore::styledTranslation(const QString &originalBodyHtml,
-                                              const QString &translated)
+		const QString &translated)
 {
 	const QString esc = translated.toHtmlEscaped();
 	// Umschließenden <span ...> der Originalnachricht (mit Farbe) wiederverwenden
@@ -89,7 +89,7 @@ QString ChatTranslatorCore::styledTranslation(const QString &originalBodyHtml,
 		const int gt = originalBodyHtml.indexOf(QLatin1Char('>'));
 		if (gt > 0)
 			return originalBodyHtml.left(gt + 1)
-			       + QStringLiteral("<i>") + esc + QStringLiteral("</i></span>");
+				   + QStringLiteral("<i>") + esc + QStringLiteral("</i></span>");
 	}
 	// Kein umschließender Span (z. B. PM-Text) -> schlicht kursiv, erbt die
 	// Farbe des umgebenden Kontexts.
@@ -117,7 +117,7 @@ void ChatTranslatorCore::startPrimary(int id, const QString &text)
 
 	QNetworkRequest req(url);
 	req.setHeader(QNetworkRequest::UserAgentHeader,
-	              QByteArrayLiteral("Mozilla/5.0 (compatible; PokerTH)"));
+				  QByteArrayLiteral("Mozilla/5.0 (compatible; PokerTH)"));
 	QNetworkReply *reply = m_nam.get(req);
 	reply->setProperty("xlate_id", id);
 	connect(reply, &QNetworkReply::finished, this, &ChatTranslatorCore::onPrimaryReply);
@@ -137,8 +137,8 @@ void ChatTranslatorCore::onPrimaryReply()
 		// ist von außen nicht unterscheidbar, ob der Dienst blockt oder die
 		// Antwort nur nicht geparst werden konnte.
 		qWarning() << "ChatTranslator: Google-Endpunkt fehlgeschlagen, HTTP"
-		           << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()
-		           << reply->errorString() << "-> MyMemory";
+				   << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()
+				   << reply->errorString() << "-> MyMemory";
 		startFallback(id, m_sourceById.value(id));
 		return;
 	}
@@ -191,12 +191,12 @@ void ChatTranslatorCore::startFallback(int id, const QString &text)
 	// der Globus kurz die Sanduhr und danach sichtbar nichts. Zugleich wurde
 	// jede nicht-englische Nachricht als Englisch übersetzt.
 	query.addQueryItem(QStringLiteral("langpair"),
-	                   QStringLiteral("Autodetect|") + tl);
+					   QStringLiteral("Autodetect|") + tl);
 	url.setQuery(query);
 
 	QNetworkRequest req(url);
 	req.setHeader(QNetworkRequest::UserAgentHeader,
-	              QByteArrayLiteral("Mozilla/5.0 (compatible; PokerTH)"));
+				  QByteArrayLiteral("Mozilla/5.0 (compatible; PokerTH)"));
 	QNetworkReply *reply = m_nam.get(req);
 	reply->setProperty("xlate_id", id);
 	connect(reply, &QNetworkReply::finished, this, &ChatTranslatorCore::onFallbackReply);
@@ -228,7 +228,7 @@ void ChatTranslatorCore::onFallbackReply()
 		const QJsonObject obj = doc.object();
 		status = obj.value(QStringLiteral("responseStatus")).toVariant().toInt();
 		text = obj.value(QStringLiteral("responseData")).toObject()
-		          .value(QStringLiteral("translatedText")).toString();
+			   .value(QStringLiteral("translatedText")).toString();
 	}
 	if (status != 200) {
 		// Sonderfall "quelle == ziel": darauf antwortet MyMemory mit 403
@@ -239,12 +239,12 @@ void ChatTranslatorCore::onFallbackReply()
 		// auch. Betrifft vor allem englische Clients, für die Englisch im
 		// Lobby-Chat die häufigste Sprache ist.
 		if (text.contains(QLatin1String("DISTINCT LANGUAGES"), Qt::CaseInsensitive)
-		    && !source.isEmpty()) {
+				&& !source.isEmpty()) {
 			emit translated(id, source, true);
 			return;
 		}
 		qWarning() << "ChatTranslator: MyMemory-Fallback fehlgeschlagen, Status"
-		           << status << text.left(120);
+				   << status << text.left(120);
 		emit translated(id, QString(), false);
 		return;
 	}

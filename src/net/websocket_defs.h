@@ -41,8 +41,8 @@ typedef websocketpp::server<websocketpp::config::asio_tls> tls_server;
 typedef websocketpp::lib::shared_ptr<boost::asio::ssl::context> context_ptr;
 
 enum tls_mode {
-    MOZILLA_INTERMEDIATE = 1,
-    MOZILLA_MODERN = 2
+	MOZILLA_INTERMEDIATE = 1,
+	MOZILLA_MODERN = 2
 };
 
 #endif

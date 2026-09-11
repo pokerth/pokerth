@@ -60,12 +60,12 @@ protected:
 private:
 #ifdef ANDROID
 #ifdef ANDROID_API8
-    AndroidApi8Dummy *myPlayer;
+	AndroidApi8Dummy *myPlayer;
 #else
-    QtAudioPlayer *myPlayer;  // ÄNDERN SIE DIES
+	QtAudioPlayer *myPlayer;  // ÄNDERN SIE DIES
 #endif
 #else
-    QtAudioPlayer *myPlayer;
+	QtAudioPlayer *myPlayer;
 #endif
 
 	ConfigFile *myConfig;

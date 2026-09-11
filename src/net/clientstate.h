@@ -214,10 +214,10 @@ protected:
 
 	void TimerTimeout(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client);
 
-    void HandleSslHandshake(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client);
-    void RetryHandshake(boost::shared_ptr<ClientThread> client);
-    void RetryHandshakeTimer(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client);
-    void HandshakeTimeout(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client);
+	void HandleSslHandshake(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client);
+	void RetryHandshake(boost::shared_ptr<ClientThread> client);
+	void RetryHandshakeTimer(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client);
+	void HandshakeTimeout(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client);
 
 private:
 	boost::asio::ip::tcp::resolver::results_type m_remoteEndpoint;

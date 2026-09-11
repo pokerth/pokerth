@@ -331,7 +331,7 @@ public:
 		boost::system::error_code opEc;
 		boost::asio::async_connect(
 			m_stream.lowest_layer(), endpoints,
-			[&done, &opEc](const boost::system::error_code &e, const tcp::endpoint &) {
+		[&done, &opEc](const boost::system::error_code &e, const tcp::endpoint &) {
 			done = true;
 			opEc = e;
 		});
@@ -360,7 +360,7 @@ public:
 			done = false;
 			m_stream.async_handshake(
 				ssl::stream_base::client,
-				[&done, &opEc](const boost::system::error_code &e) {
+			[&done, &opEc](const boost::system::error_code &e) {
 				done = true;
 				opEc = e;
 			});

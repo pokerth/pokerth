@@ -115,16 +115,16 @@ public:
 	// onReady läuft sofort (frischer Cache) oder nach dem Download; context ist
 	// der Aufrufer, dessen Zerstörung den Callback verfallen lässt.
 	void suggest(const QString &type,
-	             const QStringList &idleNames,
-	             const QList<PlayingPlayer> &playing,
-	             QObject *context,
-	             const ResultCallback &onReady);
+				 const QStringList &idleNames,
+				 const QList<PlayingPlayer> &playing,
+				 QObject *context,
+				 const ResultCallback &onReady);
 
 	// Aktueller "Game Title Prefix" eines Community-Spiels aus gameslist.txt
 	// (z. B. command "mcup"/"mcupfinal" → "July Cup"/"July Cup Final"). ""
 	// wenn nicht ermittelbar.
 	void gameTitlePrefix(const QString &command, QObject *context,
-	                     const ResultCallback &onReady);
+						 const ResultCallback &onReady);
 
 	// gameslist.txt vorab in den Cache holen (beim Öffnen des Erstellen-Dialogs
 	// aufrufen, die Datei ist ~1 kB). Ohne das käme der monatliche Titel erst
@@ -177,9 +177,9 @@ private:
 	void applyCommunityAdmin(const QString &file, const QString &nick);
 
 	QString suggestStep(int step, const QStringList &idleNames,
-	                    const QList<PlayingPlayer> &playing) const;
+						const QList<PlayingPlayer> &playing) const;
 	QString suggestWec(const QStringList &idleNames,
-	                   const QList<PlayingPlayer> &playing) const;
+					   const QList<PlayingPlayer> &playing) const;
 
 	// Cache
 	QHash<QString, DbEntry> m_db;          // key: lowercase name

@@ -100,14 +100,14 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	// React to screen changes (hibernate/resume, DPI changes, monitor switch)
 	if (windowHandle()) {
 		connect(windowHandle(), &QWindow::screenChanged,
-			this, &startWindowImpl::onScreenChanged);
+				this, &startWindowImpl::onScreenChanged);
 	}
 	QScreen *primaryScreen = QGuiApplication::primaryScreen();
 	if (primaryScreen) {
 		connect(primaryScreen, &QScreen::geometryChanged,
-			this, &startWindowImpl::onScreenGeometryChanged, Qt::UniqueConnection);
+				this, &startWindowImpl::onScreenGeometryChanged, Qt::UniqueConnection);
 		connect(primaryScreen, &QScreen::logicalDotsPerInchChanged,
-			this, &startWindowImpl::onScreenDpiChanged, Qt::UniqueConnection);
+				this, &startWindowImpl::onScreenDpiChanged, Qt::UniqueConnection);
 	}
 
 	//Widgets Grafiken per Stylesheets setzen
@@ -153,9 +153,10 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	// The .ui file constrains buttons to fixed 350×80 (designed for 800px).
 	// Remove ALL min/max width caps so the grid layout can expand them.
 	QList<QPushButton*> allBtns = { pushButtonStart_Local_Game,
-		pushButton_Create_Network_Game, pushButtonInternet_Game,
-		pushButton_Join_Network_Game, pushButton_configure,
-		pushButton_about, pushButton_Logs };
+									pushButton_Create_Network_Game, pushButtonInternet_Game,
+									pushButton_Join_Network_Game, pushButton_configure,
+									pushButton_about, pushButton_Logs
+								  };
 	for (QPushButton *btn : allBtns) {
 		btn->setMinimumSize(0, 0);
 		btn->setMaximumWidth(QWIDGETSIZE_MAX);
@@ -223,7 +224,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 				int sw = qMax(geo.width(), geo.height());
 				int sh = qMin(geo.width(), geo.height());
 				qreal scale = qMin(static_cast<qreal>(sw) / 800.0,
-				                   static_cast<qreal>(sh) / 480.0);
+								   static_cast<qreal>(sh) / 480.0);
 				scale = qBound(0.5, scale, 1.0);
 				mobileBtnFontPx = qMax(10, static_cast<int>(22.0 * scale + 0.5));
 			}
@@ -263,7 +264,8 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 		const QList<QPushButton*> startWindowButtons = {
 			pushButtonStart_Local_Game, pushButtonInternet_Game,
 			pushButton_Create_Network_Game, pushButton_Join_Network_Game,
-			pushButton_Logs };
+			pushButton_Logs
+		};
 		for (QPushButton *btn : startWindowButtons) {
 			btn->setStyle(fusionStyle);
 		}
@@ -883,7 +885,7 @@ void startWindowImpl::showTimeoutDialog(int msgID, unsigned duration)
 		// Audio-Hinweis zum AFK-Countdown (Lobby wie ingame) – das Popup
 		// kann hinter anderen Fenstern liegen oder übersehen werden.
 		if(myGuiInterface && myGuiInterface->getMyW()
-		   && myGuiInterface->getMyW()->getMySoundEventHandler()) {
+				&& myGuiInterface->getMyW()->getMySoundEventHandler()) {
 			myGuiInterface->getMyW()->getMySoundEventHandler()->playSound("yourturn", 0);
 		}
 	}
@@ -898,7 +900,7 @@ void startWindowImpl::handleStatsUpdate(ServerStats stats)
 {
 	// Forward to lobby dialog
 	myGameLobbyDialog->updateStats(stats);
-	
+
 	// Update activity timestamp
 	updateServerActivity();
 }
@@ -907,7 +909,7 @@ void startWindowImpl::updateServerActivity()
 {
 	// Update last activity timestamp for connection monitoring (monotonic clock)
 	lastServerActivityTimer.restart();
-	
+
 	// Start monitoring if not already active
 	if (!connectionMonitoringActive) {
 		connectionMonitoringActive = true;
@@ -927,7 +929,7 @@ void startWindowImpl::connectionHeartbeatCheck()
 	if (!connectionMonitoringActive) {
 		return;
 	}
-	
+
 	// Server sends stats heartbeat every 45 seconds. In-game signals
 	// (hand start/end, player actions) also update the activity timestamp.
 	// Use a 180s window (~4x the heartbeat interval) to tolerate
@@ -1553,7 +1555,7 @@ bool startWindowImpl::eventFilter(QObject *obj, QEvent *event)
 void startWindowImpl::changeEvent(QEvent *event)
 {
 	if (event->type() == QEvent::WindowStateChange
-		|| event->type() == QEvent::ScreenChangeInternal) {
+			|| event->type() == QEvent::ScreenChangeInternal) {
 		// After hibernate/resume the window manager may report a different
 		// geometry or DPI.  Force a re-layout so the UI matches the window.
 		if (layout()) {
@@ -1569,9 +1571,9 @@ void startWindowImpl::onScreenChanged(QScreen *screen)
 {
 	if (screen) {
 		connect(screen, &QScreen::geometryChanged,
-			this, &startWindowImpl::onScreenGeometryChanged, Qt::UniqueConnection);
+				this, &startWindowImpl::onScreenGeometryChanged, Qt::UniqueConnection);
 		connect(screen, &QScreen::logicalDotsPerInchChanged,
-			this, &startWindowImpl::onScreenDpiChanged, Qt::UniqueConnection);
+				this, &startWindowImpl::onScreenDpiChanged, Qt::UniqueConnection);
 	}
 	// Force re-layout after screen change (e.g. hibernate/resume)
 	if (layout()) {

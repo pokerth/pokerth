@@ -7,14 +7,14 @@
 
 class LanguageManager : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit LanguageManager(QQmlApplicationEngine *engine, QObject *parent = nullptr);
+	explicit LanguageManager(QQmlApplicationEngine *engine, QObject *parent = nullptr);
 
-    // Invokable from QML to switch the app language at runtime
-    Q_INVOKABLE void switchLanguage(const QString &langCode);
+	// Invokable from QML to switch the app language at runtime
+	Q_INVOKABLE void switchLanguage(const QString &langCode);
 
 private:
-    QQmlApplicationEngine *m_engine;
-    QTranslator m_translator;
+	QQmlApplicationEngine *m_engine;
+	QTranslator m_translator;
 };

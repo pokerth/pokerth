@@ -66,7 +66,8 @@
  *  - cleanProcessEnvironment(): returns a QProcessEnvironment without
  *    the AppImage-specific LD variables, for use with QProcess.
  */
-namespace AppImageUtils {
+namespace AppImageUtils
+{
 
 /**
  * Returns true if running inside an AppImage (POKERTH_APPIMAGE=1).
@@ -74,10 +75,10 @@ namespace AppImageUtils {
 inline bool isAppImage()
 {
 #ifdef Q_OS_LINUX
-    const char* val = std::getenv("POKERTH_APPIMAGE");
-    return val && QString::fromLatin1(val) == QLatin1String("1");
+	const char* val = std::getenv("POKERTH_APPIMAGE");
+	return val && QString::fromLatin1(val) == QLatin1String("1");
 #else
-    return false;
+	return false;
 #endif
 }
 
@@ -100,10 +101,10 @@ inline bool isAppImage()
  */
 inline QFileDialog::Options fileDialogOptions()
 {
-    if (isAppImage()) {
-        return QFileDialog::DontUseNativeDialog;
-    }
-    return QFileDialog::Options();
+	if (isAppImage()) {
+		return QFileDialog::DontUseNativeDialog;
+	}
+	return QFileDialog::Options();
 }
 
 /**
@@ -118,22 +119,22 @@ inline QFileDialog::Options fileDialogOptions()
 inline bool runningWithBundledLibs()
 {
 #ifdef Q_OS_LINUX
-    if (isAppImage())
-        return true;
-    const QByteArray ld = qgetenv("LD_LIBRARY_PATH");
-    if (ld.isEmpty())
-        return false;
-    const QList<QByteArray> entries = ld.split(':');
-    for (const QByteArray &e : entries) {
-        if (e.isEmpty())
-            continue;
-        const QString dir = QString::fromLocal8Bit(e);
-        if (QFileInfo::exists(dir + "/libQt6Core.so.6"))
-            return true;
-    }
-    return false;
+	if (isAppImage())
+		return true;
+	const QByteArray ld = qgetenv("LD_LIBRARY_PATH");
+	if (ld.isEmpty())
+		return false;
+	const QList<QByteArray> entries = ld.split(':');
+	for (const QByteArray &e : entries) {
+		if (e.isEmpty())
+			continue;
+		const QString dir = QString::fromLocal8Bit(e);
+		if (QFileInfo::exists(dir + "/libQt6Core.so.6"))
+			return true;
+	}
+	return false;
 #else
-    return false;
+	return false;
 #endif
 }
 
@@ -144,8 +145,8 @@ inline bool runningWithBundledLibs()
  */
 inline QString origLdLibraryPath()
 {
-    const char* val = std::getenv("POKERTH_ORIG_LD_LIBRARY_PATH");
-    return val ? QString::fromLocal8Bit(val) : QString();
+	const char* val = std::getenv("POKERTH_ORIG_LD_LIBRARY_PATH");
+	return val ? QString::fromLocal8Bit(val) : QString();
 }
 
 /**
@@ -158,24 +159,24 @@ inline QString origLdLibraryPath()
  */
 inline QProcessEnvironment cleanProcessEnvironment()
 {
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 
-    if (!runningWithBundledLibs()) {
-        return env;
-    }
+	if (!runningWithBundledLibs()) {
+		return env;
+	}
 
-    // Restore original LD_LIBRARY_PATH or remove entirely
-    QString origLdPath = origLdLibraryPath();
-    if (origLdPath.isEmpty()) {
-        env.remove(QStringLiteral("LD_LIBRARY_PATH"));
-    } else {
-        env.insert(QStringLiteral("LD_LIBRARY_PATH"), origLdPath);
-    }
+	// Restore original LD_LIBRARY_PATH or remove entirely
+	QString origLdPath = origLdLibraryPath();
+	if (origLdPath.isEmpty()) {
+		env.remove(QStringLiteral("LD_LIBRARY_PATH"));
+	} else {
+		env.insert(QStringLiteral("LD_LIBRARY_PATH"), origLdPath);
+	}
 
-    // Remove LD_PRELOAD — the bundled libs must not be preloaded in host processes
-    env.remove(QStringLiteral("LD_PRELOAD"));
+	// Remove LD_PRELOAD — the bundled libs must not be preloaded in host processes
+	env.remove(QStringLiteral("LD_PRELOAD"));
 
-    return env;
+	return env;
 }
 
 /**
@@ -190,16 +191,16 @@ inline QProcessEnvironment cleanProcessEnvironment()
 inline bool openUrlSafe(const QUrl& url)
 {
 #ifdef Q_OS_LINUX
-    if (runningWithBundledLibs()) {
-        QProcess process;
-        process.setProcessEnvironment(cleanProcessEnvironment());
-        process.setProgram(QStringLiteral("xdg-open"));
-        process.setArguments({url.toString()});
+	if (runningWithBundledLibs()) {
+		QProcess process;
+		process.setProcessEnvironment(cleanProcessEnvironment());
+		process.setProgram(QStringLiteral("xdg-open"));
+		process.setArguments({url.toString()});
 
-        return process.startDetached();
-    }
+		return process.startDetached();
+	}
 #endif
-    return QDesktopServices::openUrl(url);
+	return QDesktopServices::openUrl(url);
 }
 
 /**
@@ -212,25 +213,25 @@ inline bool openUrlSafe(const QUrl& url)
 inline bool startDetachedSafe(const QString& program, const QStringList& args)
 {
 #ifdef Q_OS_LINUX
-    if (runningWithBundledLibs()) {
-        QProcess process;
-        process.setProcessEnvironment(cleanProcessEnvironment());
-        process.setProgram(program);
-        process.setArguments(args);
-        return process.startDetached();
-    }
+	if (runningWithBundledLibs()) {
+		QProcess process;
+		process.setProcessEnvironment(cleanProcessEnvironment());
+		process.setProgram(program);
+		process.setArguments(args);
+		return process.startDetached();
+	}
 #endif
 #if QT_CONFIG(process)
-    return QProcess::startDetached(program, args);
+	return QProcess::startDetached(program, args);
 #else
-    // Qt für iOS ist ohne Process-Feature gebaut – das System erlaubt keine
-    // Kindprozesse, QProcess ist dort nicht deklariert (QProcessEnvironment
-    // dagegen schon, deshalb übersetzt der Rest dieses Headers). Der einzige
-    // Aufrufer ist der paplay/pw-play-Fallback des Audio-Backends, das auf iOS
-    // gar nicht erst ausgewählt wird (initAudio() gated auf Q_OS_LINUX).
-    Q_UNUSED(program);
-    Q_UNUSED(args);
-    return false;
+	// Qt für iOS ist ohne Process-Feature gebaut – das System erlaubt keine
+	// Kindprozesse, QProcess ist dort nicht deklariert (QProcessEnvironment
+	// dagegen schon, deshalb übersetzt der Rest dieses Headers). Der einzige
+	// Aufrufer ist der paplay/pw-play-Fallback des Audio-Backends, das auf iOS
+	// gar nicht erst ausgewählt wird (initAudio() gated auf Q_OS_LINUX).
+	Q_UNUSED(program);
+	Q_UNUSED(args);
+	return false;
 #endif
 }
 
@@ -258,39 +259,39 @@ inline bool startDetachedSafe(const QString& program, const QStringList& args)
 inline void patchExternalLinks(QWidget* root)
 {
 #ifdef Q_OS_LINUX
-    // Gleiche Bedingung wie openUrlSafe(): der Tarball bundelt Qt ebenfalls
-    // per LD_LIBRARY_PATH, setzt aber kein POKERTH_APPIMAGE=1.
-    if (!runningWithBundledLibs() || !root) {
-        return;
-    }
+	// Gleiche Bedingung wie openUrlSafe(): der Tarball bundelt Qt ebenfalls
+	// per LD_LIBRARY_PATH, setzt aber kein POKERTH_APPIMAGE=1.
+	if (!runningWithBundledLibs() || !root) {
+		return;
+	}
 
-    // Patch QLabels
-    const auto labels = root->findChildren<QLabel*>();
-    for (QLabel* label : labels) {
-        if (label->openExternalLinks()) {
-            label->setOpenExternalLinks(false);
-            QObject::connect(label, &QLabel::linkActivated, [](const QString& urlString) {
-                openUrlSafe(QUrl(urlString));
-            });
-        }
-    }
+	// Patch QLabels
+	const auto labels = root->findChildren<QLabel*>();
+	for (QLabel* label : labels) {
+		if (label->openExternalLinks()) {
+			label->setOpenExternalLinks(false);
+			QObject::connect(label, &QLabel::linkActivated, [](const QString& urlString) {
+				openUrlSafe(QUrl(urlString));
+			});
+		}
+	}
 
-    // Patch QTextBrowsers (chat displays, about dialogs, etc.)
-    const auto browsers = root->findChildren<QTextBrowser*>();
-    for (QTextBrowser* browser : browsers) {
-        if (browser->openExternalLinks()) {
-            // Disable Qt's built-in external link handling
-            browser->setOpenExternalLinks(false);
-            // Also disable openLinks so QTextBrowser doesn't try to
-            // navigate internally — we handle all clicks ourselves.
-            browser->setOpenLinks(false);
-            QObject::connect(browser, &QTextBrowser::anchorClicked, [](const QUrl& url) {
-                openUrlSafe(url);
-            });
-        }
-    }
+	// Patch QTextBrowsers (chat displays, about dialogs, etc.)
+	const auto browsers = root->findChildren<QTextBrowser*>();
+	for (QTextBrowser* browser : browsers) {
+		if (browser->openExternalLinks()) {
+			// Disable Qt's built-in external link handling
+			browser->setOpenExternalLinks(false);
+			// Also disable openLinks so QTextBrowser doesn't try to
+			// navigate internally — we handle all clicks ourselves.
+			browser->setOpenLinks(false);
+			QObject::connect(browser, &QTextBrowser::anchorClicked, [](const QUrl& url) {
+				openUrlSafe(url);
+			});
+		}
+	}
 #else
-    Q_UNUSED(root);
+	Q_UNUSED(root);
 #endif
 }
 

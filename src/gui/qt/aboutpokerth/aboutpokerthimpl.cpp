@@ -45,7 +45,7 @@
 #endif
 
 aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
-    : QDialog(parent), myConfig(c)
+	: QDialog(parent), myConfig(c)
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
@@ -75,21 +75,21 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 #endif
 
 #ifdef ANDROID
-    int api = -2;
-    MobileInputHelper::prepareAndroidDialog(this);
+	int api = -2;
+	MobileInputHelper::prepareAndroidDialog(this);
 #ifndef ANDROID_TEST
-    // Qt6: Verwende QJniEnvironment für Android API-Zugriff
-    QJniEnvironment env;
-    if (env.isValid()) {
-        QJniObject versionClass = QJniObject::fromString("android.os.Build$VERSION");
-        if (versionClass.isValid()) {
-            api = QJniObject::getStaticField<jint>("android/os/Build$VERSION", "SDK_INT");
-        }
-    }
+	// Qt6: Verwende QJniEnvironment für Android API-Zugriff
+	QJniEnvironment env;
+	if (env.isValid()) {
+		QJniObject versionClass = QJniObject::fromString("android.os.Build$VERSION");
+		if (versionClass.isValid()) {
+			api = QJniObject::getStaticField<jint>("android/os/Build$VERSION", "SDK_INT");
+		}
+	}
 #endif
-    label_pokerthVersion->setText(QString(tr("PokerTH %1 for Android (API%2)").arg(POKERTH_BETA_RELEASE_STRING).arg(api)));
+	label_pokerthVersion->setText(QString(tr("PokerTH %1 for Android (API%2)").arg(POKERTH_BETA_RELEASE_STRING).arg(api)));
 #else
-    label_pokerthVersion->setText(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
+	label_pokerthVersion->setText(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
 #endif
 	this->setWindowTitle(QString(tr("About PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
 

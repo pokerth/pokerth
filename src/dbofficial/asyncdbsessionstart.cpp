@@ -90,7 +90,7 @@ AsyncDBSessionStart::HandleNoResult(mysqlpp::Query &query, DBIdManager& idManage
 	mysqlpp::StoreQueryResult tmpResult = query.store();
 	if (!tmpResult || tmpResult.num_rows() != 1) {
 		LOG_ERROR("AsyncDBSessionStart: LAST_INSERT_ID() failed for session "
-			+ std::to_string(GetId()) + " (error: " + query.error() + ").");
+				  + std::to_string(GetId()) + " (error: " + query.error() + ").");
 		return;
 	}
 	DB_id insertId = tmpResult[0][0];

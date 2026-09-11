@@ -72,7 +72,7 @@ public:
 
 	void startFadeOut(int);
 	void stopFadeOut();
-	void startFlipCards(int, const QPixmap & , const QPixmap &);
+	void startFlipCards(int, const QPixmap &, const QPixmap &);
 	void stopFlipCardsAnimation();
 
 	void setFlipsidePix(QPixmap p)

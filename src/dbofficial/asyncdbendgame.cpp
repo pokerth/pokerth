@@ -90,5 +90,5 @@ void
 AsyncDBEndGame::HandleError(boost::asio::io_context &service, ServerDBCallback &cb)
 {
 	boost::asio::post(service, boost::bind(&ServerDBCallback::QueryError, &cb,
-		"AsyncDBEndGame: Failed to set end time for game " + std::to_string(GetId()) + "."));
+										   "AsyncDBEndGame: Failed to set end time for game " + std::to_string(GetId()) + "."));
 }

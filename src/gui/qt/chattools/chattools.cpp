@@ -64,7 +64,7 @@ class BiggerActionIconStyle : public QProxyStyle
 public:
 	explicit BiggerActionIconStyle(int iconSize) : myIconSize(iconSize) {}
 	int pixelMetric(PixelMetric metric, const QStyleOption *option = nullptr,
-	                const QWidget *widget = nullptr) const override
+					const QWidget *widget = nullptr) const override
 	{
 		if (metric == QStyle::PM_SmallIconSize)
 			return myIconSize;
@@ -86,8 +86,8 @@ double srgbToLinear(double c)
 double relativeLuminance(const QColor &c)
 {
 	return 0.2126 * srgbToLinear(c.redF())
-	       + 0.7152 * srgbToLinear(c.greenF())
-	       + 0.0722 * srgbToLinear(c.blueF());
+		   + 0.7152 * srgbToLinear(c.greenF())
+		   + 0.0722 * srgbToLinear(c.blueF());
 }
 
 double contrastRatio(const QColor &a, const QColor &b)
@@ -128,10 +128,10 @@ QColor nickColorForBackground(const QColor &bg)
 bool isEmojiCodepoint(uint cp)
 {
 	return (cp >= 0x1F000 && cp <= 0x1FAFF)   // Emojis, Symbole, Erweiterungen
-	       || (cp >= 0x2600 && cp <= 0x27BF)  // Misc Symbols, Dingbats
-	       || (cp >= 0x2B00 && cp <= 0x2BFF)  // ⭐ u. a.
-	       || cp == 0x2764 || cp == 0x203C || cp == 0x2049
-	       || (cp >= 0x1F1E6 && cp <= 0x1F1FF); // Flaggen
+		   || (cp >= 0x2600 && cp <= 0x27BF)  // Misc Symbols, Dingbats
+		   || (cp >= 0x2B00 && cp <= 0x2BFF)  // ⭐ u. a.
+		   || cp == 0x2764 || cp == 0x203C || cp == 0x2049
+		   || (cp >= 0x1F1E6 && cp <= 0x1F1FF); // Flaggen
 }
 
 // Prüft, ob ein Reaktions-Payload ("/emoji <x>") ausschließlich aus echten
@@ -154,8 +154,8 @@ bool isEmojiOnlyReaction(const QString &text)
 			len = 2;
 		}
 		const bool joiner = cp == 0x200D || cp == 0x20E3
-		                    || (cp >= 0xFE00 && cp <= 0xFE0F)
-		                    || (cp >= 0x1F3FB && cp <= 0x1F3FF);
+							|| (cp >= 0xFE00 && cp <= 0xFE0F)
+							|| (cp >= 0x1F3FB && cp <= 0x1F3FF);
 		if (isEmojiCodepoint(cp))
 			hasEmoji = true;
 		else if (!joiner)
@@ -201,14 +201,14 @@ QString wrapEmojisLarger(const QString &msg, int pixelSize)
 					l2 = 2;
 				}
 				const bool joiner = cp2 == 0xFE0F || cp2 == 0x200D
-				                    || (cp2 >= 0x1F3FB && cp2 <= 0x1F3FF);
+									|| (cp2 >= 0x1F3FB && cp2 <= 0x1F3FF);
 				if (!isEmojiCodepoint(cp2) && !joiner)
 					break;
 				i += l2;
 			}
 			out += QStringLiteral("<span style=\"font-size:%1px; font-family:'%2';\">")
-			           .arg(pixelSize).arg(EmojiPicker::emojiFontFamily())
-			       + msg.mid(start, i - start) + QStringLiteral("</span>");
+				   .arg(pixelSize).arg(EmojiPicker::emojiFontFamily())
+				   + msg.mid(start, i - start) + QStringLiteral("</span>");
 		} else {
 			out += msg.mid(i, len);
 			i += len;
@@ -286,7 +286,7 @@ ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, 
 		// Beim Scrollen wandern die Zeilen unter dem (stehenden) Mauszeiger
 		// hindurch – das Symbol muss der neuen Zeile folgen.
 		connect(myTextBrowser->verticalScrollBar(), &QAbstractSlider::valueChanged,
-		        this, [this]() {
+		this, [this]() {
 			if(myTextBrowser && myTextBrowser->viewport()->underMouse())
 				updateTranslateHover(myTextBrowser->viewport()->mapFromGlobal(QCursor::pos()));
 		});
@@ -313,7 +313,7 @@ void ChatTools::setupEmojiPickerAction()
 	// Emoji-Picker-Knopf im Eingabefeld (rechts) – einheitlich für
 	// Internet-Lobby, LAN-Lobby und Gametable-Chat.
 	QAction *emojiAction = myLineEdit->addAction(EmojiPicker::emojiIcon(QStringLiteral("🙂"), triggerIconSize),
-	                                             QLineEdit::TrailingPosition);
+						   QLineEdit::TrailingPosition);
 	emojiAction->setToolTip(tr("Insert emoji"));
 	QObject::connect(emojiAction, &QAction::triggered, this, [this]() {
 		if (!myEmojiPicker) {
@@ -360,7 +360,7 @@ void ChatTools::setupShortcodeCompleter()
 	// Übernahme die GANZE Zeile ersetzen – hier wird nur der Token ersetzt.
 	myShortcodeCompleter->setWidget(myLineEdit);
 	QObject::connect(myShortcodeCompleter, QOverload<const QModelIndex &>::of(&QCompleter::activated),
-	                 this, &ChatTools::insertShortcodeCompletion);
+					 this, &ChatTools::insertShortcodeCompletion);
 	// Tab soll den markierten Vorschlag übernehmen (wie im QML-Client) –
 	// eigener Filter auf dem Popup macht das deterministisch (s. eventFilter).
 	myShortcodeCompleter->popup()->installEventFilter(this);
@@ -368,11 +368,11 @@ void ChatTools::setupShortcodeCompleter()
 	// textEdited statt textChanged: programmatisches setText (History-Abruf,
 	// Längen-Kürzung) soll das Popup nicht öffnen.
 	QObject::connect(myLineEdit, &QLineEdit::textEdited,
-	                 this, &ChatTools::updateShortcodeCompletion);
+					 this, &ChatTools::updateShortcodeCompletion);
 	// Cursorbewegung kann den Token unter dem Cursor ändern – aber nur bei
 	// bereits offenem Popup neu bewerten (setText bewegt auch den Cursor).
 	QObject::connect(myLineEdit, &QLineEdit::cursorPositionChanged,
-	                 this, [this](int, int) {
+	this, [this](int, int) {
 		if (shortcodeCompletionActive())
 			updateShortcodeCompletion();
 	});
@@ -458,7 +458,7 @@ void ChatTools::insertShortcodeCompletion(const QModelIndex &index)
 	// 128-Byte-Server-Limit; checkInputLength greift über textChanged).
 	myLineEdit->setText(text.left(myShortcodeTokenStart) + emoji + text.mid(cursor));
 	myLineEdit->setCursorPosition(qMin(myShortcodeTokenStart + int(emoji.size()),
-	                                   int(myLineEdit->text().size())));
+									   int(myLineEdit->text().size())));
 }
 
 bool ChatTools::eventFilter(QObject *obj, QEvent *event)
@@ -472,7 +472,7 @@ bool ChatTools::eventFilter(QObject *obj, QEvent *event)
 		// das Neusetzen des Blocks würde die Auswahl verwerfen, kurz bevor sie
 		// kopiert wird.
 		else if(event->type() == QEvent::Leave
-		        && !myTextBrowser->textCursor().hasSelection())
+				&& !myTextBrowser->textCursor().hasSelection())
 			setTranslateHoverId(0);
 	}
 
@@ -567,7 +567,7 @@ QColor ChatTools::chatBackgroundColor() const
 QString ChatTools::nickHtml(const QString &nickText) const
 {
 	return "<span style=\"color:" + nickColorForBackground(chatBackgroundColor()).name()
-	       + "; font-weight:bold;\">" + nickText.toHtmlEscaped() + "</span>";
+		   + "; font-weight:bold;\">" + nickText.toHtmlEscaped() + "</span>";
 }
 
 void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
@@ -799,7 +799,7 @@ void ChatTools::sendPrivateMessage(unsigned playerId, QString message)
 	mySession->sendPrivateChatMessage(playerId, message.toUtf8().constData());
 
 	const QString playerName = QString::fromUtf8(
-		mySession->getClientPlayerInfo(playerId).playerName.c_str());
+								   mySession->getClientPlayerInfo(playerId).playerName.c_str());
 
 	// Bestätigung im eigenen Verlauf – gleiche Aufbereitung wie eine eingehende
 	// Nachricht (Escaping, ASCII-Kürzel, Links, größere Emojis), damit die Zeile
@@ -817,7 +817,7 @@ void ChatTools::sendPrivateMessage(unsigned playerId, QString message)
 	// im Quelltext, damit die Datei encodingunabhängig bleibt).
 	const QString separator = QStringLiteral(" ") + QChar(0x2013) + QStringLiteral(" ");
 	myTextBrowser->append("<i>" + tr("private message sent to player: %1").arg(nickHtml(playerName))
-	                      + separator + body + "</i>");
+						  + separator + body + "</i>");
 }
 
 void ChatTools::clearChat()
@@ -851,8 +851,8 @@ QString ChatTools::translateAnchorHtml(int id, const QString &glyph) const
 	// Nachrichten-Emojis (wrapEmojisLarger: 20px) – gut erkennbar, ohne die
 	// Zeile zu dominieren. Größe ist fix, also unabhängig von der Textgröße.
 	return QString("<a href=\"pokerthtranslate:%1\" style=\"text-decoration:none;\">"
-	               "<span style=\"font-size:14px; font-family:'%2';\">%3</span></a>")
-	       .arg(id).arg(EmojiPicker::emojiFontFamily()).arg(glyph);
+				   "<span style=\"font-size:14px; font-family:'%2';\">%3</span></a>")
+		   .arg(id).arg(EmojiPicker::emojiFontFamily()).arg(glyph);
 }
 
 QString ChatTools::translateGlyph(int id) const
@@ -878,7 +878,7 @@ int ChatTools::translateIdAtBlock(const QTextBlock &block) const
 	for(QTextBlock::iterator it = block.begin(); !it.atEnd(); ++it) {
 		const QTextFragment frag = it.fragment();
 		if(frag.isValid() && frag.charFormat().isAnchor()
-		   && frag.charFormat().anchorHref().startsWith(prefix))
+				&& frag.charFormat().anchorHref().startsWith(prefix))
 			return frag.charFormat().anchorHref().mid(prefix.size()).toInt();
 	}
 	return 0;
@@ -928,7 +928,7 @@ QTextBlock ChatTools::findTranslateBlock(int id) const
 		for(QTextBlock::iterator it = block.begin(); !it.atEnd(); ++it) {
 			const QTextFragment frag = it.fragment();
 			if(frag.isValid() && frag.charFormat().isAnchor()
-			   && frag.charFormat().anchorHref() == href)
+					&& frag.charFormat().anchorHref() == href)
 				return block;
 		}
 	}
@@ -1056,7 +1056,7 @@ void ChatTools::onChatTranslated(int requestId, const QString &text, bool ok)
 		static const qint64 failNoteIntervalMs = 60 * 1000;
 		const qint64 now = QDateTime::currentMSecsSinceEpoch();
 		if(myTranslateLastFailNoteMs == 0
-		   || (now - myTranslateLastFailNoteMs) >= failNoteIntervalMs) {
+				|| (now - myTranslateLastFailNoteMs) >= failNoteIntervalMs) {
 			myTranslateLastFailNoteMs = now;
 			showLocalNote(tr("Translation is currently unavailable. Please try again later."));
 		}

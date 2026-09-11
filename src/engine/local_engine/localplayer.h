@@ -314,14 +314,14 @@ public:
 		if(round == GAME_STATE_PREFLOP) {
 			// Die Blinds sind erzwungen und zaehlen nicht als freiwilliger Einsatz.
 			if(action == PLAYER_ACTION_CALL || action == PLAYER_ACTION_BET
-			   || action == PLAYER_ACTION_RAISE || action == PLAYER_ACTION_ALLIN) {
+					|| action == PLAYER_ACTION_RAISE || action == PLAYER_ACTION_ALLIN) {
 				if(!myVoluntaryThisHand) {
 					++myStatistics.voluntary;
 					myVoluntaryThisHand = true;
 				}
 			}
 			if(action == PLAYER_ACTION_BET || action == PLAYER_ACTION_RAISE
-			   || action == PLAYER_ACTION_ALLIN) {
+					|| action == PLAYER_ACTION_ALLIN) {
 				if(!myPreflopRaiseThisHand) {
 					++myStatistics.preflopRaises;
 					myPreflopRaiseThisHand = true;
@@ -329,7 +329,7 @@ public:
 			}
 		} else {
 			if(action == PLAYER_ACTION_BET || action == PLAYER_ACTION_RAISE
-			   || action == PLAYER_ACTION_ALLIN) ++myStatistics.aggressive;
+					|| action == PLAYER_ACTION_ALLIN) ++myStatistics.aggressive;
 			else if(action == PLAYER_ACTION_CALL) ++myStatistics.passive;
 		}
 	}

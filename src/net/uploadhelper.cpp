@@ -93,8 +93,8 @@ UploadHelper::InternalInit(const string &/*url*/, const string &targetFileName, 
 
 		QHttpPart filePart;
 		QString filename = QFileInfo(QString::fromStdString(targetFileName)).fileName();
-		filePart.setHeader(QNetworkRequest::ContentDispositionHeader, 
-			QVariant("form-data; name=\"" + QString::fromStdString(httpPost) + "\"; filename=\"" + filename + "\""));
+		filePart.setHeader(QNetworkRequest::ContentDispositionHeader,
+						   QVariant("form-data; name=\"" + QString::fromStdString(httpPost) + "\"; filename=\"" + filename + "\""));
 
 		QFile *file = new QFile(QString::fromStdString(targetFileName));
 		if (!file->open(QIODevice::ReadOnly)) {

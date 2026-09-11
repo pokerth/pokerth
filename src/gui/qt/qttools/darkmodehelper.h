@@ -39,7 +39,7 @@ class ConfigFile;
 
 /**
  * @brief Helper class for dark mode detection and configuration
- * 
+ *
  * DarkMode config values:
  *   0 = Light (force light mode)
  *   1 = Dark (force dark mode)
@@ -48,55 +48,55 @@ class ConfigFile;
 class DarkModeHelper
 {
 public:
-    /**
-     * @brief Store the original system palette (call once at startup before any modifications)
-     */
-    static void storeSystemPalette();
-    
-    /**
-     * @brief Determines if dark mode should be used based on config and system theme
-     * @param config Pointer to ConfigFile (can be nullptr for system-only detection)
-     * @return true if dark mode should be used, false otherwise
-     */
-    static bool isDarkMode(ConfigFile *config);
-    
-    /**
-     * @brief Detects if the system is using a dark theme
-     * @return true if system uses dark theme, false otherwise
-     */
-    static bool isSystemDarkMode();
-    
-    /**
-     * @brief Gets the appropriate background color for dark/light mode
-     * @param config Pointer to ConfigFile
-     * @return Background color string (hex format)
-     */
-    static QString getBackgroundColor(ConfigFile *config);
-    
-    /**
-     * @brief Gets the appropriate text color for dark/light mode
-     * @param config Pointer to ConfigFile
-     * @return Text color string (hex or rgb format)
-     */
-    static QString getTextColor(ConfigFile *config);
-    
-    /**
-     * @brief Applies the appropriate palette to the application based on config
-     * @param config Pointer to ConfigFile
-     */
-    static void applyPalette(ConfigFile *config);
-    
-    /**
-     * @brief Creates a dark mode palette
-     * @return QPalette configured for dark mode
-     */
-    static QPalette createDarkPalette();
-    
-    /**
-     * @brief Creates a light mode palette
-     * @return QPalette configured for light mode
-     */
-    static QPalette createLightPalette();
+	/**
+	 * @brief Store the original system palette (call once at startup before any modifications)
+	 */
+	static void storeSystemPalette();
+
+	/**
+	 * @brief Determines if dark mode should be used based on config and system theme
+	 * @param config Pointer to ConfigFile (can be nullptr for system-only detection)
+	 * @return true if dark mode should be used, false otherwise
+	 */
+	static bool isDarkMode(ConfigFile *config);
+
+	/**
+	 * @brief Detects if the system is using a dark theme
+	 * @return true if system uses dark theme, false otherwise
+	 */
+	static bool isSystemDarkMode();
+
+	/**
+	 * @brief Gets the appropriate background color for dark/light mode
+	 * @param config Pointer to ConfigFile
+	 * @return Background color string (hex format)
+	 */
+	static QString getBackgroundColor(ConfigFile *config);
+
+	/**
+	 * @brief Gets the appropriate text color for dark/light mode
+	 * @param config Pointer to ConfigFile
+	 * @return Text color string (hex or rgb format)
+	 */
+	static QString getTextColor(ConfigFile *config);
+
+	/**
+	 * @brief Applies the appropriate palette to the application based on config
+	 * @param config Pointer to ConfigFile
+	 */
+	static void applyPalette(ConfigFile *config);
+
+	/**
+	 * @brief Creates a dark mode palette
+	 * @return QPalette configured for dark mode
+	 */
+	static QPalette createDarkPalette();
+
+	/**
+	 * @brief Creates a light mode palette
+	 * @return QPalette configured for light mode
+	 */
+	static QPalette createLightPalette();
 };
 
 #endif // DARKMODEHELPER_H

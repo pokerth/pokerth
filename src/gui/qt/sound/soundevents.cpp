@@ -42,54 +42,54 @@
 
 SoundEvents::SoundEvents(ConfigFile *c): myConfig(c), lastSBValue(0), lastSBLevel(0), newGameNow(false)
 {
-    // Qt Multimedia funktioniert auf Android genauso wie auf Desktop
-    myPlayer = new QtAudioPlayer(myConfig);
+	// Qt Multimedia funktioniert auf Android genauso wie auf Desktop
+	myPlayer = new QtAudioPlayer(myConfig);
 }
 
 SoundEvents::~SoundEvents()
 {
-    myPlayer->deleteLater();
+	myPlayer->deleteLater();
 }
 
 void SoundEvents::reInitSoundEngine()
 {
-    myPlayer->reInit();
+	myPlayer->reInit();
 }
 
 void SoundEvents::blindsWereSet(int sB)
 {
-    if(newGameNow) {
-        lastSBLevel = 0;
-        lastSBValue = sB;
-        newGameNow = false;
-    }
+	if(newGameNow) {
+		lastSBLevel = 0;
+		lastSBValue = sB;
+		newGameNow = false;
+	}
 
-    if(sB > lastSBValue) {
+	if(sB > lastSBValue) {
 
-        lastSBValue = sB;
-        ++lastSBLevel;
+		lastSBValue = sB;
+		++lastSBLevel;
 
-        if(myConfig->readConfigInt("PlayBlindRaiseNotification")) {
-            if(lastSBLevel == 1 || lastSBLevel == 2) {
-                myPlayer->playSound("blinds_raises_level1", 0);
-            }
-            if(lastSBLevel == 3 || lastSBLevel == 4) {
-                myPlayer->playSound("blinds_raises_level2", 0);
-            }
-            if(lastSBLevel >= 5) {
-                myPlayer->playSound("blinds_raises_level3", 0);
-            }
-        }
-    }
+		if(myConfig->readConfigInt("PlayBlindRaiseNotification")) {
+			if(lastSBLevel == 1 || lastSBLevel == 2) {
+				myPlayer->playSound("blinds_raises_level1", 0);
+			}
+			if(lastSBLevel == 3 || lastSBLevel == 4) {
+				myPlayer->playSound("blinds_raises_level2", 0);
+			}
+			if(lastSBLevel >= 5) {
+				myPlayer->playSound("blinds_raises_level3", 0);
+			}
+		}
+	}
 }
 
 void SoundEvents::newGameStarts()
 {
-    newGameNow = true;
+	newGameNow = true;
 }
 
 //HACK until playSound is done by events
 void SoundEvents::playSound(std::string audioString, int playerID)
 {
-    myPlayer->playSound(audioString, playerID);
+	myPlayer->playSound(audioString, playerID);
 }

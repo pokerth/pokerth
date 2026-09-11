@@ -133,11 +133,11 @@ DownloadHelper::InternalInit(const string &/*url*/, const string &targetFileName
 	// network serve a forged server list (issue #516). Log them, then let the
 	// request fail - QNetworkReply aborts on its own when they are not accepted.
 	QObject::connect(GetData()->networkReply,
-		static_cast<void(QNetworkReply::*)(const QList<QSslError>&)>(&QNetworkReply::sslErrors),
-		[](const QList<QSslError> &errors) {
-			for (const QSslError &error : errors)
-				LOG_ERROR("TLS: rejecting download - " << error.errorString().toStdString());
-		});
+					 static_cast<void(QNetworkReply::*)(const QList<QSslError>&)>(&QNetworkReply::sslErrors),
+	[](const QList<QSslError> &errors) {
+		for (const QSslError &error : errors)
+			LOG_ERROR("TLS: rejecting download - " << error.errorString().toStdString());
+	});
 
 	QObject::connect(GetData()->networkReply, &QNetworkReply::finished, [this, filesize]() {
 		if (GetData()->networkReply->error() == QNetworkReply::NoError) {

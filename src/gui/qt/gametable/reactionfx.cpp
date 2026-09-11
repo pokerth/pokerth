@@ -15,8 +15,13 @@
 // Keyframes der CSS-Animationen rfx* des Web-Clients. Kanäle: x/y in
 // CSS-Prozent (Basis -50), s = Skalierung, r = Drehung, ry = Drehung um die
 // Y-Achse (Kartendreher), o = Deckkraft, b = Aufhellung.
-struct ReactionKey { qreal t; qreal v; };
-struct ReactionBezier { qreal x1, y1, x2, y2; };
+struct ReactionKey {
+	qreal t;
+	qreal v;
+};
+struct ReactionBezier {
+	qreal x1, y1, x2, y2;
+};
 struct ReactionAnim {
 	int dur = 1600;
 	ReactionBezier ease = {0.0, 0.0, 1.0, 1.0};
@@ -116,10 +121,12 @@ const QHash<QString, ReactionAnim> &animTable()
 		{
 			ReactionAnim a = mk(1700, kEaseOut);
 			a.y = {{0, -50}, {0.15, -55}, {0.25, -60}, {0.35, -65}, {0.45, -72},
-			       {0.55, -80}, {0.7, -95}, {0.85, -115}, {1, -150}};
+				{0.55, -80}, {0.7, -95}, {0.85, -115}, {1, -150}
+			};
 			a.s = {{0, 0.3}, {0.15, 1.35}};
 			a.r = {{0.15, 0}, {0.25, -14}, {0.35, 14}, {0.45, -12}, {0.55, 12},
-			       {0.7, -6}, {0.85, 4}, {1, 0}};
+				{0.7, -6}, {0.85, 4}, {1, 0}
+			};
 			a.o = {{0, 0}, {0.15, 1}, {1, 0}};
 			t.insert("shake", a);
 		}
@@ -174,7 +181,8 @@ const QHash<QString, ReactionAnim> &animTable()
 		{
 			ReactionAnim a = mk(1700, kEaseOut);
 			a.y = {{0, -50}, {0.15, -55}, {0.3, -62}, {0.45, -70}, {0.6, -80},
-			       {0.75, -95}, {1, -150}};
+				{0.75, -95}, {1, -150}
+			};
 			a.s = {{0, 0.3}, {0.15, 1.35}};
 			a.r = {{0, 0}, {0.15, 16}, {0.3, -14}, {0.45, 11}, {0.6, -8}, {0.75, 5}, {1, 0}};
 			a.o = {{0, 0}, {0.15, 1}, {1, 0}};
@@ -198,18 +206,22 @@ const QHash<QString, ReactionAnim> &animTable()
 		{
 			ReactionAnim a = mk(1700, kEaseOut);
 			a.y = {{0, -50}, {0.12, -52}, {0.22, -56}, {0.32, -60}, {0.42, -66},
-			       {0.58, -76}, {0.72, -90}, {1, -150}};
+				{0.58, -76}, {0.72, -90}, {1, -150}
+			};
 			a.s = {{0, 0.2}, {0.12, 1.45}, {0.22, 1.05}, {0.32, 1.5}, {0.42, 1.08},
-			       {0.58, 1.42}, {0.72, 1.1}, {1, 1}};
+				{0.58, 1.42}, {0.72, 1.1}, {1, 1}
+			};
 			a.o = {{0, 0}, {0.12, 1}, {1, 0}};
 			t.insert("heartbeat", a);
 		}
 		{
 			ReactionAnim a = mk(1600, kLinear);
 			a.x = {{0, -50}, {0.12, -52}, {0.24, -48}, {0.36, -52}, {0.48, -48},
-			       {0.6, -52}, {0.72, -48}, {0.84, -52}, {1, -50}};
+				{0.6, -52}, {0.72, -48}, {0.84, -52}, {1, -50}
+			};
 			a.y = {{0, -50}, {0.12, -54}, {0.24, -58}, {0.36, -63}, {0.48, -68},
-			       {0.6, -74}, {0.72, -82}, {0.84, -95}, {1, -150}};
+				{0.6, -74}, {0.72, -82}, {0.84, -95}, {1, -150}
+			};
 			a.s = {{0, 0.3}, {0.12, 1.3}, {0.6, 1.3}, {0.72, 1.25}, {0.84, 1.2}, {1, 1.1}};
 			a.o = {{0, 0}, {0.12, 1}, {1, 0}};
 			t.insert("shiver", a);
@@ -229,17 +241,21 @@ const QHash<QString, ReactionAnim> &animTable()
 			// kPxPerPercent ergeben sich die CSS-Prozente dieses Kanals.
 			ReactionAnim a = mk(1500, kEaseOut);
 			a.x = {{0, -50}, {0.12, -50}, {0.2, -41.25}, {0.34, -47.5},
-			       {0.42, -43.75}, {0.56, -50}, {1, -50}};
+				{0.42, -43.75}, {0.56, -50}, {1, -50}
+			};
 			a.y = {{0, -50}, {0.12, -50}, {0.2, -52}, {0.34, -52}, {0.42, -54},
-			       {0.56, -58}, {1, -150}};
+				{0.56, -58}, {1, -150}
+			};
 			a.s = {{0, 0.4}, {0.12, 1.35}, {0.2, 1.3}, {0.34, 1.25}, {0.42, 1.28},
-			       {0.56, 1.2}, {1, 1}};
+				{0.56, 1.2}, {1, 1}
+			};
 			a.r = {{0.12, 0}, {0.2, 9}, {0.34, 2}, {0.42, 6}, {0.56, 0}, {1, 0}};
 			a.o = {{0, 0}, {0.12, 1}, {1, 0}};
 			t.insert("recoil", a);
 		}
 		return t;
-	}();
+	}
+	();
 	return table;
 }
 
@@ -259,7 +275,7 @@ const ReactionAnim *animFor(const QString &name)
 // Ohne Zeichen werden farbige Punkte geworfen.
 struct FxSpec {
 	QString preset;        // "sparkle" | "shock" | "confetti" | "boom" |
-	                       // "gunshot" | ""
+	// "gunshot" | ""
 	QStringList chars;     // leer ⇒ farbige Punkte
 	int count = 0, size = 14, a0 = 0, a1 = 360, dist = 54, g = 0, life = 1000;
 	bool rot = false;
@@ -278,22 +294,34 @@ FxSpec preset(const char *name)
 }
 
 FxSpec glyphs(const QStringList &chars, int count, int size, int a0, int a1,
-              int dist, int g, int life, bool rot = false, const char *color = "")
+			  int dist, int g, int life, bool rot = false, const char *color = "")
 {
 	FxSpec s;
 	s.chars = chars;
-	s.count = count; s.size = size; s.a0 = a0; s.a1 = a1;
-	s.dist = dist; s.g = g; s.life = life; s.rot = rot;
+	s.count = count;
+	s.size = size;
+	s.a0 = a0;
+	s.a1 = a1;
+	s.dist = dist;
+	s.g = g;
+	s.life = life;
+	s.rot = rot;
 	s.color = QString::fromLatin1(color);
 	return s;
 }
 
 FxSpec dots(int count, int size, int a0, int a1,
-            int dist, int g, int life, bool rot = false, const char *color = "")
+			int dist, int g, int life, bool rot = false, const char *color = "")
 {
 	FxSpec s;
-	s.count = count; s.size = size; s.a0 = a0; s.a1 = a1;
-	s.dist = dist; s.g = g; s.life = life; s.rot = rot;
+	s.count = count;
+	s.size = size;
+	s.a0 = a0;
+	s.a1 = a1;
+	s.dist = dist;
+	s.g = g;
+	s.life = life;
+	s.rot = rot;
 	s.color = QString::fromLatin1(color);
 	return s;
 }
@@ -303,7 +331,11 @@ FxSpec dots(int count, int size, int a0, int a1,
 const QHash<QString, FxDef> &fxTable()
 {
 	static const QHash<QString, FxDef> table = []() {
-		const struct { const char *emoji; const char *anim; FxSpec p; } entries[] = {
+		const struct {
+			const char *emoji;
+			const char *anim;
+			FxSpec p;
+		} entries[] = {
 			// ── Seite 1 (😀 Emotions) ──
 			{ "😂", "shake", glyphs({"💧"}, 7, 13, -30, 210, 55, 36, 850) },
 			{ "🤣", "shake", glyphs({"💧"}, 7, 13, -30, 210, 55, 36, 850) },
@@ -402,7 +434,8 @@ const QHash<QString, FxDef> &fxTable()
 		for (const auto &e : entries)
 			t.insert(QString::fromUtf8(e.emoji), FxDef{QString::fromLatin1(e.anim), e.p});
 		return t;
-	}();
+	}
+	();
 	return table;
 }
 
@@ -475,8 +508,8 @@ void ReactionFxOverlay::buildBurst(Burst &burst)
 			p.kind = spec.chars.isEmpty() ? 1 : 0;
 			if (p.kind == 0)
 				p.pm = EmojiPicker::emojiPixmap(
-					spec.chars.at(QRandomGenerator::global()->bounded(spec.chars.size())),
-					spec.size * 2);
+						   spec.chars.at(QRandomGenerator::global()->bounded(spec.chars.size())),
+						   spec.size * 2);
 			p.color = spec.color.isEmpty() ? QColor("#E3C800") : QColor(spec.color);
 			p.size = spec.size;
 			const double ang = rnd(spec.a0, spec.a1) * M_PI / 180.0;
@@ -661,7 +694,7 @@ void ReactionFxOverlay::drawBurst(QPainter &painter, const Burst &burst, qint64 
 		} else {                        // Emoji-/Zeichen-Partikel
 			painter.setRenderHint(QPainter::SmoothPixmapTransform);
 			painter.drawPixmap(QRectF(-sz / 2, -sz / 2, sz, sz),
-			                   p.pm, p.pm.rect());
+							   p.pm, p.pm.rect());
 		}
 		painter.restore();
 	}

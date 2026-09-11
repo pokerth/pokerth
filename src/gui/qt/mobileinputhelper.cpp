@@ -52,11 +52,11 @@ void MobileInputHelper::installOnScrollArea(QScrollArea *scrollArea)
 void MobileInputHelper::prepareMobileLineEdit(QLineEdit *lineEdit)
 {
 	if (!lineEdit) return;
-	
+
 #ifdef ANDROID
 	// Enable input method for proper IME support
 	lineEdit->setAttribute(Qt::WA_InputMethodEnabled, true);
-	
+
 	// Install focus event handler for location updates
 	lineEdit->installEventFilter(&instance());
 #endif
@@ -65,7 +65,7 @@ void MobileInputHelper::prepareMobileLineEdit(QLineEdit *lineEdit)
 void MobileInputHelper::prepareMobileTextEdit(QTextEdit *textEdit)
 {
 	if (!textEdit) return;
-	
+
 #ifdef ANDROID
 	textEdit->setAttribute(Qt::WA_InputMethodEnabled, true);
 	textEdit->installEventFilter(&instance());
@@ -75,7 +75,7 @@ void MobileInputHelper::prepareMobileTextEdit(QTextEdit *textEdit)
 void MobileInputHelper::prepareMobilePlainTextEdit(QPlainTextEdit *textEdit)
 {
 	if (!textEdit) return;
-	
+
 #ifdef ANDROID
 	textEdit->setAttribute(Qt::WA_InputMethodEnabled, true);
 	textEdit->installEventFilter(&instance());
@@ -125,7 +125,7 @@ bool MobileInputHelper::eventFilter(QObject *watched, QEvent *event)
 			handleFocusIn(widget);
 		}
 	}
-	
+
 	// Let the widget handle all events normally
 	return QObject::eventFilter(watched, event);
 }
@@ -136,14 +136,14 @@ void MobileInputHelper::handleFocusIn(QWidget *widget)
 	// Only update input method about widget location - don't force show/commit
 	// as that causes keyboard flicker on delete/backspace
 	updateInputItemRectangle(widget);
-	
+
 	// Scroll widget into view if inside a scroll area
 	if (currentScrollArea && currentScrollArea->widget()) {
 		// Add some extra margin to ensure keyboard doesn't cover it
 		int extraMargin = 100; // pixels
 		QRect widgetRect = widget->geometry();
 		widgetRect.adjust(0, -extraMargin, 0, extraMargin);
-		
+
 		currentScrollArea->ensureVisible(
 			widgetRect.center().x(),
 			widgetRect.center().y(),
@@ -157,15 +157,15 @@ void MobileInputHelper::handleFocusIn(QWidget *widget)
 void MobileInputHelper::updateInputItemRectangle(QWidget *widget)
 {
 	if (!widget) return;
-	
+
 	QInputMethod *im = QGuiApplication::inputMethod();
 	if (im) {
 		// Map widget geometry to global coordinates
 		QRect globalRect = QRect(
-			widget->mapToGlobal(QPoint(0, 0)),
-			widget->size()
-		);
-		
+							   widget->mapToGlobal(QPoint(0, 0)),
+							   widget->size()
+						   );
+
 		// Inform the input method where text input happens
 		im->setInputItemRectangle(globalRect);
 	}

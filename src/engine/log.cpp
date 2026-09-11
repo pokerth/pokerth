@@ -31,300 +31,300 @@ Log::Log(ConfigFile *c) : myConnectionName(), mySqliteLogFileName(""), myConfig(
 
 Log::~Log()
 {
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
-    // Flush any pending SQL statements before destruction
-    // This is critical when LogInterval > 0 (batch logging)
-    if (!sql.empty() || !pendingPlayerLogs.empty()) {
-        exec_transaction();
-    }
-    // Explicitly close and remove ALL database connections that belong to this
-    // Log instance. This must happen while QCoreApplication still exists.
-    // Leaving them open causes "QSqlDatabase requires a QCoreApplication"
-    // warnings (and a crash) when Qt's SQL subsystem tears down during
-    // ~QApplication because QCoreApplication::instance() is already nullptr
-    // at that point.
-    if (!myConnectionName.isEmpty()) {
-        const QString prefix = myConnectionName;
-        // Nur die Verbindung DIESES Threads dürfen wir öffnen/schließen. Für
-        // Verbindungen anderer Threads (z. B. der Netzwerk-ClientThread legt beim
-        // Loggen eine eigene an) würde QSqlDatabase::database() sonst
-        // "requested database does not belong to the calling thread" warnen –
-        // diese entfernen wir nur per Namen (removeDatabase prüft den Thread nicht).
-        const QString ownThreadConn =
-            QString("%1_thread_%2").arg(prefix).arg((qulonglong)QThread::currentThreadId());
-        const QStringList allConns = QSqlDatabase::connectionNames();
-        for (const QString &name : allConns) {
-            if (name == prefix || name.startsWith(prefix + "_thread_")) {
-                if (name == ownThreadConn) {
-                    // Handle vor removeDatabase() zerstören (sonst "still in use").
-                    QSqlDatabase db = QSqlDatabase::database(name, false);
-                    if (db.isOpen())
-                        db.close();
-                }
-                QSqlDatabase::removeDatabase(name);
-            }
-        }
-    }
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	// Flush any pending SQL statements before destruction
+	// This is critical when LogInterval > 0 (batch logging)
+	if (!sql.empty() || !pendingPlayerLogs.empty()) {
+		exec_transaction();
+	}
+	// Explicitly close and remove ALL database connections that belong to this
+	// Log instance. This must happen while QCoreApplication still exists.
+	// Leaving them open causes "QSqlDatabase requires a QCoreApplication"
+	// warnings (and a crash) when Qt's SQL subsystem tears down during
+	// ~QApplication because QCoreApplication::instance() is already nullptr
+	// at that point.
+	if (!myConnectionName.isEmpty()) {
+		const QString prefix = myConnectionName;
+		// Nur die Verbindung DIESES Threads dürfen wir öffnen/schließen. Für
+		// Verbindungen anderer Threads (z. B. der Netzwerk-ClientThread legt beim
+		// Loggen eine eigene an) würde QSqlDatabase::database() sonst
+		// "requested database does not belong to the calling thread" warnen –
+		// diese entfernen wir nur per Namen (removeDatabase prüft den Thread nicht).
+		const QString ownThreadConn =
+			QString("%1_thread_%2").arg(prefix).arg((qulonglong)QThread::currentThreadId());
+		const QStringList allConns = QSqlDatabase::connectionNames();
+		for (const QString &name : allConns) {
+			if (name == prefix || name.startsWith(prefix + "_thread_")) {
+				if (name == ownThreadConn) {
+					// Handle vor removeDatabase() zerstören (sonst "still in use").
+					QSqlDatabase db = QSqlDatabase::database(name, false);
+					if (db.isOpen())
+						db.close();
+				}
+				QSqlDatabase::removeDatabase(name);
+			}
+		}
+	}
 }
 
 QSqlDatabase
 Log::getDatabase() const
 {
-    // Solange die Datei nicht angelegt wurde (createLogDb()), darf hier nichts
-    // geoeffnet werden: QSQLITE wuerde die .pdb-Datei sonst als leere Datei
-    // erzeugen.
-    if (!myDbCreated || myConnectionName.isEmpty() || myDatabaseFileName.isEmpty()) {
-        return QSqlDatabase();
-    }
+	// Solange die Datei nicht angelegt wurde (createLogDb()), darf hier nichts
+	// geoeffnet werden: QSQLITE wuerde die .pdb-Datei sonst als leere Datei
+	// erzeugen.
+	if (!myDbCreated || myConnectionName.isEmpty() || myDatabaseFileName.isEmpty()) {
+		return QSqlDatabase();
+	}
 
-    // Create a thread-specific connection name
-    QString threadConnName = QString("%1_thread_%2")
-        .arg(myConnectionName)
-        .arg((qulonglong)QThread::currentThreadId());
-    
-    // Try to get the thread-specific connection (use false to avoid warnings)
-    QSqlDatabase threadDb = QSqlDatabase::database(threadConnName, false);
-    
-    // If connection exists but is not open, try to open it
-    if (threadDb.isValid()) {
-        if (!threadDb.isOpen()) {
-            threadDb.open();
-        }
-        return threadDb;
-    }
-    
-    // Connection doesn't exist yet for this thread, create a new one
-    // Don't touch the original connection from another thread!
-    threadDb = QSqlDatabase::addDatabase("QSQLITE", threadConnName);
-    // Wait (instead of failing immediately with SQLITE_BUSY) if another
-    // connection to the same .pdb holds the write lock. Must be set before
-    // open(). Harmless hardening against transient lock contention.
-    threadDb.setConnectOptions("QSQLITE_BUSY_TIMEOUT=5000");
-    threadDb.setDatabaseName(myDatabaseFileName);
-    if (threadDb.open()) {
-        return threadDb;
-    }
-    
-    return QSqlDatabase();
+	// Create a thread-specific connection name
+	QString threadConnName = QString("%1_thread_%2")
+							 .arg(myConnectionName)
+							 .arg((qulonglong)QThread::currentThreadId());
+
+	// Try to get the thread-specific connection (use false to avoid warnings)
+	QSqlDatabase threadDb = QSqlDatabase::database(threadConnName, false);
+
+	// If connection exists but is not open, try to open it
+	if (threadDb.isValid()) {
+		if (!threadDb.isOpen()) {
+			threadDb.open();
+		}
+		return threadDb;
+	}
+
+	// Connection doesn't exist yet for this thread, create a new one
+	// Don't touch the original connection from another thread!
+	threadDb = QSqlDatabase::addDatabase("QSQLITE", threadConnName);
+	// Wait (instead of failing immediately with SQLITE_BUSY) if another
+	// connection to the same .pdb holds the write lock. Must be set before
+	// open(). Harmless hardening against transient lock contention.
+	threadDb.setConnectOptions("QSQLITE_BUSY_TIMEOUT=5000");
+	threadDb.setDatabaseName(myDatabaseFileName);
+	if (threadDb.open()) {
+		return threadDb;
+	}
+
+	return QSqlDatabase();
 }
 
 void
 Log::init()
 {
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
-    // Legt nur den Namen der Logdatei fest (Zeitstempel = Programmstart). Die
-    // Datei selbst wird erst beim ersten echten Log-Eintrag angelegt, siehe
-    // createLogDb(): so entstehen keine leeren .pdb-Dateien, wenn gar nicht
-    // gespielt (oder nur zugeschaut) wird.
+	// Legt nur den Namen der Logdatei fest (Zeitstempel = Programmstart). Die
+	// Datei selbst wird erst beim ersten echten Log-Eintrag angelegt, siehe
+	// createLogDb(): so entstehen keine leeren .pdb-Dateien, wenn gar nicht
+	// gespielt (oder nur zugeschaut) wird.
 
-    // SQLITE_LOG wird weiterhin als Konfig-Flag benutzt
-    if(SQLITE_LOG) {
+	// SQLITE_LOG wird weiterhin als Konfig-Flag benutzt
+	if(SQLITE_LOG) {
 
-        // logging activated
-        if(myConfig->readConfigInt("LogOnOff")) {
+		// logging activated
+		if(myConfig->readConfigInt("LogOnOff")) {
 
-            DIR *logDir;
-            logDir = opendir((myConfig->readConfigString("LogDir")).c_str());
-            bool dirExists = logDir != NULL;
-            // closedir() nur auf ein gueltiges Handle: opendir() gibt bei nicht
-            // existierendem Verzeichnis NULL zurueck, und closedir(NULL) ist
-            // undefiniertes Verhalten (SIGSEGV in fdclosedir). Auf Desktop faellt
-            // das nie auf, weil LogDir von ConfigFile stets angelegt wird; auf iOS
-            // existiert das Verzeichnis beim allerersten Start noch nicht -> Absturz
-            // direkt im Log::init() beim App-Launch.
-            if(logDir != NULL) {
-                closedir(logDir);
-            }
+			DIR *logDir;
+			logDir = opendir((myConfig->readConfigString("LogDir")).c_str());
+			bool dirExists = logDir != NULL;
+			// closedir() nur auf ein gueltiges Handle: opendir() gibt bei nicht
+			// existierendem Verzeichnis NULL zurueck, und closedir(NULL) ist
+			// undefiniertes Verhalten (SIGSEGV in fdclosedir). Auf Desktop faellt
+			// das nie auf, weil LogDir von ConfigFile stets angelegt wird; auf iOS
+			// existiert das Verzeichnis beim allerersten Start noch nicht -> Absturz
+			// direkt im Log::init() beim App-Launch.
+			if(logDir != NULL) {
+				closedir(logDir);
+			}
 
-            // check if logging path exist
-            if(myConfig->readConfigString("LogDir") != "" && dirExists) {
+			// check if logging path exist
+			if(myConfig->readConfigString("LogDir") != "" && dirExists) {
 
-                // detect current time
-                char curDateTime[20];
-                time_t now = time(NULL);
-                tm *z = localtime(&now);
-                strftime(curDateTime,20,"%Y-%m-%d_%H%M%S",z);
+				// detect current time
+				char curDateTime[20];
+				time_t now = time(NULL);
+				tm *z = localtime(&now);
+				strftime(curDateTime,20,"%Y-%m-%d_%H%M%S",z);
 
-                mySqliteLogFileName.clear();
-                mySqliteLogFileName /= myConfig->readConfigString("LogDir");
-                mySqliteLogFileName /= string("pokerth-log-") + curDateTime + ".pdb";
+				mySqliteLogFileName.clear();
+				mySqliteLogFileName /= myConfig->readConfigString("LogDir");
+				mySqliteLogFileName /= string("pokerth-log-") + curDateTime + ".pdb";
 
-                myConnectionName = QString("pokerth_log_%1").arg((qulonglong)QDateTime::currentMSecsSinceEpoch());
-                myDatabaseFileName = QString::fromStdString(mySqliteLogFileName.string());
-            }
-        }
-    }
+				myConnectionName = QString("pokerth_log_%1").arg((qulonglong)QDateTime::currentMSecsSinceEpoch());
+				myDatabaseFileName = QString::fromStdString(mySqliteLogFileName.string());
+			}
+		}
+	}
 }
 
 QSqlDatabase
 Log::getOrCreateDatabase()
 {
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
-    // Zuschauer nehmen am Spiel nicht teil -> kein Logfile, auch keine leere
-    // Datei (siehe setRecordingSuspended()).
-    if (myRecordingSuspended) {
-        return QSqlDatabase();
-    }
-    if (!myDbCreated && !createLogDb()) {
-        return QSqlDatabase();
-    }
-    return getDatabase();
+	// Zuschauer nehmen am Spiel nicht teil -> kein Logfile, auch keine leere
+	// Datei (siehe setRecordingSuspended()).
+	if (myRecordingSuspended) {
+		return QSqlDatabase();
+	}
+	if (!myDbCreated && !createLogDb()) {
+		return QSqlDatabase();
+	}
+	return getDatabase();
 }
 
 bool
 Log::createLogDb()
 {
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
-    if (myDbCreated) {
-        return true;
-    }
-    // init() konnte keinen Dateinamen bestimmen (Logging aus oder LogDir
-    // ungueltig) -> es wird nicht geloggt.
-    if (myDatabaseFileName.isEmpty()) {
-        return false;
-    }
+	if (myDbCreated) {
+		return true;
+	}
+	// init() konnte keinen Dateinamen bestimmen (Logging aus oder LogDir
+	// ungueltig) -> es wird nicht geloggt.
+	if (myDatabaseFileName.isEmpty()) {
+		return false;
+	}
 
-    // detect current time
-    char curDate[11];
-    char curTime[9];
-    time_t now = time(NULL);
-    tm *z = localtime(&now);
-    strftime(curDate,11,"%Y-%m-%d",z);
-    strftime(curTime,9,"%H:%M:%S",z);
+	// detect current time
+	char curDate[11];
+	char curTime[9];
+	time_t now = time(NULL);
+	tm *z = localtime(&now);
+	strftime(curDate,11,"%Y-%m-%d",z);
+	strftime(curTime,9,"%H:%M:%S",z);
 
-    QSqlDatabase mySqliteLogDb = QSqlDatabase::addDatabase("QSQLITE", myConnectionName);
-    // See getDatabase(): wait on lock contention instead of failing
-    // immediately with SQLITE_BUSY. Must be set before open().
-    mySqliteLogDb.setConnectOptions("QSQLITE_BUSY_TIMEOUT=5000");
-    mySqliteLogDb.setDatabaseName(myDatabaseFileName);
+	QSqlDatabase mySqliteLogDb = QSqlDatabase::addDatabase("QSQLITE", myConnectionName);
+	// See getDatabase(): wait on lock contention instead of failing
+	// immediately with SQLITE_BUSY. Must be set before open().
+	mySqliteLogDb.setConnectOptions("QSQLITE_BUSY_TIMEOUT=5000");
+	mySqliteLogDb.setDatabaseName(myDatabaseFileName);
 
-    if (!mySqliteLogDb.open()) {
-        // open failed: du kannst hier Fehlerlog ergänzen
-        cout << "Failed to open sqlite (Qt)" << endl;
-        mySqliteLogDb = QSqlDatabase();
-        QSqlDatabase::removeDatabase(myConnectionName);
-        return false;
-    }
+	if (!mySqliteLogDb.open()) {
+		// open failed: du kannst hier Fehlerlog ergänzen
+		cout << "Failed to open sqlite (Qt)" << endl;
+		mySqliteLogDb = QSqlDatabase();
+		QSqlDatabase::removeDatabase(myConnectionName);
+		return false;
+	}
 
-    int i;
-    // create session table
-    sql += "CREATE TABLE Session (";
-    sql += "PokerTH_Version TEXT NOT NULL";
-    sql += ",Date TEXT NOT NULL";
-    sql += ",Time TEXT NOT NULL";
-    sql += ",LogVersion INTEGER NOT NULL";
-    sql += ", PRIMARY KEY(Date,Time));";
+	int i;
+	// create session table
+	sql += "CREATE TABLE Session (";
+	sql += "PokerTH_Version TEXT NOT NULL";
+	sql += ",Date TEXT NOT NULL";
+	sql += ",Time TEXT NOT NULL";
+	sql += ",LogVersion INTEGER NOT NULL";
+	sql += ", PRIMARY KEY(Date,Time));";
 
-    sql += "INSERT INTO Session (";
-    sql += "PokerTH_Version";
-    sql += ",Date";
-    sql += ",Time";
-    sql += ",LogVersion";
-    sql += ") VALUES (";
-    sql += "\"" + boost::lexical_cast<string>(POKERTH_BETA_RELEASE_STRING) + "\",";
-    sql += "\"" + boost::lexical_cast<string>(curDate) + "\",";
-    sql += "\"" + boost::lexical_cast<string>(curTime) + "\",";
-    sql += boost::lexical_cast<string>(SQLITE_LOG_VERSION) + ");";
+	sql += "INSERT INTO Session (";
+	sql += "PokerTH_Version";
+	sql += ",Date";
+	sql += ",Time";
+	sql += ",LogVersion";
+	sql += ") VALUES (";
+	sql += "\"" + boost::lexical_cast<string>(POKERTH_BETA_RELEASE_STRING) + "\",";
+	sql += "\"" + boost::lexical_cast<string>(curDate) + "\",";
+	sql += "\"" + boost::lexical_cast<string>(curTime) + "\",";
+	sql += boost::lexical_cast<string>(SQLITE_LOG_VERSION) + ");";
 
-    // create game table
-    sql += "CREATE TABLE Game (";
-    sql += "UniqueGameID INTEGER PRIMARY KEY";
-    sql += ",GameID INTEGER NOT NULL";
-    sql += ",Startmoney INTEGER NOT NULL";
-    sql += ",StartSb INTEGER NOT NULL";
-    sql += ",DealerPos INTEGER NOT NULL";
-    sql += ",Winner_Seat INTEGER";
-    sql += ");";
+	// create game table
+	sql += "CREATE TABLE Game (";
+	sql += "UniqueGameID INTEGER PRIMARY KEY";
+	sql += ",GameID INTEGER NOT NULL";
+	sql += ",Startmoney INTEGER NOT NULL";
+	sql += ",StartSb INTEGER NOT NULL";
+	sql += ",DealerPos INTEGER NOT NULL";
+	sql += ",Winner_Seat INTEGER";
+	sql += ");";
 
-    // create player table
-    sql += "CREATE TABLE Player (";
-    sql += "UniqueGameID INTEGER NOT NULL";
-    sql += ",Seat INTEGER NOT NULL";
-    sql += ",Player TEXT NOT NULL";
-    sql += ",PRIMARY KEY(UniqueGameID,Seat));";
+	// create player table
+	sql += "CREATE TABLE Player (";
+	sql += "UniqueGameID INTEGER NOT NULL";
+	sql += ",Seat INTEGER NOT NULL";
+	sql += ",Player TEXT NOT NULL";
+	sql += ",PRIMARY KEY(UniqueGameID,Seat));";
 
-    // create hand table
-    sql += "CREATE TABLE Hand (";
-    sql += "HandID INTEGER NOT NULL";
-    sql += ",UniqueGameID INTEGER NOT NULL";
-    sql += ",Dealer_Seat INTEGER";
-    sql += ",Sb_Amount INTEGER NOT NULL";
-    sql += ",Sb_Seat INTEGER NOT NULL";
-    sql += ",Bb_Amount INTEGER NOT NULL";
-    sql += ",Bb_Seat INTEGER NOT NULL";
-    for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
-        sql += ",Seat_" + boost::lexical_cast<std::string>(i) + "_Cash INTEGER";
-        sql += ",Seat_" + boost::lexical_cast<std::string>(i) + "_Card_1 INTEGER";
-        sql += ",Seat_" + boost::lexical_cast<std::string>(i) + "_Card_2 INTEGER";
-        sql += ",Seat_" + boost::lexical_cast<std::string>(i) + "_Hand_text TEXT";
-        sql += ",Seat_" + boost::lexical_cast<std::string>(i) + "_Hand_int INTEGER";
-    }
-    for(i=1; i<=5; i++) {
-        sql += ",BoardCard_" + boost::lexical_cast<std::string>(i) + " INTEGER";
-    }
-    sql += ",PRIMARY KEY(HandID,UniqueGameID));";
+	// create hand table
+	sql += "CREATE TABLE Hand (";
+	sql += "HandID INTEGER NOT NULL";
+	sql += ",UniqueGameID INTEGER NOT NULL";
+	sql += ",Dealer_Seat INTEGER";
+	sql += ",Sb_Amount INTEGER NOT NULL";
+	sql += ",Sb_Seat INTEGER NOT NULL";
+	sql += ",Bb_Amount INTEGER NOT NULL";
+	sql += ",Bb_Seat INTEGER NOT NULL";
+	for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
+		sql += ",Seat_" + boost::lexical_cast<std::string>(i) + "_Cash INTEGER";
+		sql += ",Seat_" + boost::lexical_cast<std::string>(i) + "_Card_1 INTEGER";
+		sql += ",Seat_" + boost::lexical_cast<std::string>(i) + "_Card_2 INTEGER";
+		sql += ",Seat_" + boost::lexical_cast<std::string>(i) + "_Hand_text TEXT";
+		sql += ",Seat_" + boost::lexical_cast<std::string>(i) + "_Hand_int INTEGER";
+	}
+	for(i=1; i<=5; i++) {
+		sql += ",BoardCard_" + boost::lexical_cast<std::string>(i) + " INTEGER";
+	}
+	sql += ",PRIMARY KEY(HandID,UniqueGameID));";
 
-    // create action table
-    sql += "CREATE TABLE Action (";
-    sql += "ActionID INTEGER PRIMARY KEY AUTOINCREMENT";
-    sql += ",HandID INTEGER NOT NULL";
-    sql += ",UniqueGameID INTEGER NOT NULL";
-    sql += ",BeRo INTEGER NOT NULL";
-    sql += ",Player INTEGER NOT NULL";
-    sql += ",Action TEXT NOT NULL";
-    sql += ",Amount INTEGER";
-    sql += ");";
+	// create action table
+	sql += "CREATE TABLE Action (";
+	sql += "ActionID INTEGER PRIMARY KEY AUTOINCREMENT";
+	sql += ",HandID INTEGER NOT NULL";
+	sql += ",UniqueGameID INTEGER NOT NULL";
+	sql += ",BeRo INTEGER NOT NULL";
+	sql += ",Player INTEGER NOT NULL";
+	sql += ",Action TEXT NOT NULL";
+	sql += ",Amount INTEGER";
+	sql += ");";
 
-    // Execute initial setup in the current thread using the just-opened connection
-    QSqlError err;
-    if(!mySqliteLogDb.transaction()) {
-        err = mySqliteLogDb.lastError();
-        cout << "Failed to begin transaction: " << err.text().toStdString() << endl;
-    }
+	// Execute initial setup in the current thread using the just-opened connection
+	QSqlError err;
+	if(!mySqliteLogDb.transaction()) {
+		err = mySqliteLogDb.lastError();
+		cout << "Failed to begin transaction: " << err.text().toStdString() << endl;
+	}
 
-    // Split the SQL buffer by ';' and execute each statement separately
-    std::string buf = sql;
-    sql.clear();
+	// Split the SQL buffer by ';' and execute each statement separately
+	std::string buf = sql;
+	sql.clear();
 
-    size_t start = 0;
-    while(true) {
-        size_t pos = buf.find(';', start);
-        std::string stmt;
-        if(pos == std::string::npos) {
-            stmt = buf.substr(start);
-        } else {
-            stmt = buf.substr(start, pos - start);
-        }
-        // trim whitespace
-        auto l = stmt.find_first_not_of(" \t\r\n");
-        auto r = stmt.find_last_not_of(" \t\r\n");
-        if(l != std::string::npos && r != std::string::npos && l <= r) {
-            stmt = stmt.substr(l, r - l + 1);
-            QSqlQuery q(mySqliteLogDb);
-            if(!q.exec(QString::fromStdString(stmt))) {
-                QSqlError qe = q.lastError();
-                cout << "Error in statement: " << stmt << " [" << qe.text().toStdString() << "]." << endl;
-            }
-        }
-        if(pos == std::string::npos) break;
-        start = pos + 1;
-    }
+	size_t start = 0;
+	while(true) {
+		size_t pos = buf.find(';', start);
+		std::string stmt;
+		if(pos == std::string::npos) {
+			stmt = buf.substr(start);
+		} else {
+			stmt = buf.substr(start, pos - start);
+		}
+		// trim whitespace
+		auto l = stmt.find_first_not_of(" \t\r\n");
+		auto r = stmt.find_last_not_of(" \t\r\n");
+		if(l != std::string::npos && r != std::string::npos && l <= r) {
+			stmt = stmt.substr(l, r - l + 1);
+			QSqlQuery q(mySqliteLogDb);
+			if(!q.exec(QString::fromStdString(stmt))) {
+				QSqlError qe = q.lastError();
+				cout << "Error in statement: " << stmt << " [" << qe.text().toStdString() << "]." << endl;
+			}
+		}
+		if(pos == std::string::npos) break;
+		start = pos + 1;
+	}
 
-    if(!mySqliteLogDb.commit()) {
-        err = mySqliteLogDb.lastError();
-        cout << "Failed to commit transaction: " << err.text().toStdString() << endl;
-    }
-    myDbCreated = true;
-    return true;
+	if(!mySqliteLogDb.commit()) {
+		err = mySqliteLogDb.lastError();
+		cout << "Failed to commit transaction: " << err.text().toStdString() << endl;
+	}
+	myDbCreated = true;
+	return true;
 }
 
 void
 Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned dealerPosition, PlayerList seatsList)
 {
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 	uniqueGameID++;
 	loggedSitsOut.clear();  // Reset sits out tracking for new game
 
@@ -344,15 +344,15 @@ Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned deal
 				sql += "UniqueGameID";
 				sql += ",GameID";
 				sql += ",Startmoney";
-			 sql += ",StartSb";
-			 sql += ",DealerPos";
-			 sql += ") VALUES (";
-			 sql += boost::lexical_cast<string>(uniqueGameID);
-			 sql += "," + boost::lexical_cast<string>(gameID);
-			 sql += "," + boost::lexical_cast<string>(startCash);
-			 sql += "," + boost::lexical_cast<string>(startSmallBlind);
-			 sql += "," + boost::lexical_cast<string>(dealerPosition);
-			 sql += ");";
+				sql += ",StartSb";
+				sql += ",DealerPos";
+				sql += ") VALUES (";
+				sql += boost::lexical_cast<string>(uniqueGameID);
+				sql += "," + boost::lexical_cast<string>(gameID);
+				sql += "," + boost::lexical_cast<string>(startCash);
+				sql += "," + boost::lexical_cast<string>(startSmallBlind);
+				sql += "," + boost::lexical_cast<string>(dealerPosition);
+				sql += ");";
 
 				i = 1;
 				for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
@@ -373,7 +373,7 @@ Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned deal
 void
 Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned smallBlindPosition, int bigBlind, unsigned bigBlindPosition, PlayerList seatsList)
 {
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
 	currentRound = GAME_STATE_PREFLOP;
 	currentHandID = handID;
@@ -390,38 +390,38 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 			QSqlDatabase db = getOrCreateDatabase();
 			if(db.isValid() && db.isOpen()) {
 				// sqlite-db is open
-			 int i;
+				int i;
 
 				sql += "INSERT INTO Hand (";
 				sql += "HandID";
 				sql += ",UniqueGameID";
 				sql += ",Dealer_Seat";
-			 sql += ",Sb_Amount";
-			 sql += ",Sb_Seat";
-			 sql += ",Bb_Amount";
-			 sql += ",Bb_Seat";
-			 for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
-				 sql += ",Seat_" + boost::lexical_cast<std::string>(i) + "_Cash";
-			 }
-			 sql += ") VALUES (";
-			 sql += boost::lexical_cast<string>(currentHandID);
-			 sql += "," + boost::lexical_cast<string>(uniqueGameID);
-			 sql += "," + boost::lexical_cast<string>(dealerPosition);
-			 sql += "," + boost::lexical_cast<string>(smallBlind);
-			 sql += "," + boost::lexical_cast<string>(smallBlindPosition);
-			 sql += "," + boost::lexical_cast<string>(bigBlind);
-			 sql += "," + boost::lexical_cast<string>(bigBlindPosition);
-			 for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
-				 if((*it_c)->getMyActiveStatus()) {
-					 sql += "," + boost::lexical_cast<string>((*it_c)->getMyRoundStartCash());
-				 } else {
-					 sql += ",NULL";
-				 }
-			 }
-			 sql += ");";
-			 if(myConfig->readConfigInt("LogInterval") == 0) {
-				 exec_transaction();
-			 }
+				sql += ",Sb_Amount";
+				sql += ",Sb_Seat";
+				sql += ",Bb_Amount";
+				sql += ",Bb_Seat";
+				for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
+					sql += ",Seat_" + boost::lexical_cast<std::string>(i) + "_Cash";
+				}
+				sql += ") VALUES (";
+				sql += boost::lexical_cast<string>(currentHandID);
+				sql += "," + boost::lexical_cast<string>(uniqueGameID);
+				sql += "," + boost::lexical_cast<string>(dealerPosition);
+				sql += "," + boost::lexical_cast<string>(smallBlind);
+				sql += "," + boost::lexical_cast<string>(smallBlindPosition);
+				sql += "," + boost::lexical_cast<string>(bigBlind);
+				sql += "," + boost::lexical_cast<string>(bigBlindPosition);
+				for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
+					if((*it_c)->getMyActiveStatus()) {
+						sql += "," + boost::lexical_cast<string>((*it_c)->getMyRoundStartCash());
+					} else {
+						sql += ",NULL";
+					}
+				}
+				sql += ");";
+				if(myConfig->readConfigInt("LogInterval") == 0) {
+					exec_transaction();
+				}
 
 				// !! TODO !! Hack, weil Button-Regel noch falsch und dealerPosition noch teilweise falsche ID enthält (HeadsUp: dealerPosition=bigBlindPosition <-- falsch)
 				bool dealerButtonOnTable = false;
@@ -466,221 +466,221 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 void
 Log::logPlayerAction(string playerName, PlayerActionLog action, int amount)
 {
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
-    if(SQLITE_LOG) {
+	if(SQLITE_LOG) {
 
-        if(myConfig->readConfigInt("LogOnOff")) {
-            //if write logfiles is enabled
+		if(myConfig->readConfigInt("LogOnOff")) {
+			//if write logfiles is enabled
 
-            if(QSqlDatabase::contains(myConnectionName) && getDatabase().isOpen()) {
-                // sqlite-db (Qt) is open
+			if(QSqlDatabase::contains(myConnectionName) && getDatabase().isOpen()) {
+				// sqlite-db (Qt) is open
 
-                // read seat using QSqlQuery
-                QSqlQuery q(getDatabase());
-                q.prepare(QString::fromUtf8("SELECT Seat FROM Player WHERE UniqueGameID = ? AND Player = ?"));
-                q.addBindValue(uniqueGameID);
-                q.addBindValue(QString::fromStdString(playerName));
-                if(!q.exec()) {
-                    QSqlError err = q.lastError();
-                    cout << "Error in statement: SELECT Seat ... [" << err.text().toStdString() << "]." << endl;
-                } else {
-                    if(q.next()) {
-                        int seat = q.value(0).toInt();
-                        logPlayerAction(seat, action, amount);
-                    } else {
-                        cout << "Implausible information about player " << playerName << " in log-db!" << endl;
-                    }
-                }
-            }
-        }
-    }
+				// read seat using QSqlQuery
+				QSqlQuery q(getDatabase());
+				q.prepare(QString::fromUtf8("SELECT Seat FROM Player WHERE UniqueGameID = ? AND Player = ?"));
+				q.addBindValue(uniqueGameID);
+				q.addBindValue(QString::fromStdString(playerName));
+				if(!q.exec()) {
+					QSqlError err = q.lastError();
+					cout << "Error in statement: SELECT Seat ... [" << err.text().toStdString() << "]." << endl;
+				} else {
+					if(q.next()) {
+						int seat = q.value(0).toInt();
+						logPlayerAction(seat, action, amount);
+					} else {
+						cout << "Implausible information about player " << playerName << " in log-db!" << endl;
+					}
+				}
+			}
+		}
+	}
 }
 
 void
 Log::logPlayerAction(int seat, PlayerActionLog action, int amount)
 {
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
-    if(SQLITE_LOG) {
+	if(SQLITE_LOG) {
 
-        if(myConfig->readConfigInt("LogOnOff")) {
-            //if write logfiles is enabled
+		if(myConfig->readConfigInt("LogOnOff")) {
+			//if write logfiles is enabled
 
-            QSqlDatabase db = getOrCreateDatabase();
-            if(db.isValid() && db.isOpen()) {
-                // sqlite-db (Qt) is open
+			QSqlDatabase db = getOrCreateDatabase();
+			if(db.isValid() && db.isOpen()) {
+				// sqlite-db (Qt) is open
 
-                if(action!=LOG_ACTION_NONE) {
-                    sql += "INSERT INTO Action (";
-                    sql += "HandID";
-                    sql += ",UniqueGameID";
-                    sql += ",BeRo";
-                    sql += ",Player";
-                    sql += ",Action";
-                    sql += ",Amount";
-                    sql += ") VALUES (";
-                    sql += boost::lexical_cast<string>(currentHandID);
-                    sql += "," + boost::lexical_cast<string>(uniqueGameID);
-                    sql += "," + boost::lexical_cast<string>(currentRound);
-                    sql += "," + boost::lexical_cast<string>(seat);
+				if(action!=LOG_ACTION_NONE) {
+					sql += "INSERT INTO Action (";
+					sql += "HandID";
+					sql += ",UniqueGameID";
+					sql += ",BeRo";
+					sql += ",Player";
+					sql += ",Action";
+					sql += ",Amount";
+					sql += ") VALUES (";
+					sql += boost::lexical_cast<string>(currentHandID);
+					sql += "," + boost::lexical_cast<string>(uniqueGameID);
+					sql += "," + boost::lexical_cast<string>(currentRound);
+					sql += "," + boost::lexical_cast<string>(seat);
 
-                    // Erzeuge Action-Text und einen einzelnen Wert für Amount (Zahl oder NULL)
-                    std::string actionText;
-                    std::string amountText = "NULL";
-                    switch(action) {
-                    case LOG_ACTION_DEALER:
-                        actionText = "starts as dealer";
-                        break;
-                    case LOG_ACTION_SMALL_BLIND:
-                        actionText = "posts small blind";
-                        amountText = boost::lexical_cast<string>(amount);
-                        break;
-                    case LOG_ACTION_BIG_BLIND:
-                        actionText = "posts big blind";
-                        amountText = boost::lexical_cast<string>(amount);
-                        break;
-                    case LOG_ACTION_FOLD:
-                        actionText = "folds";
-                        break;
-                    case LOG_ACTION_CHECK:
-                        actionText = "checks";
-                        break;
-                    case LOG_ACTION_CALL:
-                        actionText = "calls";
-                        amountText = boost::lexical_cast<string>(amount);
-                        break;
-                    case LOG_ACTION_BET:
-                        actionText = "bets";
-                        amountText = boost::lexical_cast<string>(amount);
-                        break;
-                    case LOG_ACTION_ALL_IN:
-                        actionText = "is all in with";
-                        amountText = boost::lexical_cast<string>(amount);
-                        break;
-                    case LOG_ACTION_SHOW:
-                        actionText = "shows";
-                        break;
-                    case LOG_ACTION_HAS:
-                        actionText = "has";
-                        break;
-                    case LOG_ACTION_WIN:
-                        actionText = "wins";
-                        amountText = boost::lexical_cast<string>(amount);
-                        break;
-                    case LOG_ACTION_WIN_SIDE_POT:
-                        actionText = "wins (side pot)";
-                        amountText = boost::lexical_cast<string>(amount);
-                        break;
-                    case LOG_ACTION_SIT_OUT:
-                        actionText = "sits out";
-                        break;
-                    case LOG_ACTION_WIN_GAME:
-                        actionText = "wins game";
-                        break;
-                    case LOG_ACTION_LEFT:
-                        actionText = "has left the game";
-                        break;
-                    case LOG_ACTION_KICKED:
-                        actionText = "was kicked from the game";
-                        break;
-                    case LOG_ACTION_ADMIN:
-                        actionText = "is game admin now";
-                        break;
-                    case LOG_ACTION_JOIN:
-                        actionText = "has joined the game";
-                        break;
-                    default:
-                        return;
-                    }
+					// Erzeuge Action-Text und einen einzelnen Wert für Amount (Zahl oder NULL)
+					std::string actionText;
+					std::string amountText = "NULL";
+					switch(action) {
+					case LOG_ACTION_DEALER:
+						actionText = "starts as dealer";
+						break;
+					case LOG_ACTION_SMALL_BLIND:
+						actionText = "posts small blind";
+						amountText = boost::lexical_cast<string>(amount);
+						break;
+					case LOG_ACTION_BIG_BLIND:
+						actionText = "posts big blind";
+						amountText = boost::lexical_cast<string>(amount);
+						break;
+					case LOG_ACTION_FOLD:
+						actionText = "folds";
+						break;
+					case LOG_ACTION_CHECK:
+						actionText = "checks";
+						break;
+					case LOG_ACTION_CALL:
+						actionText = "calls";
+						amountText = boost::lexical_cast<string>(amount);
+						break;
+					case LOG_ACTION_BET:
+						actionText = "bets";
+						amountText = boost::lexical_cast<string>(amount);
+						break;
+					case LOG_ACTION_ALL_IN:
+						actionText = "is all in with";
+						amountText = boost::lexical_cast<string>(amount);
+						break;
+					case LOG_ACTION_SHOW:
+						actionText = "shows";
+						break;
+					case LOG_ACTION_HAS:
+						actionText = "has";
+						break;
+					case LOG_ACTION_WIN:
+						actionText = "wins";
+						amountText = boost::lexical_cast<string>(amount);
+						break;
+					case LOG_ACTION_WIN_SIDE_POT:
+						actionText = "wins (side pot)";
+						amountText = boost::lexical_cast<string>(amount);
+						break;
+					case LOG_ACTION_SIT_OUT:
+						actionText = "sits out";
+						break;
+					case LOG_ACTION_WIN_GAME:
+						actionText = "wins game";
+						break;
+					case LOG_ACTION_LEFT:
+						actionText = "has left the game";
+						break;
+					case LOG_ACTION_KICKED:
+						actionText = "was kicked from the game";
+						break;
+					case LOG_ACTION_ADMIN:
+						actionText = "is game admin now";
+						break;
+					case LOG_ACTION_JOIN:
+						actionText = "has joined the game";
+						break;
+					default:
+						return;
+					}
 
-                    sql += ",'" + actionText + "'";
-                    sql += "," + amountText;
-                    sql += ");";
-                     if(myConfig->readConfigInt("LogInterval") == 0) {
-                         exec_transaction();
-                     }
-                }
-            }
-        }
-    }
+					sql += ",'" + actionText + "'";
+					sql += "," + amountText;
+					sql += ");";
+					if(myConfig->readConfigInt("LogInterval") == 0) {
+						exec_transaction();
+					}
+				}
+			}
+		}
+	}
 }
 
 PlayerActionLog
 Log::transformPlayerActionLog(PlayerAction action)
 {
-    switch(action) {
-    case PLAYER_ACTION_FOLD:
-        return LOG_ACTION_FOLD;
-        break;
-    case PLAYER_ACTION_CHECK:
-        return LOG_ACTION_CHECK;
-        break;
-    case PLAYER_ACTION_CALL:
-        return LOG_ACTION_CALL;
-        break;
-    case PLAYER_ACTION_BET:
-    case PLAYER_ACTION_RAISE:
-        return LOG_ACTION_BET;
-        break;
-    case PLAYER_ACTION_ALLIN:
-        return LOG_ACTION_ALL_IN;
-        break;
-    default:
-        return LOG_ACTION_NONE;
-    }
+	switch(action) {
+	case PLAYER_ACTION_FOLD:
+		return LOG_ACTION_FOLD;
+		break;
+	case PLAYER_ACTION_CHECK:
+		return LOG_ACTION_CHECK;
+		break;
+	case PLAYER_ACTION_CALL:
+		return LOG_ACTION_CALL;
+		break;
+	case PLAYER_ACTION_BET:
+	case PLAYER_ACTION_RAISE:
+		return LOG_ACTION_BET;
+		break;
+	case PLAYER_ACTION_ALLIN:
+		return LOG_ACTION_ALL_IN;
+		break;
+	default:
+		return LOG_ACTION_NONE;
+	}
 }
 
 void
 Log::logBoardCards(int boardCards[5])
 {
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
-    if(SQLITE_LOG) {
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	if(SQLITE_LOG) {
 
-        if(myConfig->readConfigInt("LogOnOff")) {
-            //if write logfiles is enabled
+		if(myConfig->readConfigInt("LogOnOff")) {
+			//if write logfiles is enabled
 
-            QSqlDatabase db = getOrCreateDatabase();
-            if(db.isValid() && db.isOpen()) {
-                // sqlite-db is open
+			QSqlDatabase db = getOrCreateDatabase();
+			if(db.isValid() && db.isOpen()) {
+				// sqlite-db is open
 
-                switch(currentRound) {
-                case GAME_STATE_FLOP: {
-                    sql += "UPDATE Hand SET ";
-                    sql += "BoardCard_1=" + boost::lexical_cast<string>(boardCards[0]) + ",";
-                    sql += "BoardCard_2=" + boost::lexical_cast<string>(boardCards[1]) + ",";
-                    sql += "BoardCard_3=" + boost::lexical_cast<string>(boardCards[2]);
-                }
-                break;
-                case GAME_STATE_TURN: {
-                    sql += "UPDATE Hand SET ";
-                    sql += "BoardCard_4=" + boost::lexical_cast<string>(boardCards[3]);
-                }
-                break;
-                case GAME_STATE_RIVER: {
-                    sql += "UPDATE Hand SET ";
-                    sql += "BoardCard_5=" + boost::lexical_cast<string>(boardCards[4]);
-                }
-                break;
-                default:
-                    return;
-                }
-                sql += " WHERE ";
-                sql += "UniqueGameID=" + boost::lexical_cast<string>(uniqueGameID) + " AND ";
-                sql += "HandID=" + boost::lexical_cast<string>(currentHandID);
-                sql += ";";
-                if(myConfig->readConfigInt("LogInterval") == 0) {
-                    exec_transaction();
-                }
-            }
-        }
-    }
+				switch(currentRound) {
+				case GAME_STATE_FLOP: {
+					sql += "UPDATE Hand SET ";
+					sql += "BoardCard_1=" + boost::lexical_cast<string>(boardCards[0]) + ",";
+					sql += "BoardCard_2=" + boost::lexical_cast<string>(boardCards[1]) + ",";
+					sql += "BoardCard_3=" + boost::lexical_cast<string>(boardCards[2]);
+				}
+				break;
+				case GAME_STATE_TURN: {
+					sql += "UPDATE Hand SET ";
+					sql += "BoardCard_4=" + boost::lexical_cast<string>(boardCards[3]);
+				}
+				break;
+				case GAME_STATE_RIVER: {
+					sql += "UPDATE Hand SET ";
+					sql += "BoardCard_5=" + boost::lexical_cast<string>(boardCards[4]);
+				}
+				break;
+				default:
+					return;
+				}
+				sql += " WHERE ";
+				sql += "UniqueGameID=" + boost::lexical_cast<string>(uniqueGameID) + " AND ";
+				sql += "HandID=" + boost::lexical_cast<string>(currentHandID);
+				sql += ";";
+				if(myConfig->readConfigInt("LogInterval") == 0) {
+					exec_transaction();
+				}
+			}
+		}
+	}
 }
 
 void
 Log::logHoleCardsHandName(PlayerList activePlayerList)
 {
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 	PlayerListConstIterator it_c;
 
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
@@ -696,7 +696,7 @@ Log::logHoleCardsHandName(PlayerList activePlayerList)
 void
 Log::logHoleCardsHandName(PlayerList activePlayerList, boost::shared_ptr<PlayerInterface> player, bool forceExecLog)
 {
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
 	if(SQLITE_LOG) {
 
@@ -705,7 +705,7 @@ Log::logHoleCardsHandName(PlayerList activePlayerList, boost::shared_ptr<PlayerI
 
 			QSqlDatabase db = getOrCreateDatabase();
 			if(db.isValid() && db.isOpen()) {
-                // sqlite-db (Qt) is open
+				// sqlite-db (Qt) is open
 
 				int myCards[2];
 				player->getMyCards(myCards);
@@ -745,7 +745,7 @@ Log::logHoleCardsHandName(PlayerList activePlayerList, boost::shared_ptr<PlayerI
 void
 Log::logHandWinner(PlayerList activePlayerList, int highestCardsValue, std::list<unsigned> winners)
 {
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
 
 	PlayerListConstIterator it_c;
@@ -778,7 +778,7 @@ Log::logHandWinner(PlayerList activePlayerList, int highestCardsValue, std::list
 void
 Log::logGameWinner(PlayerList activePlayerList)
 {
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
 	int playersPositiveCashCounter = 0;
 	PlayerListConstIterator it_c;
@@ -799,7 +799,7 @@ Log::logGameWinner(PlayerList activePlayerList)
 void
 Log::logPlayerSitsOut(PlayerList activePlayerList)
 {
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
 	PlayerListConstIterator it_c;
 
@@ -819,7 +819,7 @@ Log::logPlayerSitsOut(PlayerList activePlayerList)
 void
 Log::logAfterHand()
 {
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 	if(myConfig->readConfigInt("LogInterval") == 1) {
 		exec_transaction();
 	}
@@ -828,7 +828,7 @@ Log::logAfterHand()
 void
 Log::logAfterGame()
 {
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 	if(myConfig->readConfigInt("LogInterval") == 2) {
 		exec_transaction();
 	}
@@ -842,111 +842,111 @@ Log::flushLog()
 	// Used when leaving game early to ensure all data is written
 	if (!sql.empty() || !pendingPlayerLogs.empty()) {
 		LOG_MSG("Log::flushLog: " << sql.size() << " bytes pending, thread="
-		        << (qulonglong)QThread::currentThreadId());
+				<< (qulonglong)QThread::currentThreadId());
 		exec_transaction();
 		LOG_MSG("Log::flushLog: done, thread="
-		        << (qulonglong)QThread::currentThreadId());
+				<< (qulonglong)QThread::currentThreadId());
 	}
 }
 
 void
 Log::exec_transaction()
 {
-    // Callers already hold sqlMutex (recursive), but lock here too so the
-    // private method is safe if ever called directly.
-    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+	// Callers already hold sqlMutex (recursive), but lock here too so the
+	// private method is safe if ever called directly.
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
-    // Execute accumulated SQL statements using QSqlQuery inside a Qt transaction.
-    // Absichtlich getDatabase() (nicht getOrCreateDatabase()): hier wird nur
-    // geschrieben, was zuvor ueber getOrCreateDatabase() gepuffert wurde. Gibt es
-    // noch keine Logdatei, darf sie an dieser Stelle auch nicht entstehen.
-    if (!myConnectionName.isEmpty()) {
-        QSqlDatabase db = getDatabase();
-        if (!(db.isValid() && db.isOpen())) {
-            sql.clear();
-            pendingPlayerLogs.clear();
-            return;
-        }
-        
-        QSqlError err;
-        LOG_MSG("Log::exec_transaction: begin transaction, thread="
-                << (qulonglong)QThread::currentThreadId());
-        if(!db.transaction()) {
-            err = db.lastError();
-            cout << "Failed to begin transaction: " << err.text().toStdString() << endl;
-            LOG_ERROR("Log::exec_transaction: BEGIN failed: " << err.text().toStdString());
-            // Try to execute without transaction fallback
-        }
+	// Execute accumulated SQL statements using QSqlQuery inside a Qt transaction.
+	// Absichtlich getDatabase() (nicht getOrCreateDatabase()): hier wird nur
+	// geschrieben, was zuvor ueber getOrCreateDatabase() gepuffert wurde. Gibt es
+	// noch keine Logdatei, darf sie an dieser Stelle auch nicht entstehen.
+	if (!myConnectionName.isEmpty()) {
+		QSqlDatabase db = getDatabase();
+		if (!(db.isValid() && db.isOpen())) {
+			sql.clear();
+			pendingPlayerLogs.clear();
+			return;
+		}
 
-    // Split the SQL buffer by ';' and execute each statement separately
-    std::string buf = sql;
-    sql.clear();
+		QSqlError err;
+		LOG_MSG("Log::exec_transaction: begin transaction, thread="
+				<< (qulonglong)QThread::currentThreadId());
+		if(!db.transaction()) {
+			err = db.lastError();
+			cout << "Failed to begin transaction: " << err.text().toStdString() << endl;
+			LOG_ERROR("Log::exec_transaction: BEGIN failed: " << err.text().toStdString());
+			// Try to execute without transaction fallback
+		}
 
-    bool hasError = false;
-    size_t start = 0;
-    while(true) {
-        size_t pos = buf.find(';', start);
-        std::string stmt;
-        if(pos == std::string::npos) {
-            stmt = buf.substr(start);
-        } else {
-            stmt = buf.substr(start, pos - start);
-        }
-        // trim whitespace
-        auto l = stmt.find_first_not_of(" \t\r\n");
-        auto r = stmt.find_last_not_of(" \t\r\n");
-        if(l != std::string::npos && r != std::string::npos && l <= r) {
-            stmt = stmt.substr(l, r - l + 1);
-            QSqlQuery q(db);
-            if(!q.exec(QString::fromStdString(stmt))) {
-                QSqlError qe = q.lastError();
-                cout << "Error in statement: " << stmt << " [" << qe.text().toStdString() << "]." << endl;
-                hasError = true;
-            }
-        }
-        if(pos == std::string::npos) break;
-        start = pos + 1;
-    }
+		// Split the SQL buffer by ';' and execute each statement separately
+		std::string buf = sql;
+		sql.clear();
 
-    if (!hasError && !pendingPlayerLogs.empty()) {
-        QSqlQuery playerQuery(db);
-        if (!playerQuery.prepare(QString::fromUtf8(
-                "INSERT INTO Player (UniqueGameID,Seat,Player) VALUES (?, ?, ?)"))) {
-            QSqlError qe = playerQuery.lastError();
-            cout << "Error preparing player log statement: "
-                 << qe.text().toStdString() << "." << endl;
-            hasError = true;
-        } else {
-            for (const PendingPlayerLog &pending : pendingPlayerLogs) {
-                playerQuery.bindValue(0, pending.uniqueGameID);
-                playerQuery.bindValue(1, pending.seat);
-                playerQuery.bindValue(2, QString::fromStdString(pending.name));
-                if (!playerQuery.exec()) {
-                    QSqlError qe = playerQuery.lastError();
-                    cout << "Error inserting player log: "
-                         << qe.text().toStdString() << "." << endl;
-                    hasError = true;
-                    break;
-                }
-            }
-        }
-    }
+		bool hasError = false;
+		size_t start = 0;
+		while(true) {
+			size_t pos = buf.find(';', start);
+			std::string stmt;
+			if(pos == std::string::npos) {
+				stmt = buf.substr(start);
+			} else {
+				stmt = buf.substr(start, pos - start);
+			}
+			// trim whitespace
+			auto l = stmt.find_first_not_of(" \t\r\n");
+			auto r = stmt.find_last_not_of(" \t\r\n");
+			if(l != std::string::npos && r != std::string::npos && l <= r) {
+				stmt = stmt.substr(l, r - l + 1);
+				QSqlQuery q(db);
+				if(!q.exec(QString::fromStdString(stmt))) {
+					QSqlError qe = q.lastError();
+					cout << "Error in statement: " << stmt << " [" << qe.text().toStdString() << "]." << endl;
+					hasError = true;
+				}
+			}
+			if(pos == std::string::npos) break;
+			start = pos + 1;
+		}
 
-    if(hasError) {
-        db.rollback();
-        cout << "Transaction rolled back due to errors." << endl;
-    } else {
-        LOG_MSG("Log::exec_transaction: committing, thread="
-                << (qulonglong)QThread::currentThreadId());
-        if(!db.commit()) {
-            err = db.lastError();
-            cout << "Failed to commit transaction: " << err.text().toStdString() << endl;
-            LOG_ERROR("Log::exec_transaction: COMMIT failed: " << err.text().toStdString());
-        }
-    }
-    pendingPlayerLogs.clear();
-    } else {
-        sql.clear();
-        pendingPlayerLogs.clear();
-    }
+		if (!hasError && !pendingPlayerLogs.empty()) {
+			QSqlQuery playerQuery(db);
+			if (!playerQuery.prepare(QString::fromUtf8(
+										 "INSERT INTO Player (UniqueGameID,Seat,Player) VALUES (?, ?, ?)"))) {
+				QSqlError qe = playerQuery.lastError();
+				cout << "Error preparing player log statement: "
+					 << qe.text().toStdString() << "." << endl;
+				hasError = true;
+			} else {
+				for (const PendingPlayerLog &pending : pendingPlayerLogs) {
+					playerQuery.bindValue(0, pending.uniqueGameID);
+					playerQuery.bindValue(1, pending.seat);
+					playerQuery.bindValue(2, QString::fromStdString(pending.name));
+					if (!playerQuery.exec()) {
+						QSqlError qe = playerQuery.lastError();
+						cout << "Error inserting player log: "
+							 << qe.text().toStdString() << "." << endl;
+						hasError = true;
+						break;
+					}
+				}
+			}
+		}
+
+		if(hasError) {
+			db.rollback();
+			cout << "Transaction rolled back due to errors." << endl;
+		} else {
+			LOG_MSG("Log::exec_transaction: committing, thread="
+					<< (qulonglong)QThread::currentThreadId());
+			if(!db.commit()) {
+				err = db.lastError();
+				cout << "Failed to commit transaction: " << err.text().toStdString() << endl;
+				LOG_ERROR("Log::exec_transaction: COMMIT failed: " << err.text().toStdString());
+			}
+		}
+		pendingPlayerLogs.clear();
+	} else {
+		sql.clear();
+		pendingPlayerLogs.clear();
+	}
 }

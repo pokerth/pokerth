@@ -147,7 +147,7 @@ void GameTableStyleReader::readStyleFile(QString file)
 	QDomDocument xmlDoc;
 	xmlDoc.setContent(fileContent);
 
-	if(!xmlDoc.documentElement().isNull()){
+	if(!xmlDoc.documentElement().isNull()) {
 
 		QDomElement GameTableElement = xmlDoc.documentElement().firstChildElement( "CardDeck" );
 		if(!GameTableElement.isNull()) {
@@ -286,8 +286,7 @@ void GameTableStyleReader::readStyleFile(QString file)
 
 			//now reading!
 			QDomElement itemsList = xmlDoc.documentElement().firstChildElement( "TableStyle" );
-			for(QDomElement n = itemsList.firstChildElement(); !n.isNull(); n = n.nextSiblingElement())
-			{
+			for(QDomElement n = itemsList.firstChildElement(); !n.isNull(); n = n.nextSiblingElement()) {
 				QByteArray ba = n.attribute("value").toLocal8Bit();
 				const char *tmpStr1 = ba.data();
 
@@ -1741,7 +1740,7 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 		QImage tableImage(Table);
 		if (!tableImage.isNull() && tableImage.width() > 0 && tableImage.height() > 0) {
 			int proportionalHeight = static_cast<int>(qCeil(
-				static_cast<double>(MinimumWindowWidth.toInt()) * tableImage.height() / tableImage.width()));
+										 static_cast<double>(MinimumWindowWidth.toInt()) * tableImage.height() / tableImage.width()));
 			effectiveMinHeight = qMax(effectiveMinHeight, proportionalHeight);
 		}
 
@@ -1791,10 +1790,9 @@ QString GameTableStyleReader::getFallBackFieldContent(QString field, int type)
 		QDomDocument xmlDoc;
 		xmlDoc.setContent(thisContent);
 
-		if(!xmlDoc.documentElement().isNull()){
+		if(!xmlDoc.documentElement().isNull()) {
 			QDomElement itemsList = xmlDoc.documentElement().firstChildElement( "TableStyle" );
-			for(QDomElement n = itemsList.firstChildElement(); !n.isNull(); n = n.nextSiblingElement())
-			{
+			for(QDomElement n = itemsList.firstChildElement(); !n.isNull(); n = n.nextSiblingElement()) {
 				QByteArray ba = n.attribute("value").toLocal8Bit();
 				const char *tmpStr1 = ba.data();
 				if (tmpStr1) {

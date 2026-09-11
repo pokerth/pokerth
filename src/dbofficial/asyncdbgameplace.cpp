@@ -96,9 +96,11 @@ AsyncDBGamePlace::HandleError(boost::asio::io_context &service, ServerDBCallback
 	std::list<std::string> params;
 	GetParams(params);
 	std::string paramInfo;
-	for (const auto &p : params) { paramInfo += p + ","; }
+	for (const auto &p : params) {
+		paramInfo += p + ",";
+	}
 	boost::asio::post(service, boost::bind(&ServerDBCallback::QueryError, &cb,
-		"AsyncDBGamePlace: Failed to record player placement for game "
-		+ std::to_string(GetId()) + " (dbId " + std::to_string(m_resolvedGameDbId)
-		+ ", params: " + paramInfo + ")."));
+										   "AsyncDBGamePlace: Failed to record player placement for game "
+										   + std::to_string(GetId()) + " (dbId " + std::to_string(m_resolvedGameDbId)
+										   + ", params: " + paramInfo + ")."));
 }

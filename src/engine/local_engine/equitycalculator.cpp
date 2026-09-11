@@ -85,9 +85,9 @@ void buildCombos(const HoleCardsRange* range, unsigned long long knownMask, std:
 }
 
 EquityCalculator::Result EquityCalculator::equity(const int* holeCards,
-        const int* boardCards, int boardSize,
-        const std::vector<const HoleCardsRange*>& opponentRanges,
-        int samples)
+		const int* boardCards, int boardSize,
+		const std::vector<const HoleCardsRange*>& opponentRanges,
+		int samples)
 {
 	Result result = { 0.0, 0.0, 0.0, 0 };
 
@@ -177,7 +177,10 @@ EquityCalculator::Result EquityCalculator::equity(const int* holeCards,
 			hand[1] = opponentCards[2 * o + 1];
 			for(int i = 0; i < 5; ++i) hand[2 + i] = board[i];
 			const unsigned value = HandEvaluator::value(hand);
-			if(value > myValue) { beaten = true; break; }
+			if(value > myValue) {
+				beaten = true;
+				break;
+			}
 			if(value == myValue) ++equalBest;
 		}
 
@@ -203,9 +206,9 @@ EquityCalculator::Result EquityCalculator::equity(const int* holeCards,
 }
 
 EquityCalculator::Result EquityCalculator::equity(const int* holeCards,
-        const int* boardCards, int boardSize,
-        int opponents, const HoleCardsRange* range,
-        int samples)
+		const int* boardCards, int boardSize,
+		int opponents, const HoleCardsRange* range,
+		int samples)
 {
 	std::vector<const HoleCardsRange*> ranges(opponents > 0 ? opponents : 0, range);
 	return equity(holeCards, boardCards, boardSize, ranges, samples);

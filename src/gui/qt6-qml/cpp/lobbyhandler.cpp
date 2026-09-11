@@ -39,1074 +39,1074 @@ static const int kPrivateMessagesLoaded = 500;
 class PlayerNickListSortFilterProxyModel : public QSortFilterProxyModel
 {
 public:
-    explicit PlayerNickListSortFilterProxyModel(QObject *parent = nullptr)
-        : QSortFilterProxyModel(parent)
-        , m_filterState(0)
-        , m_lastFilterStateCountry(false)
-        , m_lastFilterStateAlpha(true)
-    {
-    }
+	explicit PlayerNickListSortFilterProxyModel(QObject *parent = nullptr)
+		: QSortFilterProxyModel(parent)
+		, m_filterState(0)
+		, m_lastFilterStateCountry(false)
+		, m_lastFilterStateAlpha(true)
+	{
+	}
 
-    void setFilterState(int state)
-    {
-        if (m_filterState == 0) {
-            m_lastFilterStateCountry = false;
-            m_lastFilterStateAlpha = true;
-        } else if (m_filterState == 1) {
-            m_lastFilterStateCountry = true;
-            m_lastFilterStateAlpha = false;
-        }
+	void setFilterState(int state)
+	{
+		if (m_filterState == 0) {
+			m_lastFilterStateCountry = false;
+			m_lastFilterStateAlpha = true;
+		} else if (m_filterState == 1) {
+			m_lastFilterStateCountry = true;
+			m_lastFilterStateAlpha = false;
+		}
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
-        beginFilterChange();
+		beginFilterChange();
 #endif
-        m_filterState = state;
+		m_filterState = state;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
-        endFilterChange(QSortFilterProxyModel::Direction::Rows);
+		endFilterChange(QSortFilterProxyModel::Direction::Rows);
 #else
-        invalidateFilter();
+		invalidateFilter();
 #endif
-        sort(0, Qt::AscendingOrder);
-    }
+		sort(0, Qt::AscendingOrder);
+	}
 
-    QHash<int, QByteArray> roleNames() const override
-    {
-        return sourceModel() ? sourceModel()->roleNames() : QHash<int, QByteArray>();
-    }
+	QHash<int, QByteArray> roleNames() const override
+	{
+		return sourceModel() ? sourceModel()->roleNames() : QHash<int, QByteArray>();
+	}
 
 protected:
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override
-    {
-        if (!QSortFilterProxyModel::filterAcceptsRow(sourceRow, sourceParent))
-            return false;
+	bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override
+	{
+		if (!QSortFilterProxyModel::filterAcceptsRow(sourceRow, sourceParent))
+			return false;
 
-        if (m_filterState == 2) {
-            QModelIndex idx = sourceModel()->index(sourceRow, 0, sourceParent);
-            if (!idx.isValid())
-                return false;
-            // idle = an keinem Tisch. Die Zugehörigkeit steht als Rolle im
-            // Quell-Modell (LobbyHandler::syncPlayerGameMembership), nicht in
-            // der Session: Ändert sie sich, meldet das Modell dataChanged und
-            // der Proxy bewertet die Zeile von selbst neu.
-            return sourceModel()->data(idx, PlayerListModel::GameIdRole).toUInt() == 0;
-        }
+		if (m_filterState == 2) {
+			QModelIndex idx = sourceModel()->index(sourceRow, 0, sourceParent);
+			if (!idx.isValid())
+				return false;
+			// idle = an keinem Tisch. Die Zugehörigkeit steht als Rolle im
+			// Quell-Modell (LobbyHandler::syncPlayerGameMembership), nicht in
+			// der Session: Ändert sie sich, meldet das Modell dataChanged und
+			// der Proxy bewertet die Zeile von selbst neu.
+			return sourceModel()->data(idx, PlayerListModel::GameIdRole).toUInt() == 0;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    bool lessThan(const QModelIndex &left, const QModelIndex &right) const override
-    {
-        QString leftName = sourceModel()->data(left, PlayerListModel::PlayerNameRole).toString().toLower();
-        QString rightName = sourceModel()->data(right, PlayerListModel::PlayerNameRole).toString().toLower();
+	bool lessThan(const QModelIndex &left, const QModelIndex &right) const override
+	{
+		QString leftName = sourceModel()->data(left, PlayerListModel::PlayerNameRole).toString().toLower();
+		QString rightName = sourceModel()->data(right, PlayerListModel::PlayerNameRole).toString().toLower();
 
-        if (m_filterState == 1) {
-            QString leftCountry = sourceModel()->data(left, PlayerListModel::CountryCodeRole).toString().toUpper();
-            QString rightCountry = sourceModel()->data(right, PlayerListModel::CountryCodeRole).toString().toUpper();
-            return (leftCountry + leftName) < (rightCountry + rightName);
-        }
+		if (m_filterState == 1) {
+			QString leftCountry = sourceModel()->data(left, PlayerListModel::CountryCodeRole).toString().toUpper();
+			QString rightCountry = sourceModel()->data(right, PlayerListModel::CountryCodeRole).toString().toUpper();
+			return (leftCountry + leftName) < (rightCountry + rightName);
+		}
 
-        if (m_filterState == 2 && m_lastFilterStateCountry) {
-            QString leftCountry = sourceModel()->data(left, PlayerListModel::CountryCodeRole).toString().toUpper();
-            QString rightCountry = sourceModel()->data(right, PlayerListModel::CountryCodeRole).toString().toUpper();
-            return (leftCountry + leftName) < (rightCountry + rightName);
-        }
+		if (m_filterState == 2 && m_lastFilterStateCountry) {
+			QString leftCountry = sourceModel()->data(left, PlayerListModel::CountryCodeRole).toString().toUpper();
+			QString rightCountry = sourceModel()->data(right, PlayerListModel::CountryCodeRole).toString().toUpper();
+			return (leftCountry + leftName) < (rightCountry + rightName);
+		}
 
-        return leftName < rightName;
-    }
+		return leftName < rightName;
+	}
 
 private:
-    int m_filterState;
-    bool m_lastFilterStateCountry;
-    bool m_lastFilterStateAlpha;
+	int m_filterState;
+	bool m_lastFilterStateCountry;
+	bool m_lastFilterStateAlpha;
 };
 
 class GameListSortFilterProxyModel : public QSortFilterProxyModel
 {
 public:
-    explicit GameListSortFilterProxyModel(QObject *parent = nullptr)
-        : QSortFilterProxyModel(parent)
-        , m_filterMode(0)
-        , m_session(nullptr)
-    {
-    }
+	explicit GameListSortFilterProxyModel(QObject *parent = nullptr)
+		: QSortFilterProxyModel(parent)
+		, m_filterMode(0)
+		, m_session(nullptr)
+	{
+	}
 
-    void setSession(Session *session)
-    {
+	void setSession(Session *session)
+	{
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
-        beginFilterChange();
+		beginFilterChange();
 #endif
-        m_session = session;
+		m_session = session;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
-        endFilterChange(QSortFilterProxyModel::Direction::Rows);
+		endFilterChange(QSortFilterProxyModel::Direction::Rows);
 #else
-        invalidateFilter();
+		invalidateFilter();
 #endif
-    }
+	}
 
-    void setFilterMode(int mode)
-    {
-        if (mode < 0 || mode > 5)
-            mode = 0;
+	void setFilterMode(int mode)
+	{
+		if (mode < 0 || mode > 5)
+			mode = 0;
 
-        if (m_filterMode == mode)
-            return;
+		if (m_filterMode == mode)
+			return;
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
-        beginFilterChange();
+		beginFilterChange();
 #endif
-        m_filterMode = mode;
+		m_filterMode = mode;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
-        endFilterChange(QSortFilterProxyModel::Direction::Rows);
+		endFilterChange(QSortFilterProxyModel::Direction::Rows);
 #else
-        invalidateFilter();
+		invalidateFilter();
 #endif
-    }
+	}
 
-    QHash<int, QByteArray> roleNames() const override
-    {
-        return sourceModel() ? sourceModel()->roleNames() : QHash<int, QByteArray>();
-    }
+	QHash<int, QByteArray> roleNames() const override
+	{
+		return sourceModel() ? sourceModel()->roleNames() : QHash<int, QByteArray>();
+	}
 
 protected:
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override
-    {
-        if (!QSortFilterProxyModel::filterAcceptsRow(sourceRow, sourceParent))
-            return false;
+	bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override
+	{
+		if (!QSortFilterProxyModel::filterAcceptsRow(sourceRow, sourceParent))
+			return false;
 
-        QModelIndex idx = sourceModel()->index(sourceRow, 0, sourceParent);
-        if (!idx.isValid())
-            return false;
+		QModelIndex idx = sourceModel()->index(sourceRow, 0, sourceParent);
+		if (!idx.isValid())
+			return false;
 
-        const unsigned gameId = sourceModel()->data(idx, GameListModel::GameIdRole).toUInt();
-        const int gameMode = sourceModel()->data(idx, GameListModel::GameModeRole).toInt();
-        const int playerCount = sourceModel()->data(idx, GameListModel::PlayerCountRole).toInt();
-        const int maxPlayers = sourceModel()->data(idx, GameListModel::MaxPlayersRole).toInt();
-        const bool isPrivate = sourceModel()->data(idx, GameListModel::IsPrivateRole).toBool();
-        const int gameType = sourceModel()->data(idx, GameListModel::GameTypeRole).toInt();
+		const unsigned gameId = sourceModel()->data(idx, GameListModel::GameIdRole).toUInt();
+		const int gameMode = sourceModel()->data(idx, GameListModel::GameModeRole).toInt();
+		const int playerCount = sourceModel()->data(idx, GameListModel::PlayerCountRole).toInt();
+		const int maxPlayers = sourceModel()->data(idx, GameListModel::MaxPlayersRole).toInt();
+		const bool isPrivate = sourceModel()->data(idx, GameListModel::IsPrivateRole).toBool();
+		const int gameType = sourceModel()->data(idx, GameListModel::GameTypeRole).toInt();
 
-        if (m_session && gameId != 0 && m_session->getClientCurrentGameId() == gameId)
-            return true;
+		if (m_session && gameId != 0 && m_session->getClientCurrentGameId() == gameId)
+			return true;
 
-        const bool isOpen = (gameMode == GAME_MODE_CREATED);
-        const bool isNonFull = (playerCount < maxPlayers);
-        const bool isRanking = (gameType == GAME_TYPE_RANKING);
+		const bool isOpen = (gameMode == GAME_MODE_CREATED);
+		const bool isNonFull = (playerCount < maxPlayers);
+		const bool isRanking = (gameType == GAME_TYPE_RANKING);
 
-        switch (m_filterMode) {
-        case 0:
-            return true;
-        case 1:
-            return isOpen;
-        case 2:
-            return isOpen && isNonFull;
-        case 3:
-            return isOpen && isNonFull && !isPrivate;
-        case 4:
-            return isOpen && isNonFull && isPrivate;
-        case 5:
-            return isOpen && isNonFull && isRanking;
-        default:
-            return true;
-        }
-    }
+		switch (m_filterMode) {
+		case 0:
+			return true;
+		case 1:
+			return isOpen;
+		case 2:
+			return isOpen && isNonFull;
+		case 3:
+			return isOpen && isNonFull && !isPrivate;
+		case 4:
+			return isOpen && isNonFull && isPrivate;
+		case 5:
+			return isOpen && isNonFull && isRanking;
+		default:
+			return true;
+		}
+	}
 
 private:
-    int m_filterMode;
-    Session *m_session;
+	int m_filterMode;
+	Session *m_session;
 };
 
 // PlayerListModel implementation
 PlayerListModel::PlayerListModel(QObject *parent)
-    : QAbstractListModel(parent)
+	: QAbstractListModel(parent)
 {
 }
 
 int PlayerListModel::rowCount(const QModelIndex &parent) const
 {
-    if (parent.isValid())
-        return 0;
-    return m_players.count();
+	if (parent.isValid())
+		return 0;
+	return m_players.count();
 }
 
 QVariant PlayerListModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid() || index.row() >= m_players.count())
-        return QVariant();
+	if (!index.isValid() || index.row() >= m_players.count())
+		return QVariant();
 
-    const PlayerInfo &player = m_players.at(index.row());
-    
-    switch (role) {
-    case PlayerIdRole:
-        return player.id;
-    case PlayerNameRole:
-        return player.name;
-    case IsAdminRole:
-        return player.isAdmin;
-    case CountryCodeRole:
-        return player.countryCode;
-    case IsGuestRole:
-        return player.isGuest;
-    case GameIdRole:
-        return player.gameId;
-    default:
-        return QVariant();
-    }
+	const PlayerInfo &player = m_players.at(index.row());
+
+	switch (role) {
+	case PlayerIdRole:
+		return player.id;
+	case PlayerNameRole:
+		return player.name;
+	case IsAdminRole:
+		return player.isAdmin;
+	case CountryCodeRole:
+		return player.countryCode;
+	case IsGuestRole:
+		return player.isGuest;
+	case GameIdRole:
+		return player.gameId;
+	default:
+		return QVariant();
+	}
 }
 
 QHash<int, QByteArray> PlayerListModel::roleNames() const
 {
-    QHash<int, QByteArray> roles;
-    roles[PlayerIdRole] = "playerId";
-    roles[PlayerNameRole] = "playerName";
-    roles[IsAdminRole] = "isAdmin";
-    roles[CountryCodeRole] = "countryCode";
-    roles[IsGuestRole] = "isGuest";
-    roles[GameIdRole] = "gameId";
-    return roles;
+	QHash<int, QByteArray> roles;
+	roles[PlayerIdRole] = "playerId";
+	roles[PlayerNameRole] = "playerName";
+	roles[IsAdminRole] = "isAdmin";
+	roles[CountryCodeRole] = "countryCode";
+	roles[IsGuestRole] = "isGuest";
+	roles[GameIdRole] = "gameId";
+	return roles;
 }
 
 void PlayerListModel::addPlayer(unsigned playerId, const QString &playerName, bool isAdmin, const QString &countryCode, bool isGuest)
 {
-    // Check if player already exists
-    if (m_playerIndexMap.contains(playerId)) {
-        qWarning() << "Player" << playerId << "already in list";
-        return;
-    }
-    
-    int newRow = m_players.count();
-    beginInsertRows(QModelIndex(), newRow, newRow);
-    
-    PlayerInfo player;
-    player.id = playerId;
-    player.name = playerName;
-    player.isAdmin = isAdmin;
-    player.countryCode = countryCode;
-    player.isGuest = isGuest;
-    // Neue Spieler starten als idle; den tatsächlichen Stand zieht
-    // LobbyHandler::syncPlayerGameMembership unmittelbar danach nach.
-    player.gameId = 0;
-    m_players.append(player);
-    m_playerIndexMap[playerId] = newRow;
-    
-    endInsertRows();
-    emit countChanged();
+	// Check if player already exists
+	if (m_playerIndexMap.contains(playerId)) {
+		qWarning() << "Player" << playerId << "already in list";
+		return;
+	}
+
+	int newRow = m_players.count();
+	beginInsertRows(QModelIndex(), newRow, newRow);
+
+	PlayerInfo player;
+	player.id = playerId;
+	player.name = playerName;
+	player.isAdmin = isAdmin;
+	player.countryCode = countryCode;
+	player.isGuest = isGuest;
+	// Neue Spieler starten als idle; den tatsächlichen Stand zieht
+	// LobbyHandler::syncPlayerGameMembership unmittelbar danach nach.
+	player.gameId = 0;
+	m_players.append(player);
+	m_playerIndexMap[playerId] = newRow;
+
+	endInsertRows();
+	emit countChanged();
 }
 
 void PlayerListModel::removePlayer(unsigned playerId)
 {
-    if (!m_playerIndexMap.contains(playerId)) {
-        qWarning() << "Player" << playerId << "not found";
-        return;
-    }
-    
-    int row = m_playerIndexMap[playerId];
-    beginRemoveRows(QModelIndex(), row, row);
-    
-    m_players.removeAt(row);
-    m_playerIndexMap.remove(playerId);
-    
-    // Update indices for remaining players
-    for (int i = row; i < m_players.count(); ++i) {
-        m_playerIndexMap[m_players[i].id] = i;
-    }
-    
-    endRemoveRows();
-    emit countChanged();
+	if (!m_playerIndexMap.contains(playerId)) {
+		qWarning() << "Player" << playerId << "not found";
+		return;
+	}
+
+	int row = m_playerIndexMap[playerId];
+	beginRemoveRows(QModelIndex(), row, row);
+
+	m_players.removeAt(row);
+	m_playerIndexMap.remove(playerId);
+
+	// Update indices for remaining players
+	for (int i = row; i < m_players.count(); ++i) {
+		m_playerIndexMap[m_players[i].id] = i;
+	}
+
+	endRemoveRows();
+	emit countChanged();
 }
 
 void PlayerListModel::setPlayerGameId(unsigned playerId, unsigned gameId)
 {
-    if (!m_playerIndexMap.contains(playerId))
-        return;
+	if (!m_playerIndexMap.contains(playerId))
+		return;
 
-    int row = m_playerIndexMap[playerId];
-    if (m_players[row].gameId == gameId)
-        return;
+	int row = m_playerIndexMap[playerId];
+	if (m_players[row].gameId == gameId)
+		return;
 
-    m_players[row].gameId = gameId;
+	m_players[row].gameId = gameId;
 
-    QModelIndex idx = index(row);
-    emit dataChanged(idx, idx, {GameIdRole});
+	QModelIndex idx = index(row);
+	emit dataChanged(idx, idx, {GameIdRole});
 }
 
 QList<unsigned> PlayerListModel::playerIds() const
 {
-    QList<unsigned> ids;
-    ids.reserve(m_players.count());
-    for (const PlayerInfo &player : m_players)
-        ids.append(player.id);
-    return ids;
+	QList<unsigned> ids;
+	ids.reserve(m_players.count());
+	for (const PlayerInfo &player : m_players)
+		ids.append(player.id);
+	return ids;
 }
 
 void PlayerListModel::updatePlayer(unsigned playerId, const QString &newName)
 {
-    if (!m_playerIndexMap.contains(playerId))
-        return;
-    
-    int row = m_playerIndexMap[playerId];
-    m_players[row].name = newName;
-    
-    QModelIndex idx = index(row);
-    emit dataChanged(idx, idx, {PlayerNameRole});
+	if (!m_playerIndexMap.contains(playerId))
+		return;
+
+	int row = m_playerIndexMap[playerId];
+	m_players[row].name = newName;
+
+	QModelIndex idx = index(row);
+	emit dataChanged(idx, idx, {PlayerNameRole});
 }
 
 void PlayerListModel::updatePlayerInfo(unsigned playerId, const QString &playerName, bool isAdmin, const QString &countryCode, bool isGuest)
 {
-    if (!m_playerIndexMap.contains(playerId))
-        return;
-    
-    int row = m_playerIndexMap[playerId];
-    m_players[row].name = playerName;
-    m_players[row].isAdmin = isAdmin;
-    if (!countryCode.isEmpty())
-        m_players[row].countryCode = countryCode;
-    m_players[row].isGuest = isGuest;
-    
-    QModelIndex idx = index(row);
-    emit dataChanged(idx, idx);
+	if (!m_playerIndexMap.contains(playerId))
+		return;
+
+	int row = m_playerIndexMap[playerId];
+	m_players[row].name = playerName;
+	m_players[row].isAdmin = isAdmin;
+	if (!countryCode.isEmpty())
+		m_players[row].countryCode = countryCode;
+	m_players[row].isGuest = isGuest;
+
+	QModelIndex idx = index(row);
+	emit dataChanged(idx, idx);
 }
 
 void PlayerListModel::clear()
 {
-    beginResetModel();
-    m_players.clear();
-    m_playerIndexMap.clear();
-    endResetModel();
-    emit countChanged();
+	beginResetModel();
+	m_players.clear();
+	m_playerIndexMap.clear();
+	endResetModel();
+	emit countChanged();
 }
 
 // GameListModel implementation
 GameListModel::GameListModel(QObject *parent)
-    : QAbstractListModel(parent)
+	: QAbstractListModel(parent)
 {
 }
 
 int GameListModel::rowCount(const QModelIndex &parent) const
 {
-    if (parent.isValid())
-        return 0;
-    return m_games.count();
+	if (parent.isValid())
+		return 0;
+	return m_games.count();
 }
 
 QVariant GameListModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid() || index.row() >= m_games.count())
-        return QVariant();
+	if (!index.isValid() || index.row() >= m_games.count())
+		return QVariant();
 
-    const GameEntry &game = m_games.at(index.row());
-    
-    switch (role) {
-    case GameIdRole:
-        return game.id;
-    case GameNameRole:
-        return game.name;
-    case PlayerCountRole:
-        return game.playerCount;
-    case MaxPlayersRole:
-        return game.maxPlayers;
-    case GameModeRole:
-        return game.gameMode;
-    case IsPrivateRole:
-        return game.isPrivate;
-    case GameTypeRole:
-        return game.gameType;
-    case FirstSmallBlindRole:
-        return game.firstSmallBlind;
-    case StartMoneyRole:
-        return game.startMoney;
-    case RaiseIntervalModeRole:
-        return game.raiseIntervalMode;
-    case RaiseEveryHandsRole:
-        return game.raiseEveryHands;
-    case RaiseEveryMinutesRole:
-        return game.raiseEveryMinutes;
-    case RaiseModeRole:
-        return game.raiseMode;
-    case ManualBlindsTextRole:
-        return game.manualBlindsText;
-    case PlayerActionTimeoutRole:
-        return game.playerActionTimeoutSec;
-    case DelayBetweenHandsRole:
-        return game.delayBetweenHandsSec;
-    default:
-        return QVariant();
-    }
+	const GameEntry &game = m_games.at(index.row());
+
+	switch (role) {
+	case GameIdRole:
+		return game.id;
+	case GameNameRole:
+		return game.name;
+	case PlayerCountRole:
+		return game.playerCount;
+	case MaxPlayersRole:
+		return game.maxPlayers;
+	case GameModeRole:
+		return game.gameMode;
+	case IsPrivateRole:
+		return game.isPrivate;
+	case GameTypeRole:
+		return game.gameType;
+	case FirstSmallBlindRole:
+		return game.firstSmallBlind;
+	case StartMoneyRole:
+		return game.startMoney;
+	case RaiseIntervalModeRole:
+		return game.raiseIntervalMode;
+	case RaiseEveryHandsRole:
+		return game.raiseEveryHands;
+	case RaiseEveryMinutesRole:
+		return game.raiseEveryMinutes;
+	case RaiseModeRole:
+		return game.raiseMode;
+	case ManualBlindsTextRole:
+		return game.manualBlindsText;
+	case PlayerActionTimeoutRole:
+		return game.playerActionTimeoutSec;
+	case DelayBetweenHandsRole:
+		return game.delayBetweenHandsSec;
+	default:
+		return QVariant();
+	}
 }
 
 QHash<int, QByteArray> GameListModel::roleNames() const
 {
-    QHash<int, QByteArray> roles;
-    roles[GameIdRole] = "gameId";
-    roles[GameNameRole] = "gameName";
-    roles[PlayerCountRole] = "playerCount";
-    roles[MaxPlayersRole] = "maxPlayers";
-    roles[GameModeRole] = "gameMode";
-    roles[IsPrivateRole] = "isPrivate";
-    roles[GameTypeRole] = "gameType";
-    roles[FirstSmallBlindRole] = "firstSmallBlind";
-    roles[StartMoneyRole] = "startMoney";
-    roles[RaiseIntervalModeRole] = "raiseIntervalMode";
-    roles[RaiseEveryHandsRole] = "raiseEveryHands";
-    roles[RaiseEveryMinutesRole] = "raiseEveryMinutes";
-    roles[RaiseModeRole] = "raiseMode";
-    roles[ManualBlindsTextRole] = "manualBlindsText";
-    roles[PlayerActionTimeoutRole] = "playerActionTimeoutSec";
-    roles[DelayBetweenHandsRole] = "delayBetweenHandsSec";
-    return roles;
+	QHash<int, QByteArray> roles;
+	roles[GameIdRole] = "gameId";
+	roles[GameNameRole] = "gameName";
+	roles[PlayerCountRole] = "playerCount";
+	roles[MaxPlayersRole] = "maxPlayers";
+	roles[GameModeRole] = "gameMode";
+	roles[IsPrivateRole] = "isPrivate";
+	roles[GameTypeRole] = "gameType";
+	roles[FirstSmallBlindRole] = "firstSmallBlind";
+	roles[StartMoneyRole] = "startMoney";
+	roles[RaiseIntervalModeRole] = "raiseIntervalMode";
+	roles[RaiseEveryHandsRole] = "raiseEveryHands";
+	roles[RaiseEveryMinutesRole] = "raiseEveryMinutes";
+	roles[RaiseModeRole] = "raiseMode";
+	roles[ManualBlindsTextRole] = "manualBlindsText";
+	roles[PlayerActionTimeoutRole] = "playerActionTimeoutSec";
+	roles[DelayBetweenHandsRole] = "delayBetweenHandsSec";
+	return roles;
 }
 
 void GameListModel::addGame(unsigned gameId, const QString &gameName)
 {
-    if (m_gameIndexMap.contains(gameId)) {
-        qWarning() << "Game" << gameId << "already in list";
-        return;
-    }
-    
-    int newRow = m_games.count();
-    beginInsertRows(QModelIndex(), newRow, newRow);
-    
-    GameEntry game;
-    game.id = gameId;
-    game.name = gameName.isEmpty() ? QString("Game #%1").arg(gameId) : gameName;
-    game.playerCount = 0;
-    game.maxPlayers = 10;
-    game.gameMode = GAME_MODE_CREATED;
-    game.isPrivate = false;
-    game.gameType = GAME_TYPE_NORMAL;
-    game.firstSmallBlind = 10;
-    game.startMoney = 1000;
-    game.raiseIntervalMode = RAISE_ON_HANDNUMBER;
-    game.raiseEveryHands = 8;
-    game.raiseEveryMinutes = 1;
-    game.raiseMode = DOUBLE_BLINDS;
-    game.manualBlindsText.clear();
-    game.playerActionTimeoutSec = 20;
-    game.delayBetweenHandsSec = 6;
-    m_games.append(game);
-    m_gameIndexMap[gameId] = newRow;
-    
-    endInsertRows();
-    recomputeCounts();
+	if (m_gameIndexMap.contains(gameId)) {
+		qWarning() << "Game" << gameId << "already in list";
+		return;
+	}
+
+	int newRow = m_games.count();
+	beginInsertRows(QModelIndex(), newRow, newRow);
+
+	GameEntry game;
+	game.id = gameId;
+	game.name = gameName.isEmpty() ? QString("Game #%1").arg(gameId) : gameName;
+	game.playerCount = 0;
+	game.maxPlayers = 10;
+	game.gameMode = GAME_MODE_CREATED;
+	game.isPrivate = false;
+	game.gameType = GAME_TYPE_NORMAL;
+	game.firstSmallBlind = 10;
+	game.startMoney = 1000;
+	game.raiseIntervalMode = RAISE_ON_HANDNUMBER;
+	game.raiseEveryHands = 8;
+	game.raiseEveryMinutes = 1;
+	game.raiseMode = DOUBLE_BLINDS;
+	game.manualBlindsText.clear();
+	game.playerActionTimeoutSec = 20;
+	game.delayBetweenHandsSec = 6;
+	m_games.append(game);
+	m_gameIndexMap[gameId] = newRow;
+
+	endInsertRows();
+	recomputeCounts();
 }
 
 void GameListModel::removeGame(unsigned gameId)
 {
-    if (!m_gameIndexMap.contains(gameId)) {
-        qWarning() << "Game" << gameId << "not found";
-        return;
-    }
-    
-    int row = m_gameIndexMap[gameId];
-    beginRemoveRows(QModelIndex(), row, row);
-    
-    m_games.removeAt(row);
-    m_gameIndexMap.remove(gameId);
-    
-    // Update indices
-    for (int i = row; i < m_games.count(); ++i) {
-        m_gameIndexMap[m_games[i].id] = i;
-    }
-    
-    endRemoveRows();
-    recomputeCounts();
+	if (!m_gameIndexMap.contains(gameId)) {
+		qWarning() << "Game" << gameId << "not found";
+		return;
+	}
+
+	int row = m_gameIndexMap[gameId];
+	beginRemoveRows(QModelIndex(), row, row);
+
+	m_games.removeAt(row);
+	m_gameIndexMap.remove(gameId);
+
+	// Update indices
+	for (int i = row; i < m_games.count(); ++i) {
+		m_gameIndexMap[m_games[i].id] = i;
+	}
+
+	endRemoveRows();
+	recomputeCounts();
 }
 
 void GameListModel::updateGameMode(unsigned gameId, int mode)
 {
-    if (!m_gameIndexMap.contains(gameId))
-        return;
-    
-    int row = m_gameIndexMap[gameId];
-    int oldMode = m_games[row].gameMode;
-    m_games[row].gameMode = mode;
-    
-    QModelIndex idx = index(row);
-    emit dataChanged(idx, idx, {GameModeRole});
+	if (!m_gameIndexMap.contains(gameId))
+		return;
 
-    recomputeCounts();
+	int row = m_gameIndexMap[gameId];
+	int oldMode = m_games[row].gameMode;
+	m_games[row].gameMode = mode;
+
+	QModelIndex idx = index(row);
+	emit dataChanged(idx, idx, {GameModeRole});
+
+	recomputeCounts();
 }
 
 void GameListModel::updateGameInfo(unsigned gameId, const ::GameInfo &info)
 {
-    if (!m_gameIndexMap.contains(gameId))
-        return;
+	if (!m_gameIndexMap.contains(gameId))
+		return;
 
-    const int row = m_gameIndexMap[gameId];
-    GameEntry &entry = m_games[row];
+	const int row = m_gameIndexMap[gameId];
+	GameEntry &entry = m_games[row];
 
-    const QString nameFromSession = QString::fromStdString(info.name);
-    if (!nameFromSession.isEmpty())
-        entry.name = nameFromSession;
+	const QString nameFromSession = QString::fromStdString(info.name);
+	if (!nameFromSession.isEmpty())
+		entry.name = nameFromSession;
 
-    entry.playerCount = static_cast<int>(info.players.size());
-    entry.maxPlayers = info.data.maxNumberOfPlayers > 0 ? info.data.maxNumberOfPlayers : 10;
-    entry.gameMode = static_cast<int>(info.mode);
-    entry.isPrivate = info.isPasswordProtected;
-    entry.gameType = static_cast<int>(info.data.gameType);
-    entry.firstSmallBlind = info.data.firstSmallBlind > 0 ? info.data.firstSmallBlind : 10;
-    entry.startMoney = info.data.startMoney > 0 ? info.data.startMoney : 1000;
-    entry.raiseIntervalMode = static_cast<int>(info.data.raiseIntervalMode);
-    entry.raiseEveryHands = info.data.raiseSmallBlindEveryHandsValue;
-    entry.raiseEveryMinutes = info.data.raiseSmallBlindEveryMinutesValue;
-    entry.raiseMode = static_cast<int>(info.data.raiseMode);
-    entry.playerActionTimeoutSec = info.data.playerActionTimeoutSec;
-    entry.delayBetweenHandsSec = info.data.delayBetweenHandsSec;
+	entry.playerCount = static_cast<int>(info.players.size());
+	entry.maxPlayers = info.data.maxNumberOfPlayers > 0 ? info.data.maxNumberOfPlayers : 10;
+	entry.gameMode = static_cast<int>(info.mode);
+	entry.isPrivate = info.isPasswordProtected;
+	entry.gameType = static_cast<int>(info.data.gameType);
+	entry.firstSmallBlind = info.data.firstSmallBlind > 0 ? info.data.firstSmallBlind : 10;
+	entry.startMoney = info.data.startMoney > 0 ? info.data.startMoney : 1000;
+	entry.raiseIntervalMode = static_cast<int>(info.data.raiseIntervalMode);
+	entry.raiseEveryHands = info.data.raiseSmallBlindEveryHandsValue;
+	entry.raiseEveryMinutes = info.data.raiseSmallBlindEveryMinutesValue;
+	entry.raiseMode = static_cast<int>(info.data.raiseMode);
+	entry.playerActionTimeoutSec = info.data.playerActionTimeoutSec;
+	entry.delayBetweenHandsSec = info.data.delayBetweenHandsSec;
 
-    QStringList manualBlinds;
-    for (std::list<int>::const_iterator it = info.data.manualBlindsList.begin(); it != info.data.manualBlindsList.end(); ++it) {
-        manualBlinds << QString::number(*it);
-    }
-    entry.manualBlindsText = manualBlinds.join(QStringLiteral(", "));
+	QStringList manualBlinds;
+	for (std::list<int>::const_iterator it = info.data.manualBlindsList.begin(); it != info.data.manualBlindsList.end(); ++it) {
+		manualBlinds << QString::number(*it);
+	}
+	entry.manualBlindsText = manualBlinds.join(QStringLiteral(", "));
 
-    QModelIndex idx = index(row);
-    emit dataChanged(idx, idx);
-    recomputeCounts();
+	QModelIndex idx = index(row);
+	emit dataChanged(idx, idx);
+	recomputeCounts();
 }
 
 void GameListModel::recomputeCounts()
 {
-    int newOpenCount = 0;
-    int newRunningCount = 0;
+	int newOpenCount = 0;
+	int newRunningCount = 0;
 
-    for (const GameEntry &entry : m_games) {
-        if (entry.gameMode == GAME_MODE_CREATED) {
-            ++newOpenCount;
-        } else if (entry.gameMode == GAME_MODE_STARTED) {
-            ++newRunningCount;
-        }
-    }
+	for (const GameEntry &entry : m_games) {
+		if (entry.gameMode == GAME_MODE_CREATED) {
+			++newOpenCount;
+		} else if (entry.gameMode == GAME_MODE_STARTED) {
+			++newRunningCount;
+		}
+	}
 
-    if (m_openCount != newOpenCount) {
-        m_openCount = newOpenCount;
-        emit openCountChanged();
-    }
+	if (m_openCount != newOpenCount) {
+		m_openCount = newOpenCount;
+		emit openCountChanged();
+	}
 
-    if (m_runningCount != newRunningCount) {
-        m_runningCount = newRunningCount;
-        emit runningCountChanged();
-    }
+	if (m_runningCount != newRunningCount) {
+		m_runningCount = newRunningCount;
+		emit runningCountChanged();
+	}
 }
 
 void GameListModel::clear()
 {
-    beginResetModel();
-    m_games.clear();
-    m_gameIndexMap.clear();
-    endResetModel();
-    recomputeCounts();
+	beginResetModel();
+	m_games.clear();
+	m_gameIndexMap.clear();
+	endResetModel();
+	recomputeCounts();
 }
 
 // LobbyHandler implementation
 LobbyHandler::LobbyHandler(QObject *parent)
-    : QObject(parent)
-    , m_session()
-    , m_config(nullptr)
-    , m_playerListModel(this)
-    , m_playerListProxyModel(nullptr)
-    , m_gameListModel(this)
-    , m_gameListProxyModel(nullptr)
-    , m_myPlayerId(0)
-    , m_playerListFilterMode(0)
-    , m_gameListFilterMode(0)
-    , m_playerListRevision(0)
-    , m_gameListRevision(0)
-    , m_playerIgnoreListRevision(0)
+	: QObject(parent)
+	, m_session()
+	, m_config(nullptr)
+	, m_playerListModel(this)
+	, m_playerListProxyModel(nullptr)
+	, m_gameListModel(this)
+	, m_gameListProxyModel(nullptr)
+	, m_myPlayerId(0)
+	, m_playerListFilterMode(0)
+	, m_gameListFilterMode(0)
+	, m_playerListRevision(0)
+	, m_gameListRevision(0)
+	, m_playerIgnoreListRevision(0)
 {
-    auto *proxy = new PlayerNickListSortFilterProxyModel(this);
-    proxy->setSourceModel(&m_playerListModel);
-    proxy->setDynamicSortFilter(true);
-    proxy->sort(0, Qt::AscendingOrder);
-    m_playerListProxyModel = proxy;
+	auto *proxy = new PlayerNickListSortFilterProxyModel(this);
+	proxy->setSourceModel(&m_playerListModel);
+	proxy->setDynamicSortFilter(true);
+	proxy->sort(0, Qt::AscendingOrder);
+	m_playerListProxyModel = proxy;
 
-    auto *gameProxy = new GameListSortFilterProxyModel(this);
-    gameProxy->setSourceModel(&m_gameListModel);
-    gameProxy->setDynamicSortFilter(true);
-    m_gameListProxyModel = gameProxy;
+	auto *gameProxy = new GameListSortFilterProxyModel(this);
+	gameProxy->setSourceModel(&m_gameListModel);
+	gameProxy->setDynamicSortFilter(true);
+	m_gameListProxyModel = gameProxy;
 
-    // Chat-Übersetzer operiert direkt auf m_chatLog; jede von ihm veränderte
-    // Zeile stößt (gebündelt) chatLogChanged() an, damit die QML-Bindung neu rendert.
-    m_chatTranslator = new ChatTranslator(&m_chatLog, this);
-    connect(m_chatTranslator, &ChatTranslator::chatLogMutated,
-            this, &LobbyHandler::notifyChatLogChanged);
+	// Chat-Übersetzer operiert direkt auf m_chatLog; jede von ihm veränderte
+	// Zeile stößt (gebündelt) chatLogChanged() an, damit die QML-Bindung neu rendert.
+	m_chatTranslator = new ChatTranslator(&m_chatLog, this);
+	connect(m_chatTranslator, &ChatTranslator::chatLogMutated,
+			this, &LobbyHandler::notifyChatLogChanged);
 
-    // Bei DarkMode = "Automatisch" hängen die Chat-Farben am System-Theme:
-    // wechselt es im laufenden Betrieb, muss der Verlauf neu ausgeliefert
-    // werden (die Farb-Platzhalter werden erst in chatLog() aufgelöst).
-    if (QStyleHints *hints = QGuiApplication::styleHints()) {
-        connect(hints, &QStyleHints::colorSchemeChanged,
-                this, &LobbyHandler::notifyChatLogChanged);
-    }
+	// Bei DarkMode = "Automatisch" hängen die Chat-Farben am System-Theme:
+	// wechselt es im laufenden Betrieb, muss der Verlauf neu ausgeliefert
+	// werden (die Farb-Platzhalter werden erst in chatLog() aufgelöst).
+	if (QStyleHints *hints = QGuiApplication::styleHints()) {
+		connect(hints, &QStyleHints::colorSchemeChanged,
+				this, &LobbyHandler::notifyChatLogChanged);
+	}
 }
 
 QObject* LobbyHandler::chatTranslator() const
 {
-    return m_chatTranslator;
+	return m_chatTranslator;
 }
 
 LobbyHandler::~LobbyHandler() = default;
 
 void LobbyHandler::setSoundEvents(SoundEvents *soundEvents)
 {
-    m_soundEvents = soundEvents;
+	m_soundEvents = soundEvents;
 }
 
 void LobbyHandler::setSession(boost::shared_ptr<Session> session)
 {
-    m_session = session;
+	m_session = session;
 
-    // Always reset lobby models on session assignment to avoid stale rows
-    // when reconnect/resubscribe happens without pointer change.
-    m_gameListModel.clear();
-    m_playerListModel.clear();
+	// Always reset lobby models on session assignment to avoid stale rows
+	// when reconnect/resubscribe happens without pointer change.
+	m_gameListModel.clear();
+	m_playerListModel.clear();
 
-    // Der Lobby-Chat gehört zur Verbindung, der LobbyHandler lebt dagegen so
-    // lange wie die App: Ohne dieses Leeren stünde nach einem erneuten Login
-    // der Verlauf der vorherigen Sitzung weiter in der Chatbox. Pendant zum
-    // Widgets-Client (clearDialog() → ChatTools::clearChat() vor
-    // startInternetClient()). Aufgerufen wird setSession() bei jedem neuen
-    // Client (SignalNetClientConnect, MSG_SOCK_INIT_DONE).
-    if (m_chatTranslator)
-        m_chatTranslator->reset();
-    if (!m_chatLog.isEmpty()) {
-        m_chatLog.clear();
-        notifyChatLogChanged();
-    }
-    // Der PM-Verlauf überdauert Sitzungen (privatemessages.sqlite), gehört aber
-    // zu genau einem Konto: bis zum nächsten Login ist kein Besitzer bekannt,
-    // also bleibt der Posteingang leer. setMyPlayerInfo() lädt ihn dann für den
-    // Nick, mit dem man sich diesmal angemeldet hat.
-    setPrivateMessageOwner(QString());
+	// Der Lobby-Chat gehört zur Verbindung, der LobbyHandler lebt dagegen so
+	// lange wie die App: Ohne dieses Leeren stünde nach einem erneuten Login
+	// der Verlauf der vorherigen Sitzung weiter in der Chatbox. Pendant zum
+	// Widgets-Client (clearDialog() → ChatTools::clearChat() vor
+	// startInternetClient()). Aufgerufen wird setSession() bei jedem neuen
+	// Client (SignalNetClientConnect, MSG_SOCK_INIT_DONE).
+	if (m_chatTranslator)
+		m_chatTranslator->reset();
+	if (!m_chatLog.isEmpty()) {
+		m_chatLog.clear();
+		notifyChatLogChanged();
+	}
+	// Der PM-Verlauf überdauert Sitzungen (privatemessages.sqlite), gehört aber
+	// zu genau einem Konto: bis zum nächsten Login ist kein Besitzer bekannt,
+	// also bleibt der Posteingang leer. setMyPlayerInfo() lädt ihn dann für den
+	// Nick, mit dem man sich diesmal angemeldet hat.
+	setPrivateMessageOwner(QString());
 
-    // Ein evtl. noch offenes Rejoin-Angebot gehört zur alten Verbindung;
-    // ein neues kommt (falls möglich) mit dem InitAck der neuen Verbindung.
-    if (m_rejoinOfferGameId != 0) {
-        m_rejoinOfferGameId = 0;
-        emit rejoinOfferChanged();
-    }
-    setRejoinWaiting(false);
+	// Ein evtl. noch offenes Rejoin-Angebot gehört zur alten Verbindung;
+	// ein neues kommt (falls möglich) mit dem InitAck der neuen Verbindung.
+	if (m_rejoinOfferGameId != 0) {
+		m_rejoinOfferGameId = 0;
+		emit rejoinOfferChanged();
+	}
+	setRejoinWaiting(false);
 
-    // Spiel-Kontext zurücksetzen: Nach einem Verbindungsabbruch im Spiel kommt
-    // kein onRemovedFromGame mehr - ohne Reset bliebe isInGame/currentGameId
-    // über den Reconnect hinweg stehen.
-    setGameRunning(false);
-    if (m_isInGame) {
-        m_isInGame = false;
-        m_currentGameId = 0;
-        emit isInGameChanged();
-        emit currentGameIdChanged();
-    }
-    setCurrentGameAdmin(false);
+	// Spiel-Kontext zurücksetzen: Nach einem Verbindungsabbruch im Spiel kommt
+	// kein onRemovedFromGame mehr - ohne Reset bliebe isInGame/currentGameId
+	// über den Reconnect hinweg stehen.
+	setGameRunning(false);
+	if (m_isInGame) {
+		m_isInGame = false;
+		m_currentGameId = 0;
+		emit isInGameChanged();
+		emit currentGameIdChanged();
+	}
+	setCurrentGameAdmin(false);
 
-    static_cast<GameListSortFilterProxyModel *>(m_gameListProxyModel)->setSession(m_session.get());
-    ++m_playerListRevision;
-    emit playerListRevisionChanged();
-    ++m_gameListRevision;
-    emit gameListRevisionChanged();
+	static_cast<GameListSortFilterProxyModel *>(m_gameListProxyModel)->setSession(m_session.get());
+	++m_playerListRevision;
+	emit playerListRevisionChanged();
+	++m_gameListRevision;
+	emit gameListRevisionChanged();
 }
 
 void LobbyHandler::setConfig(ConfigFile *config)
 {
-    m_config = config;
+	m_config = config;
 
-    if (m_chatTranslator)
-        m_chatTranslator->setConfig(config);
+	if (m_chatTranslator)
+		m_chatTranslator->setConfig(config);
 
-    if (!m_config)
-        return;
+	if (!m_config)
+		return;
 
-    int storedMode = m_config->readConfigInt("DlgGameLobbyNickListSortFilterIndex");
-    if (storedMode < 0 || storedMode > 2)
-        storedMode = 0;
+	int storedMode = m_config->readConfigInt("DlgGameLobbyNickListSortFilterIndex");
+	if (storedMode < 0 || storedMode > 2)
+		storedMode = 0;
 
-    setPlayerListFilterMode(storedMode);
+	setPlayerListFilterMode(storedMode);
 
-    int storedGameListMode = m_config->readConfigInt("DlgGameLobbyGameListFilterIndex");
-    if (storedGameListMode < 0 || storedGameListMode > 5)
-        storedGameListMode = 0;
+	int storedGameListMode = m_config->readConfigInt("DlgGameLobbyGameListFilterIndex");
+	if (storedGameListMode < 0 || storedGameListMode > 5)
+		storedGameListMode = 0;
 
-    setGameListFilterMode(storedGameListMode);
+	setGameListFilterMode(storedGameListMode);
 
-    // Der Posteingang wird hier NICHT gelesen: welcher Verlauf gilt, steht erst
-    // mit dem Login fest (siehe setPrivateMessageOwner). Nur die Datei anlegen /
-    // aufrüsten, deren Pfad jetzt bekannt ist.
-    openPrivateMessageDb();
+	// Der Posteingang wird hier NICHT gelesen: welcher Verlauf gilt, steht erst
+	// mit dem Login fest (siehe setPrivateMessageOwner). Nur die Datei anlegen /
+	// aufrüsten, deren Pfad jetzt bekannt ist.
+	openPrivateMessageDb();
 }
 
 void LobbyHandler::onLobbyPlayerJoined(unsigned playerId, const QString &playerName)
 {
-    QString countryCode;
-    bool isGuest = false;
-    if (m_session) {
-        PlayerInfo info = m_session->getClientPlayerInfo(playerId);
-        countryCode = QString::fromStdString(info.countryCode).toLower();
-        isGuest = info.isGuest;
-    }
-    const bool isAdmin = m_session ? m_session->getClientPlayerInfo(playerId).isAdmin : false;
-    m_playerListModel.addPlayer(playerId, playerName, isAdmin, countryCode, isGuest);
-    // Der Neuzugang kann bereits an einem Tisch sitzen (z. B. Rejoin oder die
-    // erneut gesendete Spielerliste nach einem Resubscribe).
-    syncPlayerGameMembership();
-    ++m_playerListRevision;
-    emit playerListRevisionChanged();
-    ++m_gameListRevision;
-    emit gameListRevisionChanged();
+	QString countryCode;
+	bool isGuest = false;
+	if (m_session) {
+		PlayerInfo info = m_session->getClientPlayerInfo(playerId);
+		countryCode = QString::fromStdString(info.countryCode).toLower();
+		isGuest = info.isGuest;
+	}
+	const bool isAdmin = m_session ? m_session->getClientPlayerInfo(playerId).isAdmin : false;
+	m_playerListModel.addPlayer(playerId, playerName, isAdmin, countryCode, isGuest);
+	// Der Neuzugang kann bereits an einem Tisch sitzen (z. B. Rejoin oder die
+	// erneut gesendete Spielerliste nach einem Resubscribe).
+	syncPlayerGameMembership();
+	++m_playerListRevision;
+	emit playerListRevisionChanged();
+	++m_gameListRevision;
+	emit gameListRevisionChanged();
 
-    // Track admin status for our own player
-    if (m_session && playerId == m_session->getClientUniquePlayerId()) {
-        if (m_isCurrentPlayerAdmin != isAdmin) {
-            m_isCurrentPlayerAdmin = isAdmin;
-            emit isCurrentPlayerAdminChanged();
-        }
-    }
+	// Track admin status for our own player
+	if (m_session && playerId == m_session->getClientUniquePlayerId()) {
+		if (m_isCurrentPlayerAdmin != isAdmin) {
+			m_isCurrentPlayerAdmin = isAdmin;
+			emit isCurrentPlayerAdminChanged();
+		}
+	}
 }
 
 void LobbyHandler::onLobbyPlayerLeft(unsigned playerId)
 {
-    m_playerListModel.removePlayer(playerId);
-    ++m_playerListRevision;
-    emit playerListRevisionChanged();
-    ++m_gameListRevision;
-    emit gameListRevisionChanged();
+	m_playerListModel.removePlayer(playerId);
+	++m_playerListRevision;
+	emit playerListRevisionChanged();
+	++m_gameListRevision;
+	emit gameListRevisionChanged();
 }
 
 void LobbyHandler::updatePlayerName(unsigned playerId, const QString &playerName, bool isAdmin)
 {
-    // Den durchgereichten isAdmin-Parameter NICHT für den Admin-Status nutzen:
-    // er trägt je nach Aufrufer unterschiedliche Bedeutung (Server-Admin aus
-    // SignalNetClientPlayerChanged vs. Spiel-Admin aus SignalNetClientPlayerJoined).
-    // Maßgeblich für kickban / Spiel-schließen ist allein der Server-Admin aus
-    // der PlayerInfo der Session. Diese ist nach Eintreffen des PlayerInfoReply
-    // authoritativ – dadurch heilt sich der Status selbst und wird nicht mehr
-    // von einem Spiel-Beitritt überschrieben.
-    QString countryCode;
-    bool isGuest = false;
-    bool serverAdmin = isAdmin;
-    if (m_session) {
-        PlayerInfo info = m_session->getClientPlayerInfo(playerId);
-        countryCode = QString::fromStdString(info.countryCode).toLower();
-        isGuest = info.isGuest;
-        serverAdmin = info.isAdmin;
-    }
-    // Update in player list model
-    m_playerListModel.updatePlayerInfo(playerId, playerName, serverAdmin, countryCode, isGuest);
-    syncPlayerGameMembership();
-    ++m_playerListRevision;
-    emit playerListRevisionChanged();
-    ++m_gameListRevision;
-    emit gameListRevisionChanged();
+	// Den durchgereichten isAdmin-Parameter NICHT für den Admin-Status nutzen:
+	// er trägt je nach Aufrufer unterschiedliche Bedeutung (Server-Admin aus
+	// SignalNetClientPlayerChanged vs. Spiel-Admin aus SignalNetClientPlayerJoined).
+	// Maßgeblich für kickban / Spiel-schließen ist allein der Server-Admin aus
+	// der PlayerInfo der Session. Diese ist nach Eintreffen des PlayerInfoReply
+	// authoritativ – dadurch heilt sich der Status selbst und wird nicht mehr
+	// von einem Spiel-Beitritt überschrieben.
+	QString countryCode;
+	bool isGuest = false;
+	bool serverAdmin = isAdmin;
+	if (m_session) {
+		PlayerInfo info = m_session->getClientPlayerInfo(playerId);
+		countryCode = QString::fromStdString(info.countryCode).toLower();
+		isGuest = info.isGuest;
+		serverAdmin = info.isAdmin;
+	}
+	// Update in player list model
+	m_playerListModel.updatePlayerInfo(playerId, playerName, serverAdmin, countryCode, isGuest);
+	syncPlayerGameMembership();
+	++m_playerListRevision;
+	emit playerListRevisionChanged();
+	++m_gameListRevision;
+	emit gameListRevisionChanged();
 
-    // Check if this is our own player by comparing with session's unique player ID
-    if (m_session) {
-        unsigned myId = m_session->getClientUniquePlayerId();
-        if (playerId == myId) {
-            setMyPlayerInfo(playerId, playerName);
-            // Server-Admin-Status aktualisieren (selbstheilend aus der Session).
-            if (m_isCurrentPlayerAdmin != serverAdmin) {
-                m_isCurrentPlayerAdmin = serverAdmin;
-                emit isCurrentPlayerAdminChanged();
-            }
-        }
-    }
+	// Check if this is our own player by comparing with session's unique player ID
+	if (m_session) {
+		unsigned myId = m_session->getClientUniquePlayerId();
+		if (playerId == myId) {
+			setMyPlayerInfo(playerId, playerName);
+			// Server-Admin-Status aktualisieren (selbstheilend aus der Session).
+			if (m_isCurrentPlayerAdmin != serverAdmin) {
+				m_isCurrentPlayerAdmin = serverAdmin;
+				emit isCurrentPlayerAdminChanged();
+			}
+		}
+	}
 }
 
 void LobbyHandler::onGameListNew(unsigned gameId, const QString &gameName)
 {
-    m_gameListModel.addGame(gameId, gameName.isEmpty() ? QString("Game #%1").arg(gameId) : gameName);
-    refreshGameInfo(gameId);
-    ++m_gameListRevision;
-    emit gameListRevisionChanged();
-    syncPlayerGameMembership();
-    emit gameContextChanged();
+	m_gameListModel.addGame(gameId, gameName.isEmpty() ? QString("Game #%1").arg(gameId) : gameName);
+	refreshGameInfo(gameId);
+	++m_gameListRevision;
+	emit gameListRevisionChanged();
+	syncPlayerGameMembership();
+	emit gameContextChanged();
 }
 
 void LobbyHandler::onGameListRemove(unsigned gameId)
 {
-    m_gameListModel.removeGame(gameId);
-    ++m_gameListRevision;
-    emit gameListRevisionChanged();
-    syncPlayerGameMembership();
-    emit gameContextChanged();
+	m_gameListModel.removeGame(gameId);
+	++m_gameListRevision;
+	emit gameListRevisionChanged();
+	syncPlayerGameMembership();
+	emit gameContextChanged();
 }
 
 void LobbyHandler::onGameListUpdateMode(unsigned gameId, int mode)
 {
-    m_gameListModel.updateGameMode(gameId, mode);
-    refreshGameInfo(gameId);
-    ++m_gameListRevision;
-    emit gameListRevisionChanged();
-    syncPlayerGameMembership();
-    emit gameContextChanged();
+	m_gameListModel.updateGameMode(gameId, mode);
+	refreshGameInfo(gameId);
+	++m_gameListRevision;
+	emit gameListRevisionChanged();
+	syncPlayerGameMembership();
+	emit gameContextChanged();
 }
 
 void LobbyHandler::onGameListChanged(unsigned gameId)
 {
-    refreshGameInfo(gameId);
-    ++m_gameListRevision;
-    emit gameListRevisionChanged();
-    // Ein Spieler oder Zuschauer ist einem Spiel beigetreten / hat es verlassen
-    // (SignalNetClientGameListPlayerJoined/Left und die Zuschauer-Pendants mappen
-    // hierauf). Genau hier verlässt jemand die Idle-Liste bzw. kehrt in sie zurück.
-    syncPlayerGameMembership();
-    ++m_playerListRevision;
-    emit playerListRevisionChanged();
-    emit gameContextChanged();
+	refreshGameInfo(gameId);
+	++m_gameListRevision;
+	emit gameListRevisionChanged();
+	// Ein Spieler oder Zuschauer ist einem Spiel beigetreten / hat es verlassen
+	// (SignalNetClientGameListPlayerJoined/Left und die Zuschauer-Pendants mappen
+	// hierauf). Genau hier verlässt jemand die Idle-Liste bzw. kehrt in sie zurück.
+	syncPlayerGameMembership();
+	++m_playerListRevision;
+	emit playerListRevisionChanged();
+	emit gameContextChanged();
 }
 
 void LobbyHandler::setCurrentGameAdmin(bool isGameAdmin)
 {
-    // Betrifft ausschließlich den Spiel-Admin (Host) – der Server-Admin-Status
-    // (kickban / Spiel schließen) bleibt davon unberührt.
-    if (m_isCurrentGameAdmin != isGameAdmin) {
-        m_isCurrentGameAdmin = isGameAdmin;
-        emit isCurrentGameAdminChanged();
-    }
+	// Betrifft ausschließlich den Spiel-Admin (Host) – der Server-Admin-Status
+	// (kickban / Spiel schließen) bleibt davon unberührt.
+	if (m_isCurrentGameAdmin != isGameAdmin) {
+		m_isCurrentGameAdmin = isGameAdmin;
+		emit isCurrentGameAdminChanged();
+	}
 }
 
 void LobbyHandler::setMyPlayerInfo(unsigned playerId, const QString &playerName)
 {
-    if (m_myPlayerId != playerId) {
-        m_myPlayerId = playerId;
-        emit myPlayerIdChanged();
-    }
-    
-    if (m_myPlayerName != playerName) {
-        m_myPlayerName = playerName;
-        emit myPlayerNameChanged();
-        // Erster Punkt nach dem Login, an dem der eigene Nick feststeht: ab
-        // hier gilt der Posteingang dieses Kontos.
-        setPrivateMessageOwner(playerName);
-    }
+	if (m_myPlayerId != playerId) {
+		m_myPlayerId = playerId;
+		emit myPlayerIdChanged();
+	}
 
-    emit gameContextChanged();
+	if (m_myPlayerName != playerName) {
+		m_myPlayerName = playerName;
+		emit myPlayerNameChanged();
+		// Erster Punkt nach dem Login, an dem der eigene Nick feststeht: ab
+		// hier gilt der Posteingang dieses Kontos.
+		setPrivateMessageOwner(playerName);
+	}
+
+	emit gameContextChanged();
 }
 
 bool LobbyHandler::canInviteFromCurrentGame() const
 {
-    if (!m_session)
-        return false;
+	if (!m_session)
+		return false;
 
-    const unsigned gameId = m_session->getClientCurrentGameId();
-    if (!gameId)
-        return false;
+	const unsigned gameId = m_session->getClientCurrentGameId();
+	if (!gameId)
+		return false;
 
-    const GameInfo currentGame = m_session->getClientGameInfo(gameId);
-    return currentGame.data.gameType == GAME_TYPE_INVITE_ONLY;
+	const GameInfo currentGame = m_session->getClientGameInfo(gameId);
+	return currentGame.data.gameType == GAME_TYPE_INVITE_ONLY;
 }
 
 bool LobbyHandler::isMyPlayerGuest() const
 {
-    if (!m_session || m_myPlayerId == 0)
-        return false;
+	if (!m_session || m_myPlayerId == 0)
+		return false;
 
-    const PlayerInfo info = m_session->getClientPlayerInfo(m_myPlayerId);
-    return info.isGuest;
+	const PlayerInfo info = m_session->getClientPlayerInfo(m_myPlayerId);
+	return info.isGuest;
 }
 
 // Index einer PM-Blase über ihre eindeutige msgId (-1 = nicht mehr im
 // Speicher-Fenster des Verlaufs).
 static int indexOfPrivateMessage(const QVariantList &messages, int messageId)
 {
-    for (int i = 0; i < messages.size(); ++i) {
-        if (messages.at(i).toMap().value(QStringLiteral("msgId")).toInt() == messageId)
-            return i;
-    }
-    return -1;
+	for (int i = 0; i < messages.size(); ++i) {
+		if (messages.at(i).toMap().value(QStringLiteral("msgId")).toInt() == messageId)
+			return i;
+	}
+	return -1;
 }
 
 void LobbyHandler::setTextTranslator(TextTranslator *translator)
 {
-    m_textTranslator = translator;
-    if (m_textTranslator) {
-        connect(m_textTranslator, &TextTranslator::translated,
-                this, &LobbyHandler::onPrivateMessageTranslated, Qt::UniqueConnection);
-    }
+	m_textTranslator = translator;
+	if (m_textTranslator) {
+		connect(m_textTranslator, &TextTranslator::translated,
+				this, &LobbyHandler::onPrivateMessageTranslated, Qt::UniqueConnection);
+	}
 }
 
 void LobbyHandler::togglePrivateMessageTranslation(const QString &playerName, int messageId)
 {
-    auto it = m_privateThreads.find(playerName);
-    if (it == m_privateThreads.end())
-        return;
-    const int index = indexOfPrivateMessage(it->messages, messageId);
-    if (index < 0)
-        return;
+	auto it = m_privateThreads.find(playerName);
+	if (it == m_privateThreads.end())
+		return;
+	const int index = indexOfPrivateMessage(it->messages, messageId);
+	if (index < 0)
+		return;
 
-    QVariantMap entry = it->messages.at(index).toMap();
-    // Nur eingehende Nachrichten – die eigenen sind bereits in der eigenen
-    // Sprache verfasst (dieselbe Regel wie im Chat-Verlauf).
-    if (entry.value(QStringLiteral("fromMe")).toBool()
-        || entry.value(QStringLiteral("translationPending")).toBool())
-        return;
+	QVariantMap entry = it->messages.at(index).toMap();
+	// Nur eingehende Nachrichten – die eigenen sind bereits in der eigenen
+	// Sprache verfasst (dieselbe Regel wie im Chat-Verlauf).
+	if (entry.value(QStringLiteral("fromMe")).toBool()
+			|| entry.value(QStringLiteral("translationPending")).toBool())
+		return;
 
-    // Bereits übersetzt: nur ein-/ausblenden, kein erneuter Netzabruf.
-    if (!entry.value(QStringLiteral("translation")).toString().isEmpty()) {
-        entry.insert(QStringLiteral("showTranslation"),
-                     !entry.value(QStringLiteral("showTranslation")).toBool());
-        it->messages[index] = entry;
-        ++m_privateMessagesRevision;
-        emit privateMessagesChanged();
-        return;
-    }
+	// Bereits übersetzt: nur ein-/ausblenden, kein erneuter Netzabruf.
+	if (!entry.value(QStringLiteral("translation")).toString().isEmpty()) {
+		entry.insert(QStringLiteral("showTranslation"),
+					 !entry.value(QStringLiteral("showTranslation")).toBool());
+		it->messages[index] = entry;
+		++m_privateMessagesRevision;
+		emit privateMessagesChanged();
+		return;
+	}
 
-    if (!m_textTranslator)
-        return;
-    const int requestId =
-        m_textTranslator->translate(entry.value(QStringLiteral("text")).toString());
-    if (requestId < 0)
-        return;
+	if (!m_textTranslator)
+		return;
+	const int requestId =
+		m_textTranslator->translate(entry.value(QStringLiteral("text")).toString());
+	if (requestId < 0)
+		return;
 
-    entry.insert(QStringLiteral("translationPending"), true);
-    entry.insert(QStringLiteral("translationFailed"), false);
-    it->messages[index] = entry;
-    m_pmTranslationRequests.insert(requestId, qMakePair(playerName, messageId));
+	entry.insert(QStringLiteral("translationPending"), true);
+	entry.insert(QStringLiteral("translationFailed"), false);
+	it->messages[index] = entry;
+	m_pmTranslationRequests.insert(requestId, qMakePair(playerName, messageId));
 
-    ++m_privateMessagesRevision;
-    emit privateMessagesChanged();
+	++m_privateMessagesRevision;
+	emit privateMessagesChanged();
 }
 
 void LobbyHandler::onPrivateMessageTranslated(int requestId, const QString &text, bool ok)
 {
-    if (!m_pmTranslationRequests.contains(requestId))
-        return;   // Anfrage einer anderen Ansicht (Forum-Seite).
-    const QPair<QString, int> req = m_pmTranslationRequests.take(requestId);
+	if (!m_pmTranslationRequests.contains(requestId))
+		return;   // Anfrage einer anderen Ansicht (Forum-Seite).
+	const QPair<QString, int> req = m_pmTranslationRequests.take(requestId);
 
-    auto it = m_privateThreads.find(req.first);
-    if (it == m_privateThreads.end())
-        return;
-    const int index = indexOfPrivateMessage(it->messages, req.second);
-    if (index < 0)
-        return;   // Nachricht ist inzwischen aus dem Speicher-Fenster gefallen.
+	auto it = m_privateThreads.find(req.first);
+	if (it == m_privateThreads.end())
+		return;
+	const int index = indexOfPrivateMessage(it->messages, req.second);
+	if (index < 0)
+		return;   // Nachricht ist inzwischen aus dem Speicher-Fenster gefallen.
 
-    QVariantMap entry = it->messages.at(index).toMap();
-    entry.insert(QStringLiteral("translationPending"), false);
-    if (ok && !text.trimmed().isEmpty()) {
-        entry.insert(QStringLiteral("translation"), text);
-        entry.insert(QStringLiteral("showTranslation"), true);
-        entry.insert(QStringLiteral("translationFailed"), false);
-    } else {
-        // Fehlschlag NICHT verschlucken: der Globus färbt sich um, ein weiterer
-        // Klick versucht es erneut.
-        entry.insert(QStringLiteral("translationFailed"), true);
-    }
-    it->messages[index] = entry;
+	QVariantMap entry = it->messages.at(index).toMap();
+	entry.insert(QStringLiteral("translationPending"), false);
+	if (ok && !text.trimmed().isEmpty()) {
+		entry.insert(QStringLiteral("translation"), text);
+		entry.insert(QStringLiteral("showTranslation"), true);
+		entry.insert(QStringLiteral("translationFailed"), false);
+	} else {
+		// Fehlschlag NICHT verschlucken: der Globus färbt sich um, ein weiterer
+		// Klick versucht es erneut.
+		entry.insert(QStringLiteral("translationFailed"), true);
+	}
+	it->messages[index] = entry;
 
-    ++m_privateMessagesRevision;
-    emit privateMessagesChanged();
+	++m_privateMessagesRevision;
+	emit privateMessagesChanged();
 }
 
 bool LobbyHandler::isPlayerGuest(unsigned playerId) const
 {
-    if (!m_session || playerId == 0)
-        return false;
+	if (!m_session || playerId == 0)
+		return false;
 
-    const PlayerInfo info = m_session->getClientPlayerInfo(playerId);
-    return info.isGuest;
+	const PlayerInfo info = m_session->getClientPlayerInfo(playerId);
+	return info.isGuest;
 }
 
 bool LobbyHandler::canJoinGame(unsigned gameId) const
 {
-    if (!m_session || gameId == 0)
-        return false;
+	if (!m_session || gameId == 0)
+		return false;
 
-    const GameInfo info = m_session->getClientGameInfo(gameId);
+	const GameInfo info = m_session->getClientGameInfo(gameId);
 
-    const int mode = static_cast<int>(info.mode);
-    if (mode == GAME_MODE_STARTED || mode == GAME_MODE_CLOSED)
-        return false;
+	const int mode = static_cast<int>(info.mode);
+	if (mode == GAME_MODE_STARTED || mode == GAME_MODE_CLOSED)
+		return false;
 
-    const int maxPlayers = info.data.maxNumberOfPlayers > 0 ? info.data.maxNumberOfPlayers : 10;
-    const int playerCount = static_cast<int>(info.players.size());
-    if (playerCount >= maxPlayers)
-        return false;
+	const int maxPlayers = info.data.maxNumberOfPlayers > 0 ? info.data.maxNumberOfPlayers : 10;
+	const int playerCount = static_cast<int>(info.players.size());
+	if (playerCount >= maxPlayers)
+		return false;
 
-    // Passwortgeschützte Spiele sind beitretbar: die LobbyPage fragt das
-    // Passwort vor dem Beitritt ab (joinPasswordPopup) und übergibt es an
-    // joinGame(); geprüft wird es serverseitig (ServerGame::CheckPassword).
+	// Passwortgeschützte Spiele sind beitretbar: die LobbyPage fragt das
+	// Passwort vor dem Beitritt ab (joinPasswordPopup) und übergibt es an
+	// joinGame(); geprüft wird es serverseitig (ServerGame::CheckPassword).
 
-    const int gameType = static_cast<int>(info.data.gameType);
+	const int gameType = static_cast<int>(info.data.gameType);
 
-    // Einladungsspiele werden ausschließlich über die Einladung selbst
-    // betreten (acceptGameInvitation), nie über die Spielliste.
-    if (gameType == GAME_TYPE_INVITE_ONLY)
-        return false;
+	// Einladungsspiele werden ausschließlich über die Einladung selbst
+	// betreten (acceptGameInvitation), nie über die Spielliste.
+	if (gameType == GAME_TYPE_INVITE_ONLY)
+		return false;
 
-    // Gäste dürfen serverseitig nur normalen Spielen beitreten
-    // (ServerLobbyThread::HandleNetPacketJoinGame).
-    if (gameType != GAME_TYPE_NORMAL && isMyPlayerGuest())
-        return false;
+	// Gäste dürfen serverseitig nur normalen Spielen beitreten
+	// (ServerLobbyThread::HandleNetPacketJoinGame).
+	if (gameType != GAME_TYPE_NORMAL && isMyPlayerGuest())
+		return false;
 
-    return gameType == GAME_TYPE_NORMAL
-        || gameType == GAME_TYPE_REGISTERED_ONLY
-        || gameType == GAME_TYPE_RANKING;
+	return gameType == GAME_TYPE_NORMAL
+		   || gameType == GAME_TYPE_REGISTERED_ONLY
+		   || gameType == GAME_TYPE_RANKING;
 }
 
 bool LobbyHandler::canSpectateGame(unsigned gameId) const
 {
-    if (!m_session || gameId == 0)
-        return false;
+	if (!m_session || gameId == 0)
+		return false;
 
-    // Nur ein Tisch zur Zeit: wer bereits sitzt oder zuschaut, muss erst raus.
-    if (m_isInGame)
-        return false;
+	// Nur ein Tisch zur Zeit: wer bereits sitzt oder zuschaut, muss erst raus.
+	if (m_isInGame)
+		return false;
 
-    const GameInfo info = m_session->getClientGameInfo(gameId);
+	const GameInfo info = m_session->getClientGameInfo(gameId);
 
-    // Nur laufende Spiele. Ein Spiel im Warteraum hat noch keinen Tisch zu
-    // zeigen; ein geschlossenes ist vorbei.
-    if (static_cast<int>(info.mode) != GAME_MODE_STARTED)
-        return false;
+	// Nur laufende Spiele. Ein Spiel im Warteraum hat noch keinen Tisch zu
+	// zeigen; ein geschlossenes ist vorbei.
+	if (static_cast<int>(info.mode) != GAME_MODE_STARTED)
+		return false;
 
-    // Einzige Bedingung des Servers (ServerLobbyThread::HandleNetPacketJoinGame):
-    // Passwort, Einladung und Gast-Status prüft er bei spectateOnly NICHT.
-    return info.data.allowSpectators;
+	// Einzige Bedingung des Servers (ServerLobbyThread::HandleNetPacketJoinGame):
+	// Passwort, Einladung und Gast-Status prüft er bei spectateOnly NICHT.
+	return info.data.allowSpectators;
 }
 
 void LobbyHandler::setPlayerListFilterMode(int mode)
 {
-    if (mode < 0 || mode > 2)
-        mode = 0;
+	if (mode < 0 || mode > 2)
+		mode = 0;
 
-    if (m_playerListFilterMode == mode)
-        return;
+	if (m_playerListFilterMode == mode)
+		return;
 
-    m_playerListFilterMode = mode;
-    static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->setFilterState(mode);
-    ++m_playerListRevision;
-    emit playerListRevisionChanged();
+	m_playerListFilterMode = mode;
+	static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->setFilterState(mode);
+	++m_playerListRevision;
+	emit playerListRevisionChanged();
 
-    if (m_config) {
-        m_config->writeConfigInt("DlgGameLobbyNickListSortFilterIndex", mode);
-        m_config->writeBuffer();
-    }
+	if (m_config) {
+		m_config->writeConfigInt("DlgGameLobbyNickListSortFilterIndex", mode);
+		m_config->writeBuffer();
+	}
 
-    emit playerListFilterModeChanged();
+	emit playerListFilterModeChanged();
 }
 
 void LobbyHandler::setGameListFilterMode(int mode)
 {
-    if (mode < 0 || mode > 5)
-        mode = 0;
+	if (mode < 0 || mode > 5)
+		mode = 0;
 
-    if (m_gameListFilterMode == mode)
-        return;
+	if (m_gameListFilterMode == mode)
+		return;
 
-    m_gameListFilterMode = mode;
-    static_cast<GameListSortFilterProxyModel *>(m_gameListProxyModel)->setFilterMode(mode);
+	m_gameListFilterMode = mode;
+	static_cast<GameListSortFilterProxyModel *>(m_gameListProxyModel)->setFilterMode(mode);
 
-    if (m_config) {
-        m_config->writeConfigInt("DlgGameLobbyGameListFilterIndex", mode);
-        m_config->writeBuffer();
-    }
+	if (m_config) {
+		m_config->writeConfigInt("DlgGameLobbyGameListFilterIndex", mode);
+		m_config->writeBuffer();
+	}
 
-    emit gameListFilterModeChanged();
+	emit gameListFilterModeChanged();
 }
 
 void LobbyHandler::refreshGameInfo(unsigned gameId)
 {
-    if (!m_session)
-        return;
+	if (!m_session)
+		return;
 
-    const ::GameInfo info = m_session->getClientGameInfo(gameId);
-    m_gameListModel.updateGameInfo(gameId, info);
+	const ::GameInfo info = m_session->getClientGameInfo(gameId);
+	m_gameListModel.updateGameInfo(gameId, info);
 }
 
 // Einziger Ort, an dem das Idle-Kriterium gepflegt wird: Aus den bekannten
@@ -1118,1467 +1118,1498 @@ void LobbyHandler::refreshGameInfo(unsigned gameId)
 // Proxy die betroffene Zeile selbsttätig neu filtert.
 void LobbyHandler::syncPlayerGameMembership()
 {
-    if (!m_session)
-        return;
+	if (!m_session)
+		return;
 
-    QHash<unsigned, unsigned> gameIdOfPlayer;
-    const int gameCount = m_gameListModel.rowCount();
-    for (int row = 0; row < gameCount; ++row) {
-        const unsigned gameId = m_gameListModel.data(
-            m_gameListModel.index(row), GameListModel::GameIdRole).toUInt();
-        if (gameId == 0)
-            continue;
+	QHash<unsigned, unsigned> gameIdOfPlayer;
+	const int gameCount = m_gameListModel.rowCount();
+	for (int row = 0; row < gameCount; ++row) {
+		const unsigned gameId = m_gameListModel.data(
+									m_gameListModel.index(row), GameListModel::GameIdRole).toUInt();
+		if (gameId == 0)
+			continue;
 
-        const ::GameInfo info = m_session->getClientGameInfo(gameId);
-        for (const unsigned playerId : info.spectators)
-            gameIdOfPlayer.insert(playerId, gameId);
-        // Nach den Zuschauern, damit ein Sitzplatz eine etwaige veraltete
-        // Zuschauer-Zuordnung überschreibt.
-        for (const unsigned playerId : info.players)
-            gameIdOfPlayer.insert(playerId, gameId);
-    }
+		const ::GameInfo info = m_session->getClientGameInfo(gameId);
+		for (const unsigned playerId : info.spectators)
+			gameIdOfPlayer.insert(playerId, gameId);
+		// Nach den Zuschauern, damit ein Sitzplatz eine etwaige veraltete
+		// Zuschauer-Zuordnung überschreibt.
+		for (const unsigned playerId : info.players)
+			gameIdOfPlayer.insert(playerId, gameId);
+	}
 
-    const QList<unsigned> playerIds = m_playerListModel.playerIds();
-    for (const unsigned playerId : playerIds)
-        m_playerListModel.setPlayerGameId(playerId, gameIdOfPlayer.value(playerId, 0));
+	const QList<unsigned> playerIds = m_playerListModel.playerIds();
+	for (const unsigned playerId : playerIds)
+		m_playerListModel.setPlayerGameId(playerId, gameIdOfPlayer.value(playerId, 0));
 }
 
 QVariantMap LobbyHandler::playerListEntry(int row) const
 {
-    QVariantMap entry;
+	QVariantMap entry;
 
-    if (!m_playerListProxyModel || row < 0)
-        return entry;
+	if (!m_playerListProxyModel || row < 0)
+		return entry;
 
-    const QModelIndex index = m_playerListProxyModel->index(row, 0);
-    if (!index.isValid())
-        return entry;
+	const QModelIndex index = m_playerListProxyModel->index(row, 0);
+	if (!index.isValid())
+		return entry;
 
-    const unsigned playerId = m_playerListProxyModel->data(index, PlayerListModel::PlayerIdRole).toUInt();
-    QString playerName = m_playerListProxyModel->data(index, PlayerListModel::PlayerNameRole).toString();
-    const bool isAdmin = m_playerListProxyModel->data(index, PlayerListModel::IsAdminRole).toBool();
-    QString countryCode = m_playerListProxyModel->data(index, PlayerListModel::CountryCodeRole).toString();
-    const bool isGuest = m_playerListProxyModel->data(index, PlayerListModel::IsGuestRole).toBool();
+	const unsigned playerId = m_playerListProxyModel->data(index, PlayerListModel::PlayerIdRole).toUInt();
+	QString playerName = m_playerListProxyModel->data(index, PlayerListModel::PlayerNameRole).toString();
+	const bool isAdmin = m_playerListProxyModel->data(index, PlayerListModel::IsAdminRole).toBool();
+	QString countryCode = m_playerListProxyModel->data(index, PlayerListModel::CountryCodeRole).toString();
+	const bool isGuest = m_playerListProxyModel->data(index, PlayerListModel::IsGuestRole).toBool();
 
-    if (m_session && playerId != 0) {
-        static const QRegularExpression numericPlaceholderPattern("^#?\\d+$");
-        const bool nameIsPlaceholder = playerName.isEmpty() || numericPlaceholderPattern.match(playerName).hasMatch();
+	if (m_session && playerId != 0) {
+		static const QRegularExpression numericPlaceholderPattern("^#?\\d+$");
+		const bool nameIsPlaceholder = playerName.isEmpty() || numericPlaceholderPattern.match(playerName).hasMatch();
 
-        if (nameIsPlaceholder || countryCode.isEmpty()) {
-            const PlayerInfo info = m_session->getClientPlayerInfo(playerId);
-            const QString sessionName = QString::fromStdString(info.playerName);
-            const QString sessionCountryCode = QString::fromStdString(info.countryCode).toLower();
+		if (nameIsPlaceholder || countryCode.isEmpty()) {
+			const PlayerInfo info = m_session->getClientPlayerInfo(playerId);
+			const QString sessionName = QString::fromStdString(info.playerName);
+			const QString sessionCountryCode = QString::fromStdString(info.countryCode).toLower();
 
-            if (nameIsPlaceholder && !sessionName.isEmpty()) {
-                playerName = sessionName;
-            }
+			if (nameIsPlaceholder && !sessionName.isEmpty()) {
+				playerName = sessionName;
+			}
 
-            if (countryCode.isEmpty() && !sessionCountryCode.isEmpty()) {
-                countryCode = sessionCountryCode;
-            }
-        }
-    }
+			if (countryCode.isEmpty() && !sessionCountryCode.isEmpty()) {
+				countryCode = sessionCountryCode;
+			}
+		}
+	}
 
-    entry.insert("playerId", playerId);
-    entry.insert("playerName", playerName);
-    entry.insert("isAdmin", isAdmin);
-    entry.insert("countryCode", countryCode);
-    entry.insert("isGuest", isGuest);
-    return entry;
+	entry.insert("playerId", playerId);
+	entry.insert("playerName", playerName);
+	entry.insert("isAdmin", isAdmin);
+	entry.insert("countryCode", countryCode);
+	entry.insert("isGuest", isGuest);
+	return entry;
 }
 
 QStringList LobbyHandler::playerNickList() const
 {
-    QStringList nicks;
+	QStringList nicks;
 
-    // Quell-Modell (ungefiltert) durchlaufen, NICHT den Proxy: der
-    // Spielerlisten-Filter (Modus 2) blendet Spieler in Spielen aus, die
-    // aber für die Chat-Vervollständigung erreichbar bleiben müssen.
-    static const QRegularExpression numericPlaceholderPattern("^#?\\d+$");
-    const int count = m_playerListModel.rowCount();
-    for (int row = 0; row < count; ++row) {
-        const QModelIndex index = m_playerListModel.index(row, 0);
-        if (!index.isValid())
-            continue;
+	// Quell-Modell (ungefiltert) durchlaufen, NICHT den Proxy: der
+	// Spielerlisten-Filter (Modus 2) blendet Spieler in Spielen aus, die
+	// aber für die Chat-Vervollständigung erreichbar bleiben müssen.
+	static const QRegularExpression numericPlaceholderPattern("^#?\\d+$");
+	const int count = m_playerListModel.rowCount();
+	for (int row = 0; row < count; ++row) {
+		const QModelIndex index = m_playerListModel.index(row, 0);
+		if (!index.isValid())
+			continue;
 
-        const unsigned playerId = m_playerListModel.data(index, PlayerListModel::PlayerIdRole).toUInt();
-        QString playerName = m_playerListModel.data(index, PlayerListModel::PlayerNameRole).toString();
+		const unsigned playerId = m_playerListModel.data(index, PlayerListModel::PlayerIdRole).toUInt();
+		QString playerName = m_playerListModel.data(index, PlayerListModel::PlayerNameRole).toString();
 
-        // Platzhalternamen (z. B. "#123") über die Session auflösen.
-        if (m_session && playerId != 0) {
-            const bool nameIsPlaceholder = playerName.isEmpty()
-                || numericPlaceholderPattern.match(playerName).hasMatch();
-            if (nameIsPlaceholder) {
-                const QString sessionName = QString::fromStdString(m_session->getClientPlayerInfo(playerId).playerName);
-                if (!sessionName.isEmpty())
-                    playerName = sessionName;
-            }
-        }
+		// Platzhalternamen (z. B. "#123") über die Session auflösen.
+		if (m_session && playerId != 0) {
+			const bool nameIsPlaceholder = playerName.isEmpty()
+										   || numericPlaceholderPattern.match(playerName).hasMatch();
+			if (nameIsPlaceholder) {
+				const QString sessionName = QString::fromStdString(m_session->getClientPlayerInfo(playerId).playerName);
+				if (!sessionName.isEmpty())
+					playerName = sessionName;
+			}
+		}
 
-        if (!playerName.isEmpty() && !nicks.contains(playerName))
-            nicks << playerName;
-    }
+		if (!playerName.isEmpty() && !nicks.contains(playerName))
+			nicks << playerName;
+	}
 
-    return nicks;
+	return nicks;
 }
 
 QStringList LobbyHandler::idlePlayerNames() const
 {
-    QStringList names;
-    if (!m_session)
-        return names;
+	QStringList names;
+	if (!m_session)
+		return names;
 
-    static const QRegularExpression numericPlaceholderPattern("^#?\\d+$");
-    const int count = m_playerListModel.rowCount();
-    for (int row = 0; row < count; ++row) {
-        const QModelIndex index = m_playerListModel.index(row, 0);
-        if (!index.isValid())
-            continue;
+	static const QRegularExpression numericPlaceholderPattern("^#?\\d+$");
+	const int count = m_playerListModel.rowCount();
+	for (int row = 0; row < count; ++row) {
+		const QModelIndex index = m_playerListModel.index(row, 0);
+		if (!index.isValid())
+			continue;
 
-        const unsigned playerId = m_playerListModel.data(index, PlayerListModel::PlayerIdRole).toUInt();
-        if (playerId == 0)
-            continue;
-        // Gäste stehen weder in der BBC-Datenbank noch auf der WEC-Liste.
-        if (m_playerListModel.data(index, PlayerListModel::IsGuestRole).toBool())
-            continue;
-        // idle = an keinem Tisch – dieselbe Quelle wie der Idle-Filter (Modus 2),
-        // damit Vorschlag und sichtbare Liste nie auseinanderlaufen.
-        if (m_playerListModel.data(index, PlayerListModel::GameIdRole).toUInt() != 0)
-            continue;
+		const unsigned playerId = m_playerListModel.data(index, PlayerListModel::PlayerIdRole).toUInt();
+		if (playerId == 0)
+			continue;
+		// Gäste stehen weder in der BBC-Datenbank noch auf der WEC-Liste.
+		if (m_playerListModel.data(index, PlayerListModel::IsGuestRole).toBool())
+			continue;
+		// idle = an keinem Tisch – dieselbe Quelle wie der Idle-Filter (Modus 2),
+		// damit Vorschlag und sichtbare Liste nie auseinanderlaufen.
+		if (m_playerListModel.data(index, PlayerListModel::GameIdRole).toUInt() != 0)
+			continue;
 
-        QString playerName = m_playerListModel.data(index, PlayerListModel::PlayerNameRole).toString();
-        // Platzhalternamen (z. B. "#123") über die Session auflösen.
-        const bool nameIsPlaceholder = playerName.isEmpty()
-            || numericPlaceholderPattern.match(playerName).hasMatch();
-        if (nameIsPlaceholder) {
-            const QString sessionName = QString::fromStdString(m_session->getClientPlayerInfo(playerId).playerName);
-            if (!sessionName.isEmpty())
-                playerName = sessionName;
-        }
+		QString playerName = m_playerListModel.data(index, PlayerListModel::PlayerNameRole).toString();
+		// Platzhalternamen (z. B. "#123") über die Session auflösen.
+		const bool nameIsPlaceholder = playerName.isEmpty()
+									   || numericPlaceholderPattern.match(playerName).hasMatch();
+		if (nameIsPlaceholder) {
+			const QString sessionName = QString::fromStdString(m_session->getClientPlayerInfo(playerId).playerName);
+			if (!sessionName.isEmpty())
+				playerName = sessionName;
+		}
 
-        if (!playerName.isEmpty() && !names.contains(playerName))
-            names << playerName;
-    }
+		if (!playerName.isEmpty() && !names.contains(playerName))
+			names << playerName;
+	}
 
-    return names;
+	return names;
 }
 
 QVariantList LobbyHandler::playingPlayerEntries() const
 {
-    QVariantList entries;
-    if (!m_session)
-        return entries;
+	QVariantList entries;
+	if (!m_session)
+		return entries;
 
-    // Spieler am eigenen Tisch nicht vorschlagen – die sitzen ja bereits dort.
-    const unsigned ownGameId = m_session->getClientCurrentGameId();
+	// Spieler am eigenen Tisch nicht vorschlagen – die sitzen ja bereits dort.
+	const unsigned ownGameId = m_session->getClientCurrentGameId();
 
-    static const QRegularExpression numericPlaceholderPattern("^#?\\d+$");
-    const int count = m_playerListModel.rowCount();
-    for (int row = 0; row < count; ++row) {
-        const QModelIndex index = m_playerListModel.index(row, 0);
-        if (!index.isValid())
-            continue;
+	static const QRegularExpression numericPlaceholderPattern("^#?\\d+$");
+	const int count = m_playerListModel.rowCount();
+	for (int row = 0; row < count; ++row) {
+		const QModelIndex index = m_playerListModel.index(row, 0);
+		if (!index.isValid())
+			continue;
 
-        const unsigned playerId = m_playerListModel.data(index, PlayerListModel::PlayerIdRole).toUInt();
-        if (playerId == 0)
-            continue;
-        if (m_playerListModel.data(index, PlayerListModel::IsGuestRole).toBool())
-            continue;
-        // Nur Spieler, die aktuell an einem Tisch sitzen (Gegenstück zum Idle-Filter).
-        const unsigned gameId = m_playerListModel.data(index, PlayerListModel::GameIdRole).toUInt();
-        if (gameId == 0)
-            continue;
-        // ... aber nicht die am eigenen Tisch.
-        if (ownGameId != 0 && gameId == ownGameId)
-            continue;
+		const unsigned playerId = m_playerListModel.data(index, PlayerListModel::PlayerIdRole).toUInt();
+		if (playerId == 0)
+			continue;
+		if (m_playerListModel.data(index, PlayerListModel::IsGuestRole).toBool())
+			continue;
+		// Nur Spieler, die aktuell an einem Tisch sitzen (Gegenstück zum Idle-Filter).
+		const unsigned gameId = m_playerListModel.data(index, PlayerListModel::GameIdRole).toUInt();
+		if (gameId == 0)
+			continue;
+		// ... aber nicht die am eigenen Tisch.
+		if (ownGameId != 0 && gameId == ownGameId)
+			continue;
 
-        QString playerName = m_playerListModel.data(index, PlayerListModel::PlayerNameRole).toString();
-        const bool nameIsPlaceholder = playerName.isEmpty()
-            || numericPlaceholderPattern.match(playerName).hasMatch();
-        if (nameIsPlaceholder) {
-            const QString sessionName = QString::fromStdString(m_session->getClientPlayerInfo(playerId).playerName);
-            if (!sessionName.isEmpty())
-                playerName = sessionName;
-        }
-        if (playerName.isEmpty())
-            continue;
+		QString playerName = m_playerListModel.data(index, PlayerListModel::PlayerNameRole).toString();
+		const bool nameIsPlaceholder = playerName.isEmpty()
+									   || numericPlaceholderPattern.match(playerName).hasMatch();
+		if (nameIsPlaceholder) {
+			const QString sessionName = QString::fromStdString(m_session->getClientPlayerInfo(playerId).playerName);
+			if (!sessionName.isEmpty())
+				playerName = sessionName;
+		}
+		if (playerName.isEmpty())
+			continue;
 
-        QVariantMap entry;
-        entry.insert("name", playerName);
-        entry.insert("game", QString::fromUtf8(m_session->getClientGameInfo(gameId).name.c_str()));
-        entries.append(entry);
-    }
-    return entries;
+		QVariantMap entry;
+		entry.insert("name", playerName);
+		entry.insert("game", QString::fromUtf8(m_session->getClientGameInfo(gameId).name.c_str()));
+		entries.append(entry);
+	}
+	return entries;
 }
 
 QVariantList LobbyHandler::gamePlayersInGame(unsigned gameId) const
 {
-    QVariantList players;
+	QVariantList players;
 
-    if (!m_session || gameId == 0)
-        return players;
+	if (!m_session || gameId == 0)
+		return players;
 
-    const ::GameInfo gameInfo = m_session->getClientGameInfo(gameId);
-    for (PlayerIdList::const_iterator it = gameInfo.players.begin(); it != gameInfo.players.end(); ++it) {
-        const unsigned playerId = *it;
-        if (playerId == 0)
-            continue;
+	const ::GameInfo gameInfo = m_session->getClientGameInfo(gameId);
+	for (PlayerIdList::const_iterator it = gameInfo.players.begin(); it != gameInfo.players.end(); ++it) {
+		const unsigned playerId = *it;
+		if (playerId == 0)
+			continue;
 
-        const PlayerInfo info = m_session->getClientPlayerInfo(playerId);
+		const PlayerInfo info = m_session->getClientPlayerInfo(playerId);
 
-        QVariantMap entry;
-        entry.insert("playerId", playerId);
-        entry.insert("playerName", QString::fromStdString(info.playerName));
-        entry.insert("countryCode", QString::fromStdString(info.countryCode).toLower());
-        entry.insert("isAdmin", info.isAdmin);
-        // Tisch-Admin (Ersteller/Host dieses Spiels) – strikt getrennt vom
-        // Server-Admin oben. adminPlayerId hält der ClientThread aktuell
-        // (UpdateGameInfoAdmin), die QML-Listen werden per gameListRevision neu
-        // ausgewertet.
-        entry.insert("isGameAdmin", gameInfo.adminPlayerId != 0 && playerId == gameInfo.adminPlayerId);
-        entry.insert("isGuest", info.isGuest);
+		QVariantMap entry;
+		entry.insert("playerId", playerId);
+		entry.insert("playerName", QString::fromStdString(info.playerName));
+		entry.insert("countryCode", QString::fromStdString(info.countryCode).toLower());
+		entry.insert("isAdmin", info.isAdmin);
+		// Tisch-Admin (Ersteller/Host dieses Spiels) – strikt getrennt vom
+		// Server-Admin oben. adminPlayerId hält der ClientThread aktuell
+		// (UpdateGameInfoAdmin), die QML-Listen werden per gameListRevision neu
+		// ausgewertet.
+		entry.insert("isGameAdmin", gameInfo.adminPlayerId != 0 && playerId == gameInfo.adminPlayerId);
+		entry.insert("isGuest", info.isGuest);
 
-        QString avatarUrl;
-        if (info.hasAvatar) {
-            std::string avatarFile;
-            if (m_session->getAvatarFile(info.avatar, avatarFile) && !avatarFile.empty()) {
-                avatarUrl = QUrl::fromLocalFile(QString::fromStdString(avatarFile)).toString();
-            }
-        }
-        entry.insert("avatarUrl", avatarUrl);
+		QString avatarUrl;
+		if (info.hasAvatar) {
+			std::string avatarFile;
+			if (m_session->getAvatarFile(info.avatar, avatarFile) && !avatarFile.empty()) {
+				avatarUrl = QUrl::fromLocalFile(QString::fromStdString(avatarFile)).toString();
+			}
+		}
+		entry.insert("avatarUrl", avatarUrl);
 
-        players.append(entry);
-    }
+		players.append(entry);
+	}
 
-    return players;
+	return players;
 }
 
 QString LobbyHandler::playerCountryByName(const QString &name) const
 {
-    for (int row = 0; row < m_playerListModel.rowCount(); ++row) {
-        QModelIndex idx = m_playerListModel.index(row, 0);
-        if (m_playerListModel.data(idx, PlayerListModel::PlayerNameRole).toString() == name)
-            return m_playerListModel.data(idx, PlayerListModel::CountryCodeRole).toString();
-    }
-    return QString();
+	for (int row = 0; row < m_playerListModel.rowCount(); ++row) {
+		QModelIndex idx = m_playerListModel.index(row, 0);
+		if (m_playerListModel.data(idx, PlayerListModel::PlayerNameRole).toString() == name)
+			return m_playerListModel.data(idx, PlayerListModel::CountryCodeRole).toString();
+	}
+	return QString();
 }
 
 bool LobbyHandler::openExternalUrl(const QString &url) const
 {
-    if (url.trimmed().isEmpty())
-        return false;
+	if (url.trimmed().isEmpty())
+		return false;
 
-    const QUrl target = QUrl::fromUserInput(url.trimmed());
-    if (!target.isValid())
-        return false;
+	const QUrl target = QUrl::fromUserInput(url.trimmed());
+	if (!target.isValid())
+		return false;
 
 #ifdef Q_OS_LINUX
-    const QString targetString = target.toString();
+	const QString targetString = target.toString();
 
-    // External host tools must not inherit bundled Qt libraries.
-    auto startDetachedHostTool = [](const QString &program, const QStringList &args) {
-        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+	// External host tools must not inherit bundled Qt libraries.
+	auto startDetachedHostTool = [](const QString &program, const QStringList &args) {
+		QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 
-        const QString origLdLibraryPath = QString::fromLocal8Bit(qgetenv("POKERTH_ORIG_LD_LIBRARY_PATH"));
-        if (origLdLibraryPath.isEmpty()) {
-            env.remove(QStringLiteral("LD_LIBRARY_PATH"));
-        } else {
-            env.insert(QStringLiteral("LD_LIBRARY_PATH"), origLdLibraryPath);
-        }
-        env.remove(QStringLiteral("LD_PRELOAD"));
+		const QString origLdLibraryPath = QString::fromLocal8Bit(qgetenv("POKERTH_ORIG_LD_LIBRARY_PATH"));
+		if (origLdLibraryPath.isEmpty()) {
+			env.remove(QStringLiteral("LD_LIBRARY_PATH"));
+		} else {
+			env.insert(QStringLiteral("LD_LIBRARY_PATH"), origLdLibraryPath);
+		}
+		env.remove(QStringLiteral("LD_PRELOAD"));
 
-        QProcess process;
-        process.setProcessEnvironment(env);
-        process.setProgram(program);
-        process.setArguments(args);
-        return process.startDetached();
-    };
+		QProcess process;
+		process.setProcessEnvironment(env);
+		process.setProgram(program);
+		process.setArguments(args);
+		return process.startDetached();
+	};
 
-    if (startDetachedHostTool(QStringLiteral("xdg-open"), {targetString}))
-        return true;
+	if (startDetachedHostTool(QStringLiteral("xdg-open"), {targetString}))
+		return true;
 
-    if (startDetachedHostTool(QStringLiteral("gio"), {QStringLiteral("open"), targetString}))
-        return true;
+	if (startDetachedHostTool(QStringLiteral("gio"), {QStringLiteral("open"), targetString}))
+		return true;
 
-    if (startDetachedHostTool(QStringLiteral("kde-open"), {targetString}))
-        return true;
+	if (startDetachedHostTool(QStringLiteral("kde-open"), {targetString}))
+		return true;
 #endif
 
-    if (AppImageUtils::openUrlSafe(target))
-        return true;
+	if (AppImageUtils::openUrlSafe(target))
+		return true;
 
-    return false;
+	return false;
 }
 
 QVariantList LobbyHandler::chatEmoteShortcodes() const
 {
-    // Einmal aufgebaut (die Map ist statisch); alphabetisch sortiert, damit
-    // die Vorschlagsliste der ChatBox stabil und vorhersehbar ist.
-    static const QVariantList list = [] {
-        const QHash<QString, QString> &m = chatEmoteShortcodeMap();
-        QStringList codes = m.keys();
-        codes.sort();
-        QVariantList l;
-        l.reserve(codes.size());
-        for (const QString &code : codes) {
-            QVariantMap entry;
-            entry.insert(QStringLiteral("code"), code);
-            entry.insert(QStringLiteral("emoji"), m.value(code));
-            l << entry;
-        }
-        return l;
-    }();
-    return list;
+	// Einmal aufgebaut (die Map ist statisch); alphabetisch sortiert, damit
+	// die Vorschlagsliste der ChatBox stabil und vorhersehbar ist.
+	static const QVariantList list = [] {
+		const QHash<QString, QString> &m = chatEmoteShortcodeMap();
+		QStringList codes = m.keys();
+		codes.sort();
+		QVariantList l;
+		l.reserve(codes.size());
+		for (const QString &code : codes)
+		{
+			QVariantMap entry;
+			entry.insert(QStringLiteral("code"), code);
+			entry.insert(QStringLiteral("emoji"), m.value(code));
+			l << entry;
+		}
+		return l;
+	}();
+	return list;
 }
 
 void LobbyHandler::sendChatMessage(const QString &message)
 {
-    if (!m_session || message.trimmed().isEmpty())
-        return;
+	if (!m_session || message.trimmed().isEmpty())
+		return;
 
-    // Guests cannot send chat messages
-    if (isMyPlayerGuest()) {
-        emit errorOccurred(tr("Guests cannot send chat messages"));
-        return;
-    }
+	// Guests cannot send chat messages
+	if (isMyPlayerGuest()) {
+		emit errorOccurred(tr("Guests cannot send chat messages"));
+		return;
+	}
 
-    QString text = message;
+	QString text = message;
 
-    try {
-        if (text.startsWith(QLatin1String("/gn "), Qt::CaseInsensitive)) {
-            // Server-weite Durchsage als Chat-Kurzbefehl (gleicher Weg wie der
-            // Durchsage-Button). Über die Rechte entscheidet allein der Server;
-            // der lokale Admin-Status steuert nur die Sichtbarkeit des Buttons.
-            // Würde hier zusätzlich lokal geprüft, landete die Durchsage eines
-            // Admins, dessen PlayerInfo noch nicht eingetroffen ist, versehentlich
-            // als normaler Chat-Text in der Lobby.
-            adminSendGlobalNotice(text.mid(4));
-        } else if (text.startsWith(QLatin1String("/msg "), Qt::CaseInsensitive)) {
-            // Private message: /msg <nick> <text>  or  /msg "<nick with spaces>" <text>
-            // Am laufenden Tisch gesperrt – wie das PM-Symbol der Spielerliste.
-            if (m_gameRunning) {
-                emit errorOccurred(tr("Private messages are not available at the table."));
-                return;
-            }
-            text.remove(0, 5);
-            const unsigned targetId = parsePrivateMessageTarget(text);
-            if (targetId == 0) {
-                emit errorOccurred(tr("Player not found"));
-                return;
-            }
-            // Truncate to 128 bytes UTF-8 at character boundary
-            while (!text.isEmpty() && text.toUtf8().size() > 128)
-                text.chop(1);
-            if (text.isEmpty()) return;
-            m_session->sendPrivateChatMessage(targetId, text.toStdString());
-            const QString targetName = resolvedPlayerName(targetId);
-            pushPrivateMessageSentLine(targetName, text);
-            appendPrivateMessage(targetName, text, true);
-        } else {
-            // Lobby chat (includes /me actions — server echoes them back)
-            while (!text.isEmpty() && text.toUtf8().size() > 128)
-                text.chop(1);
-            if (text.isEmpty()) return;
-            m_session->sendLobbyChatMessage(text.toStdString());
-        }
-    } catch (const std::exception &e) {
-        qWarning() << "Failed to send chat message:" << e.what();
-        emit errorOccurred(tr("Failed to send chat message"));
-    }
+	try {
+		if (text.startsWith(QLatin1String("/gn "), Qt::CaseInsensitive)) {
+			// Server-weite Durchsage als Chat-Kurzbefehl (gleicher Weg wie der
+			// Durchsage-Button). Über die Rechte entscheidet allein der Server;
+			// der lokale Admin-Status steuert nur die Sichtbarkeit des Buttons.
+			// Würde hier zusätzlich lokal geprüft, landete die Durchsage eines
+			// Admins, dessen PlayerInfo noch nicht eingetroffen ist, versehentlich
+			// als normaler Chat-Text in der Lobby.
+			adminSendGlobalNotice(text.mid(4));
+		} else if (text.startsWith(QLatin1String("/msg "), Qt::CaseInsensitive)) {
+			// Private message: /msg <nick> <text>  or  /msg "<nick with spaces>" <text>
+			// Am laufenden Tisch gesperrt – wie das PM-Symbol der Spielerliste.
+			if (m_gameRunning) {
+				emit errorOccurred(tr("Private messages are not available at the table."));
+				return;
+			}
+			text.remove(0, 5);
+			const unsigned targetId = parsePrivateMessageTarget(text);
+			if (targetId == 0) {
+				emit errorOccurred(tr("Player not found"));
+				return;
+			}
+			// Truncate to 128 bytes UTF-8 at character boundary
+			while (!text.isEmpty() && text.toUtf8().size() > 128)
+				text.chop(1);
+			if (text.isEmpty()) return;
+			m_session->sendPrivateChatMessage(targetId, text.toStdString());
+			const QString targetName = resolvedPlayerName(targetId);
+			pushPrivateMessageSentLine(targetName, text);
+			appendPrivateMessage(targetName, text, true);
+		} else {
+			// Lobby chat (includes /me actions — server echoes them back)
+			while (!text.isEmpty() && text.toUtf8().size() > 128)
+				text.chop(1);
+			if (text.isEmpty()) return;
+			m_session->sendLobbyChatMessage(text.toStdString());
+		}
+	} catch (const std::exception &e) {
+		qWarning() << "Failed to send chat message:" << e.what();
+		emit errorOccurred(tr("Failed to send chat message"));
+	}
 }
 
 void LobbyHandler::postLocalChatNote(const QString &message)
 {
-    if (message.trimmed().isEmpty())
-        return;
+	if (message.trimmed().isEmpty())
+		return;
 
-    // Nur lokale Anzeige: dieselbe Timestamp-/Farb-/Emote-Aufbereitung wie ein
-    // normaler Chat-Eintrag, aber kursiv-gedämpft (wie PMs) als Hinweis, dass
-    // die Zeile nur der auslösende Nutzer sieht und NICHT gesendet wird.
-    //
-    // Mehrzeilige Hinweise (Plaintext mit "\n", z. B. der Community-Vorschlag
-    // mit einem Spieler pro Zeile) werden zu MEHREREN chatLog-Einträgen – NICHT
-    // zu einem Eintrag mit eingebettetem <br>. Der Verlauf ist zwar ein
-    // einziges RichText-Dokument, die Übersetzen-Symbole ermitteln die Zeile
-    // unter dem Mauszeiger aber über deren Index in chatLog
-    // (ChatBox._updateHoverLine → ChatTranslator::setHoveredLine). Ein Eintrag
-    // mit eigenem Umbruch verschöbe diese Zuordnung für den gesamten Rest des
-    // Verlaufs: der Globus erschiene an einer anderen Zeile als der überfahrenen.
-    const QStringList parts = message.split(QLatin1Char('\n'));
-    const QString tsPrefix = chatTimestampPrefix(m_config);
-    bool first = true;
-    for (const QString &part : parts) {
-        if (part.trimmed().isEmpty())
-            continue;
-        QString escapedMsg = ChatColors::chatEscape(part);
-        escapedMsg = applyChatEmoteShortcuts(escapedMsg);
-        escapedMsg = enlargeEmojis(escapedMsg);
+	// Nur lokale Anzeige: dieselbe Timestamp-/Farb-/Emote-Aufbereitung wie ein
+	// normaler Chat-Eintrag, aber kursiv-gedämpft (wie PMs) als Hinweis, dass
+	// die Zeile nur der auslösende Nutzer sieht und NICHT gesendet wird.
+	//
+	// Mehrzeilige Hinweise (Plaintext mit "\n", z. B. der Community-Vorschlag
+	// mit einem Spieler pro Zeile) werden zu MEHREREN chatLog-Einträgen – NICHT
+	// zu einem Eintrag mit eingebettetem <br>. Der Verlauf ist zwar ein
+	// einziges RichText-Dokument, die Übersetzen-Symbole ermitteln die Zeile
+	// unter dem Mauszeiger aber über deren Index in chatLog
+	// (ChatBox._updateHoverLine → ChatTranslator::setHoveredLine). Ein Eintrag
+	// mit eigenem Umbruch verschöbe diese Zuordnung für den gesamten Rest des
+	// Verlaufs: der Globus erschiene an einer anderen Zeile als der überfahrenen.
+	const QStringList parts = message.split(QLatin1Char('\n'));
+	const QString tsPrefix = chatTimestampPrefix(m_config);
+	bool first = true;
+	for (const QString &part : parts) {
+		if (part.trimmed().isEmpty())
+			continue;
+		QString escapedMsg = ChatColors::chatEscape(part);
+		escapedMsg = applyChatEmoteShortcuts(escapedMsg);
+		escapedMsg = enlargeEmojis(escapedMsg);
 
-        // Zeitstempel nur an der ersten Zeile – die Folgezeilen gehören
-        // sichtbar zu demselben Hinweis.
-        const QString line = (first ? tsPrefix : QString())
-                             + QLatin1String("<i><span style=\"")
-                             + ChatColors::colorStyle(ChatColors::Muted)
-                             + QLatin1String(";\">") + escapedMsg
-                             + QLatin1String("</span></i>");
-        pushChatLine(line);
-        first = false;
-    }
+		// Zeitstempel nur an der ersten Zeile – die Folgezeilen gehören
+		// sichtbar zu demselben Hinweis.
+		const QString line = (first ? tsPrefix : QString())
+							 + QLatin1String("<i><span style=\"")
+							 + ChatColors::colorStyle(ChatColors::Muted)
+							 + QLatin1String(";\">") + escapedMsg
+							 + QLatin1String("</span></i>");
+		pushChatLine(line);
+		first = false;
+	}
 }
 
 void LobbyHandler::onGamePlayerJoined()
 {
-    // Benachrichtigungs-Sound wie der Widgets-Client (gamelobbydialogimpl /
-    // startnetworkgamedialogimpl): solange das Spiel nicht voll ist
-    // "playerconnected", beim letzten Spieler "onlinegameready" (das Spiel
-    // startet gleich darauf).
-    // Nur im Warteraum, nicht im laufenden Spiel: dort bedeutet PlayerJoined
-    // einen Rejoin nach Disconnect, und "onlinegameready" (Spiel wieder voll)
-    // klänge wie ein Spielstart mitten in der Hand.
-    if (m_gameRunning)
-        return;
-    // Als Zuschauer NIE: der Server meldet uns beim Beitritt jeden bereits
-    // sitzenden Spieler einzeln als PlayerJoined (AcceptNewSession) – das gäbe
-    // eine Salve von Beitritts-Tönen für ein Spiel, das längst läuft.
-    if (m_isSpectating)
-        return;
-    if (m_config && !m_config->readConfigInt("PlayNetworkGameNotification"))
-        return;
-    if (!m_session || m_currentGameId == 0)
-        return;
-    if (!m_soundEvents)
-        return;
-    const GameInfo info = m_session->getClientGameInfo(m_currentGameId);
-    if (info.data.maxNumberOfPlayers > 0
-        && static_cast<int>(info.players.size()) >= info.data.maxNumberOfPlayers)
-        m_soundEvents->playSound("onlinegameready", 0);
-    else
-        m_soundEvents->playSound("playerconnected", 0);
+	// Benachrichtigungs-Sound wie der Widgets-Client (gamelobbydialogimpl /
+	// startnetworkgamedialogimpl): solange das Spiel nicht voll ist
+	// "playerconnected", beim letzten Spieler "onlinegameready" (das Spiel
+	// startet gleich darauf).
+	// Nur im Warteraum, nicht im laufenden Spiel: dort bedeutet PlayerJoined
+	// einen Rejoin nach Disconnect, und "onlinegameready" (Spiel wieder voll)
+	// klänge wie ein Spielstart mitten in der Hand.
+	if (m_gameRunning)
+		return;
+	// Als Zuschauer NIE: der Server meldet uns beim Beitritt jeden bereits
+	// sitzenden Spieler einzeln als PlayerJoined (AcceptNewSession) – das gäbe
+	// eine Salve von Beitritts-Tönen für ein Spiel, das längst läuft.
+	if (m_isSpectating)
+		return;
+	if (m_config && !m_config->readConfigInt("PlayNetworkGameNotification"))
+		return;
+	if (!m_session || m_currentGameId == 0)
+		return;
+	if (!m_soundEvents)
+		return;
+	const GameInfo info = m_session->getClientGameInfo(m_currentGameId);
+	if (info.data.maxNumberOfPlayers > 0
+			&& static_cast<int>(info.players.size()) >= info.data.maxNumberOfPlayers)
+		m_soundEvents->playSound("onlinegameready", 0);
+	else
+		m_soundEvents->playSound("playerconnected", 0);
 }
 
 void LobbyHandler::onTimeoutWarning(int reason, int remainingSec)
 {
-    // Audio-Hinweis: das Popup kann übersehen werden (Lobby wie ingame).
-    if (m_soundEvents)
-        m_soundEvents->playSound("yourturn", 0);
-    emit timeoutWarningReceived(reason, remainingSec);
+	// Audio-Hinweis: das Popup kann übersehen werden (Lobby wie ingame).
+	if (m_soundEvents)
+		m_soundEvents->playSound("yourturn", 0);
+	emit timeoutWarningReceived(reason, remainingSec);
 }
 
 void LobbyHandler::resetNetworkTimeout()
 {
-    if (m_session)
-        m_session->resetNetworkTimeout();
+	if (m_session)
+		m_session->resetNetworkTimeout();
 }
 
 void LobbyHandler::onNetworkMessage(const QString &message)
 {
-    emit networkMessageReceived(message);
+	emit networkMessageReceived(message);
 }
 
 void LobbyHandler::onNetworkMessageId(unsigned msgId)
 {
-    // Texte 1:1 wie startWindowImpl::networkMessage(unsigned).
-    QString msgText;
-    switch (msgId) {
-    case MSG_NET_AVATAR_REPORT_ACCEPTED:
-        msgText = tr("The avatar report was accepted by the server. Thank you."); break;
-    case MSG_NET_AVATAR_REPORT_DUP:
-        msgText = tr("This avatar was already reported by another player."); break;
-    case MSG_NET_AVATAR_REPORT_REJECTED:
-        msgText = tr("An error occurred while reporting the avatar."); break;
-    case MSG_NET_GAMENAME_REPORT_ACCEPTED:
-        msgText = tr("The game name report was accepted by the server. Thank you."); break;
-    case MSG_NET_GAMENAME_REPORT_DUP:
-        msgText = tr("This game name was already reported by another player."); break;
-    case MSG_NET_GAMENAME_REPORT_REJECTED:
-        msgText = tr("An error occurred while reporting the game name."); break;
-    case MSG_NET_ADMIN_REMOVE_GAME_ACCEPTED:
-        msgText = tr("The game was closed."); break;
-    case MSG_NET_ADMIN_REMOVE_GAME_REJECTED:
-        msgText = tr("The game could not be closed."); break;
-    case MSG_NET_ADMIN_BAN_PLAYER_ACCEPTED:
-        msgText = tr("The player was kicked and banned permanently."); break;
-    case MSG_NET_ADMIN_BAN_PLAYER_NODB:
-        msgText = tr("The player was kicked, but could not be banned because it was a guest player."); break;
-    case MSG_NET_ADMIN_BAN_PLAYER_DBERROR:
-        msgText = tr("The player was kicked, but could not be banned, \nbecause the nick could not be found in the database"); break;
-    case MSG_NET_ADMIN_BAN_PLAYER_REJECTED:
-        msgText = tr("The player could not be found."); break;
-    case MSG_NET_ADMIN_GLOBAL_NOTICE_ACCEPTED:
-        msgText = tr("The global notice was sent to all players."); break;
-    case MSG_NET_ADMIN_GLOBAL_NOTICE_REJECTED:
-        msgText = tr("The global notice was rejected by the server."); break;
-    default:
-        return;   // unbekannte IDs nicht anzeigen (wie der Widgets-Client)
-    }
-    emit networkMessageReceived(msgText);
+	// Texte 1:1 wie startWindowImpl::networkMessage(unsigned).
+	QString msgText;
+	switch (msgId) {
+	case MSG_NET_AVATAR_REPORT_ACCEPTED:
+		msgText = tr("The avatar report was accepted by the server. Thank you.");
+		break;
+	case MSG_NET_AVATAR_REPORT_DUP:
+		msgText = tr("This avatar was already reported by another player.");
+		break;
+	case MSG_NET_AVATAR_REPORT_REJECTED:
+		msgText = tr("An error occurred while reporting the avatar.");
+		break;
+	case MSG_NET_GAMENAME_REPORT_ACCEPTED:
+		msgText = tr("The game name report was accepted by the server. Thank you.");
+		break;
+	case MSG_NET_GAMENAME_REPORT_DUP:
+		msgText = tr("This game name was already reported by another player.");
+		break;
+	case MSG_NET_GAMENAME_REPORT_REJECTED:
+		msgText = tr("An error occurred while reporting the game name.");
+		break;
+	case MSG_NET_ADMIN_REMOVE_GAME_ACCEPTED:
+		msgText = tr("The game was closed.");
+		break;
+	case MSG_NET_ADMIN_REMOVE_GAME_REJECTED:
+		msgText = tr("The game could not be closed.");
+		break;
+	case MSG_NET_ADMIN_BAN_PLAYER_ACCEPTED:
+		msgText = tr("The player was kicked and banned permanently.");
+		break;
+	case MSG_NET_ADMIN_BAN_PLAYER_NODB:
+		msgText = tr("The player was kicked, but could not be banned because it was a guest player.");
+		break;
+	case MSG_NET_ADMIN_BAN_PLAYER_DBERROR:
+		msgText = tr("The player was kicked, but could not be banned, \nbecause the nick could not be found in the database");
+		break;
+	case MSG_NET_ADMIN_BAN_PLAYER_REJECTED:
+		msgText = tr("The player could not be found.");
+		break;
+	case MSG_NET_ADMIN_GLOBAL_NOTICE_ACCEPTED:
+		msgText = tr("The global notice was sent to all players.");
+		break;
+	case MSG_NET_ADMIN_GLOBAL_NOTICE_REJECTED:
+		msgText = tr("The global notice was rejected by the server.");
+		break;
+	default:
+		return;   // unbekannte IDs nicht anzeigen (wie der Widgets-Client)
+	}
+	emit networkMessageReceived(msgText);
 }
 
 void LobbyHandler::onNetworkNotification(int notificationId)
 {
-    // Texte 1:1 wie startWindowImpl::networkNotification(int). Ohne diese
-    // Behandlung blieb beim Erstellen/Beitreten eines Spiels jede Server-
-    // Ablehnung (z. B. bereits vergebener Spielname) unbemerkt.
-    QString msgText;
-    switch (notificationId) {
-    case NTF_NET_JOIN_IP_BLOCKED:
-        msgText = tr("You cannot join this game, because another player in that game has your network address."); break;
-    case NTF_NET_REMOVED_GAME_FULL:
-    case NTF_NET_JOIN_GAME_FULL:
-        msgText = tr("Sorry, this game is already full."); break;
-    case NTF_NET_REMOVED_ALREADY_RUNNING:
-    case NTF_NET_JOIN_ALREADY_RUNNING:
-        msgText = tr("Unable to join - the server has already started the game."); break;
-    case NTF_NET_JOIN_NOT_INVITED:
-        msgText = tr("This game is of type invite-only. You cannot join this game without being invited."); break;
-    case NTF_NET_JOIN_GAME_NAME_IN_USE:
-        msgText = tr("This game name is already in use. Please choose a different name."); break;
-    case NTF_NET_JOIN_GAME_BAD_NAME:
-        msgText = tr("The game name is invalid. Please choose a different name."); break;
-    case NTF_NET_JOIN_INVALID_PASSWORD:
-        msgText = tr("Invalid password when joining the game.\nPlease reenter the password and try again."); break;
-    case NTF_NET_JOIN_GUEST_FORBIDDEN:
-        msgText = tr("You cannot join this type of game as guest."); break;
-    case NTF_NET_JOIN_INVALID_SETTINGS:
-        msgText = tr("The settings are invalid for this type of game."); break;
-    case NTF_NET_JOIN_NO_SPECTATORS:
-        msgText = tr("This game does not allow spectators."); break;
-    case NTF_NET_JOIN_GAME_INVALID:
-    case NTF_NET_JOIN_REJOIN_FAILED:
-        msgText = tr("Could not join the game."); break;
-    case NTF_NET_REMOVED_START_FAILED:
-        // Die Start-Synchronisation (auch beim Rejoin) hat zu lange gedauert.
-        msgText = tr("Your connection to the server is very slow, the game had to start without you."); break;
-    case NTF_NET_REMOVED_KICKED:
-        msgText = tr("You were kicked from the game."); break;
-    case NTF_NET_REMOVED_TIMEOUT:
-        // AFK-Kick des Servers. Die vorausgegangene Countdown-Warnung wird vom
-        // onRemovedFromGame-Handler in pokerth.qml geschlossen.
-        msgText = tr("You were removed due to inactivity."); break;
-    default:
-        return;   // unbekannte IDs nicht anzeigen (wie der Widgets-Client)
-    }
-    emit networkMessageReceived(msgText);
+	// Texte 1:1 wie startWindowImpl::networkNotification(int). Ohne diese
+	// Behandlung blieb beim Erstellen/Beitreten eines Spiels jede Server-
+	// Ablehnung (z. B. bereits vergebener Spielname) unbemerkt.
+	QString msgText;
+	switch (notificationId) {
+	case NTF_NET_JOIN_IP_BLOCKED:
+		msgText = tr("You cannot join this game, because another player in that game has your network address.");
+		break;
+	case NTF_NET_REMOVED_GAME_FULL:
+	case NTF_NET_JOIN_GAME_FULL:
+		msgText = tr("Sorry, this game is already full.");
+		break;
+	case NTF_NET_REMOVED_ALREADY_RUNNING:
+	case NTF_NET_JOIN_ALREADY_RUNNING:
+		msgText = tr("Unable to join - the server has already started the game.");
+		break;
+	case NTF_NET_JOIN_NOT_INVITED:
+		msgText = tr("This game is of type invite-only. You cannot join this game without being invited.");
+		break;
+	case NTF_NET_JOIN_GAME_NAME_IN_USE:
+		msgText = tr("This game name is already in use. Please choose a different name.");
+		break;
+	case NTF_NET_JOIN_GAME_BAD_NAME:
+		msgText = tr("The game name is invalid. Please choose a different name.");
+		break;
+	case NTF_NET_JOIN_INVALID_PASSWORD:
+		msgText = tr("Invalid password when joining the game.\nPlease reenter the password and try again.");
+		break;
+	case NTF_NET_JOIN_GUEST_FORBIDDEN:
+		msgText = tr("You cannot join this type of game as guest.");
+		break;
+	case NTF_NET_JOIN_INVALID_SETTINGS:
+		msgText = tr("The settings are invalid for this type of game.");
+		break;
+	case NTF_NET_JOIN_NO_SPECTATORS:
+		msgText = tr("This game does not allow spectators.");
+		break;
+	case NTF_NET_JOIN_GAME_INVALID:
+	case NTF_NET_JOIN_REJOIN_FAILED:
+		msgText = tr("Could not join the game.");
+		break;
+	case NTF_NET_REMOVED_START_FAILED:
+		// Die Start-Synchronisation (auch beim Rejoin) hat zu lange gedauert.
+		msgText = tr("Your connection to the server is very slow, the game had to start without you.");
+		break;
+	case NTF_NET_REMOVED_KICKED:
+		msgText = tr("You were kicked from the game.");
+		break;
+	case NTF_NET_REMOVED_TIMEOUT:
+		// AFK-Kick des Servers. Die vorausgegangene Countdown-Warnung wird vom
+		// onRemovedFromGame-Handler in pokerth.qml geschlossen.
+		msgText = tr("You were removed due to inactivity.");
+		break;
+	default:
+		return;   // unbekannte IDs nicht anzeigen (wie der Widgets-Client)
+	}
+	emit networkMessageReceived(msgText);
 }
 
 void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &message)
 {
-    // Reload ignore list fresh on every message (matches chattools.cpp refreshIgnoreList pattern)
-    std::list<std::string> ignoreList;
-    if (m_config)
-        ignoreList = m_config->readConfigStringList("PlayerIgnoreList");
+	// Reload ignore list fresh on every message (matches chattools.cpp refreshIgnoreList pattern)
+	std::list<std::string> ignoreList;
+	if (m_config)
+		ignoreList = m_config->readConfigStringList("PlayerIgnoreList");
 
-    const QString myNick      = m_myPlayerName;
-    const bool    isChatBot   = (playerName == QLatin1String("(chat bot)"));
+	const QString myNick      = m_myPlayerName;
+	const bool    isChatBot   = (playerName == QLatin1String("(chat bot)"));
 
-    // Drop messages from ignored players; also drop chatbot messages that
-    // start with an ignored player's name (same logic as chattools.cpp)
-    bool chatBotWarnIgnored = false;
-    for (const auto &entry : ignoreList) {
-        const QString ignoredName = QString::fromUtf8(entry.c_str());
-        if (playerName == ignoredName)
-            return;
-        if (isChatBot && message.startsWith(ignoredName))
-            chatBotWarnIgnored = true;
-    }
-    if (chatBotWarnIgnored)
-        return;
+	// Drop messages from ignored players; also drop chatbot messages that
+	// start with an ignored player's name (same logic as chattools.cpp)
+	bool chatBotWarnIgnored = false;
+	for (const auto &entry : ignoreList) {
+		const QString ignoredName = QString::fromUtf8(entry.c_str());
+		if (playerName == ignoredName)
+			return;
+		if (isChatBot && message.startsWith(ignoredName))
+			chatBotWarnIgnored = true;
+	}
+	if (chatBotWarnIgnored)
+		return;
 
-    // Detect /me action before escaping
-    const bool isAction = message.startsWith(QLatin1String("/me "));
-    const QString rawDisplay = isAction ? message.mid(4) : message;
+	// Detect /me action before escaping
+	const bool isAction = message.startsWith(QLatin1String("/me "));
+	const QString rawDisplay = isAction ? message.mid(4) : message;
 
-    // HTML-escape user-supplied content (prevents tag injection)
-    QString escapedMsg = ChatColors::chatEscape(rawDisplay);
-    // ASCII-Kürzel auf dem rohen Text umsetzen, bevor Link-/Style-Markup
-    // hinzukommt (verhindert Kollisionen mit "color:#..." o. Ä.).
-    escapedMsg = applyChatEmoteShortcuts(escapedMsg);
+	// HTML-escape user-supplied content (prevents tag injection)
+	QString escapedMsg = ChatColors::chatEscape(rawDisplay);
+	// ASCII-Kürzel auf dem rohen Text umsetzen, bevor Link-/Style-Markup
+	// hinzukommt (verhindert Kollisionen mit "color:#..." o. Ä.).
+	escapedMsg = applyChatEmoteShortcuts(escapedMsg);
 
-    // URL linkification
-    static const QRegularExpression urlRe(QLatin1String("(https?://\\S+)"));
-    escapedMsg.replace(urlRe, QLatin1String("<a href=\"\\1\">\\1</a>"));
+	// URL linkification
+	static const QRegularExpression urlRe(QLatin1String("(https?://\\S+)"));
+	escapedMsg.replace(urlRe, QLatin1String("<a href=\"\\1\">\\1</a>"));
 
-    // Determine message style based on content
-    bool isMention = false;
-    QString styledMsg;
+	// Determine message style based on content
+	bool isMention = false;
+	QString styledMsg;
 
-    if (isChatBot && !myNick.isEmpty() && rawDisplay.startsWith(myNick)) {
-        // Chatbot addressing me: bold red
-        styledMsg = QLatin1String("<span style=\"font-weight:bold; ")
-                    + ChatColors::colorStyle(ChatColors::Danger)
-                    + QLatin1String(";\">") + escapedMsg + QLatin1String("</span>");
-    } else if (!myNick.isEmpty() && rawDisplay.contains(myNick, Qt::CaseInsensitive)) {
-        // Mention: bold accent
-        isMention = true;
-        styledMsg = QLatin1String("<span style=\"font-weight:bold; ")
-                    + ChatColors::colorStyle(ChatColors::Accent)
-                    + QLatin1String(";\">") + escapedMsg + QLatin1String("</span>");
-    } else {
-        // All other messages (including own): normal text colour
-        styledMsg = QLatin1String("<span style=\"font-weight:normal; ")
-                    + ChatColors::colorStyle(ChatColors::Text)
-                    + QLatin1String(";\">") + escapedMsg + QLatin1String("</span>");
-    }
+	if (isChatBot && !myNick.isEmpty() && rawDisplay.startsWith(myNick)) {
+		// Chatbot addressing me: bold red
+		styledMsg = QLatin1String("<span style=\"font-weight:bold; ")
+					+ ChatColors::colorStyle(ChatColors::Danger)
+					+ QLatin1String(";\">") + escapedMsg + QLatin1String("</span>");
+	} else if (!myNick.isEmpty() && rawDisplay.contains(myNick, Qt::CaseInsensitive)) {
+		// Mention: bold accent
+		isMention = true;
+		styledMsg = QLatin1String("<span style=\"font-weight:bold; ")
+					+ ChatColors::colorStyle(ChatColors::Accent)
+					+ QLatin1String(";\">") + escapedMsg + QLatin1String("</span>");
+	} else {
+		// All other messages (including own): normal text colour
+		styledMsg = QLatin1String("<span style=\"font-weight:normal; ")
+					+ ChatColors::colorStyle(ChatColors::Text)
+					+ QLatin1String(";\">") + escapedMsg + QLatin1String("</span>");
+	}
 
-    // Unicode-Emoji in der Anzeige vergrößern (wie im Game-Chat, ~22px).
-    styledMsg = enlargeEmojis(styledMsg);
+	// Unicode-Emoji in der Anzeige vergrößern (wie im Game-Chat, ~22px).
+	styledMsg = enlargeEmojis(styledMsg);
 
-    // Sound notification on mention (wie chattools.cpp im Widgets-Client)
-    if (isMention && playerName != myNick) {
-        if (!m_config || m_config->readConfigInt("PlayLobbyChatNotification")) {
-            if (m_soundEvents)
-                m_soundEvents->playSound("lobbychatnotify", 0);
-            emit lobbyChatMentionDetected();
-        }
-    }
+	// Sound notification on mention (wie chattools.cpp im Widgets-Client)
+	if (isMention && playerName != myNick) {
+		if (!m_config || m_config->readConfigInt("PlayLobbyChatNotification")) {
+			if (m_soundEvents)
+				m_soundEvents->playSound("lobbychatnotify", 0);
+			emit lobbyChatMentionDetected();
+		}
+	}
 
-    // Build final line
-    const QString tsPrefix    = chatTimestampPrefix(m_config);
-    const QString escapedName = ChatColors::chatEscape(playerName);
-    QString line;
-    if (isAction) {
-        line = tsPrefix + QLatin1String("<i>*")
-               + escapedName + QLatin1String(" ") + styledMsg + QLatin1String("*</i>");
-    } else {
-        line = tsPrefix + QLatin1String("<b>")
-               + escapedName + QLatin1String(":</b> ") + styledMsg;
-    }
+	// Build final line
+	const QString tsPrefix    = chatTimestampPrefix(m_config);
+	const QString escapedName = ChatColors::chatEscape(playerName);
+	QString line;
+	if (isAction) {
+		line = tsPrefix + QLatin1String("<i>*")
+			   + escapedName + QLatin1String(" ") + styledMsg + QLatin1String("*</i>");
+	} else {
+		line = tsPrefix + QLatin1String("<b>")
+			   + escapedName + QLatin1String(":</b> ") + styledMsg;
+	}
 
-    // Übersetzen-Symbol nur an Nachrichten anderer (die eigenen muss man nicht
-    // übersetzen). rawDisplay ist der Quelltext ohne HTML/Style-Markup; styledMsg
-    // ist der Nachrichtenkörper in der Zeile, der beim Einblenden ersetzt wird.
-    if (m_chatTranslator && playerName != myNick)
-        line = m_chatTranslator->decorate(line, rawDisplay, styledMsg);
+	// Übersetzen-Symbol nur an Nachrichten anderer (die eigenen muss man nicht
+	// übersetzen). rawDisplay ist der Quelltext ohne HTML/Style-Markup; styledMsg
+	// ist der Nachrichtenkörper in der Zeile, der beim Einblenden ersetzt wird.
+	if (m_chatTranslator && playerName != myNick)
+		line = m_chatTranslator->decorate(line, rawDisplay, styledMsg);
 
-    pushChatLine(line);
+	pushChatLine(line);
 }
 
 void LobbyHandler::onPrivateChatMessage(const QString &playerName, const QString &message)
 {
-    // PMs ignorierter Spieler verwerfen — der Widgets-Client filtert sie über
-    // denselben Ignore-Loop in ChatTools::receiveMessage (pm=true).
-    if (m_config) {
-        const std::list<std::string> ignoreList = m_config->readConfigStringList("PlayerIgnoreList");
-        for (const auto &entry : ignoreList) {
-            if (playerName == QString::fromUtf8(entry.c_str()))
-                return;
-        }
-    }
+	// PMs ignorierter Spieler verwerfen — der Widgets-Client filtert sie über
+	// denselben Ignore-Loop in ChatTools::receiveMessage (pm=true).
+	if (m_config) {
+		const std::list<std::string> ignoreList = m_config->readConfigStringList("PlayerIgnoreList");
+		for (const auto &entry : ignoreList) {
+			if (playerName == QString::fromUtf8(entry.c_str()))
+				return;
+		}
+	}
 
-    // Colour for PMs: muted text (similar to chattools.cpp italic PM style)
-    QString escapedMsg  = ChatColors::chatEscape(message);
-    escapedMsg = applyChatEmoteShortcuts(escapedMsg);
-    escapedMsg = enlargeEmojis(escapedMsg);
+	// Colour for PMs: muted text (similar to chattools.cpp italic PM style)
+	QString escapedMsg  = ChatColors::chatEscape(message);
+	escapedMsg = applyChatEmoteShortcuts(escapedMsg);
+	escapedMsg = enlargeEmojis(escapedMsg);
 
-    const QString tsPrefix = chatTimestampPrefix(m_config);
-    QString line       = tsPrefix + QLatin1String("<i><span style=\"")
-                         + ChatColors::colorStyle(ChatColors::Muted)
-                         + QLatin1String(";\">")
-                         + ChatColors::chatEscape(playerName)
-                         + QLatin1String("(pm): ") + escapedMsg
-                         + QLatin1String("</span></i>");
-    // Eingehende private Nachrichten sind immer von anderen -> übersetzbar.
-    // escapedMsg ist der Nachrichtenkörper in der Zeile.
-    if (m_chatTranslator)
-        line = m_chatTranslator->decorate(line, message, escapedMsg);
-    pushChatLine(line);
+	const QString tsPrefix = chatTimestampPrefix(m_config);
+	QString line       = tsPrefix + QLatin1String("<i><span style=\"")
+						 + ChatColors::colorStyle(ChatColors::Muted)
+						 + QLatin1String(";\">")
+						 + ChatColors::chatEscape(playerName)
+						 + QLatin1String("(pm): ") + escapedMsg
+						 + QLatin1String("</span></i>");
+	// Eingehende private Nachrichten sind immer von anderen -> übersetzbar.
+	// escapedMsg ist der Nachrichtenkörper in der Zeile.
+	if (m_chatTranslator)
+		line = m_chatTranslator->decorate(line, message, escapedMsg);
+	pushChatLine(line);
 
-    // Eine PM ist immer direkt an einen selbst gerichtet und geht im laufenden
-    // Lobby-Chat sonst unter: Ton IMMER (nur der globale Schalter
-    // "PlaySoundEffects" im Audio-Player entscheidet), zusätzlich der ungelesen-
-    // Zähler am Chat-Kopf. Anders als beim Nick-Treffer NICHT über
-    // "PlayLobbyChatNotification" abschaltbar.
-    if (m_soundEvents)
-        m_soundEvents->playSound("lobbychatnotify", 0);
-    appendPrivateMessage(playerName, message, false);
+	// Eine PM ist immer direkt an einen selbst gerichtet und geht im laufenden
+	// Lobby-Chat sonst unter: Ton IMMER (nur der globale Schalter
+	// "PlaySoundEffects" im Audio-Player entscheidet), zusätzlich der ungelesen-
+	// Zähler am Chat-Kopf. Anders als beim Nick-Treffer NICHT über
+	// "PlayLobbyChatNotification" abschaltbar.
+	if (m_soundEvents)
+		m_soundEvents->playSound("lobbychatnotify", 0);
+	appendPrivateMessage(playerName, message, false);
 }
 
 void LobbyHandler::setGameRunning(bool running)
 {
-    if (m_gameRunning == running)
-        return;
-    m_gameRunning = running;
-    emit gameRunningChanged();
+	if (m_gameRunning == running)
+		return;
+	m_gameRunning = running;
+	emit gameRunningChanged();
 }
 
 // ── Privater Nachrichtenverlauf (Posteingang) ──────────────────────────────
 
 void LobbyHandler::appendPrivateMessage(const QString &playerName, const QString &message, bool fromMe)
 {
-    if (playerName.isEmpty())
-        return;
-    PrivateThread &thread = m_privateThreads[playerName];
+	if (playerName.isEmpty())
+		return;
+	PrivateThread &thread = m_privateThreads[playerName];
 
-    QVariantMap entry;
-    entry.insert(QStringLiteral("msgId"), m_nextPrivateMessageId++);
-    entry.insert(QStringLiteral("fromMe"), fromMe);
-    entry.insert(QStringLiteral("text"), message);
-    // Vollständiger Zeitstempel: der Verlauf überdauert Sitzungen, "HH:mm"
-    // allein wäre bei einer Nachricht von vorgestern irreführend. Die
-    // Anzeigeform bildet privateConversation().
-    entry.insert(QStringLiteral("ts"),
-                 QDateTime::currentDateTime().toString(Qt::ISODate));
-    thread.messages.append(entry);
+	QVariantMap entry;
+	entry.insert(QStringLiteral("msgId"), m_nextPrivateMessageId++);
+	entry.insert(QStringLiteral("fromMe"), fromMe);
+	entry.insert(QStringLiteral("text"), message);
+	// Vollständiger Zeitstempel: der Verlauf überdauert Sitzungen, "HH:mm"
+	// allein wäre bei einer Nachricht von vorgestern irreführend. Die
+	// Anzeigeform bildet privateConversation().
+	entry.insert(QStringLiteral("ts"),
+				 QDateTime::currentDateTime().toString(Qt::ISODate));
+	thread.messages.append(entry);
 
-    // Im Speicher nur ein Fenster des Gesprächs halten; die Datenbank behält
-    // den vollständigen Verlauf.
-    while (thread.messages.size() > kPrivateMessagesLoaded)
-        thread.messages.removeFirst();
+	// Im Speicher nur ein Fenster des Gesprächs halten; die Datenbank behält
+	// den vollständigen Verlauf.
+	while (thread.messages.size() > kPrivateMessagesLoaded)
+		thread.messages.removeFirst();
 
-    thread.lastActivity = QDateTime::currentMSecsSinceEpoch();
-    if (!fromMe)
-        ++thread.unread;
+	thread.lastActivity = QDateTime::currentMSecsSinceEpoch();
+	if (!fromMe)
+		++thread.unread;
 
-    persistPrivateMessage(playerName, entry);
-    persistPrivateThreadMeta(playerName);
+	persistPrivateMessage(playerName, entry);
+	persistPrivateThreadMeta(playerName);
 
-    ++m_privateMessagesRevision;
-    emit privateMessagesChanged();
-    recountUnreadPrivateMessages();
+	++m_privateMessagesRevision;
+	emit privateMessagesChanged();
+	recountUnreadPrivateMessages();
 }
 
 void LobbyHandler::recountUnreadPrivateMessages()
 {
-    int total = 0;
-    for (auto it = m_privateThreads.constBegin(); it != m_privateThreads.constEnd(); ++it)
-        total += it->unread;
-    if (total == m_unreadPrivateMessages)
-        return;
-    m_unreadPrivateMessages = total;
-    emit unreadPrivateMessagesChanged();
+	int total = 0;
+	for (auto it = m_privateThreads.constBegin(); it != m_privateThreads.constEnd(); ++it)
+		total += it->unread;
+	if (total == m_unreadPrivateMessages)
+		return;
+	m_unreadPrivateMessages = total;
+	emit unreadPrivateMessagesChanged();
 }
 
-namespace {
+namespace
+{
 
 // Ablageort des Posteingangs: eigene SQLite-Datei neben der config.xml, damit
 // er demselben Benutzerprofil folgt wie alle anderen Einstellungen – aber
 // getrennt von ihnen und von den Spiel-Logs bleibt.
 QString privateMessagesDbPath(ConfigFile *config)
 {
-    if (!config)
-        return QString();
-    const QString configPath = QString::fromUtf8(config->configFileName.c_str());
-    if (configPath.isEmpty())
-        return QString();
-    return QFileInfo(configPath).absolutePath() + QStringLiteral("/privatemessages.sqlite");
+	if (!config)
+		return QString();
+	const QString configPath = QString::fromUtf8(config->configFileName.c_str());
+	if (configPath.isEmpty())
+		return QString();
+	return QFileInfo(configPath).absolutePath() + QStringLiteral("/privatemessages.sqlite");
 }
 
 // Hat die Tabelle bereits die Besitzer-Spalte? (Erste Fassung der Datei kannte
 // nur EINEN Posteingang für die ganze Installation.)
 bool privateMessageTableHasOwner(const QSqlDatabase &db, const QString &table)
 {
-    QSqlQuery query(db);
-    if (!query.exec(QStringLiteral("PRAGMA table_info(%1)").arg(table)))
-        return false;
-    while (query.next()) {
-        if (query.value(1).toString() == QLatin1String("owner"))
-            return true;
-    }
-    return false;
+	QSqlQuery query(db);
+	if (!query.exec(QStringLiteral("PRAGMA table_info(%1)").arg(table)))
+		return false;
+	while (query.next()) {
+		if (query.value(1).toString() == QLatin1String("owner"))
+			return true;
+	}
+	return false;
 }
 
 } // namespace
 
 void LobbyHandler::openPrivateMessageDb()
 {
-    if (!m_privateDbConn.isEmpty())
-        return;
+	if (!m_privateDbConn.isEmpty())
+		return;
 
-    const QString path = privateMessagesDbPath(m_config);
-    if (path.isEmpty())
-        return;
+	const QString path = privateMessagesDbPath(m_config);
+	if (path.isEmpty())
+		return;
 
-    const QString connName = QStringLiteral("pokerth_pm");
-    bool opened = false;
-    // Eigener Gültigkeitsbereich: solange eine QSqlDatabase-Kopie lebt, warnt
-    // removeDatabase() über eine noch benutzte Verbindung.
-    {
-        QSqlDatabase db = QSqlDatabase::contains(connName)
-                          ? QSqlDatabase::database(connName, false)
-                          : QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"), connName);
-        db.setConnectOptions(QStringLiteral("QSQLITE_BUSY_TIMEOUT=5000"));
-        db.setDatabaseName(path);
-        if (!db.open()) {
-            qWarning() << "[PM] cannot open private message database" << path << db.lastError().text();
-        } else {
-            QSqlQuery query(db);
-            // Aufrüstung der ersten Fassung (ohne Besitzer): pm_message bekommt
-            // die Spalte angehängt, pm_thread braucht wegen des zusammen-
-            // gesetzten Primärschlüssels eine neue Tabelle. Die alten Zeilen
-            // bleiben zunächst besitzerlos (owner = "") und werden beim ersten
-            // Login übernommen – siehe loadPrivateMessages().
-            const QStringList tables = db.tables();
-            if (tables.contains(QLatin1String("pm_message"))
-                && !privateMessageTableHasOwner(db, QStringLiteral("pm_message"))) {
-                query.exec(QStringLiteral(
-                    "ALTER TABLE pm_message ADD COLUMN owner TEXT NOT NULL DEFAULT ''"));
-            }
-            if (tables.contains(QLatin1String("pm_thread"))
-                && !privateMessageTableHasOwner(db, QStringLiteral("pm_thread"))) {
-                query.exec(QStringLiteral("ALTER TABLE pm_thread RENAME TO pm_thread_v1"));
-            }
-            // Erneut nachsehen statt das Ergebnis der Umbenennung zu merken:
-            // so werden auch die Reste einer abgebrochenen Aufrüstung noch
-            // übernommen.
-            const bool migrateThreads = db.tables().contains(QLatin1String("pm_thread_v1"));
+	const QString connName = QStringLiteral("pokerth_pm");
+	bool opened = false;
+	// Eigener Gültigkeitsbereich: solange eine QSqlDatabase-Kopie lebt, warnt
+	// removeDatabase() über eine noch benutzte Verbindung.
+	{
+		QSqlDatabase db = QSqlDatabase::contains(connName)
+						  ? QSqlDatabase::database(connName, false)
+						  : QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"), connName);
+		db.setConnectOptions(QStringLiteral("QSQLITE_BUSY_TIMEOUT=5000"));
+		db.setDatabaseName(path);
+		if (!db.open()) {
+			qWarning() << "[PM] cannot open private message database" << path << db.lastError().text();
+		} else {
+			QSqlQuery query(db);
+			// Aufrüstung der ersten Fassung (ohne Besitzer): pm_message bekommt
+			// die Spalte angehängt, pm_thread braucht wegen des zusammen-
+			// gesetzten Primärschlüssels eine neue Tabelle. Die alten Zeilen
+			// bleiben zunächst besitzerlos (owner = "") und werden beim ersten
+			// Login übernommen – siehe loadPrivateMessages().
+			const QStringList tables = db.tables();
+			if (tables.contains(QLatin1String("pm_message"))
+					&& !privateMessageTableHasOwner(db, QStringLiteral("pm_message"))) {
+				query.exec(QStringLiteral(
+							   "ALTER TABLE pm_message ADD COLUMN owner TEXT NOT NULL DEFAULT ''"));
+			}
+			if (tables.contains(QLatin1String("pm_thread"))
+					&& !privateMessageTableHasOwner(db, QStringLiteral("pm_thread"))) {
+				query.exec(QStringLiteral("ALTER TABLE pm_thread RENAME TO pm_thread_v1"));
+			}
+			// Erneut nachsehen statt das Ergebnis der Umbenennung zu merken:
+			// so werden auch die Reste einer abgebrochenen Aufrüstung noch
+			// übernommen.
+			const bool migrateThreads = db.tables().contains(QLatin1String("pm_thread_v1"));
 
-            // pm_thread: eine Zeile je Konto und Gesprächspartner (Ungelesen-
-            // Zähler und Sortierung), pm_message: die Nachrichten selbst.
-            opened =
-                query.exec(QStringLiteral(
-                    "CREATE TABLE IF NOT EXISTS pm_thread ("
-                    "  owner TEXT NOT NULL,"
-                    "  partner TEXT NOT NULL,"
-                    "  unread INTEGER NOT NULL DEFAULT 0,"
-                    "  last_activity INTEGER NOT NULL DEFAULT 0,"
-                    "  PRIMARY KEY (owner, partner))"))
-                && query.exec(QStringLiteral(
-                    "CREATE TABLE IF NOT EXISTS pm_message ("
-                    "  id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    "  owner TEXT NOT NULL DEFAULT '',"
-                    "  partner TEXT NOT NULL,"
-                    "  from_me INTEGER NOT NULL,"
-                    "  text TEXT NOT NULL,"
-                    "  ts TEXT NOT NULL)"))
-                && query.exec(QStringLiteral("DROP INDEX IF EXISTS pm_message_partner"))
-                && query.exec(QStringLiteral(
-                    "CREATE INDEX IF NOT EXISTS pm_message_owner "
-                    "ON pm_message (owner, partner, id)"));
+			// pm_thread: eine Zeile je Konto und Gesprächspartner (Ungelesen-
+			// Zähler und Sortierung), pm_message: die Nachrichten selbst.
+			opened =
+				query.exec(QStringLiteral(
+							   "CREATE TABLE IF NOT EXISTS pm_thread ("
+							   "  owner TEXT NOT NULL,"
+							   "  partner TEXT NOT NULL,"
+							   "  unread INTEGER NOT NULL DEFAULT 0,"
+							   "  last_activity INTEGER NOT NULL DEFAULT 0,"
+							   "  PRIMARY KEY (owner, partner))"))
+				&& query.exec(QStringLiteral(
+								  "CREATE TABLE IF NOT EXISTS pm_message ("
+								  "  id INTEGER PRIMARY KEY AUTOINCREMENT,"
+								  "  owner TEXT NOT NULL DEFAULT '',"
+								  "  partner TEXT NOT NULL,"
+								  "  from_me INTEGER NOT NULL,"
+								  "  text TEXT NOT NULL,"
+								  "  ts TEXT NOT NULL)"))
+				&& query.exec(QStringLiteral("DROP INDEX IF EXISTS pm_message_partner"))
+				&& query.exec(QStringLiteral(
+								  "CREATE INDEX IF NOT EXISTS pm_message_owner "
+								  "ON pm_message (owner, partner, id)"));
 
-            if (opened && migrateThreads) {
-                opened = query.exec(QStringLiteral(
-                    "INSERT OR IGNORE INTO pm_thread (owner, partner, unread, last_activity) "
-                    "SELECT '', partner, unread, last_activity FROM pm_thread_v1"))
-                    && query.exec(QStringLiteral("DROP TABLE pm_thread_v1"));
-            }
-            if (!opened) {
-                qWarning() << "[PM] cannot create private message tables:" << query.lastError().text();
-                db.close();
-            }
-        }
-    }
+			if (opened && migrateThreads) {
+				opened = query.exec(QStringLiteral(
+										"INSERT OR IGNORE INTO pm_thread (owner, partner, unread, last_activity) "
+										"SELECT '', partner, unread, last_activity FROM pm_thread_v1"))
+						 && query.exec(QStringLiteral("DROP TABLE pm_thread_v1"));
+			}
+			if (!opened) {
+				qWarning() << "[PM] cannot create private message tables:" << query.lastError().text();
+				db.close();
+			}
+		}
+	}
 
-    if (!opened) {
-        QSqlDatabase::removeDatabase(connName);
-        return;   // ohne Datenbank lebt der Verlauf nur bis zum Beenden
-    }
-    m_privateDbConn = connName;
+	if (!opened) {
+		QSqlDatabase::removeDatabase(connName);
+		return;   // ohne Datenbank lebt der Verlauf nur bis zum Beenden
+	}
+	m_privateDbConn = connName;
 }
 
 void LobbyHandler::setPrivateMessageOwner(const QString &owner)
 {
-    if (owner == m_privateMessagesOwner)
-        return;
-    m_privateMessagesOwner = owner;
+	if (owner == m_privateMessagesOwner)
+		return;
+	m_privateMessagesOwner = owner;
 
-    // Was im Speicher steht, gehört dem vorigen Konto – erst wegräumen, dann
-    // den Verlauf des neuen Logins aus der Datenbank holen (bei leerem Namen
-    // bleibt der Posteingang leer).
-    m_privateThreads.clear();
-    // Laufende Übersetzungen zeigen auf Blasen, die es nicht mehr gibt; ihre
-    // Antworten sollen ins Leere laufen statt in den neuen Verlauf.
-    m_pmTranslationRequests.clear();
-    loadPrivateMessages();
+	// Was im Speicher steht, gehört dem vorigen Konto – erst wegräumen, dann
+	// den Verlauf des neuen Logins aus der Datenbank holen (bei leerem Namen
+	// bleibt der Posteingang leer).
+	m_privateThreads.clear();
+	// Laufende Übersetzungen zeigen auf Blasen, die es nicht mehr gibt; ihre
+	// Antworten sollen ins Leere laufen statt in den neuen Verlauf.
+	m_pmTranslationRequests.clear();
+	loadPrivateMessages();
 
-    ++m_privateMessagesRevision;
-    emit privateMessagesChanged();
-    recountUnreadPrivateMessages();
+	++m_privateMessagesRevision;
+	emit privateMessagesChanged();
+	recountUnreadPrivateMessages();
 }
 
 void LobbyHandler::loadPrivateMessages()
 {
-    openPrivateMessageDb();
-    if (m_privateDbConn.isEmpty() || m_privateMessagesOwner.isEmpty())
-        return;
+	openPrivateMessageDb();
+	if (m_privateDbConn.isEmpty() || m_privateMessagesOwner.isEmpty())
+		return;
 
-    QSqlDatabase db = QSqlDatabase::database(m_privateDbConn, false);
+	QSqlDatabase db = QSqlDatabase::database(m_privateDbConn, false);
 
-    // Verlauf aus der Zeit vor der Kontotrennung (owner = "") gehört dem, der
-    // sich als Erster anmeldet – das ist der Benutzer, der ihn geschrieben hat.
-    // Danach gibt es keine besitzerlosen Zeilen mehr.
-    {
-        QSqlQuery adoptQuery(db);
-        adoptQuery.prepare(QStringLiteral(
-            "UPDATE OR REPLACE pm_thread SET owner = :owner WHERE owner = ''"));
-        adoptQuery.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
-        if (adoptQuery.exec() && adoptQuery.numRowsAffected() > 0) {
-            QSqlQuery adoptMessages(db);
-            adoptMessages.prepare(QStringLiteral(
-                "UPDATE pm_message SET owner = :owner WHERE owner = ''"));
-            adoptMessages.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
-            adoptMessages.exec();
-        }
-    }
+	// Verlauf aus der Zeit vor der Kontotrennung (owner = "") gehört dem, der
+	// sich als Erster anmeldet – das ist der Benutzer, der ihn geschrieben hat.
+	// Danach gibt es keine besitzerlosen Zeilen mehr.
+	{
+		QSqlQuery adoptQuery(db);
+		adoptQuery.prepare(QStringLiteral(
+							   "UPDATE OR REPLACE pm_thread SET owner = :owner WHERE owner = ''"));
+		adoptQuery.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
+		if (adoptQuery.exec() && adoptQuery.numRowsAffected() > 0) {
+			QSqlQuery adoptMessages(db);
+			adoptMessages.prepare(QStringLiteral(
+									  "UPDATE pm_message SET owner = :owner WHERE owner = ''"));
+			adoptMessages.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
+			adoptMessages.exec();
+		}
+	}
 
-    QSqlQuery threadQuery(db);
-    threadQuery.prepare(QStringLiteral(
-        "SELECT partner, unread, last_activity FROM pm_thread WHERE owner = :owner "
-        "ORDER BY last_activity DESC"));
-    threadQuery.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
-    if (!threadQuery.exec()) {
-        qWarning() << "[PM] cannot read conversations:" << threadQuery.lastError().text();
-        return;
-    }
+	QSqlQuery threadQuery(db);
+	threadQuery.prepare(QStringLiteral(
+							"SELECT partner, unread, last_activity FROM pm_thread WHERE owner = :owner "
+							"ORDER BY last_activity DESC"));
+	threadQuery.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
+	if (!threadQuery.exec()) {
+		qWarning() << "[PM] cannot read conversations:" << threadQuery.lastError().text();
+		return;
+	}
 
-    QSqlQuery messageQuery(db);
-    // Nur die jüngsten Nachrichten in den Speicher holen; die Datenbank behält
-    // den vollständigen Verlauf.
-    messageQuery.prepare(QStringLiteral(
-        "SELECT from_me, text, ts FROM pm_message WHERE owner = :owner AND partner = :partner "
-        "ORDER BY id DESC LIMIT :limit"));
-    messageQuery.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
+	QSqlQuery messageQuery(db);
+	// Nur die jüngsten Nachrichten in den Speicher holen; die Datenbank behält
+	// den vollständigen Verlauf.
+	messageQuery.prepare(QStringLiteral(
+							 "SELECT from_me, text, ts FROM pm_message WHERE owner = :owner AND partner = :partner "
+							 "ORDER BY id DESC LIMIT :limit"));
+	messageQuery.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
 
-    while (threadQuery.next()) {
-        const QString name = threadQuery.value(0).toString();
-        if (name.isEmpty())
-            continue;
-        PrivateThread thread;
-        thread.unread       = threadQuery.value(1).toInt();
-        thread.lastActivity = threadQuery.value(2).toLongLong();
+	while (threadQuery.next()) {
+		const QString name = threadQuery.value(0).toString();
+		if (name.isEmpty())
+			continue;
+		PrivateThread thread;
+		thread.unread       = threadQuery.value(1).toInt();
+		thread.lastActivity = threadQuery.value(2).toLongLong();
 
-        messageQuery.bindValue(QStringLiteral(":partner"), name);
-        messageQuery.bindValue(QStringLiteral(":limit"), kPrivateMessagesLoaded);
-        if (messageQuery.exec()) {
-            while (messageQuery.next()) {
-                QVariantMap entry;
-                entry.insert(QStringLiteral("msgId"), m_nextPrivateMessageId++);
-                entry.insert(QStringLiteral("fromMe"), messageQuery.value(0).toInt() != 0);
-                entry.insert(QStringLiteral("text"),   messageQuery.value(1).toString());
-                entry.insert(QStringLiteral("ts"),     messageQuery.value(2).toString());
-                // Abfrage lief absteigend (jüngste zuerst) – vorne einfügen
-                // ergibt wieder die zeitliche Reihenfolge.
-                thread.messages.prepend(entry);
-            }
-        }
-        // Ungelesen kann nie mehr sein, als der Verlauf hergibt.
-        thread.unread = qBound(0, thread.unread, static_cast<int>(thread.messages.size()));
-        m_privateThreads.insert(name, thread);
-    }
-    // Die Meldung an die Oberfläche macht der einzige Aufrufer
-    // (setPrivateMessageOwner) – er muss sie ohnehin auch dann senden, wenn
-    // hier nichts zu laden war (Abmelden, Konto ohne Verlauf).
+		messageQuery.bindValue(QStringLiteral(":partner"), name);
+		messageQuery.bindValue(QStringLiteral(":limit"), kPrivateMessagesLoaded);
+		if (messageQuery.exec()) {
+			while (messageQuery.next()) {
+				QVariantMap entry;
+				entry.insert(QStringLiteral("msgId"), m_nextPrivateMessageId++);
+				entry.insert(QStringLiteral("fromMe"), messageQuery.value(0).toInt() != 0);
+				entry.insert(QStringLiteral("text"),   messageQuery.value(1).toString());
+				entry.insert(QStringLiteral("ts"),     messageQuery.value(2).toString());
+				// Abfrage lief absteigend (jüngste zuerst) – vorne einfügen
+				// ergibt wieder die zeitliche Reihenfolge.
+				thread.messages.prepend(entry);
+			}
+		}
+		// Ungelesen kann nie mehr sein, als der Verlauf hergibt.
+		thread.unread = qBound(0, thread.unread, static_cast<int>(thread.messages.size()));
+		m_privateThreads.insert(name, thread);
+	}
+	// Die Meldung an die Oberfläche macht der einzige Aufrufer
+	// (setPrivateMessageOwner) – er muss sie ohnehin auch dann senden, wenn
+	// hier nichts zu laden war (Abmelden, Konto ohne Verlauf).
 }
 
 void LobbyHandler::persistPrivateMessage(const QString &playerName, const QVariantMap &entry)
 {
-    // Ohne bekannten Besitzer (noch nicht angemeldet) wird nichts gespeichert:
-    // der Verlauf ließe sich sonst keinem Konto zuordnen.
-    if (m_privateDbConn.isEmpty() || m_privateMessagesOwner.isEmpty())
-        return;
-    QSqlQuery query(QSqlDatabase::database(m_privateDbConn, false));
-    query.prepare(QStringLiteral(
-        "INSERT INTO pm_message (owner, partner, from_me, text, ts) "
-        "VALUES (:owner, :partner, :fromMe, :text, :ts)"));
-    query.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
-    query.bindValue(QStringLiteral(":partner"), playerName);
-    query.bindValue(QStringLiteral(":fromMe"), entry.value(QStringLiteral("fromMe")).toBool() ? 1 : 0);
-    query.bindValue(QStringLiteral(":text"), entry.value(QStringLiteral("text")).toString());
-    query.bindValue(QStringLiteral(":ts"), entry.value(QStringLiteral("ts")).toString());
-    if (!query.exec())
-        qWarning() << "[PM] cannot store private message:" << query.lastError().text();
+	// Ohne bekannten Besitzer (noch nicht angemeldet) wird nichts gespeichert:
+	// der Verlauf ließe sich sonst keinem Konto zuordnen.
+	if (m_privateDbConn.isEmpty() || m_privateMessagesOwner.isEmpty())
+		return;
+	QSqlQuery query(QSqlDatabase::database(m_privateDbConn, false));
+	query.prepare(QStringLiteral(
+					  "INSERT INTO pm_message (owner, partner, from_me, text, ts) "
+					  "VALUES (:owner, :partner, :fromMe, :text, :ts)"));
+	query.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
+	query.bindValue(QStringLiteral(":partner"), playerName);
+	query.bindValue(QStringLiteral(":fromMe"), entry.value(QStringLiteral("fromMe")).toBool() ? 1 : 0);
+	query.bindValue(QStringLiteral(":text"), entry.value(QStringLiteral("text")).toString());
+	query.bindValue(QStringLiteral(":ts"), entry.value(QStringLiteral("ts")).toString());
+	if (!query.exec())
+		qWarning() << "[PM] cannot store private message:" << query.lastError().text();
 }
 
 void LobbyHandler::persistPrivateThreadMeta(const QString &playerName)
 {
-    if (m_privateDbConn.isEmpty() || m_privateMessagesOwner.isEmpty())
-        return;
-    const auto it = m_privateThreads.constFind(playerName);
-    if (it == m_privateThreads.constEnd())
-        return;
-    QSqlQuery query(QSqlDatabase::database(m_privateDbConn, false));
-    // INSERT OR REPLACE statt UPSERT: die Tabelle besteht nur aus diesen vier
-    // Spalten, und ein Platzhalter darf so je genau einmal vorkommen.
-    query.prepare(QStringLiteral(
-        "INSERT OR REPLACE INTO pm_thread (owner, partner, unread, last_activity) "
-        "VALUES (:owner, :partner, :unread, :last)"));
-    query.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
-    query.bindValue(QStringLiteral(":partner"), playerName);
-    query.bindValue(QStringLiteral(":unread"), it->unread);
-    query.bindValue(QStringLiteral(":last"), it->lastActivity);
-    if (!query.exec())
-        qWarning() << "[PM] cannot store conversation:" << query.lastError().text();
+	if (m_privateDbConn.isEmpty() || m_privateMessagesOwner.isEmpty())
+		return;
+	const auto it = m_privateThreads.constFind(playerName);
+	if (it == m_privateThreads.constEnd())
+		return;
+	QSqlQuery query(QSqlDatabase::database(m_privateDbConn, false));
+	// INSERT OR REPLACE statt UPSERT: die Tabelle besteht nur aus diesen vier
+	// Spalten, und ein Platzhalter darf so je genau einmal vorkommen.
+	query.prepare(QStringLiteral(
+					  "INSERT OR REPLACE INTO pm_thread (owner, partner, unread, last_activity) "
+					  "VALUES (:owner, :partner, :unread, :last)"));
+	query.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
+	query.bindValue(QStringLiteral(":partner"), playerName);
+	query.bindValue(QStringLiteral(":unread"), it->unread);
+	query.bindValue(QStringLiteral(":last"), it->lastActivity);
+	if (!query.exec())
+		qWarning() << "[PM] cannot store conversation:" << query.lastError().text();
 }
 
 void LobbyHandler::persistDeletePrivateThread(const QString &playerName)
 {
-    if (m_privateDbConn.isEmpty() || m_privateMessagesOwner.isEmpty())
-        return;
-    QSqlDatabase db = QSqlDatabase::database(m_privateDbConn, false);
-    QSqlQuery messageQuery(db);
-    messageQuery.prepare(QStringLiteral(
-        "DELETE FROM pm_message WHERE owner = :owner AND partner = :partner"));
-    messageQuery.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
-    messageQuery.bindValue(QStringLiteral(":partner"), playerName);
-    messageQuery.exec();
-    QSqlQuery threadQuery(db);
-    threadQuery.prepare(QStringLiteral(
-        "DELETE FROM pm_thread WHERE owner = :owner AND partner = :partner"));
-    threadQuery.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
-    threadQuery.bindValue(QStringLiteral(":partner"), playerName);
-    threadQuery.exec();
+	if (m_privateDbConn.isEmpty() || m_privateMessagesOwner.isEmpty())
+		return;
+	QSqlDatabase db = QSqlDatabase::database(m_privateDbConn, false);
+	QSqlQuery messageQuery(db);
+	messageQuery.prepare(QStringLiteral(
+							 "DELETE FROM pm_message WHERE owner = :owner AND partner = :partner"));
+	messageQuery.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
+	messageQuery.bindValue(QStringLiteral(":partner"), playerName);
+	messageQuery.exec();
+	QSqlQuery threadQuery(db);
+	threadQuery.prepare(QStringLiteral(
+							"DELETE FROM pm_thread WHERE owner = :owner AND partner = :partner"));
+	threadQuery.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
+	threadQuery.bindValue(QStringLiteral(":partner"), playerName);
+	threadQuery.exec();
 }
 
 void LobbyHandler::deletePrivateConversation(const QString &playerName)
 {
-    if (m_privateThreads.remove(playerName) == 0)
-        return;
-    persistDeletePrivateThread(playerName);
-    ++m_privateMessagesRevision;
-    emit privateMessagesChanged();
-    recountUnreadPrivateMessages();
+	if (m_privateThreads.remove(playerName) == 0)
+		return;
+	persistDeletePrivateThread(playerName);
+	++m_privateMessagesRevision;
+	emit privateMessagesChanged();
+	recountUnreadPrivateMessages();
 }
 
-namespace {
+namespace
+{
 
 // Anzeigeform eines gespeicherten Zeitstempels: innerhalb desselben Tages nur
 // die Uhrzeit, davor zusätzlich das Datum.
 QString privateMessageDisplayTime(const QString &isoTimestamp)
 {
-    const QDateTime ts = QDateTime::fromString(isoTimestamp, Qt::ISODate);
-    if (!ts.isValid())
-        return QString();
-    if (ts.date() == QDate::currentDate())
-        return ts.toString(QStringLiteral("HH:mm"));
-    return ts.toString(QStringLiteral("dd.MM. HH:mm"));
+	const QDateTime ts = QDateTime::fromString(isoTimestamp, Qt::ISODate);
+	if (!ts.isValid())
+		return QString();
+	if (ts.date() == QDate::currentDate())
+		return ts.toString(QStringLiteral("HH:mm"));
+	return ts.toString(QStringLiteral("dd.MM. HH:mm"));
 }
 
 } // namespace
 
 QVariantList LobbyHandler::privateConversationPartners() const
 {
-    QVariantList out;
-    out.reserve(m_privateThreads.size());
-    for (auto it = m_privateThreads.constBegin(); it != m_privateThreads.constEnd(); ++it) {
-        const PrivateThread &thread = it.value();
-        QVariantMap entry;
-        entry.insert(QStringLiteral("name"), it.key());
-        entry.insert(QStringLiteral("unread"), thread.unread);
-        entry.insert(QStringLiteral("playerId"), playerIdByName(it.key()));
-        entry.insert(QStringLiteral("lastActivity"), thread.lastActivity);
-        if (!thread.messages.isEmpty()) {
-            const QVariantMap last = thread.messages.last().toMap();
-            entry.insert(QStringLiteral("lastText"), last.value(QStringLiteral("text")));
-            entry.insert(QStringLiteral("lastTime"),
-                         privateMessageDisplayTime(last.value(QStringLiteral("ts")).toString()));
-            entry.insert(QStringLiteral("fromMe"), last.value(QStringLiteral("fromMe")));
-        } else {
-            entry.insert(QStringLiteral("lastText"), QString());
-            entry.insert(QStringLiteral("lastTime"), QString());
-            entry.insert(QStringLiteral("fromMe"), false);
-        }
-        out.append(entry);
-    }
-    // Neueste Unterhaltung zuerst (QHash ist unsortiert).
-    std::sort(out.begin(), out.end(), [](const QVariant &a, const QVariant &b) {
-        return a.toMap().value(QStringLiteral("lastActivity")).toLongLong()
-             > b.toMap().value(QStringLiteral("lastActivity")).toLongLong();
-    });
-    return out;
+	QVariantList out;
+	out.reserve(m_privateThreads.size());
+	for (auto it = m_privateThreads.constBegin(); it != m_privateThreads.constEnd(); ++it) {
+		const PrivateThread &thread = it.value();
+		QVariantMap entry;
+		entry.insert(QStringLiteral("name"), it.key());
+		entry.insert(QStringLiteral("unread"), thread.unread);
+		entry.insert(QStringLiteral("playerId"), playerIdByName(it.key()));
+		entry.insert(QStringLiteral("lastActivity"), thread.lastActivity);
+		if (!thread.messages.isEmpty()) {
+			const QVariantMap last = thread.messages.last().toMap();
+			entry.insert(QStringLiteral("lastText"), last.value(QStringLiteral("text")));
+			entry.insert(QStringLiteral("lastTime"),
+						 privateMessageDisplayTime(last.value(QStringLiteral("ts")).toString()));
+			entry.insert(QStringLiteral("fromMe"), last.value(QStringLiteral("fromMe")));
+		} else {
+			entry.insert(QStringLiteral("lastText"), QString());
+			entry.insert(QStringLiteral("lastTime"), QString());
+			entry.insert(QStringLiteral("fromMe"), false);
+		}
+		out.append(entry);
+	}
+	// Neueste Unterhaltung zuerst (QHash ist unsortiert).
+	std::sort(out.begin(), out.end(), [](const QVariant &a, const QVariant &b) {
+		return a.toMap().value(QStringLiteral("lastActivity")).toLongLong()
+			   > b.toMap().value(QStringLiteral("lastActivity")).toLongLong();
+	});
+	return out;
 }
 
 QVariantList LobbyHandler::privateConversation(const QString &playerName) const
 {
-    const auto it = m_privateThreads.constFind(playerName);
-    if (it == m_privateThreads.constEnd())
-        return QVariantList();
-    QVariantList out;
-    out.reserve(it->messages.size());
-    for (const QVariant &messageValue : it->messages) {
-        QVariantMap entry = messageValue.toMap();
-        entry.insert(QStringLiteral("time"),
-                     privateMessageDisplayTime(entry.value(QStringLiteral("ts")).toString()));
-        out.append(entry);
-    }
-    return out;
+	const auto it = m_privateThreads.constFind(playerName);
+	if (it == m_privateThreads.constEnd())
+		return QVariantList();
+	QVariantList out;
+	out.reserve(it->messages.size());
+	for (const QVariant &messageValue : it->messages) {
+		QVariantMap entry = messageValue.toMap();
+		entry.insert(QStringLiteral("time"),
+					 privateMessageDisplayTime(entry.value(QStringLiteral("ts")).toString()));
+		out.append(entry);
+	}
+	return out;
 }
 
 void LobbyHandler::ensurePrivateConversation(const QString &playerName)
 {
-    if (playerName.isEmpty() || m_privateThreads.contains(playerName))
-        return;
-    PrivateThread &thread = m_privateThreads[playerName];
-    // Ohne Zeitstempel stünde ein frisch geöffnetes (leeres) Gespräch immer
-    // ganz unten in der Liste, obwohl es gerade das aktive ist.
-    thread.lastActivity = QDateTime::currentMSecsSinceEpoch();
-    // Bewusst NICHT speichern: ein nur geöffnetes, leeres Gespräch soll nicht
-    // dauerhaft im Posteingang stehen. Die erste Nachricht legt die Zeile an.
-    ++m_privateMessagesRevision;
-    emit privateMessagesChanged();
+	if (playerName.isEmpty() || m_privateThreads.contains(playerName))
+		return;
+	PrivateThread &thread = m_privateThreads[playerName];
+	// Ohne Zeitstempel stünde ein frisch geöffnetes (leeres) Gespräch immer
+	// ganz unten in der Liste, obwohl es gerade das aktive ist.
+	thread.lastActivity = QDateTime::currentMSecsSinceEpoch();
+	// Bewusst NICHT speichern: ein nur geöffnetes, leeres Gespräch soll nicht
+	// dauerhaft im Posteingang stehen. Die erste Nachricht legt die Zeile an.
+	++m_privateMessagesRevision;
+	emit privateMessagesChanged();
 }
 
 void LobbyHandler::markPrivateConversationRead(const QString &playerName)
 {
-    const auto it = m_privateThreads.find(playerName);
-    if (it == m_privateThreads.end() || it->unread == 0)
-        return;
-    it->unread = 0;
-    persistPrivateThreadMeta(playerName);
-    ++m_privateMessagesRevision;
-    emit privateMessagesChanged();
-    recountUnreadPrivateMessages();
+	const auto it = m_privateThreads.find(playerName);
+	if (it == m_privateThreads.end() || it->unread == 0)
+		return;
+	it->unread = 0;
+	persistPrivateThreadMeta(playerName);
+	++m_privateMessagesRevision;
+	emit privateMessagesChanged();
+	recountUnreadPrivateMessages();
 }
 
 unsigned LobbyHandler::playerIdByName(const QString &playerName) const
 {
-    if (playerName.isEmpty())
-        return 0;
-    const int count = m_playerListModel.rowCount();
-    for (int i = 0; i < count; ++i) {
-        const QModelIndex idx = m_playerListModel.index(i);
-        if (m_playerListModel.data(idx, PlayerListModel::PlayerNameRole).toString() == playerName)
-            return m_playerListModel.data(idx, PlayerListModel::PlayerIdRole).toUInt();
-    }
-    return 0;
+	if (playerName.isEmpty())
+		return 0;
+	const int count = m_playerListModel.rowCount();
+	for (int i = 0; i < count; ++i) {
+		const QModelIndex idx = m_playerListModel.index(i);
+		if (m_playerListModel.data(idx, PlayerListModel::PlayerNameRole).toString() == playerName)
+			return m_playerListModel.data(idx, PlayerListModel::PlayerIdRole).toUInt();
+	}
+	return 0;
 }
 
 void LobbyHandler::sendPrivateMessageToName(const QString &playerName, const QString &message)
 {
-    const unsigned targetId = playerIdByName(playerName);
-    if (targetId == 0) {
-        emit errorOccurred(tr("%1 is not in the lobby at the moment.").arg(playerName));
-        return;
-    }
-    sendPrivateMessage(targetId, message);
+	const unsigned targetId = playerIdByName(playerName);
+	if (targetId == 0) {
+		emit errorOccurred(tr("%1 is not in the lobby at the moment.").arg(playerName));
+		return;
+	}
+	sendPrivateMessage(targetId, message);
 }
 
 bool LobbyHandler::chatDarkMode() const
 {
-    // Kein Config -> Dunkelmodus (Default der Oberfläche). "Automatisch" löst
-    // DarkMode::resolve() über das System auf – dieselbe Semantik wie in QML.
-    if (!m_config)
-        return true;
-    return DarkMode::resolve(m_config->readConfigInt("DarkMode"));
+	// Kein Config -> Dunkelmodus (Default der Oberfläche). "Automatisch" löst
+	// DarkMode::resolve() über das System auf – dieselbe Semantik wie in QML.
+	if (!m_config)
+		return true;
+	return DarkMode::resolve(m_config->readConfigInt("DarkMode"));
 }
 
 QStringList LobbyHandler::chatLog() const
 {
-    // Farb-Platzhalter erst hier auflösen: dadurch färbt ein Hell/Dunkel-Wechsel
-    // auch den bereits empfangenen Verlauf um (siehe chatcolors.h).
-    const bool dark = chatDarkMode();
-    QStringList out;
-    out.reserve(m_chatLog.size());
-    for (const QString &line : m_chatLog)
-        out.append(ChatColors::expand(line, dark));
-    return out;
+	// Farb-Platzhalter erst hier auflösen: dadurch färbt ein Hell/Dunkel-Wechsel
+	// auch den bereits empfangenen Verlauf um (siehe chatcolors.h).
+	const bool dark = chatDarkMode();
+	QStringList out;
+	out.reserve(m_chatLog.size());
+	for (const QString &line : m_chatLog)
+		out.append(ChatColors::expand(line, dark));
+	return out;
 }
 
 void LobbyHandler::pushChatLine(const QString &line)
 {
-    m_chatLog.append(line);
-    const int kMaxLines = 400;
-    if (m_chatLog.size() > kMaxLines)
-        m_chatLog.erase(m_chatLog.begin(), m_chatLog.begin() + (m_chatLog.size() - kMaxLines));
-    notifyChatLogChanged();
-    // Live-Verbraucher bekommen die Zeile fertig eingefärbt (nicht mit Platzhaltern).
-    emit chatLineReady(ChatColors::expand(line, chatDarkMode()));
+	m_chatLog.append(line);
+	const int kMaxLines = 400;
+	if (m_chatLog.size() > kMaxLines)
+		m_chatLog.erase(m_chatLog.begin(), m_chatLog.begin() + (m_chatLog.size() - kMaxLines));
+	notifyChatLogChanged();
+	// Live-Verbraucher bekommen die Zeile fertig eingefärbt (nicht mit Platzhaltern).
+	emit chatLineReady(ChatColors::expand(line, chatDarkMode()));
 }
 
 void LobbyHandler::notifyChatLogChanged()
 {
-    // Sammelt alle Verlaufsänderungen eines Event-Loop-Durchlaufs zu einer
-    // einzigen Benachrichtigung (Begründung siehe lobbyhandler.h). Die
-    // Auslieferung selbst passiert per Queued Call: noch anstehende Zeilen
-    // desselben Durchlaufs (mehrzeiliger Hinweis, Salve beim Betreten) landen
-    // damit ebenfalls im selben Aufbau.
-    if (m_chatLogNotifyPending)
-        return;
-    m_chatLogNotifyPending = true;
-    QMetaObject::invokeMethod(this, [this]() {
-        m_chatLogNotifyPending = false;
-        emit chatLogChanged();
-    }, Qt::QueuedConnection);
+	// Sammelt alle Verlaufsänderungen eines Event-Loop-Durchlaufs zu einer
+	// einzigen Benachrichtigung (Begründung siehe lobbyhandler.h). Die
+	// Auslieferung selbst passiert per Queued Call: noch anstehende Zeilen
+	// desselben Durchlaufs (mehrzeiliger Hinweis, Salve beim Betreten) landen
+	// damit ebenfalls im selben Aufbau.
+	if (m_chatLogNotifyPending)
+		return;
+	m_chatLogNotifyPending = true;
+	QMetaObject::invokeMethod(this, [this]() {
+		m_chatLogNotifyPending = false;
+		emit chatLogChanged();
+	}, Qt::QueuedConnection);
 }
 
 unsigned LobbyHandler::parsePrivateMessageTarget(QString &chatText) const
 {
-    QString targetName;
-    int endPos = -1;
-    // Support quoted names: /msg "player name" text
-    if (chatText.startsWith(QLatin1Char('"'))) {
-        chatText.remove(0, 1);
-        endPos = chatText.indexOf(QLatin1Char('"'));
-    } else {
-        endPos = chatText.indexOf(QLatin1Char(' '));
-    }
-    if (endPos > 0) {
-        targetName = chatText.left(endPos);
-        chatText.remove(0, endPos + 1);
-    }
-    chatText = chatText.trimmed();
+	QString targetName;
+	int endPos = -1;
+	// Support quoted names: /msg "player name" text
+	if (chatText.startsWith(QLatin1Char('"'))) {
+		chatText.remove(0, 1);
+		endPos = chatText.indexOf(QLatin1Char('"'));
+	} else {
+		endPos = chatText.indexOf(QLatin1Char(' '));
+	}
+	if (endPos > 0) {
+		targetName = chatText.left(endPos);
+		chatText.remove(0, endPos + 1);
+	}
+	chatText = chatText.trimmed();
 
-    if (targetName.isEmpty() || chatText.isEmpty())
-        return 0;
+	if (targetName.isEmpty() || chatText.isEmpty())
+		return 0;
 
-    return playerIdByName(targetName);
+	return playerIdByName(targetName);
 }
 
 void LobbyHandler::createGame(const QString &name, const QString &password,
-                              int gameType, bool allowSpectators, int maxPlayers,
-                              int startCash, int firstSmallBlind,
-                              int raiseIntervalMode, int raiseEveryHands,
-                              int raiseEveryMinutes, int raiseMode,
-                              int playerActionTimeout, int delayBetweenHands,
-                              const QVariantList &manualBlinds)
+							  int gameType, bool allowSpectators, int maxPlayers,
+							  int startCash, int firstSmallBlind,
+							  int raiseIntervalMode, int raiseEveryHands,
+							  int raiseEveryMinutes, int raiseMode,
+							  int playerActionTimeout, int delayBetweenHands,
+							  const QVariantList &manualBlinds)
 {
-    if (!m_session) {
-        emit errorOccurred(tr("Not connected to server"));
-        return;
-    }
+	if (!m_session) {
+		emit errorOccurred(tr("Not connected to server"));
+		return;
+	}
 
-    GameData gameData;
-    gameData.gameType                     = static_cast<GameType>(gameType);
-    gameData.allowSpectators              = allowSpectators;
-    gameData.maxNumberOfPlayers           = maxPlayers;
-    gameData.startMoney                   = startCash;
-    gameData.firstSmallBlind              = firstSmallBlind;
-    gameData.raiseIntervalMode            = static_cast<RaiseIntervalMode>(raiseIntervalMode);
-    gameData.raiseSmallBlindEveryHandsValue   = raiseEveryHands;
-    gameData.raiseSmallBlindEveryMinutesValue = raiseEveryMinutes;
-    gameData.raiseMode                    = static_cast<RaiseMode>(raiseMode);
-    if (gameData.raiseMode == MANUAL_BLINDS_ORDER) {
-        for (const QVariant &blind : manualBlinds)
-            gameData.manualBlindsList.push_back(blind.toInt());
-    }
-    // Das Verhalten nach der manuellen Blindliste und die GUI-Geschwindigkeit
-    // haben auf der Erstellen-Seite keine Bedienelemente; sie stammen – wie im
-    // Widget-Client – aus den Optionen.
-    if (m_config) {
-        if (m_config->readConfigInt("NetAfterMBAlwaysRaiseAbout")) {
-            gameData.afterManualBlindsMode   = AFTERMB_RAISE_ABOUT;
-            gameData.afterMBAlwaysRaiseValue = m_config->readConfigInt("NetAfterMBAlwaysRaiseValue");
-        } else if (m_config->readConfigInt("NetAfterMBStayAtLastBlind")) {
-            gameData.afterManualBlindsMode   = AFTERMB_STAY_AT_LAST_BLIND;
-        }
-        gameData.guiSpeed = m_config->readConfigInt("GameSpeed");
-    }
-    gameData.delayBetweenHandsSec         = delayBetweenHands;
-    gameData.playerActionTimeoutSec       = playerActionTimeout;
+	GameData gameData;
+	gameData.gameType                     = static_cast<GameType>(gameType);
+	gameData.allowSpectators              = allowSpectators;
+	gameData.maxNumberOfPlayers           = maxPlayers;
+	gameData.startMoney                   = startCash;
+	gameData.firstSmallBlind              = firstSmallBlind;
+	gameData.raiseIntervalMode            = static_cast<RaiseIntervalMode>(raiseIntervalMode);
+	gameData.raiseSmallBlindEveryHandsValue   = raiseEveryHands;
+	gameData.raiseSmallBlindEveryMinutesValue = raiseEveryMinutes;
+	gameData.raiseMode                    = static_cast<RaiseMode>(raiseMode);
+	if (gameData.raiseMode == MANUAL_BLINDS_ORDER) {
+		for (const QVariant &blind : manualBlinds)
+			gameData.manualBlindsList.push_back(blind.toInt());
+	}
+	// Das Verhalten nach der manuellen Blindliste und die GUI-Geschwindigkeit
+	// haben auf der Erstellen-Seite keine Bedienelemente; sie stammen – wie im
+	// Widget-Client – aus den Optionen.
+	if (m_config) {
+		if (m_config->readConfigInt("NetAfterMBAlwaysRaiseAbout")) {
+			gameData.afterManualBlindsMode   = AFTERMB_RAISE_ABOUT;
+			gameData.afterMBAlwaysRaiseValue = m_config->readConfigInt("NetAfterMBAlwaysRaiseValue");
+		} else if (m_config->readConfigInt("NetAfterMBStayAtLastBlind")) {
+			gameData.afterManualBlindsMode   = AFTERMB_STAY_AT_LAST_BLIND;
+		}
+		gameData.guiSpeed = m_config->readConfigInt("GameSpeed");
+	}
+	gameData.delayBetweenHandsSec         = delayBetweenHands;
+	gameData.playerActionTimeoutSec       = playerActionTimeout;
 
-    m_session->clientCreateGame(gameData, name.toStdString(), password.toStdString());
+	m_session->clientCreateGame(gameData, name.toStdString(), password.toStdString());
 }
 
 void LobbyHandler::joinGame(unsigned gameId, const QString &password)
 {
-    if (!m_session) {
-        emit errorOccurred(tr("Not connected to server"));
-        return;
-    }
-    m_session->clientJoinGame(gameId, password.toStdString());
+	if (!m_session) {
+		emit errorOccurred(tr("Not connected to server"));
+		return;
+	}
+	m_session->clientJoinGame(gameId, password.toStdString());
 }
 
 void LobbyHandler::spectateGame(unsigned gameId)
 {
-    if (!m_session) {
-        emit errorOccurred(tr("Not connected to server"));
-        return;
-    }
-    m_session->clientJoinGame(gameId, std::string(), true);
+	if (!m_session) {
+		emit errorOccurred(tr("Not connected to server"));
+		return;
+	}
+	m_session->clientJoinGame(gameId, std::string(), true);
 }
 
 void LobbyHandler::leaveGame()
 {
-    if (!m_session)
-        return;
-    m_session->sendLeaveCurrentGame();
+	if (!m_session)
+		return;
+	m_session->sendLeaveCurrentGame();
 }
 
 void LobbyHandler::leaveServer()
 {
-    if (!m_session)
-        return;
-    // Verbindung zum Server trennen (wie startWindowImpl beim Verlassen der
-    // Lobby) und den lokalen Lobby-Zustand zurücksetzen.
-    m_session->terminateNetworkClient();
-    // Keine aktive Online-Session mehr → Foreground-Service beenden.
-    AndroidConnectionService::stop();
-    IosBackgroundSession::stop();
-    setGameRunning(false);
-    setRejoinWaiting(false);
-    if (m_isSpectating) {
-        m_isSpectating = false;
-        emit isSpectatingChanged();
-    }
-    if (m_isInGame) {
-        m_isInGame = false;
-        m_currentGameId = 0;
-        emit isInGameChanged();
-        emit currentGameIdChanged();
-    }
+	if (!m_session)
+		return;
+	// Verbindung zum Server trennen (wie startWindowImpl beim Verlassen der
+	// Lobby) und den lokalen Lobby-Zustand zurücksetzen.
+	m_session->terminateNetworkClient();
+	// Keine aktive Online-Session mehr → Foreground-Service beenden.
+	AndroidConnectionService::stop();
+	IosBackgroundSession::stop();
+	setGameRunning(false);
+	setRejoinWaiting(false);
+	if (m_isSpectating) {
+		m_isSpectating = false;
+		emit isSpectatingChanged();
+	}
+	if (m_isInGame) {
+		m_isInGame = false;
+		m_currentGameId = 0;
+		emit isInGameChanged();
+		emit currentGameIdChanged();
+	}
 }
 
 void LobbyHandler::onSelfJoinedGame()
 {
-    // Frischer Beitritt → Warteraum (bei Rejoin in ein laufendes Spiel folgt
-    // unmittelbar wieder onGameStarted).
-    setGameRunning(false);
-    m_currentGameId = m_session ? m_session->getClientCurrentGameId() : 0;
-    // Ob der Server uns als Zuschauer aufgenommen hat, steht im JoinGameAck –
-    // der ist bereits verarbeitet, wenn dieses Signal die GUI erreicht.
-    const bool spectating = m_session && m_session->isClientSpectating();
-    if (spectating != m_isSpectating) {
-        m_isSpectating = spectating;
-        emit isSpectatingChanged();
-    }
-    if (!m_isInGame) {
-        m_isInGame = true;
-        emit isInGameChanged();
-        emit currentGameIdChanged();
-    }
-    emit selfJoinedGame();
+	// Frischer Beitritt → Warteraum (bei Rejoin in ein laufendes Spiel folgt
+	// unmittelbar wieder onGameStarted).
+	setGameRunning(false);
+	m_currentGameId = m_session ? m_session->getClientCurrentGameId() : 0;
+	// Ob der Server uns als Zuschauer aufgenommen hat, steht im JoinGameAck –
+	// der ist bereits verarbeitet, wenn dieses Signal die GUI erreicht.
+	const bool spectating = m_session && m_session->isClientSpectating();
+	if (spectating != m_isSpectating) {
+		m_isSpectating = spectating;
+		emit isSpectatingChanged();
+	}
+	if (!m_isInGame) {
+		m_isInGame = true;
+		emit isInGameChanged();
+		emit currentGameIdChanged();
+	}
+	emit selfJoinedGame();
 }
 
 void LobbyHandler::onGameStarted()
 {
-    // Spielstart bedeutet, dass die Engine die Lobby-Nachrichten abbestellt
-    // (UnsubscribeLobbyMsg). Während des Spiels treffen daher keine
-    // playerListLeft-Events mehr ein – Spieler, die in dieser Zeit die Verbindung
-    // trennen, blieben sonst als veraltete "idle"-Einträge in der Liste stehen.
-    // Beim Rückkehren in den Warteraum/die Lobby sendet der Server via
-    // ResubscribeLobbyMsg die vollständige Spielerliste erneut (playerListNew),
-    // sodass die Liste hier gefahrlos geleert und anschließend frisch aufgebaut
-    // wird. Spiegelt das Verhalten des Widget-Clients (Nickliste leeren bei
-    // MSG_NET_GAME_CLIENT_START).
-    m_playerListModel.clear();
-    ++m_playerListRevision;
-    emit playerListRevisionChanged();
+	// Spielstart bedeutet, dass die Engine die Lobby-Nachrichten abbestellt
+	// (UnsubscribeLobbyMsg). Während des Spiels treffen daher keine
+	// playerListLeft-Events mehr ein – Spieler, die in dieser Zeit die Verbindung
+	// trennen, blieben sonst als veraltete "idle"-Einträge in der Liste stehen.
+	// Beim Rückkehren in den Warteraum/die Lobby sendet der Server via
+	// ResubscribeLobbyMsg die vollständige Spielerliste erneut (playerListNew),
+	// sodass die Liste hier gefahrlos geleert und anschließend frisch aufgebaut
+	// wird. Spiegelt das Verhalten des Widget-Clients (Nickliste leeren bei
+	// MSG_NET_GAME_CLIENT_START).
+	m_playerListModel.clear();
+	++m_playerListRevision;
+	emit playerListRevisionChanged();
 
-    setGameRunning(true);
-    // Wir sitzen am Tisch → ein evtl. laufendes Rejoin-Warten ist erledigt.
-    setRejoinWaiting(false);
+	setGameRunning(true);
+	// Wir sitzen am Tisch → ein evtl. laufendes Rejoin-Warten ist erledigt.
+	setRejoinWaiting(false);
 
-    emit gameStarted();
+	emit gameStarted();
 }
 
 void LobbyHandler::onWaitGameDialog()
 {
-    // m_isInGame/m_currentGameId NICHT zurücksetzen: Bei deaktiviertem Auto-Leave
-    // bleiben wir nach Spielende im (wieder geöffneten) Spiel; der Warteraum soll
-    // das aktuelle Spiel weiter anzeigen. Wird der Spieler tatsächlich entfernt
-    // (Auto-Leave/Kick), räumt das nachfolgende onRemovedFromGame den Zustand auf.
-    setGameRunning(false);
-    emit returnToWaitRoom();
+	// m_isInGame/m_currentGameId NICHT zurücksetzen: Bei deaktiviertem Auto-Leave
+	// bleiben wir nach Spielende im (wieder geöffneten) Spiel; der Warteraum soll
+	// das aktuelle Spiel weiter anzeigen. Wird der Spieler tatsächlich entfernt
+	// (Auto-Leave/Kick), räumt das nachfolgende onRemovedFromGame den Zustand auf.
+	setGameRunning(false);
+	emit returnToWaitRoom();
 }
 
 void LobbyHandler::onRemovedFromGame(int reason)
 {
-    m_isInGame = false;
-    setGameRunning(false);
-    // Deckt auch NTF_NET_REMOVED_START_FAILED ab: Der Server hat die Hand ohne
-    // uns gestartet, das Warten auf den Rejoin ist damit hinfällig.
-    setRejoinWaiting(false);
-    m_currentGameId = 0;
-    if (m_isSpectating) {
-        m_isSpectating = false;
-        emit isSpectatingChanged();
-    }
-    // Spiel-Admin (Host)-Status verfällt mit dem Verlassen des Tisches; der
-    // Server-Admin-Status bleibt davon unberührt.
-    setCurrentGameAdmin(false);
-    emit isInGameChanged();
-    emit currentGameIdChanged();
-    emit removedFromGame(reason);
+	m_isInGame = false;
+	setGameRunning(false);
+	// Deckt auch NTF_NET_REMOVED_START_FAILED ab: Der Server hat die Hand ohne
+	// uns gestartet, das Warten auf den Rejoin ist damit hinfällig.
+	setRejoinWaiting(false);
+	m_currentGameId = 0;
+	if (m_isSpectating) {
+		m_isSpectating = false;
+		emit isSpectatingChanged();
+	}
+	// Spiel-Admin (Host)-Status verfällt mit dem Verlassen des Tisches; der
+	// Server-Admin-Status bleibt davon unberührt.
+	setCurrentGameAdmin(false);
+	emit isInGameChanged();
+	emit currentGameIdChanged();
+	emit removedFromGame(reason);
 }
 
 QString LobbyHandler::currentGameName() const
 {
-    if (!m_session || m_currentGameId == 0)
-        return QString();
-    const GameInfo info = m_session->getClientGameInfo(m_currentGameId);
-    return QString::fromStdString(info.name);
+	if (!m_session || m_currentGameId == 0)
+		return QString();
+	const GameInfo info = m_session->getClientGameInfo(m_currentGameId);
+	return QString::fromStdString(info.name);
 }
 
 void LobbyHandler::startGame(bool fillWithCpu)
 {
-    if (!m_session)
-        return;
-    m_session->sendStartEvent(fillWithCpu);
+	if (!m_session)
+		return;
+	m_session->sendStartEvent(fillWithCpu);
 }
 
 QVariantMap LobbyHandler::currentGameInfo() const
 {
-    QVariantMap result;
-    if (!m_session || m_currentGameId == 0)
-        return result;
-    const GameInfo info = m_session->getClientGameInfo(m_currentGameId);
-    result.insert("name",               QString::fromStdString(info.name));
-    result.insert("gameType",           static_cast<int>(info.data.gameType));
-    result.insert("maxPlayers",         info.data.maxNumberOfPlayers);
-    result.insert("startMoney",         info.data.startMoney);
-    result.insert("firstSmallBlind",    info.data.firstSmallBlind);
-    result.insert("raiseIntervalMode",  static_cast<int>(info.data.raiseIntervalMode));
-    result.insert("raiseEveryHands",    info.data.raiseSmallBlindEveryHandsValue);
-    result.insert("raiseEveryMinutes",  info.data.raiseSmallBlindEveryMinutesValue);
-    result.insert("raiseMode",          static_cast<int>(info.data.raiseMode));
-    result.insert("playerActionTimeoutSec", info.data.playerActionTimeoutSec);
-    result.insert("delayBetweenHandsSec",   info.data.delayBetweenHandsSec);
-    result.insert("allowSpectators",    info.data.allowSpectators);
-    // Manuelle Blindreihenfolge: dient dem Community-Suggest als Fingerprint, um
-    // einen fremden BBC-Step-Tisch zu erkennen (der Tischname ist frei editierbar
-    // und taugt dafür nicht) – siehe Config.BotSuggest.suggestTypeForGameInfo.
-    QVariantList manualBlinds;
-    for (std::list<int>::const_iterator it = info.data.manualBlindsList.begin();
-         it != info.data.manualBlindsList.end(); ++it) {
-        manualBlinds.append(*it);
-    }
-    result.insert("manualBlinds",       manualBlinds);
-    result.insert("playerCount",        static_cast<int>(info.players.size()));
-    result.insert("adminPlayerId",      static_cast<int>(info.adminPlayerId));
-    return result;
+	QVariantMap result;
+	if (!m_session || m_currentGameId == 0)
+		return result;
+	const GameInfo info = m_session->getClientGameInfo(m_currentGameId);
+	result.insert("name",               QString::fromStdString(info.name));
+	result.insert("gameType",           static_cast<int>(info.data.gameType));
+	result.insert("maxPlayers",         info.data.maxNumberOfPlayers);
+	result.insert("startMoney",         info.data.startMoney);
+	result.insert("firstSmallBlind",    info.data.firstSmallBlind);
+	result.insert("raiseIntervalMode",  static_cast<int>(info.data.raiseIntervalMode));
+	result.insert("raiseEveryHands",    info.data.raiseSmallBlindEveryHandsValue);
+	result.insert("raiseEveryMinutes",  info.data.raiseSmallBlindEveryMinutesValue);
+	result.insert("raiseMode",          static_cast<int>(info.data.raiseMode));
+	result.insert("playerActionTimeoutSec", info.data.playerActionTimeoutSec);
+	result.insert("delayBetweenHandsSec",   info.data.delayBetweenHandsSec);
+	result.insert("allowSpectators",    info.data.allowSpectators);
+	// Manuelle Blindreihenfolge: dient dem Community-Suggest als Fingerprint, um
+	// einen fremden BBC-Step-Tisch zu erkennen (der Tischname ist frei editierbar
+	// und taugt dafür nicht) – siehe Config.BotSuggest.suggestTypeForGameInfo.
+	QVariantList manualBlinds;
+	for (std::list<int>::const_iterator it = info.data.manualBlindsList.begin();
+			it != info.data.manualBlindsList.end(); ++it) {
+		manualBlinds.append(*it);
+	}
+	result.insert("manualBlinds",       manualBlinds);
+	result.insert("playerCount",        static_cast<int>(info.players.size()));
+	result.insert("adminPlayerId",      static_cast<int>(info.adminPlayerId));
+	return result;
 }
 
 void LobbyHandler::kickPlayer(unsigned playerId)
 {
-    if (!m_session) {
-        emit errorOccurred(tr("Not connected to server"));
-        return;
-    }
-    m_session->kickPlayer(playerId);
+	if (!m_session) {
+		emit errorOccurred(tr("Not connected to server"));
+		return;
+	}
+	m_session->kickPlayer(playerId);
 }
 
 void LobbyHandler::invitePlayer(unsigned playerId)
 {
-    if (!m_session) {
-        emit errorOccurred(tr("Not connected to server"));
-        return;
-    }
-    m_session->invitePlayerToCurrentGame(playerId);
+	if (!m_session) {
+		emit errorOccurred(tr("Not connected to server"));
+		return;
+	}
+	m_session->invitePlayerToCurrentGame(playerId);
 }
 
 bool LobbyHandler::isPlayerInAnyGame(unsigned playerId) const
 {
-    if (!m_session || playerId == 0)
-        return false;
-    const int count = m_gameListModel.rowCount();
-    for (int i = 0; i < count; ++i) {
-        const unsigned gameId = m_gameListModel.data(
-            m_gameListModel.index(i), GameListModel::GameIdRole).toUInt();
-        const ::GameInfo gameInfo = m_session->getClientGameInfo(gameId);
-        for (const unsigned pid : gameInfo.players) {
-            if (pid == playerId)
-                return true;
-        }
-    }
-    return false;
+	if (!m_session || playerId == 0)
+		return false;
+	const int count = m_gameListModel.rowCount();
+	for (int i = 0; i < count; ++i) {
+		const unsigned gameId = m_gameListModel.data(
+									m_gameListModel.index(i), GameListModel::GameIdRole).toUInt();
+		const ::GameInfo gameInfo = m_session->getClientGameInfo(gameId);
+		for (const unsigned pid : gameInfo.players) {
+			if (pid == playerId)
+				return true;
+		}
+	}
+	return false;
 }
 
 bool LobbyHandler::isPlayerInRunningGame(unsigned playerId) const
 {
-    if (!m_session || playerId == 0)
-        return false;
-    const unsigned gameId = m_session->getGameIdOfPlayer(playerId);
-    if (gameId == 0)
-        return false;
-    return m_session->getClientGameInfo(gameId).mode == GAME_MODE_STARTED;
+	if (!m_session || playerId == 0)
+		return false;
+	const unsigned gameId = m_session->getGameIdOfPlayer(playerId);
+	if (gameId == 0)
+		return false;
+	return m_session->getClientGameInfo(gameId).mode == GAME_MODE_STARTED;
 }
 
 QString LobbyHandler::playerInGameName(unsigned playerId) const
 {
-    if (!m_session || playerId == 0)
-        return QString();
-    const unsigned gameId = m_session->getGameIdOfPlayer(playerId);
-    if (gameId == 0)
-        return QString();
-    return QString::fromUtf8(m_session->getClientGameInfo(gameId).name.c_str());
+	if (!m_session || playerId == 0)
+		return QString();
+	const unsigned gameId = m_session->getGameIdOfPlayer(playerId);
+	if (gameId == 0)
+		return QString();
+	return QString::fromUtf8(m_session->getClientGameInfo(gameId).name.c_str());
 }
 
 // ── Rejoin nach Verbindungsabbruch ──────────────────────────────────────────
@@ -2587,45 +2618,45 @@ QString LobbyHandler::playerInGameName(unsigned playerId) const
 // an (rejoinGameId). Das Popup dazu zeigt die LobbyPage (rejoinOfferGameId).
 void LobbyHandler::onRejoinPossible(unsigned gameId)
 {
-    qDebug() << "[REJOIN] onRejoinPossible: gameId=" << gameId
-             << "autoRejoin=" << m_autoRejoin;
-    if (m_rejoinOfferGameId == gameId)
-        return;
-    m_rejoinOfferGameId = gameId;
-    emit rejoinOfferChanged();
+	qDebug() << "[REJOIN] onRejoinPossible: gameId=" << gameId
+			 << "autoRejoin=" << m_autoRejoin;
+	if (m_rejoinOfferGameId == gameId)
+		return;
+	m_rejoinOfferGameId = gameId;
+	emit rejoinOfferChanged();
 
-    // Nach einer automatischen Wiederverbindung ohne Rückfrage zurück an den
-    // Tisch: Der Spieler hat ihn nie freiwillig verlassen, ein Ja/Nein-Popup
-    // wäre hier nur eine Hürde - und die 5-Minuten-Frist des Servers läuft.
-    if (m_autoRejoin) {
-        m_autoRejoin = false;
-        qInfo() << "[REJOIN] auto-accepting after reconnect, gameId=" << gameId;
-        acceptRejoin();
-    }
+	// Nach einer automatischen Wiederverbindung ohne Rückfrage zurück an den
+	// Tisch: Der Spieler hat ihn nie freiwillig verlassen, ein Ja/Nein-Popup
+	// wäre hier nur eine Hürde - und die 5-Minuten-Frist des Servers läuft.
+	if (m_autoRejoin) {
+		m_autoRejoin = false;
+		qInfo() << "[REJOIN] auto-accepting after reconnect, gameId=" << gameId;
+		acceptRejoin();
+	}
 }
 
 void LobbyHandler::setAutoRejoin(bool on)
 {
-    m_autoRejoin = on;
+	m_autoRejoin = on;
 }
 
 void LobbyHandler::acceptRejoin()
 {
-    const unsigned gameId = m_rejoinOfferGameId;
-    qDebug() << "[REJOIN] acceptRejoin: gameId=" << gameId;
-    m_rejoinOfferGameId = 0;
-    emit rejoinOfferChanged();
-    if (!m_session || gameId == 0)
-        return;
-    m_session->clientRejoinGame(gameId);
+	const unsigned gameId = m_rejoinOfferGameId;
+	qDebug() << "[REJOIN] acceptRejoin: gameId=" << gameId;
+	m_rejoinOfferGameId = 0;
+	emit rejoinOfferChanged();
+	if (!m_session || gameId == 0)
+		return;
+	m_session->clientRejoinGame(gameId);
 }
 
 void LobbyHandler::setRejoinWaiting(bool waiting)
 {
-    if (m_rejoinWaiting == waiting)
-        return;
-    m_rejoinWaiting = waiting;
-    emit rejoinWaitingChanged();
+	if (m_rejoinWaiting == waiting)
+		return;
+	m_rejoinWaiting = waiting;
+	emit rejoinWaitingChanged();
 }
 
 // Der Server hat den Rejoin angenommen und schickt das StartEvent vom Typ
@@ -2633,274 +2664,274 @@ void LobbyHandler::setRejoinWaiting(bool waiting)
 // nächsten Hand - bis dahin bleibt der Warteraum stehen.
 void LobbyHandler::onRejoinSyncWait()
 {
-    qDebug() << "[REJOIN] onRejoinSyncWait: waiting for next hand";
-    setRejoinWaiting(true);
+	qDebug() << "[REJOIN] onRejoinSyncWait: waiting for next hand";
+	setRejoinWaiting(true);
 }
 
 void LobbyHandler::declineRejoin()
 {
-    qDebug() << "[REJOIN] declineRejoin: gameId=" << m_rejoinOfferGameId;
-    if (m_rejoinOfferGameId != 0) {
-        m_rejoinOfferGameId = 0;
-        emit rejoinOfferChanged();
-    }
+	qDebug() << "[REJOIN] declineRejoin: gameId=" << m_rejoinOfferGameId;
+	if (m_rejoinOfferGameId != 0) {
+		m_rejoinOfferGameId = 0;
+		emit rejoinOfferChanged();
+	}
 }
 
 // ── Eingehende Spiel-Einladungen (Invite-Only-Spiele) ──────────────────────
 void LobbyHandler::onSelfGameInvitation(unsigned gameId, unsigned playerIdFrom)
 {
-    qDebug() << "[INVITE] onSelfGameInvitation: gameId=" << gameId << "fromPlayerId=" << playerIdFrom
-             << "pendingInviteGameId=" << m_pendingInviteGameId
-             << "ignored=" << isPlayerIgnored(playerIdFrom)
-             << "session=" << (m_session ? "ok" : "NULL");
-    if (!m_session)
-        return;
-    // Absender auf der Ignore-Liste ODER es ist bereits ein Einladungs-Popup
-    // offen → automatisch mit "busy" ablehnen (wie der Qt-Widgets-Client).
-    if (isPlayerIgnored(playerIdFrom) || m_pendingInviteGameId != 0) {
-        qDebug() << "[INVITE] → auto-rejecting with BUSY (ignored or popup already open)";
-        m_session->rejectGameInvitation(gameId, DENY_GAME_INVITATION_BUSY);
-        return;
-    }
-    m_pendingInviteGameId = gameId;
-    const QString gameName = QString::fromStdString(m_session->getClientGameInfo(gameId).name);
-    const QString fromName = QString::fromStdString(m_session->getClientPlayerInfo(playerIdFrom).playerName);
-    qDebug() << "[INVITE] → emitting gameInvitationReceived: game=" << gameName << "from=" << fromName;
-    emit gameInvitationReceived(static_cast<int>(gameId), gameName, fromName);
+	qDebug() << "[INVITE] onSelfGameInvitation: gameId=" << gameId << "fromPlayerId=" << playerIdFrom
+			 << "pendingInviteGameId=" << m_pendingInviteGameId
+			 << "ignored=" << isPlayerIgnored(playerIdFrom)
+			 << "session=" << (m_session ? "ok" : "NULL");
+	if (!m_session)
+		return;
+	// Absender auf der Ignore-Liste ODER es ist bereits ein Einladungs-Popup
+	// offen → automatisch mit "busy" ablehnen (wie der Qt-Widgets-Client).
+	if (isPlayerIgnored(playerIdFrom) || m_pendingInviteGameId != 0) {
+		qDebug() << "[INVITE] → auto-rejecting with BUSY (ignored or popup already open)";
+		m_session->rejectGameInvitation(gameId, DENY_GAME_INVITATION_BUSY);
+		return;
+	}
+	m_pendingInviteGameId = gameId;
+	const QString gameName = QString::fromStdString(m_session->getClientGameInfo(gameId).name);
+	const QString fromName = QString::fromStdString(m_session->getClientPlayerInfo(playerIdFrom).playerName);
+	qDebug() << "[INVITE] → emitting gameInvitationReceived: game=" << gameName << "from=" << fromName;
+	emit gameInvitationReceived(static_cast<int>(gameId), gameName, fromName);
 }
 
 void LobbyHandler::acceptGameInvitation(unsigned gameId)
 {
-    qDebug() << "[INVITE] acceptGameInvitation: gameId=" << gameId << "pendingWas=" << m_pendingInviteGameId;
-    if (m_pendingInviteGameId == gameId)
-        m_pendingInviteGameId = 0;
-    if (!m_session)
-        return;
-    m_session->acceptGameInvitation(gameId);
+	qDebug() << "[INVITE] acceptGameInvitation: gameId=" << gameId << "pendingWas=" << m_pendingInviteGameId;
+	if (m_pendingInviteGameId == gameId)
+		m_pendingInviteGameId = 0;
+	if (!m_session)
+		return;
+	m_session->acceptGameInvitation(gameId);
 }
 
 void LobbyHandler::rejectGameInvitation(unsigned gameId, int reason)
 {
-    qDebug() << "[INVITE] rejectGameInvitation: gameId=" << gameId << "reason=" << reason << "pendingWas=" << m_pendingInviteGameId;
-    if (m_pendingInviteGameId == gameId)
-        m_pendingInviteGameId = 0;
-    if (!m_session)
-        return;
-    const DenyGameInvitationReason deny = (reason == DENY_GAME_INVITATION_BUSY)
-        ? DENY_GAME_INVITATION_BUSY : DENY_GAME_INVITATION_NO;
-    m_session->rejectGameInvitation(gameId, deny);
+	qDebug() << "[INVITE] rejectGameInvitation: gameId=" << gameId << "reason=" << reason << "pendingWas=" << m_pendingInviteGameId;
+	if (m_pendingInviteGameId == gameId)
+		m_pendingInviteGameId = 0;
+	if (!m_session)
+		return;
+	const DenyGameInvitationReason deny = (reason == DENY_GAME_INVITATION_BUSY)
+										  ? DENY_GAME_INVITATION_BUSY : DENY_GAME_INVITATION_NO;
+	m_session->rejectGameInvitation(gameId, deny);
 }
 
 void LobbyHandler::onPlayerGameInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom)
 {
-    if (!m_session)
-        return;
-    const QString who  = QString::fromStdString(m_session->getClientPlayerInfo(playerIdWho).playerName).toHtmlEscaped();
-    const QString game = QString::fromStdString(m_session->getClientGameInfo(gameId).name).toHtmlEscaped();
-    const QString from = QString::fromStdString(m_session->getClientPlayerInfo(playerIdFrom).playerName).toHtmlEscaped();
-    const QString tsPrefix = chatTimestampPrefix(m_config);
-    pushChatLine(tsPrefix + QStringLiteral("<span style=\"")
-                 + ChatColors::colorStyle(ChatColors::Info) + QStringLiteral(";\">")
-                 + tr("%1 has been invited to %2 by %3.").arg(who, game, from)
-                 + QStringLiteral("</span>"));
+	if (!m_session)
+		return;
+	const QString who  = QString::fromStdString(m_session->getClientPlayerInfo(playerIdWho).playerName).toHtmlEscaped();
+	const QString game = QString::fromStdString(m_session->getClientGameInfo(gameId).name).toHtmlEscaped();
+	const QString from = QString::fromStdString(m_session->getClientPlayerInfo(playerIdFrom).playerName).toHtmlEscaped();
+	const QString tsPrefix = chatTimestampPrefix(m_config);
+	pushChatLine(tsPrefix + QStringLiteral("<span style=\"")
+				 + ChatColors::colorStyle(ChatColors::Info) + QStringLiteral(";\">")
+				 + tr("%1 has been invited to %2 by %3.").arg(who, game, from)
+				 + QStringLiteral("</span>"));
 }
 
 void LobbyHandler::onRejectedGameInvitation(unsigned gameId, unsigned playerIdWho, int reason)
 {
-    if (!m_session)
-        return;
-    const QString who  = QString::fromStdString(m_session->getClientPlayerInfo(playerIdWho).playerName).toHtmlEscaped();
-    const QString game = QString::fromStdString(m_session->getClientGameInfo(gameId).name).toHtmlEscaped();
-    const QString msg  = (reason == DENY_GAME_INVITATION_BUSY)
-        ? tr("%1 cannot join %2 because he is busy.").arg(who, game)
-        : tr("%1 has rejected the invitation to %2.").arg(who, game);
-    const QString tsPrefix = chatTimestampPrefix(m_config);
-    pushChatLine(tsPrefix + QStringLiteral("<span style=\"")
-                 + ChatColors::colorStyle(ChatColors::Reject) + QStringLiteral(";\">")
-                 + msg + QStringLiteral("</span>"));
+	if (!m_session)
+		return;
+	const QString who  = QString::fromStdString(m_session->getClientPlayerInfo(playerIdWho).playerName).toHtmlEscaped();
+	const QString game = QString::fromStdString(m_session->getClientGameInfo(gameId).name).toHtmlEscaped();
+	const QString msg  = (reason == DENY_GAME_INVITATION_BUSY)
+						 ? tr("%1 cannot join %2 because he is busy.").arg(who, game)
+						 : tr("%1 has rejected the invitation to %2.").arg(who, game);
+	const QString tsPrefix = chatTimestampPrefix(m_config);
+	pushChatLine(tsPrefix + QStringLiteral("<span style=\"")
+				 + ChatColors::colorStyle(ChatColors::Reject) + QStringLiteral(";\">")
+				 + msg + QStringLiteral("</span>"));
 }
 
 void LobbyHandler::adminBanPlayer(unsigned playerId)
 {
-    if (!m_session) {
-        emit errorOccurred(tr("Not connected to server"));
-        return;
-    }
-    m_session->adminActionBanPlayer(playerId);
+	if (!m_session) {
+		emit errorOccurred(tr("Not connected to server"));
+		return;
+	}
+	m_session->adminActionBanPlayer(playerId);
 }
 
 void LobbyHandler::adminSendGlobalNotice(const QString &noticeText)
 {
-    if (!m_session) {
-        emit errorOccurred(tr("Not connected to server"));
-        return;
-    }
-    QString text = noticeText.trimmed();
-    if (text.isEmpty())
-        return;
-    // Der Server verteilt die Durchsage als Chat-Nachricht – daher dieselbe
-    // 128-Byte-Grenze wie beim Chat (sonst verwirft der Paket-Validator sie).
-    while (!text.isEmpty() && text.toUtf8().size() > 128)
-        text.chop(1);
-    m_session->adminActionGlobalNotice(text.toStdString());
+	if (!m_session) {
+		emit errorOccurred(tr("Not connected to server"));
+		return;
+	}
+	QString text = noticeText.trimmed();
+	if (text.isEmpty())
+		return;
+	// Der Server verteilt die Durchsage als Chat-Nachricht – daher dieselbe
+	// 128-Byte-Grenze wie beim Chat (sonst verwirft der Paket-Validator sie).
+	while (!text.isEmpty() && text.toUtf8().size() > 128)
+		text.chop(1);
+	m_session->adminActionGlobalNotice(text.toStdString());
 }
 
 void LobbyHandler::reportGameName(unsigned gameId)
 {
-    if (!m_session) {
-        emit errorOccurred(tr("Not connected to server"));
-        return;
-    }
-    if (gameId == 0)
-        return;
-    m_session->reportBadGameName(gameId);
+	if (!m_session) {
+		emit errorOccurred(tr("Not connected to server"));
+		return;
+	}
+	if (gameId == 0)
+		return;
+	m_session->reportBadGameName(gameId);
 }
 
 void LobbyHandler::adminCloseGame(unsigned gameId)
 {
-    if (!m_session) {
-        emit errorOccurred(tr("Not connected to server"));
-        return;
-    }
-    if (gameId == 0)
-        return;
-    m_session->adminActionCloseGame(gameId);
+	if (!m_session) {
+		emit errorOccurred(tr("Not connected to server"));
+		return;
+	}
+	if (gameId == 0)
+		return;
+	m_session->adminActionCloseGame(gameId);
 }
 
 void LobbyHandler::sendPrivateMessage(unsigned targetPlayerId, const QString &message)
 {
-    if (!m_session) {
-        emit errorOccurred(tr("Not connected to server"));
-        return;
-    }
-    if (targetPlayerId == 0)
-        return;
-    // Am laufenden Tisch bewusst gesperrt: private Absprachen während einer Hand
-    // sollen gar nicht erst möglich sein (der Server stellt PMs an Spieler in
-    // laufenden Spielen ohnehin nicht zu).
-    if (m_gameRunning) {
-        emit errorOccurred(tr("Private messages are not available at the table."));
-        return;
-    }
-    // Gäste dürfen serverseitig überhaupt nicht chatten (auch nicht privat) –
-    // dieselbe Meldung wie im Lobby-Chat, statt einer stillen Ablehnung.
-    if (isMyPlayerGuest()) {
-        emit errorOccurred(tr("Guests cannot send chat messages"));
-        return;
-    }
-    // Umgekehrt genauso: an einen Gast stellt der Server nichts zu. Die Prüfung
-    // sitzt hier und nicht nur an den Buttons, weil das die einzige Engstelle
-    // ist, durch die JEDER Sendeweg läuft.
-    if (isPlayerGuest(targetPlayerId)) {
-        emit errorOccurred(tr("Guests cannot receive private messages."));
-        return;
-    }
-    QString text = message.trimmed();
-    // Gleiche 128-Byte-Grenze wie im Chat: der Paket-Validator des Servers
-    // verwirft längere Nachrichten (und trennt im Zweifel die Verbindung).
-    while (!text.isEmpty() && text.toUtf8().size() > 128)
-        text.chop(1);
-    if (text.isEmpty())
-        return;
-    m_session->sendPrivateChatMessage(targetPlayerId, text.toStdString());
-    const QString targetName = resolvedPlayerName(targetPlayerId);
-    pushPrivateMessageSentLine(targetName, text);
-    appendPrivateMessage(targetName, text, true);
+	if (!m_session) {
+		emit errorOccurred(tr("Not connected to server"));
+		return;
+	}
+	if (targetPlayerId == 0)
+		return;
+	// Am laufenden Tisch bewusst gesperrt: private Absprachen während einer Hand
+	// sollen gar nicht erst möglich sein (der Server stellt PMs an Spieler in
+	// laufenden Spielen ohnehin nicht zu).
+	if (m_gameRunning) {
+		emit errorOccurred(tr("Private messages are not available at the table."));
+		return;
+	}
+	// Gäste dürfen serverseitig überhaupt nicht chatten (auch nicht privat) –
+	// dieselbe Meldung wie im Lobby-Chat, statt einer stillen Ablehnung.
+	if (isMyPlayerGuest()) {
+		emit errorOccurred(tr("Guests cannot send chat messages"));
+		return;
+	}
+	// Umgekehrt genauso: an einen Gast stellt der Server nichts zu. Die Prüfung
+	// sitzt hier und nicht nur an den Buttons, weil das die einzige Engstelle
+	// ist, durch die JEDER Sendeweg läuft.
+	if (isPlayerGuest(targetPlayerId)) {
+		emit errorOccurred(tr("Guests cannot receive private messages."));
+		return;
+	}
+	QString text = message.trimmed();
+	// Gleiche 128-Byte-Grenze wie im Chat: der Paket-Validator des Servers
+	// verwirft längere Nachrichten (und trennt im Zweifel die Verbindung).
+	while (!text.isEmpty() && text.toUtf8().size() > 128)
+		text.chop(1);
+	if (text.isEmpty())
+		return;
+	m_session->sendPrivateChatMessage(targetPlayerId, text.toStdString());
+	const QString targetName = resolvedPlayerName(targetPlayerId);
+	pushPrivateMessageSentLine(targetName, text);
+	appendPrivateMessage(targetName, text, true);
 }
 
 void LobbyHandler::pushPrivateMessageSentLine(const QString &targetName, const QString &message)
 {
-    // Gleiche Aufbereitung und Farbe wie eine EINGEHENDE PM (onPrivateChatMessage),
-    // nur mit "an <Name>" statt "<Name>(pm)". Der volle Text steht bewusst in der
-    // Zeile: eine gesendete PM taucht sonst nirgends im eigenen Verlauf auf.
-    QString escapedMsg = ChatColors::chatEscape(message);
-    escapedMsg = applyChatEmoteShortcuts(escapedMsg);
-    escapedMsg = enlargeEmojis(escapedMsg);
-    // Mehrzeilige Hinweise (z. B. der Community-Vorschlag mit einem Spieler pro
-    // Zeile) kommen als Plaintext mit "\n" – im RichText-Chat wäre das nur ein
-    // Leerzeichen, also hier in <br> umsetzen (nach dem Escapen, damit kein
-    // Fremdtext das Markup beeinflusst).
-    escapedMsg.replace(QLatin1Char('\n'), QLatin1String("<br>"));
+	// Gleiche Aufbereitung und Farbe wie eine EINGEHENDE PM (onPrivateChatMessage),
+	// nur mit "an <Name>" statt "<Name>(pm)". Der volle Text steht bewusst in der
+	// Zeile: eine gesendete PM taucht sonst nirgends im eigenen Verlauf auf.
+	QString escapedMsg = ChatColors::chatEscape(message);
+	escapedMsg = applyChatEmoteShortcuts(escapedMsg);
+	escapedMsg = enlargeEmojis(escapedMsg);
+	// Mehrzeilige Hinweise (z. B. der Community-Vorschlag mit einem Spieler pro
+	// Zeile) kommen als Plaintext mit "\n" – im RichText-Chat wäre das nur ein
+	// Leerzeichen, also hier in <br> umsetzen (nach dem Escapen, damit kein
+	// Fremdtext das Markup beeinflusst).
+	escapedMsg.replace(QLatin1Char('\n'), QLatin1String("<br>"));
 
-    const QString tsPrefix = chatTimestampPrefix(m_config);
-    const QString line = tsPrefix + QLatin1String("<i><span style=\"")
-                         + ChatColors::colorStyle(ChatColors::Muted)
-                         + QLatin1String(";\">")
-                         + tr("Private message to %1:").arg(ChatColors::chatEscape(targetName))
-                         + QLatin1String(" ") + escapedMsg
-                         + QLatin1String("</span></i>");
-    pushChatLine(line);
+	const QString tsPrefix = chatTimestampPrefix(m_config);
+	const QString line = tsPrefix + QLatin1String("<i><span style=\"")
+						 + ChatColors::colorStyle(ChatColors::Muted)
+						 + QLatin1String(";\">")
+						 + tr("Private message to %1:").arg(ChatColors::chatEscape(targetName))
+						 + QLatin1String(" ") + escapedMsg
+						 + QLatin1String("</span></i>");
+	pushChatLine(line);
 }
 
 // ── Player name helper ─────────────────────────────────────────────────────
 
 QString LobbyHandler::resolvedPlayerName(unsigned playerId) const
 {
-    // Check model first
-    const int count = m_playerListModel.rowCount();
-    for (int i = 0; i < count; ++i) {
-        const QModelIndex idx = m_playerListModel.index(i, 0);
-        if (m_playerListModel.data(idx, PlayerListModel::PlayerIdRole).toUInt() == playerId) {
-            const QString name = m_playerListModel.data(idx, PlayerListModel::PlayerNameRole).toString();
-            if (!name.isEmpty()) return name;
-            break;
-        }
-    }
-    // Fall back to session cache
-    if (m_session) {
-        const QString name = QString::fromStdString(m_session->getClientPlayerInfo(playerId).playerName);
-        if (!name.isEmpty()) return name;
-    }
-    return QString();
+	// Check model first
+	const int count = m_playerListModel.rowCount();
+	for (int i = 0; i < count; ++i) {
+		const QModelIndex idx = m_playerListModel.index(i, 0);
+		if (m_playerListModel.data(idx, PlayerListModel::PlayerIdRole).toUInt() == playerId) {
+			const QString name = m_playerListModel.data(idx, PlayerListModel::PlayerNameRole).toString();
+			if (!name.isEmpty()) return name;
+			break;
+		}
+	}
+	// Fall back to session cache
+	if (m_session) {
+		const QString name = QString::fromStdString(m_session->getClientPlayerInfo(playerId).playerName);
+		if (!name.isEmpty()) return name;
+	}
+	return QString();
 }
 
 // ── Ignore list ────────────────────────────────────────────────────────────
 
 bool LobbyHandler::isPlayerIgnored(unsigned playerId) const
 {
-    if (!m_config || playerId == 0) return false;
-    const QString playerName = resolvedPlayerName(playerId);
-    if (playerName.isEmpty()) return false;
+	if (!m_config || playerId == 0) return false;
+	const QString playerName = resolvedPlayerName(playerId);
+	if (playerName.isEmpty()) return false;
 
-    const std::list<std::string> ignoreList = m_config->readConfigStringList("PlayerIgnoreList");
-    for (const auto &entry : ignoreList) {
-        if (playerName == QString::fromUtf8(entry.c_str()))
-            return true;
-    }
-    return false;
+	const std::list<std::string> ignoreList = m_config->readConfigStringList("PlayerIgnoreList");
+	for (const auto &entry : ignoreList) {
+		if (playerName == QString::fromUtf8(entry.c_str()))
+			return true;
+	}
+	return false;
 }
 
 void LobbyHandler::ignorePlayer(unsigned playerId)
 {
-    if (!m_config || playerId == 0) return;
-    const QString playerName = resolvedPlayerName(playerId);
-    if (playerName.isEmpty()) return;
+	if (!m_config || playerId == 0) return;
+	const QString playerName = resolvedPlayerName(playerId);
+	if (playerName.isEmpty()) return;
 
-    std::list<std::string> ignoreList = m_config->readConfigStringList("PlayerIgnoreList");
-    const std::string nameStd = playerName.toStdString();
-    if (std::find(ignoreList.begin(), ignoreList.end(), nameStd) == ignoreList.end()) {
-        ignoreList.push_back(nameStd);
-        m_config->writeConfigStringList("PlayerIgnoreList", ignoreList);
-        ++m_playerIgnoreListRevision;
-        emit playerIgnoreListChanged();
-    }
+	std::list<std::string> ignoreList = m_config->readConfigStringList("PlayerIgnoreList");
+	const std::string nameStd = playerName.toStdString();
+	if (std::find(ignoreList.begin(), ignoreList.end(), nameStd) == ignoreList.end()) {
+		ignoreList.push_back(nameStd);
+		m_config->writeConfigStringList("PlayerIgnoreList", ignoreList);
+		++m_playerIgnoreListRevision;
+		emit playerIgnoreListChanged();
+	}
 }
 
 void LobbyHandler::unignorePlayer(unsigned playerId)
 {
-    if (!m_config || playerId == 0) return;
-    const QString playerName = resolvedPlayerName(playerId);
-    if (playerName.isEmpty()) return;
+	if (!m_config || playerId == 0) return;
+	const QString playerName = resolvedPlayerName(playerId);
+	if (playerName.isEmpty()) return;
 
-    std::list<std::string> ignoreList = m_config->readConfigStringList("PlayerIgnoreList");
-    const std::string nameStd = playerName.toStdString();
-    const size_t sizeBefore = ignoreList.size();
-    ignoreList.remove(nameStd);
-    if (ignoreList.size() != sizeBefore) {
-        m_config->writeConfigStringList("PlayerIgnoreList", ignoreList);
-        ++m_playerIgnoreListRevision;
-        emit playerIgnoreListChanged();
-    }
+	std::list<std::string> ignoreList = m_config->readConfigStringList("PlayerIgnoreList");
+	const std::string nameStd = playerName.toStdString();
+	const size_t sizeBefore = ignoreList.size();
+	ignoreList.remove(nameStd);
+	if (ignoreList.size() != sizeBefore) {
+		m_config->writeConfigStringList("PlayerIgnoreList", ignoreList);
+		++m_playerIgnoreListRevision;
+		emit playerIgnoreListChanged();
+	}
 }
 
 // ── Player stats ───────────────────────────────────────────────────────────
@@ -2910,28 +2941,32 @@ void LobbyHandler::unignorePlayer(unsigned playerId)
 // Browser-Link redirect_user_profile.php?nick=… geöffnet.
 void LobbyHandler::showPlayerStats(unsigned playerId)
 {
-    if (playerId == 0) return;
-    const QString playerName = resolvedPlayerName(playerId);
-    if (playerName.isEmpty()) return;
+	if (playerId == 0) return;
+	const QString playerName = resolvedPlayerName(playerId);
+	if (playerName.isEmpty()) return;
 
-    emit playerStatsRequested(playerName);
+	emit playerStatsRequested(playerName);
 }
 
 // ── Domain text helpers ────────────────────────────────────────────────────
 
 QString LobbyHandler::gameTypeText(int gameType) const
 {
-    switch (gameType) {
-    case 2: return tr("Registered players only");
-    case 3: return tr("Invited players only");
-    case 4: return tr("Ranking game");
-    default: return tr("Standard");
-    }
+	switch (gameType) {
+	case 2:
+		return tr("Registered players only");
+	case 3:
+		return tr("Invited players only");
+	case 4:
+		return tr("Ranking game");
+	default:
+		return tr("Standard");
+	}
 }
 
 QString LobbyHandler::gameStatusText(int gameMode, int playerCount, int maxPlayers) const
 {
-    if (gameMode == 2) return tr("Running");
-    if (gameMode == 3) return tr("Closed");
-    return playerCount < maxPlayers ? tr("Open") : tr("Full");
+	if (gameMode == 2) return tr("Running");
+	if (gameMode == 3) return tr("Closed");
+	return playerCount < maxPlayers ? tr("Open") : tr("Full");
 }

@@ -13,8 +13,8 @@
 // bedienbar ist.
 class ScreenHelper : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit ScreenHelper(QObject *parent = nullptr);
-    Q_INVOKABLE void setKeepScreenOn(bool keep);
+	explicit ScreenHelper(QObject *parent = nullptr);
+	Q_INVOKABLE void setKeepScreenOn(bool keep);
 };

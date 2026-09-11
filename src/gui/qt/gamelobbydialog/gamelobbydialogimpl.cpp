@@ -88,9 +88,9 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	QScreen *primaryScreen = QGuiApplication::primaryScreen();
 	if (primaryScreen) {
 		connect(primaryScreen, &QScreen::geometryChanged,
-			this, &gameLobbyDialogImpl::onScreenGeometryChanged, Qt::UniqueConnection);
+				this, &gameLobbyDialogImpl::onScreenGeometryChanged, Qt::UniqueConnection);
 		connect(primaryScreen, &QScreen::logicalDotsPerInchChanged,
-			this, &gameLobbyDialogImpl::onScreenDpiChanged, Qt::UniqueConnection);
+				this, &gameLobbyDialogImpl::onScreenDpiChanged, Qt::UniqueConnection);
 	}
 
 #ifdef ANDROID
@@ -222,11 +222,11 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	treeView_GameList->setColumnWidth(2,65);
 	treeView_GameList->setColumnWidth(3,25);
 	treeView_GameList->setColumnWidth(4,25);
-    treeView_GameList->setColumnWidth(5,30);
+	treeView_GameList->setColumnWidth(5,30);
 
-    updateGameListStyleSheet();
+	updateGameListStyleSheet();
 #endif
-    treeView_GameList->setAutoFillBackground(true);
+	treeView_GameList->setAutoFillBackground(true);
 
 	myNickListModel = new QStandardItemModel(this);
 	myNickListSortFilterProxyModel = new MyNickListSortFilterProxyModel(this);
@@ -266,7 +266,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	// Der Community-Admin-Abgleich läuft asynchron; sobald er da ist, Button neu
 	// bewerten. Funktionszeiger-Syntax: updateSuggestButtonVisibility() ist kein Slot.
 	connect( mySuggest, &CommunitySuggest::communityAdminResolved,
-	         this, &gameLobbyDialogImpl::updateSuggestButtonVisibility );
+			 this, &gameLobbyDialogImpl::updateSuggestButtonVisibility );
 
 	nickListContextMenu = new QMenu();
 	nickListSendPrivateMessageAction = new QAction(QIcon(":/gfx/mail.png"), tr("Send private message"), nickListContextMenu);
@@ -304,7 +304,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	connect( pushButton_Leave, SIGNAL( clicked() ), this, SLOT( leaveGame() ) );
 	connect( myGameListSelectionModel, SIGNAL( currentChanged (const QModelIndex &, const QModelIndex &) ), this, SLOT( gameSelected(const QModelIndex &) ) );
 	connect( treeView_GameList, SIGNAL( doubleClicked (const QModelIndex &) ), this, SLOT( joinGame() ) );
-	connect( treeView_GameList->header(), SIGNAL( sortIndicatorChanged ( int , Qt::SortOrder )), this, SLOT( changeGameListSorting() ) );
+	connect( treeView_GameList->header(), SIGNAL( sortIndicatorChanged ( int, Qt::SortOrder )), this, SLOT( changeGameListSorting() ) );
 	connect( treeWidget_connectedPlayers, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( playerSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), myChat, SLOT( sendMessage() ) );
 	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), myChat, SLOT( checkInputLength(QString) ) );
@@ -354,7 +354,7 @@ int gameLobbyDialogImpl::exec()
 
 #ifdef ANDROID
 	this->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-	
+
 	// Ensure Dialog ist sichtbar und hat korrekte Geometrie vor exec()
 	this->show();
 	this->raise();
@@ -472,7 +472,7 @@ void gameLobbyDialogImpl::runCommunitySuggest()
 	if (pushButton_suggestPlayers)
 		pushButton_suggestPlayers->setEnabled(false);
 	mySuggest->suggest(suggestType, idleNames, playing, this,
-	                   [this](const QString &message) {
+	[this](const QString &message) {
 		if (pushButton_suggestPlayers)
 			pushButton_suggestPlayers->setEnabled(true);
 		// Wer den Tisch inzwischen verlassen hat, bekommt keinen Vorschlag mehr
@@ -1711,7 +1711,7 @@ bool gameLobbyDialogImpl::eventFilter(QObject *obj, QEvent *event)
 			return QDialog::eventFilter(obj, event);
 		}
 	}
-	
+
 	// pass the event on to the parent class
 	return QDialog::eventFilter(obj, event);
 }
@@ -1954,7 +1954,7 @@ void gameLobbyDialogImpl::changeGameListFilter(int index)
 
 	// Use DarkModeHelper for consistent dark mode detection with config override
 	bool isDarkMode = DarkModeHelper::isDarkMode(myConfig);
-	
+
 	QString backgroundColor = isDarkMode ? "#2b2b2b" : "white";
 	QString textColor = isDarkMode ? "#ffffff" : "rgb(0, 0, 0)";
 
@@ -2037,10 +2037,10 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 		// HandleNetPacketChatRequest), die Nachricht ginge kommentarlos verloren.
 		unsigned gameIdOfTarget = mySession->getGameIdOfPlayer(playerUid);
 		bool targetIsPlaying = gameIdOfTarget
-			&& mySession->getClientGameInfo(gameIdOfTarget).mode == GAME_MODE_STARTED;
+							   && mySession->getClientGameInfo(gameIdOfTarget).mode == GAME_MODE_STARTED;
 		bool targetIsGuest = mySession->getClientPlayerInfo(playerUid).isGuest;
 		if(playerUid != mySession->getClientUniquePlayerId() && !guestMode
-		   && !targetIsGuest && !targetIsPlaying) {
+				&& !targetIsGuest && !targetIsPlaying) {
 			nickListSendPrivateMessageAction->setEnabled(true);
 			nickListSendPrivateMessageAction->setText(tr("Send private message to %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())));
 		} else {
@@ -2133,7 +2133,7 @@ void gameLobbyDialogImpl::sendPrivateMessageToPlayer()
 
 	bool ok = false;
 	const QString message = QInputDialog::getText(this, tr("Private message"),
-	                        tr("Message to %1:").arg(playerName), QLineEdit::Normal, QString(), &ok);
+							tr("Message to %1:").arg(playerName), QLineEdit::Normal, QString(), &ok);
 	if(ok)
 		myChat->sendPrivateMessage(playerUid, message);
 }
@@ -2186,9 +2186,9 @@ void gameLobbyDialogImpl::chatInfoPlayerInvitation(unsigned gameId, unsigned pla
 	textBrowser_ChatDisplay->append(
 		"<span style='color:" + palette().link().color().name() + ";'>" +
 		tr("%1 has been invited to %2 by %3.")
-			.arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdWho).playerName.c_str()))
-			.arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str()))
-			.arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())) +
+		.arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdWho).playerName.c_str()))
+		.arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str()))
+		.arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())) +
 		"</span>");
 }
 
@@ -2658,74 +2658,74 @@ void gameLobbyDialogImpl::adminActionTotalKickBan()
 
 void gameLobbyDialogImpl::changeEvent(QEvent *event)
 {
-    if (event->type() == QEvent::PaletteChange || event->type() == QEvent::StyleChange) {
-        updateGameListStyleSheet();
-    }
+	if (event->type() == QEvent::PaletteChange || event->type() == QEvent::StyleChange) {
+		updateGameListStyleSheet();
+	}
 
-    if (event->type() == QEvent::WindowStateChange
-        || event->type() == QEvent::ScreenChangeInternal) {
-        // After hibernate/resume the window may have a mismatched geometry.
-        // Force a full re-layout so every child widget adapts.
-        if (layout()) {
-            layout()->invalidate();
-            layout()->activate();
-        }
-        update();
-    }
-    
-    QDialog::changeEvent(event);
+	if (event->type() == QEvent::WindowStateChange
+			|| event->type() == QEvent::ScreenChangeInternal) {
+		// After hibernate/resume the window may have a mismatched geometry.
+		// Force a full re-layout so every child widget adapts.
+		if (layout()) {
+			layout()->invalidate();
+			layout()->activate();
+		}
+		update();
+	}
+
+	QDialog::changeEvent(event);
 }
 
 void gameLobbyDialogImpl::onScreenChanged(QScreen *screen)
 {
-    if (screen) {
-        connect(screen, &QScreen::geometryChanged,
-            this, &gameLobbyDialogImpl::onScreenGeometryChanged, Qt::UniqueConnection);
-        connect(screen, &QScreen::logicalDotsPerInchChanged,
-            this, &gameLobbyDialogImpl::onScreenDpiChanged, Qt::UniqueConnection);
-    }
-    if (layout()) {
-        layout()->invalidate();
-        layout()->activate();
-    }
-    update();
+	if (screen) {
+		connect(screen, &QScreen::geometryChanged,
+				this, &gameLobbyDialogImpl::onScreenGeometryChanged, Qt::UniqueConnection);
+		connect(screen, &QScreen::logicalDotsPerInchChanged,
+				this, &gameLobbyDialogImpl::onScreenDpiChanged, Qt::UniqueConnection);
+	}
+	if (layout()) {
+		layout()->invalidate();
+		layout()->activate();
+	}
+	update();
 }
 
 void gameLobbyDialogImpl::onScreenGeometryChanged(const QRect & /*geometry*/)
 {
-    if (layout()) {
-        layout()->invalidate();
-        layout()->activate();
-    }
-    update();
+	if (layout()) {
+		layout()->invalidate();
+		layout()->activate();
+	}
+	update();
 }
 
 void gameLobbyDialogImpl::onScreenDpiChanged(qreal /*dpi*/)
 {
-    if (layout()) {
-        layout()->invalidate();
-        layout()->activate();
-    }
-    update();
+	if (layout()) {
+		layout()->invalidate();
+		layout()->activate();
+	}
+	update();
 }
 
 void gameLobbyDialogImpl::updateGameListStyleSheet()
 {
-    // Guard against being called before widget is fully constructed
-    if (!treeView_GameList) {
-        return;
-    }
+	// Guard against being called before widget is fully constructed
+	if (!treeView_GameList) {
+		return;
+	}
 
-    // Use DarkModeHelper for consistent dark mode detection with config override
-    bool isDarkMode = DarkModeHelper::isDarkMode(myConfig);
+	// Use DarkModeHelper for consistent dark mode detection with config override
+	bool isDarkMode = DarkModeHelper::isDarkMode(myConfig);
 
-    QString backgroundColor = isDarkMode ? "#2b2b2b" : "white";
-    QString textColor = isDarkMode ? "#ffffff" : "rgb(0, 0, 0)";
+	QString backgroundColor = isDarkMode ? "#2b2b2b" : "white";
+	QString textColor = isDarkMode ? "#ffffff" : "rgb(0, 0, 0)";
 
-    // Note: on macOS (Monterey, Qt 6.9.2) only a background-image: url(...) in
-    // the stylesheet crashes, so we deliberately set just background-color and
-    // text color here (no image). Skipping setStyleSheet entirely would leave
-    // the game list on the native white base color, mismatching the dark lobby.
-    QString styleSheet = QString("QTreeView {background-color: %1; color: %2;}").arg(backgroundColor).arg(textColor);
-    treeView_GameList->setStyleSheet(styleSheet);
+	// Note: on macOS (Monterey, Qt 6.9.2) only a background-image: url(...) in
+	// the stylesheet crashes, so we deliberately set just background-color and
+	// text color here (no image). Skipping setStyleSheet entirely would leave
+	// the game list on the native white base color, mismatching the dark lobby.
+	QString styleSheet = QString("QTreeView {background-color: %1; color: %2;}").arg(backgroundColor).arg(textColor);
+	treeView_GameList->setStyleSheet(styleSheet);
 }

@@ -263,13 +263,13 @@ private:
 	bool myAvatarWarningShown;
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event) override;
-    void changeEvent(QEvent *event) override;
+	bool eventFilter(QObject *obj, QEvent *event) override;
+	void changeEvent(QEvent *event) override;
 
 private slots:
-    void onScreenChanged(QScreen *screen);
-    void onScreenGeometryChanged(const QRect &geometry);
-    void onScreenDpiChanged(qreal dpi);
+	void onScreenChanged(QScreen *screen);
+	void onScreenGeometryChanged(const QRect &geometry);
+	void onScreenDpiChanged(qreal dpi);
 };
 
 #endif

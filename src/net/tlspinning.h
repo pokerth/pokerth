@@ -52,37 +52,37 @@
 // to match anything, so servers addressed by IP address work as well.
 namespace TlsPinning
 {
-	typedef boost::asio::ssl::stream<boost::asio::ip::tcp::socket> SslStream;
+typedef boost::asio::ssl::stream<boost::asio::ip::tcp::socket> SslStream;
 
-	// Sink for the diagnostic emitted when a server presents an unpinned key.
-	// Supplied by the caller instead of logging here, so that this file stays
-	// free of a logging dependency: the GUI client routes it to its log, the
-	// command line tools to stderr. An empty sink discards the message.
-	typedef std::function<void (const std::string &)> ReportFunc;
+// Sink for the diagnostic emitted when a server presents an unpinned key.
+// Supplied by the caller instead of logging here, so that this file stays
+// free of a logging dependency: the GUI client routes it to its log, the
+// command line tools to stderr. An empty sink discards the message.
+typedef std::function<void (const std::string &)> ReportFunc;
 
-	// Pins compiled into the client for a known lobby address. Empty for every
-	// other address, which leaves those connections unpinned.
-	std::vector<std::string> GetBuiltinPins(const std::string &serverAddr);
+// Pins compiled into the client for a known lobby address. Empty for every
+// other address, which leaves those connections unpinned.
+std::vector<std::string> GetBuiltinPins(const std::string &serverAddr);
 
-	// base64(sha256(DER encoded SubjectPublicKeyInfo)), empty on error. Same
-	// value as:
-	//   openssl x509 -in cert.pem -pubkey -noout \
-	//     | openssl pkey -pubin -outform der \
-	//     | openssl dgst -sha256 -binary | openssl enc -base64
-	std::string ComputeSpkiPin(X509 *cert);
+// base64(sha256(DER encoded SubjectPublicKeyInfo)), empty on error. Same
+// value as:
+//   openssl x509 -in cert.pem -pubkey -noout \
+//     | openssl pkey -pubin -outform der \
+//     | openssl dgst -sha256 -binary | openssl enc -base64
+std::string ComputeSpkiPin(X509 *cert);
 
-	// Enforce the given pins, i.e. abort the handshake unless the server proves
-	// possession of one of the pinned keys. Returns false and changes nothing if
-	// pins is empty; the caller's settings then stay in effect.
-	//
-	// Both variants have to be called before the handshake. The context variant
-	// additionally has to be called before the stream using that context is
-	// constructed, because the verification settings are copied into the SSL
-	// object at that point.
-	bool ApplyPins(boost::asio::ssl::context &sslCtx, const std::vector<std::string> &pins,
-				   const ReportFunc &reportMismatch = ReportFunc());
-	bool ApplyPins(SslStream &sslStream, const std::vector<std::string> &pins,
-				   const ReportFunc &reportMismatch = ReportFunc());
+// Enforce the given pins, i.e. abort the handshake unless the server proves
+// possession of one of the pinned keys. Returns false and changes nothing if
+// pins is empty; the caller's settings then stay in effect.
+//
+// Both variants have to be called before the handshake. The context variant
+// additionally has to be called before the stream using that context is
+// constructed, because the verification settings are copied into the SSL
+// object at that point.
+bool ApplyPins(boost::asio::ssl::context &sslCtx, const std::vector<std::string> &pins,
+			   const ReportFunc &reportMismatch = ReportFunc());
+bool ApplyPins(SslStream &sslStream, const std::vector<std::string> &pins,
+			   const ReportFunc &reportMismatch = ReportFunc());
 }
 
 #endif

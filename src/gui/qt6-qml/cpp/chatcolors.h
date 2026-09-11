@@ -26,16 +26,17 @@
  * seine Hex-Werte aber nicht aus der App-Palette, sondern aus dem Tisch-Theme
  * (StyleProvider.chatLog*) – siehe TableChatColors weiter unten.
  */
-namespace ChatColors {
+namespace ChatColors
+{
 
 enum Role {
-    Text = 0,   // normale Nachricht (Fließtext)
-    Accent,     // Erwähnung des eigenen Nicks (Gold)
-    Danger,     // Chatbot-Warnung an mich
-    Muted,      // private Nachricht / lokale Hinweiszeile
-    Info,       // Spiel-Einladung
-    Reject,     // abgelehnte Einladung
-    RoleCount
+	Text = 0,   // normale Nachricht (Fließtext)
+	Accent,     // Erwähnung des eigenen Nicks (Gold)
+	Danger,     // Chatbot-Warnung an mich
+	Muted,      // private Nachricht / lokale Hinweiszeile
+	Info,       // Spiel-Einladung
+	Reject,     // abgelehnte Einladung
+	RoleCount
 };
 
 // Steuerzeichen als Klammern des Platzhalters: sie kommen in Chat-Text nicht
@@ -47,37 +48,43 @@ inline constexpr char16_t kTokenEnd   = u'\x03';
 // Platzhalter, wie er in der gespeicherten Zeile steht ("\x02<rolle>\x03").
 inline QString token(Role role)
 {
-    return QChar(kTokenStart) + QString::number(int(role)) + QChar(kTokenEnd);
+	return QChar(kTokenStart) + QString::number(int(role)) + QChar(kTokenEnd);
 }
 
 // Fertiges Style-Fragment für den Zeilenaufbau: "color:<platzhalter>".
 inline QString colorStyle(Role role)
 {
-    return QStringLiteral("color:") + token(role);
+	return QStringLiteral("color:") + token(role);
 }
 
 // Hex-Wert einer Rolle im jeweiligen Modus.
 inline QString value(Role role, bool dark)
 {
-    switch (role) {
-    case Accent: return dark ? QStringLiteral("#E3C800") : QStringLiteral("#b09a00");
-    case Danger: return dark ? QStringLiteral("#e05050") : QStringLiteral("#c62828");
-    case Muted:  return dark ? QStringLiteral("#a0acc4") : QStringLiteral("#576378");
-    case Info:   return dark ? QStringLiteral("#8ab4f8") : QStringLiteral("#1a5fb4");
-    case Reject: return dark ? QStringLiteral("#e0686d") : QStringLiteral("#c62828");
-    case Text:
-    default:     return dark ? QStringLiteral("#cdd3e0") : QStringLiteral("#394150");
-    }
+	switch (role) {
+	case Accent:
+		return dark ? QStringLiteral("#E3C800") : QStringLiteral("#b09a00");
+	case Danger:
+		return dark ? QStringLiteral("#e05050") : QStringLiteral("#c62828");
+	case Muted:
+		return dark ? QStringLiteral("#a0acc4") : QStringLiteral("#576378");
+	case Info:
+		return dark ? QStringLiteral("#8ab4f8") : QStringLiteral("#1a5fb4");
+	case Reject:
+		return dark ? QStringLiteral("#e0686d") : QStringLiteral("#c62828");
+	case Text:
+	default:
+		return dark ? QStringLiteral("#cdd3e0") : QStringLiteral("#394150");
+	}
 }
 
 // Platzhalter -> Hex. Wird beim Ausliefern jeder Zeile an QML angewandt.
 inline QString expand(QString line, bool dark)
 {
-    if (!line.contains(QChar(kTokenStart)))
-        return line;
-    for (int r = 0; r < RoleCount; ++r)
-        line.replace(token(Role(r)), value(Role(r), dark));
-    return line;
+	if (!line.contains(QChar(kTokenStart)))
+		return line;
+	for (int r = 0; r < RoleCount; ++r)
+		line.replace(token(Role(r)), value(Role(r), dark));
+	return line;
 }
 
 // HTML-Escaping für Chat-Inhalte (Nachrichten, Spielernamen). Entfernt
@@ -85,10 +92,10 @@ inline QString expand(QString line, bool dark)
 // Platzhalter einschleusen kann.
 inline QString chatEscape(const QString &raw)
 {
-    QString s = raw;
-    s.remove(QChar(kTokenStart));
-    s.remove(QChar(kTokenEnd));
-    return s.toHtmlEscaped();
+	QString s = raw;
+	s.remove(QChar(kTokenStart));
+	s.remove(QChar(kTokenEnd));
+	return s.toHtmlEscaped();
 }
 
 } // namespace ChatColors
@@ -107,15 +114,16 @@ inline QString chatEscape(const QString &raw)
  * expandiert sie beim Ausliefern an QML und meldet bei jedem Theme-Wechsel
  * einfach die Liste als geändert.
  */
-namespace TableChatColors {
+namespace TableChatColors
+{
 
 enum Role {
-    Text = 0,    // normale Chat-Nachricht / normale Verlaufszeile
-    Accent,      // Erwähnung des eigenen Nicks
-    Winner,      // Gewinner des Hauptpots
-    WinnerSide,  // Gewinner eines Side-Pots
-    Board,       // "--- Flop ---" / "… sits out"
-    RoleCount
+	Text = 0,    // normale Chat-Nachricht / normale Verlaufszeile
+	Accent,      // Erwähnung des eigenen Nicks
+	Winner,      // Gewinner des Hauptpots
+	WinnerSide,  // Gewinner eines Side-Pots
+	Board,       // "--- Flop ---" / "… sits out"
+	RoleCount
 };
 
 // Dieselben Steuerzeichen wie ChatColors: die beiden Verläufe (Lobby / Tisch)
@@ -123,30 +131,33 @@ enum Role {
 // expandiert, können sich also nicht in die Quere kommen.
 inline QString token(Role role)
 {
-    return QChar(ChatColors::kTokenStart) + QString::number(int(role))
-           + QChar(ChatColors::kTokenEnd);
+	return QChar(ChatColors::kTokenStart) + QString::number(int(role))
+		   + QChar(ChatColors::kTokenEnd);
 }
 
 // Fertiges Style-Fragment für den Zeilenaufbau: "color:<platzhalter>".
 inline QString colorStyle(Role role)
 {
-    return QStringLiteral("color:") + token(role);
+	return QStringLiteral("color:") + token(role);
 }
 
 // Die Hex-Werte einer Rolle, wie sie das aktuelle Tisch-Theme liefert.
 struct Palette {
-    QString color[RoleCount];
-    bool isEmpty() const { return color[Text].isEmpty(); }
+	QString color[RoleCount];
+	bool isEmpty() const
+	{
+		return color[Text].isEmpty();
+	}
 };
 
 // Platzhalter -> Hex. Wird beim Ausliefern jeder Zeile an QML angewandt.
 inline QString expand(QString line, const Palette &palette)
 {
-    if (palette.isEmpty() || !line.contains(QChar(ChatColors::kTokenStart)))
-        return line;
-    for (int r = 0; r < RoleCount; ++r)
-        line.replace(token(Role(r)), palette.color[r]);
-    return line;
+	if (palette.isEmpty() || !line.contains(QChar(ChatColors::kTokenStart)))
+		return line;
+	for (int r = 0; r < RoleCount; ++r)
+		line.replace(token(Role(r)), palette.color[r]);
+	return line;
 }
 
 } // namespace TableChatColors

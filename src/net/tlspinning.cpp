@@ -67,7 +67,7 @@ EqualsIgnoreCase(const string &lhs, const char *rhs)
 	const string rhsStr(rhs);
 	return lhs.size() == rhsStr.size()
 		   && equal(lhs.begin(), lhs.end(), rhsStr.begin(),
-					[](unsigned char l, unsigned char r) {
+	[](unsigned char l, unsigned char r) {
 		return tolower(l) == tolower(r);
 	});
 }
@@ -163,7 +163,7 @@ TlsPinning::ApplyPins(boost::asio::ssl::context &sslCtx, const vector<string> &p
 
 	sslCtx.set_verify_mode(boost::asio::ssl::verify_peer);
 	sslCtx.set_verify_callback(
-		[pins, reportMismatch](bool preverified, boost::asio::ssl::verify_context & verifyCtx) {
+	[pins, reportMismatch](bool preverified, boost::asio::ssl::verify_context & verifyCtx) {
 		return VerifyPinnedCert(preverified, verifyCtx, pins, reportMismatch);
 	});
 	return true;
@@ -177,7 +177,7 @@ TlsPinning::ApplyPins(SslStream &sslStream, const vector<string> &pins, const Re
 
 	sslStream.set_verify_mode(boost::asio::ssl::verify_peer);
 	sslStream.set_verify_callback(
-		[pins, reportMismatch](bool preverified, boost::asio::ssl::verify_context & verifyCtx) {
+	[pins, reportMismatch](bool preverified, boost::asio::ssl::verify_context & verifyCtx) {
 		return VerifyPinnedCert(preverified, verifyCtx, pins, reportMismatch);
 	});
 	return true;

@@ -205,7 +205,7 @@ ServerGame::RemoveAllSessions()
 	// WICHTIG: Erst State auf Final setzen, DANN Sessions schließen
 	// Das verhindert dass während des Schließens neue Operationen gestartet werden
 	SetState(ServerGameStateFinal::Instance());
-	
+
 	try {
 		// Sammle alle Sessions ZUERST, dann schließe sie AUSSERHALB des Locks
 		// Das vermeidet Deadlocks wenn Close() versucht auf den SessionManager zuzugreifen
@@ -214,7 +214,7 @@ ServerGame::RemoveAllSessions()
 			// Kurzer Lock nur zum Kopieren der Session-Liste
 			sessionsToClose = GetSessionManager().GetAllSessions();
 		}
-		
+
 		// Log all affected players before disconnecting them
 		{
 			std::ostringstream oss;
@@ -226,7 +226,7 @@ ServerGame::RemoveAllSessions()
 			}
 			LOG_ERROR(oss.str());
 		}
-		
+
 		// Jetzt Sessions schließen - ohne Lock auf dem SessionManager
 		for (auto& session : sessionsToClose) {
 			if (session) {
@@ -244,7 +244,7 @@ ServerGame::RemoveAllSessions()
 				}
 			}
 		}
-		
+
 		// Jetzt den SessionManager leeren
 		GetSessionManager().Clear();
 	} catch (const std::exception& e) {
@@ -420,7 +420,7 @@ ServerGame::InternalStartGame()
 
 		if (GetGameData().gameType == GAME_TYPE_RANKING)
 			StoreLastGames(playerData);
-		
+
 	}
 	return playerData;
 }
@@ -535,7 +535,7 @@ ServerGame::StoreLastGames(const PlayerDataList &playerDataList)
 		LOG_VERBOSE("TimeStamp stored: " << tmpPlayer->GetPlayerLastGames().back());
 		std::vector<long> last_games = tmpPlayer->GetPlayerLastGames();
 		LOG_VERBOSE("Ready for storing vector for player " << tmpPlayer->GetDBId() << " - lastGameTs " << last_games.back());
-		if(tmpPlayer->GetDBId() != DB_ID_INVALID){
+		if(tmpPlayer->GetDBId() != DB_ID_INVALID) {
 			GetDatabase().SetPlayerLastGames(GetId(), tmpPlayer->GetDBId(), last_games, GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->GetUniqueId())->GetClientAddr());
 		}
 		++i;
@@ -1098,7 +1098,7 @@ ServerGame::RemoveDisconnectedPlayers()
 			boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
 			unsigned playerId = tmpPlayer->getMyUniqueID();
 			bool isDisconnected = (tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN && !GetSessionManager().IsPlayerConnected(playerId))
-					|| (tmpPlayer->getMyType() == PLAYER_TYPE_COMPUTER && !IsComputerPlayerActive(playerId));
+								  || (tmpPlayer->getMyType() == PLAYER_TYPE_COMPUTER && !IsComputerPlayerActive(playerId));
 
 			if (isDisconnected) {
 				bool forceDeactivate = false;

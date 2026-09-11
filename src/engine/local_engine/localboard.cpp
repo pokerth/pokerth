@@ -202,7 +202,7 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 			}
 
 			if(finalPot) {
-				
+
 				// distribute the pot level sum to level winners
 				mod = (potLevel[1])%winnerCount;
 				// pot level sum divisible by winnerCount

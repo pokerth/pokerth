@@ -395,8 +395,8 @@ ServerDBThread::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vect
 {
 
 	std::ostringstream oss;
-    std::copy(last_games.begin(), last_games.end(), std::ostream_iterator<int>(oss, ","));
-    std::string last_gamesFieldValue( oss.str() );
+	std::copy(last_games.begin(), last_games.end(), std::ostream_iterator<int>(oss, ","));
+	std::string last_gamesFieldValue( oss.str() );
 	list<string> params;
 	ostringstream paramStream;
 	params.push_back(last_gamesFieldValue);
@@ -563,7 +563,7 @@ ServerDBThread::EnqueueQuery(const boost::shared_ptr<AsyncDBQuery> &query)
 	if (rejected) {
 		// Never leave the caller waiting for a reply that cannot come.
 		LOG_ERROR("DB query queue full (" << DB_MAX_QUEUE_SIZE
-			<< ") - failing query " << query->GetPreparedName() << ".");
+				  << ") - failing query " << query->GetPreparedName() << ".");
 		query->HandleError(*m_ioService, m_callback);
 		return;
 	}
@@ -620,7 +620,7 @@ ServerDBThread::DrainQueueWithError()
 	}
 	if (!pending.empty())
 		LOG_ERROR("DB thread stopping with " << pending.size()
-			<< " pending queries - failing them all.");
+				  << " pending queries - failing them all.");
 	while (!pending.empty()) {
 		pending.front()->HandleError(*m_ioService, m_callback);
 		pending.pop();
@@ -697,8 +697,8 @@ ServerDBThread::PrepareActivityStatements()
 
 	if (!prepareSessionStart.exec() || !prepareSessionEnd.exec()) {
 		LOG_ERROR("Activity logging disabled: cannot prepare statements, is "
-			DB_TABLE_SERVER_SESSION " missing? ("
-			<< prepareSessionStart.error() << prepareSessionEnd.error() << ")");
+				  DB_TABLE_SERVER_SESSION " missing? ("
+				  << prepareSessionStart.error() << prepareSessionEnd.error() << ")");
 		return false;
 	}
 
@@ -717,7 +717,7 @@ ServerDBThread::PrepareActivityStatements()
 	const bool liveStatsReady = prepareLiveStats.exec();
 	if (!liveStatsReady)
 		LOG_ERROR("Live statistics disabled: cannot prepare statement, is "
-			DB_TABLE_SERVER_LIVE_STATS " missing? (" << prepareLiveStats.error() << ")");
+				  DB_TABLE_SERVER_LIVE_STATS " missing? (" << prepareLiveStats.error() << ")");
 	SetLiveStatsEnabled(liveStatsReady);
 
 	return true;
@@ -1000,8 +1000,8 @@ static bool IsTransientDBError(const string &error)
 	if (error.find("lock wait timeout") != string::npos)        return true;
 	// Qt QMYSQL driver may report these
 	if (error.find("QMYSQL: Unable to execute query") != string::npos
-	    && (error.find("2006") != string::npos       // CR_SERVER_GONE_ERROR
-	        || error.find("2013") != string::npos))  // CR_SERVER_LOST
+			&& (error.find("2006") != string::npos       // CR_SERVER_GONE_ERROR
+				|| error.find("2013") != string::npos))  // CR_SERVER_LOST
 		return true;
 	// The prepared statements live in the MySQL session. If the client library
 	// silently reconnected underneath us they are gone, and every query fails
@@ -1064,8 +1064,8 @@ retry_query:
 				nextQuery->IncrementDeferCount();
 				if (nextQuery->GetDeferCount() <= MAX_DEFER_COUNT) {
 					LOG_ERROR("Deferring query " + nextQuery->GetPreparedName()
-						+ " (defer #" + std::to_string(nextQuery->GetDeferCount())
-						+ ") – waiting for dependency.");
+							  + " (defer #" + std::to_string(nextQuery->GetDeferCount())
+							  + ") – waiting for dependency.");
 					RequeueQuery(nextQuery);
 					// If this is the only queued query, the query it depends
 					// on has not been enqueued yet. Spinning through all
@@ -1075,8 +1075,8 @@ retry_query:
 						Msleep(20);
 				} else {
 					LOG_ERROR("Query " + nextQuery->GetPreparedName()
-						+ " deferred " + std::to_string(MAX_DEFER_COUNT)
-						+ " times – dependency never arrived, giving up.");
+							  + " deferred " + std::to_string(MAX_DEFER_COUNT)
+							  + " times – dependency never arrived, giving up.");
 					nextQuery->HandleError(*m_ioService, m_callback);
 				}
 				break;
@@ -1111,7 +1111,7 @@ retry_query:
 				if (!paramQuery.exec()) {
 					string tmpError = paramQuery.error();
 					LOG_ERROR("DB param-set failed for " + nextQuery->GetPreparedName()
-						+ ": " + tmpError + " | SQL: " + paramQuery.str());
+							  + ": " + tmpError + " | SQL: " + paramQuery.str());
 					if (IsTransientDBError(tmpError)) {
 						if (IsConnectionLossError(tmpError) || !m_connData->conn.connected()) {
 							m_connData->conn.disconnect();
@@ -1121,7 +1121,7 @@ retry_query:
 						// Deadlock / lock-wait: retry in-place
 						if (++transientRetries <= MAX_TRANSIENT_RETRIES) {
 							LOG_ERROR("Transient DB error in param-set (retry "
-								+ std::to_string(transientRetries) + "): " + tmpError);
+									  + std::to_string(transientRetries) + "): " + tmpError);
 							Msleep(50 * transientRetries);
 							goto retry_query;
 						}
@@ -1142,7 +1142,7 @@ retry_query:
 				} else {
 					string error = executeQuery.error();
 					LOG_ERROR("DB execute(store) failed for " + nextQuery->GetPreparedName()
-						+ ": " + error + " | SQL: " + executeQuery.str());
+							  + ": " + error + " | SQL: " + executeQuery.str());
 					if (IsTransientDBError(error)) {
 						if (IsConnectionLossError(error) || !m_connData->conn.connected()) {
 							m_connData->conn.disconnect();
@@ -1151,7 +1151,7 @@ retry_query:
 						}
 						if (++transientRetries <= MAX_TRANSIENT_RETRIES) {
 							LOG_ERROR("Transient DB error in store (retry "
-								+ std::to_string(transientRetries) + "): " + error);
+									  + std::to_string(transientRetries) + "): " + error);
 							Msleep(50 * transientRetries);
 							goto retry_query;
 						}
@@ -1164,7 +1164,7 @@ retry_query:
 				} else {
 					string error = executeQuery.error();
 					LOG_ERROR("DB execute(exec) failed for " + nextQuery->GetPreparedName()
-						+ ": " + error + " | SQL: " + executeQuery.str());
+							  + ": " + error + " | SQL: " + executeQuery.str());
 					if (IsTransientDBError(error)) {
 						if (IsConnectionLossError(error) || !m_connData->conn.connected()) {
 							m_connData->conn.disconnect();
@@ -1173,7 +1173,7 @@ retry_query:
 						}
 						if (++transientRetries <= MAX_TRANSIENT_RETRIES) {
 							LOG_ERROR("Transient DB error in exec (retry "
-								+ std::to_string(transientRetries) + "): " + error);
+									  + std::to_string(transientRetries) + "): " + error);
 							Msleep(50 * transientRetries);
 							goto retry_query;
 						}
@@ -1182,17 +1182,17 @@ retry_query:
 				}
 			}
 		} while (nextQuery->Next()); // Consider composite queries.
-		
+
 		// If query failed due to connection loss, put it back in the queue
 		// so it can be retried after reconnection
 		if (queryFailed)
 			RequeueQuery(nextQuery);
 
 		const long elapsedMs = (boost::posix_time::microsec_clock::universal_time()
-			- queryStart).total_milliseconds();
+								- queryStart).total_milliseconds();
 		if (elapsedMs >= DB_SLOW_QUERY_MS)
 			LOG_ERROR("Slow DB query " << nextQuery->GetPreparedName()
-				<< ": " << elapsedMs << " ms (" << GetQueueSize() << " queued).");
+					  << ": " << elapsedMs << " ms (" << GetQueueSize() << " queued).");
 	}
 }
 

@@ -144,11 +144,11 @@ SessionManager::GetSessionByUniquePlayerId(unsigned uniqueId, bool initSessions)
 }
 
 std::vector<boost::shared_ptr<SessionData>>
-SessionManager::GetAllSessions() const
+		SessionManager::GetAllSessions() const
 {
 	std::vector<boost::shared_ptr<SessionData>> sessions;
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
-	
+
 	sessions.reserve(m_sessionMap.size());
 	for (const auto& pair : m_sessionMap) {
 		if (pair.second) {
@@ -428,7 +428,7 @@ SessionManager::SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPac
 	while (i != end) {
 		SessionMap::iterator next = i;
 		++next;  // Sichere nächste Position vor möglicher Modifikation
-		
+
 		try {
 			if (i->second.get()) {
 				// Prüfe ob Session noch offen ist (nicht Closed)
@@ -442,7 +442,7 @@ SessionManager::SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPac
 		} catch (...) {
 			LOG_ERROR("Unknown exception in SendToAllSessions for session " << i->first);
 		}
-		
+
 		i = next;
 	}
 }
@@ -458,7 +458,7 @@ SessionManager::SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_pt
 	while (i != end) {
 		SessionMap::iterator next = i;
 		++next;  // Sichere nächste Position vor möglicher Modifikation
-		
+
 		try {
 			if (i->second.get()) {
 				// Prüfe ob Session noch offen ist (nicht Closed)
@@ -472,7 +472,7 @@ SessionManager::SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_pt
 		} catch (...) {
 			LOG_ERROR("Unknown exception in SendLobbyMsgToAllSessions for session " << i->first);
 		}
-		
+
 		i = next;
 	}
 }
@@ -488,7 +488,7 @@ SessionManager::SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<
 	while (i != end) {
 		SessionMap::iterator next = i;
 		++next;  // Sichere nächste Position vor möglicher Modifikation
-		
+
 		try {
 			if (i->second.get() && i->first != except) {
 				// Prüfe ob Session noch offen ist (nicht Closed)
@@ -502,7 +502,7 @@ SessionManager::SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<
 		} catch (...) {
 			LOG_ERROR("Unknown exception in SendToAllButOneSessions for session " << i->first);
 		}
-		
+
 		i = next;
 	}
 }

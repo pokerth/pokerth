@@ -58,23 +58,23 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	AppImageUtils::patchExternalLinks(this);
 
 #ifdef ANDROID
-    int styleSPageIndex = -1;
-    for (int i = 0; i < stackedWidget->count(); ++i) {
-        QWidget* page = stackedWidget->widget(i);
-        if (page && page->objectName() == "page_styles") {
-            styleSPageIndex = i;
-            break;
-        }
-    }
-    
-    if (styleSPageIndex >= 0 && styleSPageIndex < listWidget->count()) {
-        QListWidgetItem* item = listWidget->item(styleSPageIndex);
-        if (item) {
-            item->setHidden(true); // Verstecken statt löschen
-        }
-    }
-    
-    label_soundVolume->hide();
+	int styleSPageIndex = -1;
+	for (int i = 0; i < stackedWidget->count(); ++i) {
+		QWidget* page = stackedWidget->widget(i);
+		if (page && page->objectName() == "page_styles") {
+			styleSPageIndex = i;
+			break;
+		}
+	}
+
+	if (styleSPageIndex >= 0 && styleSPageIndex < listWidget->count()) {
+		QListWidgetItem* item = listWidget->item(styleSPageIndex);
+		if (item) {
+			item->setHidden(true); // Verstecken statt löschen
+		}
+	}
+
+	label_soundVolume->hide();
 
 	// Add right padding to root layout so content doesn't touch the edge.
 	if (auto *rootGrid = qobject_cast<QGridLayout *>(layout())) {
@@ -112,8 +112,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 		groupBox_logOnOff->setDisabled(true);
 	}
 
-	QSet<Language*> languages
-	{
+	QSet<Language*> languages {
 		new Language("af", "Afrikaans", "Afrikaans"),
 		new Language("bg", "Bulgarian", "Български"),
 		new Language("ca", "Catalan", "Català"),
@@ -145,9 +144,8 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 		new Language("vi", "Vietnamese", "Tiếng Việt")
 	};
 
-	for(const auto& language : languages)
-	{
-		comboBox_switchLanguage->addItem(language->getLanguageLabel(), language->getCode());	
+	for(const auto& language : languages) {
+		comboBox_switchLanguage->addItem(language->getLanguageLabel(), language->getCode());
 	}
 #ifdef GUI_800x480
 	connect( pushButton_ok, SIGNAL( clicked() ), this, SLOT( isAccepted() ) );
@@ -348,8 +346,8 @@ void settingsDialogImpl::prepareDialog()
 	lineEdit_InternetServerPassword->setText(QString::fromUtf8(myConfig->readConfigString("ServerPassword").c_str()));
 	spinBox_InternetServerPort->setValue(myConfig->readConfigInt("InternetServerPort"));
 	checkBox_InternetServerUseIpv6->setChecked(myConfig->readConfigInt("InternetServerUseIpv6"));
-    checkBox_InternetServerUseTls->setChecked(myConfig->readConfigInt("InternetServerUseTls"));
-    checkBox_InternetServerUseSctp->setChecked(myConfig->readConfigInt("InternetServerUseSctp"));
+	checkBox_InternetServerUseTls->setChecked(myConfig->readConfigInt("InternetServerUseTls"));
+	checkBox_InternetServerUseSctp->setChecked(myConfig->readConfigInt("InternetServerUseSctp"));
 	if(myConfig->readConfigInt("UseAvatarServer")) {
 		lineEdit_avatarServerAddress->setText(QString::fromUtf8(myConfig->readConfigString("AvatarServerAddress").c_str()));
 		checkBox_useAvatarServer->setCheckState(Qt::Checked);
@@ -788,7 +786,7 @@ void settingsDialogImpl::exec(bool in_game)
 {
 	calledIngame = in_game;
 	prepareDialog();
-	
+
 #ifdef ANDROID
 	// Ensure Dialog ist sichtbar und hat korrekte Geometrie vor exec()
 	this->show();
@@ -796,7 +794,7 @@ void settingsDialogImpl::exec(bool in_game)
 	this->activateWindow();
 	QCoreApplication::processEvents(); // Force event processing
 #endif
-	
+
 	QDialog::exec();
 }
 
@@ -888,7 +886,7 @@ void settingsDialogImpl::isAccepted()
 	myConfig->writeConfigInt("ServerPort", spinBox_serverPort->value());
 	myConfig->writeConfigInt("ServerUseIpv6", checkBox_useIpv6->isChecked());
 	myConfig->writeConfigInt("ServerUseSctp", checkBox_useSctp->isChecked());
-    myConfig->writeConfigInt("InternetServerUseTls", checkBox_InternetServerUseTls->isChecked());
+	myConfig->writeConfigInt("InternetServerUseTls", checkBox_InternetServerUseTls->isChecked());
 
 	//Internet Game Settings
 	if(groupBox_automaticServerConfig->isChecked()) {
@@ -926,7 +924,7 @@ void settingsDialogImpl::isAccepted()
 
 	myConfig->writeConfigInt("InternetServerUseIpv6", checkBox_InternetServerUseIpv6->isChecked());
 	myConfig->writeConfigInt("InternetServerUseSctp", checkBox_InternetServerUseSctp->isChecked());
-    myConfig->writeConfigInt("InternetServerUseTls", checkBox_InternetServerUseTls->isChecked());
+	myConfig->writeConfigInt("InternetServerUseTls", checkBox_InternetServerUseTls->isChecked());
 	myConfig->writeConfigInt("UseInternetGamePassword", checkBox_UseInternetGamePassword->isChecked());
 	myConfig->writeConfigString("InternetGamePassword", lineEdit_InternetGamePassword->text().toUtf8().constData());
 	myConfig->writeConfigInt("UseLobbyChat", checkBox_UseLobbyChat->isChecked());

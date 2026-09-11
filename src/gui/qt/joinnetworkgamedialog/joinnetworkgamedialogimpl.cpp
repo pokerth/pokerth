@@ -116,9 +116,8 @@ int joinNetworkGameDialogImpl::exec()
 			root.appendChild( profiles );
 
 			QFile file( QString::fromUtf8(myServerProfilesFile.c_str()) );
-			if( !file.open( QIODevice::WriteOnly | QIODevice::Text ) )
-			{
-			}else{
+			if( !file.open( QIODevice::WriteOnly | QIODevice::Text ) ) {
+			} else {
 				QTextStream stream( &file );
 				stream << xmlDoc.toString();
 			}
@@ -155,13 +154,13 @@ void joinNetworkGameDialogImpl::fillServerProfileList()
 		MyMessageBox::warning(this, tr("Load Server-Profile-File Error"),
 							  tr("Could not load server-profiles-file:\n%1").arg(QString::fromUtf8(myServerProfilesFile.c_str())),
 							  QMessageBox::Close);
-	}else {
+	} else {
 
 		QDomElement profile = xmlDoc.documentElement().firstChildElement( "ServerProfiles" ).firstChildElement();
 
 		if ( !profile.isNull() ) {
 
-			for(QDomElement n = profile; !n.isNull(); n = n.nextSiblingElement()){
+			for(QDomElement n = profile; !n.isNull(); n = n.nextSiblingElement()) {
 
 				QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget,0);
 				item->setData(0, 0, n.attribute("Name"));
@@ -202,7 +201,7 @@ void joinNetworkGameDialogImpl::itemFillForm (QTreeWidgetItem* item, int /*colum
 		MyMessageBox::warning(this, tr("Load Server-Profile-File Error"),
 							  tr("Could not load server-profiles-file:\n%1").arg(QString::fromUtf8(myServerProfilesFile.c_str())),
 							  QMessageBox::Close);
-	}else {
+	} else {
 
 		const QString wantedName = item->data(0,0).toString();
 		QDomElement profiles = xmlDoc.documentElement().firstChildElement( "ServerProfiles" );
@@ -236,7 +235,7 @@ void joinNetworkGameDialogImpl::saveServerProfile()
 		MyMessageBox::warning(this, tr("Load Server-Profile-File Error"),
 							  tr("Could not load server-profiles-file:\n%1").arg(QString::fromUtf8(myServerProfilesFile.c_str())),
 							  QMessageBox::Close);
-	}else {
+	} else {
 
 		QDomElement profiles = xmlDoc.documentElement().firstChildElement( "ServerProfiles" );
 
@@ -290,18 +289,17 @@ void joinNetworkGameDialogImpl::saveServerProfile()
 			}
 		} else {
 			MyMessageBox::warning(this, tr("Read Server-Profile List Error"),
-								tr("Could not read server-profiles list"),
-								QMessageBox::Close);
+								  tr("Could not read server-profiles list"),
+								  QMessageBox::Close);
 		}
 	}
 
 	QFile file2( QString::fromUtf8(myServerProfilesFile.c_str()) );
-	if( !file2.open( QIODevice::WriteOnly | QIODevice::Text ) )
-	{
+	if( !file2.open( QIODevice::WriteOnly | QIODevice::Text ) ) {
 		MyMessageBox::warning(this, tr("Save Server-Profile-File Error"),
 							  tr("Could not save server-profiles-file:\n%1").arg(QString::fromUtf8(myServerProfilesFile.c_str())),
 							  QMessageBox::Close);
-	}else{
+	} else {
 		QTextStream stream( &file2 );
 		stream << xmlDoc.toString();
 	}
@@ -316,9 +314,9 @@ void joinNetworkGameDialogImpl::deleteServerProfile()
 	QFile file(QString::fromUtf8(myServerProfilesFile.c_str()));
 	if (!file.open(QIODevice::ReadOnly) || !xmlDoc.setContent(&file)) {
 		MyMessageBox::warning(this, tr("Load Server-Profile-File Error"),
-									  tr("Could not load server-profiles-file:\n%1").arg(QString::fromUtf8(myServerProfilesFile.c_str())),
-									  QMessageBox::Close);
-	}else{
+							  tr("Could not load server-profiles-file:\n%1").arg(QString::fromUtf8(myServerProfilesFile.c_str())),
+							  QMessageBox::Close);
+	} else {
 
 		const QString wantedName = treeWidget->currentItem()->data(0,0).toString();
 		QDomElement profiles = xmlDoc.documentElement().firstChildElement( "ServerProfiles" );
@@ -332,12 +330,11 @@ void joinNetworkGameDialogImpl::deleteServerProfile()
 		}
 
 		QFile file2( QString::fromUtf8(myServerProfilesFile.c_str()) );
-		if( !file2.open( QIODevice::WriteOnly | QIODevice::Text ) )
-		{
+		if( !file2.open( QIODevice::WriteOnly | QIODevice::Text ) ) {
 			MyMessageBox::warning(this, tr("Save Server-Profile-File Error"),
 								  tr("Could not save server-profiles-file:\n%1").arg(QString::fromUtf8(myServerProfilesFile.c_str())),
 								  QMessageBox::Close);
-		}else{
+		} else {
 			QTextStream stream( &file2 );
 			stream << xmlDoc.toString();
 		}

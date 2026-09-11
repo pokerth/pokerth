@@ -216,7 +216,7 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event)
 		painter2.setRenderHint(QPainter::SmoothPixmapTransform);
 		QPointF center(flipside.width()/2.0, flipside.height()/2.0);
 		painter2.translate(center);
-		painter2.scale(frameFlipCardsAction1Size ,1);
+		painter2.scale(frameFlipCardsAction1Size,1);
 		painter2.translate(-center);
 		painter2.drawPixmap(0,0, flipside);
 	}
@@ -226,7 +226,7 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event)
 		painter3.setRenderHint(QPainter::SmoothPixmapTransform);
 		QPointF center(front.width()/2.0, front.height()/2.0);
 		painter3.translate(center);
-		painter3.scale(frameFlipCardsAction2Size ,1);
+		painter3.scale(frameFlipCardsAction2Size,1);
 		painter3.translate(-center);
 		painter3.drawPixmap(0,0, front);
 	}

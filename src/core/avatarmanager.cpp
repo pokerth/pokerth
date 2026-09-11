@@ -76,9 +76,9 @@ unsigned ReadBigEndian16(const unsigned char *data)
 unsigned ReadBigEndian32(const unsigned char *data)
 {
 	return (static_cast<unsigned>(data[0]) << 24)
-			| (static_cast<unsigned>(data[1]) << 16)
-			| (static_cast<unsigned>(data[2]) << 8)
-			| data[3];
+		   | (static_cast<unsigned>(data[1]) << 16)
+		   | (static_cast<unsigned>(data[2]) << 8)
+		   | data[3];
 }
 
 bool HasSafeDimensions(unsigned width, unsigned height)
@@ -226,7 +226,7 @@ AvatarManager::OpenAvatarFileForChunkRead(const std::string &fileName, unsigned 
 				vector<unsigned char> fileData(outFileSize);
 				fileState->inputStream.read((char *)&fileData[0], outFileSize);
 				const bool completeFileRead = fileState->inputStream.gcount()
-					== static_cast<std::streamsize>(outFileSize);
+											  == static_cast<std::streamsize>(outFileSize);
 				fileState->inputStream.clear();
 				fileState->inputStream.seekg(0, ios_base::beg);
 

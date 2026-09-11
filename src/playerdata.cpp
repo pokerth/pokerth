@@ -285,8 +285,8 @@ bool
 PlayerData::IsPlayerAllowedToJoinCreateLimitRank(std::string num, std::string period)
 {
 	bool retVal = false;
-LOG_VERBOSE("checking IsPlayerAllowedToJoinCreateLimitRank() ");
-LOG_VERBOSE("num = " <<  num << " period " << period);
+	LOG_VERBOSE("checking IsPlayerAllowedToJoinCreateLimitRank() ");
+	LOG_VERBOSE("num = " <<  num << " period " << period);
 	boost::mutex::scoped_lock lock(m_dataMutex);
 
 	long then = (long)time(NULL) - (long)(stoi(period) * 60);
@@ -297,10 +297,10 @@ LOG_VERBOSE("num = " <<  num << " period " << period);
 		LOG_VERBOSE("timeStamp " << *timeStamp);
 		time_t ts = (time_t)*timeStamp;
 		LOG_VERBOSE("comparing ts  " <<  (long)ts << " with " << then);
-		if((long)ts > then){
+		if((long)ts > then) {
 			LOG_VERBOSE("counting timeStamp in time  " <<  ctime(&ts));
 			count++;
-		}else{
+		} else {
 			LOG_VERBOSE("erasing overdued timestamp " << ctime(&ts));
 			timeStamp = m_last_games.erase(timeStamp); // erase overdued entries
 			if( timeStamp == m_last_games.end())

@@ -44,7 +44,8 @@ using namespace std;
 #include <cstring>
 #include <QThread>
 
-namespace {
+namespace
+{
 
 // QTextBrowser renders the log as rich text.
 QString escapeHtml(const QString &text)
@@ -72,8 +73,8 @@ extern "C" int sqlite3_open(const char *filename, sqlite3 **ppDb)
 	sqlite3 *p = new sqlite3();
 	// Include thread ID to make connection name unique per thread
 	p->connName = QString("guilog_conn_%1_thread_%2")
-		.arg((qulonglong)QDateTime::currentMSecsSinceEpoch())
-		.arg((qulonglong)QThread::currentThreadId());
+				  .arg((qulonglong)QDateTime::currentMSecsSinceEpoch())
+				  .arg((qulonglong)QThread::currentThreadId());
 	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", p->connName);
 	db.setDatabaseName(QString::fromUtf8(filename));
 	if (!db.open()) {
@@ -105,12 +106,12 @@ extern "C" int sqlite3_get_table(sqlite3 *pDb, const char *zSql, char ***pazResu
 	QSqlRecord rec = q.record();
 	int nCol = rec.count();
 	QVector<QString> columnNames;
-	for(int i=0;i<nCol;++i) columnNames.append(rec.fieldName(i));
+	for(int i=0; i<nCol; ++i) columnNames.append(rec.fieldName(i));
 
 	QVector<QVector<QString>> rows;
 	while(q.next()) {
 		QVector<QString> row;
-		for(int i=0;i<nCol;++i) row.append(q.value(i).toString());
+		for(int i=0; i<nCol; ++i) row.append(q.value(i).toString());
 		rows.append(row);
 	}
 
@@ -127,12 +128,12 @@ extern "C" int sqlite3_get_table(sqlite3 *pDb, const char *zSql, char ***pazResu
 
 	int idx = 0;
 	// column names first
-	for(int c=0;c<nCol;++c) {
+	for(int c=0; c<nCol; ++c) {
 		result[idx++] = strdup(columnNames[c].toStdString().c_str());
 	}
 	// then rows
-	for(int r=0;r<nRow;++r) {
-		for(int c=0;c<nCol;++c) {
+	for(int r=0; r<nRow; ++r) {
+		for(int c=0; c<nCol; ++c) {
 			const QString &v = rows[r][c];
 			if(v.isNull()) result[idx++] = nullptr;
 			else result[idx++] = strdup(v.toStdString().c_str());
@@ -626,9 +627,15 @@ void guiLog::logPlayerLeftMsg(QString playerName, int removeReason)
 
 	QString action;
 	switch(removeReason) {
-	case NTF_NET_REMOVED_KICKED: action = "was kicked from"; break;
-	case NTF_NET_INTERNAL:       action = "was disconnected from"; break;
-	default:                     action = "has left"; break; // NTF_NET_REMOVED_ON_REQUEST
+	case NTF_NET_REMOVED_KICKED:
+		action = "was kicked from";
+		break;
+	case NTF_NET_INTERNAL:
+		action = "was disconnected from";
+		break;
+	default:
+		action = "has left";
+		break; // NTF_NET_REMOVED_ON_REQUEST
 	}
 
 #ifdef GUI_800x480

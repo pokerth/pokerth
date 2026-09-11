@@ -62,7 +62,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <ctime>
-#include <string>  
+#include <string>
 
 #define SERVER_MAX_NUM_LOBBY_SESSIONS				1536		// Maximum number of idle users in lobby.
 #define SERVER_MAX_NUM_TOTAL_SESSIONS				2000	// Total maximum of sessions, fitting a 2048 handle limit
@@ -106,7 +106,8 @@ using namespace boost::chrono;
 #endif
 
 // Hilfsfunktion: Prüft, ob ein Username zu den Test-/Dev-Accounts gehört
-static bool IsTestOrDevAccount(const std::string &username) {
+static bool IsTestOrDevAccount(const std::string &username)
+{
 	// test* Bots (test1, test2, ..., test100)
 	if (username.length() >= 4 && username.substr(0, 4) == "test") {
 		return true;
@@ -524,7 +525,7 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 					lastGame ? lastGame->GetId() : 0,
 					session->GetCloseReason());
 			}
-			
+
 			// Cancel all timers FIRST to prevent timer callbacks from accessing closing session
 			try {
 				session->CancelTimers();
@@ -558,7 +559,7 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 			} catch (const std::exception& e) {
 				LOG_ERROR("Exception notifying player left for session #" << session->GetId() << ": " << e.what());
 			}
-			
+
 			// Update stats (if needed).
 			try {
 				UpdateStatisticsNumberOfPlayers();
@@ -589,8 +590,8 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 			} catch (...) {
 				LOG_ERROR("Unknown exception closing socket for session #" << session->GetId());
 			}
-			
-			// Note: We no longer use CloseSocketHandle() recursively or SetCloseAfterSend 
+
+			// Note: We no longer use CloseSocketHandle() recursively or SetCloseAfterSend
 			// since we already closed the socket above
 		} catch (const std::exception& e) {
 			LOG_ERROR("Exception in CloseSession for session #" << session->GetId() << ": " << e.what());
@@ -1156,8 +1157,8 @@ ServerLobbyThread::DispatchPacket(boost::shared_ptr<SessionData> session, boost:
 				game->HandlePacket(session, packet);
 			} catch (const PokerTHException &e) {
 				LOG_ERROR("Game " << game->GetId() << " - Read handler exception: " << e.what()
-					<< " (triggered by session #" << session->GetId() << " player=\""
-					<< (session->GetPlayerData() ? session->GetPlayerData()->GetName() : "?") << "\")");
+						  << " (triggered by session #" << session->GetId() << " player=\""
+						  << (session->GetPlayerData() ? session->GetPlayerData()->GetName() : "?") << "\")");
 				game->RemoveAllSessions();
 			}
 		} else
@@ -1321,56 +1322,56 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 	}
 #endif
 
-    string playerName;
-    MD5Buf avatarMD5;
-    bool noAuth = false;
-    bool validGuest = false;
+	string playerName;
+	MD5Buf avatarMD5;
+	bool noAuth = false;
+	bool validGuest = false;
 
-    if (initMessage.login() == InitMessage::guestLogin) {
-        // Gast-Login
-        // Optional restriction (off by default): allow only one guest per IP
-        // address and at most SERVER_MAX_GUEST_USERS_LOBBY guests in the lobby.
-        // The session itself does not have player data yet, so it is not
-        // counted by IsGuestAllowedToConnect().
-        if (m_serverConfig.readConfigInt("ServerRestrictGuestLogin") != 0
-                && !m_sessionManager.IsGuestAllowedToConnect(session->GetClientAddr())) {
-            LOG_MSG("Rejected guest login from " << session->GetClientAddr()
-                    << " - guest login is restricted on this server.");
-            SessionError(session, ERR_NET_SERVER_FULL);
-            return;
-        }
-        playerName = initMessage.nickname();
-        validGuest = true;
-        if (initMessage.has_avatarhash()) {
-            memcpy(avatarMD5.GetData(), initMessage.avatarhash().data(), MD5_DATA_SIZE);
-        }
-        noAuth = true;
-    } else if (initMessage.login() == InitMessage::unauthenticatedLogin) {
-        // The no-auth login is for LAN and dedicated no-auth servers only.
-        // Do not let a raw client bypass the account check on the official
-        // login server just by choosing a different protocol login type.
-        if (GetServerMode() == SERVER_MODE_INTERNET_AUTH) {
-            SessionError(session, ERR_NET_INVALID_PASSWORD);
-            return;
-        }
-        playerName = initMessage.nickname();
-        if (initMessage.has_avatarhash()) {
-            memcpy(avatarMD5.GetData(), initMessage.avatarhash().data(), MD5_DATA_SIZE);
-        }
-        noAuth = true;
-    } else if (initMessage.login() == InitMessage::authenticatedLogin) {
-        playerName = initMessage.nickname();
-        if (initMessage.has_avatarhash()) {
-            memcpy(avatarMD5.GetData(), initMessage.avatarhash().data(), MD5_DATA_SIZE);
-        }
-        if (initMessage.has_clientuserdata()) {
-            session->AuthSetPassword(initMessage.clientuserdata());
-        }
-        noAuth = false;
-    } else {
-        SessionError(session, ERR_NET_INVALID_PASSWORD);
-        return;
-    }
+	if (initMessage.login() == InitMessage::guestLogin) {
+		// Gast-Login
+		// Optional restriction (off by default): allow only one guest per IP
+		// address and at most SERVER_MAX_GUEST_USERS_LOBBY guests in the lobby.
+		// The session itself does not have player data yet, so it is not
+		// counted by IsGuestAllowedToConnect().
+		if (m_serverConfig.readConfigInt("ServerRestrictGuestLogin") != 0
+				&& !m_sessionManager.IsGuestAllowedToConnect(session->GetClientAddr())) {
+			LOG_MSG("Rejected guest login from " << session->GetClientAddr()
+					<< " - guest login is restricted on this server.");
+			SessionError(session, ERR_NET_SERVER_FULL);
+			return;
+		}
+		playerName = initMessage.nickname();
+		validGuest = true;
+		if (initMessage.has_avatarhash()) {
+			memcpy(avatarMD5.GetData(), initMessage.avatarhash().data(), MD5_DATA_SIZE);
+		}
+		noAuth = true;
+	} else if (initMessage.login() == InitMessage::unauthenticatedLogin) {
+		// The no-auth login is for LAN and dedicated no-auth servers only.
+		// Do not let a raw client bypass the account check on the official
+		// login server just by choosing a different protocol login type.
+		if (GetServerMode() == SERVER_MODE_INTERNET_AUTH) {
+			SessionError(session, ERR_NET_INVALID_PASSWORD);
+			return;
+		}
+		playerName = initMessage.nickname();
+		if (initMessage.has_avatarhash()) {
+			memcpy(avatarMD5.GetData(), initMessage.avatarhash().data(), MD5_DATA_SIZE);
+		}
+		noAuth = true;
+	} else if (initMessage.login() == InitMessage::authenticatedLogin) {
+		playerName = initMessage.nickname();
+		if (initMessage.has_avatarhash()) {
+			memcpy(avatarMD5.GetData(), initMessage.avatarhash().data(), MD5_DATA_SIZE);
+		}
+		if (initMessage.has_clientuserdata()) {
+			session->AuthSetPassword(initMessage.clientuserdata());
+		}
+		noAuth = false;
+	} else {
+		SessionError(session, ERR_NET_INVALID_PASSWORD);
+		return;
+	}
 
 	// Always trim the player name, just like the game name (see
 	// HandleNetPacketCreateGame). The name sent by the client becomes the
@@ -1433,15 +1434,15 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 void
 ServerLobbyThread::HandleNetPacketAuthClientResponse(boost::shared_ptr<SessionData> session, const AuthClientResponseMessage &/*clientResponse*/)
 {
-    if (!session)
-        return;
+	if (!session)
+		return;
 
-    LOG_VERBOSE("Received AuthClientResponseMessage but SCRAM removed; ignoring and advancing step.");
-    try {
-        int curStep = session->AuthGetCurStepNum();
-        session->AuthStep(curStep + 1, std::string());
-    } catch (...) {
-    }
+	LOG_VERBOSE("Received AuthClientResponseMessage but SCRAM removed; ignoring and advancing step.");
+	try {
+		int curStep = session->AuthGetCurStepNum();
+		session->AuthStep(curStep + 1, std::string());
+	} catch (...) {
+	}
 }
 
 void
@@ -1527,12 +1528,12 @@ ServerLobbyThread::HandleNetPacketAvatarEnd(boost::shared_ptr<SessionData> sessi
 					// weitermachen, als den Spieler unauffindbar zu machen.
 					session->GetPlayerData()->SetAvatarMD5(MD5Buf());
 					LOG_ERROR("Avatar of session #" << session->GetId()
-						<< " was stored but cannot be resolved - continuing without avatar.");
+							  << " was stored but cannot be resolved - continuing without avatar.");
 				}
 				// Init finished - start session.
 				EstablishSession(session);
 				LOG_VERBOSE("Client \"" << session->GetClientAddr() << "\" uploaded avatar \""
-						<< boost::filesystem::path(avatarFileName).string() << "\".");
+							<< boost::filesystem::path(avatarFileName).string() << "\".");
 			} else
 				SessionError(session, ERR_NET_WRONG_AVATAR_SIZE);
 		}
@@ -1589,7 +1590,7 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(boost::shared_ptr<SessionDa
 					AvatarManager::GetAvatarFileType(tmpPlayer->GetAvatarFile());
 				if (avatarFileType == AVATAR_FILE_TYPE_UNKNOWN) {
 					LOG_ERROR("Player id " << playerId << " has an avatar hash but no usable avatar file (\""
-						<< tmpPlayer->GetAvatarFile() << "\") - sending player info without avatar.");
+							  << tmpPlayer->GetAvatarFile() << "\") - sending player info without avatar.");
 				} else {
 					PlayerInfoReplyMessage::PlayerInfoData::AvatarData *avatarData = data->mutable_avatardata();
 					avatarData->set_avatartype(static_cast<NetAvatarType>(avatarFileType));
@@ -1665,9 +1666,9 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 	} else if (!ServerGame::CheckSettings(tmpData, password, GetServerMode())) {
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_INVALID_SETTINGS);
 	} else if (!session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank(m_serverConfig.readConfigString("ServerLimitRankNum"), m_serverConfig.readConfigString("ServerLimitRankPeriod"))
-			&& tmpData.gameType == GAME_TYPE_RANKING
-			// Ausnahme: Test-/Dev-Accounts dürfen Ranking Games erstellen (für Test-Infrastruktur)
-			&& !IsTestOrDevAccount(session->GetPlayerData()->GetName())) {
+			   && tmpData.gameType == GAME_TYPE_RANKING
+			   // Ausnahme: Test-/Dev-Accounts dürfen Ranking Games erstellen (für Test-Infrastruktur)
+			   && !IsTestOrDevAccount(session->GetPlayerData()->GetName())) {
 		LOG_ERROR("not allowed due to ranklimit");
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_IP_BLOCKED);
 	} else {
@@ -1724,12 +1725,12 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 			} else if (tmpData.gameType == GAME_TYPE_RANKING && !session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank(m_serverConfig.readConfigString("ServerLimitRankNum"), m_serverConfig.readConfigString("ServerLimitRankPeriod"))) {
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
 			} else if (tmpData.gameType == GAME_TYPE_RANKING && !joinGame.spectateonly()
-				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
-				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4V6
-				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
-				   // Ausnahme: Test-/Dev-Accounts dürfen mehrere von gleicher IP (für Test-Infrastruktur)
-				   && !IsTestOrDevAccount(session->GetPlayerData()->GetName())
-				   && game->IsClientAddressConnected(session->GetClientAddr())) {
+					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
+					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4V6
+					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
+					   // Ausnahme: Test-/Dev-Accounts dürfen mehrere von gleicher IP (für Test-Infrastruktur)
+					   && !IsTestOrDevAccount(session->GetPlayerData()->GetName())
+					   && game->IsClientAddressConnected(session->GetClientAddr())) {
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
 			} else {
 				MoveSessionToGame(game, session, joinGame.autoleave(), false);
@@ -1815,8 +1816,8 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 					const std::string targetName = targetSession->GetPlayerData()->GetName();
 					const bool isTargetBbcbot = (targetName == "bbcbot");
 					const bool isSenderAllowed = GetBanManager().IsAdminPlayer(
-						session->GetPlayerData()->GetDBId());
-					
+													 session->GetPlayerData()->GetDBId());
+
 					if (isTargetBbcbot && isSenderAllowed && chatRequest.chattext().substr(0, 3) == "gn ") {
 						// bbcbot pm from admins - global notice => /msg bbcbot gn This is a global Notice
 						LOG_ERROR("Global Notice: " << chatRequest.chattext().substr(3) << " von " << senderName);
@@ -1833,7 +1834,7 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 						GetSender().Send(targetSession, packet);
 						chatSent = true;
 					}
-			      }
+				}
 			}
 		}
 	}
@@ -2075,7 +2076,7 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 
 	unsigned rejoinPlayerId = 0;
 	u_int32_t rejoinGameId = GetRejoinGameIdForPlayer(session->GetPlayerData()->GetName(), session->GetPlayerData()->GetOldGuid(), rejoinPlayerId);
-	
+
 	if (rejoinGameId != 0) {
 		// Offer rejoin, and disconnect current player with the same name.
 		InternalRemovePlayer(rejoinPlayerId, ERR_NET_PLAYER_NAME_IN_USE);
@@ -2123,8 +2124,8 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 	// Spieler in dieser Sitzung trotzdem weiter.
 	if (tmpAvatarHash.empty() && !session->GetPlayerData()->GetAnnouncedAvatarMD5().IsZero()) {
 		LOG_MSG("Player \"" << session->GetPlayerData()->GetName()
-			<< "\" announced avatar " << session->GetPlayerData()->GetAnnouncedAvatarMD5().ToString()
-			<< " which could not be used - keeping the stored avatar in the database.");
+				<< "\" announced avatar " << session->GetPlayerData()->GetAnnouncedAvatarMD5().ToString()
+				<< " which could not be used - keeping the stored avatar in the database.");
 		m_database->PlayerPostLoginKeepAvatar(session->GetPlayerData()->GetDBId());
 	} else {
 		m_database->PlayerPostLogin(session->GetPlayerData()->GetDBId(), tmpAvatarHash, tmpAvatarType);
@@ -2156,9 +2157,9 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 	session->SetState(SessionData::Established);
 
 	LOG_MSG("Player \"" << session->GetPlayerData()->GetName() << "\" (id:" << session->GetPlayerData()->GetUniqueId()
-		<< ", dbId:" << session->GetPlayerData()->GetDBId() << ") connected from " << session->GetClientAddr()
-		<< " - session #" << session->GetId()
-		<< " - client: " << FormatClientBuildId(session->GetClientBuildId(), session->GetClientPlatform()) << ".");
+			<< ", dbId:" << session->GetPlayerData()->GetDBId() << ") connected from " << session->GetClientAddr()
+			<< " - session #" << session->GetId()
+			<< " - client: " << FormatClientBuildId(session->GetClientBuildId(), session->GetClientPlatform()) << ".");
 
 	// Open the activity row for this connection. Only sessions which got this
 	// far are logged, so that port scans and rejected clients do not show up as
@@ -2182,7 +2183,7 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 	NotifyPlayerJoinedLobby(session->GetPlayerData()->GetUniqueId());
 
 	UpdateStatisticsNumberOfPlayers();
-	
+
 }
 
 void
@@ -2197,27 +2198,27 @@ ServerLobbyThread::AuthenticatePlayer(boost::shared_ptr<SessionData> session)
 void
 ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData)
 {
-    boost::shared_ptr<SessionData> tmpSession = m_sessionManager.GetSessionByUniquePlayerId(playerId, true);
+	boost::shared_ptr<SessionData> tmpSession = m_sessionManager.GetSessionByUniquePlayerId(playerId, true);
 
-    if (!tmpSession) {
-        return;
-    }
+	if (!tmpSession) {
+		return;
+	}
 
-    std::string providedPassword = tmpSession->AuthGetPassword();
-    if (!providedPassword.empty() && providedPassword == dbPlayerData.secret) {
-        tmpSession->SetAuthenticationPending(false);
-        tmpSession->GetPlayerData()->SetDBId(dbPlayerData.id);
-        tmpSession->GetPlayerData()->SetCountry(dbPlayerData.country);
-        // Set admin rights if the player is in the admin list.
-        if (GetBanManager().IsAdminPlayer(dbPlayerData.id)) {
-            tmpSession->GetPlayerData()->SetRights(PLAYER_RIGHTS_ADMIN);
-        }
-        // Blacklisted avatars are reset before the session is initialised.
-        CheckAvatarBlacklist(tmpSession);
-    } else {
-        LOG_MSG("Authentication failed for player " << playerId << " (" << tmpSession->GetClientAddr() << ")");
-        SessionError(tmpSession, ERR_NET_INVALID_PASSWORD);
-    }
+	std::string providedPassword = tmpSession->AuthGetPassword();
+	if (!providedPassword.empty() && providedPassword == dbPlayerData.secret) {
+		tmpSession->SetAuthenticationPending(false);
+		tmpSession->GetPlayerData()->SetDBId(dbPlayerData.id);
+		tmpSession->GetPlayerData()->SetCountry(dbPlayerData.country);
+		// Set admin rights if the player is in the admin list.
+		if (GetBanManager().IsAdminPlayer(dbPlayerData.id)) {
+			tmpSession->GetPlayerData()->SetRights(PLAYER_RIGHTS_ADMIN);
+		}
+		// Blacklisted avatars are reset before the session is initialised.
+		CheckAvatarBlacklist(tmpSession);
+	} else {
+		LOG_MSG("Authentication failed for player " << playerId << " (" << tmpSession->GetClientAddr() << ")");
+		SessionError(tmpSession, ERR_NET_INVALID_PASSWORD);
+	}
 }
 
 void

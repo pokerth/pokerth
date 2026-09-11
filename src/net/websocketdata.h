@@ -52,7 +52,7 @@ public:
 	virtual void Send(websocketpp::connection_hdl hdl, const std::string &payload,
 					  websocketpp::lib::error_code &ec) = 0;
 	virtual void Close(websocketpp::connection_hdl hdl, const std::string &reason,
-					  websocketpp::lib::error_code &ec) = 0;
+					   websocketpp::lib::error_code &ec) = 0;
 	virtual size_t GetBufferedAmount(websocketpp::connection_hdl hdl) = 0;
 	// Remote IP address of the connection, or empty string on failure.
 	virtual std::string RemoteAddress(websocketpp::connection_hdl hdl) = 0;

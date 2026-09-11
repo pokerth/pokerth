@@ -96,6 +96,6 @@ void
 AsyncDBUpdateScore::HandleError(boost::asio::io_context &service, ServerDBCallback &cb)
 {
 	boost::asio::post(service, boost::bind(&ServerDBCallback::QueryError, &cb,
-		"AsyncDBUpdateScore: Failed to update scores for game " + std::to_string(GetId())
-		+ " (dbId " + std::to_string(m_resolvedGameDbId) + ")."));
+										   "AsyncDBUpdateScore: Failed to update scores for game " + std::to_string(GetId())
+										   + " (dbId " + std::to_string(m_resolvedGameDbId) + ")."));
 }

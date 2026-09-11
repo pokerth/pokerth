@@ -80,7 +80,7 @@ const char* const CALL_RAISE_OUT_OF_POSITION = "55+, ATs+, KJs+, QJs, AQo+";
 // Big Blind hat bereits gesetzt und bekommt bessere Pot Odds, verteidigt also
 // deutlich breiter.
 const char* const BIG_BLIND_DEFEND = "22+, A2s+, K5s+, Q7s+, J7s+, T7s+, 96s+, 86s+, 75s+, 65s, 54s, "
-                                     "A7o+, K9o+, Q9o+, J9o+, T9o";
+									 "A7o+, K9o+, Q9o+, J9o+, T9o";
 
 // Push-or-Fold bei kurzem Stack: ab hier lohnt sich nur noch alles oder nichts.
 const char* const SHORT_STACK_PUSH_EARLY = "44+, A7s+, KTs+, QJs, ATo+, KQo";
@@ -93,12 +93,12 @@ const char* const SHORT_STACK_PUSH_LATE  = "22+, A2s+, K7s+, Q9s+, J9s+, T9s, A5
  */
 const char* const OPPONENT_RANGE_VERY_TIGHT = "77+, ATs+, KJs+, QJs, AJo+, KQo";
 const char* const OPPONENT_RANGE_MEDIUM     = "22+, A2s+, K8s+, Q9s+, J9s+, T9s, 98s, "
-                                              "A9o+, KTo+, QTo+, JTo";
+		"A9o+, KTo+, QTo+, JTo";
 
 // Annahme ueber die Haende, die ein Gegner nach dem Flop noch halten kann.
 const char* const OPPONENT_RANGE_RAISED_POT = "44+, A8s+, KTs+, QTs+, JTs, ATo+, KJo+, QJo";
 const char* const OPPONENT_RANGE_LIMPED_POT = "22+, A2s+, K5s+, Q7s+, J7s+, T7s+, 96s+, 86s+, 75s+, 64s+, 54s, "
-                                              "A2o+, K8o+, Q9o+, J9o+, T9o, 98o";
+		"A2o+, K8o+, Q9o+, J9o+, T9o, 98o";
 
 // Ranges einmal bauen und wiederverwenden -- das Parsen je Entscheidung waere
 // unnoetige Arbeit. Threadsicher ueber magic statics.
@@ -212,15 +212,23 @@ double AiEngine4::winningChance(const AiSituation& s)
 	 */
 	int samples;
 	switch(s.round) {
-	case GAME_STATE_PREFLOP: samples = 6000; break;
-	case GAME_STATE_FLOP:    samples = 8000; break;
-	case GAME_STATE_TURN:    samples = 6000; break;
-	default:                 samples = 4000; break;
+	case GAME_STATE_PREFLOP:
+		samples = 6000;
+		break;
+	case GAME_STATE_FLOP:
+		samples = 8000;
+		break;
+	case GAME_STATE_TURN:
+		samples = 6000;
+		break;
+	default:
+		samples = 4000;
+		break;
 	}
 
 	const EquityCalculator::Result result =
-	    EquityCalculator::equity(s.holeCards, s.boardCards, s.boardSize,
-	                             s.opponents, &opponentRange, samples);
+		EquityCalculator::equity(s.holeCards, s.boardCards, s.boardSize,
+								 s.opponents, &opponentRange, samples);
 
 	return result.samples > 0 ? result.equity : 0.0;
 }
@@ -278,7 +286,7 @@ AiDecision decideShortStack(const AiSituation& s, const AiPersonality& p, const 
 {
 	const bool late = s.opponentsBehind <= 2;
 	const HoleCardsRange& pushRange =
-	    cachedRange(late ? SHORT_STACK_PUSH_LATE : SHORT_STACK_PUSH_EARLY);
+		cachedRange(late ? SHORT_STACK_PUSH_LATE : SHORT_STACK_PUSH_EARLY);
 
 	if(pushRange.contains(s.holeCards[0], s.holeCards[1])) return allIn(s, m);
 
@@ -333,8 +341,8 @@ AiDecision decidePreflop(const AiSituation& s, const AiPersonality& p, const Met
 	}
 
 	const HoleCardsRange& calling =
-	    cachedRange(s.amBigBlind ? BIG_BLIND_DEFEND
-	                             : (inPosition(s) ? CALL_RAISE_IN_POSITION : CALL_RAISE_OUT_OF_POSITION));
+		cachedRange(s.amBigBlind ? BIG_BLIND_DEFEND
+					: (inPosition(s) ? CALL_RAISE_IN_POSITION : CALL_RAISE_OUT_OF_POSITION));
 
 	if(calling.contains(s.holeCards[0], s.holeCards[1])) {
 		// Nicht um jeden Preis: eine sehr grosse Erhoehung sprengt die Odds.
@@ -418,7 +426,7 @@ AiDecision decidePostflop(const AiSituation& s, const AiPersonality& p, const Me
 	 * Erhoehung zu gewinnen, wenn der Gegner aufgibt.
 	 */
 	if(s.opponents == 1 && inPosition(s) && equity > 0.25 &&
-	   randomPercent() <= static_cast<int>(12 * p.bluffRate)) {
+			randomPercent() <= static_cast<int>(12 * p.bluffRate)) {
 		const int amount = std::max(s.minimumRaise, static_cast<int>(m.pot * 0.6));
 		return raiseTo(s, m, s.highestSet + amount);
 	}

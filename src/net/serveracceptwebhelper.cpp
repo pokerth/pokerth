@@ -47,12 +47,12 @@ ServerAcceptWebHelper::ServerAcceptWebHelper(ServerCallback &serverCallback, boo
 	  m_tlsCertFile(tlsCertFile), m_tlsKeyFile(tlsKeyFile)
 {
 	m_tls = websocketTls;
-	if(m_tls){
+	if(m_tls) {
 		m_webSocketTlsServer.reset(new tls_server);
-	}else{
+	} else {
 		m_webSocketServer.reset(new server);
 	}
-	
+
 }
 
 void
@@ -61,7 +61,7 @@ ServerAcceptWebHelper::Listen(unsigned serverPort, bool /*ipv6*/, const std::str
 	m_lobbyThread = lobbyThread;
 
 
-	if(m_tls){
+	if(m_tls) {
 		// Set logging settings
 #ifdef QT_NO_DEBUG
 		m_webSocketTlsServer->clear_access_channels(websocketpp::log::alevel::all);
@@ -80,7 +80,7 @@ ServerAcceptWebHelper::Listen(unsigned serverPort, bool /*ipv6*/, const std::str
 
 		m_webSocketTlsServer->listen(serverPort);
 		m_webSocketTlsServer->start_accept();
-	}else{
+	} else {
 		// Set logging settings
 #ifdef QT_NO_DEBUG
 		m_webSocketServer->clear_access_channels(websocketpp::log::alevel::all);
@@ -196,30 +196,31 @@ ServerAcceptWebHelper::on_message(websocketpp::connection_hdl hdl, server::messa
 	}
 }
 
-context_ptr ServerAcceptWebHelper::on_tls_init(websocketpp::connection_hdl hdl) {
-    namespace asio = boost::asio;
-    context_ptr ctx = websocketpp::lib::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
-    // Configuration settings for TLS context
-    try {
-        ctx->set_options(asio::ssl::context::default_workarounds |
-                         asio::ssl::context::no_sslv2 |
-                         asio::ssl::context::no_sslv3 |
-                         asio::ssl::context::single_dh_use);
+context_ptr ServerAcceptWebHelper::on_tls_init(websocketpp::connection_hdl hdl)
+{
+	namespace asio = boost::asio;
+	context_ptr ctx = websocketpp::lib::make_shared<asio::ssl::context>(asio::ssl::context::sslv23);
+	// Configuration settings for TLS context
+	try {
+		ctx->set_options(asio::ssl::context::default_workarounds |
+						 asio::ssl::context::no_sslv2 |
+						 asio::ssl::context::no_sslv3 |
+						 asio::ssl::context::single_dh_use);
 
-        // Configured paths win, otherwise the tls/ folder next to the
-        // executable is used (see GetServerTlsCertFile).
-        const std::string certFile = GetServerTlsCertFile(m_tlsCertFile);
-        const std::string keyFile = GetServerTlsKeyFile(m_tlsKeyFile);
-        LOG_ERROR("TLS (websocket): certificate " << certFile << ", key " << keyFile);
-        ctx->use_certificate_chain_file(certFile);
-        ctx->use_private_key_file(keyFile, asio::ssl::context::pem);
-        std::string ciphers;
-        ciphers = "ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA";
-        if (SSL_CTX_set_cipher_list(ctx->native_handle() , ciphers.c_str()) != 1) {
-            std::cout << "Error setting cipher list" << std::endl;
-        }
-    } catch (std::exception& e) {
-        LOG_ERROR("TLS (websocket) setup failed: " << e.what());
-    }
-    return ctx;
+		// Configured paths win, otherwise the tls/ folder next to the
+		// executable is used (see GetServerTlsCertFile).
+		const std::string certFile = GetServerTlsCertFile(m_tlsCertFile);
+		const std::string keyFile = GetServerTlsKeyFile(m_tlsKeyFile);
+		LOG_ERROR("TLS (websocket): certificate " << certFile << ", key " << keyFile);
+		ctx->use_certificate_chain_file(certFile);
+		ctx->use_private_key_file(keyFile, asio::ssl::context::pem);
+		std::string ciphers;
+		ciphers = "ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA";
+		if (SSL_CTX_set_cipher_list(ctx->native_handle(), ciphers.c_str()) != 1) {
+			std::cout << "Error setting cipher list" << std::endl;
+		}
+	} catch (std::exception& e) {
+		LOG_ERROR("TLS (websocket) setup failed: " << e.what());
+	}
+	return ctx;
 }

@@ -16,7 +16,7 @@ WebNetworkAccessManager::WebNetworkAccessManager(QObject *parent)
 }
 
 QNetworkReply *WebNetworkAccessManager::createRequest(Operation op,
-        const QNetworkRequest &request, QIODevice *outgoingData)
+		const QNetworkRequest &request, QIODevice *outgoingData)
 {
 	QNetworkRequest req(request);
 	req.setRawHeader(QByteArrayLiteral("User-Agent"), POKERTH_USER_AGENT);

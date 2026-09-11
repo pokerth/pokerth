@@ -68,15 +68,15 @@ public:
 	 * samples: gewuenschte Anzahl Simulationslaeufe.
 	 */
 	static Result equity(const int* holeCards,
-	                     const int* boardCards, int boardSize,
-	                     const std::vector<const HoleCardsRange*>& opponentRanges,
-	                     int samples);
+						 const int* boardCards, int boardSize,
+						 const std::vector<const HoleCardsRange*>& opponentRanges,
+						 int samples);
 
 	// Bequemer Fall: alle Gegner mit derselben Range (oder nullptr).
 	static Result equity(const int* holeCards,
-	                     const int* boardCards, int boardSize,
-	                     int opponents, const HoleCardsRange* range,
-	                     int samples);
+						 const int* boardCards, int boardSize,
+						 int opponents, const HoleCardsRange* range,
+						 int samples);
 };
 
 #endif

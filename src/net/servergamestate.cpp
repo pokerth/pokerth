@@ -115,7 +115,7 @@ static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterfa
 	netActionDone->set_playeraction(static_cast<NetPlayerAction>(player->getMyAction()));
 	netActionDone->set_playerid(player->getMyUniqueID());
 	netActionDone->set_playermoney(player->getMyCash());
-	
+
 	// Server-Härtung: Validiere totalplayerbet (muss >= 0 sein, sonst Client-Crash)
 	int totalBet = player->getMySet();
 	if (totalBet < 0) {
@@ -123,7 +123,7 @@ static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterfa
 		totalBet = 0;
 	}
 	netActionDone->set_totalplayerbet(totalBet);
-	
+
 	server.SendToAllPlayers(packet, SessionData::Game | SessionData::Spectating);
 }
 
@@ -463,8 +463,8 @@ AbstractServerGameStateReceiving::CreateNetPacketHandStart(const ServerGame &ser
 			seatState = netPlayerStateNormal;
 		}
 		const char* stateStr = (seatState == netPlayerStateNormal) ? "Normal" :
-			(seatState == netPlayerStateSessionInactive) ? "SessionInactive" :
-			(seatState == netPlayerStateNoMoney) ? "NoMoney" : "Unknown";
+							   (seatState == netPlayerStateSessionInactive) ? "SessionInactive" :
+							   (seatState == netPlayerStateNoMoney) ? "NoMoney" : "Unknown";
 		netHandStart->add_seatstates(seatState);
 		++player_i;
 		++playerCounter;
@@ -1033,7 +1033,7 @@ ServerGameStateHand::TimerLoop(const boost::system::error_code &ec, boost::share
 			EngineLoop(server);
 		} catch (const PokerTHException &e) {
 			LOG_ERROR("Game " << server->GetId() << " - Engine exception in TimerLoop: " << e.what()
-				<< " - players in game: " << server->GetSessionManager().GetSessionCountWithState(SessionData::Game));
+					  << " - players in game: " << server->GetSessionManager().GetSessionCountWithState(SessionData::Game));
 			server->RemoveAllSessions(); // Close this game on error.
 		}
 	}
@@ -1159,7 +1159,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 
 			if (nonFoldPlayers.size() == 1) {
 				// End of Hand, but keep cards hidden.
-				
+
 				// Double-check: Ensure all-in losers are set to 0 cash (defensive programming for race conditions)
 				PlayerListIterator pit = curGame.getSeatsList()->begin();
 				PlayerListIterator pend = curGame.getSeatsList()->end();
@@ -1169,7 +1169,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 					}
 					++pit;
 				}
-				
+
 				boost::shared_ptr<PlayerInterface> player = nonFoldPlayers.front();
 				boost::shared_ptr<NetPacket> endHand(new NetPacket);
 				endHand->GetMsg()->set_messagetype(PokerTHMessage::Type_EndOfHandHideCardsMessage);
@@ -1182,7 +1182,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			} else {
 				// End of Hand - show cards.
 				const PlayerIdList showList(curGame.getCurrentHand()->getBoard()->getPlayerNeedToShowCards());
-				
+
 				// Double-check: Ensure all-in losers are set to 0 cash (defensive programming for race conditions)
 				PlayerListIterator pit = curGame.getSeatsList()->begin();
 				PlayerListIterator pend = curGame.getSeatsList()->end();
@@ -1192,18 +1192,18 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 					}
 					++pit;
 				}
-				
+
 				boost::shared_ptr<NetPacket> endHand(new NetPacket);
 				endHand->GetMsg()->set_messagetype(PokerTHMessage::Type_EndOfHandShowCardsMessage);
 				EndOfHandShowCardsMessage *netEndHand = endHand->GetMsg()->mutable_endofhandshowcardsmessage();
 				netEndHand->set_gameid(server->GetId());
 
-				
+
 				// CRITICAL: Send PlayerResults for ALL active players, not just showList
 				// This ensures clients get correct cash updates for all players including those who folded or went all-in
 				PlayerListIterator allPlayers = curGame.getActivePlayerList()->begin();
 				PlayerListIterator allPlayersEnd = curGame.getActivePlayerList()->end();
-				
+
 				while (allPlayers != allPlayersEnd) {
 					boost::shared_ptr<PlayerInterface> tmpPlayer = *allPlayers;
 					if (tmpPlayer) {
@@ -1293,7 +1293,7 @@ ServerGameStateHand::TimerComputerAction(const boost::system::error_code &ec, bo
 			EngineLoop(server);
 		} catch (const PokerTHException &e) {
 			LOG_ERROR("Game " << server->GetId() << " - Computer timer exception: " << e.what()
-				<< " - players in game: " << server->GetSessionManager().GetSessionCountWithState(SessionData::Game));
+					  << " - players in game: " << server->GetSessionManager().GetSessionCountWithState(SessionData::Game));
 			server->RemoveAllSessions(); // Close this game on error.
 		}
 	}
@@ -1739,7 +1739,7 @@ ServerGameStateWaitPlayerAction::TimerTimeout(const boost::system::error_code &e
 			server->SetState(ServerGameStateHand::Instance());
 		} catch (const PokerTHException &e) {
 			LOG_ERROR("Game " << server->GetId() << " - Player timer exception: " << e.what()
-				<< " - players in game: " << server->GetSessionManager().GetSessionCountWithState(SessionData::Game));
+					  << " - players in game: " << server->GetSessionManager().GetSessionCountWithState(SessionData::Game));
 			server->RemoveAllSessions(); // Close this game on error.
 		}
 	}

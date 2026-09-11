@@ -55,10 +55,10 @@ void AndroidLineEdit::inputMethodEvent(QInputMethodEvent *event)
 	// Block repaint during composition to prevent keyboard flicker
 	m_inComposition = true;
 	m_blockRepaint = true;
-	
+
 	// Process the event normally
 	QLineEdit::inputMethodEvent(event);
-	
+
 	// If this is the final commit (not preedit), allow repaint
 	if (!event->commitString().isEmpty() && event->preeditString().isEmpty()) {
 		m_blockRepaint = false;
@@ -71,7 +71,7 @@ void AndroidLineEdit::inputMethodEvent(QInputMethodEvent *event)
 		m_inComposition = false;
 		QLineEdit::update();
 	}
-	
+
 	// Accept without triggering additional updates
 	event->accept();
 }
@@ -99,7 +99,7 @@ void AndroidLineEdit::paintEvent(QPaintEvent *event)
 		event->accept();
 		return;
 	}
-	
+
 	// Normal paint
 	QLineEdit::paintEvent(event);
 }
@@ -123,7 +123,7 @@ QVariant AndroidLineEdit::inputMethodQuery(Qt::InputMethodQuery property) const
 			return QVariant();
 		}
 	}
-	
+
 	// Normal behavior when not composing
 	return QLineEdit::inputMethodQuery(property);
 }

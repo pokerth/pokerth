@@ -39,8 +39,8 @@ using namespace std;
 
 
 AsyncDBLiveStats::AsyncDBLiveStats(const string &preparedName, const list<string> &params)
-	// The row is a singleton, so there is no id to address it by - the
-	// statement names it itself.
+// The row is a singleton, so there is no id to address it by - the
+// statement names it itself.
 	: SingleAsyncDBQuery(0, preparedName, params)
 {
 }

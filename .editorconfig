@@ -1,0 +1,46 @@
+# Formatierungs-Konventionen von PokerTH.
+# Maßgeblich für C++ ist run_astyle.sh (astyle --style=kr --indent=force-tab=4);
+# diese Datei bildet dessen Whitespace-Regeln für den Editor ab, damit neu
+# getippter Code gar nicht erst davon abweicht.
+# Gelesen von VS Code (Extension "EditorConfig for VS Code"), vim
+# (editorconfig-vim), Qt Creator, CLion und KDevelop.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# C/C++-Quellen: harte Tabs, Tabbreite 4 (astyle --indent=force-tab=4)
+[*.{c,cc,cpp,cxx,h,hh,hpp,mm}]
+indent_style = tab
+indent_size = 4
+tab_width = 4
+
+# QML/JS: 4 Leerzeichen (Qt-Konvention, wird nicht von astyle angefasst)
+[*.{qml,js}]
+indent_style = space
+indent_size = 4
+
+[*.py]
+indent_style = space
+indent_size = 4
+
+[{CMakeLists.txt,*.cmake}]
+indent_style = space
+indent_size = 4
+
+[*.{yml,yaml,json}]
+indent_style = space
+indent_size = 2
+
+# Fremdcode und generierte Dateien bleiben unangetastet
+[src/third_party/**]
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+[*.{ts,pb.cc,pb.h}]
+trim_trailing_whitespace = false
+insert_final_newline = false

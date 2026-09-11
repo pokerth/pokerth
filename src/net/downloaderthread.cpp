@@ -134,7 +134,7 @@ DownloaderThread::Main()
 				if (m_curDownloadData && !m_curDownloadData->filename.empty()) {
 					path filepath(m_curDownloadData->filename);
 					m_downloadHelper->Init(m_curDownloadData->address, filepath.string(),
-							"", "", MAX_AVATAR_FILE_SIZE);
+										   "", "", MAX_AVATAR_FILE_SIZE);
 					m_downloadInProgress = true;
 				}
 			}

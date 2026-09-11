@@ -52,152 +52,152 @@ AsioReceiveBuffer::AsioReceiveBuffer()
 void
 AsioReceiveBuffer::StartAsyncRead(boost::shared_ptr<SessionData> session)
 {
-    // Prüfe ob Session bereits geschlossen ist
-    if (session->GetState() == SessionData::Closed) {
-        return;  // Keine async_read auf geschlossenen Sessions
-    }
-    
-    if (session->IsSsl()) {
-        auto sslStream = session->GetSslStream();
-        if (!sslStream) {
-            LOG_ERROR("Session " << session->GetId() << " - SSL stream is null, cannot start async read");
-            return;
-        }
-        
-        // Prüfe ob Socket noch offen ist
-        boost::system::error_code ec;
-        if (!sslStream->lowest_layer().is_open()) {
-            LOG_ERROR("Session " << session->GetId() << " - SSL socket is closed, cannot start async read");
-            return;
-        }
-        
-        sslStream->async_read_some(
-            boost::asio::buffer(recvBuf + recvBufUsed, RECV_BUF_SIZE - recvBufUsed),
-            boost::bind(
-                &ReceiveBuffer::HandleRead,
-                shared_from_this(),
-                session,
-                boost::asio::placeholders::error,
-                boost::asio::placeholders::bytes_transferred));
-    } else {
-        auto socket = session->GetAsioSocket();
-        if (!socket) {
-            LOG_ERROR("Session " << session->GetId() << " - Socket is null, cannot start async read");
-            return;
-        }
-        
-        // Prüfe ob Socket noch offen ist
-        boost::system::error_code ec;
-        if (!socket->is_open()) {
-            LOG_ERROR("Session " << session->GetId() << " - Socket is closed, cannot start async read");
-            return;
-        }
-        
-        socket->async_read_some(
-            boost::asio::buffer(recvBuf + recvBufUsed, RECV_BUF_SIZE - recvBufUsed),
-            boost::bind(
-                &ReceiveBuffer::HandleRead,
-                shared_from_this(),
-                session,
-                boost::asio::placeholders::error,
-                boost::asio::placeholders::bytes_transferred));
-    }
+	// Prüfe ob Session bereits geschlossen ist
+	if (session->GetState() == SessionData::Closed) {
+		return;  // Keine async_read auf geschlossenen Sessions
+	}
+
+	if (session->IsSsl()) {
+		auto sslStream = session->GetSslStream();
+		if (!sslStream) {
+			LOG_ERROR("Session " << session->GetId() << " - SSL stream is null, cannot start async read");
+			return;
+		}
+
+		// Prüfe ob Socket noch offen ist
+		boost::system::error_code ec;
+		if (!sslStream->lowest_layer().is_open()) {
+			LOG_ERROR("Session " << session->GetId() << " - SSL socket is closed, cannot start async read");
+			return;
+		}
+
+		sslStream->async_read_some(
+			boost::asio::buffer(recvBuf + recvBufUsed, RECV_BUF_SIZE - recvBufUsed),
+			boost::bind(
+				&ReceiveBuffer::HandleRead,
+				shared_from_this(),
+				session,
+				boost::asio::placeholders::error,
+				boost::asio::placeholders::bytes_transferred));
+	} else {
+		auto socket = session->GetAsioSocket();
+		if (!socket) {
+			LOG_ERROR("Session " << session->GetId() << " - Socket is null, cannot start async read");
+			return;
+		}
+
+		// Prüfe ob Socket noch offen ist
+		boost::system::error_code ec;
+		if (!socket->is_open()) {
+			LOG_ERROR("Session " << session->GetId() << " - Socket is closed, cannot start async read");
+			return;
+		}
+
+		socket->async_read_some(
+			boost::asio::buffer(recvBuf + recvBufUsed, RECV_BUF_SIZE - recvBufUsed),
+			boost::bind(
+				&ReceiveBuffer::HandleRead,
+				shared_from_this(),
+				session,
+				boost::asio::placeholders::error,
+				boost::asio::placeholders::bytes_transferred));
+	}
 }
 
 void
 AsioReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> session, const boost::system::error_code &error, size_t bytesRead)
 {
-    if (error == boost::asio::error::operation_aborted) {
-        // A locally cancelled read is only legitimate if the session was
-        // closed intentionally (state Closed; on shutdown handlers no longer
-        // run at all). If the session is still officially open, the socket
-        // handle was closed behind our back (e.g. after a write error) -
-        // swallowing the abort here would leave the session owner unaware of
-        // the disconnect: the client would hang "connected" in a dead game
-        // forever. Treat it as a connection loss instead.
-        if (session && session->GetState() != SessionData::Closed) {
-            LOG_ERROR("Session " << session->GetId() << " - read aborted while session still open, closing session");
-            session->Close(); // client: throws -> GUI error; server: cleanup
-        }
-        return;
-    }
-    {
-        try {
-            // Prüfe ob Session noch gültig und nicht geschlossen
-            if (!session || session->GetState() == SessionData::Closed) {
-                LOG_VERBOSE("Session " << (session ? session->GetId() : 0) << " - HandleRead on closed session, ignoring");
-                return;
-            }
-            
-            if (!error) {
-                // Sanity Check: bytesRead sollte nicht größer sein als der Buffer erlaubt
-                if (bytesRead > RECV_BUF_SIZE - recvBufUsed) {
-                    LOG_ERROR("Session " << session->GetId() << " - Buffer overflow prevented: bytesRead=" 
-                              << bytesRead << " available=" << (RECV_BUF_SIZE - recvBufUsed));
-                    session->Close();
-                    return;
-                }
-                recvBufUsed += bytesRead;
-                ScanPackets(session);
-                // Prüfe nochmal ob Session nach ScanPackets noch offen ist
-                if (session->GetState() != SessionData::Closed) {
-                    ProcessPackets(session);
-                    if (session->GetState() != SessionData::Closed) {
-                        StartAsyncRead(session);
-                    }
-                }
-            } else if (error == boost::asio::error::interrupted
-                       || error == boost::asio::error::try_again
-                       || error == boost::asio::error::would_block) {
-                // Transient errors: interrupted (EINTR), try_again (EAGAIN),
-                // would_block (EWOULDBLOCK / WSAEWOULDBLOCK on Windows).
-                // On Windows + WiFi, would_block can appear when the network
-                // stack is temporarily overwhelmed after a power-save resume.
-                // Retry the async read instead of closing the connection.
-                LOG_ERROR("Session " << session->GetId() << " - recv transient error, retrying: " << error);
-                if (session->GetState() != SessionData::Closed) {
-                    StartAsyncRead(session);
-                }
-            } else {
-                std::string playerInfo;
-                if (session->GetPlayerData()) {
-                    playerInfo = " player=\"" + session->GetPlayerData()->GetName() + "\"";
-                }
-                // Log the unsent backlog as well. It separates the two very
-                // different causes behind an otherwise identical error: a
-                // large backlog means we produced data the peer never took
-                // (peer stalled, or our egress is saturated), a backlog near
-                // zero means the connection itself died.
-                LOG_ERROR("Session " << session->GetId() << " (" << session->GetClientAddr() << playerInfo
-                          << ") - Connection closed: " << error
-                          << " (unsent: " << session->GetSendBuffer().GetPendingBytes() << " bytes)");
-                // Keep the cause for the activity log - by the time the lobby
-                // closes the session, the error is no longer in reach.
-                {
-                    std::ostringstream reasonStream;
-                    reasonStream << error;
-                    session->SetCloseReason(reasonStream.str());
-                }
-                session->Close();
-            }
-        } catch (const PokerTHException &) {
-            // Re-throw PokerTH exceptions (ClientException, etc.) so they
-            // propagate to ClientThread::Main() / ServerLobbyThread which
-            // translate them into proper GUI error messages via
-            // SignalNetClientError.
-            throw;
-        } catch (const exception &e) {
-            LOG_ERROR("Session " << session->GetId() << " - unhandled exception in HandleRead: " << e.what());
-            try {
-                session->Close();
-            } catch (...) {}
-        } catch (...) {
-            LOG_ERROR("Session " << (session ? session->GetId() : 0) << " - unknown exception in HandleRead");
-            try {
-                if (session) session->Close();
-            } catch (...) {}
-        }
-    }
+	if (error == boost::asio::error::operation_aborted) {
+		// A locally cancelled read is only legitimate if the session was
+		// closed intentionally (state Closed; on shutdown handlers no longer
+		// run at all). If the session is still officially open, the socket
+		// handle was closed behind our back (e.g. after a write error) -
+		// swallowing the abort here would leave the session owner unaware of
+		// the disconnect: the client would hang "connected" in a dead game
+		// forever. Treat it as a connection loss instead.
+		if (session && session->GetState() != SessionData::Closed) {
+			LOG_ERROR("Session " << session->GetId() << " - read aborted while session still open, closing session");
+			session->Close(); // client: throws -> GUI error; server: cleanup
+		}
+		return;
+	}
+	{
+		try {
+			// Prüfe ob Session noch gültig und nicht geschlossen
+			if (!session || session->GetState() == SessionData::Closed) {
+				LOG_VERBOSE("Session " << (session ? session->GetId() : 0) << " - HandleRead on closed session, ignoring");
+				return;
+			}
+
+			if (!error) {
+				// Sanity Check: bytesRead sollte nicht größer sein als der Buffer erlaubt
+				if (bytesRead > RECV_BUF_SIZE - recvBufUsed) {
+					LOG_ERROR("Session " << session->GetId() << " - Buffer overflow prevented: bytesRead="
+							  << bytesRead << " available=" << (RECV_BUF_SIZE - recvBufUsed));
+					session->Close();
+					return;
+				}
+				recvBufUsed += bytesRead;
+				ScanPackets(session);
+				// Prüfe nochmal ob Session nach ScanPackets noch offen ist
+				if (session->GetState() != SessionData::Closed) {
+					ProcessPackets(session);
+					if (session->GetState() != SessionData::Closed) {
+						StartAsyncRead(session);
+					}
+				}
+			} else if (error == boost::asio::error::interrupted
+					   || error == boost::asio::error::try_again
+					   || error == boost::asio::error::would_block) {
+				// Transient errors: interrupted (EINTR), try_again (EAGAIN),
+				// would_block (EWOULDBLOCK / WSAEWOULDBLOCK on Windows).
+				// On Windows + WiFi, would_block can appear when the network
+				// stack is temporarily overwhelmed after a power-save resume.
+				// Retry the async read instead of closing the connection.
+				LOG_ERROR("Session " << session->GetId() << " - recv transient error, retrying: " << error);
+				if (session->GetState() != SessionData::Closed) {
+					StartAsyncRead(session);
+				}
+			} else {
+				std::string playerInfo;
+				if (session->GetPlayerData()) {
+					playerInfo = " player=\"" + session->GetPlayerData()->GetName() + "\"";
+				}
+				// Log the unsent backlog as well. It separates the two very
+				// different causes behind an otherwise identical error: a
+				// large backlog means we produced data the peer never took
+				// (peer stalled, or our egress is saturated), a backlog near
+				// zero means the connection itself died.
+				LOG_ERROR("Session " << session->GetId() << " (" << session->GetClientAddr() << playerInfo
+						  << ") - Connection closed: " << error
+						  << " (unsent: " << session->GetSendBuffer().GetPendingBytes() << " bytes)");
+				// Keep the cause for the activity log - by the time the lobby
+				// closes the session, the error is no longer in reach.
+				{
+					std::ostringstream reasonStream;
+					reasonStream << error;
+					session->SetCloseReason(reasonStream.str());
+				}
+				session->Close();
+			}
+		} catch (const PokerTHException &) {
+			// Re-throw PokerTH exceptions (ClientException, etc.) so they
+			// propagate to ClientThread::Main() / ServerLobbyThread which
+			// translate them into proper GUI error messages via
+			// SignalNetClientError.
+			throw;
+		} catch (const exception &e) {
+			LOG_ERROR("Session " << session->GetId() << " - unhandled exception in HandleRead: " << e.what());
+			try {
+				session->Close();
+			} catch (...) {}
+		} catch (...) {
+			LOG_ERROR("Session " << (session ? session->GetId() : 0) << " - unknown exception in HandleRead");
+			try {
+				if (session) session->Close();
+			} catch (...) {}
+		}
+	}
 }
 
 void
@@ -223,12 +223,12 @@ AsioReceiveBuffer::ScanPackets(boost::shared_ptr<SessionData> session)
 			uint32_t nativeVal;
 			memcpy(&nativeVal, &recvBuf[0], sizeof(uint32_t));
 			size_t packetSize = ntohl(nativeVal);
-			
+
 			// Server-Härtung: Validiere Paketgröße für ALLE Verbindungen (SSL und non-SSL)
 			// Ungültige Paketgrößen deuten auf fehlerhafte Clients oder Angriffe hin
 			if (packetSize > MAX_PACKET_SIZE || packetSize == 0) {
-				LOG_ERROR(session->GetClientAddr() << "Session " << session->GetId() 
-				          << " - Invalid packet size: " << packetSize << " (max: " << MAX_PACKET_SIZE << ") - closing connection");
+				LOG_ERROR(session->GetClientAddr() << "Session " << session->GetId()
+						  << " - Invalid packet size: " << packetSize << " (max: " << MAX_PACKET_SIZE << ") - closing connection");
 				recvBufUsed = 0;
 				session->Close();
 				return;  // Beende sofort die Verarbeitung

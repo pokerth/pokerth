@@ -32,11 +32,11 @@
 #include "myslider.h"
 
 Slider::Slider(QWidget* parent):
-    QSlider( parent )
+	QSlider( parent )
 {
 }
 
 Slider::Slider(Qt::Orientation orientation, QWidget* parent):
-    QSlider( orientation, parent )
+	QSlider( orientation, parent )
 {
 }

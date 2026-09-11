@@ -55,7 +55,7 @@ public:
 	// im selben Look erscheint (theme-/tischfarben-korrekt), nur kursiv als
 	// Kennzeichnung. Von beiden Clients genutzt.
 	static QString styledTranslation(const QString &originalBodyHtml,
-	                                 const QString &translated);
+									 const QString &translated);
 
 signals:
 	void translated(int requestId, const QString &text, bool ok);

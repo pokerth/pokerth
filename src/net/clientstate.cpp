@@ -281,7 +281,7 @@ ClientStateStartServerListDownload::Enter(boost::shared_ptr<ClientThread> client
 		// Download the server list.
 		boost::shared_ptr<DownloadHelper> downloader(new DownloadHelper);
 		downloader->Init(client->GetContext().GetServerListUrl(), tmpServerListPath.string(),
-				"", "", MAX_SERVERLIST_DOWNLOAD_SIZE);
+						 "", "", MAX_SERVERLIST_DOWNLOAD_SIZE);
 		ClientStateDownloadingServerList::Instance().SetDownloadHelper(downloader);
 		client->SetState(ClientStateDownloadingServerList::Instance());
 	}
@@ -573,43 +573,43 @@ ClientStateStartConnect::~ClientStateStartConnect()
 void
 ClientStateStartConnect::Enter(boost::shared_ptr<ClientThread> client)
 {
-    m_handshakeRetryCount = 0; // Reset retry counter
-    
-    // Initialize handshake timer if using SSL
-    if (client->GetContext().GetSessionData()->IsSsl() && !m_handshakeTimer) {
-        m_handshakeTimer.reset(new boost::asio::steady_timer(client->GetStateTimer().get_executor()));
-    }
-    
-    client->GetStateTimer().expires_after(seconds(CLIENT_CONNECT_TIMEOUT_SEC));
-    client->GetStateTimer().async_wait(
-        boost::bind(
-            &ClientStateStartConnect::TimerTimeout, this, boost::asio::placeholders::error, client));
+	m_handshakeRetryCount = 0; // Reset retry counter
 
-    boost::asio::ip::tcp::endpoint endpoint = m_remoteEndpointIterator->endpoint();
+	// Initialize handshake timer if using SSL
+	if (client->GetContext().GetSessionData()->IsSsl() && !m_handshakeTimer) {
+		m_handshakeTimer.reset(new boost::asio::steady_timer(client->GetStateTimer().get_executor()));
+	}
 
-    if (client->GetContext().GetSessionData()->IsSsl()) {
-        client->GetContext().GetSessionData()->GetSslStream()->lowest_layer().async_connect(
-            endpoint,
-            boost::bind(&ClientStateStartConnect::HandleConnect,
-                        this,
-                        boost::asio::placeholders::error,
-                        ++m_remoteEndpointIterator,
-                        client));
-    } else {
-        client->GetContext().GetSessionData()->GetAsioSocket()->async_connect(
-            endpoint,
-            boost::bind(&ClientStateStartConnect::HandleConnect,
-                        this,
-                        boost::asio::placeholders::error,
-                        ++m_remoteEndpointIterator,
-                        client));
-    }
+	client->GetStateTimer().expires_after(seconds(CLIENT_CONNECT_TIMEOUT_SEC));
+	client->GetStateTimer().async_wait(
+		boost::bind(
+			&ClientStateStartConnect::TimerTimeout, this, boost::asio::placeholders::error, client));
+
+	boost::asio::ip::tcp::endpoint endpoint = m_remoteEndpointIterator->endpoint();
+
+	if (client->GetContext().GetSessionData()->IsSsl()) {
+		client->GetContext().GetSessionData()->GetSslStream()->lowest_layer().async_connect(
+			endpoint,
+			boost::bind(&ClientStateStartConnect::HandleConnect,
+						this,
+						boost::asio::placeholders::error,
+						++m_remoteEndpointIterator,
+						client));
+	} else {
+		client->GetContext().GetSessionData()->GetAsioSocket()->async_connect(
+			endpoint,
+			boost::bind(&ClientStateStartConnect::HandleConnect,
+						this,
+						boost::asio::placeholders::error,
+						++m_remoteEndpointIterator,
+						client));
+	}
 }
 
 void
 ClientStateStartConnect::Exit(boost::shared_ptr<ClientThread> client)
 {
-	
+
 	// Cancel and reset all timers
 	client->GetStateTimer().cancel();
 	if (m_retryTimer) {
@@ -633,383 +633,383 @@ ClientStateStartConnect::SetRemoteEndpoint(boost::asio::ip::tcp::resolver::resul
 
 void
 ClientStateStartConnect::HandleConnect(const boost::system::error_code& ec, boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp> endpoint_iterator,
-                                       boost::shared_ptr<ClientThread> client)
+									   boost::shared_ptr<ClientThread> client)
 {
-    if (&client->GetState() == this) {
-        if (!ec) {
-            // Set TCP_NODELAY to disable Nagle's algorithm for reduced latency
-            boost::asio::ip::tcp::no_delay option(true);
-            boost::system::error_code nodelay_ec;
-            if (client->GetContext().GetSessionData()->IsSsl()) {
-                client->GetContext().GetSessionData()->GetSslStream()->lowest_layer().set_option(option, nodelay_ec);
-            } else {
-                client->GetContext().GetSessionData()->GetAsioSocket()->set_option(option, nodelay_ec);
-            }
-            if (nodelay_ec) {
-            } else {
-            }
+	if (&client->GetState() == this) {
+		if (!ec) {
+			// Set TCP_NODELAY to disable Nagle's algorithm for reduced latency
+			boost::asio::ip::tcp::no_delay option(true);
+			boost::system::error_code nodelay_ec;
+			if (client->GetContext().GetSessionData()->IsSsl()) {
+				client->GetContext().GetSessionData()->GetSslStream()->lowest_layer().set_option(option, nodelay_ec);
+			} else {
+				client->GetContext().GetSessionData()->GetAsioSocket()->set_option(option, nodelay_ec);
+			}
+			if (nodelay_ec) {
+			} else {
+			}
 
-            // Enable TCP keepalive to detect dead connections and prevent
-            // NAT/firewall idle-connection drops.  This is critical on Windows
-            // where WiFi power management and home routers frequently cause
-            // silent connection deaths.
-            {
-                boost::asio::socket_base::keep_alive ka_option(true);
-                boost::system::error_code ka_ec;
-                if (client->GetContext().GetSessionData()->IsSsl()) {
-                    client->GetContext().GetSessionData()->GetSslStream()->lowest_layer().set_option(ka_option, ka_ec);
-                } else {
-                    client->GetContext().GetSessionData()->GetAsioSocket()->set_option(ka_option, ka_ec);
-                }
+			// Enable TCP keepalive to detect dead connections and prevent
+			// NAT/firewall idle-connection drops.  This is critical on Windows
+			// where WiFi power management and home routers frequently cause
+			// silent connection deaths.
+			{
+				boost::asio::socket_base::keep_alive ka_option(true);
+				boost::system::error_code ka_ec;
+				if (client->GetContext().GetSessionData()->IsSsl()) {
+					client->GetContext().GetSessionData()->GetSslStream()->lowest_layer().set_option(ka_option, ka_ec);
+				} else {
+					client->GetContext().GetSessionData()->GetAsioSocket()->set_option(ka_option, ka_ec);
+				}
 
-                if (!ka_ec) {
-                    // WiFi-friendly keepalive: tolerate brief WiFi power-save
-                    // sleep (common on Windows laptops, typically 10-30s).
-                    // First probe after 30s idle, then every 10s, fail after 6.
-                    // Total detection time: 30 + 6*10 = 90s.
-                    // (On Windows, probe count is OS-controlled ~10, so ~130s.)
-                    int fd = -1;
-                    if (client->GetContext().GetSessionData()->IsSsl()) {
-                        fd = static_cast<int>(client->GetContext().GetSessionData()->GetSslStream()->lowest_layer().native_handle());
-                    } else {
-                        fd = static_cast<int>(client->GetContext().GetSessionData()->GetAsioSocket()->native_handle());
-                    }
+				if (!ka_ec) {
+					// WiFi-friendly keepalive: tolerate brief WiFi power-save
+					// sleep (common on Windows laptops, typically 10-30s).
+					// First probe after 30s idle, then every 10s, fail after 6.
+					// Total detection time: 30 + 6*10 = 90s.
+					// (On Windows, probe count is OS-controlled ~10, so ~130s.)
+					int fd = -1;
+					if (client->GetContext().GetSessionData()->IsSsl()) {
+						fd = static_cast<int>(client->GetContext().GetSessionData()->GetSslStream()->lowest_layer().native_handle());
+					} else {
+						fd = static_cast<int>(client->GetContext().GetSessionData()->GetAsioSocket()->native_handle());
+					}
 #ifdef _WIN32
-                    // Windows: use SIO_KEEPALIVE_VALS via WSAIoctl
-                    struct tcp_keepalive keepaliveVals;
-                    keepaliveVals.onoff = 1;
-                    keepaliveVals.keepalivetime = 30000;      // 30s until first probe (ms)
-                    keepaliveVals.keepaliveinterval = 10000;  // 10s between probes (ms)
-                    DWORD bytesReturned = 0;
-                    int wsaRet = WSAIoctl(static_cast<SOCKET>(fd), SIO_KEEPALIVE_VALS,
-                             &keepaliveVals, sizeof(keepaliveVals),
-                             NULL, 0, &bytesReturned, NULL, NULL);
-                    if (wsaRet != 0) {
-                        qDebug() << "WSAIoctl SIO_KEEPALIVE_VALS failed: " << WSAGetLastError();
-                    }
-                    // TCP_KEEPCNT: Limit the number of keepalive probes.
-                    // Available since Windows 10 1703.  On older Windows
-                    // the call silently fails, keeping the OS default (~10).
-                    // With 6 probes at 10s intervals the total detection
-                    // time matches Linux/macOS: 30 + 6*10 = 90s.
-                    {
-                        int keepcnt = 6;
-                        setsockopt(static_cast<SOCKET>(fd), IPPROTO_TCP, TCP_KEEPCNT,
-                                   (const char*)&keepcnt, sizeof(keepcnt));
-                    }
+					// Windows: use SIO_KEEPALIVE_VALS via WSAIoctl
+					struct tcp_keepalive keepaliveVals;
+					keepaliveVals.onoff = 1;
+					keepaliveVals.keepalivetime = 30000;      // 30s until first probe (ms)
+					keepaliveVals.keepaliveinterval = 10000;  // 10s between probes (ms)
+					DWORD bytesReturned = 0;
+					int wsaRet = WSAIoctl(static_cast<SOCKET>(fd), SIO_KEEPALIVE_VALS,
+										  &keepaliveVals, sizeof(keepaliveVals),
+										  NULL, 0, &bytesReturned, NULL, NULL);
+					if (wsaRet != 0) {
+						qDebug() << "WSAIoctl SIO_KEEPALIVE_VALS failed: " << WSAGetLastError();
+					}
+					// TCP_KEEPCNT: Limit the number of keepalive probes.
+					// Available since Windows 10 1703.  On older Windows
+					// the call silently fails, keeping the OS default (~10).
+					// With 6 probes at 10s intervals the total detection
+					// time matches Linux/macOS: 30 + 6*10 = 90s.
+					{
+						int keepcnt = 6;
+						setsockopt(static_cast<SOCKET>(fd), IPPROTO_TCP, TCP_KEEPCNT,
+								   (const char*)&keepcnt, sizeof(keepcnt));
+					}
 #else
-                    // Linux / macOS: per-socket keepalive tuning
+					// Linux / macOS: per-socket keepalive tuning
 #if defined(TCP_KEEPALIVE) || defined(TCP_KEEPIDLE)
-                    int keepidle  = 30;   // seconds until first keepalive probe
-                    int keepintvl = 10;   // seconds between subsequent probes
-                    int keepcnt   = 6;    // failed probes before disconnect
+					int keepidle  = 30;   // seconds until first keepalive probe
+					int keepintvl = 10;   // seconds between subsequent probes
+					int keepcnt   = 6;    // failed probes before disconnect
 #ifdef TCP_KEEPALIVE
-                    setsockopt(fd, IPPROTO_TCP, TCP_KEEPALIVE, &keepidle,  sizeof(keepidle));
+					setsockopt(fd, IPPROTO_TCP, TCP_KEEPALIVE, &keepidle,  sizeof(keepidle));
 #else
-                    setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE,  &keepidle,  sizeof(keepidle));
+					setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE,  &keepidle,  sizeof(keepidle));
 #endif
-                    setsockopt(fd, IPPROTO_TCP, TCP_KEEPINTVL, &keepintvl, sizeof(keepintvl));
-                    setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &keepcnt,   sizeof(keepcnt));
+					setsockopt(fd, IPPROTO_TCP, TCP_KEEPINTVL, &keepintvl, sizeof(keepintvl));
+					setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &keepcnt,   sizeof(keepcnt));
 #endif
-                    // TCP_USER_TIMEOUT: abort connection if sent data remains
-                    // unacknowledged for 90s (matches keepalive detection time).
+					// TCP_USER_TIMEOUT: abort connection if sent data remains
+					// unacknowledged for 90s (matches keepalive detection time).
 #ifdef TCP_USER_TIMEOUT
-                    unsigned int user_timeout_ms = 90000;
-                    setsockopt(fd, IPPROTO_TCP, TCP_USER_TIMEOUT, &user_timeout_ms, sizeof(user_timeout_ms));
+					unsigned int user_timeout_ms = 90000;
+					setsockopt(fd, IPPROTO_TCP, TCP_USER_TIMEOUT, &user_timeout_ms, sizeof(user_timeout_ms));
 #endif
 #endif
-                }
+				}
 
-                // Increase socket buffers to absorb game-start traffic bursts
-                // on high-latency WiFi connections (default is often 8-16KB).
-                {
-                    boost::asio::socket_base::send_buffer_size    sndbuf(131072);  // 128 KB
-                    boost::asio::socket_base::receive_buffer_size rcvbuf(131072);  // 128 KB
-                    boost::system::error_code buf_ec;
-                    if (client->GetContext().GetSessionData()->IsSsl()) {
-                        client->GetContext().GetSessionData()->GetSslStream()->lowest_layer().set_option(sndbuf, buf_ec);
-                        client->GetContext().GetSessionData()->GetSslStream()->lowest_layer().set_option(rcvbuf, buf_ec);
-                    } else {
-                        client->GetContext().GetSessionData()->GetAsioSocket()->set_option(sndbuf, buf_ec);
-                        client->GetContext().GetSessionData()->GetAsioSocket()->set_option(rcvbuf, buf_ec);
-                    }
-                }
-            }
+				// Increase socket buffers to absorb game-start traffic bursts
+				// on high-latency WiFi connections (default is often 8-16KB).
+				{
+					boost::asio::socket_base::send_buffer_size    sndbuf(131072);  // 128 KB
+					boost::asio::socket_base::receive_buffer_size rcvbuf(131072);  // 128 KB
+					boost::system::error_code buf_ec;
+					if (client->GetContext().GetSessionData()->IsSsl()) {
+						client->GetContext().GetSessionData()->GetSslStream()->lowest_layer().set_option(sndbuf, buf_ec);
+						client->GetContext().GetSessionData()->GetSslStream()->lowest_layer().set_option(rcvbuf, buf_ec);
+					} else {
+						client->GetContext().GetSessionData()->GetAsioSocket()->set_option(sndbuf, buf_ec);
+						client->GetContext().GetSessionData()->GetAsioSocket()->set_option(rcvbuf, buf_ec);
+					}
+				}
+			}
 
-            if (client->GetContext().GetSessionData()->IsSsl()) {
-                // Start handshake with a timeout
-                
-                // Create handshake timeout timer
-                if (!m_handshakeTimer) {
-                    m_handshakeTimer.reset(new boost::asio::steady_timer(client->GetStateTimer().get_executor()));
-                } else {
-                }
-                m_handshakeTimer->expires_after(boost::asio::chrono::seconds(4));
-                m_handshakeTimer->async_wait(
-                    boost::bind(&ClientStateStartConnect::HandshakeTimeout,
-                                this,
-                                boost::asio::placeholders::error,
-                                client));
-                
-                client->GetContext().GetSessionData()->GetSslStream()->async_handshake(
-                    boost::asio::ssl::stream_base::client,
-                    boost::bind(&ClientStateStartConnect::HandleSslHandshake,
-                                this,
-                                boost::asio::placeholders::error,
-                                client));
-            } else {
-                client->GetCallback().SignalNetClientConnect(MSG_SOCK_CONNECT_DONE);
-                client->SetState(ClientStateStartSession::Instance());
-            }
-        } else if (endpoint_iterator != m_remoteEndpoint.end()) {
-            // Try next resolve entry.
-            ClientContext &context = client->GetContext();
-            boost::system::error_code closeEc;
-            boost::asio::ip::tcp::endpoint endpoint = endpoint_iterator->endpoint();
+			if (client->GetContext().GetSessionData()->IsSsl()) {
+				// Start handshake with a timeout
 
-            if (context.GetSessionData()->IsSsl()) {
-                context.GetSessionData()->GetSslStream()->lowest_layer().close(closeEc);
-                context.GetSessionData()->GetSslStream()->lowest_layer().async_connect(
-                    endpoint,
-                    boost::bind(&ClientStateStartConnect::HandleConnect,
-                                this,
-                                boost::asio::placeholders::error,
-                                ++m_remoteEndpointIterator,
-                                client));
-            } else {
-                context.GetSessionData()->GetAsioSocket()->close(closeEc);
-                context.GetSessionData()->GetAsioSocket()->async_connect(
-                    endpoint,
-                    boost::bind(&ClientStateStartConnect::HandleConnect,
-                                this,
-                                boost::asio::placeholders::error,
-                                ++m_remoteEndpointIterator,
-                                client));
-            }
-        } else {
-            if (ec != boost::asio::error::operation_aborted) {
-                if (client->GetContext().GetAddrFamily() == AF_INET6) {
-                    throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_IPV6_FAILED, ec.value());
-                } else {
-                    throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, ec.value());
-                }
-            }
-        }
-    }
+				// Create handshake timeout timer
+				if (!m_handshakeTimer) {
+					m_handshakeTimer.reset(new boost::asio::steady_timer(client->GetStateTimer().get_executor()));
+				} else {
+				}
+				m_handshakeTimer->expires_after(boost::asio::chrono::seconds(4));
+				m_handshakeTimer->async_wait(
+					boost::bind(&ClientStateStartConnect::HandshakeTimeout,
+								this,
+								boost::asio::placeholders::error,
+								client));
+
+				client->GetContext().GetSessionData()->GetSslStream()->async_handshake(
+					boost::asio::ssl::stream_base::client,
+					boost::bind(&ClientStateStartConnect::HandleSslHandshake,
+								this,
+								boost::asio::placeholders::error,
+								client));
+			} else {
+				client->GetCallback().SignalNetClientConnect(MSG_SOCK_CONNECT_DONE);
+				client->SetState(ClientStateStartSession::Instance());
+			}
+		} else if (endpoint_iterator != m_remoteEndpoint.end()) {
+			// Try next resolve entry.
+			ClientContext &context = client->GetContext();
+			boost::system::error_code closeEc;
+			boost::asio::ip::tcp::endpoint endpoint = endpoint_iterator->endpoint();
+
+			if (context.GetSessionData()->IsSsl()) {
+				context.GetSessionData()->GetSslStream()->lowest_layer().close(closeEc);
+				context.GetSessionData()->GetSslStream()->lowest_layer().async_connect(
+					endpoint,
+					boost::bind(&ClientStateStartConnect::HandleConnect,
+								this,
+								boost::asio::placeholders::error,
+								++m_remoteEndpointIterator,
+								client));
+			} else {
+				context.GetSessionData()->GetAsioSocket()->close(closeEc);
+				context.GetSessionData()->GetAsioSocket()->async_connect(
+					endpoint,
+					boost::bind(&ClientStateStartConnect::HandleConnect,
+								this,
+								boost::asio::placeholders::error,
+								++m_remoteEndpointIterator,
+								client));
+			}
+		} else {
+			if (ec != boost::asio::error::operation_aborted) {
+				if (client->GetContext().GetAddrFamily() == AF_INET6) {
+					throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_IPV6_FAILED, ec.value());
+				} else {
+					throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, ec.value());
+				}
+			}
+		}
+	}
 }
 
 void
 ClientStateStartConnect::HandleSslHandshake(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client)
 {
-    
-    if (&client->GetState() == this) {
-        // Cancel the handshake timeout timer
-        if (m_handshakeTimer) {
-            m_handshakeTimer->cancel();
-        }
-        
-        if (!ec) {
-            m_handshakeRetryCount = 0; // Reset counter on success
-            if (m_retryTimer) {
-                m_retryTimer->cancel(); // Cancel any pending retry timer
-            }
-            client->GetCallback().SignalNetClientConnect(MSG_SOCK_CONNECT_DONE);
-            client->SetState(ClientStateStartSession::Instance());
-        } else {
-            if (ec != boost::asio::error::operation_aborted) {
-                
-                // Without this the reason for a failed handshake is lost: the
-                // asio error alone only says "handshake failed", and the state
-                // machine turns it into a generic ERR_SOCK_CONNECT_FAILED.
-                LOG_ERROR("TLS handshake with " << client->GetContext().GetServerAddr()
-                          << ":" << client->GetContext().GetServerPort()
-                          << " failed: " << ec.message() << " [" << ec.category().name()
-                          << ":" << ec.value() << "], attempt " << (m_handshakeRetryCount + 1));
-                for (unsigned long ssl_err = ERR_get_error(); ssl_err != 0; ssl_err = ERR_get_error()) {
-                    char err_buf[256];
-                    ERR_error_string_n(ssl_err, err_buf, sizeof(err_buf));
-                    LOG_ERROR("TLS handshake OpenSSL detail: " << err_buf);
-                }
 
-                // Retry handshake up to 1 time
-                if (m_handshakeRetryCount < 1) {
-                    m_handshakeRetryCount++;
-                    // Delay: 2s
-                    int delayMs = 2000;
-                    
-                    // Reset timeout timer to give all retries enough time
-                    client->GetStateTimer().cancel();
-                    client->GetStateTimer().expires_after(seconds(CLIENT_CONNECT_TIMEOUT_SEC));
-                    client->GetStateTimer().async_wait(
-                        boost::bind(&ClientStateStartConnect::TimerTimeout,
-                                    this,
-                                    boost::asio::placeholders::error,
-                                    client));
-                    
-                    RetryHandshake(client);
-                } else {
-                    // Close the session to clean up async operations
-                    try {
-                        client->GetContext().GetSessionData()->Close();
-                    } catch (...) {
-                        // Ignore errors during close
-                    }
-                    throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, ec.value());
-                }
-            } else {
-                // Close the session to clean up async operations
-                try {
-                    client->GetContext().GetSessionData()->Close();
-                } catch (...) {
-                    // Ignore errors during close
-                }
-            }
-        }
-    } else {
-    }
+	if (&client->GetState() == this) {
+		// Cancel the handshake timeout timer
+		if (m_handshakeTimer) {
+			m_handshakeTimer->cancel();
+		}
+
+		if (!ec) {
+			m_handshakeRetryCount = 0; // Reset counter on success
+			if (m_retryTimer) {
+				m_retryTimer->cancel(); // Cancel any pending retry timer
+			}
+			client->GetCallback().SignalNetClientConnect(MSG_SOCK_CONNECT_DONE);
+			client->SetState(ClientStateStartSession::Instance());
+		} else {
+			if (ec != boost::asio::error::operation_aborted) {
+
+				// Without this the reason for a failed handshake is lost: the
+				// asio error alone only says "handshake failed", and the state
+				// machine turns it into a generic ERR_SOCK_CONNECT_FAILED.
+				LOG_ERROR("TLS handshake with " << client->GetContext().GetServerAddr()
+						  << ":" << client->GetContext().GetServerPort()
+						  << " failed: " << ec.message() << " [" << ec.category().name()
+						  << ":" << ec.value() << "], attempt " << (m_handshakeRetryCount + 1));
+				for (unsigned long ssl_err = ERR_get_error(); ssl_err != 0; ssl_err = ERR_get_error()) {
+					char err_buf[256];
+					ERR_error_string_n(ssl_err, err_buf, sizeof(err_buf));
+					LOG_ERROR("TLS handshake OpenSSL detail: " << err_buf);
+				}
+
+				// Retry handshake up to 1 time
+				if (m_handshakeRetryCount < 1) {
+					m_handshakeRetryCount++;
+					// Delay: 2s
+					int delayMs = 2000;
+
+					// Reset timeout timer to give all retries enough time
+					client->GetStateTimer().cancel();
+					client->GetStateTimer().expires_after(seconds(CLIENT_CONNECT_TIMEOUT_SEC));
+					client->GetStateTimer().async_wait(
+						boost::bind(&ClientStateStartConnect::TimerTimeout,
+									this,
+									boost::asio::placeholders::error,
+									client));
+
+					RetryHandshake(client);
+				} else {
+					// Close the session to clean up async operations
+					try {
+						client->GetContext().GetSessionData()->Close();
+					} catch (...) {
+						// Ignore errors during close
+					}
+					throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, ec.value());
+				}
+			} else {
+				// Close the session to clean up async operations
+				try {
+					client->GetContext().GetSessionData()->Close();
+				} catch (...) {
+					// Ignore errors during close
+				}
+			}
+		}
+	} else {
+	}
 }
 
 void
 ClientStateStartConnect::RetryHandshake(boost::shared_ptr<ClientThread> client)
 {
-    // Use exponential backoff: 500ms, 1s, 2s, 4s, 8s
-    int delayMs = 250 * (1 << m_handshakeRetryCount);
-    
-    
-    // Cancel any existing retry timer
-    if (m_retryTimer) {
-        m_retryTimer->cancel();
-    }
-    
-    // Create or reuse the retry timer - use the same executor as GetStateTimer
-    if (!m_retryTimer) {
-        m_retryTimer.reset(new boost::asio::steady_timer(client->GetStateTimer().get_executor()));
-    }
-    
-    // Schedule the retry with delay
-    m_retryTimer->expires_after(boost::asio::chrono::milliseconds(delayMs));
-    m_retryTimer->async_wait(
-        boost::bind(&ClientStateStartConnect::RetryHandshakeTimer,
-                    this,
-                    boost::asio::placeholders::error,
-                    client));
+	// Use exponential backoff: 500ms, 1s, 2s, 4s, 8s
+	int delayMs = 250 * (1 << m_handshakeRetryCount);
+
+
+	// Cancel any existing retry timer
+	if (m_retryTimer) {
+		m_retryTimer->cancel();
+	}
+
+	// Create or reuse the retry timer - use the same executor as GetStateTimer
+	if (!m_retryTimer) {
+		m_retryTimer.reset(new boost::asio::steady_timer(client->GetStateTimer().get_executor()));
+	}
+
+	// Schedule the retry with delay
+	m_retryTimer->expires_after(boost::asio::chrono::milliseconds(delayMs));
+	m_retryTimer->async_wait(
+		boost::bind(&ClientStateStartConnect::RetryHandshakeTimer,
+					this,
+					boost::asio::placeholders::error,
+					client));
 }
 
 void
 ClientStateStartConnect::RetryHandshakeTimer(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client)
 {
-    if (!ec && &client->GetState() == this) {
-        
-        ClientContext &context = client->GetContext();
-        
-        // Close the old session completely
-        try {
-            context.GetSessionData()->Close();
-        } catch (...) {
-            // Ignore errors during close
-        }
-        
-        // Recreate the session with a new SSL stream
-        client->CreateContextSession();
-        
-        // Reset the connection timeout timer to give this retry enough time
-        client->GetStateTimer().cancel();
-        client->GetStateTimer().expires_after(seconds(CLIENT_CONNECT_TIMEOUT_SEC));
-        client->GetStateTimer().async_wait(
-            boost::bind(&ClientStateStartConnect::TimerTimeout,
-                        this,
-                        boost::asio::placeholders::error,
-                        client));
-        
-        // Reset iterator to first endpoint for retry
-        m_remoteEndpointIterator = m_remoteEndpoint.begin();
-        
-        // Get the first endpoint
-        boost::asio::ip::tcp::endpoint endpoint = m_remoteEndpointIterator->endpoint();
-        
-        // Reconnect with the NEW session
-        context.GetSessionData()->GetSslStream()->lowest_layer().async_connect(
-            endpoint,
-            boost::bind(&ClientStateStartConnect::HandleConnect,
-                        this,
-                        boost::asio::placeholders::error,
-                        ++m_remoteEndpointIterator,
-                        client));
-    } else if (ec == boost::asio::error::operation_aborted) {
-    }
+	if (!ec && &client->GetState() == this) {
+
+		ClientContext &context = client->GetContext();
+
+		// Close the old session completely
+		try {
+			context.GetSessionData()->Close();
+		} catch (...) {
+			// Ignore errors during close
+		}
+
+		// Recreate the session with a new SSL stream
+		client->CreateContextSession();
+
+		// Reset the connection timeout timer to give this retry enough time
+		client->GetStateTimer().cancel();
+		client->GetStateTimer().expires_after(seconds(CLIENT_CONNECT_TIMEOUT_SEC));
+		client->GetStateTimer().async_wait(
+			boost::bind(&ClientStateStartConnect::TimerTimeout,
+						this,
+						boost::asio::placeholders::error,
+						client));
+
+		// Reset iterator to first endpoint for retry
+		m_remoteEndpointIterator = m_remoteEndpoint.begin();
+
+		// Get the first endpoint
+		boost::asio::ip::tcp::endpoint endpoint = m_remoteEndpointIterator->endpoint();
+
+		// Reconnect with the NEW session
+		context.GetSessionData()->GetSslStream()->lowest_layer().async_connect(
+			endpoint,
+			boost::bind(&ClientStateStartConnect::HandleConnect,
+						this,
+						boost::asio::placeholders::error,
+						++m_remoteEndpointIterator,
+						client));
+	} else if (ec == boost::asio::error::operation_aborted) {
+	}
 }
 
 void
 ClientStateStartConnect::HandshakeTimeout(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client)
 {
-    
-    if (!ec && &client->GetState() == this) {
-        
-        // Close the hanging SSL connection
-        ClientContext &context = client->GetContext();
-        if (context.GetSessionData()) {
-            try {
-                context.GetSessionData()->CloseSocketHandle();
-            } catch (...) {
-            }
-        }
-        
-        // Trigger retry logic
-        if (m_handshakeRetryCount < 1) {
-            m_handshakeRetryCount++;
-            // Wartezeit: 2s (insgesamt ~10s: 4s + 2s + 4s)
-            int delayMs = 2000;
-            
-            // Reset connection timeout timer
-            client->GetStateTimer().cancel();
-            client->GetStateTimer().expires_after(seconds(CLIENT_CONNECT_TIMEOUT_SEC));
-            client->GetStateTimer().async_wait(
-                boost::bind(&ClientStateStartConnect::TimerTimeout,
-                            this,
-                            boost::asio::placeholders::error,
-                            client));
-            
-            RetryHandshake(client);
-        } else {
-            // Close the session to clean up async operations
-            try {
-                context.GetSessionData()->Close();
-            } catch (...) {
-                // Ignore errors during close
-            }
-            if (context.GetAddrFamily() == AF_INET6)
-                throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_IPV6_FAILED, 0);
-            else
-                throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, 0);
-        }
-    } else if (ec == boost::asio::error::operation_aborted) {
-    }
+
+	if (!ec && &client->GetState() == this) {
+
+		// Close the hanging SSL connection
+		ClientContext &context = client->GetContext();
+		if (context.GetSessionData()) {
+			try {
+				context.GetSessionData()->CloseSocketHandle();
+			} catch (...) {
+			}
+		}
+
+		// Trigger retry logic
+		if (m_handshakeRetryCount < 1) {
+			m_handshakeRetryCount++;
+			// Wartezeit: 2s (insgesamt ~10s: 4s + 2s + 4s)
+			int delayMs = 2000;
+
+			// Reset connection timeout timer
+			client->GetStateTimer().cancel();
+			client->GetStateTimer().expires_after(seconds(CLIENT_CONNECT_TIMEOUT_SEC));
+			client->GetStateTimer().async_wait(
+				boost::bind(&ClientStateStartConnect::TimerTimeout,
+							this,
+							boost::asio::placeholders::error,
+							client));
+
+			RetryHandshake(client);
+		} else {
+			// Close the session to clean up async operations
+			try {
+				context.GetSessionData()->Close();
+			} catch (...) {
+				// Ignore errors during close
+			}
+			if (context.GetAddrFamily() == AF_INET6)
+				throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_IPV6_FAILED, 0);
+			else
+				throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, 0);
+		}
+	} else if (ec == boost::asio::error::operation_aborted) {
+	}
 }
 
 void
 ClientStateStartConnect::TimerTimeout(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client)
 {
-    
-    if (!ec && &client->GetState() == this) {
-        ClientContext &context = client->GetContext();
 
-        if (context.GetSessionData()) {
-            try {
-                context.GetSessionData()->Close();
-            } catch (...) {
-                // Ignore errors during close
-            }
-        }
+	if (!ec && &client->GetState() == this) {
+		ClientContext &context = client->GetContext();
 
-        if (context.GetAddrFamily() == AF_INET6)
-            throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_IPV6_FAILED, 0);
-        else
-            throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, 0);
-    } else {
-        if (ec) {
-        } else {
-        }
-    }
+		if (context.GetSessionData()) {
+			try {
+				context.GetSessionData()->Close();
+			} catch (...) {
+				// Ignore errors during close
+			}
+		}
+
+		if (context.GetAddrFamily() == AF_INET6)
+			throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_IPV6_FAILED, 0);
+		else
+			throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, 0);
+	} else {
+		if (ec) {
+		} else {
+		}
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -1158,13 +1158,13 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		// Verlust ist der gesuchte UTG/SB-preflop-Bug-Indikator.
 		const YourActionRejectedMessage &rej = tmpPacket->GetMsg()->youractionrejectedmessage();
 		qDebug() << "[REJECT] YourActionRejected"
-		         << "gamestate=" << (int)rej.gamestate()
-		         << "(0=Pre,1=F,2=T,3=R)"
-		         << "youraction=" << (int)rej.youraction()
-		         << "(1=FOLD,2=CHK,3=CALL,4=BET,5=RAISE,6=ALLIN)"
-		         << "yourbet=" << (int)rej.yourrelativebet()
-		         << "reason=" << (int)rej.rejectionreason()
-		         << "(1=INVALID_STATE,2=NOT_YOUR_TURN,3=NOT_ALLOWED)";
+				 << "gamestate=" << (int)rej.gamestate()
+				 << "(0=Pre,1=F,2=T,3=R)"
+				 << "youraction=" << (int)rej.youraction()
+				 << "(1=FOLD,2=CHK,3=CALL,4=BET,5=RAISE,6=ALLIN)"
+				 << "yourbet=" << (int)rej.yourrelativebet()
+				 << "reason=" << (int)rej.rejectionreason()
+				 << "(1=INVALID_STATE,2=NOT_YOUR_TURN,3=NOT_ALLOWED)";
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_ChatMessage) {
 		// Chat message - display it in the GUI.
 		const ChatMessage &netMessage = tmpPacket->GetMsg()->chatmessage();
@@ -1557,73 +1557,73 @@ ClientStateWaitEnterLogin::HandlePacket(boost::shared_ptr<ClientThread> /*client
 void
 ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client)
 {
-    if (!ec && &client->GetState() == this) {
-        ClientThread::LoginData loginData;
-        if (client->GetLoginData(loginData)) {
-            ClientContext &context = client->GetContext();
-            boost::shared_ptr<NetPacket> init(new NetPacket);
-            init->GetMsg()->set_messagetype(PokerTHMessage::Type_InitMessage);
-            InitMessage *netInit = init->GetMsg()->mutable_initmessage();
-            netInit->mutable_requestedversion()->set_majorversion(NET_VERSION_MAJOR);
-            netInit->mutable_requestedversion()->set_minorversion(NET_VERSION_MINOR);
-            // Announce the version matching the client type (see above).
-            netInit->set_buildid(GetOwnBuildId(context));
-            netInit->set_clientplatform(GetOwnClientPlatform());
-            
-            // Include session GUID and server password BEFORE setting login type
-            if (!context.GetSessionGuid().empty()) {
-                netInit->set_mylastsessionid(context.GetSessionGuid());
-            }
-            // Rejoin-Diagnose (siehe unauth-Pfad oben): leere mylastsessionid =>
-            // kein Wiedereinstieg möglich.
-            LOG_MSG("[REJOIN] sending Init (auth), mylastsessionid size="
-                    << context.GetSessionGuid().size());
-            if (!context.GetServerPassword().empty()) {
-                netInit->set_authserverpassword(context.GetServerPassword());
-            }
+	if (!ec && &client->GetState() == this) {
+		ClientThread::LoginData loginData;
+		if (client->GetLoginData(loginData)) {
+			ClientContext &context = client->GetContext();
+			boost::shared_ptr<NetPacket> init(new NetPacket);
+			init->GetMsg()->set_messagetype(PokerTHMessage::Type_InitMessage);
+			InitMessage *netInit = init->GetMsg()->mutable_initmessage();
+			netInit->mutable_requestedversion()->set_majorversion(NET_VERSION_MAJOR);
+			netInit->mutable_requestedversion()->set_minorversion(NET_VERSION_MINOR);
+			// Announce the version matching the client type (see above).
+			netInit->set_buildid(GetOwnBuildId(context));
+			netInit->set_clientplatform(GetOwnClientPlatform());
 
-            context.SetPlayerName(loginData.userName);
+			// Include session GUID and server password BEFORE setting login type
+			if (!context.GetSessionGuid().empty()) {
+				netInit->set_mylastsessionid(context.GetSessionGuid());
+			}
+			// Rejoin-Diagnose (siehe unauth-Pfad oben): leere mylastsessionid =>
+			// kein Wiedereinstieg möglich.
+			LOG_MSG("[REJOIN] sending Init (auth), mylastsessionid size="
+					<< context.GetSessionGuid().size());
+			if (!context.GetServerPassword().empty()) {
+				netInit->set_authserverpassword(context.GetServerPassword());
+			}
 
-            // Send avatar hash for all login types (guest and authenticated).
-            {
-                string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
-                if (!avatarFile.empty()) {
-                    MD5Buf tmpMD5;
-                    if (client->GetAvatarManager().GetHashForAvatar(avatarFile, tmpMD5)) {
-                        netInit->set_avatarhash(tmpMD5.GetData(), MD5_DATA_SIZE);
-                    }
-                }
-            }
+			context.SetPlayerName(loginData.userName);
 
-            // Handle guest login first.
-            if (loginData.isGuest) {
-                context.SetPassword("");
-                context.SetPlayerRights(PLAYER_RIGHTS_GUEST);
-                netInit->set_login(InitMessage::guestLogin);
-                netInit->set_nickname(context.GetPlayerName());
+			// Send avatar hash for all login types (guest and authenticated).
+			{
+				string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
+				if (!avatarFile.empty()) {
+					MD5Buf tmpMD5;
+					if (client->GetAvatarManager().GetHashForAvatar(avatarFile, tmpMD5)) {
+						netInit->set_avatarhash(tmpMD5.GetData(), MD5_DATA_SIZE);
+					}
+				}
+			}
 
-                client->GetSender().Send(context.GetSessionData(), init);
-                client->SetState(ClientStateWaitSession::Instance());
-            }
-            // If the player is not a guest, authenticate.
-            else {
-                context.SetPassword(loginData.password);
-                netInit->set_login(InitMessage::authenticatedLogin);
-                netInit->set_nickname(context.GetPlayerName());
-                if (!context.GetPassword().empty()) {
-                    netInit->set_clientuserdata(context.GetPassword());
-                }
+			// Handle guest login first.
+			if (loginData.isGuest) {
+				context.SetPassword("");
+				context.SetPlayerRights(PLAYER_RIGHTS_GUEST);
+				netInit->set_login(InitMessage::guestLogin);
+				netInit->set_nickname(context.GetPlayerName());
 
-                client->GetSender().Send(context.GetSessionData(), init);
-                client->SetState(ClientStateWaitSession::Instance());
-            }
-        } else {
-            client->GetStateTimer().expires_after(milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
-            client->GetStateTimer().async_wait(
-                boost::bind(
-                    &ClientStateWaitEnterLogin::TimerLoop, this, boost::asio::placeholders::error, client));
-        }
-    }
+				client->GetSender().Send(context.GetSessionData(), init);
+				client->SetState(ClientStateWaitSession::Instance());
+			}
+			// If the player is not a guest, authenticate.
+			else {
+				context.SetPassword(loginData.password);
+				netInit->set_login(InitMessage::authenticatedLogin);
+				netInit->set_nickname(context.GetPlayerName());
+				if (!context.GetPassword().empty()) {
+					netInit->set_clientuserdata(context.GetPassword());
+				}
+
+				client->GetSender().Send(context.GetSessionData(), init);
+				client->SetState(ClientStateWaitSession::Instance());
+			}
+		} else {
+			client->GetStateTimer().expires_after(milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
+			client->GetStateTimer().async_wait(
+				boost::bind(
+					&ClientStateWaitEnterLogin::TimerLoop, this, boost::asio::placeholders::error, client));
+		}
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -1913,11 +1913,11 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_InviteNotifyMessage) {
 		const InviteNotifyMessage &netInvNotify = tmpPacket->GetMsg()->invitenotifymessage();
 		qDebug() << "[INVITE] ClientStateWaitJoin: InviteNotifyMessage received"
-		         << "playeridwho=" << netInvNotify.playeridwho()
-		         << "playeridbywhom=" << netInvNotify.playeridbywhom()
-		         << "gameid=" << netInvNotify.gameid()
-		         << "myPlayerId=" << client->GetGuiPlayerId()
-		         << "isSelf=" << (netInvNotify.playeridwho() == client->GetGuiPlayerId());
+				 << "playeridwho=" << netInvNotify.playeridwho()
+				 << "playeridbywhom=" << netInvNotify.playeridbywhom()
+				 << "gameid=" << netInvNotify.gameid()
+				 << "myPlayerId=" << client->GetGuiPlayerId()
+				 << "isSelf=" << (netInvNotify.playeridwho() == client->GetGuiPlayerId());
 		if (netInvNotify.playeridwho() == client->GetGuiPlayerId()) {
 			client->GetCallback().SignalSelfGameInvitation(netInvNotify.gameid(), netInvNotify.playeridbywhom());
 		}
@@ -1976,11 +1976,11 @@ ClientStateWaitGame::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_InviteNotifyMessage) {
 		const InviteNotifyMessage &netInvNotify = tmpPacket->GetMsg()->invitenotifymessage();
 		qDebug() << "[INVITE] ClientStateWaitGame: InviteNotifyMessage received"
-		         << "playeridwho=" << netInvNotify.playeridwho()
-		         << "playeridbywhom=" << netInvNotify.playeridbywhom()
-		         << "gameid=" << netInvNotify.gameid()
-		         << "myPlayerId=" << client->GetGuiPlayerId()
-		         << "isSelf=" << (netInvNotify.playeridwho() == client->GetGuiPlayerId());
+				 << "playeridwho=" << netInvNotify.playeridwho()
+				 << "playeridbywhom=" << netInvNotify.playeridbywhom()
+				 << "gameid=" << netInvNotify.gameid()
+				 << "myPlayerId=" << client->GetGuiPlayerId()
+				 << "isSelf=" << (netInvNotify.playeridwho() == client->GetGuiPlayerId());
 		if (netInvNotify.playeridwho() == client->GetGuiPlayerId()) {
 			client->GetCallback().SignalSelfGameInvitation(netInvNotify.gameid(), netInvNotify.playeridbywhom());
 		} else {
@@ -2068,9 +2068,9 @@ ClientStateSynchronizeStart::InternalHandlePacket(boost::shared_ptr<ClientThread
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_InviteNotifyMessage) {
 		const InviteNotifyMessage &netInvNotify = tmpPacket->GetMsg()->invitenotifymessage();
 		qDebug() << "[INVITE] ClientStateSynchronizeStart: InviteNotifyMessage DROPPED"
-		         << "playeridwho=" << netInvNotify.playeridwho()
-		         << "gameid=" << netInvNotify.gameid()
-		         << "isSelf=" << (netInvNotify.playeridwho() == client->GetGuiPlayerId());
+				 << "playeridwho=" << netInvNotify.playeridwho()
+				 << "gameid=" << netInvNotify.gameid()
+				 << "isSelf=" << (netInvNotify.playeridwho() == client->GetGuiPlayerId());
 	}
 }
 
@@ -2292,8 +2292,8 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		for (size_t s = 0; s < pendingSeatStates.size(); s++) {
 			const SeatStateEntry &entry = pendingSeatStates[s];
 			const char* stateStr = (entry.state == netPlayerStateNormal) ? "Normal" :
-				(entry.state == netPlayerStateSessionInactive) ? "SessionInactive" :
-				(entry.state == netPlayerStateNoMoney) ? "NoMoney" : "Unknown";
+								   (entry.state == netPlayerStateSessionInactive) ? "SessionInactive" :
+								   (entry.state == netPlayerStateNoMoney) ? "NoMoney" : "Unknown";
 			switch (entry.state) {
 			case netPlayerStateNormal :
 				entry.player->setIsSessionActive(true);
@@ -2337,7 +2337,7 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		}
 		client->GetGame()->initHand();
 		qDebug() << "[ACTDBG] initHand done, new handID=" << client->GetGame()->getCurrentHandID()
-		         << "player0Action=" << client->GetGame()->getSeatsList()->front()->getMyAction();
+				 << "player0Action=" << client->GetGame()->getSeatsList()->front()->getMyAction();
 		client->GetGame()->getCurrentHand()->setSmallBlind(netHandStart.smallblind());
 		client->GetGame()->getCurrentHand()->getCurrentBeRo()->setMinimumRaise(2 * netHandStart.smallblind());
 		client->GetGame()->startHand();
@@ -2493,41 +2493,41 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		if (tmpPlayer->getMyID() == 0) {
 			auto bero1 = curGame->getCurrentHand()->getCurrentBeRo();
 			qDebug() << "[ACTDBG] PAD->setAction(p0) action=" << (int)netActionDone.playeraction()
-			         << "padGameState=" << (int)netActionDone.gamestate()
-			         << "(0=Pre,1=F,2=T,3=R,4=SB,5=BB)"
-			         << "curHandID=" << curGame->getCurrentHandID()
-			         << "curRound=" << (int)curGame->getCurrentHand()->getCurrentRound()
-			         << "button=" << (int)tmpPlayer->getMyButton()
-			         << "bbPosId=" << (bero1 ? (int)bero1->getBigBlindPositionId() : -99)
-			         << "prevPlayerId=" << curGame->getCurrentHand()->getPreviousPlayerID()
-			         << "firstRound=" << (bero1 ? bero1->getFirstRound() : -1);
+					 << "padGameState=" << (int)netActionDone.gamestate()
+					 << "(0=Pre,1=F,2=T,3=R,4=SB,5=BB)"
+					 << "curHandID=" << curGame->getCurrentHandID()
+					 << "curRound=" << (int)curGame->getCurrentHand()->getCurrentRound()
+					 << "button=" << (int)tmpPlayer->getMyButton()
+					 << "bbPosId=" << (bero1 ? (int)bero1->getBigBlindPositionId() : -99)
+					 << "prevPlayerId=" << curGame->getCurrentHand()->getPreviousPlayerID()
+					 << "firstRound=" << (bero1 ? bero1->getFirstRound() : -1);
 		}
 		// CRITICAL: Only update set if we're still in the same game state
 		// After Flop/Turn/River, collectPot() has already been called and sets were cleared
 		// Don't restore sets from stale PlayersActionDoneMessage that arrive after card dealing
 		GameState currentRound = curGame->getCurrentHand()->getCurrentRound();
 		bool shouldUpdateSet = false;
-		
+
 		switch (netActionDone.gamestate()) {
-			case netStatePreflopSmallBlind:
-			case netStatePreflopBigBlind:
-			case netStatePreflop:
-				shouldUpdateSet = (currentRound == GAME_STATE_PREFLOP);
-				break;
-			case netStateFlop:
-				shouldUpdateSet = (currentRound == GAME_STATE_FLOP);
-				break;
-			case netStateTurn:
-				shouldUpdateSet = (currentRound == GAME_STATE_TURN);
-				break;
-			case netStateRiver:
-				shouldUpdateSet = (currentRound == GAME_STATE_RIVER);
-				break;
-			default:
-				shouldUpdateSet = true;
-				break;
+		case netStatePreflopSmallBlind:
+		case netStatePreflopBigBlind:
+		case netStatePreflop:
+			shouldUpdateSet = (currentRound == GAME_STATE_PREFLOP);
+			break;
+		case netStateFlop:
+			shouldUpdateSet = (currentRound == GAME_STATE_FLOP);
+			break;
+		case netStateTurn:
+			shouldUpdateSet = (currentRound == GAME_STATE_TURN);
+			break;
+		case netStateRiver:
+			shouldUpdateSet = (currentRound == GAME_STATE_RIVER);
+			break;
+		default:
+			shouldUpdateSet = true;
+			break;
 		}
-		
+
 		// CRITICAL: If message is from a different game state, ignore it completely
 		// (e.g., Preflop All-In action arriving during Flop/Turn/River)
 		// This prevents stale values from being processed and displayed
@@ -2537,7 +2537,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			// if collectPot() hadn't been called yet.
 			return;
 		}
-		
+
 		if (shouldUpdateSet) {
 			// totalplayerbet is the player's cumulative bet in the current phase.
 			// Always use it when available, regardless of remaining cash.
@@ -2550,11 +2550,11 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		// Cash from valid (non-stale) messages is always authoritative.
 		// Stale messages are already filtered by the shouldUpdateSet check above.
 		tmpPlayer->setMyCash(netActionDone.playermoney());
-		
-		
+
+
 		curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(netActionDone.highestset());
 		curGame->getCurrentHand()->getCurrentBeRo()->setMinimumRaise(netActionDone.minimumraise());
-		
+
 		// Track lastActionPlayerID for showdown card reveal logic (same as server)
 		PlayerAction action = PlayerAction(netActionDone.playeraction());
 		if (action == PLAYER_ACTION_BET || action == PLAYER_ACTION_RAISE) {
@@ -2565,7 +2565,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 				curGame->getCurrentHand()->setLastActionPlayerID(tmpPlayer->getMyUniqueID());
 			}
 		}
-		
+
 		// collectSets() and switchRounds() are always called when shouldUpdateSet is true
 		// [RACEDBG] These mutate the shared Hand (player-list iteration) on the
 		// NETWORK thread. GameHandler::fold()/doActionDone() mutate the same Hand
@@ -2573,7 +2573,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		// different thread id appears interleaved between BEGIN and END here in
 		// pokerth-debug.log, that overlap is the freeze.
 		qDebug() << "[RACEDBG] net: collectSets/switchRounds BEGIN handID="
-		         << curGame->getCurrentHandID();
+				 << curGame->getCurrentHandID();
 		curGame->getCurrentHand()->getBoard()->collectSets();
 		curGame->getCurrentHand()->switchRounds();
 		qDebug() << "[RACEDBG] net: collectSets/switchRounds END";
@@ -2606,11 +2606,11 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		// Refresh GUI
 		if (tmpPlayer->getMyID() == 0) {
 			qDebug() << "[PADDBG] PAD-for-me triggers disableMyButtons"
-			         << "padAction=" << (int)netActionDone.playeraction()
-			         << "padGameState=" << (int)netActionDone.gamestate()
-			         << "(0=Pre,1=F,2=T,3=R,4=PreSB,5=PreBB)"
-			         << "totalBet=" << (int)netActionDone.totalplayerbet()
-			         << "highestSet=" << (int)netActionDone.highestset();
+					 << "padAction=" << (int)netActionDone.playeraction()
+					 << "padGameState=" << (int)netActionDone.gamestate()
+					 << "(0=Pre,1=F,2=T,3=R,4=PreSB,5=PreBB)"
+					 << "totalBet=" << (int)netActionDone.totalplayerbet()
+					 << "highestSet=" << (int)netActionDone.highestset();
 			client->GetGui().disableMyButtons();
 		}
 		client->GetGui().refreshAction(tmpPlayer->getMyID(), tmpPlayer->getMyAction());
@@ -2661,16 +2661,16 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		if (tmpPlayer->getMyID() == 0 && !client->IsSpectating()) {
 			auto bero0 = curGame->getCurrentHand()->getCurrentBeRo();
 			qDebug() << "[BBDBG] PlayersTurnMessage seat0"
-			         << "msgGameState=" << (int)netPlayersTurn.gamestate()
-			         << "curRound=" << (int)curGame->getCurrentHand()->getCurrentRound()
-			         << "p0Action=" << (int)tmpPlayer->getMyAction()
-			         << "p0Button=" << (int)tmpPlayer->getMyButton()
-			         << "(1=D,2=SB,3=BB)"
-			         << "bbPosId=" << (bero0 ? (int)bero0->getBigBlindPositionId() : -99)
-			         << "prevPlayerId=" << curGame->getCurrentHand()->getPreviousPlayerID()
-			         << "firstRound=" << (bero0 ? bero0->getFirstRound() : -1)
-			         << "highestSet=" << (bero0 ? bero0->getHighestSet() : -1)
-			         << "p0Set=" << tmpPlayer->getMySet();
+					 << "msgGameState=" << (int)netPlayersTurn.gamestate()
+					 << "curRound=" << (int)curGame->getCurrentHand()->getCurrentRound()
+					 << "p0Action=" << (int)tmpPlayer->getMyAction()
+					 << "p0Button=" << (int)tmpPlayer->getMyButton()
+					 << "(1=D,2=SB,3=BB)"
+					 << "bbPosId=" << (bero0 ? (int)bero0->getBigBlindPositionId() : -99)
+					 << "prevPlayerId=" << curGame->getCurrentHand()->getPreviousPlayerID()
+					 << "firstRound=" << (bero0 ? bero0->getFirstRound() : -1)
+					 << "highestSet=" << (bero0 ? bero0->getHighestSet() : -1)
+					 << "p0Set=" << tmpPlayer->getMySet();
 			// Only allow action if player has cash and is not already All-In
 			if (tmpPlayer->getMyCash() > 0 || tmpPlayer->getMyAction() != PLAYER_ACTION_ALLIN) {
 				client->GetGui().meInAction();
@@ -2692,7 +2692,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		client->GetGui().refreshSet();
 		client->GetGui().refreshPot();
 		client->GetGui().waitForGuiUpdateDone();
-		
+
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
 		ResetPlayerSets(*curGame);
 
@@ -2716,7 +2716,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		client->GetGui().refreshSet();
 		client->GetGui().refreshPot();
 		client->GetGui().waitForGuiUpdateDone();
-		
+
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
 		ResetPlayerSets(*curGame);
 
@@ -2740,7 +2740,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		client->GetGui().refreshSet();
 		client->GetGui().refreshPot();
 		client->GetGui().waitForGuiUpdateDone();
-		
+
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
 		ResetPlayerSets(*curGame);
 
@@ -2758,7 +2758,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		// Set player numbers using the game start data slots.
 		unsigned numPlayers = netAllInShow.playersallin_size();
 		qDebug() << "[ALLIN] AllInShowCardsMessage received numPlayers=" << numPlayers
-		         << "round=" << (int)curGame->getCurrentHand()->getCurrentRound();
+				 << "round=" << (int)curGame->getCurrentHand()->getCurrentRound();
 		// Request player info for players if needed.
 		for (unsigned i = 0; i < numPlayers; i++) {
 			const AllInShowCardsMessage::PlayerAllIn &p = netAllInShow.playersallin(i);
@@ -2772,9 +2772,9 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			tmpCards[1] = static_cast<int>(p.allincard2());
 			tmpPlayer->setMyCards(tmpCards);
 			qDebug() << "[ALLIN]   seatId=" << tmpPlayer->getMyID()
-			         << "uniqueId=" << p.playerid()
-			         << "cards=" << tmpCards[0] << "/" << tmpCards[1]
-			         << "action=" << (int)tmpPlayer->getMyAction();
+					 << "uniqueId=" << p.playerid()
+					 << "cards=" << tmpCards[0] << "/" << tmpCards[1]
+					 << "action=" << (int)tmpPlayer->getMyAction();
 		}
 		qDebug() << "[ALLIN] calling flipHolecardsAllIn()";
 		client->GetGui().flipHolecardsAllIn();
@@ -2864,8 +2864,8 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 				highestValueOfCards = tmpPlayer->getMyCardsValueInt();
 			tmpPlayer->setMyCash(r.playermoney());
 			tmpPlayer->setLastMoneyWon(r.moneywon());
-			
-			
+
+
 			if (r.moneywon())
 				winnerList.push_back(r.playerid());
 		}
@@ -2915,34 +2915,34 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 void
 ClientStateRunHand::ResetPlayerActions(Game &curGame)
 {
-    PlayerListIterator i = curGame.getActivePlayerList()->begin();
-    PlayerListIterator end = curGame.getActivePlayerList()->end();
-    while (i != end) {
-        // WICHTIG: FOLD-Actions NIEMALS zurücksetzen!
-        // Sonst wissen wir beim Showdown nicht mehr wer gefoldet hat.
-        if ((*i)->getMyAction() != PLAYER_ACTION_FOLD) {
-            (*i)->setMyAction(PLAYER_ACTION_NONE);
-        }
-        ++i;
-    }
+	PlayerListIterator i = curGame.getActivePlayerList()->begin();
+	PlayerListIterator end = curGame.getActivePlayerList()->end();
+	while (i != end) {
+		// WICHTIG: FOLD-Actions NIEMALS zurücksetzen!
+		// Sonst wissen wir beim Showdown nicht mehr wer gefoldet hat.
+		if ((*i)->getMyAction() != PLAYER_ACTION_FOLD) {
+			(*i)->setMyAction(PLAYER_ACTION_NONE);
+		}
+		++i;
+	}
 }
 
 void
 ClientStateRunHand::ResetPlayerSets(Game &curGame)
 {
-    // CRITICAL: Iterate over ALL players in seats, not just active players
-    // Eliminated players (with $0) are not in active list but still need their sets cleared
-    PlayerListIterator i = curGame.getSeatsList()->begin();
-    PlayerListIterator end = curGame.getSeatsList()->end();
-    while (i != end) {
-        (*i)->setMySetNull();
-        ++i;
-    }
+	// CRITICAL: Iterate over ALL players in seats, not just active players
+	// Eliminated players (with $0) are not in active list but still need their sets cleared
+	PlayerListIterator i = curGame.getSeatsList()->begin();
+	PlayerListIterator end = curGame.getSeatsList()->end();
+	while (i != end) {
+		(*i)->setMySetNull();
+		++i;
+	}
 }
 
 ClientStateFinal &
 ClientStateFinal::Instance()
 {
-    static ClientStateFinal state;
-    return state;
+	static ClientStateFinal state;
+	return state;
 }

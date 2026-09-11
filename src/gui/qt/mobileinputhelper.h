@@ -31,15 +31,15 @@
 
 /**
  * @brief Interim helper for Qt Widgets mobile keyboard handling
- * 
+ *
  * This is NOT a perfect solution but pragmatic improvements for mobile usage
  * until the planned Qt Quick/QML UI rewrite.
- * 
+ *
  * Features:
  * - Auto-scroll input widgets into view when focused
  * - Enable proper input method support
  * - Inform OS about text input location
- * 
+ *
  * Limitations (intentional):
  * - No keyboard height detection
  * - No native platform hooks
@@ -51,13 +51,13 @@ class MobileInputHelper : public QObject
 
 public:
 	static MobileInputHelper& instance();
-	
+
 	// Install on a QScrollArea to enable auto-scrolling for input widgets
 	void installOnScrollArea(QScrollArea *scrollArea);
-	
+
 	// Prepare a line edit for mobile usage
 	static void prepareMobileLineEdit(QLineEdit *lineEdit);
-	
+
 	// Prepare a text edit for mobile usage
 	static void prepareMobileTextEdit(QTextEdit *textEdit);
 	static void prepareMobilePlainTextEdit(QPlainTextEdit *textEdit);
@@ -79,10 +79,10 @@ private:
 	~MobileInputHelper();
 	MobileInputHelper(const MobileInputHelper&) = delete;
 	MobileInputHelper& operator=(const MobileInputHelper&) = delete;
-	
+
 	void handleFocusIn(QWidget *widget);
 	void updateInputItemRectangle(QWidget *widget);
-	
+
 	QScrollArea *currentScrollArea;
 };
 

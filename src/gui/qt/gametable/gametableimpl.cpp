@@ -147,7 +147,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 				int sw = qMax(geo.width(), geo.height());
 				int sh = qMin(geo.width(), geo.height());
 				qreal scale = qMin(static_cast<qreal>(sw) / 800.0,
-				                   static_cast<qreal>(sh) / 480.0);
+								   static_cast<qreal>(sh) / 480.0);
 				scale = qBound(0.5, scale, 1.0);
 				gtFontPx = qMax(10, static_cast<int>(26.0 * scale + 0.5));
 			}
@@ -552,7 +552,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 		fusionStyle->setParent(this);
 		const QList<QPushButton*> tableStyledButtons = {
 			pushButton_break, pushButton_tipSave,
-			pushButton_voteOnKickYes, pushButton_voteOnKickNo };
+			pushButton_voteOnKickYes, pushButton_voteOnKickNo
+		};
 		for (QPushButton *btn : tableStyledButtons) {
 			btn->setStyle(fusionStyle);
 		}
@@ -604,15 +605,15 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	});
 #else
 	// Desktop: Reaktions-Picker (🎉) wie bisher als Aktion in der Chat-Zeile.
-  #ifdef GUI_800x480
+#ifdef GUI_800x480
 	QLineEdit *reactionLineEdit = tabs.lineEdit_ChatInput;
-  #else
+#else
 	QLineEdit *reactionLineEdit = lineEdit_ChatInput;
-  #endif
+#endif
 	// Größe passend zum vergrößerten Auslöser-Icon-Maß der Chat-Zeile (siehe
 	// ChatTools::setupEmojiPickerAction, BiggerActionIconStyle auf Desktop = 22).
 	myReactionAction = reactionLineEdit->addAction(EmojiPicker::emojiIcon(QStringLiteral("🎉"), 22),
-	                                               QLineEdit::TrailingPosition);
+					   QLineEdit::TrailingPosition);
 	myReactionAction->setToolTip(tr("Send reaction"));
 	connect(myReactionAction, &QAction::triggered, this, [this, reactionLineEdit]() {
 		ensureReactionPicker(reactionLineEdit);
@@ -634,14 +635,14 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	// React to screen changes (hibernate/resume, DPI changes, monitor switch)
 	if (windowHandle()) {
 		connect(windowHandle(), &QWindow::screenChanged,
-			this, &gameTableImpl::onScreenChanged);
+				this, &gameTableImpl::onScreenChanged);
 	}
 	QScreen *primaryScreen = QGuiApplication::primaryScreen();
 	if (primaryScreen) {
 		connect(primaryScreen, &QScreen::geometryChanged,
-			this, &gameTableImpl::onScreenGeometryChanged, Qt::UniqueConnection);
+				this, &gameTableImpl::onScreenGeometryChanged, Qt::UniqueConnection);
 		connect(primaryScreen, &QScreen::logicalDotsPerInchChanged,
-			this, &gameTableImpl::onScreenDpiChanged, Qt::UniqueConnection);
+				this, &gameTableImpl::onScreenDpiChanged, Qt::UniqueConnection);
 	}
 
 	// create universal messageDialgo
@@ -650,10 +651,10 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	//hide left and right icon and menubar from maemo gui for ANDROID
 #ifdef ANDROID
-    // fullscreenButton existiert nur in Desktop-Version
-    // Entfernen oder kommentieren Sie die Zeile:
-    // fullscreenButton->hide();
-    this->setMenuBar(0);
+	// fullscreenButton existiert nur in Desktop-Version
+	// Entfernen oder kommentieren Sie die Zeile:
+	// fullscreenButton->hide();
+	this->setMenuBar(0);
 #endif
 
 	//Connects
@@ -699,10 +700,10 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(enableCallCheckPushButtonTimer, SIGNAL(timeout()), this, SLOT(enableCallCheckPushButton()));
 
 #ifdef ANDROID
-    // tabs ist nur für GUI_800x480 definiert
-    #ifdef GUI_800x480
+	// tabs ist nur für GUI_800x480 definiert
+#ifdef GUI_800x480
 	connect( tabs.pushButton_settings, SIGNAL( clicked() ), this, SLOT( callSettingsDialog() ) );
-    #endif
+#endif
 #else
 	connect( actionConfigure_PokerTH, SIGNAL( triggered() ), this, SLOT( callSettingsDialog() ) );
 #endif
@@ -740,8 +741,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect( tabs.lineEdit_ChatInput, SIGNAL( textChanged (QString) ), this, SLOT( checkChatInputLength(QString) ) );
 	connect( tabs.lineEdit_ChatInput, SIGNAL( textEdited (QString) ), myChat, SLOT( setChatTextEdited() ) );
 
-	connect( tabs.radioButton_manualAction, SIGNAL( clicked() ) , this, SLOT( changePlayingMode() ) );
-	connect( tabs.radioButton_autoCheckFold, SIGNAL( clicked() ) , this, SLOT( changePlayingMode() ) );
+	connect( tabs.radioButton_manualAction, SIGNAL( clicked() ), this, SLOT( changePlayingMode() ) );
+	connect( tabs.radioButton_autoCheckFold, SIGNAL( clicked() ), this, SLOT( changePlayingMode() ) );
 	connect( tabs.radioButton_autoCheckCallAny, SIGNAL( clicked() ), this, SLOT( changePlayingMode() ) );
 
 	connect( tabs.pushButton_voteOnKickYes, SIGNAL( clicked() ), this, SLOT( voteOnKickYes() ) );
@@ -755,8 +756,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), this, SLOT( checkChatInputLength(QString) ) );
 	connect( lineEdit_ChatInput, SIGNAL( textEdited (QString) ), myChat, SLOT( setChatTextEdited() ) );
 
-	connect( radioButton_manualAction, SIGNAL( clicked() ) , this, SLOT( changePlayingMode() ) );
-	connect( radioButton_autoCheckFold, SIGNAL( clicked() ) , this, SLOT( changePlayingMode() ) );
+	connect( radioButton_manualAction, SIGNAL( clicked() ), this, SLOT( changePlayingMode() ) );
+	connect( radioButton_autoCheckFold, SIGNAL( clicked() ), this, SLOT( changePlayingMode() ) );
 	connect( radioButton_autoCheckCallAny, SIGNAL( clicked() ), this, SLOT( changePlayingMode() ) );
 
 	connect( pushButton_voteOnKickYes, SIGNAL( clicked() ), this, SLOT( voteOnKickYes() ) );
@@ -1637,7 +1638,7 @@ void gameTableImpl::refreshPot()
 
 	int sets = currentHand->getBoard()->getSets();
 	int pot = currentHand->getBoard()->getPot();
-	
+
 	textLabel_Sets->setText("$"+QString("%L1").arg(sets));
 	textLabel_Pot->setText("$"+QString("%L1").arg(pot));
 }
@@ -1788,20 +1789,20 @@ void gameTableImpl::dealFlopCards4()
 void gameTableImpl::dealFlopCards5()
 {
 
-    int tempBoardCardsArray[5];
-    myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-    QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[1], 10)+".png"));
+	int tempBoardCardsArray[5];
+	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
+	QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[1], 10)+".png"));
 
-    //Config? mit oder ohne Eye-Candy?
-    if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
-        //with Eye-Candy
-        boardCardsArray[1]->startFlipCards(guiGameSpeed, card, flipside);
-    } else {
-        //without Eye-Candy
-        boardCardsArray[1]->setFront(card);
-        boardCardsArray[1]->setPixmap(card, false);
-    }
-    dealFlopCards5Timer->start(dealCardsSpeed);
+	//Config? mit oder ohne Eye-Candy?
+	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
+		//with Eye-Candy
+		boardCardsArray[1]->startFlipCards(guiGameSpeed, card, flipside);
+	} else {
+		//without Eye-Candy
+		boardCardsArray[1]->setFront(card);
+		boardCardsArray[1]->setPixmap(card, false);
+	}
+	dealFlopCards5Timer->start(dealCardsSpeed);
 }
 
 void gameTableImpl::dealFlopCards6()
@@ -1939,9 +1940,9 @@ void gameTableImpl::provideMyActions(int mode)
 	PlayerList activePlayerList = currentHand->getActivePlayerList();
 
 	//really disabled buttons if human player is fold/all-in (no cash) or server-autofold... and not called from dealberocards
-	if((humanPlayer->getMyAction() == PLAYER_ACTION_ALLIN || humanPlayer->getMyAction() == PLAYER_ACTION_FOLD || humanPlayer->getMyCash() == 0) || 
-	   (mode != 0 && (humanPlayer->getMySet() == currentHand->getCurrentBeRo()->getHighestSet() && (humanPlayer->getMyAction() != PLAYER_ACTION_NONE))) || 
-	   !humanPlayer->isSessionActive() /*server-autofold*/) {
+	if((humanPlayer->getMyAction() == PLAYER_ACTION_ALLIN || humanPlayer->getMyAction() == PLAYER_ACTION_FOLD || humanPlayer->getMyCash() == 0) ||
+			(mode != 0 && (humanPlayer->getMySet() == currentHand->getCurrentBeRo()->getHighestSet() && (humanPlayer->getMyAction() != PLAYER_ACTION_NONE))) ||
+			!humanPlayer->isSessionActive() /*server-autofold*/) {
 
 		pushButton_BetRaise->setText("");
 		pushButton_CallCheck->setText("");
@@ -2831,11 +2832,11 @@ void gameTableImpl::postRiverRunAnimation2()
 
 			for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->checkIfINeedToShowCards()) {
-					// std::cout << "[GUI DEBUG] Showing cards for player ID " << (*it_c)->getMyUniqueID() 
+					// std::cout << "[GUI DEBUG] Showing cards for player ID " << (*it_c)->getMyUniqueID()
 					// 	<< " Action:" << (*it_c)->getMyAction() << std::endl;
 					showHoleCards((*it_c)->getMyUniqueID());
 				} else {
-					// std::cout << "[GUI DEBUG] NOT showing cards for player ID " << (*it_c)->getMyUniqueID() 
+					// std::cout << "[GUI DEBUG] NOT showing cards for player ID " << (*it_c)->getMyUniqueID()
 					// 	<< " Action:" << (*it_c)->getMyAction() << " NeedShow:" << (*it_c)->checkIfINeedToShowCards() << std::endl;
 				}
 
@@ -2914,7 +2915,7 @@ void gameTableImpl::postRiverRunAnimation3()
 		// (Spieler die nur ihren Überschuss zurückbekommen sind keine echten Gewinner)
 		bool isWinner = std::find(winners.begin(), winners.end(), (*it_c)->getMyUniqueID()) != winners.end();
 		bool hasActuallyWon = isWinner && (*it_c)->getLastMoneyWon() > 0;
-		
+
 		// Calculate if this winner won the main pot (vs side pot).
 		// The player with the best hand (highest cardsValueInt) won the main pot.
 		// Other winners with lower hand values won side pots.
@@ -2925,7 +2926,7 @@ void gameTableImpl::postRiverRunAnimation3()
 				isMainPot = false;
 			}
 		}
-		
+
 		// Show Winner label and animation only for main pot winners
 		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && hasActuallyWon && isMainPot) {
 
@@ -3609,10 +3610,10 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 
 	// --- Rate-limited AFK timeout reset ---
 	if (etype == QEvent::MouseButtonPress
-		|| etype == QEvent::KeyPress) {
+			|| etype == QEvent::KeyPress) {
 		if (lastAfkResetSentTimer.elapsed() >= AFK_RESET_INTERVAL_MS) {
 			if (myStartWindow && myStartWindow->getSession()
-				&& myStartWindow->getSession()->isNetworkClientRunning()) {
+					&& myStartWindow->getSession()->isNetworkClientRunning()) {
 				myStartWindow->getSession()->resetNetworkTimeout();
 				lastAfkResetSentTimer.restart();
 			}
@@ -3634,7 +3635,7 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 	// Only handle events when the game table window is active/visible
 	QWidget *focusWidget = QApplication::focusWidget();
 	bool isGameTableFocused = (this == focusWidget || this->isAncestorOf(focusWidget));
-	
+
 	if (etype == QEvent::KeyPress) {
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
@@ -3652,11 +3653,11 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 			return true;
 		} else if (isGameTableFocused && !shortcodePopupOpen && keyEvent->key() == Qt::Key_Up &&
 #ifdef GUI_800x480
-		           tabs.lineEdit_ChatInput->hasFocus()
+				   tabs.lineEdit_ChatInput->hasFocus()
 #else
-		           lineEdit_ChatInput->hasFocus()
+				   lineEdit_ChatInput->hasFocus()
 #endif
-		          ) {
+				  ) {
 			if((keyUpDownChatCounter + 1) <= myChat->getChatLinesHistorySize()) {
 				keyUpDownChatCounter++;
 			}
@@ -3664,11 +3665,11 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 			return true;
 		} else if (isGameTableFocused && !shortcodePopupOpen && keyEvent->key() == Qt::Key_Down &&
 #ifdef GUI_800x480
-		           tabs.lineEdit_ChatInput->hasFocus()
+				   tabs.lineEdit_ChatInput->hasFocus()
 #else
-		           lineEdit_ChatInput->hasFocus()
+				   lineEdit_ChatInput->hasFocus()
 #endif
-		          ) {
+				  ) {
 			if((keyUpDownChatCounter - 1) >= 0) {
 				keyUpDownChatCounter--;
 			}
@@ -3695,14 +3696,14 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 			return false;
 		}
 	}
-	
+
 	return QMainWindow::eventFilter(obj, event);
 }
 
 void gameTableImpl::changeEvent(QEvent *event)
 {
 	if (event->type() == QEvent::WindowStateChange
-		|| event->type() == QEvent::ScreenChangeInternal) {
+			|| event->type() == QEvent::ScreenChangeInternal) {
 		// After hibernate/resume or monitor switch the window geometry may
 		// be stale.  Force a full relayout and – if in fullscreen – reapply
 		// the screen geometry so the table background and widgets match.
@@ -3729,9 +3730,9 @@ void gameTableImpl::onScreenChanged(QScreen *screen)
 {
 	if (screen) {
 		connect(screen, &QScreen::geometryChanged,
-			this, &gameTableImpl::onScreenGeometryChanged, Qt::UniqueConnection);
+				this, &gameTableImpl::onScreenGeometryChanged, Qt::UniqueConnection);
 		connect(screen, &QScreen::logicalDotsPerInchChanged,
-			this, &gameTableImpl::onScreenDpiChanged, Qt::UniqueConnection);
+				this, &gameTableImpl::onScreenDpiChanged, Qt::UniqueConnection);
 	}
 	// Force relayout after screen change (e.g. hibernate/resume, DPI change)
 	if (layout()) {
@@ -4280,9 +4281,9 @@ void gameTableImpl::closeGameTable()
 			radioButton_manualAction->setChecked(true);
 #endif
 			// In network games, go back to lobby instead of terminating
-			if(myStartWindow->getSession()->isNetworkClientRunning() && 
-			   (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || 
-			    myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK)) {
+			if(myStartWindow->getSession()->isNetworkClientRunning() &&
+					(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET ||
+					 myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK)) {
 				// Same behavior as lobby button - just leave the game
 				myStartWindow->getSession()->sendLeaveCurrentGame();
 				stopTimer();
@@ -4336,7 +4337,7 @@ void gameTableImpl::spinBoxBetValueChanged(int value)
 
 	if(horizontalSlider_bet->isEnabled()) {
 
-		QString betRaise = pushButton_BetRaise->text().section("\n",0 ,0);
+		QString betRaise = pushButton_BetRaise->text().section("\n",0,0);
 
 		if(value >= horizontalSlider_bet->minimum()) {
 
@@ -4708,26 +4709,26 @@ void gameTableImpl::refreshGameTableStyle()
 
 	// Style pot percentage buttons with green background and rounded corners
 	QString potButtonStyle = "QPushButton { "
-		"background-color: #4CAF50; "
-		"color: white; "
-		"border: none; "
-		"border-radius: 6px; "
-		"font-weight: bold; "
-		"font-size: 11px; ";
+							 "background-color: #4CAF50; "
+							 "color: white; "
+							 "border: none; "
+							 "border-radius: 6px; "
+							 "font-weight: bold; "
+							 "font-size: 11px; ";
 #ifdef _WIN32
 	potButtonStyle += "min-height: 16px; max-height: 18px; padding: 0px 4px; ";
 #endif
 	potButtonStyle += "} "
-		"QPushButton:hover { "
-		"background-color: #45a049; "
-		"} "
-		"QPushButton:pressed { "
-		"background-color: #3d8b40; "
-		"} "
-		"QPushButton:disabled { "
-		"background-color: #5a8f5a; "
-		"color: #b0d0b0; "
-		"}";
+					  "QPushButton:hover { "
+					  "background-color: #45a049; "
+					  "} "
+					  "QPushButton:pressed { "
+					  "background-color: #3d8b40; "
+					  "} "
+					  "QPushButton:disabled { "
+					  "background-color: #5a8f5a; "
+					  "color: #b0d0b0; "
+					  "}";
 	pushButton_Pot33->setStyleSheet(potButtonStyle);
 	pushButton_Pot50->setStyleSheet(potButtonStyle);
 	pushButton_Pot100->setStyleSheet(potButtonStyle);
@@ -5118,7 +5119,7 @@ void gameTableImpl::ensureReactionPicker(QWidget *anchorParent)
 	if (myReactionPicker)
 		return;
 	myReactionPicker = EmojiPicker::createReactionPicker(
-		anchorParent, myConfig->readConfigInt("ReactionPickerPage"));
+						   anchorParent, myConfig->readConfigInt("ReactionPickerPage"));
 	connect(myReactionPicker, &EmojiPicker::picked, this, &gameTableImpl::sendEmojiReaction);
 	connect(myReactionPicker, &EmojiPicker::pageChanged, this, [this](int page) {
 		myConfig->writeConfigInt("ReactionPickerPage", page);
@@ -5202,17 +5203,17 @@ void gameTableImpl::pingUpdate(unsigned minPing, unsigned avgPing, unsigned maxP
 
 int gameTableImpl::getAndroidApiVersion()
 {
-    int api = -1;
+	int api = -1;
 #ifdef ANDROID
 #ifndef ANDROID_TEST
-    // Qt6: Verwende QJniEnvironment für Android API-Zugriff
-    QJniEnvironment env;
-    if (env.isValid()) {
-        api = QJniObject::getStaticField<jint>("android/os/Build$VERSION", "SDK_INT");
-    }
+	// Qt6: Verwende QJniEnvironment für Android API-Zugriff
+	QJniEnvironment env;
+	if (env.isValid()) {
+		api = QJniObject::getStaticField<jint>("android/os/Build$VERSION", "SDK_INT");
+	}
 #endif
 #endif
-    return api;
+	return api;
 }
 
 // ── Emoji-Reaktionen (Port aus QML-/Web-Client, Chat-Konvention "/emoji 🎉") ──
@@ -5242,7 +5243,7 @@ void gameTableImpl::showEmojiReaction(QString playerName, QString emoji)
 	if (playerName == myNick) {
 		// Echo der eigenen, bereits lokal abgespielten Reaktion unterdrücken.
 		if (emoji == myLastOwnReactionEmoji
-		    && QDateTime::currentMSecsSinceEpoch() - myLastOwnReactionTime < 3000)
+				&& QDateTime::currentMSecsSinceEpoch() - myLastOwnReactionTime < 3000)
 			return;
 		playReactionAnimation(0, emoji);
 		return;

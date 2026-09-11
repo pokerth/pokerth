@@ -46,7 +46,7 @@
 class ClientHand : public HandInterface
 {
 public:
-	ClientHand ( boost::shared_ptr<EngineFactory> f, GuiInterface*, boost::shared_ptr<BoardInterface>, Log*, PlayerList, PlayerList, PlayerList , int, int, int, int, int );
+	ClientHand ( boost::shared_ptr<EngineFactory> f, GuiInterface*, boost::shared_ptr<BoardInterface>, Log*, PlayerList, PlayerList, PlayerList, int, int, int, int, int );
 	~ClientHand();
 
 	void start();

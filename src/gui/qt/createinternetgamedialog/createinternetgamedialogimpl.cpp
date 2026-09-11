@@ -312,9 +312,9 @@ void createInternetGameDialogImpl::updateCommunityTemplateVisibility()
 	if (!comboBox_communityTemplate)
 		return;
 	const bool inviteOnly = comboBox_gameType->itemData(
-	                            comboBox_gameType->currentIndex(), Qt::UserRole).toInt() == GAME_TYPE_INVITE_ONLY;
+								comboBox_gameType->currentIndex(), Qt::UserRole).toInt() == GAME_TYPE_INVITE_ONLY;
 	const bool show = inviteOnly && !currentGuestMode
-	                  && myConfig && myConfig->readConfigInt("ShowCommunityContent");
+					  && myConfig && myConfig->readConfigInt("ShowCommunityContent");
 	label_communityTemplate->setVisible(show);
 	comboBox_communityTemplate->setVisible(show);
 }
@@ -338,7 +338,7 @@ void createInternetGameDialogImpl::applyCommunityTemplate()
 	if (!t.titleCommand.isEmpty() && mySuggest) {
 		const QString templateName = t.name;
 		mySuggest->gameTitlePrefix(t.titleCommand, this,
-		                           [this, templateName](const QString &title) {
+		[this, templateName](const QString &title) {
 			if (!title.isEmpty() && lineEdit_gameName->text() == templateName)
 				lineEdit_gameName->setText(title);
 		});
@@ -379,9 +379,9 @@ QString createInternetGameDialogImpl::selectedSuggestType() const
 	// Nicht isVisible() prüfen (Dialog ist beim Aufruf bereits geschlossen) –
 	// dieselben Bedingungen wie updateCommunityTemplateVisibility().
 	const bool inviteOnly = comboBox_gameType->itemData(
-	                            comboBox_gameType->currentIndex(), Qt::UserRole).toInt() == GAME_TYPE_INVITE_ONLY;
+								comboBox_gameType->currentIndex(), Qt::UserRole).toInt() == GAME_TYPE_INVITE_ONLY;
 	if (!inviteOnly || currentGuestMode
-	    || !myConfig || !myConfig->readConfigInt("ShowCommunityContent"))
+			|| !myConfig || !myConfig->readConfigInt("ShowCommunityContent"))
 		return QString();
 	const int idx = comboBox_communityTemplate->currentIndex();
 	if (idx <= 0)

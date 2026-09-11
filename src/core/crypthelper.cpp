@@ -181,7 +181,7 @@ CryptHelper::MD5Sum(const std::string &fileName, MD5Buf &buf)
 		size_t numBytes;
 
 #ifdef HAVE_OPENSSL
-	#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
 		EVP_MD_CTX *context = EVP_MD_CTX_new();
 		unsigned int md5_digest_len = EVP_MD_size(EVP_md5());
 		EVP_DigestInit_ex(context, EVP_md5(), NULL);
@@ -190,14 +190,14 @@ CryptHelper::MD5Sum(const std::string &fileName, MD5Buf &buf)
 		}
 		EVP_DigestFinal_ex(context, buf.GetData(), &md5_digest_len);
 		EVP_MD_CTX_free(context);
-	#else
+#else
 		MD5_CTX context;
 		MD5_Init(&context);
 		while ((numBytes = fread(readBuf, 1, sizeof(readBuf), file)) > 0) {
 			MD5_Update(&context, readBuf, numBytes);
 		}
 		MD5_Final(buf.GetData(), &context);
-	#endif // OPENSSL_VERSION_NUMBER >= 0x30000000L
+#endif // OPENSSL_VERSION_NUMBER >= 0x30000000L
 #else
 		gcry_md_hd_t hash;
 		gcry_md_open(&hash, GCRY_MD_MD5, 0);
@@ -302,13 +302,13 @@ CryptHelper::AES128Encrypt(const unsigned char *keyData, unsigned keySize, const
 		outCipher.resize(cipherSize);
 
 #ifdef HAVE_OPENSSL
-	#if OPENSSL_VERSION_NUMBER >= 0x10100000L
-		EVP_CIPHER_CTX *encryptCtx = EVP_CIPHER_CTX_new();  
-	#else
-		EVP_CIPHER_CTX _encryptCtx; 
-		EVP_CIPHER_CTX *encryptCtx; 
-		encryptCtx = &_encryptCtx; 
-	#endif // OPENSSL_VERSION_NUMBER >= 0x10100000L 
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L
+		EVP_CIPHER_CTX *encryptCtx = EVP_CIPHER_CTX_new();
+#else
+		EVP_CIPHER_CTX _encryptCtx;
+		EVP_CIPHER_CTX *encryptCtx;
+		encryptCtx = &_encryptCtx;
+#endif // OPENSSL_VERSION_NUMBER >= 0x10100000L 
 
 		EVP_CIPHER_CTX_init(encryptCtx);
 		int outCipherSize = cipherSize;
@@ -325,10 +325,10 @@ CryptHelper::AES128Encrypt(const unsigned char *keyData, unsigned keySize, const
 			}
 		} else
 			outCipher.clear();
-		
-	#if OPENSSL_VERSION_NUMBER >= 0x10100000L
+
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L
 		EVP_CIPHER_CTX_free(encryptCtx);
-	#endif // OPENSSL_VERSION_NUMBER >= 0x10100000L 
+#endif // OPENSSL_VERSION_NUMBER >= 0x10100000L 
 #else
 		gcry_cipher_hd_t hd;
 		gcry_error_t err = gcry_cipher_open(&hd, GCRY_CIPHER_AES128, GCRY_CIPHER_MODE_CBC, 0);
@@ -360,13 +360,13 @@ CryptHelper::AES128Decrypt(const unsigned char *keyData, unsigned keySize, const
 		BytesToKey(keyData, keySize, key, iv);
 		outPlain.resize(cipherSize);
 #ifdef HAVE_OPENSSL
-	#if OPENSSL_VERSION_NUMBER >= 0x10100000L
-		EVP_CIPHER_CTX *decryptCtx = EVP_CIPHER_CTX_new();  
-	#else
-		EVP_CIPHER_CTX _decryptCtx; 
-		EVP_CIPHER_CTX *decryptCtx; 
-		decryptCtx = &_decryptCtx; 
-	#endif // OPENSSL_VERSION_NUMBER >= 0x10100000L 
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L
+		EVP_CIPHER_CTX *decryptCtx = EVP_CIPHER_CTX_new();
+#else
+		EVP_CIPHER_CTX _decryptCtx;
+		EVP_CIPHER_CTX *decryptCtx;
+		decryptCtx = &_decryptCtx;
+#endif // OPENSSL_VERSION_NUMBER >= 0x10100000L 
 
 		EVP_CIPHER_CTX_init(decryptCtx);
 		int outPlainSize = cipherSize;
@@ -383,10 +383,10 @@ CryptHelper::AES128Decrypt(const unsigned char *keyData, unsigned keySize, const
 			}
 		} else
 			outPlain.clear();
-		
-	#if OPENSSL_VERSION_NUMBER >= 0x10100000L
+
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L
 		EVP_CIPHER_CTX_free(decryptCtx);
-	#endif // OPENSSL_VERSION_NUMBER >= 0x10100000L 
+#endif // OPENSSL_VERSION_NUMBER >= 0x10100000L 
 #else
 		gcry_cipher_hd_t hd;
 		gcry_error_t err = gcry_cipher_open(&hd, GCRY_CIPHER_AES128, GCRY_CIPHER_MODE_CBC, 0);

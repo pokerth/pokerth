@@ -93,5 +93,5 @@ void
 AsyncDBSessionEnd::HandleError(boost::asio::io_context &/*service*/, ServerDBCallback &/*cb*/)
 {
 	LOG_ERROR("AsyncDBSessionEnd: UPDATE failed for session " + std::to_string(GetId())
-		+ " (row " + std::to_string(m_resolvedSessionDbId) + ").");
+			  + " (row " + std::to_string(m_resolvedSessionDbId) + ").");
 }

@@ -50,8 +50,14 @@ public:
 	// is not yet available and the query should be deferred.
 	virtual bool Init(DBIdManager& idManager) = 0;
 
-	unsigned GetDeferCount() const { return m_deferCount; }
-	void IncrementDeferCount() { ++m_deferCount; }
+	unsigned GetDeferCount() const
+	{
+		return m_deferCount;
+	}
+	void IncrementDeferCount()
+	{
+		++m_deferCount;
+	}
 
 	virtual std::string GetPreparedName() const = 0;
 	virtual void GetParams(std::list<std::string> &params) const = 0;

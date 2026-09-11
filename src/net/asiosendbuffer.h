@@ -46,48 +46,48 @@
 class AsioSendBuffer : public SendBuffer
 {
 public:
-    AsioSendBuffer();
-    virtual ~AsioSendBuffer();
+	AsioSendBuffer();
+	virtual ~AsioSendBuffer();
 
-    virtual void HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error);
-    virtual void HandleWriteSsl(boost::shared_ptr<boost::asio::ssl::stream<boost::asio::basic_stream_socket<boost::asio::ip::tcp, boost::asio::any_io_executor>>> sslStream, const boost::system::error_code &error);
+	virtual void HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error);
+	virtual void HandleWriteSsl(boost::shared_ptr<boost::asio::ssl::stream<boost::asio::basic_stream_socket<boost::asio::ip::tcp, boost::asio::any_io_executor>>> sslStream, const boost::system::error_code &error);
 
-    virtual void AsyncSendNextPacket(boost::shared_ptr<SessionData> session);
-    void AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
-    void AsyncSendNextPacketSsl(boost::shared_ptr<boost::asio::ssl::stream<boost::asio::basic_stream_socket<boost::asio::ip::tcp, boost::asio::any_io_executor>>> sslStream);
+	virtual void AsyncSendNextPacket(boost::shared_ptr<SessionData> session);
+	void AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
+	void AsyncSendNextPacketSsl(boost::shared_ptr<boost::asio::ssl::stream<boost::asio::basic_stream_socket<boost::asio::ip::tcp, boost::asio::any_io_executor>>> sslStream);
 
-    virtual void InternalStorePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
-    int EncodeToBuf(const void *data, size_t size);
+	virtual void InternalStorePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
+	int EncodeToBuf(const void *data, size_t size);
 
-    virtual size_t GetPendingBytes() const;
-    virtual bool CheckAndClearOverflow();
+	virtual size_t GetPendingBytes() const;
+	virtual bool CheckAndClearOverflow();
 
-    virtual void SetCloseAfterSend();
+	virtual void SetCloseAfterSend();
 
 protected:
-    size_t GetSendBufLeft() const;
-    bool ReallocSendBuf();
-    void AppendToSendBufWithoutCheck(const char *data, size_t size);
-    // Close the owning session after a write error (returns false if the
-    // session is no longer reachable and the caller must close the raw
-    // socket itself). May throw PokerTHException on the client (intended).
-    bool CloseSessionOnWriteError(boost::shared_ptr<SessionData> session);
+	size_t GetSendBufLeft() const;
+	bool ReallocSendBuf();
+	void AppendToSendBufWithoutCheck(const char *data, size_t size);
+	// Close the owning session after a write error (returns false if the
+	// session is no longer reachable and the caller must close the raw
+	// socket itself). May throw PokerTHException on the client (intended).
+	bool CloseSessionOnWriteError(boost::shared_ptr<SessionData> session);
 
 private:
-    // Owning session (weak to avoid the SessionData <-> SendBuffer cycle);
-    // needed to report write errors as a proper session close instead of
-    // silently closing the socket handle.
-    boost::weak_ptr<SessionData> m_session;
-    char *sendBuf;
-    char *curWriteBuf;
-    size_t sendBufAllocated;
-    size_t sendBufUsed;
-    size_t curWriteBufAllocated;
-    size_t curWriteBufUsed;
-    bool closeAfterSend;
-    // Set when a packet did not fit into the send queue any more. Read and
-    // cleared by CheckAndClearOverflow().
-    bool sendBufOverflow;
+	// Owning session (weak to avoid the SessionData <-> SendBuffer cycle);
+	// needed to report write errors as a proper session close instead of
+	// silently closing the socket handle.
+	boost::weak_ptr<SessionData> m_session;
+	char *sendBuf;
+	char *curWriteBuf;
+	size_t sendBufAllocated;
+	size_t sendBufUsed;
+	size_t curWriteBufAllocated;
+	size_t curWriteBufUsed;
+	bool closeAfterSend;
+	// Set when a packet did not fit into the send queue any more. Read and
+	// cleared by CheckAndClearOverflow().
+	bool sendBufOverflow;
 };
 
 #endif

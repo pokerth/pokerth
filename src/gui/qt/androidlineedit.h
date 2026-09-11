@@ -23,7 +23,7 @@
 
 /**
  * @brief QLineEdit with improved Android IME handling
- * 
+ *
  * This class fixes the keyboard flicker issue when deleting characters
  * on Android by properly handling input method events without retriggering
  * keyboard show/hide cycles.

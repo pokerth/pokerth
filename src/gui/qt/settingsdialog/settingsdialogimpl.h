@@ -162,7 +162,7 @@ private:
 		*/
 		QString m_nativeName;
 
-public:
+	public:
 		/**
 		 * Constructor
 		 * @param code Code of this language
@@ -175,7 +175,7 @@ public:
 			m_nativeName(QString::fromUtf8(nativeName))
 		{
 		}
-		
+
 		/**
 		 * Returns the code of this language
 		*/

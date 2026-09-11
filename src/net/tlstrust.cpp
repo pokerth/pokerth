@@ -35,10 +35,10 @@ LoadSystemCaCertificates()
 	for (const char *const store : systemStores) {
 		const QString pattern = QString::fromLatin1(store) + QLatin1String("/*");
 		QList<QSslCertificate> certs = QSslCertificate::fromPath(
-				pattern, QSsl::Pem, QSslCertificate::PatternSyntax::Wildcard);
+										   pattern, QSsl::Pem, QSslCertificate::PatternSyntax::Wildcard);
 		if (certs.isEmpty()) {
 			certs = QSslCertificate::fromPath(
-				pattern, QSsl::Der, QSslCertificate::PatternSyntax::Wildcard);
+						pattern, QSsl::Der, QSslCertificate::PatternSyntax::Wildcard);
 		}
 		if (!certs.isEmpty()) {
 			LOG_MSG("TLS: using " << certs.size() << " root certificates from " << store << ".");
@@ -47,7 +47,7 @@ LoadSystemCaCertificates()
 	}
 
 	QList<QSslCertificate> bundled = QSslCertificate::fromPath(
-			QLatin1String(":/android/android-data/misc/cacert.pem"), QSsl::Pem);
+										 QLatin1String(":/android/android-data/misc/cacert.pem"), QSsl::Pem);
 	if (!bundled.isEmpty()) {
 		LOG_MSG("TLS: system trust store unreadable, using " << bundled.size()
 				<< " bundled root certificates.");

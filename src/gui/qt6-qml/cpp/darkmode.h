@@ -13,7 +13,8 @@
  * Einzige Wahrheit für C++ (SettingsManager, LobbyHandler) UND – über
  * SettingsManager.systemDark – für die QML-Singletons StaticData/Theme.
  */
-namespace DarkMode {
+namespace DarkMode
+{
 
 enum Setting { Light = 0, Dark = 1, Auto = 2 };
 
@@ -22,21 +23,24 @@ enum Setting { Light = 0, Dark = 1, Auto = 2 };
 // der Oberfläche.
 inline bool systemPrefersDark()
 {
-    const QStyleHints *hints = QGuiApplication::styleHints();
-    if (!hints)
-        return true;
-    return hints->colorScheme() != Qt::ColorScheme::Light;
+	const QStyleHints *hints = QGuiApplication::styleHints();
+	if (!hints)
+		return true;
+	return hints->colorScheme() != Qt::ColorScheme::Light;
 }
 
 // Config-Wert -> effektiver Modus.
 inline bool resolve(int settingValue)
 {
-    switch (settingValue) {
-    case Light: return false;
-    case Dark:  return true;
-    case Auto:
-    default:    return systemPrefersDark();
-    }
+	switch (settingValue) {
+	case Light:
+		return false;
+	case Dark:
+		return true;
+	case Auto:
+	default:
+		return systemPrefersDark();
+	}
 }
 
 } // namespace DarkMode

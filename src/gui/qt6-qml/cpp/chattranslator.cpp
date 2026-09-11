@@ -36,7 +36,7 @@ ChatTranslator::ChatTranslator(QStringList *chatLog, QObject *parent)
 	, m_core(new ChatTranslatorCore(nullptr, this))
 {
 	connect(m_core, &ChatTranslatorCore::translated,
-	        this, &ChatTranslator::onCoreTranslated);
+			this, &ChatTranslator::onCoreTranslated);
 }
 
 void ChatTranslator::setConfig(ConfigFile *config)
@@ -71,9 +71,9 @@ QString ChatTranslator::anchorFor(int id, const QString &glyph)
 	// Nachrichten-Emojis (enlargeEmojis: 22px) – gut erkennbar, ohne die Zeile
 	// zu dominieren. Größe ist fix, also unabhängig von der Chat-Textgröße.
 	return QStringLiteral("<a href=\"pokerthtranslate:%1\" style=\"text-decoration:none;\">"
-	                      "<span style=\"font-size:15px; font-family:'Noto Color Emoji';\">%2</span></a>")
-		.arg(id)
-		.arg(glyph);
+						  "<span style=\"font-size:15px; font-family:'Noto Color Emoji';\">%2</span></a>")
+		   .arg(id)
+		   .arg(glyph);
 }
 
 QString ChatTranslator::glyphFor(const Pending &p, int id) const
@@ -89,7 +89,7 @@ QString ChatTranslator::glyphFor(const Pending &p, int id) const
 }
 
 QString ChatTranslator::decorate(const QString &formattedLine, const QString &sourceText,
-                                 const QString &bodyHtml)
+								 const QString &bodyHtml)
 {
 	if (!enabled() || sourceText.trimmed().isEmpty())
 		return formattedLine;
@@ -262,8 +262,8 @@ void ChatTranslator::postFailureNote()
 	// Grau ist in beiden lesbar. Eine Zeile = ein Eintrag – die Zuordnung, über
 	// die setHoveredLine die Symbole findet, bleibt damit unberührt.
 	m_chatLog->append(QStringLiteral("<i><span style=\"color:#9e9e9e;\">")
-	                  + tr("Translation is currently unavailable. Please try again later.").toHtmlEscaped()
-	                  + QStringLiteral("</span></i>"));
+					  + tr("Translation is currently unavailable. Please try again later.").toHtmlEscaped()
+					  + QStringLiteral("</span></i>"));
 	emit chatLogMutated();
 }
 

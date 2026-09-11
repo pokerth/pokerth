@@ -6,7 +6,7 @@ TextTranslator::TextTranslator(ConfigFile *config, QObject *parent)
 	, m_core(new ChatTranslatorCore(config, this))
 {
 	connect(m_core, &ChatTranslatorCore::translated,
-	        this, &TextTranslator::translated);
+			this, &TextTranslator::translated);
 }
 
 bool TextTranslator::enabled() const

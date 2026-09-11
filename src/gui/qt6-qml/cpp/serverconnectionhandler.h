@@ -30,114 +30,138 @@ class ConfigFile;
 
 class ServerConnectionHandler : public QObject
 {
-    Q_OBJECT
-    Q_PROPERTY(int connectionProgress READ connectionProgress NOTIFY connectionProgressChanged)
-    Q_PROPERTY(QString statusMessage READ statusMessage NOTIFY statusMessageChanged)
-    Q_PROPERTY(bool isConnecting READ isConnecting NOTIFY isConnectingChanged)
-    Q_PROPERTY(QString savedUsername READ savedUsername NOTIFY savedUsernameChanged)
-    Q_PROPERTY(QString savedPassword READ savedPassword NOTIFY savedPasswordChanged)
-    Q_PROPERTY(bool rememberPassword READ rememberPassword NOTIFY rememberPasswordChanged)
-    Q_PROPERTY(QUrl registerUrl READ registerUrl CONSTANT)
-    // True zwischen einem Verbindungsabbruch im laufenden Betrieb und dem
-    // Ende der automatischen Wiederverbindung (erfolgreich oder aufgegeben).
-    Q_PROPERTY(bool reconnecting READ reconnecting NOTIFY reconnectingChanged)
+	Q_OBJECT
+	Q_PROPERTY(int connectionProgress READ connectionProgress NOTIFY connectionProgressChanged)
+	Q_PROPERTY(QString statusMessage READ statusMessage NOTIFY statusMessageChanged)
+	Q_PROPERTY(bool isConnecting READ isConnecting NOTIFY isConnectingChanged)
+	Q_PROPERTY(QString savedUsername READ savedUsername NOTIFY savedUsernameChanged)
+	Q_PROPERTY(QString savedPassword READ savedPassword NOTIFY savedPasswordChanged)
+	Q_PROPERTY(bool rememberPassword READ rememberPassword NOTIFY rememberPasswordChanged)
+	Q_PROPERTY(QUrl registerUrl READ registerUrl CONSTANT)
+	// True zwischen einem Verbindungsabbruch im laufenden Betrieb und dem
+	// Ende der automatischen Wiederverbindung (erfolgreich oder aufgegeben).
+	Q_PROPERTY(bool reconnecting READ reconnecting NOTIFY reconnectingChanged)
 
 public:
-    explicit ServerConnectionHandler(QObject *parent = nullptr);
-    virtual ~ServerConnectionHandler();
+	explicit ServerConnectionHandler(QObject *parent = nullptr);
+	virtual ~ServerConnectionHandler();
 
-    void setSession(boost::shared_ptr<Session> session);
-    void setConfig(ConfigFile *config);
+	void setSession(boost::shared_ptr<Session> session);
+	void setConfig(ConfigFile *config);
 
-    int connectionProgress() const { return m_connectionProgress; }
-    QString statusMessage() const { return m_statusMessage; }
-    bool isConnecting() const { return m_isConnecting; }
-    QString savedUsername() const { return m_savedUsername; }
-    QString savedPassword() const { return m_savedPassword; }
-    bool rememberPassword() const { return m_rememberPassword; }
-    bool reconnecting() const { return m_reconnecting; }
-    QUrl registerUrl() const { return QUrl(QStringLiteral("https://www.pokerth.net/ucp.php?mode=register")); }
-    Q_INVOKABLE bool openExternalUrl(const QUrl &url) const;
-    // Bricht eine laufende Wiederverbindung ab und beendet die Sitzung
-    // endgültig. Aus QML beim bewussten Verlassen und über den Abbrechen-
-    // Knopf des Wiederverbinden-Hinweises.
-    Q_INVOKABLE void abortAutoReconnect();
+	int connectionProgress() const
+	{
+		return m_connectionProgress;
+	}
+	QString statusMessage() const
+	{
+		return m_statusMessage;
+	}
+	bool isConnecting() const
+	{
+		return m_isConnecting;
+	}
+	QString savedUsername() const
+	{
+		return m_savedUsername;
+	}
+	QString savedPassword() const
+	{
+		return m_savedPassword;
+	}
+	bool rememberPassword() const
+	{
+		return m_rememberPassword;
+	}
+	bool reconnecting() const
+	{
+		return m_reconnecting;
+	}
+	QUrl registerUrl() const
+	{
+		return QUrl(QStringLiteral("https://www.pokerth.net/ucp.php?mode=register"));
+	}
+	Q_INVOKABLE bool openExternalUrl(const QUrl &url) const;
+	// Bricht eine laufende Wiederverbindung ab und beendet die Sitzung
+	// endgültig. Aus QML beim bewussten Verlassen und über den Abbrechen-
+	// Knopf des Wiederverbinden-Hinweises.
+	Q_INVOKABLE void abortAutoReconnect();
 
-    // Klartext zu einem Fehlercode aus socket_msg.h (ERR_SOCK_*/ERR_NET_*).
-    // Pendant zu startWindowImpl::networkError(int) im Widgets-Client; dort
-    // hat jeder Code eine eigene Meldung, hier lag nur eine Handvoll Codes
-    // als Text vor (der Rest kam als nackte Nummer an).
-    static QString networkErrorMessage(int errorID);
+	// Klartext zu einem Fehlercode aus socket_msg.h (ERR_SOCK_*/ERR_NET_*).
+	// Pendant zu startWindowImpl::networkError(int) im Widgets-Client; dort
+	// hat jeder Code eine eigene Meldung, hier lag nur eine Handvoll Codes
+	// als Text vor (der Rest kam als nackte Nummer an).
+	static QString networkErrorMessage(int errorID);
 
 public slots:
-    // Called from QML to start connection
-    void connectToServer(const QString &username, const QString &password, bool isGuest, bool rememberPassword = false);
-    void cancelConnection();
-    void loadCredentials();
-    void saveCredentials(const QString &username, const QString &password, bool rememberPassword);
+	// Called from QML to start connection
+	void connectToServer(const QString &username, const QString &password, bool isGuest, bool rememberPassword = false);
+	void cancelConnection();
+	void loadCredentials();
+	void saveCredentials(const QString &username, const QString &password, bool rememberPassword);
 
 signals:
-    void connectionProgressChanged(int progress);
-    void statusMessageChanged(const QString &message);
-    void isConnectingChanged(bool connecting);
-    void connectionSucceeded();
-    void connectionFailed(const QString &errorMessage);
-    void showLobby();
-    void savedUsernameChanged();
-    void savedPasswordChanged();
-    void rememberPasswordChanged();
-    void reconnectingChanged();
-    // Jeder einzelne Wiederverbindungsversuch, für die Fortschrittsanzeige.
-    void reconnectAttempt(int attempt, int maxAttempts);
-    // Scharfschalten des automatischen Rejoins im LobbyHandler: Das Angebot
-    // des Servers (InitAck) trifft noch während des Logins ein, also VOR dem
-    // Ende der Wiederverbindung - das Flag muss vorher stehen.
-    void autoRejoinArmed(bool armed);
+	void connectionProgressChanged(int progress);
+	void statusMessageChanged(const QString &message);
+	void isConnectingChanged(bool connecting);
+	void connectionSucceeded();
+	void connectionFailed(const QString &errorMessage);
+	void showLobby();
+	void savedUsernameChanged();
+	void savedPasswordChanged();
+	void rememberPasswordChanged();
+	void reconnectingChanged();
+	// Jeder einzelne Wiederverbindungsversuch, für die Fortschrittsanzeige.
+	void reconnectAttempt(int attempt, int maxAttempts);
+	// Scharfschalten des automatischen Rejoins im LobbyHandler: Das Angebot
+	// des Servers (InitAck) trifft noch während des Logins ein, also VOR dem
+	// Ende der Wiederverbindung - das Flag muss vorher stehen.
+	void autoRejoinArmed(bool armed);
 
 public slots:
-    void onNetClientConnect(int actionID);
-    void onNetClientLoginShow();
-    void onNetClientError(int errorID, int osErrorID);
-    // Fehler des eingebetteten Servers (eigenes Netzwerkspiel hosten). Ohne
-    // diesen Weg blieb z. B. ein belegter Port beim Hosten unbemerkt.
-    void onNetServerError(int errorID, int osErrorID);
+	void onNetClientConnect(int actionID);
+	void onNetClientLoginShow();
+	void onNetClientError(int errorID, int osErrorID);
+	// Fehler des eingebetteten Servers (eigenes Netzwerkspiel hosten). Ohne
+	// diesen Weg blieb z. B. ein belegter Port beim Hosten unbemerkt.
+	void onNetServerError(int errorID, int osErrorID);
 
 private:
-    void updateProgress(int progress, const QString &message);
-    void handleLoginDialog();
-    // Nur Transportfehler rechtfertigen eine stille Wiederverbindung. Bei
-    // Kick, Bann, Sperre, Sitzungs-Timeout oder abgelehnten Zugangsdaten
-    // würde der Client sonst gegen die Ablehnung anrennen - und dabei das
-    // Login-Rate-Limit des Servers (Token-Bucket pro IP) auslösen.
-    static bool isRecoverableTransportError(int errorID);
-    // Startet den nächsten Versuch oder gibt auf; liefert true, wenn ein
-    // Versuch läuft und der Fehler damit NICHT nach QML gemeldet wird.
-    bool scheduleAutoReconnect(int errorID);
-    void endAutoReconnect();
+	void updateProgress(int progress, const QString &message);
+	void handleLoginDialog();
+	// Nur Transportfehler rechtfertigen eine stille Wiederverbindung. Bei
+	// Kick, Bann, Sperre, Sitzungs-Timeout oder abgelehnten Zugangsdaten
+	// würde der Client sonst gegen die Ablehnung anrennen - und dabei das
+	// Login-Rate-Limit des Servers (Token-Bucket pro IP) auslösen.
+	static bool isRecoverableTransportError(int errorID);
+	// Startet den nächsten Versuch oder gibt auf; liefert true, wenn ein
+	// Versuch läuft und der Fehler damit NICHT nach QML gemeldet wird.
+	bool scheduleAutoReconnect(int errorID);
+	void endAutoReconnect();
 
-    boost::shared_ptr<Session> m_session;
-    ConfigFile *m_config;
-    
-    int m_connectionProgress;
-    QString m_statusMessage;
-    bool m_isConnecting;
-    
-    QString m_pendingUsername;
-    QString m_pendingPassword;
-    bool m_pendingIsGuest;
-    
-    QString m_savedUsername;
-    QString m_savedPassword;
-    bool m_rememberPassword;
-    
-    int m_retryCount;
+	boost::shared_ptr<Session> m_session;
+	ConfigFile *m_config;
 
-    // Automatische Wiederverbindung nach Verbindungsverlust im laufenden
-    // Betrieb (Android: App im Hintergrund; Desktop: WLAN-Schlaf).
-    bool m_loggedIn = false;      // Login abgeschlossen -> Abbruch ist ein Verlust,
-                                  // kein fehlgeschlagener Verbindungsaufbau
-    bool m_reconnecting = false;
-    int  m_reconnectAttempt = 0;
+	int m_connectionProgress;
+	QString m_statusMessage;
+	bool m_isConnecting;
+
+	QString m_pendingUsername;
+	QString m_pendingPassword;
+	bool m_pendingIsGuest;
+
+	QString m_savedUsername;
+	QString m_savedPassword;
+	bool m_rememberPassword;
+
+	int m_retryCount;
+
+	// Automatische Wiederverbindung nach Verbindungsverlust im laufenden
+	// Betrieb (Android: App im Hintergrund; Desktop: WLAN-Schlaf).
+	bool m_loggedIn = false;      // Login abgeschlossen -> Abbruch ist ein Verlust,
+	// kein fehlgeschlagener Verbindungsaufbau
+	bool m_reconnecting = false;
+	int  m_reconnectAttempt = 0;
 };
 
 #endif // SERVERCONNECTIONHANDLER_H

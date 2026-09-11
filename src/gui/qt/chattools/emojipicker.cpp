@@ -21,7 +21,7 @@ EmojiPicker::EmojiPicker(QWidget *parent, const QStringList &emojis, int columns
 }
 
 EmojiPicker::EmojiPicker(QWidget *parent, const QList<QStringList> &pages,
-                         int columns, int startPage)
+						 int columns, int startPage)
 	: QWidget(parent, Qt::Popup)
 {
 	setAttribute(Qt::WA_DeleteOnClose, false);
@@ -109,7 +109,9 @@ void EmojiPicker::buildPages(const QList<QStringList> &pages, int columns, int s
 	prev->setFixedSize(22, 22);
 	prev->setFocusPolicy(Qt::NoFocus);
 	prev->setCursor(Qt::PointingHandCursor);
-	connect(prev, &QToolButton::clicked, this, [this]() { setCurrentPage(myCurrentPage - 1); });
+	connect(prev, &QToolButton::clicked, this, [this]() {
+		setCurrentPage(myCurrentPage - 1);
+	});
 	pager->addWidget(prev);
 
 	myPageIcon = new QLabel(this);
@@ -123,7 +125,9 @@ void EmojiPicker::buildPages(const QList<QStringList> &pages, int columns, int s
 	next->setFixedSize(22, 22);
 	next->setFocusPolicy(Qt::NoFocus);
 	next->setCursor(Qt::PointingHandCursor);
-	connect(next, &QToolButton::clicked, this, [this]() { setCurrentPage(myCurrentPage + 1); });
+	connect(next, &QToolButton::clicked, this, [this]() {
+		setCurrentPage(myCurrentPage + 1);
+	});
 	pager->addWidget(next);
 
 	pager->addStretch();
@@ -290,6 +294,6 @@ QPixmap EmojiPicker::emojiPixmap(const QString &emoji, int targetPx)
 	// … und auf die GARANTIERTE Zielgröße skalieren.
 	const QImage cropped = img.copy(QRect(QPoint(minX, minY), QPoint(maxX, maxY)));
 	return QPixmap::fromImage(cropped.scaled(targetPx, targetPx,
-	                                         Qt::KeepAspectRatio,
-	                                         Qt::SmoothTransformation));
+							  Qt::KeepAspectRatio,
+							  Qt::SmoothTransformation));
 }

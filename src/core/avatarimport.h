@@ -65,7 +65,7 @@ namespace AvatarImport
 // dargestellt).
 inline QList<int> scaleSteps()
 {
-	return QList<int>{ 192, 128, 96, 64 };
+	return QList<int> { 192, 128, 96, 64 };
 }
 
 // Engine-Prüfung einer Datei: Größe, Format und Bildabmessungen. Ein leerer

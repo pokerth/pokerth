@@ -20,7 +20,7 @@ public:
 
 protected:
 	QNetworkReply *createRequest(Operation op, const QNetworkRequest &request,
-	                             QIODevice *outgoingData = nullptr) override;
+								 QIODevice *outgoingData = nullptr) override;
 };
 
 class WebNetworkAccessManagerFactory : public QQmlNetworkAccessManagerFactory

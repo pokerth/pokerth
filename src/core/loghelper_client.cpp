@@ -62,7 +62,8 @@ using namespace std;
 
 static int g_logLevel = 1;
 
-namespace {
+namespace
+{
 
 // Guards both g_logFile and g_logFileReady. Accessed from the GUI thread (Qt
 // message handler / QML console.log) and the network thread (engine LOG_*).
@@ -139,7 +140,7 @@ bool parseLogStart(const std::string &path, std::time_t &out)
 bool rotationDue(std::time_t periodStart)
 {
 	return periodStart != 0
-	       && std::difftime(std::time(nullptr), periodStart) >= LOG_ROTATE_HOURS * 3600.0;
+		   && std::difftime(std::time(nullptr), periodStart) >= LOG_ROTATE_HOURS * 3600.0;
 }
 
 } // namespace
@@ -178,8 +179,8 @@ loghelper_init(const std::string &logDir, int logLevel)
 	if (g_logFile.is_open()) {
 		g_logFileReady = true;
 		g_logFile << timestampPrefix()
-		          << "==== PokerTH client debug log started ===="
-		          << std::endl;
+				  << "==== PokerTH client debug log started ===="
+				  << std::endl;
 #ifdef POKERTH_CRASH_HANDLER
 		g_crashLogFd = ::open(path.c_str(), O_WRONLY | O_APPEND | O_CREAT | O_CLOEXEC, 0644);
 #endif
@@ -198,12 +199,13 @@ loghelper_write_raw(const std::string &line)
 	while (!msg.empty() && (msg.back() == '\n' || msg.back() == '\r'))
 		msg.pop_back();
 	g_logFile << timestampPrefix() << msg << std::endl; // endl → flush, so a
-	                                                    // freeze still leaves the
-	                                                    // last line on disk.
+	// freeze still leaves the
+	// last line on disk.
 }
 
 #ifdef POKERTH_CRASH_HANDLER
-namespace {
+namespace
+{
 
 // write(2) on the raw descriptor - the only file output allowed from a signal
 // handler (write/strlen/time/backtrace_symbols_fd are on the POSIX
@@ -279,14 +281,16 @@ loghelper_install_crash_handler()
 	altStack.ss_flags = 0;
 	::sigaltstack(&altStack, nullptr);
 
-	struct sigaction action{};
+	struct sigaction action {};
 	action.sa_sigaction = crashSignalHandler;
 	// No :: here - on macOS sigemptyset() is a macro, which cannot be qualified.
 	sigemptyset(&action.sa_mask);
 	action.sa_flags = SA_SIGINFO | SA_ONSTACK | SA_RESETHAND | SA_NODEFER;
 	// SIGABRT covers qFatal()/abort() and failed assertions, the rest are the
 	// hardware faults.
-	for (int sig : {SIGSEGV, SIGABRT, SIGBUS, SIGILL, SIGFPE})
+	for (int sig : {
+				SIGSEGV, SIGABRT, SIGBUS, SIGILL, SIGFPE
+			})
 		::sigaction(sig, &action, nullptr);
 #endif
 }

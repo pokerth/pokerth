@@ -62,7 +62,8 @@ class RandomSource
 public:
 	RandomSource() : m_pos(kWords) {}
 
-	uint32_t next32() {
+	uint32_t next32()
+	{
 		if(m_pos == kWords) Refill();
 		return m_words[m_pos++];
 	}
@@ -70,7 +71,8 @@ public:
 	// Gleichverteilt in [0, bound) ohne Modulo-Verzerrung (Methode von Lemire:
 	// das Produkt liefert den Wert in der oberen Haelfte, die untere entscheidet,
 	// ob der seltene Rest-Bereich verworfen werden muss).
-	uint32_t Below(uint32_t bound) {
+	uint32_t Below(uint32_t bound)
+	{
 		if(bound < 2) return 0;
 		uint64_t product = static_cast<uint64_t>(next32()) * bound;
 		uint32_t low = static_cast<uint32_t>(product);
@@ -87,7 +89,8 @@ public:
 	}
 
 private:
-	void Refill() {
+	void Refill()
+	{
 		bool filled = false;
 #ifdef HAVE_OPENSSL
 		filled = RAND_bytes(reinterpret_cast<unsigned char *>(m_words), static_cast<int>(sizeof(m_words))) == 1;

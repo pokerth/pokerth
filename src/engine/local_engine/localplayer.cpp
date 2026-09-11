@@ -1129,10 +1129,18 @@ void LocalPlayer::engine4()
 
 	const GameState round = currentHand->getCurrentRound();
 	switch(round) {
-	case GAME_STATE_FLOP:  situation.boardSize = 3; break;
-	case GAME_STATE_TURN:  situation.boardSize = 4; break;
-	case GAME_STATE_RIVER: situation.boardSize = 5; break;
-	default:               situation.boardSize = 0; break;
+	case GAME_STATE_FLOP:
+		situation.boardSize = 3;
+		break;
+	case GAME_STATE_TURN:
+		situation.boardSize = 4;
+		break;
+	case GAME_STATE_RIVER:
+		situation.boardSize = 5;
+		break;
+	default:
+		situation.boardSize = 0;
+		break;
 	}
 
 	int boardCards[5];
@@ -4744,7 +4752,7 @@ void LocalPlayer::flopEngine3()
 
 	// Prozent ausrechnen
 
-	int i, j, k ,l;
+	int i, j, k,l;
 	int tempBoardCardsArray[5];
 	int tempMyCardsArray[7];
 	int tempOpponentCardsArray[7];

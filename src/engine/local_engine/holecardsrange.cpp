@@ -43,20 +43,34 @@ namespace
 int rankFromChar(char c)
 {
 	switch(std::toupper(static_cast<unsigned char>(c))) {
-	case '2': return 0;
-	case '3': return 1;
-	case '4': return 2;
-	case '5': return 3;
-	case '6': return 4;
-	case '7': return 5;
-	case '8': return 6;
-	case '9': return 7;
-	case 'T': return 8;
-	case 'J': return 9;
-	case 'Q': return 10;
-	case 'K': return 11;
-	case 'A': return 12;
-	default:  return -1;
+	case '2':
+		return 0;
+	case '3':
+		return 1;
+	case '4':
+		return 2;
+	case '5':
+		return 3;
+	case '6':
+		return 4;
+	case '7':
+		return 5;
+	case '8':
+		return 6;
+	case '9':
+		return 7;
+	case 'T':
+		return 8;
+	case 'J':
+		return 9;
+	case 'Q':
+		return 10;
+	case 'K':
+		return 11;
+	case 'A':
+		return 12;
+	default:
+		return -1;
 	}
 }
 
@@ -67,7 +81,10 @@ struct HandSpec {
 	int low;
 	Suitedness suitedness;
 
-	bool isPair() const { return high == low; }
+	bool isPair() const
+	{
+		return high == low;
+	}
 };
 
 // Liest "AA", "AKs", "AKo" oder "AK" (dann beide Varianten).

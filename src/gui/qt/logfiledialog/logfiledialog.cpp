@@ -286,8 +286,8 @@ void LogFileDialog::showLogAnalysis(QString /*filename*/, QString returnMessage)
 	if (retStr == LOG_UPLOAD_OK_STR) {
 		QString hash(returnMessage.mid(retStr.size()).trimmed());
 		hash = hash.mid(0, hash.indexOf(' '));
-			AppImageUtils::openUrlSafe(QUrl("https://logfile-analysis.pokerth.net/?ID=" + hash));
-		} else {
+		AppImageUtils::openUrlSafe(QUrl("https://logfile-analysis.pokerth.net/?ID=" + hash));
+	} else {
 		QString serverMsg(tr("Processing of the log file on the web server failed.\nPlease verify that you are uploading a valid PokerTH log file."));
 		// if there is an error code, display a corresponding message.
 		if (retStr == LOG_UPLOAD_ERROR_STR) {

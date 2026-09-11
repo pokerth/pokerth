@@ -50,7 +50,7 @@ public:
 	// Einblenden durch die Übersetzung ERSETZT. Gibt die Zeile unverändert
 	// zurück, wenn die Funktion deaktiviert ist oder der Quelltext leer ist.
 	QString decorate(const QString &formattedLine, const QString &sourceText,
-	                 const QString &bodyHtml);
+					 const QString &bodyHtml);
 
 	// Vom QML aufgerufen, wenn auf das Globus-Symbol getippt wird.
 	Q_INVOKABLE void requestTranslation(int id);

@@ -86,7 +86,7 @@ void CardDeckStyleReader::readStyleFile(QString file)
 	QDomDocument xmlDoc;
 	xmlDoc.setContent(fileContent);
 
-	if(!xmlDoc.documentElement().isNull()){
+	if(!xmlDoc.documentElement().isNull()) {
 		QDomElement GameTableElement = xmlDoc.documentElement().firstChildElement( "TableStyle" );
 		if(!GameTableElement.isNull()) {
 			MyMessageBox::warning(myW, tr("Card Deck Style Error"),
@@ -95,8 +95,7 @@ void CardDeckStyleReader::readStyleFile(QString file)
 		} else {
 
 			QDomElement itemsList = xmlDoc.documentElement().firstChildElement( "CardDeck" );
-			for(QDomElement n = itemsList.firstChildElement(); !n.isNull(); n = n.nextSiblingElement())
-			{
+			for(QDomElement n = itemsList.firstChildElement(); !n.isNull(); n = n.nextSiblingElement()) {
 				QByteArray ba = n.attribute("value").toLocal8Bit();
 				const char *tmpStr1 = ba.data();
 				if (tmpStr1) {
