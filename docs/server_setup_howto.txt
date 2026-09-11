@@ -2,288 +2,568 @@
 How to run the PokerTH dedicated server
 ++++++++++++++++++++++++++++++++++++++++
 
+Applies to PokerTH 2.1.8 and later.
+
+
++++++++++++++++++++++++++++++++
+0. Which server do you need?
++++++++++++++++++++++++++++++++
+
+There are three ways to host a PokerTH game, and only the second one is the
+subject of this document:
+
+a) Network game from inside the client
+   Every client can host a single game itself ("Network game" in the client).
+   It binds ServerPort (7234 by default), never uses TLS, and the other players
+   join directly by IP address. Nothing has to be installed, and nothing in
+   this document applies - the settings are in the client.
+
+b) pokerth_dedicated_server
+   A standalone daemon that hosts a whole lobby with many games. It has no user
+   database: every player connects unauthenticated with the nickname set in
+   their client, there are no registered accounts, no rankings and no server
+   admins. Access to the server as a whole can be restricted with a server
+   password. This is the server you want if you host games for a group, a club
+   or a tournament.
+
+c) pokerth_official_server
+   The same server plus the MySQL backend used by pokerth.net: registered
+   accounts, challenge/response login, rankings, avatar blacklists, admin
+   rights and activity logging. It is only useful if you also run the matching
+   database and website. See chapter 9.
+
+
 +++++++++++++++++++++++
 1. System requirements
 +++++++++++++++++++++++
 
-The PokerTH server is officially supported on
-Linux, Windows Vista and Windows Server 2008.
+The dedicated server is developed and run on Linux; it also builds on Windows
+and macOS.
 
-root/admin access during setup is recommended.
-root/admin access is required if a strict firewall is running on the system.
+Resource usage is low. A few hundred MB of RAM and a single core are enough for
+a busy lobby; the server hard-limits itself to 1536 lobby sessions and 2000
+sessions in total.
 
-RAM usage is low (about 5 MB when load is high), but due to frequent
-allocations and thread usage, there will be problems if the PokerTH server
-is run on a vserver with very limited memory.
+Root access is not required to run the server. You need it only to open the
+firewall port and to install a systemd unit.
 
-+++++++++++++++++++++++++
-2. Installation on Linux
-+++++++++++++++++++++++++
+It is recommended to create an unprivileged user (for example "pokerth") with a
+home directory and to run the daemon as that user.
 
-2.1 Package dependencies (Linux)
----------------------------------
 
-The following development packages are required to compile the server:
-* qmake (Qt development tools)
-* boost 1.44, latest recommended (requires libbz2)
-  - boost-thread
-  - boost-filesystem
-  - boost-datetime
-  - boost-program_options
-  - boost-iostreams
-  - boost-asio
-  - boost-regex
-  - boost-random
-* libcurl4-gnutls
-* libtinyxml
-* libircclient
-* libgsasl (at least 1.4)
-* libsqlite3
-* libgcrypt (should already be there as dependency to the previous libs)
+++++++++++++++++++++++++++
+2. Building the server
+++++++++++++++++++++++++++
 
-The following packages are optional but recommended:
-* monit (http://tildeslash.com/monit/)
-* svn (subversion)
+2.1 Build dependencies
+-----------------------
 
-2.2 Compiling the server (Linux)
----------------------------------
+* CMake >= 3.15, a C++23 compiler, Ninja recommended
+* Qt >= 6.7.0 (6.9.2 LTS recommended)
+* Boost >= 1.83 - thread, filesystem, date_time, program_options, iostreams,
+  asio, regex, random, uuid
+* Protocol Buffers - protoc at build time, libprotobuf at runtime
+* OpenSSL
 
-If you have root access on the machine, create a new user for
-the PokerTH daemon (for example named pokerth). The user is
-*required* to have a home directory. Log in as the new user.
+The server binaries themselves only link QtCore, QtNetwork, QtXml and QtSql -
+but the project is configured as a whole, and the top level CMakeLists requires
+every Qt 6 component the clients use (Qml, Quick, QuickControls2, Widgets, Svg,
+Multimedia, WebSockets, LinguistTools). Install the Qt 6 development packages
+completely even if you only build a server target.
 
-If you do not have root access, log in as usual.
+Debian/Ubuntu, roughly:
 
-To use the stable version, download the latest PokerTH
-source release from https://www.pokerth.net/.
-Unpack the source release:
-	tar xjf PokerTH-0.9.src.tar.bz2
+	apt install build-essential cmake ninja-build \
+	    qt6-base-dev qt6-declarative-dev qt6-svg-dev qt6-multimedia-dev \
+	    qt6-websockets-dev qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools \
+	    libqt6sql6-mysql \
+	    libboost-all-dev \
+	    protobuf-compiler libprotobuf-dev \
+	    libssl-dev
 
-If you wish to use the current development version instead, run
-	svn co http://pokerth.svn.sourceforge.net/svnroot/pokerth/trunk/pokerth
+libqt6sql6-mysql is the QMYSQL driver plugin and is only needed for
+pokerth_official_server.
 
-Enter the pokerth source directory:
+2.2 Compiling
+--------------
+
+	git clone https://github.com/pokerth/pokerth.git
 	cd pokerth
+	cmake -DCMAKE_BUILD_TYPE=Release -S . -B ./build -G Ninja
+	cmake --build ./build --target pokerth_dedicated_server
 
-Edit pokerth.pro and remove the pokerth_game.pro entry.
+The binary is written to build/bin/pokerth_dedicated_server.
 
-Create the Makefile and compile the PokerTH dedicated server:
-	qmake -spec linux-g++ pokerth.pro
-	make
+To install it system wide (optional):
 
-2.3 Post-compile actions (Linux)
----------------------------------
+	sudo cmake --install ./build
 
-The binary for the server is created in the bin/ subdirectory.
-Move it to the main directory:
-	mv bin/pokerth_server .
+2.3 The data directory
+-----------------------
 
-Make sure your firewall allows port 7234 (IP/IPv6, TCP).
-If you wish to use a different port, allow this port in your firewall,
-and continue the steps.
+The server needs the shipped avatars; it reads them from
+<AppDataDir>/gfx/avatars/default/people and .../misc. Without them it logs
+"Missing files - please check your directory settings!" at startup.
 
-2.4 First run of the server (Linux)
-------------------------------------
+Unlike the clients, which search several well-known locations, the server
+resolves the directory strictly as
 
-Run the dedicated server using the full path:
-	/home/username/pokerth/pokerth_server
+	<directory of the binary>/data
 
-It will not output anything and immediately return to the prompt.
+and stores that as AppDataDir in config.xml on its first start. Two consequences:
 
-Check that the server is running:
-	ps ax | grep pokerth_server
+* "cmake --install" installs the server binary into bin/ but no data at all -
+  data/ is only installed together with a client. A server-only installation
+  therefore always needs AppDataDir to be set by hand (chapter 5), for example
+  to /usr/share/pokerth/data/ or to the data/ directory of the source tree.
+* clean_build.sh, which prepares a local test build, copies data/ to
+  build/share/pokerth/data (where the clients look) and the test TLS material to
+  build/tls - but not to build/bin/data. For a server started from build/bin,
+  either copy or symlink data/ next to the binary, or set AppDataDir.
 
-The server will have created a directory ~/.pokerth
-Take a peek at the log file:
+Once the value is in config.xml it is kept; only an update to a version with a
+newer configuration revision resets it to the binary-relative path again.
+
+
+++++++++++++++++++
+3. First start
+++++++++++++++++++
+
+Start the server with its full path:
+
+	/home/pokerth/pokerth/build/bin/pokerth_dedicated_server
+
+A release build detaches itself and returns to the prompt immediately (debug
+builds stay in the foreground).
+
+Command line options:
+
+	-h, --help            print the option list
+	-v, --version         print server and network protocol version
+	-l, --log-level N     0 = minimal, 1 = default, 2 = verbose
+	-p, --pid-file PATH   write the pid file somewhere else than
+	                      <LogDir>/pokerth.pid
+	    --readonly-config never write the configuration file
+	                      (for read-only or shared deployments)
+
+Check that it is running:
+
+	ps ax | grep pokerth_dedicated_server
 	less ~/.pokerth/log-files/server_messages.log
 
-It should look like this:
-2007-Dec-23 21:38:01 MSG: Starting PokerTH dedicated server. Availability: IPv6 1, SCTP 1, Dual Stack 1.
+The first line looks like this:
 
-If there are messages about non-existing avatar directories, you either
-- did not start the pokerth_server using the full path (see above)
-- did not move the pokerth_server to the main directory (step 2.3)
+	2026-Sep-01 21:38:01 MSG: Starting PokerTH dedicated server. Availability: IPv6 1, SCTP 0, Dual Stack 1.
 
-Now, stop the server again after the first start.
-	killall pokerth_server
+If the log complains about missing avatar directories, the data directory was
+not found - see 2.3.
 
-2.5 Configuring the server (Linux)
------------------------------------
+Stop the server with SIGTERM or SIGINT; both are handled and shut the lobby down
+cleanly:
 
-Open ~/.pokerth/config.xml using your favourite editor.
-If you intend to use non-ascii characters for any option, make sure
-you use the UTF-8 charset.
+	kill $(cat ~/.pokerth/log-files/pokerth.pid)
 
-The options are described in Chapter 4.
+Files the server writes:
 
-If you have root access on the machine, it is recommended that you
-set up "monit" to automatically restart pokerth_server if it
-terminates. The players will be very frustrated if for some reason the
-server crashes and is not restarted immediately. The PokerTH server
-has been thoroughly tested and is very stable, but you never know...
-
-To set up monit, first create the init-script for the server.
-
-2.6 Sample /etc/init.d/pokerth_server script (Linux)
------------------------------------------------------
-
-This is a sample start/stop script for the pokerth_server daemon.
-It can only be used if you have root access on the machine.
-
-The script will start the process pokerth_server as user "pokerth".
-It uses a simple hack to find out the process id of pokerth_server. This
-will not work if you intend to run more than one PokerTH server on
-a single machine.
-
--- cut here --
-#!/bin/bash
-
-case $1 in
-	start)
-		sudo -H -u pokerth /home/pokerth/pokerth/pokerth_server
-		sleep 2
-		pgrep -n pokerth_server > /var/run/pokerth_server.pid ;;
-	stop)
-		kill `cat /var/run/pokerth_server.pid` ;;
-	*)
-		echo "Usage: pokerth_server {start|stop}" ;;
-esac
--- cut here --
-
-2.7 Sample monit configuration (Linux)
----------------------------------------
-
-The previous step is required to set up monit, so make sure the
-init-script works.
-
-Use the sample monit configuration file which comes with your monit
-package as base. Edit the basic configuration, and READ THE MANUAL.
-It is recommended to run monit as daemon, and to use a check-interval
-no longer than 120 seconds.
-
-Add the following lines to the monitrc configuration file:
-
--- cut here --
-check process pokerth_server with pidfile /var/run/pokerth_server.pid
-  start program = "/etc/init.d/pokerth_server start"
-  stop  program = "/etc/init.d/pokerth_server stop"
-  if 5 restarts within 5 cycles then timeout
--- cut here --
-
-Make sure that pokerth_server is terminated. Then start monit. It will
-automatically start pokerth_server. The easiest way to restart the server,
-once monit is running, is to log in as user "pokerth" and run
-	killall pokerth_server
-
-This will cause monit to restart the pokerth_server within the configured
-interval.
-
-+++++++++++++++++++++++++++++++++
-3. Configuration file config.xml
-+++++++++++++++++++++++++++++++++
-
-There are three areas for server configuration:
-1. General server settings (like password and port)
-2. IRC bot settings
-   For admin usage, the server can join any IRC channel as bot.
-   This will allow you to kick players and request server statistics.
-3. Directory settings (which SHOULD be left as they are)
-
-Relevant options are (with description):
-
-1.
-General server password:
-	<ServerPassword value="" />
-
-Enable IPv6 (has effect only if dual stack sockets are not supported):
-	<ServerUseIpv6 value="0" />
-
-Enable/disable SCTP (TCP will still be possible):
-	<ServerUseSctp value="0" />
-
-The server port which is bound:
-	<ServerPort value="7234" />
-
-2.
-Make the server join as bot in an admin-only irc channel:
-	<UseAdminIRC value="0" />
-
-(the following is only applicable if UseAdminIRC is 1)
-
-The irc server:
-	<AdminIRCServerAddress value="chat.freenode.net" />
-
-Port of the irc service:
-	<AdminIRCServerPort value="6667" />
-
-Admin irc channel name
-(it is recommended to use a password protected channel):
-	<AdminIRCChannel value="#test" />
-
-The password for the admin irc channel:
-	<AdminIRCChannelPassword value="" />
-
-Enable IPv6 for the irc server:
-	<AdminIRCServerUseIpv6 value="0" />
-
-Nick name for the bot:
-	<AdminIRCServerNick value="PokerTH" />
-
-3. DO NOT CHANGE THE FOLLOWING OPTIONS UNLESS REALLY REALLY NEEDED
-
-Directory for server logging, write access needed:
-	<LogDir value="/Users/l-may/.pokerth/log-files/" />
-
-Directory for PokerTH data files:
-(only avatar data is needed, read access is sufficient):
-	<UserDataDir value="/Users/l-may/.pokerth/data/" />
-
-Directory for avatar cache:
-	<CacheDir value="/Users/l-may/.pokerth/cache/" />
+	<LogDir>/server_messages.log      the server log
+	<LogDir>/server_statistics.log    number of players/games, read back on start
+	<LogDir>/pokerth.pid              process id of the running daemon
+	<CacheDir>/                       avatars uploaded by players
 
 
 ++++++++++++++++++++++++
-4. Server Admin IRC bot
+4. Ports and firewall
 ++++++++++++++++++++++++
 
-The irc bot only accepts two commands within the configured channel.
-Assuming the bot is named BotName, these commands are as follows:
+	7234/tcp   game protocol (ServerPort), the only port that is required
+	7233/tcp   WebSocket for the browser client (ServerWebSocketPort),
+	           only if ServerUseWebSocket is enabled
 
-Display statistics of the server:
-	BotName: stat
+Open the port for IPv4 and IPv6. The server uses a dual stack socket where the
+operating system supports it; ServerUseIpv6 only matters on systems without
+dual stack support.
 
-Kick player named "foo" from the server:
-	BotName: kick foo
+Note on ports: a TLS server is conventionally published on 7236 and a plain one
+on 7234 (see serverlist_example.xml in the repository root), but the port is
+free - the client takes it from the server list entry or from its manual
+settings.
 
-Show the IP address of player "foo":
-	BotName: showip foo
-
-Ban a certain nick from the server, so it can no longer be used.
-For this command, the name "fooRegex" can be any regular expression.
-(Note: This does not affect players which are currently logged in):
-	BotName: bannick fooRegex
-
-Ban a certain client IP address from the server.
-The IP address should be in the same format as printed by the
-command "showip".
-(Note: This does not affect players which are currently logged in):
-	BotName: banip 1.2.3.4
-
-List all bans currently active on the server:
-	BotName: listban
-
-Remove a ban with a certain id from the list of bans
-(use the ban id from the listban command):
-	BotName: removeban 1
-
-Send a global chat message through the server:
-	BotName: chat This is a global chat message.
-
-Send a global message box through the server:
-	BotName: msg This is a global message box.
-
-The bot always answers to "BotName: " style commands.
-It ignores private messages. 
+SCTP (ServerUseSctp) is a leftover from earlier versions, is off by default and
+should stay off.
 
 
-2007-2012 by Lothar May
++++++++++++++++++++++++++++++++++++
+5. Configuration file config.xml
++++++++++++++++++++++++++++++++++++
+
+The server shares the configuration file with the client:
+
+	Linux/macOS   ~/.pokerth/config.xml
+	              (or $XDG_CONFIG_HOME/.pokerth/config.xml if that is set)
+	Windows       %AppData%\pokerth\config.xml
+
+It is created with all defaults on the first start, and the options are read
+from it while the server starts up - so stop the server, edit, start it again.
+Use UTF-8 if you enter non-ASCII characters.
+
+The server writes the file only in two situations: when it does not exist yet,
+and when it was written by an older version. In the second case the file is
+updated in place on startup - the configuration revision is bumped, options that
+are new in this version are appended with their defaults, AppDataDir is set to
+the data directory next to the executable again, and everything else is kept.
+--readonly-config suppresses both.
+
+Every option is a single element with a value attribute:
+
+	<ServerPort value="7234"/>
+
+Only the options in this chapter are relevant for a server; everything else in
+the file belongs to the client.
+
+5.1 General
+------------
+
+<ServerPort value="7234"/>
+	TCP port the server binds.
+
+<ServerPassword value=""/>
+	If set, a client must send exactly this password (client setting
+	"server password") before it may log in. This is the only access control a
+	dedicated server has - empty means the server is open to everyone.
+
+<ServerUseIpv6 value="0"/>
+	Force IPv6; only has an effect if dual stack sockets are unavailable.
+
+<ServerUseSctp value="0"/>
+	Legacy, leave at 0.
+
+5.2 TLS
+--------
+
+<ServerUseTls value="0"/>
+	1 = the game port speaks TLS. Strongly recommended for a server that is
+	reachable from the internet, because the login and the whole lobby traffic
+	are otherwise unencrypted.
+
+<ServerTlsCertFile value="/etc/tls/server.crt"/>
+<ServerTlsKeyFile value="/etc/tls/server.key"/>
+	Absolute paths to certificate and private key, in PEM format. The paths are
+	used exactly as given. If both values are empty, the server falls back to
+	<directory of the binary>/../tls/server.crt and .../server.key, which is the
+	layout of a build or deploy directory (bin/ and tls/ side by side).
+
+A self-signed certificate is enough, because the clients do not check a CA
+chain: they pin the public key of the server (chapter 7.2 - without a pin the
+connection is encrypted but unauthenticated). Create one with
+
+	openssl req -x509 -newkey rsa:4096 -days 3650 -nodes \
+	    -keyout server.key -out server.crt -subj "/CN=your.server.example.com"
+
+IMPORTANT: keep the key pair when the certificate expires and renew the
+certificate for the same key (openssl x509 -req with the existing key). The pin
+published to the clients is the hash of the public key - a new key pair locks out
+every client that still has the old pin.
+
+5.3 Browser clients (WebSocket)
+--------------------------------
+
+<ServerUseWebSocket value="0"/>
+	1 = additionally accept WebSocket connections (dedicated server only). This
+	is what the browser client connects to.
+
+<ServerWebSocketPort value="7233"/>
+<ServerUseWebSocketTls value="0"/>
+	Set to 1 for wss://; uses the same certificate and key as 5.2.
+
+<ServerWebSocketResource value=""/>
+	If set, only this path is accepted (for example "/pokerth").
+
+<ServerWebSocketOrigin value=""/>
+	If set, only connections with this Origin header are accepted.
+
+<ServerProxyProtocolTrustedIPs value=""/>
+	Comma separated list of IP addresses that are allowed to announce the real
+	client address with a PROXY protocol v1 header (for a reverse proxy in front
+	of the server). Only list hosts you control: an entry here lets that host
+	choose which IP address appears in the log and in the rate limiting. Leave
+	empty if there is no proxy.
+
+5.4 Abuse protection
+---------------------
+
+<ServerBruteForceProtection value="1"/>
+	Rate limits login attempts per IP address: five attempts back to back, then
+	one more every 30 seconds. Further attempts are answered with an error, and
+	the block is logged once per address. Leave this on.
+
+<ServerBruteForceProtectionExempt value=""/>
+	Comma separated IP addresses that are exempt from that limit. Needed when
+	many players reach the server through one address (a NAT gateway, or the
+	proxy of the browser client).
+
+<GameNameBadWordList type="list" value="Regex">
+	<Regex value="badword"/>
+</GameNameBadWordList>
+	Regular expressions a game name must not match. Each entry is one Regex
+	child element.
+
+<UseChatCleaner value="0"/>
+<ChatCleanerHostAddress value="localhost"/>
+<ChatCleanerPort value="4327"/>
+<ChatCleanerClientAuth value=""/>
+<ChatCleanerServerAuth value=""/>
+<ChatCleanerUseIpv6 value="0"/>
+	Optional external chat filter. The pokerth_chatcleaner binary in this
+	repository implements the service (bad words, caps flooding, repetitions);
+	the two auth strings must match on both sides.
+
+<DiscordChatWebhookUrl value=""/>
+	If set, lobby chat is mirrored into a Discord channel through this webhook.
+
+5.5 Avatars
+------------
+
+<ServerUsePutAvatars value="1"/>
+<ServerPutAvatarsAddress value=""/>
+<ServerPutAvatarsUser value=""/>
+<ServerPutAvatarsPassword value=""/>
+	Uploads avatars that players send to the server on to a web server, so that
+	other clients can download them over HTTP instead of through the game
+	protocol. Only useful with such a web server; leave the address empty
+	otherwise, then the server keeps the avatars in its cache directory only.
+
+5.6 Directories
+----------------
+
+Change these only if you really need to. LogDir and CacheDir must be writable by
+the user running the daemon, AppDataDir only readable. UserDataDir is used by the
+clients only.
+
+<LogDir value="/home/pokerth/.pokerth/log-files/"/>
+	Server log, statistics file and pid file.
+
+<CacheDir value="/home/pokerth/.pokerth/cache/"/>
+	Avatars uploaded by players. Entries older than a month are discarded.
+
+<AppDataDir value="/home/pokerth/pokerth/build/bin/data/"/>
+	The data directory, see 2.3.
+
+<UserDataDir value="/home/pokerth/.pokerth/data/"/>
+
+<LogOnOff value="1"/>
+<LogStoreDuration value="2"/>
+<LogInterval value="1"/>
+	Logging on/off and rotation of the log files.
+
+
++++++++++++++++++++++++++++++++++
+6. Running it as a systemd unit
++++++++++++++++++++++++++++++++++
+
+A release build daemonizes itself and writes a pid file, so Type=forking with
+PIDFile fits. Restart=always replaces the monit setup of earlier versions.
+
+-- /etc/systemd/system/pokerth.service --
+[Unit]
+Description=PokerTH dedicated server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=forking
+User=pokerth
+Group=pokerth
+WorkingDirectory=/home/pokerth/pokerth/build/bin
+ExecStart=/home/pokerth/pokerth/build/bin/pokerth_dedicated_server \
+          --pid-file /run/pokerth/pokerth.pid
+PIDFile=/run/pokerth/pokerth.pid
+RuntimeDirectory=pokerth
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+-- cut here --
+
+	systemctl daemon-reload
+	systemctl enable --now pokerth
+	systemctl status pokerth
+
+If several instances share one home directory, or the configuration file is
+managed by a deployment tool, add --readonly-config to ExecStart - the server
+then never touches it (see chapter 5).
+
+
+++++++++++++++++++++++++++++++++++++++
+7. Letting players find your server
+++++++++++++++++++++++++++++++++++++++
+
+There are two ways for a player to reach a dedicated server.
+
+7.1 Direct connection
+----------------------
+
+In the client, "Network game" -> join a game by address. Address and port are
+entered by the player; this path never uses TLS, so the server has to run with
+ServerUseTls=0 for it.
+
+7.2 Own server list (recommended)
+----------------------------------
+
+A server list is an XML file that the client downloads on startup; it may hold
+several servers, with or without TLS. serverlist_example.xml in the repository
+root is a documented example.
+
+	<Server id="1">
+	    <Name value="My PokerTH Server"/>
+	    <Country value="de"/>
+	    <IPv4Address value="your.server.example.com"/>
+	    <IPv6Address value="your.server.example.com"/>
+	    <TLS value="on"/>
+	    <TLSPin value="hnyHDGXvmDBFU7MN5xXuiq4OaWWrnHNzqhKlEoSuAV4="/>
+	    <ProtobufPort value="7236"/>
+	</Server>
+
+TLSPin is base64(sha256(DER SubjectPublicKeyInfo)) of the server certificate:
+
+	openssl s_client -connect host:port </dev/null 2>/dev/null \
+	  | openssl x509 -pubkey -noout \
+	  | openssl pkey -pubin -outform der \
+	  | openssl dgst -sha256 -binary | openssl enc -base64
+
+The client only accepts a server that proves possession of a pinned key, which
+is what protects the login data against a man in the middle even though the
+certificate is self-signed. During a key rollover, list the old and the new pin.
+
+Compress the list and publish it together with its checksum:
+
+	cmake --build ./build --target zlib_compress
+	./create_serverlist.sh serverlist.xml
+	# upload serverlist.xml.z and serverlist.xml.z.md5 to your web server
+
+The players then point InternetServerListAddress in their client settings at
+that URL ("internet game" settings), or enter address and port manually there.
+
+
++++++++++++++++++++++++++++++++++
+8. Operating a dedicated server
++++++++++++++++++++++++++++++++++
+
+Keep in mind what a server without a database can and cannot do:
+
+* Players are not authenticated. The nickname is whatever the client sends, so
+  names are not reserved and cannot be owned.
+* There are no server admins, and therefore none of the admin functions of the
+  protocol (remove game, ban player, global notice) are available. The tool
+  pokerth_globalnotice only works against a server with accounts (chapter 9).
+* Inside a game, the players themselves can vote-kick a seated player.
+* The access control you do have: ServerPassword, GameNameBadWordList, the
+  login rate limit, and the chat cleaner.
+* Game results are not stored anywhere.
+
+For an overview of what a running server is doing, read the log:
+
+	<LogDir>/server_messages.log
+
+Log level 2 (--log-level 2) adds one line per connection, session and packet
+error, which is what you want while debugging a connection problem.
+
+The repository also contains
+
+	tools/analyze_server_log.py
+
+which renders such a log as an SVG - sessions, games and errors over time.
+
+The minimum client version the server accepts is compiled in (see
+MIN_BUILD_ID_* in src/game_defs.h): the current and the previous release of each
+client type. Older clients are rejected with "version not supported", which is
+why a server should be updated together with a new release.
+
+
++++++++++++++++++++++++++++++
+9. The official server
++++++++++++++++++++++++++++++
+
+pokerth_official_server is built from the same sources with the MySQL backend
+compiled in:
+
+	cmake --build ./build --target pokerth_official_server
+
+It requires a MySQL/MariaDB database and a Qt build with the QMYSQL driver. It
+adds registered accounts (challenge/response login), rankings, avatar
+blacklists, admin rights, and per-session activity logging.
+
+Additional options in config.xml:
+
+<DBServerAddress value="127.0.0.1"/>
+<DBServerUser value="pokerth"/>
+<DBServerPassword value=""/>
+<DBServerDatabaseName value="pokerth"/>
+<DBServerEncryptionKey value=""/>
+	Connection to the account database.
+
+<ServerRestrictGuestLogin value="0"/>
+	1 = allow only one guest per IP address, and limit the number of guests in
+	the lobby. Only applies to guest logins, which exist only on this server
+	type.
+
+<ServerLimitRankNum value="4"/>
+<ServerLimitRankPeriod value="60"/>
+	How many ranking games a player may join or create within the given number
+	of minutes.
+
+The schema for the activity and live statistics tables is in this directory:
+
+	docs/server_activity_schema.sql
+	docs/server_activity_add_client_platform.sql
+	docs/server_live_stats_schema.sql
+
+The account tables themselves belong to the pokerth.net website and are not part
+of this repository.
+
+Administration happens through the protocol with an account that has admin
+rights in the database: removing a game, banning a player and sending a global
+notice are all client-side actions. The command line tool
+
+	pokerth_globalnotice -u <admin account> -m "text"
+
+sends a global notice without starting a client; run it with --help for the full
+option list.
+
+
+++++++++++++++++++++
+10. Troubleshooting
+++++++++++++++++++++
+
+"Missing files - please check your directory settings!" in the log
+	The data directory was not found. See 2.3, and check AppDataDir in
+	config.xml.
+
+Clients report "version not supported"
+	The client is older than MIN_BUILD_ID_* of this server build, or the network
+	protocol version differs. Both sides have to be from a supported release.
+
+Clients cannot connect at all
+	Check the firewall and whether the server actually bound the port
+	(ss -tlnp | grep 7234). A server with ServerUseTls=1 cannot be reached over
+	a direct "network game" connection - that path is always unencrypted.
+
+TLS handshake fails
+	Certificate or key not readable by the daemon user, or the paths in
+	ServerTlsCertFile/ServerTlsKeyFile are wrong. The server logs the file it
+	tried to open.
+
+Everyone from one location gets blocked after a few logins
+	The login rate limit counts per IP address. Add that address to
+	ServerBruteForceProtectionExempt.
+
+Configuration changes have no effect
+	The configuration is read on startup; restart the server after editing it.
+
+AppDataDir points somewhere else after an update
+	A new version updates the configuration file in place and resets AppDataDir
+	to <directory of the binary>/data. Set it again if your data directory lives
+	somewhere else.
+
+
+2007-2012 by Lothar May, updated 2026 for PokerTH 2.1.8

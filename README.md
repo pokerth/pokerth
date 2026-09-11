@@ -180,5 +180,4 @@ The artwork, sounds and fonts shipped in [data](data) have their own, partly
 different licenses and authors; they are listed in
 [data/data-copyright.txt](data/data-copyright.txt).
 
-Copyright © 2006–2012 Felix Hammer, Florian Thauer, Lothar May and the PokerTH
-contributors.
+Copyright © 2006–2026 Kai Philipp, Felix Hammer, Florian Thauer, Lothar May.
