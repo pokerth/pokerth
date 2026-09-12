@@ -556,9 +556,29 @@ done
 # here — "android-deploy-plugins" in particular is a flat list of ABI-suffixed
 # paths that androiddeployqt copies without checking their architecture, which
 # is why CMake no longer writes one (see qt6-qml/CMakeLists.txt, Android branch).
+#
+# extraPrefixDirs/extraLibraryDirs are emptied for the same reason, one level
+# deeper: CMake puts the Qt kit of *this* ABI in there ("Usually android
+# deployment settings contain Qt install directory in extraPrefixDirs" —
+# androiddeployqt's own comment), and those directories are searched BEFORE
+# qtInstallDirectory, with the first hit for a file returned outright. In a
+# single multi-ABI run that means every secondary ABI looks into the primary
+# ABI's kit first, finds its dependency XML and plugins there, and drops them
+# again on the ELF architecture check — silently, unless --verbose is on. The
+# result is an ABI that ends up without its multimedia plugin. Emptied, the
+# search uses qtInstallDirectory alone, which is correct for each ABI. Nothing
+# is lost: the vcpkg libraries are linked statically, and the only shared ones
+# (libssl/libcrypto) are copied into libs/<abi>/ by this script.
 MERGED_JSON="$ANDROID_BUILD_DIR-deployment-settings.json"
 jq --argjson qt "$QT_DIR_MAP" --argjson arch "$ARCH_MAP" \
-   '.qt = $qt | .architectures = $arch' "$PRIMARY_DEPLOY_JSON" > "$MERGED_JSON"
+   '.qt = $qt | .architectures = $arch
+    | .extraPrefixDirs = [] | .extraLibraryDirs = []' \
+   "$PRIMARY_DEPLOY_JSON" > "$MERGED_JSON"
+
+# The fields that decide which kit each ABI is deployed from — printed because
+# getting them wrong costs a full build to notice.
+log "Merged deployment settings:"
+jq -r '{qt, architectures, extraPrefixDirs, extraLibraryDirs}' "$MERGED_JSON" | sed 's/^/  /'
 
 log "Deploying ${#ABI_LIST[@]} ABI(s) in one androiddeployqt run: $(IFS=,; echo "${ABI_LIST[*]}")…"
 # The run ends with an "assembleRelease" whose APK we throw away — there is no
