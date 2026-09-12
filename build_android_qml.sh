@@ -484,23 +484,33 @@ ANDROIDDEPLOYQT="$QT_HOST_PATH/bin/androiddeployqt"
 
 rm -rf "$ANDROID_BUILD_DIR"
 
-# androiddeployqt is called ONCE for all ABIs, from one merged settings file.
-# It is not a convenience: the Qt libraries an app loads at startup are listed
-# in res/values/libs.xml, and only a full run writes that list. A run per ABI —
-# the primary full, the rest with --copy-dependencies-only — copies every .so
-# into place but leaves libs.xml with the primary ABI alone, so on an x86_64
-# device QtLoader asks for "libQt6Core_arm64-v8a.so" and the app dies before it
-# starts (UnsatisfiedLinkError). androiddeployqt handles the multi-ABI case
-# itself: "qt" and "architectures" are maps of ABI -> Qt kit / toolchain triple,
-# it loops over them and keeps each ABI's libraries apart, and "stdcpp-path" is
-# a base directory it combines with each triple. The app binaries and the
-# OpenSSL libraries only have to be in libs/<abi>/ before it runs.
-# Collected while preparing each ABI, consumed by the single deploy run below.
-QT_DIR_MAP="{}"
-ARCH_MAP="{}"
-PRIMARY_DEPLOY_JSON=""
-
+# One androiddeployqt run per ABI, because that is the only mode in which it
+# resolves each ABI against its own Qt kit. A single run over a merged settings
+# file looks tempting — "qt" and "architectures" do take ABI maps — but the
+# fields around them do not: "extraPrefixDirs" holds the Qt kit of ONE ABI and
+# is searched before qtInstallDirectory (returning the first hit for a file
+# outright), so every secondary ABI picks up the primary ABI's dependency XMLs
+# and plugins and then drops them again on the ELF architecture check, silently.
+# Those ABIs end up without their multimedia plugin. Emptying the field only
+# moves the damage: the QML import scanner needs it and stops resolving QtQuick.
+#
+# What this mode does not do is write res/values/libs.xml for the secondary
+# ABIs — only the full run writes it, for its own ABI. Section 7b adds the rest;
+# without them Qt asks an x86_64 device for arm64 libraries and the app dies
+# before its first frame (UnsatisfiedLinkError).
+# Deploy order matters. Every run copies Qt's QML modules into
+# assets/android_rcc_bundle/, but only a *full* run packs that directory into
+# android_rcc_bundle.rcc and deletes it again — a --copy-dependencies-only run
+# stops before that step. So the secondary ABIs go first and the primary's full
+# run closes the bundle; the other way round each secondary ABI would leave a
+# raw copy of Qt's QML tree in the assets.
+declare -a DEPLOY_ORDER=()
 for ABI in "${ABI_LIST[@]}"; do
+  [ "$ABI" = "$PRIMARY_ABI" ] || DEPLOY_ORDER+=("$ABI")
+done
+DEPLOY_ORDER+=("$PRIMARY_ABI")
+
+for ABI in "${DEPLOY_ORDER[@]}"; do
   BUILD_DIR="$SCRIPT_DIR/build-android-$ABI"
 
   DEPLOY_JSON="$(find "$BUILD_DIR/$GUI_SUBDIR" -name "*deployment-settings.json" -print -quit 2>/dev/null || true)"
@@ -520,18 +530,6 @@ for ABI in "${ABI_LIST[@]}"; do
      "$DEPLOY_JSON" > "$TMP_JSON"
   mv "$TMP_JSON" "$DEPLOY_JSON"
 
-  # Every ABI has its own Qt kit and toolchain triple — those are the only two
-  # fields that differ between the per-ABI settings files, and the merged file
-  # carries them as maps. CMake writes "qt" as a plain string for a single-ABI
-  # build and as a map for a multi-ABI one, so accept both.
-  ABI_QT_DIR="$(jq -r 'if (.qt | type) == "object" then (.qt | to_entries[0].value) else .qt end' "$DEPLOY_JSON")"
-  ABI_TRIPLE="$(jq -r '.architectures | to_entries[0].value' "$DEPLOY_JSON")"
-  QT_DIR_MAP="$(jq -cn --argjson m "$QT_DIR_MAP" --arg a "$ABI" --arg v "$ABI_QT_DIR" '$m + {($a): $v}')"
-  ARCH_MAP="$(jq -cn --argjson m "$ARCH_MAP" --arg a "$ABI" --arg v "$ABI_TRIPLE" '$m + {($a): $v}')"
-  if [ "$ABI" = "$PRIMARY_ABI" ]; then
-    PRIMARY_DEPLOY_JSON="$DEPLOY_JSON"
-  fi
-
   # androiddeployqt expects the app binary under the name lib<target>_<abi>.so
   # and refuses to package an ABI whose binary is missing.
   SO_FILE="$(find "$BUILD_DIR" -type f -name "lib${BUILD_TARGET}*.so" -print -quit 2>/dev/null || true)"
@@ -548,64 +546,162 @@ for ABI in "${ABI_LIST[@]}"; do
     curl -fsSL -o "$ANDROID_BUILD_DIR/libs/$ABI/$SSL_LIB" "$OPENSSL_BASE_URL/$ABI/$SSL_LIB"
   done
 
+  if [ "$ABI" = "$PRIMARY_ABI" ]; then
+    # Full run: copies Qt's Gradle template and the package source directory
+    # (manifest, icons, ConnectionService.java), packs the rcc bundle and writes
+    # gradle.properties. It ends with a single-ABI "assembleRelease" whose APK we
+    # throw away — androiddeployqt has no mode that stops after generating the
+    # project but still copies the package sources. The real package is the
+    # bundleRelease below, once every ABI is in place.
+    log "Deploying $ABI (primary — completes the Gradle project)…"
+    "$ANDROIDDEPLOYQT" \
+      --input "$DEPLOY_JSON" \
+      --output "$ANDROID_BUILD_DIR" \
+      --android-platform "android-${ANDROID_API_LEVEL}" \
+      --jdk "$JAVA_HOME" \
+      --release
+  else
+    # Secondary ABIs only contribute their native libraries and Qt assets. Each
+    # is deployed from its *own* settings file: Qt kit, vcpkg prefix and plugin
+    # list differ per ABI, and androiddeployqt resolves those flat lists against
+    # the first match it finds — one merged multi-ABI file would hand every ABI
+    # the same (wrong) libraries.
+    log "Deploying $ABI (adds libs/$ABI to the Gradle project)…"
+    "$ANDROIDDEPLOYQT" \
+      --input "$DEPLOY_JSON" \
+      --output "$ANDROID_BUILD_DIR" \
+      --android-platform "android-${ANDROID_API_LEVEL}" \
+      --jdk "$JAVA_HOME" \
+      --copy-dependencies-only
+  fi
 done
 
-# One settings file for every ABI: all fields are identical across the per-ABI
-# files except "qt" and "architectures", which androiddeployqt reads as maps of
-# ABI -> Qt kit / toolchain triple and loops over. Nothing else may be merged in
-# here — "android-deploy-plugins" in particular is a flat list of ABI-suffixed
-# paths that androiddeployqt copies without checking their architecture, which
-# is why CMake no longer writes one (see qt6-qml/CMakeLists.txt, Android branch).
+########################################
+# 7b. Qt load list for the secondary ABIs
+########################################
+
+# res/values/libs.xml tells QtLoader which libraries to load at startup, as one
+# "<item>abi;lib:lib:…</item>" per ABI. Only the full androiddeployqt run writes
+# it, so it covers the primary ABI alone — every other ABI would load the
+# primary's libraries and die (UnsatisfiedLinkError: library
+# "libQt6Core_arm64-v8a.so" not found, on an x86_64 device).
 #
-# extraPrefixDirs/extraLibraryDirs are emptied for the same reason, one level
-# deeper: CMake puts the Qt kit of *this* ABI in there ("Usually android
-# deployment settings contain Qt install directory in extraPrefixDirs" —
-# androiddeployqt's own comment), and those directories are searched BEFORE
-# qtInstallDirectory, with the first hit for a file returned outright. In a
-# single multi-ABI run that means every secondary ABI looks into the primary
-# ABI's kit first, finds its dependency XML and plugins there, and drops them
-# again on the ELF architecture check — silently, unless --verbose is on. The
-# result is an ABI that ends up without its multimedia plugin. Emptied, the
-# search uses qtInstallDirectory alone, which is correct for each ABI. Nothing
-# is lost: the vcpkg libraries are linked statically, and the only shared ones
-# (libssl/libcrypto) are copied into libs/<abi>/ by this script.
-MERGED_JSON="$ANDROID_BUILD_DIR-deployment-settings.json"
-jq --argjson qt "$QT_DIR_MAP" --argjson arch "$ARCH_MAP" \
-   '.qt = $qt | .architectures = $arch
-    | .extraPrefixDirs = [] | .extraLibraryDirs = []' \
-   "$PRIMARY_DEPLOY_JSON" > "$MERGED_JSON"
-
-# The fields that decide which kit each ABI is deployed from — printed because
-# getting them wrong costs a full build to notice.
-log "Merged deployment settings:"
-jq -r '{qt, architectures, extraPrefixDirs, extraLibraryDirs}' "$MERGED_JSON" | sed 's/^/  /'
-
-log "Deploying ${#ABI_LIST[@]} ABI(s) in one androiddeployqt run: $(IFS=,; echo "${ABI_LIST[*]}")…"
-# The run ends with an "assembleRelease" whose APK we throw away — there is no
-# mode that generates the Gradle project without building it. The real package
-# is the bundleRelease (or the assembleRelease of section 8a) below.
-"$ANDROIDDEPLOYQT" \
-  --input "$MERGED_JSON" \
-  --output "$ANDROID_BUILD_DIR" \
-  --android-platform "android-${ANDROID_API_LEVEL}" \
-  --jdk "$JAVA_HOME" \
-  --release
-
-# The check that would have caught the bug above: every ABI in the package must
-# appear in Qt's load list, or its devices crash on startup with
-# UnsatisfiedLinkError. libs.xml is generated text at this point.
+# The entries differ only in the ABI suffix of the file names, so they are
+# derived from the primary ABI's and then VERIFIED: every name is looked up in
+# libs/<abi>/, and what is not there is dropped from the list rather than
+# guessed at. A missing platform plugin aborts the build — the app could not
+# start without it.
 LIBS_XML="$ANDROID_BUILD_DIR/res/values/libs.xml"
 [ -f "$LIBS_XML" ] || { echo "ERROR: androiddeployqt wrote no $LIBS_XML" >&2; exit 1; }
+
+log "Extending Qt's load list to every ABI…"
+PRIMARY_ABI="$PRIMARY_ABI" \
+ALL_ABIS="$(IFS=,; echo "${ABI_LIST[*]}")" \
+LIBS_XML="$LIBS_XML" \
+LIBS_ROOT="$ANDROID_BUILD_DIR/libs" \
+python3 - <<'PYEOF'
+import os, re, sys
+
+primary = os.environ["PRIMARY_ABI"]
+abis = os.environ["ALL_ABIS"].split(",")
+libs_xml = os.environ["LIBS_XML"]
+libs_root = os.environ["LIBS_ROOT"]
+
+def file_name(entry):
+    # qt_libs lists bare names ("Qt6Core_arm64-v8a"), the other arrays file
+    # names ("libplugins_platforms_qtforandroid_arm64-v8a.so").
+    return entry if entry.endswith(".so") else "lib%s.so" % entry
+
+xml = open(libs_xml, encoding="utf-8").read()
+item_re = re.compile(r'( *)<item>%s;([^<]*)</item>' % re.escape(primary))
+missing_platform = []
+added = {}
+
+def expand(match):
+    indent, payload = match.group(1), match.group(2)
+    out = [match.group(0)]
+    for abi in abis:
+        if abi == primary:
+            continue
+        if re.search(r'<item>%s;' % re.escape(abi), xml):
+            continue  # androiddeployqt already wrote one for this ABI
+        entries, dropped = [], []
+        for entry in payload.split(":"):
+            if not entry:
+                continue
+            renamed = entry.replace("_%s" % primary, "_%s" % abi)
+            if os.path.exists(os.path.join(libs_root, abi, file_name(renamed))):
+                entries.append(renamed)
+            else:
+                dropped.append(renamed)
+        if not entries:
+            continue
+        if not any("qtforandroid" in e for e in entries) and \
+           any("qtforandroid" in e for e in payload.split(":")):
+            missing_platform.append(abi)
+        if dropped:
+            print("  %s: not packaged, left out of the load list: %s"
+                  % (abi, " ".join(dropped)))
+        added.setdefault(abi, 0)
+        added[abi] += len(entries)
+        out.append("%s<item>%s;%s</item>" % (indent, abi, ":".join(entries)))
+    return "\n".join(out)
+
+new_xml = item_re.sub(expand, xml)
+if new_xml != xml:
+    open(libs_xml, "w", encoding="utf-8").write(new_xml)
+
+if missing_platform:
+    sys.stderr.write("ERROR: no platform plugin packaged for: %s — those devices\n"
+                     "       could not start the app.\n" % ", ".join(missing_platform))
+    sys.exit(1)
+
+for abi in abis:
+    if not re.search(r'<item>%s;' % re.escape(abi), open(libs_xml, encoding="utf-8").read()):
+        sys.stderr.write("ERROR: %s has no entry in libs.xml and would load another\n"
+                         "       ABI's libraries.\n" % abi)
+        sys.exit(1)
+print("  load list covers: %s (added %s)"
+      % (", ".join(abis),
+         ", ".join("%s:%d libs" % (a, n) for a, n in sorted(added.items())) or "nothing"))
+PYEOF
+
+########################################
+# 7a. Drop the FFmpeg multimedia backend
+########################################
+
+# CMake already asks for the Android backend only (qt_import_plugins,
+# INCLUDE_BY_TYPE multimedia), but androiddeployqt resolves the dependencies of
+# what it finds in the Qt kit and has copied the FFmpeg plugin along with it in
+# the past. This is not cosmetic: the FFmpeg libraries in the Qt kit align their
+# ELF segments to 4 KB, so Google Play rejects a bundle containing them as "does
+# not support 16 KB memory pages" (that is what killed versionCode 118, next to
+# the compressed packaging). They are also ~16 MB per ABI of dead weight — the
+# client's audio player runs the software mixer on Android and needs nothing but
+# a QAudioSink, which the Android backend provides. libQt6Multimedia links
+# against none of them; only the FFmpeg plugin does.
 for ABI in "${ABI_LIST[@]}"; do
-  # Entries look like "<item>x86_64;libQt6Core_x86_64.so:…</item>"; anchoring on
-  # "<item>$ABI;" keeps "x86" from matching inside "x86_64".
-  if ! grep -q "<item>$ABI;" "$LIBS_XML"; then
-    echo "ERROR: $ABI is missing from $LIBS_XML — Qt would look for another" >&2
-    echo "       ABI's libraries on those devices and the app would not start." >&2
+  LIB_DIR="$ANDROID_BUILD_DIR/libs/$ABI"
+  [ -d "$LIB_DIR" ] || continue
+  DROPPED=""
+  for DEAD in "libplugins_multimedia_ffmpegmediaplugin_${ABI}.so" \
+              libavcodec.so libavformat.so libavutil.so \
+              libswresample.so libswscale.so; do
+    if [ -f "$LIB_DIR/$DEAD" ]; then
+      rm -f "$LIB_DIR/$DEAD"
+      DROPPED="$DROPPED $DEAD"
+    fi
+  done
+  [ -z "$DROPPED" ] || log "Removed the FFmpeg backend from libs/$ABI:$DROPPED"
+  # Without any multimedia plugin the client starts but stays silent, and that
+  # is exactly the kind of thing nobody notices until a player reports it.
+  if [ ! -f "$LIB_DIR/libplugins_multimedia_androidmediaplugin_${ABI}.so" ]; then
+    echo "ERROR: no Android multimedia plugin in libs/$ABI — the app would have" >&2
+    echo "       no audio backend at all. Check qt_import_plugins() in" >&2
+    echo "       src/gui/qt6-qml/CMakeLists.txt and the qtmultimedia module." >&2
     exit 1
   fi
 done
-log "Qt load list covers: $(IFS=,; echo "${ABI_LIST[*]}")"
 
 ########################################
 # 7a. Drop the FFmpeg multimedia backend
@@ -675,22 +771,12 @@ set_gradle_property() {
   fi
 }
 
-# build.gradle limits the package to ndk.abiFilters = qtTargetAbiList, which
-# androiddeployqt writes from the "architectures" map of the merged settings
-# file — every ABI of this build. Verify rather than set it: a mismatch here
-# silently drops ABIs from the package.
+# androiddeployqt's full run only knows about the primary ABI, so it limits the
+# build to it (build.gradle: ndk.abiFilters = qtTargetAbiList). For a bundle we
+# widen it to everything now sitting in libs/; for a single-ABI APK it already
+# is our one ABI, so this is a no-op that just makes the filter explicit.
 ABI_CSV="$(IFS=,; echo "${ABI_LIST[*]}")"
-GRADLE_ABIS="$(sed -n 's/^qtTargetAbiList=//p' "$ANDROID_BUILD_DIR/gradle.properties" | tr ',' '\n' | sort | tr '\n' ' ')"
-EXPECTED_ABIS="$(printf '%s\n' "${ABI_LIST[@]}" | sort | tr '\n' ' ')"
-if [ -z "$GRADLE_ABIS" ]; then
-  # Not written at all (older androiddeployqt): set it rather than fail.
-  log "qtTargetAbiList missing from gradle.properties — setting it to $ABI_CSV"
-  set_gradle_property qtTargetAbiList "$ABI_CSV"
-elif [ "$GRADLE_ABIS" != "$EXPECTED_ABIS" ]; then
-  echo "ERROR: gradle.properties has qtTargetAbiList=[$GRADLE_ABIS], expected [$EXPECTED_ABIS]." >&2
-  echo "       Gradle would drop the missing ABIs from the package." >&2
-  exit 1
-fi
+set_gradle_property qtTargetAbiList "$ABI_CSV"
 
 # AGP aborts on a compileSdk it does not know unless the check is waived
 # explicitly: Qt 6.9 pins AGP 8.8 (max SDK 35), the Qt 6.7 kit is raised to AGP
