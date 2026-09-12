@@ -499,6 +499,7 @@ rm -rf "$ANDROID_BUILD_DIR"
 QT_DIR_MAP="{}"
 ARCH_MAP="{}"
 PRIMARY_DEPLOY_JSON=""
+declare -a SECONDARY_DEPLOY_JSONS=()
 
 for ABI in "${ABI_LIST[@]}"; do
   BUILD_DIR="$SCRIPT_DIR/build-android-$ABI"
@@ -530,6 +531,8 @@ for ABI in "${ABI_LIST[@]}"; do
   ARCH_MAP="$(jq -cn --argjson m "$ARCH_MAP" --arg a "$ABI" --arg v "$ABI_TRIPLE" '$m + {($a): $v}')"
   if [ "$ABI" = "$PRIMARY_ABI" ]; then
     PRIMARY_DEPLOY_JSON="$DEPLOY_JSON"
+  else
+    SECONDARY_DEPLOY_JSONS+=("$DEPLOY_JSON")
   fi
 
   # androiddeployqt expects the app binary under the name lib<target>_<abi>.so
@@ -550,11 +553,29 @@ for ABI in "${ABI_LIST[@]}"; do
 
 done
 
-# One settings file for every ABI: take the primary's (all non-ABI fields are
-# identical) and replace "qt" and "architectures" with the maps collected above.
+# One settings file for every ABI. Most fields are identical across the per-ABI
+# files, so the primary's are taken as the base, but four of them point into one
+# ABI's Qt kit or prefix and have to carry all of them:
+#   qt / architectures        maps of ABI -> Qt kit / toolchain triple
+#   android-deploy-plugins    the plugin list from qt_import_plugins(), whose
+#                             file names carry the ABI suffix
+#                             (…_androidmediaplugin_arm64-v8a.so). With only the
+#                             primary's entry the other ABIs end up with no
+#                             multimedia plugin at all — section 7a catches that.
+#   extraPrefixDirs / extraLibraryDirs   the per-ABI vcpkg prefixes
+# Merging is safe: androiddeployqt skips paths that do not exist and refuses
+# files whose ELF architecture is not the one it is currently deploying.
 MERGED_JSON="$ANDROID_BUILD_DIR-deployment-settings.json"
-jq --argjson qt "$QT_DIR_MAP" --argjson arch "$ARCH_MAP" \
-   '.qt = $qt | .architectures = $arch' "$PRIMARY_DEPLOY_JSON" > "$MERGED_JSON"
+jq -s --argjson qt "$QT_DIR_MAP" --argjson arch "$ARCH_MAP" '
+    . as $all
+    | $all[0]
+    | .qt = $qt
+    | .architectures = $arch
+    | .["android-deploy-plugins"] =
+        ([$all[] | .["android-deploy-plugins"] // empty] | join(";"))
+    | .extraPrefixDirs  = ([$all[] | (.extraPrefixDirs  // [])[]] | unique)
+    | .extraLibraryDirs = ([$all[] | (.extraLibraryDirs // [])[]] | unique)
+  ' "$PRIMARY_DEPLOY_JSON" "${SECONDARY_DEPLOY_JSONS[@]}" > "$MERGED_JSON"
 
 log "Deploying ${#ABI_LIST[@]} ABI(s) in one androiddeployqt run: $(IFS=,; echo "${ABI_LIST[*]}")…"
 # The run ends with an "assembleRelease" whose APK we throw away — there is no
