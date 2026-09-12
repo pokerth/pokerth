@@ -49,7 +49,7 @@
 #define POKERTH_BETA_RELEASE_STRING	 "2.1.9"
 
 // --- Client type identifiers (encoded in high byte of buildId) ---
-#define CLIENT_TYPE_QT_WIDGET	0x01	// Qt Widget client (final release: 2.1.8)
+#define CLIENT_TYPE_QT_WIDGET	0x01	// Qt Widget client (final release: 2.1.9)
 #define CLIENT_TYPE_QML			0x02	// QML client (starting at 2.1.0)
 #define CLIENT_TYPE_WEB			0x03	// Browser client (pokerth-web-client, WebSocket)
 
@@ -79,8 +79,8 @@
 
 // --- Minimum supported build IDs (server rejects anything below) ---
 // Policy: current and previous release are allowed for each client type.
-// Qt Widget: min 2.1.7, final release 2.1.8 (both allowed; the client is discontinued)
-#define MIN_BUILD_ID_QT_WIDGET	MAKE_BUILD_ID(CLIENT_TYPE_QT_WIDGET, 2, 1, 7)
+// Qt Widget: min 2.1.8, final release 2.1.9 (both allowed; the client ends here)
+#define MIN_BUILD_ID_QT_WIDGET	MAKE_BUILD_ID(CLIENT_TYPE_QT_WIDGET, 2, 1, 8)
 // QML: min 2.1.8, current 2.1.9 (both allowed); update min to previous release with each new release
 #define MIN_BUILD_ID_QML		MAKE_BUILD_ID(CLIENT_TYPE_QML, 2, 1, 8)
 // Web: the browser client is developed and deployed independently of the
