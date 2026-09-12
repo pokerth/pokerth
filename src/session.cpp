@@ -45,7 +45,6 @@
 #include <sstream>
 
 #define NET_CLIENT_TERMINATE_TIMEOUT_MSEC	2000
-#define NET_IRC_TERMINATE_TIMEOUT_MSEC		2000
 
 #define NET_DEFAULT_GAME					"default"
 

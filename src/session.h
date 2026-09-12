@@ -47,7 +47,6 @@ class ConfigFile;
 class Log;
 class ClientThread;
 class ServerManager;
-class IrcThread;
 class AvatarManager;
 class QtToolsInterface;
 
@@ -142,8 +141,6 @@ public:
 private:
 
 	int currentGameNum;
-
-	std::string myIrcNick;
 
 	boost::shared_ptr<ClientThread> myNetClient;
 	boost::shared_ptr<ServerManager> myNetServer;

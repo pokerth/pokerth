@@ -35,7 +35,7 @@
 using namespace std;
 
 
-ServerGuiWrapper::ServerGuiWrapper(ConfigFile *config, ClientCallback *clientcb, ServerCallback *servercb /*, IrcCallback *irccb */)
+ServerGuiWrapper::ServerGuiWrapper(ConfigFile *config, ClientCallback *clientcb, ServerCallback *servercb)
 	: myConfig(config), myClientcb(clientcb), myServercb(servercb)
 {
 }
