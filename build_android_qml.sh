@@ -915,6 +915,12 @@ if [ "$UNIVERSAL_APK" = "1" ]; then
   unzip -p "$APKS_FILE" universal.apk > "$UNIVERSAL_APK_FILE"
   rm -f "$APKS_FILE"
 
+  # The only 16 KB evidence this build can produce end to end: bundletool
+  # applies the manifest's extractNativeLibs here, so this APK is packed the way
+  # the split APKs Play generates from the same bundle will be. On the .aab
+  # itself only the flag can be reported — every entry in a bundle is deflated.
+  check_16k_alignment "$UNIVERSAL_APK_FILE"
+
   # Which certificate ended up on the APK decides whether a device that already
   # has PokerTH installed accepts it as an update. Without --ks bundletool does
   # not leave the APK unsigned — it silently falls back to its own debug key,
