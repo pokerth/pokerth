@@ -1,7 +1,10 @@
 # Keyboard Shortcuts (QML Client)
 
 Overview of the QML client's keyboard shortcuts. The shortcuts are defined in the QML
-files – the corresponding references are given in parentheses.
+files – the corresponding references are given in parentheses. The shortcuts of
+the Qt Widgets client are listed in
+[widget_client_keyboard_shortcuts.md](widget_client_keyboard_shortcuts.md); the
+differences between the two are at the end of this page.
 
 ## Global (everywhere)
 
@@ -85,3 +88,25 @@ While the emote popup is open, these keys apply:
 | `↑` / `↓` | Select suggestion |
 | `Tab` / `Enter` / `Return` | Accept suggestion |
 | `Esc` | Close the suggestion list |
+
+## Differences to the Qt Widgets client
+
+Identical in both clients: `F1`–`F5` including the reversal through
+`AlternateFKeysUserActionMode`, `F6`/`F7`/`F8` for the playing mode, and the
+chat keys `Enter`, `Tab` and `↑`/`↓`.
+
+| Function | QML | Qt Widgets |
+|----------|-----|------------|
+| Fullscreen | `F11` | `Ctrl+F` |
+| Chat panel | `Alt+C` | `Ctrl+T` |
+| Log / history | `Alt+L` | `Ctrl+L` |
+| Odds / chance | `Alt+I` | `Ctrl+C` |
+| Playing mode by letter | `Alt+M` / `Alt+K` / `Alt+F` | – |
+| Settings | `Alt+S` | – |
+| Back / close the current section | `Esc` | – |
+| Close the emote list | `Esc` | – |
+| Copy the chat history selection | `Ctrl+C` | – |
+| Hands window | – | `Ctrl+H` |
+| Away window | – | `Ctrl+A` |
+| Menu entries (new/create/join/internet game, close, quit) | – | `Ctrl+N`/`O`/`J`/`I`/`X`/`Q` |
+| Pause the local game | – | `Shift` |
