@@ -676,9 +676,13 @@ def rebuild(match):
     kept, dropped = keep(abi, entries)
     if dropped:
         removed.setdefault(abi, []).extend(dropped)
-    items.append("%s<item>%s;%s</item>" % (indent, abi, ":".join(kept)))
+    # An item whose entries are all gone has to disappear WITH the item: qt_libs
+    # holds one library per item, so an emptied "<item>abi;</item>" would make Qt
+    # load the empty name — dlopen("lib.so"), and the app is dead on startup.
+    if kept:
+        items.append("%s<item>%s;%s</item>\n" % (indent, abi, ":".join(kept)))
     if abi != primary:
-        return "\n".join(items)
+        return "".join(items)
     # Derive the ABIs androiddeployqt never wrote an entry for.
     for other in abis:
         if other == primary or other in have:
@@ -690,10 +694,12 @@ def rebuild(match):
         if odrop:
             removed.setdefault(other, []).extend(odrop)
         added[other] = added.get(other, 0) + len(okeep)
-        items.append("%s<item>%s;%s</item>" % (indent, other, ":".join(okeep)))
-    return "\n".join(items)
+        items.append("%s<item>%s;%s</item>\n" % (indent, other, ":".join(okeep)))
+    return "".join(items)
 
-new_xml = re.sub(r'( *)<item>([^;<]+);([^<]*)</item>', rebuild, xml)
+# The trailing newline is part of the match so that a dropped item takes its
+# whole line with it instead of leaving a blank one behind.
+new_xml = re.sub(r'( *)<item>([^;<]+);([^<]*)</item>\n', rebuild, xml)
 if new_xml != xml:
     open(libs_xml, "w", encoding="utf-8").write(new_xml)
 
@@ -711,6 +717,11 @@ for abi in abis:
         sys.stderr.write("ERROR: no platform plugin listed for %s — the app could\n"
                          "       not start on those devices.\n" % abi)
         sys.exit(1)
+empty = re.findall(r'<item>[^;<]*;\s*</item>|<item>[^<]*::[^<]*</item>', final)
+if empty:
+    sys.stderr.write("ERROR: empty entries survive in libs.xml (%s) — Qt would try\n"
+                     "       to load \"lib.so\" and refuse to start.\n" % " ".join(empty[:3]))
+    sys.exit(1)
 print("  load list covers: %s%s"
       % (", ".join(abis),
          " (added %s)" % ", ".join("%s:%d entries" % (a, n)
