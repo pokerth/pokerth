@@ -15,12 +15,21 @@
         android:anyDensity="true"
         android:smallScreens="true"/>
 
+    <!-- extractNativeLibs="false": ship the native libraries UNCOMPRESSED, so
+         AGP stores them on 16 KB ZIP boundaries (needs AGP >= 8.5.1 - Qt 6.9
+         pins 8.8). Google Play rejects a package with compressed libraries as
+         "does not support 16 KB memory pages", no matter how well the .so files
+         themselves are aligned. Qt's own manifest template stopped setting the
+         attribute long ago and relies on exactly this AGP default; it is
+         spelled out here because this template is the only manifest that
+         reaches the build. Needs minSdk >= 23 (ours is 28): only from Android 6
+         on does the linker map a library straight out of the APK. -->
     <application
         android:hardwareAccelerated="true"
         android:name="org.qtproject.qt.android.bindings.QtApplication"
         android:label="PokerTH"
         android:icon="@mipmap/ic_launcher"
-        android:extractNativeLibs="true"
+        android:extractNativeLibs="false"
         android:usesCleartextTraffic="true"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
 

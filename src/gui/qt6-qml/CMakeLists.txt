@@ -466,7 +466,26 @@ if(ANDROID)
         QT_ANDROID_MIN_SDK_VERSION "28"
         QT_ANDROID_TARGET_SDK_VERSION "35"
     )
-    
+
+    # Multimedia backend: keep the Android one, drop FFmpeg — same reasoning as
+    # the iOS branch above, plus a hard blocker. The FFmpeg libraries Qt ships
+    # for Android (libavcodec/libavformat/libavutil/libswresample/libswscale)
+    # align their ELF segments to 4 KB, not 16 KB, so Google Play rejects any
+    # bundle containing them as "does not support 16 KB memory pages" — Qt's own
+    # libraries are fixed since 6.9.3 (QTBUG-131514), these prebuilts are not.
+    # Nothing here needs FFmpeg: on Android the audio player runs the software
+    # mixer (see qtaudioplayer.cpp), which decodes the WAVs itself and only
+    # needs a QAudioSink, and QAndroidMediaPlugin provides one. libQt6Multimedia
+    # itself has no link-time dependency on FFmpeg — only the FFmpeg plugin has.
+    if(NOT TARGET Qt6::QAndroidMediaPlugin)
+        message(FATAL_ERROR
+            "Qt6::QAndroidMediaPlugin not found. Without the Android backend "
+            "the FFmpeg plugin would be deployed, whose 4 KB-aligned libraries "
+            "Google Play rejects. Install Qt with the qtmultimedia module.")
+    endif()
+    qt_import_plugins(pokerth_qml-client
+        INCLUDE_BY_TYPE multimedia Qt6::QAndroidMediaPlugin)
+
     # Finalize the target (it generates deployment-settings.json)
     qt_finalize_target(pokerth_qml-client)
 endif()

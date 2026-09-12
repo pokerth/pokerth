@@ -563,6 +563,43 @@ for ABI in "${DEPLOY_ORDER[@]}"; do
 done
 
 ########################################
+# 7a. Drop the FFmpeg multimedia backend
+########################################
+
+# CMake already asks for the Android backend only (qt_import_plugins,
+# INCLUDE_BY_TYPE multimedia), but androiddeployqt resolves the dependencies of
+# what it finds in the Qt kit and has copied the FFmpeg plugin along with it in
+# the past. This is not cosmetic: the FFmpeg libraries in the Qt kit align their
+# ELF segments to 4 KB, so Google Play rejects a bundle containing them as "does
+# not support 16 KB memory pages" (that is what killed versionCode 118, next to
+# the compressed packaging). They are also ~16 MB per ABI of dead weight — the
+# client's audio player runs the software mixer on Android and needs nothing but
+# a QAudioSink, which the Android backend provides. libQt6Multimedia links
+# against none of them; only the FFmpeg plugin does.
+for ABI in "${ABI_LIST[@]}"; do
+  LIB_DIR="$ANDROID_BUILD_DIR/libs/$ABI"
+  [ -d "$LIB_DIR" ] || continue
+  DROPPED=""
+  for DEAD in "libplugins_multimedia_ffmpegmediaplugin_${ABI}.so" \
+              libavcodec.so libavformat.so libavutil.so \
+              libswresample.so libswscale.so; do
+    if [ -f "$LIB_DIR/$DEAD" ]; then
+      rm -f "$LIB_DIR/$DEAD"
+      DROPPED="$DROPPED $DEAD"
+    fi
+  done
+  [ -z "$DROPPED" ] || log "Removed the FFmpeg backend from libs/$ABI:$DROPPED"
+  # Without any multimedia plugin the client starts but stays silent, and that
+  # is exactly the kind of thing nobody notices until a player reports it.
+  if [ ! -f "$LIB_DIR/libplugins_multimedia_androidmediaplugin_${ABI}.so" ]; then
+    echo "ERROR: no Android multimedia plugin in libs/$ABI — the app would have" >&2
+    echo "       no audio backend at all. Check qt_import_plugins() in" >&2
+    echo "       src/gui/qt6-qml/CMakeLists.txt and the qtmultimedia module." >&2
+    exit 1
+  fi
+done
+
+########################################
 # 8. Package: one multi-ABI .aab, or one single-ABI .apk
 ########################################
 
@@ -589,24 +626,29 @@ if [ "$ANDROID_API_LEVEL" -gt 35 ]; then
   set_gradle_property android.suppressUnsupportedCompileSdk "$ANDROID_API_LEVEL"
 fi
 
-# Keep native debug symbols out of the package. AGP strips the shipped .so but
-# otherwise stashes their full symbol tables in BUNDLE-METADATA/ — ~400 MB for
-# the four app libs plus Qt's ffmpeg lib, none of it delivered to a device, only
-# used for Play crash symbolication we don't rely on. 'none' drops the lot. This
-# covers every native lib (ours and Qt's), which per-lib stripping would not.
+# Native debug symbols: keep the symbol tables, drop the debug info. AGP strips
+# every .so it ships either way; 'SYMBOL_TABLE' additionally files the symbol
+# tables under BUNDLE-METADATA/, from where Play takes them to symbolicate
+# native crashes and ANRs — without them the Play Console shows bare addresses
+# and warns on every upload. 'FULL' would add the DWARF debug info on top, which
+# a Release build does not even produce (no -g), so it would cost size for
+# nothing. Qt's own libraries arrive stripped and contribute next to nothing;
+# what this is really about is libpokerth_qml-client_<abi>.so. None of it is
+# ever downloaded by a device — it only travels inside the bundle, where Play
+# caps the symbols at 800 MB (section 11 prints what we actually use).
 BUILD_GRADLE="$ANDROID_BUILD_DIR/build.gradle"
 if [ -f "$BUILD_GRADLE" ] && ! grep -q "debugSymbolLevel" "$BUILD_GRADLE"; then
-  log "Disabling native debug symbols in the bundle (debugSymbolLevel 'none')…"
+  log "Keeping native symbol tables in the bundle (debugSymbolLevel 'SYMBOL_TABLE')…"
   cat >> "$BUILD_GRADLE" <<'EOF'
 
-// Added by build_android_qml.sh: do not retain native debug symbols. AGP would
-// otherwise ship their full symbol tables in BUNDLE-METADATA/ (~400 MB), which
-// no device downloads — it only feeds Play crash symbolication we don't use.
+// Added by build_android_qml.sh: keep the native symbol tables so Play can
+// symbolicate crashes and ANRs. They live in BUNDLE-METADATA/ and are never
+// delivered to a device. 'FULL' would add DWARF a Release build does not have.
 android {
     buildTypes {
         release {
             ndk {
-                debugSymbolLevel 'none'
+                debugSymbolLevel 'SYMBOL_TABLE'
             }
         }
     }
@@ -617,23 +659,35 @@ fi
 chmod +x "$ANDROID_BUILD_DIR/gradlew"
 
 ########################################
-# 8. 16 KB page alignment check
+# 8. 16 KB page compatibility check
 ########################################
 
-# Google Play requires every shipped .so to align its LOAD segments to 16 KB
-# (0x4000) — on devices with 16 KB memory pages an unaligned library does not
-# load at all, and the Play Console reports it as "Recompile your app with 16 KB
-# native library alignment". Our own libraries get there through the linker
-# flags in CMakeLists.txt (add_link_options, Android branch); prebuilt third
-# party libraries (the Qt kit, the NDK's libc++_shared) can still violate it.
-# So the FINISHED package is checked and every offending library named — the
-# answer belongs in this build log, not in a Play Console warning after upload.
+# Google Play refuses an upload that is not 16 KB compatible ("Your app does not
+# support 16 KB memory pages" / "Deine App unterstützt keine Speicherseiten mit
+# 16 KB"). Two independent things decide that, and both are checked here on the
+# FINISHED package — the answer belongs in this build log, not in a Play Console
+# message after an hour-long build:
+#
+#   1. ELF alignment: every 64-bit .so must align its LOAD segments to 16 KB
+#      (0x4000), otherwise it does not even load on a 16 KB-page device. Our own
+#      libraries get there through the linker flags in CMakeLists.txt
+#      (add_link_options, Android branch), Qt's own libraries since 6.9.3
+#      (QTBUG-131514) and the KDAB OpenSSL prebuilts since their 16 KB rebuild.
+#      Qt's bundled FFmpeg libraries are still 4 KB aligned — section 7a drops
+#      them, they are not needed here. 32-bit ABIs are exempt (no 32-bit device
+#      runs 16 KB pages) and are only listed, so an unaligned armeabi-v7a
+#      library cannot be mistaken for the real thing.
+#   2. Packaging: the libraries have to sit UNCOMPRESSED on 16 KB ZIP boundaries
+#      in the installed package. That is what android:extractNativeLibs="false"
+#      (AndroidManifest.xml.template) plus AGP >= 8.5.1 produce. A package with
+#      compressed libraries is rejected even when every single .so is aligned —
+#      which is exactly what happened to the first upload.
 check_16k_alignment() {
   local pkg="$1"
-  local readelf tmp so aligns a v min total bad
+  local readelf tmp so rel abi aligns a v min total bad64 bad32
   readelf="$(ls "$ANDROID_NDK_ROOT"/toolchains/llvm/prebuilt/*/bin/llvm-readelf 2>/dev/null | head -1)"
   echo ""
-  echo "16 KB page alignment ($(basename "$pkg")):"
+  echo "16 KB page compatibility ($(basename "$pkg")):"
   if [ -z "$readelf" ]; then
     echo "  SKIPPED — llvm-readelf not found in $ANDROID_NDK_ROOT"
     return 0
@@ -641,9 +695,10 @@ check_16k_alignment() {
   tmp="$(mktemp -d)"
   # APK and AAB are both ZIPs: libraries live in lib/<abi>/ (AAB: base/lib/<abi>/).
   unzip -q -o "$pkg" 'lib/*/*.so' 'base/lib/*/*.so' -d "$tmp" 2>/dev/null || true
-  total=0; bad=0
+  total=0; bad64=0; bad32=0
   while IFS= read -r so; do
     total=$((total + 1))
+    abi="$(basename "$(dirname "$so")")"
     # Program headers: the last column of every LOAD line is its alignment.
     aligns="$("$readelf" -lW "$so" 2>/dev/null | awk '$1 == "LOAD" { print $NF }')"
     min=""
@@ -652,25 +707,79 @@ check_16k_alignment() {
       if [ -z "$min" ] || [ "$v" -lt "$min" ]; then min=$v; fi
     done
     [ -n "$min" ] || min=0
-    if [ "$min" -lt 16384 ]; then
-      bad=$((bad + 1))
-      printf '  NOT ALIGNED (%s bytes): %s\n' "$min" "${so#"$tmp"/}"
-    fi
+    [ "$min" -lt 16384 ] || continue
+    rel="${so#"$tmp"/}"
+    case "$abi" in
+      arm64-v8a|x86_64|riscv64)
+        bad64=$((bad64 + 1))
+        printf '  NOT ALIGNED (%s bytes): %s\n' "$min" "$rel" ;;
+      *)
+        bad32=$((bad32 + 1))
+        printf '  %s bytes, 32-bit ABI — exempt, not checked by Play: %s\n' "$min" "$rel" ;;
+    esac
   done < <(find "$tmp" -name '*.so' | sort)
   rm -rf "$tmp"
+
   if [ "$total" -eq 0 ]; then
     echo "  no shared libraries found in the package"
-  elif [ "$bad" -eq 0 ]; then
-    echo "  OK — all $total shared libraries are aligned to 16 KB or more."
+  elif [ "$bad64" -eq 0 ]; then
+    echo "  OK — all 64-bit libraries of $total are aligned to 16 KB or more."
   else
     echo ""
-    echo "  WARNING: $bad of $total shared libraries are NOT 16 KB aligned."
-    echo "           Play flags this, and the app fails to start on devices with"
+    echo "  WARNING: $bad64 of $total shared libraries are NOT 16 KB aligned."
+    echo "           Play rejects this, and the app fails to start on devices with"
     echo "           16 KB memory pages. Own libraries: check the linker flags in"
-    echo "           CMakeLists.txt. Qt/NDK libraries: only a newer Qt kit or NDK"
+    echo "           CMakeLists.txt. Qt/NDK/OpenSSL libraries: only a newer kit"
     echo "           helps — they ship prebuilt and cannot be relinked here."
   fi
+
+  check_lib_packaging "$pkg"
   return 0
+}
+
+# Second half of the requirement: how the libraries are stored in the package.
+check_lib_packaging() {
+  local pkg="$1" zipalign compressed flag
+  case "$pkg" in
+    *.apk)
+      # Only an APK carries the layout a device sees. "Stored" = uncompressed;
+      # zipalign -c -P 16 then verifies the 16 KB boundaries themselves.
+      compressed="$(unzip -lv "$pkg" | awk '$NF ~ /^lib\/.*\.so$/ && $2 != "Stored" { print "    " $NF }')"
+      zipalign="$ANDROID_SDK_ROOT/build-tools/$ANDROID_BUILD_TOOLS_VERSION/zipalign"
+      if [ -n "$compressed" ]; then
+        echo "  WARNING: native libraries are COMPRESSED — Play rejects the package"
+        echo "           as not 16 KB compatible even when every .so is aligned."
+        echo "           Fix: android:extractNativeLibs=\"false\" in"
+        echo "           docker/android/AndroidManifest.xml.template."
+        echo "$compressed"
+      elif [ ! -x "$zipalign" ]; then
+        echo "  packaging: libraries are uncompressed (zipalign not found, boundaries unchecked)"
+      elif "$zipalign" -c -P 16 4 "$pkg" > /dev/null 2>&1; then
+        echo "  OK — libraries are uncompressed and on 16 KB ZIP boundaries."
+      else
+        echo "  WARNING: libraries are uncompressed but NOT on 16 KB ZIP boundaries"
+        echo "           (zipalign -c -P 16 4 failed) — that needs AGP >= 8.5.1."
+      fi
+      ;;
+    *)
+      # Inside an .aab every entry is deflated by definition; the split APKs Play
+      # generates from it take their packaging from the manifest flag, so that
+      # flag — read back from the manifest this build actually generated — is
+      # the only thing worth reporting here.
+      flag="$(sed -n 's/.*android:extractNativeLibs="\([^"]*\)".*/\1/p' \
+              "$ANDROID_SOURCE_DIR/AndroidManifest.xml" 2>/dev/null | head -1)"
+      case "$flag" in
+        false)
+          echo "  OK — extractNativeLibs=\"false\": Play ships the libraries uncompressed" ;;
+        "")
+          echo "  OK — extractNativeLibs unset: AGP defaults to uncompressed libraries" ;;
+        *)
+          echo "  WARNING: extractNativeLibs=\"$flag\" — Play rejects the bundle as not"
+          echo "           16 KB compatible. Fix it in"
+          echo "           docker/android/AndroidManifest.xml.template." ;;
+      esac
+      ;;
+  esac
 }
 
 ########################################
@@ -840,6 +949,16 @@ ls -lh "$FINAL_AAB"
 echo ""
 echo "ABIs in the bundle:"
 unzip -l "$FINAL_AAB" | sed -n 's|.*base/lib/\([^/]*\)/.*|  \1|p' | sort -u
+
+# Native debug symbols ride along in BUNDLE-METADATA/ (no device downloads
+# them). Play refuses them above 800 MB, so print what this build ships.
+SYMBOL_BYTES="$(unzip -l "$FINAL_AAB" |
+  awk '$NF ~ /BUNDLE-METADATA\/com\.android\.tools\.build\.debugsymbols/ { n += $1 } END { print n + 0 }')"
+if [ "$SYMBOL_BYTES" -gt 0 ]; then
+  echo ""
+  printf 'Native debug symbols for Play: %d MB uncompressed (Play rejects above 800 MB)\n' \
+    "$((SYMBOL_BYTES / 1048576))"
+fi
 if [ "$UNIVERSAL_APK" = "1" ]; then
   echo ""
   echo "Universal APK for side-load testing:"
