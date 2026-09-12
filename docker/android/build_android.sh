@@ -221,11 +221,11 @@ VERSION_CODE="28"
 if [[ $TARGET == "pokerth_qml-client" ]]; then
   # Permanent Play/iOS/F-Droid app id — keep in sync with build_android_qml.sh.
   PACKAGE_NAME="net.pokerth.PokerTH_QML"
-  VERSION_NAME="2.1.8"
+  VERSION_NAME="2.1.9"
   SCREEN_ORIENTATION="fullUser"
 else
   PACKAGE_NAME="org.pokerth.widget"
-  VERSION_NAME="2.1.8"
+  VERSION_NAME="2.1.9"
   SCREEN_ORIENTATION="landscape"
 fi
 

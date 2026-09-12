@@ -7,7 +7,7 @@
 **The open source Texas Hold'em engine — play against the computer or against other people over the internet.**
 
 [![License: AGPL v3](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](COPYING)
-[![Release](https://img.shields.io/badge/release-2.1.8-green.svg)](ChangeLog)
+[![Release](https://img.shields.io/badge/release-2.1.9-green.svg)](ChangeLog)
 [![Qt](https://img.shields.io/badge/Qt-6.7%2B-41cd52.svg)](https://www.qt.io/)
 [![C++](https://img.shields.io/badge/C%2B%2B-23-00599c.svg)](CMakeLists.txt)
 

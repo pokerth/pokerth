@@ -45,8 +45,8 @@
 #define POKERTH_VERSION_MINOR	1
 #define POKERTH_VERSION			((POKERTH_VERSION_MAJOR << 8) | POKERTH_VERSION_MINOR)
 
-#define POKERTH_BETA_REVISION	8
-#define POKERTH_BETA_RELEASE_STRING	 "2.1.8"
+#define POKERTH_BETA_REVISION	9
+#define POKERTH_BETA_RELEASE_STRING	 "2.1.9"
 
 // --- Client type identifiers (encoded in high byte of buildId) ---
 #define CLIENT_TYPE_QT_WIDGET	0x01	// Qt Widget client (final release: 2.1.8)
@@ -69,7 +69,7 @@
 // The QML client continues the version scheme as 2.1.x.
 #define QML_VERSION_MAJOR		2
 #define QML_VERSION_MINOR		1
-#define QML_VERSION_REVISION	8
+#define QML_VERSION_REVISION	9
 
 // --- QML client production mode ---
 // Enabled since v2.1.1: the official server (pokerth.net, v2.1.0+) supports CLIENT_TYPE_QML,
@@ -79,10 +79,10 @@
 
 // --- Minimum supported build IDs (server rejects anything below) ---
 // Policy: current and previous release are allowed for each client type.
-// Qt Widget: min 2.1.7, current 2.1.8 (both allowed)
+// Qt Widget: min 2.1.7, final release 2.1.8 (both allowed; the client is discontinued)
 #define MIN_BUILD_ID_QT_WIDGET	MAKE_BUILD_ID(CLIENT_TYPE_QT_WIDGET, 2, 1, 7)
-// QML: min 2.1.7, current 2.1.8 (both allowed); update min to previous release with each new release
-#define MIN_BUILD_ID_QML		MAKE_BUILD_ID(CLIENT_TYPE_QML, 2, 1, 7)
+// QML: min 2.1.8, current 2.1.9 (both allowed); update min to previous release with each new release
+#define MIN_BUILD_ID_QML		MAKE_BUILD_ID(CLIENT_TYPE_QML, 2, 1, 8)
 // Web: the browser client is developed and deployed independently of the
 // desktop releases, so no version floor is enforced (any 0.0.0+ build is
 // accepted). The exact version still ends up in the log and in the activity

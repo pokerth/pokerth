@@ -3499,8 +3499,8 @@ Uruchom PokerTH ponownie, aby pliki logu były tam zapisywane.</translation>
     <name>PreLoader</name>
     <message>
         <location filename="../pages/PreLoader.qml" line="+143"/>
-        <source>PokerTH - v2.1.8</source>
-        <translation>PokerTH - v2.1.8</translation>
+        <source>PokerTH - v2.1.9</source>
+        <translation>PokerTH - v2.1.9</translation>
     </message>
 </context>
 <context>
@@ -4459,8 +4459,8 @@ Sprawdź nazwę użytkownika i hasło.</translation>
     <name>SideMenu</name>
     <message>
         <location filename="../components/SideMenu.qml" line="+37"/>
-        <source>PokerTH - v2.1.8</source>
-        <translation>PokerTH - v2.1.8</translation>
+        <source>PokerTH - v2.1.9</source>
+        <translation>PokerTH - v2.1.9</translation>
     </message>
     <message>
         <location line="+100"/>
@@ -4833,8 +4833,8 @@ podglądu</translation>
     <name>pokerth</name>
     <message>
         <location filename="../pokerth.qml" line="+205"/>
-        <source>PokerTH - v2.1.8</source>
-        <translation>PokerTH - v2.1.8</translation>
+        <source>PokerTH - v2.1.9</source>
+        <translation>PokerTH - v2.1.9</translation>
     </message>
     <message>
         <location line="+297"/>

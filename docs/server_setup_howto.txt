@@ -2,7 +2,7 @@
 How to run the PokerTH dedicated server
 ++++++++++++++++++++++++++++++++++++++++
 
-Applies to PokerTH 2.1.8 and later.
+Applies to PokerTH 2.1.9 and later.
 
 
 +++++++++++++++++++++++++++++++
@@ -566,4 +566,4 @@ AppDataDir points somewhere else after an update
 	somewhere else.
 
 
-2007-2012 by Lothar May, updated 2026 for PokerTH 2.1.8
+2007-2012 by Lothar May, updated 2026 for PokerTH 2.1.9
