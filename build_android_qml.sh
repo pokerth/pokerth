@@ -499,7 +499,6 @@ rm -rf "$ANDROID_BUILD_DIR"
 QT_DIR_MAP="{}"
 ARCH_MAP="{}"
 PRIMARY_DEPLOY_JSON=""
-declare -a SECONDARY_DEPLOY_JSONS=()
 
 for ABI in "${ABI_LIST[@]}"; do
   BUILD_DIR="$SCRIPT_DIR/build-android-$ABI"
@@ -531,8 +530,6 @@ for ABI in "${ABI_LIST[@]}"; do
   ARCH_MAP="$(jq -cn --argjson m "$ARCH_MAP" --arg a "$ABI" --arg v "$ABI_TRIPLE" '$m + {($a): $v}')"
   if [ "$ABI" = "$PRIMARY_ABI" ]; then
     PRIMARY_DEPLOY_JSON="$DEPLOY_JSON"
-  else
-    SECONDARY_DEPLOY_JSONS+=("$DEPLOY_JSON")
   fi
 
   # androiddeployqt expects the app binary under the name lib<target>_<abi>.so
@@ -553,29 +550,15 @@ for ABI in "${ABI_LIST[@]}"; do
 
 done
 
-# One settings file for every ABI. Most fields are identical across the per-ABI
-# files, so the primary's are taken as the base, but four of them point into one
-# ABI's Qt kit or prefix and have to carry all of them:
-#   qt / architectures        maps of ABI -> Qt kit / toolchain triple
-#   android-deploy-plugins    the plugin list from qt_import_plugins(), whose
-#                             file names carry the ABI suffix
-#                             (…_androidmediaplugin_arm64-v8a.so). With only the
-#                             primary's entry the other ABIs end up with no
-#                             multimedia plugin at all — section 7a catches that.
-#   extraPrefixDirs / extraLibraryDirs   the per-ABI vcpkg prefixes
-# Merging is safe: androiddeployqt skips paths that do not exist and refuses
-# files whose ELF architecture is not the one it is currently deploying.
+# One settings file for every ABI: all fields are identical across the per-ABI
+# files except "qt" and "architectures", which androiddeployqt reads as maps of
+# ABI -> Qt kit / toolchain triple and loops over. Nothing else may be merged in
+# here — "android-deploy-plugins" in particular is a flat list of ABI-suffixed
+# paths that androiddeployqt copies without checking their architecture, which
+# is why CMake no longer writes one (see qt6-qml/CMakeLists.txt, Android branch).
 MERGED_JSON="$ANDROID_BUILD_DIR-deployment-settings.json"
-jq -s --argjson qt "$QT_DIR_MAP" --argjson arch "$ARCH_MAP" '
-    . as $all
-    | $all[0]
-    | .qt = $qt
-    | .architectures = $arch
-    | .["android-deploy-plugins"] =
-        ([$all[] | .["android-deploy-plugins"] // empty] | join(";"))
-    | .extraPrefixDirs  = ([$all[] | (.extraPrefixDirs  // [])[]] | unique)
-    | .extraLibraryDirs = ([$all[] | (.extraLibraryDirs // [])[]] | unique)
-  ' "$PRIMARY_DEPLOY_JSON" "${SECONDARY_DEPLOY_JSONS[@]}" > "$MERGED_JSON"
+jq --argjson qt "$QT_DIR_MAP" --argjson arch "$ARCH_MAP" \
+   '.qt = $qt | .architectures = $arch' "$PRIMARY_DEPLOY_JSON" > "$MERGED_JSON"
 
 log "Deploying ${#ABI_LIST[@]} ABI(s) in one androiddeployqt run: $(IFS=,; echo "${ABI_LIST[*]}")…"
 # The run ends with an "assembleRelease" whose APK we throw away — there is no
@@ -608,16 +591,17 @@ log "Qt load list covers: $(IFS=,; echo "${ABI_LIST[*]}")"
 # 7a. Drop the FFmpeg multimedia backend
 ########################################
 
-# CMake already asks for the Android backend only (qt_import_plugins,
-# INCLUDE_BY_TYPE multimedia), but androiddeployqt resolves the dependencies of
-# what it finds in the Qt kit and has copied the FFmpeg plugin along with it in
-# the past. This is not cosmetic: the FFmpeg libraries in the Qt kit align their
-# ELF segments to 4 KB, so Google Play rejects a bundle containing them as "does
-# not support 16 KB memory pages" (that is what killed versionCode 118, next to
-# the compressed packaging). They are also ~16 MB per ABI of dead weight — the
-# client's audio player runs the software mixer on Android and needs nothing but
-# a QAudioSink, which the Android backend provides. libQt6Multimedia links
-# against none of them; only the FFmpeg plugin does.
+# androiddeployqt deploys every multimedia plugin the Qt kit offers, so each ABI
+# gets both backends. FFmpeg has to go, and not for cosmetic reasons: the FFmpeg
+# libraries in the Qt kit align their ELF segments to 4 KB, so Google Play
+# rejects a bundle containing them as "does not support 16 KB memory pages".
+# Nothing here needs them — on Android the audio player runs the software mixer
+# (see qtaudioplayer.cpp), which decodes the WAVs itself and only needs a
+# QAudioSink, which the Android backend provides. It also saves ~16 MB per ABI.
+# This is done here rather than with qt_import_plugins() in CMake because that
+# would write an "android-deploy-plugins" list, which has no per-ABI form and
+# breaks the single multi-ABI deploy run (see qt6-qml/CMakeLists.txt).
+LIBS_XML="$ANDROID_BUILD_DIR/res/values/libs.xml"
 for ABI in "${ABI_LIST[@]}"; do
   LIB_DIR="$ANDROID_BUILD_DIR/libs/$ABI"
   [ -d "$LIB_DIR" ] || continue
@@ -635,11 +619,28 @@ for ABI in "${ABI_LIST[@]}"; do
   # is exactly the kind of thing nobody notices until a player reports it.
   if [ ! -f "$LIB_DIR/libplugins_multimedia_androidmediaplugin_${ABI}.so" ]; then
     echo "ERROR: no Android multimedia plugin in libs/$ABI — the app would have" >&2
-    echo "       no audio backend at all. Check qt_import_plugins() in" >&2
-    echo "       src/gui/qt6-qml/CMakeLists.txt and the qtmultimedia module." >&2
+    echo "       no audio backend at all. Check the qtmultimedia module of the" >&2
+    echo "       Qt kit for $ABI." >&2
     exit 1
   fi
 done
+
+# Qt loads every library listed in libs.xml at startup and refuses to start if
+# one is missing, so the entries of the files just deleted have to go too. The
+# lists are ":"-separated, hence the two passes (entry in the middle, entry at
+# the end).
+if [ -f "$LIBS_XML" ]; then
+  for DEAD_RE in 'libplugins_multimedia_ffmpegmediaplugin_[^:<]*\.so' \
+                 'libav[a-z]*\.so' 'libsw[a-z]*\.so'; do
+    sed -i -e "s/${DEAD_RE}://g" -e "s/:${DEAD_RE}//g" "$LIBS_XML"
+  done
+  if grep -qE 'ffmpegmediaplugin|libav[a-z]*\.so|libsw[a-z]*\.so' "$LIBS_XML"; then
+    echo "ERROR: FFmpeg entries survive in $LIBS_XML — Qt would try to load a" >&2
+    echo "       library that is no longer in the package and refuse to start." >&2
+    grep -nE 'ffmpegmediaplugin|libav[a-z]*\.so|libsw[a-z]*\.so' "$LIBS_XML" >&2
+    exit 1
+  fi
+fi
 
 ########################################
 # 8. Package: one multi-ABI .aab, or one single-ABI .apk
