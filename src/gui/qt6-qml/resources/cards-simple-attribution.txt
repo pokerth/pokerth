@@ -1,0 +1,25 @@
+The card artwork in resources/cards-simple/ (52 files named <rank><suit>, e.g.
+10c.svg, 12s.svg) comes from the responsive SVG deck
+
+    https://github.com/younestouati/playing-cards-standard-deck
+
+a fork of https://github.com/digitaldesignlabs/responsive-playing-cards. Taken
+over is that deck's simplified small-size layout (the "mini-card" that those
+cards switch to below 75 px: one large rank glyph plus one suit symbol),
+refitted onto the 120x168 card of the PokerTH QML client. The artwork of the
+upstream deck is based on Chris Aguilar's "Vectorized Playing Cards" (LGPL 3.0),
+with the ace of spades from Byron Knoll's public domain deck.
+
+The same 52 files are shipped as the bundled card deck
+data/gfx/qml/cards/default/ (named by engine index, 0.svg..51.svg) and, in a
+recoloured four-colour variant, as data/gfx/qml/cards/default4c/. Several other
+bundled decks reuse the suit symbols and rank glyphs from there.
+
+License: GNU Lesser General Public License, version 3. LGPLv3 incorporates the
+terms of the GNU General Public License version 3 by reference; both texts are
+shipped with PokerTH:
+
+    data/misc/lgpl-3.0.txt
+    data/misc/gpl-3.0.txt
+
+See data/data-copyright.txt for the sources of all bundled artwork.
