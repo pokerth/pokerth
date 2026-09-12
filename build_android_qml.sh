@@ -577,133 +577,6 @@ for ABI in "${DEPLOY_ORDER[@]}"; do
 done
 
 ########################################
-# 7b. Qt load list for the secondary ABIs
-########################################
-
-# res/values/libs.xml tells QtLoader which libraries to load at startup, as one
-# "<item>abi;lib:lib:…</item>" per ABI. Only the full androiddeployqt run writes
-# it, so it covers the primary ABI alone — every other ABI would load the
-# primary's libraries and die (UnsatisfiedLinkError: library
-# "libQt6Core_arm64-v8a.so" not found, on an x86_64 device).
-#
-# The entries differ only in the ABI suffix of the file names, so they are
-# derived from the primary ABI's and then VERIFIED: every name is looked up in
-# libs/<abi>/, and what is not there is dropped from the list rather than
-# guessed at. A missing platform plugin aborts the build — the app could not
-# start without it.
-LIBS_XML="$ANDROID_BUILD_DIR/res/values/libs.xml"
-[ -f "$LIBS_XML" ] || { echo "ERROR: androiddeployqt wrote no $LIBS_XML" >&2; exit 1; }
-
-log "Extending Qt's load list to every ABI…"
-PRIMARY_ABI="$PRIMARY_ABI" \
-ALL_ABIS="$(IFS=,; echo "${ABI_LIST[*]}")" \
-LIBS_XML="$LIBS_XML" \
-LIBS_ROOT="$ANDROID_BUILD_DIR/libs" \
-python3 - <<'PYEOF'
-import os, re, sys
-
-primary = os.environ["PRIMARY_ABI"]
-abis = os.environ["ALL_ABIS"].split(",")
-libs_xml = os.environ["LIBS_XML"]
-libs_root = os.environ["LIBS_ROOT"]
-
-def file_name(entry):
-    # qt_libs lists bare names ("Qt6Core_arm64-v8a"), the other arrays file
-    # names ("libplugins_platforms_qtforandroid_arm64-v8a.so").
-    return entry if entry.endswith(".so") else "lib%s.so" % entry
-
-xml = open(libs_xml, encoding="utf-8").read()
-item_re = re.compile(r'( *)<item>%s;([^<]*)</item>' % re.escape(primary))
-missing_platform = []
-added = {}
-
-def expand(match):
-    indent, payload = match.group(1), match.group(2)
-    out = [match.group(0)]
-    for abi in abis:
-        if abi == primary:
-            continue
-        if re.search(r'<item>%s;' % re.escape(abi), xml):
-            continue  # androiddeployqt already wrote one for this ABI
-        entries, dropped = [], []
-        for entry in payload.split(":"):
-            if not entry:
-                continue
-            renamed = entry.replace("_%s" % primary, "_%s" % abi)
-            if os.path.exists(os.path.join(libs_root, abi, file_name(renamed))):
-                entries.append(renamed)
-            else:
-                dropped.append(renamed)
-        if not entries:
-            continue
-        if not any("qtforandroid" in e for e in entries) and \
-           any("qtforandroid" in e for e in payload.split(":")):
-            missing_platform.append(abi)
-        if dropped:
-            print("  %s: not packaged, left out of the load list: %s"
-                  % (abi, " ".join(dropped)))
-        added.setdefault(abi, 0)
-        added[abi] += len(entries)
-        out.append("%s<item>%s;%s</item>" % (indent, abi, ":".join(entries)))
-    return "\n".join(out)
-
-new_xml = item_re.sub(expand, xml)
-if new_xml != xml:
-    open(libs_xml, "w", encoding="utf-8").write(new_xml)
-
-if missing_platform:
-    sys.stderr.write("ERROR: no platform plugin packaged for: %s — those devices\n"
-                     "       could not start the app.\n" % ", ".join(missing_platform))
-    sys.exit(1)
-
-for abi in abis:
-    if not re.search(r'<item>%s;' % re.escape(abi), open(libs_xml, encoding="utf-8").read()):
-        sys.stderr.write("ERROR: %s has no entry in libs.xml and would load another\n"
-                         "       ABI's libraries.\n" % abi)
-        sys.exit(1)
-print("  load list covers: %s (added %s)"
-      % (", ".join(abis),
-         ", ".join("%s:%d libs" % (a, n) for a, n in sorted(added.items())) or "nothing"))
-PYEOF
-
-########################################
-# 7a. Drop the FFmpeg multimedia backend
-########################################
-
-# CMake already asks for the Android backend only (qt_import_plugins,
-# INCLUDE_BY_TYPE multimedia), but androiddeployqt resolves the dependencies of
-# what it finds in the Qt kit and has copied the FFmpeg plugin along with it in
-# the past. This is not cosmetic: the FFmpeg libraries in the Qt kit align their
-# ELF segments to 4 KB, so Google Play rejects a bundle containing them as "does
-# not support 16 KB memory pages" (that is what killed versionCode 118, next to
-# the compressed packaging). They are also ~16 MB per ABI of dead weight — the
-# client's audio player runs the software mixer on Android and needs nothing but
-# a QAudioSink, which the Android backend provides. libQt6Multimedia links
-# against none of them; only the FFmpeg plugin does.
-for ABI in "${ABI_LIST[@]}"; do
-  LIB_DIR="$ANDROID_BUILD_DIR/libs/$ABI"
-  [ -d "$LIB_DIR" ] || continue
-  DROPPED=""
-  for DEAD in "libplugins_multimedia_ffmpegmediaplugin_${ABI}.so" \
-              libavcodec.so libavformat.so libavutil.so \
-              libswresample.so libswscale.so; do
-    if [ -f "$LIB_DIR/$DEAD" ]; then
-      rm -f "$LIB_DIR/$DEAD"
-      DROPPED="$DROPPED $DEAD"
-    fi
-  done
-  [ -z "$DROPPED" ] || log "Removed the FFmpeg backend from libs/$ABI:$DROPPED"
-  # Without any multimedia plugin the client starts but stays silent, and that
-  # is exactly the kind of thing nobody notices until a player reports it.
-  if [ ! -f "$LIB_DIR/libplugins_multimedia_androidmediaplugin_${ABI}.so" ]; then
-    echo "ERROR: no Android multimedia plugin in libs/$ABI — the app would have" >&2
-    echo "       no audio backend at all. Check qt_import_plugins() in" >&2
-    echo "       src/gui/qt6-qml/CMakeLists.txt and the qtmultimedia module." >&2
-    exit 1
-  fi
-done
-
-########################################
 # 7a. Drop the FFmpeg multimedia backend
 ########################################
 
@@ -715,9 +588,10 @@ done
 # (see qtaudioplayer.cpp), which decodes the WAVs itself and only needs a
 # QAudioSink, which the Android backend provides. It also saves ~16 MB per ABI.
 # This is done here rather than with qt_import_plugins() in CMake because that
-# would write an "android-deploy-plugins" list, which has no per-ABI form and
-# breaks the single multi-ABI deploy run (see qt6-qml/CMakeLists.txt).
-LIBS_XML="$ANDROID_BUILD_DIR/res/values/libs.xml"
+# would write an "android-deploy-plugins" list, which has no per-ABI form (see
+# qt6-qml/CMakeLists.txt). Section 7b runs afterwards and rebuilds Qt's load
+# list from what is actually left in libs/, so the entries of these files
+# disappear with them.
 for ABI in "${ABI_LIST[@]}"; do
   LIB_DIR="$ANDROID_BUILD_DIR/libs/$ABI"
   [ -d "$LIB_DIR" ] || continue
@@ -741,22 +615,107 @@ for ABI in "${ABI_LIST[@]}"; do
   fi
 done
 
-# Qt loads every library listed in libs.xml at startup and refuses to start if
-# one is missing, so the entries of the files just deleted have to go too. The
-# lists are ":"-separated, hence the two passes (entry in the middle, entry at
-# the end).
-if [ -f "$LIBS_XML" ]; then
-  for DEAD_RE in 'libplugins_multimedia_ffmpegmediaplugin_[^:<]*\.so' \
-                 'libav[a-z]*\.so' 'libsw[a-z]*\.so'; do
-    sed -i -e "s/${DEAD_RE}://g" -e "s/:${DEAD_RE}//g" "$LIBS_XML"
-  done
-  if grep -qE 'ffmpegmediaplugin|libav[a-z]*\.so|libsw[a-z]*\.so' "$LIBS_XML"; then
-    echo "ERROR: FFmpeg entries survive in $LIBS_XML — Qt would try to load a" >&2
-    echo "       library that is no longer in the package and refuse to start." >&2
-    grep -nE 'ffmpegmediaplugin|libav[a-z]*\.so|libsw[a-z]*\.so' "$LIBS_XML" >&2
-    exit 1
-  fi
-fi
+########################################
+# 7b. Qt load list, rebuilt from the package
+########################################
+
+# res/values/libs.xml tells QtLoader which libraries to load at startup, as one
+# "<item>abi;entry:entry:…</item>" per ABI. Two things are wrong with it at this
+# point, and both make the app die before its first frame:
+#
+#   * it covers the primary ABI only — androiddeployqt writes it in the full run
+#     alone, so on an x86_64 device Qt asks for "libQt6Core_arm64-v8a.so"
+#     (UnsatisfiedLinkError: library not found);
+#   * it still lists the FFmpeg libraries section 7a has just deleted
+#     (UnsatisfiedLinkError: library "libavutil.so" not found).
+#
+# So the list is not patched, it is rebuilt against the package: every entry is
+# resolved to its file in libs/<abi>/ and kept only if that file is there, and
+# the ABIs without an entry get one derived from the primary's (the names differ
+# only in the ABI suffix). Note that the arrays mix spellings — qt_libs holds
+# bare names ("Qt6Core_arm64-v8a", "avutil"), the others file names — which is
+# why matching by name never worked reliably.
+LIBS_XML="$ANDROID_BUILD_DIR/res/values/libs.xml"
+[ -f "$LIBS_XML" ] || { echo "ERROR: androiddeployqt wrote no $LIBS_XML" >&2; exit 1; }
+
+log "Rebuilding Qt's load list from the packaged libraries…"
+PRIMARY_ABI="$PRIMARY_ABI" \
+ALL_ABIS="$(IFS=,; echo "${ABI_LIST[*]}")" \
+LIBS_XML="$LIBS_XML" \
+LIBS_ROOT="$ANDROID_BUILD_DIR/libs" \
+python3 - <<'PYEOF'
+import os, re, sys
+
+primary = os.environ["PRIMARY_ABI"]
+abis = os.environ["ALL_ABIS"].split(",")
+libs_xml = os.environ["LIBS_XML"]
+libs_root = os.environ["LIBS_ROOT"]
+
+def file_name(entry):
+    # qt_libs lists bare names ("Qt6Core_arm64-v8a", "avutil"), the other arrays
+    # file names ("libplugins_platforms_qtforandroid_arm64-v8a.so").
+    return entry if entry.endswith(".so") else "lib%s.so" % entry
+
+def keep(abi, entries):
+    kept, dropped = [], []
+    for entry in entries:
+        if not entry:
+            continue
+        (kept if os.path.exists(os.path.join(libs_root, abi, file_name(entry)))
+         else dropped).append(entry)
+    return kept, dropped
+
+xml = open(libs_xml, encoding="utf-8").read()
+have = set(re.findall(r'<item>([^;<]+);', xml))
+removed, added = {}, {}
+
+def rebuild(match):
+    indent, abi, payload = match.group(1), match.group(2), match.group(3)
+    entries = payload.split(":")
+    items = []
+    kept, dropped = keep(abi, entries)
+    if dropped:
+        removed.setdefault(abi, []).extend(dropped)
+    items.append("%s<item>%s;%s</item>" % (indent, abi, ":".join(kept)))
+    if abi != primary:
+        return "\n".join(items)
+    # Derive the ABIs androiddeployqt never wrote an entry for.
+    for other in abis:
+        if other == primary or other in have:
+            continue
+        renamed = [e.replace("_%s" % primary, "_%s" % other) for e in entries]
+        okeep, odrop = keep(other, renamed)
+        if not okeep:
+            continue
+        if odrop:
+            removed.setdefault(other, []).extend(odrop)
+        added[other] = added.get(other, 0) + len(okeep)
+        items.append("%s<item>%s;%s</item>" % (indent, other, ":".join(okeep)))
+    return "\n".join(items)
+
+new_xml = re.sub(r'( *)<item>([^;<]+);([^<]*)</item>', rebuild, xml)
+if new_xml != xml:
+    open(libs_xml, "w", encoding="utf-8").write(new_xml)
+
+for abi, names in sorted(removed.items()):
+    print("  %s: dropped from the load list (not packaged): %s"
+          % (abi, " ".join(sorted(set(names)))))
+
+final = open(libs_xml, encoding="utf-8").read()
+for abi in abis:
+    if not re.search(r'<item>%s;' % re.escape(abi), final):
+        sys.stderr.write("ERROR: %s has no entry in libs.xml and would load another\n"
+                         "       ABI's libraries.\n" % abi)
+        sys.exit(1)
+    if not re.search(r'<item>%s;[^<]*qtforandroid' % re.escape(abi), final):
+        sys.stderr.write("ERROR: no platform plugin listed for %s — the app could\n"
+                         "       not start on those devices.\n" % abi)
+        sys.exit(1)
+print("  load list covers: %s%s"
+      % (", ".join(abis),
+         " (added %s)" % ", ".join("%s:%d entries" % (a, n)
+                                   for a, n in sorted(added.items())) if added else ""))
+PYEOF
 
 ########################################
 # 8. Package: one multi-ABI .aab, or one single-ABI .apk
