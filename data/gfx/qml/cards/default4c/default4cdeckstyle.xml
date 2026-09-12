@@ -9,6 +9,11 @@
    The card back is a style category of ITS OWN in the QML client
    (data/gfx/qml/backside/<name>/) and NOT part of the card deck.
 
+   Artwork: the same source as cards/default (the simplified small-size layout
+   of younestouati/playing-cards-standard-deck), recoloured into a four colour
+   deck: diamonds blue, hearts red, spades black, clubs green. LGPL 3.0 - the
+   full chain of sources is in data/data-copyright.txt.
+
    Engine index -> card (see CardImage.qml):
      Suit = floor(index / 13): 0-12 diamonds(♦), 13-25 hearts(♥), 26-38 spades(♠), 39-51 clubs(♣)
      Rank = index % 13:        0=2, 1=3, … 8=10, 9=jack, 10=queen, 11=king, 12=ace

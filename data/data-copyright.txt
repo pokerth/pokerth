@@ -64,6 +64,24 @@ Styles contributed by their authors carry the author in their own style XML
         gfx/qml/cards/default4c; black light colours and glow are own work
         (PokerTH Development Team)
 
+  default/, default4c/
+    0.svg - 51.svg
+        the simplified small-size layout of the responsive deck
+        younestouati/playing-cards-standard-deck (the "mini-card" those cards
+        switch to below 75 px: one large rank glyph plus one suit symbol),
+        refitted onto the 120x168 card; default4c is the same artwork recoloured
+        LGPL 3.0
+        https://github.com/younestouati/playing-cards-standard-deck
+        (a fork of https://github.com/digitaldesignlabs/responsive-playing-cards,
+        whose artwork is based on Chris Aguilar's "Vectorized Playing Cards",
+        LGPL 3.0, with the ace of spades from Byron Knoll's public domain deck)
+        The license texts are shipped as misc/lgpl-3.0.txt and, because LGPLv3
+        incorporates it by reference, misc/gpl-3.0.txt.
+        The same 52 files ship inside the QML client as
+        src/gui/qt6-qml/resources/cards-simple/ (named <rank><suit>), with the
+        attribution next to them in cards-simple-attribution.txt. The bundled
+        decks below reuse their suit symbols and rank glyphs from here.
+
   discworld/
     0.svg - 51.svg (rank glyphs, suit symbols in the index)
         taken from gfx/qml/cards/default

@@ -23,3 +23,11 @@ https://policies.google.com/terms
 
 MyMemory (used as a fallback)
 https://mymemory.translated.net/doc/usagelimits.php
+
+Third party artwork
+
+The default card deck (and its four colour variant) is based on the responsive SVG deck "playing-cards-standard-deck" by the GitHub user younestouati, a fork of "Responsive Playing Cards" by digitaldesignlabs, whose artwork in turn is based on Chris Aguilar's "Vectorized Playing Cards"; the ace of spades comes from Byron Knoll's public domain deck. Licensed under the GNU Lesser General Public License 3.0 (misc/lgpl-3.0.txt, which incorporates misc/gpl-3.0.txt).
+
+https://github.com/younestouati/playing-cards-standard-deck
+
+The sources and licenses of all other bundled artwork, sounds and fonts are listed in data-copyright.txt.

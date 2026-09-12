@@ -196,6 +196,11 @@ section 7 allows linking against OpenSSL.
 
 The artwork, sounds and fonts shipped in [data](data) have their own, partly
 different licenses and authors; they are listed in
-[data/data-copyright.txt](data/data-copyright.txt).
+[data/data-copyright.txt](data/data-copyright.txt). The same goes for the fonts,
+icons and cards bundled into the QML client under
+[src/gui/qt6-qml/resources](src/gui/qt6-qml/resources), whose license texts and
+attributions sit next to them (`Inter-OFL.txt`, `NotoColorEmoji-OFL.txt`,
+`cards-simple-attribution.txt`); the LGPL 3.0 and GPL 3.0 texts that the bundled
+card artwork refers to are in [data/misc](data/misc).
 
 Copyright © 2006–2026 Kai Philipp, Felix Hammer, Florian Thauer, Lothar May.
