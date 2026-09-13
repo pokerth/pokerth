@@ -24,6 +24,21 @@ Rectangle {
     readonly property int cellSpacing: 4
     readonly property int rows: Math.ceil(30 / columns)
 
+    // A scripted screencast (ScreencastDirector) highlights the cell it is about
+    // to send, so that the recording shows the pick being made instead of a bare
+    // effect above the seat. Empty = normal operation by hand.
+    property string highlightEmoji: ""
+    onHighlightEmojiChanged: {
+        if (highlightEmoji === "")
+            return
+        for (var i = 0; i < pages.length; ++i) {
+            if (pages[i].indexOf(highlightEmoji) >= 0) {
+                page = i
+                break
+            }
+        }
+    }
+
     // Current page; it is remembered in the configuration (web client:
     // localStorage "pth_react_page").
     property int page: 0
@@ -141,12 +156,15 @@ Rectangle {
                             delegate: Rectangle {
                                 id: reactCell
                                 required property string modelData
+                                readonly property bool scriptedPick:
+                                    root.highlightEmoji !== "" && root.highlightEmoji === modelData
                                 width: root.cell; height: root.cell
                                 radius: 6
-                                color: reactArea.containsPress ? Qt.rgba(1, 1, 1, 0.25)
+                                color: (reactArea.containsPress || scriptedPick) ? Qt.rgba(1, 1, 1, 0.25)
                                      : reactArea.containsMouse ? Qt.rgba(1, 1, 1, 0.12)
                                      : "transparent"
-                                scale: reactArea.containsMouse && !reactArea.containsPress ? 1.15 : 1.0
+                                scale: scriptedPick
+                                       || (reactArea.containsMouse && !reactArea.containsPress) ? 1.15 : 1.0
                                 Behavior on scale { NumberAnimation { duration: 100 } }
 
                                 Text {

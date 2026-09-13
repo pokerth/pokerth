@@ -157,6 +157,43 @@ Rectangle {
             GameTable.sendChat("/emoji " + emoji)
     }
 
+    // ── The scripted screencast: a reaction that is to be SEEN being operated ──
+    // The director asks for it, the page opens the real picker, highlights the
+    // emoji and only sends it afterwards – the viewer sees the feature being
+    // used, not just its effect. Everything runs through sendReaction(), so
+    // there is no second send path.
+    property string _scriptedReactionEmoji: ""
+
+    function playScriptedReaction(emoji) {
+        if (!gamePage.emojiReactionsEnabled || gamePage.spectating)
+            return
+        gamePage._scriptedReactionEmoji = emoji
+        tableZone.showReactions = true
+        reactionPicker.highlightEmoji = emoji
+        scriptedReactionTimer.restart()
+    }
+
+    Connections {
+        target: (typeof Screencast !== "undefined") ? Screencast : null
+        function onVisibleReactionRequested(emoji) {
+            gamePage.playScriptedReaction(emoji)
+        }
+    }
+
+    Timer {
+        id: scriptedReactionTimer
+        // Long enough for the picker to be readable in the recording before the
+        // pick happens.
+        interval: 1400
+        onTriggered: {
+            var emoji = gamePage._scriptedReactionEmoji
+            gamePage._scriptedReactionEmoji = ""
+            reactionPicker.highlightEmoji = ""
+            if (emoji !== "")
+                gamePage.sendReaction(emoji)
+        }
+    }
+
     function playReactionAtSeat(seatIdx, emoji) {
         var px, py
         // Seat 0 sits in the self box – except as a spectator, then it is an
@@ -1657,6 +1694,7 @@ Rectangle {
             // The panel with the reaction emojis (three pages of 30, 6 columns –
             // like the reaction picker of the web client).
             ReactionPicker {
+                id: reactionPicker
                 visible: tableZone.showReactions && gamePage.emojiReactionsEnabled
                 z: 210
                 anchors.top: reactionToggle.bottom

@@ -32,6 +32,21 @@ Rectangle {
         return (Lobby && gid) ? Lobby.gamePlayersInGame(gid) : []
     }
 
+    // ── The scripted screencast ───────────────────────────────────────────────
+    // The lobby deliberately does not focus the game list by itself (see the
+    // comment at gameListView: merely entering the lobby would select a row).
+    // A recording, however, has to reach the list without knowing how many Tab
+    // steps lead there, so the director asks for the focus explicitly.
+    Connections {
+        target: (typeof Screencast !== "undefined") ? Screencast : null
+        function onFocusGameListRequested() {
+            // In the compact layout the list is not the visible one - forcing
+            // the focus there would put it nowhere.
+            if (gameListView.visible)
+                gameListView.forceActiveFocus()
+        }
+    }
+
     function gameTypeIconSource(gameType) {
         if (gameType === 2) return "../resources/userSquare.svg"
         if (gameType === 3) return "../resources/users.svg"

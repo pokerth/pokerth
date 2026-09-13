@@ -49,6 +49,7 @@
 #include <retranslate.h>
 #include <settingsmanager.h>
 #include "gui/qt6-qml/cpp/styleprovider.h"
+#include "gui/qt6-qml/cpp/screencastdirector.h"
 #include "gui/qt6-qml/cpp/serverconnectionhandler.h"
 #include "gui/qt6-qml/cpp/lobbyhandler.h"
 #include "gui/qt6-qml/cpp/gamehandler.h"
@@ -373,6 +374,30 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("GameTable", gameHandler);
 	engine.rootContext()->setContextProperty("LogStore", logHandler);
 	engine.rootContext()->setContextProperty("NetworkGame", networkGameHandler);
+
+	// The scripted screencast (preview/record_screencast.py). Without
+	// POKERTH_SCREENCAST_CONFIG nothing at all is built here and the context
+	// property "Screencast" stays undefined – the QML side guards for that.
+	ScreencastDirector *screencast = nullptr;
+	const QString screencastScript = ScreencastDirector::scriptPathFromEnvironment();
+	if (!screencastScript.isEmpty()) {
+		screencast = new ScreencastDirector(&app);
+		QString screencastError;
+		if (screencast->loadScript(screencastScript, &screencastError)) {
+			screencast->setStyleProvider(&styleProvider);
+			screencast->setGameHandler(gameHandler);
+			screencast->setLobbyHandler(lobbyHandler);
+			screencast->setConnectionHandler(connectionHandler);
+			engine.rootContext()->setContextProperty("Screencast", screencast);
+		} else {
+			// A broken script must fail loudly: half a recording costs more time
+			// than a second run.
+			qWarning().noquote() << "[SCREENCAST] script rejected:" << screencastError;
+			delete screencast;
+			screencast = nullptr;
+		}
+	}
+
 	engine.load(QUrl(QStringLiteral("qrc:/pokerth.qml")));
 
 	if (engine.rootObjects().isEmpty()) {
@@ -389,6 +414,11 @@ int main(int argc, char *argv[])
 		if (auto *w = qobject_cast<QQuickWindow *>(root))
 			new ResizeRepaintGuard(w);
 	}
+
+	// The clock only starts once the window is really up – otherwise the script
+	// would count the engine load time along.
+	if (screencast)
+		screencast->start();
 
 	int result = app.exec();
 

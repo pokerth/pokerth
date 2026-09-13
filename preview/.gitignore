@@ -2,3 +2,13 @@ screenshots/
 screenshots_qml/
 *.mp4
 *.log
+screenshots_localgame/
+screenshots_online_chat/
+screenshots_screencast/
+__pycache__/
+
+# The real screencast script holds the login credentials - only the example
+# (screencast.example.json) belongs in the repository.
+screencast.json
+*_cues.jsonl
+pokerth_screencast_cues.json

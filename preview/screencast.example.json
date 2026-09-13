@@ -1,0 +1,99 @@
+{
+  "_comment": [
+    "Script for preview/record_screencast.py and the in-app ScreencastDirector.",
+    "The runner reads login/lobby/game/recording/startStyle, the client reads",
+    "clock/timeline/cueSheet from the very same file.",
+    "Copy this to screencast.json (which is git-ignored) and put the real",
+    "credentials in there - do not commit them."
+  ],
+
+  "login": {
+    "_comment": [
+      "User name and password are written into config.xml before the start, so",
+      "the login form comes prefilled and three times Return logs in. Nothing",
+      "is typed on camera - use --type-credentials if the prefill ever fails."
+    ],
+    "user": "CHANGEME",
+    "password": "CHANGEME",
+    "server": "pthsrv.pokerth.net",
+    "port": 7234,
+    "tls": false
+  },
+
+  "lobby": {
+    "_comment": [
+      "gameListFilter ranking = the lobby filter 'open, not full, ranking game'.",
+      "gameRowIndex is how many times Down is pressed in the game list before",
+      "Return joins - 0 takes the first row."
+    ],
+    "gameListFilter": "ranking",
+    "gameRowIndex": 0,
+    "gamePassword": "",
+    "joinTimeout": 30,
+    "gameStartTimeout": 900
+  },
+
+  "game": {
+    "_comment": [
+      "The playing mode the runner switches to once the first hand is dealt:",
+      "autoCheckFold (F7) checks when the check is really free and folds",
+      "otherwise - no raises, no expensive calls. autoCheckCall (F8) calls any",
+      "amount, manual (F6) leaves every turn to the timer, off presses nothing."
+    ],
+    "playingMode": "autoCheckFold"
+  },
+
+  "recording": {
+    "binary": "/opt/pokerth_env/repos/pokerth-test/build/bin/pokerth_qml-client",
+    "displayNum": 98,
+    "displayRes": "1920x1080",
+    "windowWidth": 1600,
+    "windowHeight": 980,
+    "framerate": 25,
+    "_comment": "How long the recording keeps running after the first hand was dealt.",
+    "durationAfterGameStart": 420,
+    "finalHold": 3
+  },
+
+  "_comment_startStyle": [
+    "The look the recording opens with. It is written into config.xml before the",
+    "start, so the first frame is already the intended one - the timeline then",
+    "only shows the changes."
+  ],
+  "startStyle": {
+    "table": "default",
+    "deck": "default",
+    "back": "default"
+  },
+
+  "clock": "gameStart",
+
+  "_comment_timeline": [
+    "at = seconds after the clock anchor (here: the first dealt hand).",
+    "atHand = alternatively, from this hand number on.",
+    "table/deck/back = style names from data/gfx/qml/{table,cards,backside}/.",
+    "Fields that are left out stay untouched, so a cue can change the deck alone.",
+    "reaction + visible:true opens the real reaction picker on camera; without",
+    "visible the emoji goes out silently and only the effect above the seat shows.",
+    "marker = a pure post production mark, it changes nothing in the client."
+  ],
+  "timeline": [
+    { "at": 0,   "marker": "first hand dealt" },
+
+    { "at": 40,  "table": "matrix",   "back": "matrix",          "marker": "slide: green" },
+    { "at": 75,  "deck": "blacklight_4c" },
+    { "at": 95,  "reaction": "😎", "visible": true,              "marker": "reaction picker on camera" },
+
+    { "at": 130, "table": "pirates",  "deck": "default4c", "back": "pirates", "marker": "slide: pirates" },
+    { "at": 170, "reaction": "🔥" },
+
+    { "at": 210, "table": "discworld", "deck": "discworld", "back": "discworld", "marker": "slide: discworld" },
+    { "at": 250, "reaction": "🎉" },
+
+    { "at": 290, "table": "star_trek", "deck": "star_trek", "back": "star_trek", "marker": "slide: star trek" },
+    { "at": 330, "deck": "stardust_dark", "back": "stardust" },
+
+    { "at": 370, "table": "default",  "deck": "default",   "back": "default",   "marker": "slide: back to default" },
+    { "at": 400, "reaction": "👍" }
+  ]
+}
