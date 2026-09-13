@@ -172,10 +172,68 @@ class ScreencastRecorder:
         return await asyncio.create_subprocess_exec(*cmd, stdout=stdout, stderr=stderr, env=self.env)
 
     async def _cleanup_strays(self) -> None:
+        """Clears everything an aborted run may have left behind.
+
+        SIGTERM alone does not do it: a client hanging in the scene graph
+        teardown, an ffmpeg still muxing and an Xvfb that ignores the term all
+        survive it - and the next run then either records into a display that
+        is already taken or straight into the previous video. So TERM first for
+        the ones that shut down cleanly, then KILL for everything still alive,
+        and only continue once the display is really free.
+
+        ffmpeg is matched by OUR display, so a recording of someone else's is
+        left alone.
+        """
         print("[0/8] cleaning up leftovers from the last run ...")
-        for pattern in ("pokerth_qml-client", f"Xvfb {self.display}", "openbox"):
-            await self._run_cmd("pkill", "-f", pattern, check=False)
-        await asyncio.sleep(1.0)
+        patterns = (
+            "pokerth_qml-client",
+            f"Xvfb {self.display}",
+            # openbox carries the display in its environment, not in its command
+            # line - there is nothing narrower to match on here.
+            "openbox",
+            f"ffmpeg.*x11grab.*{self.display}",
+        )
+
+        for pattern in patterns:
+            await self._run_cmd("pkill", "-TERM", "-f", pattern, check=False)
+        await asyncio.sleep(1.5)
+
+        for pattern in patterns:
+            out = await self._run_cmd("pgrep", "-f", pattern, check=False)
+            pids = [pid for pid in out.split() if pid.strip()]
+            if not pids:
+                continue
+            print(f"      still alive after SIGTERM, killing: {pattern} ({', '.join(pids)})")
+            await self._run_cmd("pkill", "-KILL", "-f", pattern, check=False)
+        await asyncio.sleep(0.5)
+
+        await self._clear_stale_x_display()
+        await asyncio.sleep(0.5)
+
+    async def _clear_stale_x_display(self) -> None:
+        """Removes the lock and the socket a killed Xvfb leaves behind.
+
+        A SIGKILLed X server never cleans up after itself, and the next Xvfb
+        refuses the display with "Server is already active". Only done once no
+        process is on that display any more, so a live server is never robbed of
+        its lock.
+        """
+        display_num = self.display.lstrip(":")
+        out = await self._run_cmd("pgrep", "-f", f"Xvfb {self.display}", check=False)
+        if out.strip():
+            raise RuntimeError(
+                f"an Xvfb on {self.display} survived SIGKILL (pids {' '.join(out.split())}) - "
+                "another user's display? Pick a different --display-num."
+            )
+
+        for stale in (Path(f"/tmp/.X{display_num}-lock"), Path(f"/tmp/.X11-unix/X{display_num}")):
+            if not stale.exists():
+                continue
+            try:
+                stale.unlink()
+                print(f"      removed the stale X file {stale}")
+            except OSError as exc:
+                print(f"      [WARN] {stale} could not be removed: {exc}")
 
     # ── client configuration ─────────────────────────────────────────────────
 

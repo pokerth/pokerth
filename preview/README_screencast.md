@@ -74,9 +74,17 @@ Everything lands next to the script in `preview/`:
 | `ffmpeg_screencast.log` | The ffmpeg output, if the video is missing. |
 
 Video, logs, cue sheets and the screenshot directory are git-ignored. Each run
-wipes its own leftovers first (old screenshots, the video, the raw cue sheet)
-and kills stray `pokerth_qml-client`, `Xvfb` and `openbox` processes from an
-aborted run before it starts, so a repeat never records into the last take.
+wipes its own leftovers first (old screenshots, the video, the raw cue sheet),
+so a repeat never records into the last take.
+
+Before anything is started, leftovers of an aborted run are cleared: stray
+`pokerth_qml-client`, `Xvfb`, `openbox` and `ffmpeg` processes get SIGTERM,
+then SIGKILL for whatever is still alive — a client hanging in its scene graph
+teardown or an ffmpeg still muxing survives a term. A killed X server leaves its
+lock behind, so `/tmp/.X<n>-lock` and `/tmp/.X11-unix/X<n>` are removed as well
+once nothing holds the display any more; without that the new Xvfb refuses it
+with *Server is already active*. The ffmpeg pattern is scoped to our own
+display, so a recording running elsewhere is left alone.
 
 ## Options
 
