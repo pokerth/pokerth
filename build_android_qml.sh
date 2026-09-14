@@ -717,10 +717,32 @@ for abi in abis:
         sys.stderr.write("ERROR: no platform plugin listed for %s — the app could\n"
                          "       not start on those devices.\n" % abi)
         sys.exit(1)
-empty = re.findall(r'<item>[^;<]*;\s*</item>|<item>[^<]*::[^<]*</item>', final)
-if empty:
-    sys.stderr.write("ERROR: empty entries survive in libs.xml (%s) — Qt would try\n"
-                     "       to load \"lib.so\" and refuse to start.\n" % " ".join(empty[:3]))
+# Final verification, independent of how libs.xml happens to be laid out: every
+# entry of every "<abi>;…" item must name a file packaged for that ABI. Those
+# items are all library names — the Qt template has exactly three such arrays,
+# bundled_libs, qt_libs and load_local_libs. The rewrite above anchors on whole
+# lines, so an item it could not match (another line ending, no newline before
+# </array>) would slip through untouched; an empty entry makes Qt load "lib.so",
+# a stale one any other missing name. Either way the app dies on startup, on
+# exactly the ABI nobody tested — so abort here instead of shipping it.
+bad = []
+for m in re.finditer(r'<item>([^;<]+);([^<]*)</item>', final):
+    abi, payload = m.group(1).strip(), m.group(2).strip()
+    if abi not in abis:
+        continue
+    if not payload:
+        bad.append("%s: empty entry" % abi)
+        continue
+    for entry in payload.split(":"):
+        if not entry:
+            bad.append("%s: empty element in \"%s\"" % (abi, payload))
+        elif not os.path.exists(os.path.join(libs_root, abi, file_name(entry))):
+            bad.append("%s: %s is listed but not packaged" % (abi, entry))
+if bad:
+    sys.stderr.write("ERROR: Qt's load list does not match the package — the app would\n"
+                     "       not start on these devices:\n")
+    for line in bad:
+        sys.stderr.write("         %s\n" % line)
     sys.exit(1)
 print("  load list covers: %s%s"
       % (", ".join(abis),
