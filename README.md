@@ -11,7 +11,7 @@
 [![Qt](https://img.shields.io/badge/Qt-6.7%2B-41cd52.svg)](https://www.qt.io/)
 [![C++](https://img.shields.io/badge/C%2B%2B-23-00599c.svg)](CMakeLists.txt)
 
-[Website & Forum](https://www.pokerth.net) · [Download](https://www.pokerth.net/download) · [Issues](https://github.com/pokerth/pokerth/issues) · [ChangeLog](ChangeLog)
+[Website & Forum](https://www.pokerth.net) · [Download](https://www.pokerth.net/app.php/download) · [Issues](https://github.com/pokerth/pokerth/issues) · [ChangeLog](ChangeLog)
 
 <img src="data/gfx/qml/table/mile_high_club/preview.png" alt="PokerTH table" width="820">
 
