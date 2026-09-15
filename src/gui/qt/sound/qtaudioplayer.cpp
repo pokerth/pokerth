@@ -647,6 +647,17 @@ void QtAudioPlayer::destroyMixerSink()
 	m_stoppingMixerIntentionally = false;
 	delete mixerSink;
 	mixerSink = nullptr;
+
+	// The mixer outlives the sink and is handed to the next one.  The Qt 6.10+
+	// PulseAudio sink (still unfixed in 6.11/dev) connects the device's readyRead to a lambda capturing
+	// its internal stream (context = the device, not the stream) and never
+	// disconnects it on stop, so the connection survives the destroyed
+	// stream.  The next WavMixer::play() would then emit readyRead into
+	// freed memory (crash on the first sound after switching the output
+	// device).  Nobody but the sink listens to the mixer, so drop all
+	// receivers together with the sink.
+	if (mixer)
+		QObject::disconnect(mixer, &QIODevice::readyRead, nullptr, nullptr);
 }
 
 void QtAudioPlayer::recreateMixerSink(const QAudioDevice& device)
