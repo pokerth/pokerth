@@ -774,6 +774,35 @@ Rectangle {
                 _panToPoint(width * slot.x + (slot.nudgeX || 0), height * slot.y + slot.nudge)
             }
 
+            // _zoomPanX/Y are ABSOLUTE coordinates of the ring distribution that
+            // was current when they were set. As soon as the ring is redistributed –
+            // the option keepEmptySeats is switched off, or a player leaves without
+            // a reserved slot – the stored excerpt points at a place where no box
+            // sits any more: the zoom keeps showing the old layout although the
+            // ellipse below it has long been recomputed. Re-anchor the excerpt onto
+            // what it was showing.
+            function _reanchorZoom() {
+                if (!zoomActive || zoomPanner.active) return
+                // The self box zone (_followedSeat 0 outside the spectator mode) hangs
+                // on the lower zone edge, not on a ring slot – its excerpt stays valid.
+                if (_followedSeat === 0 && !spectating) return
+                var slot = _followedSeat >= 0 ? slotForSeat(_followedSeat) : null
+                if (slot) {
+                    _panToPoint(width * slot.x + (slot.nudgeX || 0),
+                                height * slot.y + slot.nudge)
+                    return
+                }
+                // No seat followed any more (or exactly that seat has vanished from the
+                // ring) → back to the table centre, which exists in every distribution.
+                _followedSeat = -1
+                _panToPoint(width / 2, communityCenterY)
+            }
+            // The ring count is the one criterion that changes on EVERY redistribution
+            // (keepEmptySeats, joining/leaving, the spectator mode). Qt.callLater: at
+            // signal time slotPos/communityCenterY are only marked dirty – the new
+            // values are due after the binding pass.
+            onRingCountChanged: Qt.callLater(_reanchorZoom)
+
             // It plans a deferred pan to the seat that is currently active. The
             // pan only happens when the player acts or 1/4 of their
             // thinking time (timeoutSec) has passed – triggered via followTimer
