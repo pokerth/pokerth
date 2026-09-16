@@ -49,7 +49,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 	: myFactory(factory), myGui(gui), myLog(log), startQuantityPlayers(startData.numberOfPlayers),
 	  startCash(gameData.startMoney), startSmallBlind(gameData.firstSmallBlind),
 	  myGameID(gameId), currentSmallBlind(gameData.firstSmallBlind), currentHandID(0), dealerPosition(0),
-	  lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData),
+	  dealerPositionFromServer(false), lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData),
 	  blindsTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::manual_start)
 {
 
@@ -151,8 +151,6 @@ const boost::shared_ptr<HandInterface> Game::getCurrentHand() const
 void Game::initHand()
 {
 
-	size_t i;
-	PlayerListConstIterator it_c;
 	PlayerListIterator it;
 
 	currentHandID++;
@@ -188,31 +186,51 @@ void Game::initHand()
 	runningPlayerList->clear();
 	(*runningPlayerList) = (*activePlayerList);
 
+	// Exception rule: nobody has to post the big blind twice in a row.
+	// The button was already shifted at the end of the previous hand, that is
+	// before it was known who would bust out in it. For three or more remaining
+	// players that is exactly what the dead button rule asks for, but on the
+	// way down to heads-up - where the big blind is the first active player
+	// after the button - the previous big blind would have to post it again.
+	// Moving the button on by one seat makes him the small blind instead.
+	if(!dealerPositionFromServer && currentHand && activePlayerList->size() == 2) {
+		const unsigned previousBigBlindPosition = currentHand->getBigBlindPositionId();
+		if(getNextActivePlayerId(dealerPosition) == previousBigBlindPosition) {
+			dealerPosition = previousBigBlindPosition;
+		}
+	}
+
 	// create Hand
 	currentHand = myFactory->createHand(myFactory, myGui, currentBoard, myLog, seatsList, activePlayerList, runningPlayerList, currentHandID, startQuantityPlayers, dealerPosition, currentSmallBlind, startCash);
 
-	// shifting dealer button -> TODO exception-rule !!!
-	bool nextDealerFound = false;
-	PlayerListConstIterator dealerPositionIt = currentHand->getSeatIt(dealerPosition);
-	if(dealerPositionIt == seatsList->end()) {
+	// shifting dealer button
+	dealerPosition = getNextActivePlayerId(dealerPosition);
+}
+
+unsigned Game::getNextActivePlayerId(unsigned seatId) const
+{
+	PlayerListConstIterator seatIt = seatsList->begin();
+	while(seatIt != seatsList->end() && (*seatIt)->getMyUniqueID() != seatId) {
+		++seatIt;
+	}
+	if(seatIt == seatsList->end()) {
 		throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
 	}
 
-	for(i=0; i<seatsList->size(); i++) {
+	for(size_t i=0; i<seatsList->size(); i++) {
 
-		++dealerPositionIt;
-		if(dealerPositionIt == seatsList->end()) dealerPositionIt = seatsList->begin();
+		++seatIt;
+		if(seatIt == seatsList->end()) seatIt = seatsList->begin();
 
-		it_c = currentHand->getActivePlayerIt( (*dealerPositionIt)->getMyUniqueID() );
-		if(it_c != activePlayerList->end() ) {
-			nextDealerFound = true;
-			dealerPosition = (*it_c)->getMyUniqueID();
-			break;
+		PlayerListConstIterator activeIt = activePlayerList->begin();
+		while(activeIt != activePlayerList->end() && (*activeIt)->getMyUniqueID() != (*seatIt)->getMyUniqueID()) {
+			++activeIt;
+		}
+		if(activeIt != activePlayerList->end()) {
+			return (*activeIt)->getMyUniqueID();
 		}
 	}
-	if(!nextDealerFound) {
-		throw LocalException(__FILE__, __LINE__, ERR_NEXT_DEALER_NOT_FOUND);
-	}
+	throw LocalException(__FILE__, __LINE__, ERR_NEXT_DEALER_NOT_FOUND);
 }
 
 void Game::startHand()

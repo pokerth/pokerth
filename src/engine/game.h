@@ -131,6 +131,16 @@ public:
 		return dealerPosition;
 	}
 
+	// Dealer of the hand which is about to start, as announced by the server.
+	// A client which is told the dealer takes it as it is instead of applying
+	// the exception rule in initHand() itself, so that a version skew between
+	// server and client cannot move the button away from the posted blinds.
+	void setDealerPositionFromServer(unsigned theValue)
+	{
+		dealerPosition = theValue;
+		dealerPositionFromServer = true;
+	}
+
 	void replaceDealer(unsigned oldDealer, unsigned newDealer)
 	{
 		if (dealerPosition == oldDealer)
@@ -145,6 +155,10 @@ public:
 	void raiseBlinds();
 
 private:
+	// Unique id of the first player in activePlayerList sitting after the given
+	// seat, wrapping around the table. The seat itself may be inactive.
+	unsigned getNextActivePlayerId(unsigned seatId) const;
+
 	boost::shared_ptr<EngineFactory> myFactory;
 
 	GuiInterface *myGui;
@@ -166,6 +180,7 @@ private:
 	int currentSmallBlind;
 	int currentHandID;
 	unsigned dealerPosition;
+	bool dealerPositionFromServer;
 	int lastHandBlindsRaised;
 	int lastTimeBlindsRaised;
 	const GameData myGameData;

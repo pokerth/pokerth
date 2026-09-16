@@ -84,6 +84,8 @@ public:
 	void setDealerPosition ( int theValue );
 	int getDealerPosition() const;
 
+	unsigned getBigBlindPositionId() const;
+
 	void setSmallBlind ( int theValue );
 	int getSmallBlind() const;
 

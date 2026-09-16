@@ -139,6 +139,11 @@ public:
 		return dealerPosition;
 	}
 
+	unsigned getBigBlindPositionId() const
+	{
+		return bigBlindPosition;
+	}
+
 	void setSmallBlind(int theValue)
 	{
 		smallBlind = theValue;

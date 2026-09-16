@@ -250,6 +250,15 @@ ClientHand::getDealerPosition() const
 	return dealerPosition;
 }
 
+unsigned
+ClientHand::getBigBlindPositionId() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	// The client does not compute the blinds itself, it takes them from the
+	// blind actions sent by the server, which are stored in the preflop round.
+	return myBeRo[GAME_STATE_PREFLOP]->getBigBlindPositionId();
+}
+
 void
 ClientHand::setSmallBlind(int theValue)
 {

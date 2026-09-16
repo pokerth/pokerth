@@ -72,6 +72,10 @@ public:
 	virtual void setDealerPosition(int theValue) =0;
 	virtual int getDealerPosition() const =0;
 
+	// Unique id of the player who posted the big blind in this hand. Game uses
+	// it to keep the same player from posting the big blind twice in a row.
+	virtual unsigned getBigBlindPositionId() const =0;
+
 	virtual void setSmallBlind(int theValue) =0;
 	virtual int getSmallBlind() const =0;
 

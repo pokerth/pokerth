@@ -2335,6 +2335,12 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		if (!client->IsSpectating()) {
 			client->GetGame()->getSeatsList()->front()->setMyCards(myCards);
 		}
+		// The server decides where the button sits. Taking it from the packet
+		// keeps the button in sync even if server and client apply a different
+		// button shifting rule, e.g. during a version skew.
+		if (netHandStart.has_dealerplayerid()) {
+			client->GetGame()->setDealerPositionFromServer(netHandStart.dealerplayerid());
+		}
 		client->GetGame()->initHand();
 		qDebug() << "[ACTDBG] initHand done, new handID=" << client->GetGame()->getCurrentHandID()
 				 << "player0Action=" << client->GetGame()->getSeatsList()->front()->getMyAction();
