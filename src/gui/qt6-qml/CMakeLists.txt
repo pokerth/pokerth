@@ -257,13 +257,11 @@ elseif(IOS)
     # platform plugin nor "module QtQuick is not installed".
     qt_add_executable(pokerth_qml-client MANUAL_FINALIZATION MACOSX_BUNDLE ${POKERTH_QML_CLIENT_SRC})
 elseif(WIN32)
-    # Windows GUI app without a console window. pokerth.rc embeds pokerth.ico as
-    # the app icon into the .exe (explorer, taskbar, title bar). windres finds
-    # the .ico referenced relatively in the .rc via the include path pointing to
-    # the repo root; the path to the .rc itself is absolute (independent of the CWD).
-    set_source_files_properties("${CMAKE_SOURCE_DIR}/pokerth.rc" PROPERTIES
-        COMPILE_FLAGS "-I${CMAKE_SOURCE_DIR}")
-    add_executable(pokerth_qml-client WIN32 ${POKERTH_QML_CLIENT_SRC} "${CMAKE_SOURCE_DIR}/pokerth.rc")
+    # Windows GUI app without a console window. The generated .rc embeds
+    # pokerth.ico as the app icon (explorer, taskbar, title bar) and the version
+    # info that code signing checks (cmake/PokerthWindowsResource.cmake).
+    add_executable(pokerth_qml-client WIN32 ${POKERTH_QML_CLIENT_SRC})
+    pokerth_add_windows_resource(pokerth_qml-client "PokerTH" "${POKERTH_RELEASE_VERSION}")
 else()
     add_executable(pokerth_qml-client ${POKERTH_QML_CLIENT_SRC})
 endif()

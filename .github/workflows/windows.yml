@@ -11,13 +11,33 @@ name: Build Windows Installer (combined QML + Widget)
 # produces locally. No Docker because every other workflow here builds natively
 # on the runner, and a docker build would re-do Qt and vcpkg from scratch on
 # every run — layer caching does not survive between jobs.
+#
+# Code signing goes through SignPath (setup: docker/windows/signpath/README.md)
+# in two rounds: the client exes before makensis packs them, then the
+# installer itself. SignPath fetches each round's input as a GitHub artifact,
+# signs it and the action downloads the result again.
 on:
   workflow_dispatch:
+    inputs:
+      signing-policy:
+        description: "SignPath signing policy (release-signing waits for manual approval in SignPath)"
+        type: choice
+        options:
+          - test-signing
+          - release-signing
+          - none
+        default: test-signing
 
 jobs:
   build-windows:
     runs-on: ubuntu-24.04
     timeout-minutes: 300
+
+    # The SignPath action reads the job details and downloads the unsigned
+    # artifacts with the job's GITHUB_TOKEN.
+    permissions:
+      actions: read
+      contents: read
 
     env:
       # Matches the ARG in Dockerfile.windows-combined.
@@ -195,6 +215,82 @@ jobs:
           test -f build/deploy/pokerth_client.exe
           test -f build/deploy/pokerth_qml-client.exe
 
+      # Forks and repos without the SignPath secret still get an (unsigned)
+      # installer out of test runs, but a release-signing run must never
+      # quietly produce an unsigned one.
+      - name: Decide on code signing
+        id: signing
+        env:
+          POLICY: ${{ inputs.signing-policy }}
+          HAS_TOKEN: ${{ secrets.SIGNPATH_API_TOKEN != '' && vars.SIGNPATH_ORGANIZATION_ID != '' }}
+        run: |
+          set -euo pipefail
+          # SignPath only signs files whose ProductVersion matches this
+          # version, and the exes take theirs from src/game_defs.h — a
+          # mismatch would only surface after the approval in SignPath.
+          VERSION=$(grep -oP '(?<=PRODUCT_VERSION ")[^"]+' docker/windows/installer_combined.nsi | head -1)
+          QML_VERSION=$(awk '/^#define[ \t]+QML_VERSION_(MAJOR|MINOR|REVISION)[ \t]/ { v[$2] = $3 }
+                             END { print v["QML_VERSION_MAJOR"] "." v["QML_VERSION_MINOR"] "." v["QML_VERSION_REVISION"] }' \
+                        src/game_defs.h)
+          if [ "$VERSION" != "$QML_VERSION" ]; then
+            echo "::error::installer_combined.nsi has version $VERSION, src/game_defs.h has $QML_VERSION"
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+          if [ "$POLICY" = "none" ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          elif [ "$HAS_TOKEN" = "true" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          elif [ "$POLICY" = "release-signing" ]; then
+            echo "::error::release-signing requested, but secret SIGNPATH_API_TOKEN or variable SIGNPATH_ORGANIZATION_ID is not set"
+            exit 1
+          else
+            echo "::warning::SignPath is not configured for this repository, the installer stays unsigned"
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Both exes land at the root of the artifact zip, which is what the
+      # "executables" artifact configuration expects.
+      - name: Upload unsigned executables for signing
+        id: upload-unsigned-exes
+        if: steps.signing.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-executables
+          path: |
+            build/deploy/pokerth_client.exe
+            build/deploy/pokerth_qml-client.exe
+          if-no-files-found: error
+          retention-days: 1
+
+      # release-signing needs a manual approval in SignPath, hence the long
+      # wait.
+      - name: Sign executables (SignPath)
+        if: steps.signing.outputs.enabled == 'true'
+        uses: signpath/github-action-submit-signing-request@v3
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG || 'pokerth' }}
+          signing-policy-slug: ${{ inputs.signing-policy }}
+          artifact-configuration-slug: executables
+          parameters: |
+            version: "${{ steps.signing.outputs.version }}"
+          github-artifact-id: ${{ steps.upload-unsigned-exes.outputs.artifact-id }}
+          wait-for-completion-timeout-in-seconds: 3600
+          output-artifact-directory: signed/executables
+
+      - name: Put signed executables into the deploy tree
+        if: steps.signing.outputs.enabled == 'true'
+        run: |
+          set -euo pipefail
+          for exe in pokerth_client.exe pokerth_qml-client.exe; do
+            test -f "signed/executables/$exe"
+            cp -f "signed/executables/$exe" "build/deploy/$exe"
+          done
+          ls -lh build/deploy/*.exe
+
       - name: Build combined installer
         id: nsis
         run: |
@@ -208,13 +304,55 @@ jobs:
           echo "installer=docker/windows/$OUTFILE" >> "$GITHUB_OUTPUT"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
+      - name: Upload unsigned installer for signing
+        id: upload-unsigned-installer
+        if: steps.signing.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-installer
+          path: ${{ steps.nsis.outputs.installer }}
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Sign installer (SignPath)
+        if: steps.signing.outputs.enabled == 'true'
+        uses: signpath/github-action-submit-signing-request@v3
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG || 'pokerth' }}
+          signing-policy-slug: ${{ inputs.signing-policy }}
+          artifact-configuration-slug: installer
+          parameters: |
+            version: "${{ steps.signing.outputs.version }}"
+          github-artifact-id: ${{ steps.upload-unsigned-installer.outputs.artifact-id }}
+          wait-for-completion-timeout-in-seconds: 3600
+          output-artifact-directory: signed/installer
+
+      # Overwrites the unsigned installer in place, so the upload below does
+      # not need to know whether signing ran.
+      - name: Replace installer with the signed one
+        if: steps.signing.outputs.enabled == 'true'
+        run: |
+          set -euo pipefail
+          INSTALLER="${{ steps.nsis.outputs.installer }}"
+          SIGNED="signed/installer/$(basename "$INSTALLER")"
+          test -f "$SIGNED"
+          cp -f "$SIGNED" "$INSTALLER"
+
       - name: Summarise
         run: |
           INSTALLER="${{ steps.nsis.outputs.installer }}"
+          if [ "${{ steps.signing.outputs.enabled }}" = "true" ]; then
+            SIGNED="signed via SignPath, policy \`${{ inputs.signing-policy }}\`"
+          else
+            SIGNED="**unsigned**"
+          fi
           {
             echo "### Windows installer (Widget + QML)"
             echo ""
             echo "- \`$(basename "$INSTALLER")\` — $(du -h "$INSTALLER" | cut -f1)"
+            echo "- ${SIGNED}"
             echo "- version ${{ steps.nsis.outputs.version }}, commit \`${GITHUB_SHA::7}\`"
             echo "- Qt ${QT_VERSION} win64_mingw, cross-compiled with $(x86_64-w64-mingw32-g++ -dumpversion)"
           } >> "$GITHUB_STEP_SUMMARY"

@@ -88,13 +88,11 @@ if(ANDROID)
     # Use qt_add_executable with MANUAL_FINALIZATION
     qt_add_executable(pokerth_client MANUAL_FINALIZATION "${POKERTH_CLIENT_SRC}")
 elseif(WIN32)
-    # Windows GUI app without a console window. pokerth.rc embeds pokerth.ico as
-    # the app icon into the .exe (explorer, taskbar, title bar). windres finds
-    # the .ico referenced relatively in the .rc via the include path pointing to
-    # the repo root; the path to the .rc itself is absolute (independent of the CWD).
-    set_source_files_properties("${CMAKE_SOURCE_DIR}/pokerth.rc" PROPERTIES
-        COMPILE_FLAGS "-I${CMAKE_SOURCE_DIR}")
-    add_executable(pokerth_client WIN32 "${POKERTH_CLIENT_SRC}" "${CMAKE_SOURCE_DIR}/pokerth.rc")
+    # Windows GUI app without a console window. The generated .rc embeds
+    # pokerth.ico as the app icon (explorer, taskbar, title bar) and the version
+    # info that code signing checks (cmake/PokerthWindowsResource.cmake).
+    add_executable(pokerth_client WIN32 "${POKERTH_CLIENT_SRC}")
+    pokerth_add_windows_resource(pokerth_client "PokerTH Classic Client" "${POKERTH_WIDGET_VERSION}")
 else()
     add_executable(pokerth_client "${POKERTH_CLIENT_SRC}")
 endif()

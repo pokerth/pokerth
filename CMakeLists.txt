@@ -4,8 +4,9 @@ set(QT_MIN_VERSION "6.7.0")
 
 project(POKERTH)
 
-# Windows: enable the RC language so that pokerth.rc (app icon pokerth.ico) can be
-# embedded into the client .exe. project() only enables C/CXX; without this
+# Windows: enable the RC language so that pokerth.rc.in (app icon pokerth.ico and
+# version info, see cmake/PokerthWindowsResource.cmake) can be embedded into the
+# client .exe. project() only enables C/CXX; without this
 # CMake would not compile the .rc. CMAKE_RC_COMPILER (windres) comes via -D from
 # build_windows.sh in the MinGW cross build.
 if(WIN32)
@@ -23,6 +24,10 @@ option(CMAKE_AUTOUIC "" ON)
 option(CMAKE_AUTOMOC "" ON)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+
+if(WIN32)
+    include(PokerthWindowsResource)
+endif()
 
 list(APPEND CMAKE_AUTOUIC_SEARCH_PATHS "uics/")
 list(APPEND CMAKE_AUTOUIC_SEARCH_PATHS "src/gui/qt")

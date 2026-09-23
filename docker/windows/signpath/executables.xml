@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SignPath artifact configuration "executables": the two client exes that
+     go into the installer. Only PokerTH's own binaries are signed; the Qt and
+     MinGW DLLs next to them are third-party and stay as they are.
+     The GitHub artifact is a zip with both exes at its root.
+     The metadata restrictions check the version info from pokerth.rc.in;
+     "version" is the release version, passed in by the workflow. -->
+<artifact-configuration xmlns="http://signpath.io/artifact-configuration/v1">
+  <parameters>
+    <parameter name="version" required="true" />
+  </parameters>
+  <zip-file>
+    <pe-file-set product-name="PokerTH" product-version="${version}"
+                 company-name="PokerTH Team" original-filename="${file.name}">
+      <include path="pokerth_client.exe" />
+      <include path="pokerth_qml-client.exe" />
+      <for-each>
+        <authenticode-sign />
+      </for-each>
+    </pe-file-set>
+  </zip-file>
+</artifact-configuration>

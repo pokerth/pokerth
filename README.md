@@ -188,6 +188,14 @@ For pull requests:
 - Any change to the network protocol means touching [pokerth.proto](pokerth.proto), and client *and* server have to stay compatible with the released versions.
 - New user-visible strings need to be added to the translation files as well.
 
+## Code signing policy
+
+Free code signing provided by [SignPath.io](https://about.signpath.io),
+certificate by [SignPath Foundation](https://signpath.org). Only the Windows
+clients and installer built from this repository by GitHub Actions are signed;
+roles, scope and privacy statement are in
+[docs/code_signing_policy.md](docs/code_signing_policy.md).
+
 ## License
 
 PokerTH is free software, licensed under the **GNU Affero General Public License

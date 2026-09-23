@@ -98,6 +98,20 @@ Var StartMenuFolder
 !insertmacro MUI_LANGUAGE "German"
 
 ; --------------------------------
+; Version info of the setup exe. SignPath (docker/windows/signpath/) only
+; signs the installer if ProductName and ProductVersion match; the exes carry
+; the same values (pokerth.rc.in).
+
+VIProductVersion "${PRODUCT_VERSION}.0"
+VIFileVersion "${PRODUCT_VERSION}.0"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "${PRODUCT_NAME}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductVersion" "${PRODUCT_VERSION}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "${PRODUCT_VERSION}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "${PRODUCT_NAME} Setup"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "${PRODUCT_PUBLISHER}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Copyright (C) ${PRODUCT_PUBLISHER}. Licensed under the AGPL-3.0."
+
+; --------------------------------
 ; Multilingual Strings
 
 LangString WelcomeTitle ${LANG_ENGLISH} "Welcome to ${PRODUCT_NAME} Setup"

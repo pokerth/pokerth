@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SignPath artifact configuration "installer": the NSIS setup exe. Its file
+     name carries version and build timestamp, hence the wildcard; without
+     min/max-matches it must match exactly one file.
+     The GitHub artifact is a zip with the installer at its root.
+     The metadata restrictions check the VI* version info from
+     installer_combined.nsi; "version" is passed in by the workflow. -->
+<artifact-configuration xmlns="http://signpath.io/artifact-configuration/v1">
+  <parameters>
+    <parameter name="version" required="true" />
+  </parameters>
+  <zip-file>
+    <pe-file path="PokerTH-Combined-*-Setup.exe"
+             product-name="PokerTH" product-version="${version}"
+             company-name="PokerTH Team">
+      <authenticode-sign />
+    </pe-file>
+  </zip-file>
+</artifact-configuration>
