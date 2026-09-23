@@ -216,6 +216,7 @@ protected:
 	// all share its address).
 	bool IsLoginRateLimitExempt(const std::string &clientAddr) const;
 	void TimerCleanupAvatarCache(const boost::system::error_code &ec);
+	void TimerRefreshShadowMute(const boost::system::error_code &ec);
 
 	bool IsGameNameInUse(const std::string &gameName) const;
 	boost::shared_ptr<ServerGame> InternalGetGameFromId(unsigned gameId);
@@ -303,6 +304,7 @@ private:
 	boost::asio::steady_timer m_saveStatisticsTimer;
 	boost::asio::steady_timer m_loginLockTimer;
 	boost::asio::steady_timer m_avatarCleanupTimer;
+	boost::asio::steady_timer m_shadowMuteTimer;
 
 	boost::uuids::random_generator m_sessionIdGenerator;
 

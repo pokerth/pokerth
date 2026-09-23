@@ -65,6 +65,7 @@ public:
 	virtual void AsyncReportGame(unsigned requestId, unsigned replyId, DB_id *creatorPlayerId, unsigned gameId, const std::string &gameName, DB_id *byPlayerId);
 
 	virtual void AsyncQueryAdminPlayers(unsigned requestId);
+	virtual void AsyncQueryShadowMutedPlayers(unsigned requestId);
 	virtual void AsyncBlockPlayer(unsigned requestId, unsigned replyId, DB_id playerId, int valid, int active);
 
 	virtual void LogSessionStart(unsigned sessionNo, DB_id playerId, const std::string &nick, bool isGuest,

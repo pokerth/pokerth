@@ -50,6 +50,7 @@ public:
 	virtual ~ServerBanManager();
 
 	void SetAdminPlayerIds(const std::list<DB_id> &adminList);
+	void SetShadowMutedPlayerIds(const std::list<DB_id> &mutedList);
 
 	void BanPlayerName(const std::string &playerName, unsigned durationHours = 0);
 	void BanPlayerRegex(const std::string &playerRegex, unsigned durationHours = 0);
@@ -59,6 +60,7 @@ public:
 	void ClearBanList();
 
 	bool IsAdminPlayer(DB_id playerId) const;
+	bool IsShadowMuted(DB_id playerId) const;
 	bool IsPlayerBanned(const std::string &name) const;
 	bool IsIPAddressBanned(const std::string &ipAddress) const;
 
@@ -94,6 +96,7 @@ private:
 	RegexList m_gameNameBadWordFilter;
 	IPAddressMap m_banIPAddressMap;
 	DBPlayerIdList m_adminPlayers;
+	DBPlayerIdList m_shadowMutedPlayers;
 	unsigned m_curBanId;
 	mutable boost::mutex m_banMutex;
 };

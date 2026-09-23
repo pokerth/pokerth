@@ -75,6 +75,7 @@ public:
 	virtual void AsyncReportGame(unsigned requestId, unsigned replyId, DB_id *creatorPlayerId, unsigned gameId, const std::string &gameName, DB_id *byPlayerId);
 
 	virtual void AsyncQueryAdminPlayers(unsigned requestId);
+	virtual void AsyncQueryShadowMutedPlayers(unsigned requestId);
 	virtual void AsyncBlockPlayer(unsigned requestId, unsigned replyId, DB_id playerId, int valid, int active);
 
 	virtual void LogSessionStart(unsigned sessionNo, DB_id playerId, const std::string &nick, bool isGuest,
@@ -103,6 +104,9 @@ protected:
 	void SetActivityLoggingEnabled(bool enabled);
 	bool IsLiveStatsEnabled() const;
 	void SetLiveStatsEnabled(bool enabled);
+	bool PrepareShadowMuteStatement();
+	bool IsShadowMuteEnabled() const;
+	void SetShadowMuteEnabled(bool enabled);
 	void HandleNextQuery();
 
 	// Queue handling. The queue itself is the only source of truth for
@@ -136,6 +140,9 @@ private:
 	// later, and a database which only lacks that table must still log
 	// sessions.
 	bool m_liveStats{true};
+	// Unlike the two above pessimistic: the shadow mute query must not be
+	// queued before its statement exists, see AsyncQueryShadowMutedPlayers().
+	bool m_shadowMute{false};
 
 	mutable boost::mutex m_isConnectedMutex;
 	bool m_isConnected;

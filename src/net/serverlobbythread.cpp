@@ -74,6 +74,7 @@
 #define SERVER_UPDATE_LOGIN_LOCK_INTERVAL_MSEC		1000
 #define SERVER_PROCESS_SEND_INTERVAL_MSEC			10
 #define SERVER_AVATAR_CACHE_CLEANUP_INTERVAL_SEC		86400
+#define SERVER_SHADOW_MUTE_REFRESH_INTERVAL_SEC		10		// how long a new or lifted shadow mute may take to apply
 
 #define SERVER_INIT_LOGIN_CLIENT_LOCK_SEC			NetHelper::GetLoginLockSec()
 #define SERVER_INIT_LOGIN_CLIENT_BURST				5		// inits one address may send back to back before the rate limit applies
@@ -302,6 +303,11 @@ public:
 		m_server.GetBanManager().SetAdminPlayerIds(adminList);
 	}
 
+	virtual void ShadowMutedPlayerList(unsigned /*requestId*/, std::list<DB_id> mutedList)
+	{
+		m_server.GetBanManager().SetShadowMutedPlayerIds(mutedList);
+	}
+
 	virtual void BlockPlayerSuccess(unsigned requestId, unsigned replyId)
 	{
 		m_server.SendAdminBanPlayerResult(requestId, replyId, true);
@@ -323,7 +329,7 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ServerMode mode, ConfigF
 	  m_mode(mode), m_serverConfig(serverConfig), m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
 	  m_statDataChanged(false), m_removeGameTimer(*ioService),
 	  m_saveStatisticsTimer(*ioService), m_loginLockTimer(*ioService),
-	  m_avatarCleanupTimer(*ioService),
+	  m_avatarCleanupTimer(*ioService), m_shadowMuteTimer(*ioService),
 	  m_startTime(boost::posix_time::second_clock::local_time())
 {
 	m_internalServerCallback.reset(new InternalServerCallback(*this));
@@ -1109,6 +1115,11 @@ ServerLobbyThread::RegisterTimers()
 		boost::bind(
 			&ServerLobbyThread::TimerCleanupAvatarCache, shared_from_this(), boost::asio::placeholders::error));
 #endif
+
+	m_shadowMuteTimer.expires_after(seconds(SERVER_SHADOW_MUTE_REFRESH_INTERVAL_SEC));
+	m_shadowMuteTimer.async_wait(
+		boost::bind(
+			&ServerLobbyThread::TimerRefreshShadowMute, shared_from_this(), boost::asio::placeholders::error));
 }
 
 void
@@ -1118,6 +1129,7 @@ ServerLobbyThread::CancelTimers()
 	m_saveStatisticsTimer.cancel();
 	m_loginLockTimer.cancel();
 	m_avatarCleanupTimer.cancel();
+	m_shadowMuteTimer.cancel();
 }
 
 void
@@ -1794,6 +1806,15 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 			netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
 			netChat->set_chattext(chatMsg);
 
+			if (GetBanManager().IsShadowMuted(session->GetPlayerData()->GetDBId())) {
+				// Shadow mute: echo to the sender only, exactly the packet
+				// everybody else would have received. Keep the chat cleaner
+				// out of it as well - a bot warning about lines nobody saw
+				// would give the mute away.
+				GetSender().Send(session, packet);
+				return;
+			}
+
 			m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
 			m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 
@@ -2374,6 +2395,20 @@ ServerLobbyThread::TimerCleanupAvatarCache(const boost::system::error_code &ec)
 		m_avatarCleanupTimer.async_wait(
 			boost::bind(
 				&ServerLobbyThread::TimerCleanupAvatarCache, shared_from_this(), boost::asio::placeholders::error));
+	}
+}
+
+void
+ServerLobbyThread::TimerRefreshShadowMute(const boost::system::error_code &ec)
+{
+	if (!ec) {
+		// Polled rather than read at login: a mute set by the web backend must
+		// apply to a player who is online right now, and must also end on time.
+		m_database->AsyncQueryShadowMutedPlayers(0);
+		m_shadowMuteTimer.expires_after(seconds(SERVER_SHADOW_MUTE_REFRESH_INTERVAL_SEC));
+		m_shadowMuteTimer.async_wait(
+			boost::bind(
+				&ServerLobbyThread::TimerRefreshShadowMute, shared_from_this(), boost::asio::placeholders::error));
 	}
 }
 

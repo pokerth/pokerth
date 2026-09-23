@@ -71,6 +71,9 @@ public:
 	virtual void AsyncReportGame(unsigned requestId, unsigned replyId, DB_id *creatorPlayerId, unsigned gameId, const std::string &gameName, DB_id *byPlayerId) = 0;
 
 	virtual void AsyncQueryAdminPlayers(unsigned requestId) = 0;
+	// All players whose shadow mute has not yet expired. Silently does
+	// nothing if the database lacks the column.
+	virtual void AsyncQueryShadowMutedPlayers(unsigned requestId) = 0;
 	virtual void AsyncBlockPlayer(unsigned requestId, unsigned replyId, DB_id playerId, int valid, int active) = 0;
 
 	// Lobby activity logging. LogSessionStart opens a row for a connection that

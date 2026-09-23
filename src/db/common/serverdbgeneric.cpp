@@ -126,6 +126,11 @@ ServerDBGeneric::AsyncQueryAdminPlayers(unsigned /*requestId*/)
 }
 
 void
+ServerDBGeneric::AsyncQueryShadowMutedPlayers(unsigned /*requestId*/)
+{
+}
+
+void
 ServerDBGeneric::AsyncBlockPlayer(unsigned /*requestId*/, unsigned /*replyId*/, DB_id /*playerId*/, int /*valid*/, int /*active*/)
 {
 }

@@ -40,6 +40,7 @@
 #include <dbofficial/asyncdbreportavatar.h>
 #include <dbofficial/asyncdbreportgame.h>
 #include <dbofficial/asyncdbadminplayers.h>
+#include <dbofficial/asyncdbshadowmute.h>
 #include <dbofficial/asyncdbblockplayer.h>
 #include <dbofficial/asyncdbplayerlastgames.h>
 #include <dbofficial/asyncdbsessionstart.h>
@@ -92,6 +93,7 @@
 #define QUERY_SESSION_START_PREPARE		"session_start_template"
 #define QUERY_SESSION_END_PREPARE		"session_end_template"
 #define QUERY_LIVE_STATS_PREPARE		"live_stats_template"
+#define QUERY_SHADOW_MUTE_PREPARE		"shadow_mute_template"
 
 using namespace std;
 
@@ -510,6 +512,21 @@ ServerDBThread::AsyncQueryAdminPlayers(unsigned requestId)
 }
 
 void
+ServerDBThread::AsyncQueryShadowMutedPlayers(unsigned requestId)
+{
+	// Never queue the statement while it is not prepared: executing an unknown
+	// prepared statement counts as connection loss and would make the thread
+	// reconnect over and over.
+	if (!IsShadowMuteEnabled())
+		return;
+	boost::shared_ptr<AsyncDBQuery> asyncQuery(
+		new AsyncDBShadowMute(
+			requestId,
+			QUERY_SHADOW_MUTE_PREPARE));
+	EnqueueQuery(asyncQuery);
+}
+
+void
 ServerDBThread::AsyncBlockPlayer(unsigned requestId, unsigned replyId, DB_id playerId, int valid, int active)
 {
 	list<string> params;
@@ -721,6 +738,40 @@ ServerDBThread::PrepareActivityStatements()
 	SetLiveStatsEnabled(liveStatsReady);
 
 	return true;
+}
+
+bool
+ServerDBThread::PrepareShadowMuteStatement()
+{
+	// NOW() rather than a timestamp from the server process: the web backend
+	// writes the end date, and comparing against the database clock keeps
+	// both sides on the same time zone.
+	mysqlpp::Query prepareShadowMute = m_connData->conn.query();
+	prepareShadowMute
+			<< "PREPARE " QUERY_SHADOW_MUTE_PREPARE " FROM " << mysqlpp::quote
+			<< "SELECT " DB_TABLE_PLAYER_COL_ID " FROM " DB_TABLE_PLAYER " WHERE " DB_TABLE_PLAYER_COL_SHADOWMUTEUNTIL " > NOW()";
+
+	if (!prepareShadowMute.exec()) {
+		LOG_ERROR("Shadow mute disabled: cannot prepare statement, is "
+				  DB_TABLE_PLAYER "." DB_TABLE_PLAYER_COL_SHADOWMUTEUNTIL " missing? ("
+				  << prepareShadowMute.error() << ")");
+		return false;
+	}
+	return true;
+}
+
+bool
+ServerDBThread::IsShadowMuteEnabled() const
+{
+	boost::mutex::scoped_lock lock(m_activityLoggingMutex);
+	return m_shadowMute;
+}
+
+void
+ServerDBThread::SetShadowMuteEnabled(bool enabled)
+{
+	boost::mutex::scoped_lock lock(m_activityLoggingMutex);
+	m_shadowMute = enabled;
 }
 
 bool
@@ -977,6 +1028,9 @@ ServerDBThread::EstablishDBConnection()
 				OpenServerRun();
 			else
 				SetActivityLoggingEnabled(false);
+			// Same reasoning: a database without the shadow mute column must
+			// still let players log in and chat.
+			SetShadowMuteEnabled(PrepareShadowMuteStatement());
 			const size_t pending = GetQueueSize();
 			if (pending)
 				LOG_MSG("DB connection ready with " << pending << " pending queries.");

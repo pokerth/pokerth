@@ -38,6 +38,7 @@
 #include <net/serverexception.h>
 #include <net/net_helper.h>
 #include <net/chatcleanermanager.h>
+#include <net/serverbanmanager.h>
 #include <db/serverdbinterface.h>
 #include <core/loghelper.h>
 #include <core/avatarmanager.h>
@@ -307,18 +308,25 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 					netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
 					netChat->set_chattype(ChatMessage::chatTypeGame);
 					netChat->set_chattext(netChatRequest.chattext());
-					server->SendToAllPlayers(packet, SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 					chatSent = true;
 
-					// Send the message to the chat cleaner bot for ranking games.
-					//if (server->GetGameData().gameType == GAME_TYPE_RANKING)
-					//{
-					server->GetLobbyThread().GetChatCleaner().HandleGameChatText(
-						server->GetId(),
-						session->GetPlayerData()->GetUniqueId(),
-						session->GetPlayerData()->GetName(),
-						netChatRequest.chattext());
-					//}
+					// Shadow mute: echo to the sender only and keep the chat
+					// cleaner out of it, see ServerLobbyThread::HandleNetPacketChatRequest.
+					if (server->GetLobbyThread().GetBanManager().IsShadowMuted(session->GetPlayerData()->GetDBId())) {
+						server->GetLobbyThread().GetSender().Send(session, packet);
+					} else {
+						server->SendToAllPlayers(packet, SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
+
+						// Send the message to the chat cleaner bot for ranking games.
+						//if (server->GetGameData().gameType == GAME_TYPE_RANKING)
+						//{
+						server->GetLobbyThread().GetChatCleaner().HandleGameChatText(
+							server->GetId(),
+							session->GetPlayerData()->GetUniqueId(),
+							session->GetPlayerData()->GetName(),
+							netChatRequest.chattext());
+						//}
+					}
 				}
 			}
 		}

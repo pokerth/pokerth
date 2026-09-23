@@ -44,6 +44,8 @@
 #define DB_TABLE_PLAYER_COL_AVATARTYPE				"avatar_mime"
 #define DB_TABLE_PLAYER_COL_LASTGAMES				"last_games"
 #define DB_TABLE_PLAYER_COL_LASTIP				    "last_ip"
+// Optional, see docs/server_shadow_mute_schema.sql.
+#define DB_TABLE_PLAYER_COL_SHADOWMUTEUNTIL			"shadow_mute_until"
 
 #define DB_TABLE_GAME								"game"
 #define DB_TABLE_GAME_COL_ID						"idgame"

@@ -1,6 +1,6 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
- * Copyright (C) 2006-2012 Felix Hammer, Florian Thauer, Lothar May          *
+ * Copyright (C) 2006-2016 Felix Hammer, Florian Thauer, Lothar May          *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU Affero General Public License as            *
@@ -28,49 +28,53 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
-/* Server database callback for async database operations. */
 
-#ifndef _SERVERDBCALLBACK_H_
-#define _SERVERDBCALLBACK_H_
+#include <dbofficial/asyncdbshadowmute.h>
+#include <dbofficial/dbidmanager.h>
+#include <core/loghelper.h>
 
-#include <db/dbdefs.h>
-#include <string>
-#include <list>
-#include <boost/shared_ptr.hpp>
+using namespace std;
 
-// Callback operations are posted using the io service,
-// and will therefore be executed in the io service thread.
-class ServerDBCallback
+
+AsyncDBShadowMute::AsyncDBShadowMute(unsigned queryId, const string &preparedName)
+	: SingleAsyncDBQuery(queryId, preparedName, list<string>())
 {
-public:
-	virtual ~ServerDBCallback();
+}
 
-	virtual void ConnectSuccess() = 0;
-	virtual void ConnectFailed(std::string error) = 0;
+AsyncDBShadowMute::~AsyncDBShadowMute()
+{
+}
 
-	virtual void QueryError(std::string error) = 0;
+bool
+AsyncDBShadowMute::Init(DBIdManager& /*idManager*/)
+{
+	return true;
+}
 
-	virtual void PlayerLoginSuccess(unsigned requestId, boost::shared_ptr<DBPlayerData> dbPlayerData) = 0;
-	virtual void PlayerLoginFailed(unsigned requestId) = 0;
-	virtual void PlayerLoginBlocked(unsigned requestId) = 0;
+void
+AsyncDBShadowMute::HandleResult(mysqlpp::Query &/*query*/, DBIdManager& /*idManager*/, mysqlpp::StoreQueryResult& result, boost::asio::io_context &service, ServerDBCallback &cb)
+{
+	list<DB_id> mutedPlayers;
+	for (size_t i = 0; i < result.num_rows(); ++i) {
+		if (!result[i].empty()) {
+			mutedPlayers.push_back(result[i][0]);
+		}
+	}
+	boost::asio::post(service, boost::bind(&ServerDBCallback::ShadowMutedPlayerList, &cb, GetId(), mutedPlayers));
+}
 
-	virtual void AvatarIsBlacklisted(unsigned requestId) = 0;
-	virtual void AvatarIsOK(unsigned requestId) = 0;
+void
+AsyncDBShadowMute::HandleNoResult(mysqlpp::Query &/*query*/, DBIdManager& /*idManager*/, boost::asio::io_context &service, ServerDBCallback &cb)
+{
+	// This query should always produce a result.
+	HandleError(service, cb);
+}
 
-	virtual void CreateGameSuccess(unsigned requestId) = 0;
-	virtual void CreateGameFailed(unsigned requestId) = 0;
-
-	virtual void ReportAvatarSuccess(unsigned requestId, unsigned replyId) = 0;
-	virtual void ReportAvatarFailed(unsigned requestId, unsigned replyId) = 0;
-
-	virtual void ReportGameSuccess(unsigned requestId, unsigned replyId) = 0;
-	virtual void ReportGameFailed(unsigned requestId, unsigned replyId) = 0;
-
-	virtual void PlayerAdminList(unsigned requestId, std::list<DB_id> adminList) = 0;
-	virtual void ShadowMutedPlayerList(unsigned requestId, std::list<DB_id> mutedList) = 0;
-
-	virtual void BlockPlayerSuccess(unsigned requestId, unsigned replyId) = 0;
-	virtual void BlockPlayerFailed(unsigned requestId, unsigned replyId) = 0;
-};
-
-#endif
+void
+AsyncDBShadowMute::HandleError(boost::asio::io_context &/*service*/, ServerDBCallback &/*cb*/)
+{
+	// Deliberately no callback: the previous list stays in force, so a failed
+	// refresh neither lifts all mutes nor mutes anybody. The next refresh is
+	// only seconds away.
+	LOG_ERROR("AsyncDBShadowMute: shadow mute refresh failed.");
+}

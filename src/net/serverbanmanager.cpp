@@ -59,6 +59,14 @@ ServerBanManager::SetAdminPlayerIds(const std::list<DB_id> &adminList)
 }
 
 void
+ServerBanManager::SetShadowMutedPlayerIds(const std::list<DB_id> &mutedList)
+{
+	boost::mutex::scoped_lock lock(m_banMutex);
+	m_shadowMutedPlayers.assign(mutedList.begin(), mutedList.end());
+	sort(m_shadowMutedPlayers.begin(), m_shadowMutedPlayers.end());
+}
+
+void
 ServerBanManager::BanPlayerName(const std::string &playerName, unsigned durationHours)
 {
 	boost::mutex::scoped_lock lock(m_banMutex);
@@ -167,6 +175,15 @@ ServerBanManager::IsAdminPlayer(DB_id playerId) const
 		}
 	}
 	return retVal;
+}
+
+bool
+ServerBanManager::IsShadowMuted(DB_id playerId) const
+{
+	if (playerId == DB_ID_INVALID)
+		return false;
+	boost::mutex::scoped_lock lock(m_banMutex);
+	return binary_search(m_shadowMutedPlayers.begin(), m_shadowMutedPlayers.end(), playerId);
 }
 
 bool
