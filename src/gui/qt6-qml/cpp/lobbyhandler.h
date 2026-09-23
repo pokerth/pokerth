@@ -483,6 +483,9 @@ public slots:
 	Q_INVOKABLE bool canJoinGame(unsigned gameId) const;
 	Q_INVOKABLE bool canSpectateGame(unsigned gameId) const;
 	Q_INVOKABLE bool openExternalUrl(const QString &url) const;
+	// Current server time (Europe/Berlin, CET/CEST) as "HH:mm". BBC games
+	// are always scheduled in Berlin time, so the footer shows it.
+	Q_INVOKABLE QString serverTimeString() const;
 	// All supported emoji shortcodes (":smile:" → 😄) as a sorted list
 	// of {code, emoji} for the auto-completion of the ChatBox. The source is
 	// the same map that replaces them when sending (chat_emote_shortcuts.h) – so

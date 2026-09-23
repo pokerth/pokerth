@@ -5,8 +5,9 @@ import QtQuick.Layouts
 import "../config" as Config
 
 // Shared status bar (at the very bottom): number of connected players plus
-// running/open games on the left, PokerTH.net link on the right. Reads the
-// values from the lobby handler itself so it is identical on every page.
+// running/open games on the left, server time (Berlin) and the PokerTH.net
+// link on the right. Reads the values from the lobby handler itself so it is
+// identical on every page.
 RowLayout {
     id: statsBar
     Layout.fillWidth: true
@@ -15,6 +16,18 @@ RowLayout {
     readonly property int connectedPlayers: Lobby ? Lobby.playerListModel.count : 0
     readonly property int runningGames: Lobby ? Lobby.gameListModel.runningCount : 0
     readonly property int openGames: Lobby ? Lobby.gameListModel.openCount : 0
+    // Server time = Berlin time (CET/CEST); BBC games are scheduled in it,
+    // so it is only shown with community content enabled.
+    readonly property bool showServerTime: Config.Parameters.showCommunityContent
+    property string serverTime: Lobby ? Lobby.serverTimeString() : ""
+
+    Timer {
+        interval: 1000
+        repeat: true
+        running: statsBar.visible && statsBar.showServerTime
+        triggeredOnStart: true
+        onTriggered: statsBar.serverTime = Lobby ? Lobby.serverTimeString() : ""
+    }
 
     // Compact: one line with a short form + elide
     AppLabel {
@@ -48,6 +61,15 @@ RowLayout {
     }
 
     Item { Layout.fillWidth: true }
+
+    AppLabel {
+        visible: statsBar.showServerTime && statsBar.serverTime !== ""
+        text: (Config.Responsive.compact
+               ? qsTr("Berlin %1").arg(statsBar.serverTime)
+               : qsTr("Server time (Berlin): %1").arg(statsBar.serverTime)) + " | "
+        font.pixelSize: 12
+        color: Config.StaticData.palette.secondary.col300
+    }
 
     AppText {
         text: qsTr("PokerTH.net")

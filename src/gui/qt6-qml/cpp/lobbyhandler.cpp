@@ -25,6 +25,7 @@
 #include <QUrl>
 #include <QStringList>
 #include <QDateTime>
+#include <QTimeZone>
 #include <QFileInfo>
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -1361,6 +1362,26 @@ QString LobbyHandler::playerCountryByName(const QString &name) const
 			return m_playerListModel.data(idx, PlayerListModel::CountryCodeRole).toString();
 	}
 	return QString();
+}
+
+QString LobbyHandler::serverTimeString() const
+{
+	const QDateTime utc = QDateTime::currentDateTimeUtc();
+	static const QTimeZone berlin("Europe/Berlin");
+	if (berlin.isValid())
+		return utc.toTimeZone(berlin).toString(QStringLiteral("HH:mm"));
+
+	// Fallback without tz database: EU rule, CEST from the last Sunday of
+	// March 01:00 UTC until the last Sunday of October 01:00 UTC.
+	auto lastSunday = [](int year, int month) {
+		QDate d(year, month, QDate(year, month, 1).daysInMonth());
+		return d.addDays(-(d.dayOfWeek() % 7));
+	};
+	const int year = utc.date().year();
+	const QDateTime dstStart(lastSunday(year, 3), QTime(1, 0), QTimeZone::UTC);
+	const QDateTime dstEnd(lastSunday(year, 10), QTime(1, 0), QTimeZone::UTC);
+	const int offset = (utc >= dstStart && utc < dstEnd) ? 7200 : 3600;
+	return utc.addSecs(offset).toString(QStringLiteral("HH:mm"));
 }
 
 bool LobbyHandler::openExternalUrl(const QString &url) const
