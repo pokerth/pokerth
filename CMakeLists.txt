@@ -311,6 +311,28 @@ elseif(WIN32)
         utf8_range::utf8_range
         utf8_range::utf8_validity
     )
+else()
+    # Linux: the FindProtobuf module does not pass protobuf's abseil dependency
+    # on to the targets linking it, so with protobuf >= 22 executables fail with
+    # "DSO missing from command line" for absl symbols. Protobuf 22 is the first
+    # release using abseil (C++ library version 4.22). Decide by that version, not
+    # by whether absl happens to be installed: Ubuntu builds use protobuf 3.21,
+    # and an old libabsl-dev lying around lacks the absl::log_internal_* targets.
+    if(Protobuf_VERSION VERSION_GREATER_EQUAL 4.22)
+        find_package(absl CONFIG REQUIRED)
+        target_link_libraries(pokerth_protocol PUBLIC
+            absl::base
+            absl::log_internal_message
+            absl::log_internal_check_op
+            absl::strings
+            absl::cord
+            absl::status
+            absl::statusor
+            absl::hash
+            absl::flat_hash_map
+            absl::raw_hash_set
+        )
+    endif()
 endif()
 
 # Disable Qt autogen (moc/uic) on the generated protobuf files.

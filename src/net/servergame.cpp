@@ -1092,13 +1092,29 @@ ServerGame::RemoveDisconnectedPlayers()
 	// This should only be called between hands.
 	if (m_game) {
 		PlayerList tmpList(m_game->getSeatsList());
+		auto isPlayerDisconnected = [this](const boost::shared_ptr<PlayerInterface> &player) {
+			unsigned playerId = player->getMyUniqueID();
+			return (player->getMyType() == PLAYER_TYPE_HUMAN && !GetSessionManager().IsPlayerConnected(playerId))
+				   || (player->getMyType() == PLAYER_TYPE_COMPUTER && !IsComputerPlayerActive(playerId));
+		};
+
+		// If only one connected player still has chips, nobody is left to play
+		// against: waiting out the reconnect limit for the offline ones only
+		// keeps the winner at the table, and if they leave in the meantime the
+		// game is discarded unranked for everyone. End it now instead.
+		int connectedWithCash = 0;
+		for (PlayerListIterator p = tmpList->begin(); p != tmpList->end(); ++p) {
+			if ((*p)->getMyCash() > 0 && !isPlayerDisconnected(*p))
+				++connectedWithCash;
+		}
+		const bool lastConnectedPlayer = (connectedWithCash == 1);
+
 		PlayerListIterator i = tmpList->begin();
 		PlayerListIterator end = tmpList->end();
 		while (i != end) {
 			boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
 			unsigned playerId = tmpPlayer->getMyUniqueID();
-			bool isDisconnected = (tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN && !GetSessionManager().IsPlayerConnected(playerId))
-								  || (tmpPlayer->getMyType() == PLAYER_TYPE_COMPUTER && !IsComputerPlayerActive(playerId));
+			bool isDisconnected = isPlayerDisconnected(tmpPlayer);
 
 			if (isDisconnected) {
 				bool forceDeactivate = false;
@@ -1113,6 +1129,9 @@ ServerGame::RemoveDisconnectedPlayers()
 						forceDeactivate = true;
 					} else if (GetLobbyThread().IsPlayerInAnotherGame(playerId, GetId())) {
 						LOG_MSG("Player " << playerId << " joined another game while absent from game " << GetId() << " - deactivating.");
+						forceDeactivate = true;
+					} else if (lastConnectedPlayer) {
+						LOG_MSG("Player " << playerId << " offline in game " << GetId() << " with only one connected player left - deactivating.");
 						forceDeactivate = true;
 					} else {
 						// Player is truly offline - enforce 5 min reconnect limit.
