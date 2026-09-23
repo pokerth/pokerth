@@ -2848,7 +2848,7 @@ ServerLobbyThread::ReadStatisticsFile()
 				m_statData.maxPlayersLoggedIn = statisticsValue;
 			else if (statisticsType == SERVER_STATISTICS_STR_MAX_GAMES)
 				m_statData.maxGamesOpen = statisticsValue;
-			// other statistics are non-persistant and not read.
+			// Other statistics are non-persistent and are not read.
 		} while (!i.fail() && !i.eof());
 		m_statDataChanged = false;
 	}

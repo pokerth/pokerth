@@ -59,7 +59,7 @@ void CardDeckStyleReader::readStyleFile(QString file)
 	BigIndexesActionBottom = "";
 
 #ifdef ANDROID
-	//on Android we use just the defaul style packed with the binary via qrc
+	// On Android, we use only the default style packed into the binary via qrc.
 	currentFileName = ":/android/android-data/gfx/cards/default_800x480/defaultdeckstyle_800x480.xml";
 	currentDir = ":/android/android-data/gfx/cards/default_800x480/";
 #else

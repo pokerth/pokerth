@@ -93,26 +93,26 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 #endif
 	this->setWindowTitle(QString(tr("About PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
 
-	//add text to lables and textbrowsers
+	// Add text to labels and text browsers.
 	QString thxToInfos;
-	thxToInfos.append(tr("- Wikimedia Commons: for different popular avatar picture resources")+"<br>");
-	thxToInfos.append(tr("- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures")+"<br>");
-	thxToInfos.append(tr("- ZeiZei: for misc avatar pictures")+"<br>");
-	thxToInfos.append(tr("- kde-look.org: for different gpl licensed sounds")+"<br>");
-	thxToInfos.append(tr("- doc_dos: for self recorded chip sounds")+"<br>");
-	thxToInfos.append(tr("- thiger, dunkanx, BerndA, coldz, drull: for different patches")+"<br>");
-	thxToInfos.append(tr("- kraut: for internet-game-server hosting and administration")+"<br>");
-	thxToInfos.append(tr("- danuxi: for startwindow background gfx and danuxi1 table background")+"<br>");
-	thxToInfos.append(tr("- heyn: for moderating forum and organise bugtracker and feature requests")+"<br>");
+	thxToInfos.append(tr("- Wikimedia Commons: for a variety of avatar images")+"<br>");
+	thxToInfos.append(tr("- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for avatar images of people")+"<br>");
+	thxToInfos.append(tr("- ZeiZei: for miscellaneous avatar images")+"<br>");
+	thxToInfos.append(tr("- kde-look.org: for various GPL-licensed sounds")+"<br>");
+	thxToInfos.append(tr("- doc_dos: for self-recorded chip sounds")+"<br>");
+	thxToInfos.append(tr("- thiger, dunkanx, BerndA, coldz, drull: for various patches")+"<br>");
+	thxToInfos.append(tr("- kraut: for hosting and administering the internet game server")+"<br>");
+	thxToInfos.append(tr("- danuxi: for the start-window background and danuxi1 table background")+"<br>");
+	thxToInfos.append(tr("- heyn: for moderating the forum and organizing the bug tracker and feature requests")+"<br>");
 	thxToInfos.append(tr("- texas_outlaw: for new table sounds")+"<br>");
 	textBrowser_3->setHtml(thxToInfos);
 
 	QString infoText;
-	infoText.append(tr("- Poker engine for the popular Texas Hold'em Poker")+"\n");
-	infoText.append(tr("- Singleplayer games with up to 9 computer-opponents")+"\n");
+	infoText.append(tr("- Texas Hold'em poker engine")+"\n");
+	infoText.append(tr("- Single-player games with up to 9 computer opponents")+"\n");
 	infoText.append(tr("- Multiplayer network games")+"\n");
-	infoText.append(tr("- Internet online games")+"\n");
-	infoText.append(tr("- Changeable gui with online style gallery")+"\n");
+	infoText.append(tr("- Online games")+"\n");
+	infoText.append(tr("- Customizable GUI with an online style gallery")+"\n");
 	infoText.append(tr("- Online ranking website with result tables")+"\n");
 	infoText.append("\n");
 	QString thisYear = QDate::currentDate().toString("yyyy");
@@ -124,13 +124,13 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://www.pokerth.net'>https://www.pokerth.net</a><br>");
 	projectText.append("<b>"+tr("Authors:")+"</b><br>");
 	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;Felix Hammer (<a href=mailto:doitux@pokerth.net>doitux@pokerth.net</a>)<br>");
-	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- "+tr("initial idea, basic architecture, gui implementation, gui graphics editing, linux package")+"<br>");
+	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- "+tr("initial idea, basic architecture, GUI implementation, graphics editing, Linux package")+"<br>");
 	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;Florian Thauer (<a href=mailto:floty@pokerth.net>floty@pokerth.net</a>)<br>");
 	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- "+tr("initial idea, basic architecture, engine development")+"<br>");
 	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;Lothar May (<a href=mailto:lotodore@pokerth.net>lotodore@pokerth.net</a>)<br>");
-	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- "+tr("basic architecture, network development, windows package, MacOS package")+"<br>");
+	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- "+tr("basic architecture, network development, Windows package, macOS package")+"<br>");
 	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;Oskar Lindqvist (<a href=mailto:tranberry@pokerth.net>tranberry@pokerth.net</a>)<br>");
-	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- "+tr("initial gui graphics design")+"<br>");
+	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- "+tr("initial GUI graphics design")+"<br>");
 	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;Kai Philipp (<a href=mailto:kphilipp@inquies.de>kphilipp@inquies.de</a>)<br>");
 	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- "+tr("code modernization, QML layout")+"<br>");
 	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;Arnaud Obscur (<a href=mailto:narmod@pokerth.net>narmod@pokerth.net</a>)<br>");

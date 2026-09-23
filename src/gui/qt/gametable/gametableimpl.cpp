@@ -128,7 +128,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	pixmapLabel_card0b->setMyW(this);
 	pixmapLabel_card0a->setMyW(this);
 
-	//set myStyle to widgets wich needs it
+	// Set myStyle on the widgets that need it.
 #ifdef GUI_800x480
 	tabsDiag = new QDialog(this);
 	tabs.setupUi(tabsDiag);
@@ -2840,7 +2840,8 @@ void gameTableImpl::postRiverRunAnimation2()
 					// 	<< " Action:" << (*it_c)->getMyAction() << " NeedShow:" << (*it_c)->checkIfINeedToShowCards() << std::endl;
 				}
 
-				//if human player dont need to show cards he gets the button "show cards" in internet or network game
+				// If the human player does not need to show their cards, show the
+				// "Show cards" button in an internet or network game.
 				if( internetOrNetworkGame && (*it_c)->getMyID() == 0 && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && !(*it_c)->checkIfINeedToShowCards()) {
 
 					showShowMyCardsButton();
@@ -4157,7 +4158,7 @@ void gameTableImpl::updateMyButtonsState(int mode)
 		myButtonsCheckable(false);
 		clearMyButtons();
 	} else {
-		if(currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_ALLIN) { // dont show pre-actions after flip cards when allin
+		if(currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_ALLIN) { // Don't show pre-actions after cards are revealed when a player is all-in.
 			myButtonsCheckable(true);
 			provideMyActions(mode);
 		}

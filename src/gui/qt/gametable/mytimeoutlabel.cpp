@@ -63,7 +63,7 @@ void MyTimeoutLabel::startTimeOutAnimation(int secs, bool beep)
 
 		timerIntervall = preTimerIntervall;
 
-		//save gfx ressources and never play more the 10 pps
+		// Save graphics resources and keep playback below 10 frames per second.
 		while(timerIntervall < 100) {
 			if(secs <= 9 && secs >= 6) {
 				//fix inaccuracies caused by integer division
@@ -112,7 +112,7 @@ void MyTimeoutLabel::nextTimeOutAnimationFrame()
 				myW->getMySoundEventHandler()->playSound("yourturn",0);
 				isBeepPlayed = true;
 			}
-			//save gfx ressources and never play more the 10 pps
+			// Save graphics resources and keep playback below 10 frames per second.
 			unsigned int realTimerValue = realTimer.elapsed().total_milliseconds();
 			timeOutAnimationWidth = 52-(((realTimerValue-3000)*52)/((timeOutValue-3)*1000));
 
