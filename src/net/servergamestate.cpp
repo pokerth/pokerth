@@ -1683,6 +1683,14 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerG
 			else
 				netMyAction->set_myrelativebet(curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() - tmpPlayer->getMySet());
 		}
+		// A short-stack call must commit the player's entire remaining stack.
+		// Mark it all-in so the hand engine removes them from the betting round.
+		if (netMyAction->myaction() == netActionCall
+				&& netMyAction->myrelativebet() == tmpPlayer->getMyCash()
+				&& tmpPlayer->getMySet() + tmpPlayer->getMyCash()
+					<= curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet()) {
+			netMyAction->set_myaction(netActionAllIn);
+		}
 		if (netMyAction->myaction() == netActionAllIn && netMyAction->myrelativebet() == 0)
 			netMyAction->set_myrelativebet(tmpPlayer->getMyCash());
 
