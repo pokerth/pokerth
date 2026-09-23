@@ -22,10 +22,10 @@ runners. The configuration is in [docker/windows/signpath](../docker/windows/sig
 
 ## Team roles
 
-| Role                     | Members                                  |
-|--------------------------|------------------------------------------|
-| Committers and reviewers | [Kai Philipp (@q4z1)](https://github.com/q4z1) |
-| Approvers                | [Kai Philipp (@q4z1)](https://github.com/q4z1) |
+| Role                     | Members                                                                                               |
+|--------------------------|-------------------------------------------------------------------------------------------------------|
+| Committers and reviewers | [Kai Philipp (@q4z1)](https://github.com/q4z1), [Hains van den Bosch (@Hains)](https://github.com/Hains) |
+| Approvers                | [Kai Philipp (@q4z1)](https://github.com/q4z1)                                                        |
 
 Committers can push to this repository; changes from outside contributors are
 reviewed before they are merged. Every signing request for a release has to be
