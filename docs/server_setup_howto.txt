@@ -45,7 +45,7 @@ a busy lobby; the server hard-limits itself to 1536 lobby sessions and 2000
 sessions in total.
 
 Root access is not required to run the server. You need it only to open the
-firewall port and to install a systemd unit.
+firewall port and to install a systemd unit file.
 
 It is recommended to create an unprivileged user (for example "pokerth") with a
 home directory and to run the daemon as that user.
@@ -65,11 +65,11 @@ home directory and to run the daemon as that user.
 * Protocol Buffers - protoc at build time, libprotobuf at runtime
 * OpenSSL
 
-The server binaries themselves only link QtCore, QtNetwork, QtXml and QtSql -
-but the project is configured as a whole, and the top level CMakeLists requires
-every Qt 6 component the clients use (Qml, Quick, QuickControls2, Widgets, Svg,
-Multimedia, WebSockets, LinguistTools). Install the Qt 6 development packages
-completely even if you only build a server target.
+The server binaries themselves link only QtCore, QtNetwork, QtXml and QtSql.
+However, the project is configured as a whole, and the top-level CMakeLists.txt
+requires every Qt 6 component the clients use (Qml, Quick, QuickControls2, Widgets,
+Svg, Multimedia, WebSockets, LinguistTools). Install the Qt 6 development
+packages even if you only build a server target.
 
 Debian/Ubuntu, roughly:
 
@@ -141,7 +141,7 @@ Command line options:
 	-h, --help            print the option list
 	-v, --version         print server and network protocol version
 	-l, --log-level N     0 = minimal, 1 = default, 2 = verbose
-	-p, --pid-file PATH   write the pid file somewhere else than
+	-p, --pid-file PATH   write the pid file somewhere other than
 	                      <LogDir>/pokerth.pid
 	    --readonly-config never write the configuration file
 	                      (for read-only or shared deployments)
@@ -247,7 +247,7 @@ the file belongs to the client.
 
 <ServerTlsCertFile value="/etc/tls/server.crt"/>
 <ServerTlsKeyFile value="/etc/tls/server.key"/>
-	Absolute paths to certificate and private key, in PEM format. The paths are
+	Absolute paths to the certificate and private key, both in PEM format. The paths are
 	used exactly as given. If both values are empty, the server falls back to
 	<directory of the binary>/../tls/server.crt and .../server.key, which is the
 	layout of a build or deploy directory (bin/ and tls/ side by side).
@@ -282,7 +282,7 @@ every client that still has the old pin.
 	If set, only connections with this Origin header are accepted.
 
 <ServerProxyProtocolTrustedIPs value=""/>
-	Comma separated list of IP addresses that are allowed to announce the real
+	Comma-separated list of IP addresses that are allowed to announce the real
 	client address with a PROXY protocol v1 header (for a reverse proxy in front
 	of the server). Only list hosts you control: an entry here lets that host
 	choose which IP address appears in the log and in the rate limiting. Leave
@@ -297,7 +297,7 @@ every client that still has the old pin.
 	the block is logged once per address. Leave this on.
 
 <ServerBruteForceProtectionExempt value=""/>
-	Comma separated IP addresses that are exempt from that limit. Needed when
+	Comma-separated IP addresses that are exempt from that limit. Needed when
 	many players reach the server through one address (a NAT gateway, or the
 	proxy of the browser client).
 
@@ -432,7 +432,7 @@ TLSPin is base64(sha256(DER SubjectPublicKeyInfo)) of the server certificate:
 	  | openssl dgst -sha256 -binary | openssl enc -base64
 
 The client only accepts a server that proves possession of a pinned key, which
-is what protects the login data against a man in the middle even though the
+is what protects the login data against a man-in-the-middle even though the
 certificate is self-signed. During a key rollover, list the old and the new pin.
 
 Compress the list and publish it together with its checksum:
@@ -544,7 +544,7 @@ Clients report "version not supported"
 	protocol version differs. Both sides have to be from a supported release.
 
 Clients cannot connect at all
-	Check the firewall and whether the server actually bound the port
+	Check the firewall and whether the server actually bound to the port
 	(ss -tlnp | grep 7234). A server with ServerUseTls=1 cannot be reached over
 	a direct "network game" connection - that path is always unencrypted.
 

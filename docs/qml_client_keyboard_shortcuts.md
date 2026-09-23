@@ -1,10 +1,9 @@
 # Keyboard Shortcuts (QML Client)
 
-Overview of the QML client's keyboard shortcuts. The shortcuts are defined in the QML
-files – the corresponding references are given in parentheses. The shortcuts of
-the Qt Widgets client are listed in
+This page lists the QML client's keyboard shortcuts. They are defined in the QML
+files, with source references in parentheses. The Qt Widgets client's shortcuts are listed in
 [widget_client_keyboard_shortcuts.md](widget_client_keyboard_shortcuts.md); the
-differences between the two are at the end of this page.
+differences between the two clients appear at the end of this page.
 
 ## Global (everywhere)
 
@@ -31,7 +30,7 @@ The following shortcuts apply while the game page is visible
 | `Alt+C` | Toggle chat |
 
 > Panel shortcuts are disabled for spectators. Fullscreen (`F11`) deliberately
-> sits on the ApplicationWindow instead, see above.
+> sits on the ApplicationWindow instead. See above.
 
 ### Game actions – function keys
 
@@ -45,7 +44,7 @@ Default layout:
 | `F4` | All-In |
 | `F5` | Show your own cards |
 
-With the setting **"Reverse function keys"** (`AlternateFKeysUserActionMode`) enabled,
+With the **"Reverse function keys"** setting (`AlternateFKeysUserActionMode`) enabled,
 the order of F1–F4 is reversed:
 
 | Key | Action (reversed) |
@@ -59,7 +58,7 @@ Source: [pages/GamePage.qml](../src/gui/qt6-qml/pages/GamePage.qml#L216-L229)
 
 ### Switch playing mode
 
-There are two equivalent key sets for the automatic playing mode:
+There are two equivalent key sets for automatic play mode:
 
 | Mode | Letter | Function key |
 |------|--------|--------------|
@@ -69,7 +68,7 @@ There are two equivalent key sets for the automatic playing mode:
 
 ## Chat input field
 
-Only active while the chat input field has focus.
+These shortcuts are active only while the chat input field has focus.
 Source: [components/ChatBox.qml](../src/gui/qt6-qml/components/ChatBox.qml#L611-L669)
 
 | Key | Action |
@@ -77,7 +76,7 @@ Source: [components/ChatBox.qml](../src/gui/qt6-qml/components/ChatBox.qml#L611-
 | `Enter` / `Return` | Send message |
 | `Tab` | Nickname completion |
 | `↑` / `↓` | Browse the input history |
-| `Ctrl+C` | Copy; with nothing selected in the input field, it copies the selection in the chat history |
+| `Ctrl+C` | Copy the selected text; if nothing is selected in the input field, copy the selection in the chat history |
 
 ### Emote suggestion list (`:` + at least 2 letters)
 
@@ -89,7 +88,7 @@ While the emote popup is open, these keys apply:
 | `Tab` / `Enter` / `Return` | Accept suggestion |
 | `Esc` | Close the suggestion list |
 
-## Differences to the Qt Widgets client
+## Differences from the Qt Widgets client
 
 Identical in both clients: `F1`–`F5` including the reversal through
 `AlternateFKeysUserActionMode`, `F6`/`F7`/`F8` for the playing mode, and the
