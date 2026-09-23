@@ -55,7 +55,7 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>- Singleplayer games with up to 9 computer-opponents</source>
+        <source>- Single-player games with up to 9 computer opponents</source>
         <translation>- Màn chơi một người với tối đa 9 đối thủ máy tính</translation>
     </message>
     <message>
@@ -65,12 +65,12 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>- Internet online games</source>
+        <source>- Online games</source>
         <translation>- Màn chơi trực tuyến qua Internet</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- Changeable gui with online style gallery</source>
+        <source>- Customizable GUI with an online style gallery</source>
         <translation>- Giao diện thay đổi được với thư viện kiểu trực tuyến</translation>
     </message>
     <message>
@@ -90,7 +90,7 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
+        <source>initial idea, basic architecture, GUI implementation, graphics editing, Linux package</source>
         <translation>ý tưởng ban đầu, kiến trúc cơ bản, xây dựng giao diện, chỉnh sửa đồ họa giao diện, gói cài đặt Linux</translation>
     </message>
     <message>
@@ -100,12 +100,12 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>basic architecture, network development, windows package, MacOS package</source>
+        <source>basic architecture, network development, Windows package, macOS package</source>
         <translation>kiến trúc cơ bản, phát triển phần mạng, gói cài đặt Windows, gói cài đặt MacOS</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>initial gui graphics design</source>
+        <source>initial GUI graphics design</source>
         <translation>thiết kế đồ họa giao diện ban đầu</translation>
     </message>
     <message>
@@ -120,47 +120,47 @@
     </message>
     <message>
         <location line="+8"/>
-        <source>- Wikimedia Commons: for different popular avatar picture resources</source>
+        <source>- Wikimedia Commons: for a variety of avatar images</source>
         <translation>- Wikimedia Commons: nguồn cho các hình đại diện khác nhau</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
+        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for avatar images of people</source>
         <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: nguồn cho hình đại diện là người</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- ZeiZei: for misc avatar pictures</source>
+        <source>- ZeiZei: for miscellaneous avatar images</source>
         <translation>- ZeiZei: nguồn cho hình đại diện tổng hợp</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- kde-look.org: for different gpl licensed sounds</source>
+        <source>- kde-look.org: for various GPL-licensed sounds</source>
         <translation>- kde-look.org: nguồn cho các âm thanh dưới dạng bản quyền mở GPL</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- doc_dos: for self recorded chip sounds</source>
+        <source>- doc_dos: for self-recorded chip sounds</source>
         <translation>- doc_dos: nguồn cho phần âm thanh thể hiện các hiệu ứng tiền tệ trong trò chơi</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
+        <source>- thiger, dunkanx, BerndA, coldz, drull: for various patches</source>
         <translation>- thiger, dunkanx, BerndA, coldz, drull: nguồn cho các phần cập nhật sửa lỗi cho chương trình</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- kraut: for internet-game-server hosting and administration</source>
+        <source>- kraut: for hosting and administering the internet game server</source>
         <translation>- kraut: nguồn cho phần server của chương trình trong việc quản trị và quản lý hệ thống online</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
+        <source>- danuxi: for the start-window background and danuxi1 table background</source>
         <translation>- danuxi: nguồn cho hiệu ứng nền và hiệu ứng bàn chơi bài</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
+        <source>- heyn: for moderating the forum and organizing the bug tracker and feature requests</source>
         <translation>- heyn: cá nhân quản lý diễn đàn cũng như quản lý việc cập nhật các bản vá lỗi và xử lý các yêu cầu từ phía người dùng</translation>
     </message>
     <message>
@@ -4160,7 +4160,7 @@ Vui lòng kiểm tra tên đăng nhập và mật khẩu lần nữa.</translati
     </message>
     <message>
         <location line="+2"/>
-        <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
+        <source>Your server connection timed out due to inactivity. Please reconnect.</source>
         <translation>Kết nối đến hệ thống máy chủ của bạn đã hết hạn về thời gian kết nối. Bạn vui lòng kết nối lại lần nữa!</translation>
     </message>
     <message>
@@ -4190,12 +4190,12 @@ Vui lòng kiểm tra tên đăng nhập và mật khẩu lần nữa.</translati
     </message>
     <message>
         <location line="+2"/>
-        <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
+        <source>An internal avatar error occurred. Please report this to an admin in the lobby chat.</source>
         <translation>Lỗi hệ thống xảy ra với hình đại diện được chọn. Vui lòng thông báo lỗi này với người quản trị hệ thống ở phần tán gẫu công cộng.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Could not start game: Synchronization failed.</source>
+        <source>Could not start the game: synchronization failed.</source>
         <translation>Không thể bắt đầu màn chơi: Đồng bộ hóa hệ thống thất bại.</translation>
     </message>
     <message>
@@ -4205,7 +4205,7 @@ Vui lòng kiểm tra tên đăng nhập và mật khẩu lần nữa.</translati
     </message>
     <message>
         <location line="+2"/>
-        <source>An internal game error occured.</source>
+        <source>An internal game error occurred.</source>
         <translation>Đã xảy ra lỗi nội bộ của trò chơi.</translation>
     </message>
     <message>
@@ -4215,7 +4215,7 @@ Vui lòng kiểm tra tên đăng nhập và mật khẩu lần nữa.</translati
     </message>
     <message>
         <location line="+2"/>
-        <source>You cannot login at this time. Please try again in a few seconds.</source>
+        <source>You cannot log in at this time. Please try again in a few seconds.</source>
         <translation>Bạn không thể đăng nhập lúc này. Xin vui lòng thử lại trong vài giây nữa.</translation>
     </message>
     <message>
@@ -4235,7 +4235,7 @@ Vui lòng kiểm tra tên đăng nhập và mật khẩu lần nữa.</translati
     </message>
     <message>
         <location line="+5"/>
-        <source>An internal error occured. (Error code %1)</source>
+        <source>An internal error occurred. (Error code %1)</source>
         <translation>Đã xảy ra lỗi nội bộ. (Mã lỗi %1)</translation>
     </message>
     <message>
