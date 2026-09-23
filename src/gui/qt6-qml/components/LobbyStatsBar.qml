@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Effects
 
 import "../config" as Config
 
@@ -62,11 +63,27 @@ RowLayout {
 
     Item { Layout.fillWidth: true }
 
+    // Portrait: clock icon instead of the "Berlin" text to save width
+    SvgIcon {
+        visible: statsBar.showServerTime && statsBar.serverTime !== ""
+                 && Config.Responsive.portrait
+        Layout.preferredWidth: 12
+        Layout.preferredHeight: 12
+        Layout.rightMargin: -3
+        source: "../resources/clock.svg"
+        layer.enabled: true
+        layer.effect: MultiEffect {
+            colorization: 1.0
+            colorizationColor: Config.StaticData.palette.secondary.col300
+        }
+    }
     AppLabel {
         visible: statsBar.showServerTime && statsBar.serverTime !== ""
-        text: (Config.Responsive.compact
-               ? qsTr("Berlin %1").arg(statsBar.serverTime)
-               : qsTr("Server time (Berlin): %1").arg(statsBar.serverTime)) + " | "
+        text: (Config.Responsive.portrait
+               ? statsBar.serverTime
+               : Config.Responsive.compact
+                 ? qsTr("Berlin %1").arg(statsBar.serverTime)
+                 : qsTr("Server time (Berlin): %1").arg(statsBar.serverTime)) + " | "
         font.pixelSize: 12
         color: Config.StaticData.palette.secondary.col300
     }
