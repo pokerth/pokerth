@@ -55,7 +55,7 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>- Singleplayer games with up to 9 computer-opponents</source>
+        <source>- Single-player games with up to 9 computer opponents</source>
         <translation>- Geamannan aon-chluicheadair le suas gu 9 co-fharpaisichean coimpiutair</translation>
     </message>
     <message>
@@ -65,12 +65,12 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>- Internet online games</source>
+        <source>- Online games</source>
         <translation>- Geamannan air an eadar-lìon</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- Changeable gui with online style gallery</source>
+        <source>- Customizable GUI with an online style gallery</source>
         <translation>- Eadar-aghaidh a ghabhas atharrachadh le gailearaidh dhe stoidhlichean air loidhne</translation>
     </message>
     <message>
@@ -90,7 +90,7 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
+        <source>initial idea, basic architecture, GUI implementation, graphics editing, Linux package</source>
         <translation>beachd tòiseachaidh, dealbhadh bunasach, prògramachadh na h-eadar-aghaidh, deasachadh grafaigeachd na h-eadar-aghaidh, pacaid linux</translation>
     </message>
     <message>
@@ -100,12 +100,12 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>basic architecture, network development, windows package, MacOS package</source>
+        <source>basic architecture, network development, Windows package, macOS package</source>
         <translation>dealbhadh bunasach, leasachadh lìonraidh, pacaid windows, pacaid MacOS</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>initial gui graphics design</source>
+        <source>initial GUI graphics design</source>
         <translation>a&apos; chiad dealbhachadh grafaigeachd na h-eadar-aghaidh</translation>
     </message>
     <message>
@@ -120,47 +120,47 @@
     </message>
     <message>
         <location line="+8"/>
-        <source>- Wikimedia Commons: for different popular avatar picture resources</source>
+        <source>- Wikimedia Commons: for a variety of avatar images</source>
         <translation>- Wikimedia Commons: airson caochladh ghoireasan dealbhan avatar mòr-chòrdte</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
+        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for avatar images of people</source>
         <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: airson dealbhan avatar dhaoine</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- ZeiZei: for misc avatar pictures</source>
+        <source>- ZeiZei: for miscellaneous avatar images</source>
         <translation>- ZeiZei: airson dealbhan avatar measgaichte</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- kde-look.org: for different gpl licensed sounds</source>
+        <source>- kde-look.org: for various GPL-licensed sounds</source>
         <translation>- kde-look.org: airson caochladh fuaime fon cheadachas gpl</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- doc_dos: for self recorded chip sounds</source>
+        <source>- doc_dos: for self-recorded chip sounds</source>
         <translation>- doc_dos: airson fuaimean nam bonn a chlàraich e fhèin</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
+        <source>- thiger, dunkanx, BerndA, coldz, drull: for various patches</source>
         <translation>- thiger, dunkanx, BerndA, coldz, drull: airson caochladh patch</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- kraut: for internet-game-server hosting and administration</source>
+        <source>- kraut: for hosting and administering the internet game server</source>
         <translation>- kraut: airson òstadh is rianachd frithealaichean nan geamannan eadar-lìn</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
+        <source>- danuxi: for the start-window background and danuxi1 table background</source>
         <translation>- danuxi: airson èifeachd grafaigeach an sgrìn-tòiseachaidh is cùlaibh a&apos; bhùird danuxi1</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
+        <source>- heyn: for moderating the forum and organizing the bug tracker and feature requests</source>
         <translation>- heyn: airson obair-mhaoir air a&apos; bhòrd-bhrath is rianachd a&apos; bugtracker is iarrtasan nam feart</translation>
     </message>
     <message>
@@ -4160,7 +4160,7 @@ Feuch an dearbhaich thu an t-ainm cleachdaiche is am facal-faire agad.</translat
     </message>
     <message>
         <location line="+2"/>
-        <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
+        <source>Your server connection timed out due to inactivity. Please reconnect.</source>
         <translation>Dh&apos;fhalbh an ùine air a&apos; cheangal agad dhan fhrithealaiche le dìth gnìomhachd. Tha thu làn di-beathte ceangal ris a-rithist!</translation>
     </message>
     <message>
@@ -4190,12 +4190,12 @@ Feuch an dearbhaich thu an t-ainm cleachdaiche is am facal-faire agad.</translat
     </message>
     <message>
         <location line="+2"/>
-        <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
+        <source>An internal avatar error occurred. Please report this to an admin in the lobby chat.</source>
         <translation>Thachair mearachd avatar taobh a-staigh. An aithris thu seo dha rianaire ann an cabadaich an lobaidh?</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Could not start game: Synchronization failed.</source>
+        <source>Could not start the game: synchronization failed.</source>
         <translation>Cha b&apos; urrainn dhuinn an geama a thòiseachadh: Dh&apos;fhàillig leis an t-sioncronachadh.</translation>
     </message>
     <message>
@@ -4205,7 +4205,7 @@ Feuch an dearbhaich thu an t-ainm cleachdaiche is am facal-faire agad.</translat
     </message>
     <message>
         <location line="+2"/>
-        <source>An internal game error occured.</source>
+        <source>An internal game error occurred.</source>
         <translation>Thachair mearachd gheama taobh a-staigh.</translation>
     </message>
     <message>
@@ -4215,7 +4215,7 @@ Feuch an dearbhaich thu an t-ainm cleachdaiche is am facal-faire agad.</translat
     </message>
     <message>
         <location line="+2"/>
-        <source>You cannot login at this time. Please try again in a few seconds.</source>
+        <source>You cannot log in at this time. Please try again in a few seconds.</source>
         <translation>Chan urrainn dhut logadh a-steach an-dràsta. Am feuch thu ris a-rithist an ceann greis?</translation>
     </message>
     <message>
@@ -4235,7 +4235,7 @@ Feuch an dearbhaich thu an t-ainm cleachdaiche is am facal-faire agad.</translat
     </message>
     <message>
         <location line="+5"/>
-        <source>An internal error occured. (Error code %1)</source>
+        <source>An internal error occurred. (Error code %1)</source>
         <translation>Thachair mearachd taobh a-staigh. (Còd na mearachd %1)</translation>
     </message>
     <message>

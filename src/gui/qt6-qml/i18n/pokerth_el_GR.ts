@@ -55,7 +55,7 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>- Singleplayer games with up to 9 computer-opponents</source>
+        <source>- Single-player games with up to 9 computer opponents</source>
         <translation>- Παιχνίδια ενός παίκτη με έως 9 αντιπάλους υπολογιστή</translation>
     </message>
     <message>
@@ -65,12 +65,12 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>- Internet online games</source>
+        <source>- Online games</source>
         <translation>- Διαδικτυακά παιχνίδια online</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- Changeable gui with online style gallery</source>
+        <source>- Customizable GUI with an online style gallery</source>
         <translation>- Εναλλάξιμη εμφάνιση με διαδικτυακή συλλογή στυλ</translation>
     </message>
     <message>
@@ -90,7 +90,7 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
+        <source>initial idea, basic architecture, GUI implementation, graphics editing, Linux package</source>
         <translation>αρχική ιδέα, βασική αρχιτεκτονική, υλοποίηση διεπαφής, επεξεργασία γραφικών διεπαφής, πακέτο Linux</translation>
     </message>
     <message>
@@ -100,12 +100,12 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>basic architecture, network development, windows package, MacOS package</source>
+        <source>basic architecture, network development, Windows package, macOS package</source>
         <translation>βασική αρχιτεκτονική, ανάπτυξη δικτύου, πακέτο Windows, πακέτο MacOS</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>initial gui graphics design</source>
+        <source>initial GUI graphics design</source>
         <translation>αρχικός γραφικός σχεδιασμός διεπαφής</translation>
     </message>
     <message>
@@ -120,47 +120,47 @@
     </message>
     <message>
         <location line="+8"/>
-        <source>- Wikimedia Commons: for different popular avatar picture resources</source>
+        <source>- Wikimedia Commons: for a variety of avatar images</source>
         <translation>- Wikimedia Commons: για διάφορες δημοφιλείς εικόνες άβαταρ</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
+        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for avatar images of people</source>
         <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: για εικόνες άβαταρ με πρόσωπα</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- ZeiZei: for misc avatar pictures</source>
+        <source>- ZeiZei: for miscellaneous avatar images</source>
         <translation>- ZeiZei: για διάφορες άλλες εικόνες άβαταρ</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- kde-look.org: for different gpl licensed sounds</source>
+        <source>- kde-look.org: for various GPL-licensed sounds</source>
         <translation>- kde-look.org: για διάφορους ήχους με άδεια GPL</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- doc_dos: for self recorded chip sounds</source>
+        <source>- doc_dos: for self-recorded chip sounds</source>
         <translation>- doc_dos: για τους ήχους μαρκών που ηχογράφησε ο ίδιος</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
+        <source>- thiger, dunkanx, BerndA, coldz, drull: for various patches</source>
         <translation>- thiger, dunkanx, BerndA, coldz, drull: για διάφορες διορθώσεις</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- kraut: for internet-game-server hosting and administration</source>
+        <source>- kraut: for hosting and administering the internet game server</source>
         <translation>- kraut: για τη φιλοξενία και τη διαχείριση του διαδικτυακού διακομιστή παιχνιδιών</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
+        <source>- danuxi: for the start-window background and danuxi1 table background</source>
         <translation>- danuxi: για το φόντο του αρχικού παραθύρου και το φόντο τραπεζιού danuxi1</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
+        <source>- heyn: for moderating the forum and organizing the bug tracker and feature requests</source>
         <translation>- heyn: για τον συντονισμό του φόρουμ και την οργάνωση του συστήματος σφαλμάτων και των προτάσεων</translation>
     </message>
     <message>
@@ -4160,7 +4160,7 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
+        <source>Your server connection timed out due to inactivity. Please reconnect.</source>
         <translation>Η σύνδεσή σας με τον διακομιστή έληξε λόγω αδράνειας. Μπορείτε να συνδεθείτε ξανά!</translation>
     </message>
     <message>
@@ -4190,12 +4190,12 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
+        <source>An internal avatar error occurred. Please report this to an admin in the lobby chat.</source>
         <translation>Προέκυψε εσωτερικό σφάλμα άβαταρ. Αναφέρετέ το σε διαχειριστή στη συνομιλία του λόμπι.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Could not start game: Synchronization failed.</source>
+        <source>Could not start the game: synchronization failed.</source>
         <translation>Δεν ήταν δυνατή η έναρξη του παιχνιδιού: ο συγχρονισμός απέτυχε.</translation>
     </message>
     <message>
@@ -4205,7 +4205,7 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>An internal game error occured.</source>
+        <source>An internal game error occurred.</source>
         <translation>Προέκυψε εσωτερικό σφάλμα παιχνιδιού.</translation>
     </message>
     <message>
@@ -4215,7 +4215,7 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>You cannot login at this time. Please try again in a few seconds.</source>
+        <source>You cannot log in at this time. Please try again in a few seconds.</source>
         <translation>Δεν μπορείτε να συνδεθείτε αυτή τη στιγμή. Δοκιμάστε ξανά σε λίγα δευτερόλεπτα.</translation>
     </message>
     <message>
@@ -4235,7 +4235,7 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>An internal error occured. (Error code %1)</source>
+        <source>An internal error occurred. (Error code %1)</source>
         <translation>Προέκυψε εσωτερικό σφάλμα. (Κωδικός σφάλματος %1)</translation>
     </message>
     <message>

@@ -55,7 +55,7 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>- Singleplayer games with up to 9 computer-opponents</source>
+        <source>- Single-player games with up to 9 computer opponents</source>
         <translation>- 9 கணினி எதிராளிகள் வரை உள்ள ஒற்றை வீரர் விளையாட்டுகள்</translation>
     </message>
     <message>
@@ -65,12 +65,12 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>- Internet online games</source>
+        <source>- Online games</source>
         <translation>- இணையத்தில் ஆன்லைன் விளையாட்டுகள்</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- Changeable gui with online style gallery</source>
+        <source>- Customizable GUI with an online style gallery</source>
         <translation>- ஆன்லைன் பாணி தொகுப்புடன் மாற்றக்கூடிய தோற்றம்</translation>
     </message>
     <message>
@@ -90,7 +90,7 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
+        <source>initial idea, basic architecture, GUI implementation, graphics editing, Linux package</source>
         <translation>முதல் யோசனை, அடிப்படை கட்டமைப்பு, இடைமுகம் உருவாக்கம், இடைமுக வரைகலை திருத்தம், Linux தொகுப்பு</translation>
     </message>
     <message>
@@ -100,12 +100,12 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>basic architecture, network development, windows package, MacOS package</source>
+        <source>basic architecture, network development, Windows package, macOS package</source>
         <translation>அடிப்படை கட்டமைப்பு, வலைப்பின்னல் உருவாக்கம், Windows தொகுப்பு, MacOS தொகுப்பு</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>initial gui graphics design</source>
+        <source>initial GUI graphics design</source>
         <translation>முதல் இடைமுக வரைகலை வடிவமைப்பு</translation>
     </message>
     <message>
@@ -120,47 +120,47 @@
     </message>
     <message>
         <location line="+8"/>
-        <source>- Wikimedia Commons: for different popular avatar picture resources</source>
+        <source>- Wikimedia Commons: for a variety of avatar images</source>
         <translation>- Wikimedia Commons: பல்வேறு பிரபலமான அவதார் படங்களுக்காக</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
+        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for avatar images of people</source>
         <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: நபர்களின் அவதார் படங்களுக்காக</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- ZeiZei: for misc avatar pictures</source>
+        <source>- ZeiZei: for miscellaneous avatar images</source>
         <translation>- ZeiZei: பிற அவதார் படங்களுக்காக</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- kde-look.org: for different gpl licensed sounds</source>
+        <source>- kde-look.org: for various GPL-licensed sounds</source>
         <translation>- kde-look.org: GPL உரிமத்தில் உள்ள பல்வேறு ஒலிகளுக்காக</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- doc_dos: for self recorded chip sounds</source>
+        <source>- doc_dos: for self-recorded chip sounds</source>
         <translation>- doc_dos: தானே பதிவு செய்த சில்லு ஒலிகளுக்காக</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
+        <source>- thiger, dunkanx, BerndA, coldz, drull: for various patches</source>
         <translation>- thiger, dunkanx, BerndA, coldz, drull: பல்வேறு திருத்தங்களுக்காக</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- kraut: for internet-game-server hosting and administration</source>
+        <source>- kraut: for hosting and administering the internet game server</source>
         <translation>- kraut: இணைய விளையாட்டு வழங்கியின் இயக்கம் மற்றும் நிர்வாகத்திற்காக</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
+        <source>- danuxi: for the start-window background and danuxi1 table background</source>
         <translation>- danuxi: தொடக்கத் திரையின் பின்னணி மற்றும் danuxi1 மேசைப் பின்னணிக்காக</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
+        <source>- heyn: for moderating the forum and organizing the bug tracker and feature requests</source>
         <translation>- heyn: மன்ற மேலாண்மை, பிழைத் தடமறிதல் மற்றும் கோரிக்கைகளின் ஒழுங்கமைப்புக்காக</translation>
     </message>
     <message>
@@ -4160,7 +4160,7 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
+        <source>Your server connection timed out due to inactivity. Please reconnect.</source>
         <translation>நீண்ட நேரம் விளையாடாமல் இருந்ததால் விளையாட்டு வளங்கியுடனான தொடர்பு துண்டிக்கப்பட்டுள்ளது. விளையட்டினுள் மீண்டும் சேர உங்களை வரவேற்கிறோம்!</translation>
     </message>
     <message>
@@ -4190,12 +4190,12 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
+        <source>An internal avatar error occurred. Please report this to an admin in the lobby chat.</source>
         <translation>உள் அவதார் பிழை ஏற்பட்டது. வரவேற்பறை உரையாடலில் உள்ள நிர்வாகிக்கு இதைத் தெரிவிக்கவும்.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Could not start game: Synchronization failed.</source>
+        <source>Could not start the game: synchronization failed.</source>
         <translation>விளையாட்டை ஆரம்பிக்க முடியவில்லை: பிணைப்பு தோற்றது.</translation>
     </message>
     <message>
@@ -4205,7 +4205,7 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>An internal game error occured.</source>
+        <source>An internal game error occurred.</source>
         <translation>உள் விளையாட்டுப் பிழை ஏற்பட்டது.</translation>
     </message>
     <message>
@@ -4215,7 +4215,7 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>You cannot login at this time. Please try again in a few seconds.</source>
+        <source>You cannot log in at this time. Please try again in a few seconds.</source>
         <translation>தற்சமயம் உங்களால் நுழைய முடியாது. சில வினாடிகள் கழித்து மீண்டும் முயற்சிக்கவும்.</translation>
     </message>
     <message>
@@ -4235,7 +4235,7 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>An internal error occured. (Error code %1)</source>
+        <source>An internal error occurred. (Error code %1)</source>
         <translation>உள் பிழை ஏற்பட்டது. (பிழைக் குறியீடு %1)</translation>
     </message>
     <message>

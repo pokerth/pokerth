@@ -55,8 +55,8 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>- Singleplayer games with up to 9 computer-opponents</source>
-        <translation>- Singleplayer games with up to 9 computer-opponents</translation>
+        <source>- Single-player games with up to 9 computer opponents</source>
+        <translation>- Single-player games with up to 9 computer opponents</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -65,13 +65,13 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>- Internet online games</source>
-        <translation>- Internet online games</translation>
+        <source>- Online games</source>
+        <translation>- Online games</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- Changeable gui with online style gallery</source>
-        <translation>- Changeable gui with online style gallery</translation>
+        <source>- Customizable GUI with an online style gallery</source>
+        <translation>- Customizable GUI with an online style gallery</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -90,8 +90,8 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
-        <translation>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</translation>
+        <source>initial idea, basic architecture, GUI implementation, graphics editing, Linux package</source>
+        <translation>initial idea, basic architecture, GUI implementation, graphics editing, Linux package</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -100,13 +100,13 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>basic architecture, network development, windows package, MacOS package</source>
-        <translation>basic architecture, network development, windows package, MacOS package</translation>
+        <source>basic architecture, network development, Windows package, macOS package</source>
+        <translation>basic architecture, network development, Windows package, macOS package</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>initial gui graphics design</source>
-        <translation>initial gui graphics design</translation>
+        <source>initial GUI graphics design</source>
+        <translation>initial GUI graphics design</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -120,48 +120,48 @@
     </message>
     <message>
         <location line="+8"/>
-        <source>- Wikimedia Commons: for different popular avatar picture resources</source>
-        <translation>- Wikimedia Commons: for different popular avatar picture resources</translation>
+        <source>- Wikimedia Commons: for a variety of avatar images</source>
+        <translation>- Wikimedia Commons: for a variety of avatar images</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
-        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</translation>
+        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for avatar images of people</source>
+        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for avatar images of people</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- ZeiZei: for misc avatar pictures</source>
-        <translation>- ZeiZei: for misc avatar pictures</translation>
+        <source>- ZeiZei: for miscellaneous avatar images</source>
+        <translation>- ZeiZei: for miscellaneous avatar images</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- kde-look.org: for different gpl licensed sounds</source>
-        <translation>- kde-look.org: for different gpl licensed sounds</translation>
+        <source>- kde-look.org: for various GPL-licensed sounds</source>
+        <translation>- kde-look.org: for various GPL-licensed sounds</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- doc_dos: for self recorded chip sounds</source>
-        <translation>- doc_dos: for self recorded chip sounds</translation>
+        <source>- doc_dos: for self-recorded chip sounds</source>
+        <translation>- doc_dos: for self-recorded chip sounds</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
-        <translation>- thiger, dunkanx, BerndA, coldz, drull: for different patches</translation>
+        <source>- thiger, dunkanx, BerndA, coldz, drull: for various patches</source>
+        <translation>- thiger, dunkanx, BerndA, coldz, drull: for various patches</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- kraut: for internet-game-server hosting and administration</source>
-        <translation>- kraut: for internet-game-server hosting and administration</translation>
+        <source>- kraut: for hosting and administering the internet game server</source>
+        <translation>- kraut: for hosting and administering the internet game server</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
-        <translation>- danuxi: for startwindow background gfx and danuxi1 table background</translation>
+        <source>- danuxi: for the start-window background and danuxi1 table background</source>
+        <translation>- danuxi: for the start-window background and danuxi1 table background</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
-        <translation>- heyn: for moderating forum and organise bugtracker and feature requests</translation>
+        <source>- heyn: for moderating the forum and organizing the bug tracker and feature requests</source>
+        <translation>- heyn: for moderating the forum and organizing the bug tracker and feature requests</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4160,8 +4160,8 @@ Please check your username and password.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation>Your server connection timed out due to inactivity. You are very welcome to reconnect!</translation>
+        <source>Your server connection timed out due to inactivity. Please reconnect.</source>
+        <translation>Your server connection timed out due to inactivity. Please reconnect.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4190,13 +4190,13 @@ Please check your username and password.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation>An internal avatar error occured. Please report this to an admin in the lobby chat.</translation>
+        <source>An internal avatar error occurred. Please report this to an admin in the lobby chat.</source>
+        <translation>An internal avatar error occurred. Please report this to an admin in the lobby chat.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Could not start game: Synchronization failed.</source>
-        <translation>Could not start game: Synchronization failed.</translation>
+        <source>Could not start the game: synchronization failed.</source>
+        <translation>Could not start the game: synchronization failed.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4205,8 +4205,8 @@ Please check your username and password.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>An internal game error occured.</source>
-        <translation>An internal game error occured.</translation>
+        <source>An internal game error occurred.</source>
+        <translation>An internal game error occurred.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4215,8 +4215,8 @@ Please check your username and password.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>You cannot login at this time. Please try again in a few seconds.</source>
-        <translation>You cannot login at this time. Please try again in a few seconds.</translation>
+        <source>You cannot log in at this time. Please try again in a few seconds.</source>
+        <translation>You cannot log in at this time. Please try again in a few seconds.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4235,8 +4235,8 @@ Please check your username and password.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>An internal error occured. (Error code %1)</source>
-        <translation>An internal error occured. (Error code %1)</translation>
+        <source>An internal error occurred. (Error code %1)</source>
+        <translation>An internal error occurred. (Error code %1)</translation>
     </message>
     <message>
         <location line="+29"/>

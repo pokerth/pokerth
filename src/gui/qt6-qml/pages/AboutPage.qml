@@ -211,11 +211,11 @@ Rectangle {
                         color: Config.StaticData.palette.secondary.col100
                         font.pixelSize: Config.Theme.fontSizeBody
                         text: [
-                            qsTr("- Poker engine for the popular Texas Hold'em Poker"),
-                            qsTr("- Singleplayer games with up to 9 computer-opponents"),
+                            qsTr("- Texas Hold'em poker engine"),
+                            qsTr("- Single-player games with up to 9 computer opponents"),
                             qsTr("- Multiplayer network games"),
-                            qsTr("- Internet online games"),
-                            qsTr("- Changeable gui with online style gallery"),
+                            qsTr("- Online games"),
+                            qsTr("- Customizable GUI with an online style gallery"),
                             qsTr("- Online ranking website with result tables")
                         ].join("\n")
                     }
@@ -263,13 +263,13 @@ Rectangle {
                     t += ind + "<a href='https://www.pokerth.net'>https://www.pokerth.net</a><br>"
                     t += "<b>" + qsTr("Authors:") + "</b><br>"
                     t += ind + "Felix Hammer (<a href='mailto:doitux@pokerth.net'>doitux@pokerth.net</a>)<br>"
-                    t += role + qsTr("initial idea, basic architecture, gui implementation, gui graphics editing, linux package") + "<br>"
+                    t += role + qsTr("initial idea, basic architecture, GUI implementation, graphics editing, Linux package") + "<br>"
                     t += ind + "Florian Thauer (<a href='mailto:floty@pokerth.net'>floty@pokerth.net</a>)<br>"
                     t += role + qsTr("initial idea, basic architecture, engine development") + "<br>"
                     t += ind + "Lothar May (<a href='mailto:lotodore@pokerth.net'>lotodore@pokerth.net</a>)<br>"
-                    t += role + qsTr("basic architecture, network development, windows package, MacOS package") + "<br>"
+                    t += role + qsTr("basic architecture, network development, Windows package, macOS package") + "<br>"
                     t += ind + "Oskar Lindqvist (<a href='mailto:tranberry@pokerth.net'>tranberry@pokerth.net</a>)<br>"
-                    t += role + qsTr("initial gui graphics design") + "<br>"
+                    t += role + qsTr("initial GUI graphics design") + "<br>"
                     t += ind + "Kai Philipp (<a href='mailto:kphilipp@inquies.de'>kphilipp@inquies.de</a>)<br>"
                     t += role + qsTr("code modernization, QML layout") + "<br>"
                     t += ind + "Arnaud Obscur (<a href='mailto:narmod@pokerth.net'>narmod@pokerth.net</a>)<br>"
@@ -281,15 +281,15 @@ Rectangle {
             // Tab: Dank an
             TextPanel {
                 text: [
-                    qsTr("- Wikimedia Commons: for different popular avatar picture resources"),
-                    qsTr("- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures"),
-                    qsTr("- ZeiZei: for misc avatar pictures"),
-                    qsTr("- kde-look.org: for different gpl licensed sounds"),
-                    qsTr("- doc_dos: for self recorded chip sounds"),
-                    qsTr("- thiger, dunkanx, BerndA, coldz, drull: for different patches"),
-                    qsTr("- kraut: for internet-game-server hosting and administration"),
-                    qsTr("- danuxi: for startwindow background gfx and danuxi1 table background"),
-                    qsTr("- heyn: for moderating forum and organise bugtracker and feature requests"),
+                    qsTr("- Wikimedia Commons: for a variety of avatar images"),
+                    qsTr("- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for avatar images of people"),
+                    qsTr("- ZeiZei: for miscellaneous avatar images"),
+                    qsTr("- kde-look.org: for various GPL-licensed sounds"),
+                    qsTr("- doc_dos: for self-recorded chip sounds"),
+                    qsTr("- thiger, dunkanx, BerndA, coldz, drull: for various patches"),
+                    qsTr("- kraut: for hosting and administering the internet game server"),
+                    qsTr("- danuxi: for the start-window background and danuxi1 table background"),
+                    qsTr("- heyn: for moderating the forum and organizing the bug tracker and feature requests"),
                     qsTr("- texas_outlaw: for new table sounds")
                 ].join("<br>")
             }

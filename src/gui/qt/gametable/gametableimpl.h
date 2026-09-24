@@ -219,7 +219,7 @@ public slots:
 
 	void setGameSpeed(const int theValue)
 	{
-		guiGameSpeed = theValue;    // Achtung Faktor 10!!!
+		guiGameSpeed = theValue;    // Note: the factor is 10.
 		setSpeeds();
 	}
 
