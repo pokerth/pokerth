@@ -120,7 +120,7 @@ GameTableStyleReader::~GameTableStyleReader()
 void GameTableStyleReader::readStyleFile(QString file)
 {
 #ifdef ANDROID
-	//on Android we currently just use the defaul style packed with the binary via qrc
+	// On Android, we currently use only the default style packed into the binary via qrc.
 	currentFileName = ":/android/android-data/gfx/gui/table/default_800x480/android_tablestyle_800x480.xml";
 	currentDir = ":/android/android-data/gfx/gui/table/default_800x480/";
 #else

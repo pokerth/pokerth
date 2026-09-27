@@ -564,7 +564,7 @@ Please verify that you are uploading a valid PokerTH log file.</source>
     </message>
     <message>
         <source>- Poker engine for the popular &quot;Texas Hold&apos;em&quot; Poker
-- Singleplayer games with up to 6 computer-opponents
+- Single-player games with up to 6 computer opponents
 - Multiplayer network games
 - Coded in C++/Qt4
 
@@ -675,8 +675,8 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for different gpl lizensed sounds&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for self recorded chip sounds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;     - &lt;span style=&quot; font-weight:400;&quot;&gt;for different popular avatar picture resources&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Viktoria, Benedikt, Erhard, Felix, Florian, Linus, Lothar, Mark, Steffi, Caro&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for people avatar pictures&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ZeiZei&lt;/span&gt; &lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    - for &quot;misc&quot; avatar pictures&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for different gpl lizensed sounds&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for self recorded chip sounds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for self-recorded chip sounds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;     - &lt;span style=&quot; font-weight:400;&quot;&gt;for different popular avatar picture resources&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Viktoria, Benedikt, Erhard, Felix, Florian, Linus, Lothar, Mark, Steffi, Caro&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for people avatar pictures&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ZeiZei&lt;/span&gt; &lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    - for &quot;misc&quot; avatar pictures&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for different gpl lizensed sounds&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for self-recorded chip sounds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="245"/>
@@ -697,7 +697,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>- Poker engine for the popular &quot;Texas Hold&apos;em&quot; Poker
-- Singleplayer games with up to 6 computer-opponents
+- Single-player games with up to 6 computer opponents
 - Multiplayer network games
 - Coded in C++/Qt4
 
@@ -759,47 +759,47 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="98"/>
-        <source>- Wikimedia Commons: for different popular avatar picture resources</source>
+        <source>- Wikimedia Commons: for a variety of avatar images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="99"/>
-        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
+        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for avatar images of people</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="100"/>
-        <source>- ZeiZei: for misc avatar pictures</source>
+        <source>- ZeiZei: for miscellaneous avatar images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="101"/>
-        <source>- kde-look.org: for different gpl licensed sounds</source>
+        <source>- kde-look.org: for various GPL-licensed sounds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="102"/>
-        <source>- doc_dos: for self recorded chip sounds</source>
+        <source>- doc_dos: for self-recorded chip sounds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="103"/>
-        <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
+        <source>- thiger, dunkanx, BerndA, coldz, drull: for various patches</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="104"/>
-        <source>- kraut: for internet-game-server hosting and administration</source>
+        <source>- kraut: for hosting and administering the internet game server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="105"/>
-        <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
+        <source>- danuxi: for the start-window background and danuxi1 table background</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="106"/>
-        <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
+        <source>- heyn: for moderating the forum and organizing the bug tracker and feature requests</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -814,7 +814,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="112"/>
-        <source>- Singleplayer games with up to 9 computer-opponents</source>
+        <source>- Single-player games with up to 9 computer opponents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -824,12 +824,12 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="114"/>
-        <source>- Internet online games</source>
+        <source>- Online games</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="115"/>
-        <source>- Changeable gui with online style gallery</source>
+        <source>- Customizable GUI with an online style gallery</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -849,7 +849,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="127"/>
-        <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
+        <source>initial idea, basic architecture, GUI implementation, graphics editing, Linux package</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -859,12 +859,12 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="131"/>
-        <source>basic architecture, network development, windows package, MacOS package</source>
+        <source>basic architecture, network development, Windows package, macOS package</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="133"/>
-        <source>initial gui graphics design</source>
+        <source>initial GUI graphics design</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3835,11 +3835,11 @@ Please choose a different name.</source>
         <translation type="obsolete">Избрания файл за аватар е много широк. Моля изберете друг.</translation>
     </message>
     <message>
-        <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
+        <source>An internal avatar error occurred. Please report this to an admin in the lobby chat.</source>
         <translation type="obsolete">Вътрешна грешка. Моля съобщете на администратор в лоби чата.</translation>
     </message>
     <message>
-        <source>Could not start game: Synchronization failed.</source>
+        <source>Could not start the game: synchronization failed.</source>
         <translation type="obsolete">Не може да бъде започната играта: синхронизацията се провали.</translation>
     </message>
     <message>
@@ -3847,7 +3847,7 @@ Please choose a different name.</source>
         <translation type="obsolete">Сървъра е изключен за профилактика. Моля опитайте пак по-късно.</translation>
     </message>
     <message>
-        <source>An internal error occured.</source>
+        <source>An internal error occurred.</source>
         <translation type="obsolete">Вътрешна грешка.</translation>
     </message>
     <message>
@@ -4219,8 +4219,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="255"/>
-        <source>A profile with the name: %1 already exists.
-Would you like to overwrite ?</source>
+        <source>A profile with the name %1 already exists.
+Would you like to overwrite it?</source>
         <translation>Профил с името: %1 вече съществува.
 Искате ли да запишете новия върху вече съществуващия ?</translation>
     </message>
@@ -4588,11 +4588,11 @@ Please choose a different name.</source>
         <translation type="obsolete">Избрания файл за аватар е много широк. Моля изберете друг.</translation>
     </message>
     <message>
-        <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
+        <source>An internal avatar error occurred. Please report this to an admin in the lobby chat.</source>
         <translation type="obsolete">Вътрешна грешка. Моля съобщете на администратор в лоби чата.</translation>
     </message>
     <message>
-        <source>Could not start game: Synchronization failed.</source>
+        <source>Could not start the game: synchronization failed.</source>
         <translation type="obsolete">Не може да бъде започната играта: синхронизацията се провали.</translation>
     </message>
     <message>
@@ -4600,7 +4600,7 @@ Please choose a different name.</source>
         <translation type="obsolete">Сървъра е изключен за профилактика. Моля опитайте пак по-късно.</translation>
     </message>
     <message>
-        <source>An internal error occured.</source>
+        <source>An internal error occurred.</source>
         <translation type="obsolete">Вътрешна грешка.</translation>
     </message>
     <message>
@@ -6126,12 +6126,12 @@ Please restart PokerTH to use the new directory for the log files!</source>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1386"/>
-        <source>Windows Behaviour</source>
+        <source>Window behavior</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1387"/>
-        <source>scaleable</source>
+        <source>scalable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6666,7 +6666,7 @@ Please check your username and password.</source>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1258"/>
-        <source>You cannot login at this time. Please try again in a few seconds.</source>
+        <source>You cannot log in at this time. Please try again in a few seconds.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6840,7 +6840,7 @@ If the problem persists, please check the server address or try again later.</so
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1227"/>
-        <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
+        <source>Your server connection timed out due to inactivity. Please reconnect.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6865,12 +6865,12 @@ If the problem persists, please check the server address or try again later.</so
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1264"/>
-        <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
+        <source>An internal avatar error occurred. Please report this to an admin in the lobby chat.</source>
         <translation type="unfinished">Вътрешна грешка. Моля съобщете на администратор в лоби чата.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1270"/>
-        <source>Could not start game: Synchronization failed.</source>
+        <source>Could not start the game: synchronization failed.</source>
         <translation type="unfinished">Не може да бъде започната играта: синхронизацията се провали.</translation>
     </message>
     <message>
@@ -6880,7 +6880,7 @@ If the problem persists, please check the server address or try again later.</so
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1282"/>
-        <source>An internal error occured.</source>
+        <source>An internal error occurred.</source>
         <translation type="unfinished">Вътрешна грешка.</translation>
     </message>
     <message>

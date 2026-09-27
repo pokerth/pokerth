@@ -708,47 +708,47 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="98"/>
-        <source>- Wikimedia Commons: for different popular avatar picture resources</source>
+        <source>- Wikimedia Commons: for a variety of avatar images</source>
         <translation>• A Wikimedia Commons, de onde saíron algunhas das imaxes de usuario predeteminadas máis populares.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="99"/>
-        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
+        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for avatar images of people</source>
         <translation>• A Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi e Caro,autores das imaxes de usuario predeterminadas que retratan persoas. </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="100"/>
-        <source>- ZeiZei: for misc avatar pictures</source>
+        <source>- ZeiZei: for miscellaneous avatar images</source>
         <translation>• A ZeiZei, autor de diversas imaxes de usuario.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="101"/>
-        <source>- kde-look.org: for different gpl licensed sounds</source>
+        <source>- kde-look.org: for various GPL-licensed sounds</source>
         <translation>• A kde-look.org, de onde sacamos varios sons con licenza GPL. </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="102"/>
-        <source>- doc_dos: for self recorded chip sounds</source>
+        <source>- doc_dos: for self-recorded chip sounds</source>
         <translation>• A doc_dos, autor de sons de chips. </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="103"/>
-        <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
+        <source>- thiger, dunkanx, BerndA, coldz, drull: for various patches</source>
         <translation>• A thiger, dunkanx, BerndA, coldz, drull, autores de diversos parches.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="104"/>
-        <source>- kraut: for internet-game-server hosting and administration</source>
+        <source>- kraut: for hosting and administering the internet game server</source>
         <translation>• A kraut. por facerse cargo dos custos e da administración do servidor de partidas en internet. </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="105"/>
-        <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
+        <source>- danuxi: for the start-window background and danuxi1 table background</source>
         <translation>• A danuxi, pola imaxe de fondo da xanela de inicio e mailo fondo do taboleiro “danuxi1”.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="106"/>
-        <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
+        <source>- heyn: for moderating the forum and organizing the bug tracker and feature requests</source>
         <translation>• A heyn, por exercer de moderador no foro, e organizar os informes de erro e mailas solicitudes de funcionalidades.</translation>
     </message>
     <message>
@@ -763,7 +763,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="112"/>
-        <source>- Singleplayer games with up to 9 computer-opponents</source>
+        <source>- Single-player games with up to 9 computer opponents</source>
         <translation>• Partidas locais dun xogador contra ata 9 rivais artificiais.</translation>
     </message>
     <message>
@@ -773,12 +773,12 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="114"/>
-        <source>- Internet online games</source>
+        <source>- Online games</source>
         <translation>• Partidas en internet.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="115"/>
-        <source>- Changeable gui with online style gallery</source>
+        <source>- Customizable GUI with an online style gallery</source>
         <translation>• A interface pode usar distintos estilos, que poden descargarse de internet.</translation>
     </message>
     <message>
@@ -798,7 +798,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="127"/>
-        <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
+        <source>initial idea, basic architecture, GUI implementation, graphics editing, Linux package</source>
         <translation>Idea orixinal, arquitectura básica, interfacek, edición das imaxes da interface e paquete para sistemas Linux.</translation>
     </message>
     <message>
@@ -808,12 +808,12 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="131"/>
-        <source>basic architecture, network development, windows package, MacOS package</source>
+        <source>basic architecture, network development, Windows package, macOS package</source>
         <translation>Arquitectura básica, desenvolvemento das funcionalidades de rede e paquetes para Windows e Mac OS X. </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="133"/>
-        <source>initial gui graphics design</source>
+        <source>initial GUI graphics design</source>
         <translation>Deseño inicial das imaxes da interface.</translation>
     </message>
     <message>
@@ -3887,8 +3887,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="255"/>
-        <source>A profile with the name: %1 already exists.
-Would you like to overwrite ?</source>
+        <source>A profile with the name %1 already exists.
+Would you like to overwrite it?</source>
         <translation>Xa hai un perfil chamado «%1». Quere substituílo?</translation>
     </message>
     <message>
@@ -5402,12 +5402,12 @@ Please restart PokerTH to use the new directory for the log files!</source>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1386"/>
-        <source>Windows Behaviour</source>
+        <source>Window behavior</source>
         <translation>Comportamento das xanelas</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1387"/>
-        <source>scaleable</source>
+        <source>scalable</source>
         <translation>flexíbel</translation>
     </message>
     <message>
@@ -5925,7 +5925,7 @@ Please check your username and password.</source>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1258"/>
-        <source>You cannot login at this time. Please try again in a few seconds.</source>
+        <source>You cannot log in at this time. Please try again in a few seconds.</source>
         <translation>Non pode acceder nestes momentos. Inténteo máis tarde.</translation>
     </message>
     <message>
@@ -6134,7 +6134,7 @@ If the problem persists, please check the server address or try again later.</so
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1227"/>
-        <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
+        <source>Your server connection timed out due to inactivity. Please reconnect.</source>
         <translation>A conexión co servidor caducou por inactividade. Pode volverse conectar se quere.</translation>
     </message>
     <message>
@@ -6159,12 +6159,12 @@ If the problem persists, please check the server address or try again later.</so
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1264"/>
-        <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
+        <source>An internal avatar error occurred. Please report this to an admin in the lobby chat.</source>
         <translation>Produciuse un erro interno coa imaxe de usuario. Informe do problema a un dos administradores mediante a conversa da sala de espera (en inglés).</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1270"/>
-        <source>Could not start game: Synchronization failed.</source>
+        <source>Could not start the game: synchronization failed.</source>
         <translation>Non foi posíbel iniciar a partida: non foi posíbel sincronizarse.</translation>
     </message>
     <message>
@@ -6174,7 +6174,7 @@ If the problem persists, please check the server address or try again later.</so
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1282"/>
-        <source>An internal error occured.</source>
+        <source>An internal error occurred.</source>
         <translation>Produciuse un erro interno.</translation>
     </message>
     <message>

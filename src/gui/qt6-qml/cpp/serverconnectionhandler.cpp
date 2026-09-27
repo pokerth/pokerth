@@ -318,7 +318,7 @@ QString ServerConnectionHandler::networkErrorMessage(int errorID)
 	case ERR_NET_PLAYER_BLOCKED:
 		return tr("Your account is blocked indefinitely.");
 	case ERR_NET_SESSION_TIMED_OUT:
-		return tr("Your server connection timed out due to inactivity. You are very welcome to reconnect!");
+		return tr("Your server connection timed out due to inactivity. Please reconnect.");
 	case ERR_NET_INVALID_PLAYER_COUNT:
 		return tr("The client player count is invalid.");
 	case ERR_NET_TOO_MANY_MANUAL_BLINDS:
@@ -331,17 +331,17 @@ QString ServerConnectionHandler::networkErrorMessage(int errorID)
 	case ERR_NET_BUF_INVALID_SIZE:
 		return tr("Internal error: invalid buffer size.");
 	case ERR_NET_INVALID_REQUEST_ID:
-		return tr("An internal avatar error occured. Please report this to an admin in the lobby chat.");
+		return tr("An internal avatar error occurred. Please report this to an admin in the lobby chat.");
 	case ERR_NET_START_TIMEOUT:
-		return tr("Could not start game: Synchronization failed.");
+		return tr("Could not start the game: synchronization failed.");
 	case ERR_NET_GAME_TERMINATION_FAILED:
 		return tr("The game could not be terminated.");
 	case ERR_NET_INTERNAL_GAME_ERROR:
-		return tr("An internal game error occured.");
+		return tr("An internal game error occurred.");
 	case ERR_NET_DEALER_NOT_FOUND:
 		return tr("Internal error: The dealer could not be found.");
 	case ERR_NET_INIT_BLOCKED:
-		return tr("You cannot login at this time. Please try again in a few seconds.");
+		return tr("You cannot log in at this time. Please try again in a few seconds.");
 	case ERR_NET_GSASL_INIT_FAILED:
 		return tr("Internal error: The authentication could not be initialized.");
 	case ERR_NET_GSASL_NO_SCRAM:
@@ -352,7 +352,7 @@ QString ServerConnectionHandler::networkErrorMessage(int errorID)
 	// ERR_SOCK_INTERNAL and everything unknown: name the code as well, so that a
 	// report from the field can still be assigned (no log on mobile devices).
 	default:
-		return tr("An internal error occured. (Error code %1)").arg(errorID);
+		return tr("An internal error occurred. (Error code %1)").arg(errorID);
 	}
 }
 

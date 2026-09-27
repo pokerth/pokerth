@@ -24,11 +24,11 @@ of a specific message — there is no automatic or bulk translation.
 - Endpoint: `https://translate.googleapis.com/translate_a/single`
   (`client=gtx`, `sl=auto`, `tl=<client language>`, `dt=t`, `q=<message>`)
 - No API key. Free, keyless endpoint; the request is made directly from the
-  user's client. Source language is auto-detected.
+  user's client. The source language is auto-detected.
 - This is the same public endpoint used by many open-source tools
   (e.g. translate-shell). It is not a contractually guaranteed API and Google
   may change or rate-limit it; the client therefore degrades gracefully (see
-  fallback) and never blocks the UI.
+  the fallback below) and never blocks the UI.
 - Terms: https://policies.google.com/terms — the translated text is the chat
   message the user chose to translate. No account data or credentials are sent.
 
@@ -39,9 +39,9 @@ of a specific message — there is no automatic or bulk translation.
 - Officially free, keyless API. Used only when the primary endpoint fails.
   MyMemory requires an explicit source language; since auto-detection is then
   unavailable, English is assumed as a heuristic (the most common foreign
-  language in the international lobby). If the client's own language is English
+  language in the international lobby). If the client's own language is English,
   the fallback is skipped and the user can simply retry.
-- Anonymous usage limit is per IP (~5000 words/day); this is ample for
+- The anonymous usage limit is per IP (~5000 words/day); this is ample for
   interactive, on-demand chat translation.
 - Terms: https://mymemory.translated.net/doc/usagelimits.php
 

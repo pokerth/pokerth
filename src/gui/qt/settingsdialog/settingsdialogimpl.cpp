@@ -338,7 +338,7 @@ void settingsDialogImpl::prepareDialog()
 
 	//Internet Game Settings
 
-	checkBox_InternetServerUseSctp->hide(); //temporarely disabled until sctp support is back
+	checkBox_InternetServerUseSctp->hide(); // Temporarily disabled until SCTP support returns.
 	label_whatIsSctp->hide();
 
 	lineEdit_InternetServerListAddress->setText(QString::fromUtf8(myConfig->readConfigString("InternetServerListAddress").c_str()));
@@ -804,7 +804,7 @@ void settingsDialogImpl::isAccepted()
 	settingsCorrect = true;
 
 	// 	Player Nicks
-	//check if all player nicks are unique --> otherwise dont save
+	// Check that all player nicknames are unique; otherwise, do not save.
 	QSet<QString> checkSetPlayerNicks;
 	checkSetPlayerNicks.insert(lineEdit_HumanPlayerName->text().trimmed());
 	checkSetPlayerNicks.insert(lineEdit_Opponent1Name->text().trimmed());
@@ -1381,8 +1381,8 @@ void settingsDialogImpl::showCurrentGameTableStylePreview()
 		QString MaintainerName = tr("Maintainer Name");
 		QString MaintainerEMail = tr("Maintainer EMail");
 		QString CreateDate = tr("Create Date");
-		QString WindowBehaviour = tr("Windows Behaviour");
-		QString scaleable = tr("scaleable");
+		QString WindowBehavior = tr("Window behavior");
+		QString scalable = tr("scalable");
 		QString fixed = tr("fixed");
 		QString MinimumSize = tr("Minimum Size");
 		QString MaximumSize = tr("Maximum Size");
@@ -1391,10 +1391,10 @@ void settingsDialogImpl::showCurrentGameTableStylePreview()
 
 		QString windowsSubString;
 		if(style.getIfFixedWindowSize().toInt()) {
-			windowsSubString = "<b>"+WindowBehaviour+":</b> "+fixed+"<br><b>"+FixedSize+":</b> "+style.getFixedWindowWidth()+"x"+style.getFixedWindowHeight();
+			windowsSubString = "<b>"+WindowBehavior+":</b> "+fixed+"<br><b>"+FixedSize+":</b> "+style.getFixedWindowWidth()+"x"+style.getFixedWindowHeight();
 		} else {
 
-			windowsSubString = "<b>"+WindowBehaviour+":</b> "+scaleable+"<br><b>"+MinimumSize+":</b> "+style.getMinimumWindowWidth()+"x"+style.getMinimumWindowHeight()+"<br><b>"+MaximumSize+":</b> "+style.getMaximumWindowWidth()+"x"+style.getMaximumWindowHeight();
+			windowsSubString = "<b>"+WindowBehavior+":</b> "+scalable+"<br><b>"+MinimumSize+":</b> "+style.getMinimumWindowWidth()+"x"+style.getMinimumWindowHeight()+"<br><b>"+MaximumSize+":</b> "+style.getMaximumWindowWidth()+"x"+style.getMaximumWindowHeight();
 		}
 
 		QString maintainerEMailString;
@@ -1496,9 +1496,9 @@ void settingsDialogImpl::addGameTableStyle()
 void settingsDialogImpl::removeGameTableStyle()
 {
 	QTreeWidgetItem* selectedItem = treeWidget_gameTableStyles->currentItem();
-	//never delete PokerTH defaullt Styles
+	// Never delete PokerTH default styles.
 	if(selectedItem && selectedItem->data(0, 16).toInt() == ADDITIONAL_STYLE) {
-		// if selected is activated --> swith activation to first default
+		// If the selected style is active, switch to the first default style.
 		if(!selectedItem->icon(0).isNull()) {
 			QTreeWidgetItem* firstItem = treeWidget_gameTableStyles->topLevelItem(0);
 			firstItem->setIcon(0, QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
@@ -1644,9 +1644,9 @@ void settingsDialogImpl::addCardDeckStyle()
 void settingsDialogImpl::removeCardDeckStyle()
 {
 	QTreeWidgetItem* selectedItem = treeWidget_cardDeckStyles->currentItem();
-	//never delete PokerTH defaullt Styles
+	// Never delete PokerTH default styles.
 	if(selectedItem && selectedItem->data(0, 16).toInt() == ADDITIONAL_STYLE) {
-		// if selected is activated --> swith activation to first default
+		// If the selected style is active, switch to the first default style.
 		if(!selectedItem->icon(0).isNull()) {
 			QTreeWidgetItem* firstItem = treeWidget_cardDeckStyles->topLevelItem(0);
 			firstItem->setIcon(0, QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));

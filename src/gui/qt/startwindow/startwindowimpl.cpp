@@ -1226,7 +1226,7 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/)
 	case ERR_NET_SESSION_TIMED_OUT: {
 		mySession->terminateNetworkClient();
 		MyMessageBox::warning(this, tr("Network Error"),
-							  tr("Your server connection timed out due to inactivity. You are very welcome to reconnect!"),
+							  tr("Your server connection timed out due to inactivity. Please reconnect."),
 							  QMessageBox::Close);
 	}
 	break;
@@ -1257,19 +1257,19 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/)
 	break;
 	case ERR_NET_INIT_BLOCKED: {
 		MyMessageBox::warning(this, tr("Network Error"),
-							  tr("You cannot login at this time. Please try again in a few seconds."),
+							  tr("You cannot log in at this time. Please try again in a few seconds."),
 							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_INVALID_REQUEST_ID: {
 		MyMessageBox::warning(this, tr("Network Error"),
-							  tr("An internal avatar error occured. Please report this to an admin in the lobby chat."),
+							  tr("An internal avatar error occurred. Please report this to an admin in the lobby chat."),
 							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_START_TIMEOUT: {
 		MyMessageBox::warning(this, tr("Network Error"),
-							  tr("Could not start game: Synchronization failed."),
+							  tr("Could not start the game: synchronization failed."),
 							  QMessageBox::Close);
 	}
 	break;
@@ -1281,7 +1281,7 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/)
 	break;
 	default:  {
 		MyMessageBox::warning(this, tr("Network Error"),
-							  tr("An internal error occured."),
+							  tr("An internal error occurred."),
 							  QMessageBox::Close);
 	}
 	}
@@ -1528,7 +1528,8 @@ QString startWindowImpl::checkForFirstStartAfterUpdated()
 
 		if(POKERTH_VERSION_MAJOR == 0 && POKERTH_VERSION_MINOR == 80) {
 			//version 0.8 HACK
-			//to avoid old PokerTH distributed styles pathes in settings which leads to error message like "outdated" prepare settings dialog (fallback will correct this issue) and save settings
+			// Avoid old distributed style paths that trigger an "outdated" error;
+			// preparing the settings dialog applies the fallback and saves settings.
 			mySettingsDialog->prepareDialog();
 			mySettingsDialog->isAccepted();
 			myGuiInterface->getMyW()->applySettings(mySettingsDialog);

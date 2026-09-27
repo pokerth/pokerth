@@ -55,7 +55,7 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>- Singleplayer games with up to 9 computer-opponents</source>
+        <source>- Single-player games with up to 9 computer opponents</source>
         <translation>- Vieno žaidėjo žaidimai su iki 9 kompiuterinių varžovų</translation>
     </message>
     <message>
@@ -65,12 +65,12 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>- Internet online games</source>
+        <source>- Online games</source>
         <translation>- Internetiniai žaidimai</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- Changeable gui with online style gallery</source>
+        <source>- Customizable GUI with an online style gallery</source>
         <translation>- Keičiama išvaizda su internetine stilių galerija</translation>
     </message>
     <message>
@@ -90,7 +90,7 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
+        <source>initial idea, basic architecture, GUI implementation, graphics editing, Linux package</source>
         <translation>pradinė idėja, pagrindinė architektūra, sąsajos įgyvendinimas, sąsajos grafikos apdorojimas, Linux paketas</translation>
     </message>
     <message>
@@ -100,12 +100,12 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>basic architecture, network development, windows package, MacOS package</source>
+        <source>basic architecture, network development, Windows package, macOS package</source>
         <translation>pagrindinė architektūra, tinklo kūrimas, Windows paketas, MacOS paketas</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>initial gui graphics design</source>
+        <source>initial GUI graphics design</source>
         <translation>pradinis sąsajos grafinis dizainas</translation>
     </message>
     <message>
@@ -120,47 +120,47 @@
     </message>
     <message>
         <location line="+8"/>
-        <source>- Wikimedia Commons: for different popular avatar picture resources</source>
+        <source>- Wikimedia Commons: for a variety of avatar images</source>
         <translation>- Wikimedia Commons: už įvairius populiarius avatarų paveikslėlius</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
+        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for avatar images of people</source>
         <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: už žmonių avatarų paveikslėlius</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- ZeiZei: for misc avatar pictures</source>
+        <source>- ZeiZei: for miscellaneous avatar images</source>
         <translation>- ZeiZei: už kitus avatarų paveikslėlius</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- kde-look.org: for different gpl licensed sounds</source>
+        <source>- kde-look.org: for various GPL-licensed sounds</source>
         <translation>- kde-look.org: už įvairius GPL licencijuotus garsus</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- doc_dos: for self recorded chip sounds</source>
+        <source>- doc_dos: for self-recorded chip sounds</source>
         <translation>- doc_dos: už paties įrašytus žetonų garsus</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
+        <source>- thiger, dunkanx, BerndA, coldz, drull: for various patches</source>
         <translation>- thiger, dunkanx, BerndA, coldz, drull: už įvairius pataisymus</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- kraut: for internet-game-server hosting and administration</source>
+        <source>- kraut: for hosting and administering the internet game server</source>
         <translation>- kraut: už interneto žaidimų serverio priežiūrą ir administravimą</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
+        <source>- danuxi: for the start-window background and danuxi1 table background</source>
         <translation>- danuxi: už pradinio lango foną ir danuxi1 stalo foną</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
+        <source>- heyn: for moderating the forum and organizing the bug tracker and feature requests</source>
         <translation>- heyn: už forumo moderavimą bei klaidų sekiklio ir pageidavimų tvarkymą</translation>
     </message>
     <message>
@@ -4160,7 +4160,7 @@ Prašome patikrinti vartotojo vardą ir slaptažodį.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
+        <source>Your server connection timed out due to inactivity. Please reconnect.</source>
         <translation>Jūsų serverio prisijungimo laikas baigėsi dėl neveiksnumo. Jūs esate labai kviečiamas vėl prisijungti!</translation>
     </message>
     <message>
@@ -4190,12 +4190,12 @@ Prašome patikrinti vartotojo vardą ir slaptažodį.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
+        <source>An internal avatar error occurred. Please report this to an admin in the lobby chat.</source>
         <translation>Įvyko vidinė avataro klaida. Prašome pranešti apie tai administratoriui fojė pokalbio lange.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Could not start game: Synchronization failed.</source>
+        <source>Could not start the game: synchronization failed.</source>
         <translation>Nepavyko pradėti žaidimo: Sinchronizavimas nepavyko.</translation>
     </message>
     <message>
@@ -4205,7 +4205,7 @@ Prašome patikrinti vartotojo vardą ir slaptažodį.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>An internal game error occured.</source>
+        <source>An internal game error occurred.</source>
         <translation>Įvyko vidinė žaidimo klaida.</translation>
     </message>
     <message>
@@ -4215,7 +4215,7 @@ Prašome patikrinti vartotojo vardą ir slaptažodį.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>You cannot login at this time. Please try again in a few seconds.</source>
+        <source>You cannot log in at this time. Please try again in a few seconds.</source>
         <translation>Jūs negalite šiuo metu prisijungti. Prašome pamėginti vėl po kelių sekundžių.</translation>
     </message>
     <message>
@@ -4235,7 +4235,7 @@ Prašome patikrinti vartotojo vardą ir slaptažodį.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>An internal error occured. (Error code %1)</source>
+        <source>An internal error occurred. (Error code %1)</source>
         <translation>Įvyko vidinė klaida. (Klaidos kodas %1)</translation>
     </message>
     <message>

@@ -176,7 +176,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	myGameListModel->setHorizontalHeaderLabels(headerList);
 
 #ifdef GUI_800x480
-	treeView_GameList->setColumnWidth(0,200); //484px alltogether
+	treeView_GameList->setColumnWidth(0,200); // 484 px altogether
 	treeView_GameList->setColumnWidth(1,65);
 	treeView_GameList->setColumnWidth(2,100);
 	treeView_GameList->setColumnWidth(3,20);
@@ -625,7 +625,7 @@ void gameLobbyDialogImpl::refresh(int actionID)
 		myGameListModel->setHorizontalHeaderLabels(headerList);
 
 #ifdef GUI_800x480
-		treeView_GameList->setColumnWidth(0,200); //484px alltogether
+		treeView_GameList->setColumnWidth(0,200); // 484 px altogether
 		treeView_GameList->setColumnWidth(1,65);
 		treeView_GameList->setColumnWidth(2,100);
 		treeView_GameList->setColumnWidth(3,20);
@@ -1125,7 +1125,7 @@ void gameLobbyDialogImpl::clearDialog()
 	myGameListModel->setHorizontalHeaderLabels(headerList);
 
 #ifdef GUI_800x480
-	treeView_GameList->setColumnWidth(0,200); //484px alltogether
+	treeView_GameList->setColumnWidth(0,200); // 484 px altogether
 	treeView_GameList->setColumnWidth(1,65);
 	treeView_GameList->setColumnWidth(2,100);
 	treeView_GameList->setColumnWidth(3,20);
@@ -2093,7 +2093,7 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 		nickListAdminSubMenu->menuAction()->setVisible(
 			mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()).isAdmin);
 
-		//popup a little more to the right to avaoid double click action
+		// Move the popup slightly right to avoid a double-click action.
 		QPoint tempPoint = p;
 		tempPoint.setX(p.x()+5);
 		nickListContextMenu->popup(treeView_NickList->mapToGlobal(tempPoint));
@@ -2116,7 +2116,7 @@ void gameLobbyDialogImpl::showGameListContextMenu(QPoint p)
 		gameListAdminSubMenu->menuAction()->setVisible(
 			mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()).isAdmin);
 
-		//popup a little more to the right to avaoid double click action
+		// Move the popup slightly right to avoid a double-click action.
 		QPoint tempPoint = p;
 		tempPoint.setX(p.x()+5);
 		gameListContextMenu->popup(treeView_GameList->mapToGlobal(tempPoint));
@@ -2327,7 +2327,7 @@ void gameLobbyDialogImpl::showConnectedPlayersContextMenu(QPoint p)
 
 		if(!mySession->getClientPlayerInfo(playerUid).isGuest) {
 
-			//popup a little more to the right to avaoid double click action
+			// Move the popup slightly right to avoid a double-click action.
 			QPoint tempPoint = p;
 			tempPoint.setX(p.x()+5);
 			connectedPlayersListPlayerInfoSubMenu->popup(treeWidget_connectedPlayers->mapToGlobal(tempPoint));

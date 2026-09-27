@@ -1,15 +1,14 @@
 # Keyboard Shortcuts (Qt Widgets Client)
 
-Overview of the classic Qt Widgets client's keyboard shortcuts. The menu
-shortcuts are defined in the `.ui` files, everything else in the dialog classes –
-the corresponding references are given in parentheses. The shortcuts of the QML
-client are listed in
+This page lists the classic Qt Widgets client's keyboard shortcuts. The menu
+shortcuts are defined in the `.ui` files; all others are defined in the dialog
+classes, with source references in parentheses. The QML client's shortcuts are listed in
 [qml_client_keyboard_shortcuts.md](qml_client_keyboard_shortcuts.md); the
-differences between the two are at the end of this page.
+differences between the two clients appear at the end of this page.
 
 ## Menu shortcuts
 
-Available while the game table window has the focus.
+Available while the game table window has focus.
 Source: [gametable.ui](../src/gui/qt/gametable.ui#L4696-L4824)
 
 | Key | Action |
@@ -27,7 +26,7 @@ Source: [gametable.ui](../src/gui/qt/gametable.ui#L4696-L4824)
 | `Ctrl+X` | Close the game table |
 | `Ctrl+Q` | Quit |
 
-The start window carries `Ctrl+N`, `Ctrl+I` and `Ctrl+Q` as well.
+The start window also supports `Ctrl+N`, `Ctrl+I` and `Ctrl+Q`.
 Source: [startwindow.ui](../src/gui/qt/startwindow.ui)
 
 ## At the game table
@@ -76,11 +75,11 @@ enabled, the order of F1–F4 is reversed:
 
 ## Chat input
 
-Applies at the game table
-([gametableimpl.cpp](../src/gui/qt/gametable/gametableimpl.cpp#L3607-L3701)), in
+These shortcuts apply in the game table
+([gametableimpl.cpp](../src/gui/qt/gametable/gametableimpl.cpp#L3607-L3701)),
 the lobby
-([gamelobbydialogimpl.cpp](../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp#L1641-L1717))
-and in the waiting room
+([gamelobbydialogimpl.cpp](../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp#L1641-L1717)),
+and the waiting room
 ([startnetworkgamedialogimpl.cpp](../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp#L230-L263)).
 
 | Key | Action |
@@ -105,9 +104,9 @@ Source: [chattools/chattools.cpp](../src/gui/qt/chattools/chattools.cpp#L464-L50
 |-----|--------|
 | `Enter` / `Return` | "Create game" in the create-internet-game dialog, "Connect" in the join-network-game dialog |
 | `Delete` | Delete the selected log file (log file dialog, with the focus in the list) |
-| `Back` (Android) | Close the game table respectively the open dialog |
+| `Back` (Android) | Close the game table or the open dialog, as appropriate |
 
-## Differences to the QML client
+## Differences from the QML client
 
 Identical in both clients: `F1`–`F5` including the reversal through
 `AlternateFKeysUserActionMode`, `F6`/`F7`/`F8` for the playing mode, and the

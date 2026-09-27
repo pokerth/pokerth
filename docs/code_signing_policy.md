@@ -42,6 +42,6 @@ operating it.
 Network connections are made only for features the user starts: playing on
 an internet or LAN server, opening links to the website, uploading a log file
 for analysis, or translating a chat message (see
-[third_party_services.md](third_party_services.md)). The privacy policy of the
-official game server and website is published at
+[third_party_services.md](third_party_services.md)). The privacy policy covering
+the official game server and website is published at
 [www.pokerth.net/ucp.php?mode=privacy](https://www.pokerth.net/ucp.php?mode=privacy).

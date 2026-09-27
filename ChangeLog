@@ -277,8 +277,8 @@
 - macOS: several bugfixes, functional build for macOS Monterey as minimum OS version
 - android: Qt Widget GUI adapted to qt6 - no more fixed Width/Height values in ui files
 - removed QtSingleApplication dependency
-- reproducable docker build environments for linux, windows and android build
-- reproducable build_macos.sh Script for easy build & deploy on macOS
+- reproducible Docker build environments for Linux, Windows and Android
+- reproducible build_macos.sh script for easy building and deployment on macOS
 - new feature: 33%, 50%, 100% pot bet sizes with settings option and translations
 - server heartbeat to handle former silent client disconnects
 
@@ -486,7 +486,7 @@
 - add a tableview-link for each nick on the table instead of calling every single profile page
 
 2011-11-13 version 0.9-beta1
-- add aditional log message for rejoined players
+- add an additional log message for players who rejoin
 - disable rejoin for players who have been kicked
 - BUGFIX: Country flag name is displayed in a tooltip (#9)
 - BUGFIX: prevent delayed begin of logging in network games
@@ -584,7 +584,7 @@
 - New large chip count delimiter: 1000000 --> 1.000.000
 - New "join any game" button behaviour - joins the game with the most players connected
 - Styles handling enhancements (e.g. no activation needed anymore)
-- Readd the option to hide splashscreen
+- Re-add the option to hide the splash screen
 - IP address bans now automatically expire
 - Bugfix: incorrect handling of maximum number of players in network games
 
@@ -593,7 +593,7 @@
 - size of the lobby dialog was decreased for netbook resolution 1024x600
 - default action pictures were adjusted for better readable card index
 - portuguese (portuguese) translation was added
-- bugfix: bet input lenght was adjusted
+- bugfix: bet input length was adjusted
 
 2009-04-25 version 0.7-beta2:
 - Fixed problems with paths which contain special (non-ascii) characters
@@ -683,12 +683,12 @@
 - avatars preview in internet-game-lobby
 
 2007-10-31 version 0.6-beta:
-- Internet Game - Play online games easy on PokerTH-dedicated-Server (no ip addresses or port-fowarding needed anymore)
-- New Input Field (You can now pre-select your wanted action which will be done if it is your turn)
+- Internet game: play online games easily on a PokerTH dedicated server (no IP addresses or port forwarding required)
+- New input field: preselect the action to take on your turn
 - Avatars were shown in Network-/Internetgame
 - Lobby-Chat
 - Computer-Players could be added in Network-/Internetgame
-- Blinds values and blinds order completly adjustable
+- Blind values and order are completely adjustable
 - Auto-check/fold and Auto-check/call-any options for temporary away situations.
 - New kicker-card-detection for log
 - Improved distribution of the pot
@@ -701,26 +701,26 @@
 - Minimized disc access, optimized speed
 
 2007-04-04 version 0.4:
-- feature: settings menu (to do a lot of settings and save preferences)
+- feature: settings menu (configure and save preferences)
 - feature: set player names and avatars for computer opponents
 - feature: switch to fullscreen mode
 - feature: cards animation (show winning hand, flip cards)
-- feature: set you own card-flipside picture 
+- feature: set your own card-back picture
 - feature: log-window and log-files
 - feature: start-stop button (for break between hands)
 - feature: game-speed slider (for changing speed during game)
-- feature: graphical handranking overview
-- feature: keyboard shortcuts (e.g. for human player action)
+- feature: graphical hand-ranking overview
+- feature: keyboard shortcuts (e.g. for human player actions)
 - change: now you can play against up to 6 opponents
-- change: complete new gui (gfx by tranberry)
-- change: complete new engine design
+- change: completely redesigned GUI (graphics by tranberry)
+- change: completely redesigned engine
 - bugfix: a lot of bugfixes
 
 2006-10-16 version 0.3:
-- change: some changes on game-speed and game-rhythm. game-speed delay near 0 is possible ;)
+- change: game-speed and game-rhythm updates; delays close to zero are now possible ;)
 - change: gui-language changed from german to english
 - change: some ai-engine changes
-- change: now POT-distribution works better (especially for multible All-In situation and split-pot)
+- change: pot distribution works better, especially for multiple all-in situations and split pots
 - change: switched to Qt-4.2
 - change: some GUI-changes (e.g. killed the "Next Round"-Button --> task #131930)
 - bugfix: #1572742 - "bet-loop"

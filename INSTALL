@@ -1,12 +1,12 @@
 Requirements
 ============
 
-To compile PokerTH you need following libs: 
+To compile PokerTH, you need the following libraries:
 
 - Qt version >= 6.7.0, 6.9.2 LTS recommended  --> https://www.qt.io/
 - libboost_thread, libboost_filesystem, libboost_datetime, libboost_program_options,
   libboost_iostreams, libboost_asio, libboost_regex, libboost_random, libboost_uuid
-  (version >= 1.83, latest always recommended)  --> http://www.boost.org/
+  (version >= 1.83; the latest version is recommended)  --> http://www.boost.org/
 - protoc >= 2.3.0 (during build), libprotobuf >= 2.3.0 -> https://github.com/google/protobuf
 - OpenSSL
 
@@ -17,8 +17,9 @@ Linux:
 
   Type "cd path/to/the/sources". Then type:
 
-  0. if you are out for a clean build & testing binaries without installation call:
-    `bash clean_build.sh` ... it'll cleanup & copy tls cert and data-dir into build dir.
+  0. For a clean build and to test the binaries without installing, run:
+    `bash clean_build.sh`. This cleans up the build directory and copies the
+    TLS certificate and data directory into it.
 
   1. Type `cmake -DCMAKE_BUILD_TYPE:STRING=Release -S. -B./build -G Ninja`
 
@@ -27,7 +28,7 @@ Linux:
       `pokerth_qml-client` (the current client), `pokerth_client` (the classic Qt Widgets client),
       `pokerth_dedicated_server`, `pokerth_official_server`, `pokerth_chatcleaner`
 
-  3. Become root (typing "su" or "sudo -s") and type 
+  3. Become root by typing "su" or "sudo -s", then run:
       `cmake --install ./build`
 
 Windows:

@@ -442,7 +442,7 @@ private:
 	bool myActiveStatus; // 0 = inactive, 1 = active
 	bool myStayOnTableStatus; // 0 = left, 1 = stay
 	bool myTurn; // 0 = no, 1 = yes
-	bool myCardsFlip; // 0 = cards are not fliped, 1 = cards are already flipped,
+	bool myCardsFlip; // 0 = cards are not flipped, 1 = cards are already flipped,
 	int myRoundStartCash;
 	int lastMoneyWon;
 

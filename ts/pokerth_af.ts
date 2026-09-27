@@ -680,47 +680,47 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="98"/>
-        <source>- Wikimedia Commons: for different popular avatar picture resources</source>
+        <source>- Wikimedia Commons: for a variety of avatar images</source>
         <translation>- Wikimedia Commons: vir &apos;n verskeidenheid gewilde avatarprente</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="99"/>
-        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
+        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for avatar images of people</source>
         <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: vir mensavatar-prente</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="100"/>
-        <source>- ZeiZei: for misc avatar pictures</source>
+        <source>- ZeiZei: for miscellaneous avatar images</source>
         <translation>- ZeiZei: vir diverse avatarprente</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="101"/>
-        <source>- kde-look.org: for different gpl licensed sounds</source>
+        <source>- kde-look.org: for various GPL-licensed sounds</source>
         <translation>- kde-look.org: vir &apos;n verskeidenheid GPL-gelisensieerde klanke</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="102"/>
-        <source>- doc_dos: for self recorded chip sounds</source>
+        <source>- doc_dos: for self-recorded chip sounds</source>
         <translation>- doc_dos: vir selfopgeneemde skyfieklanke</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="103"/>
-        <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
+        <source>- thiger, dunkanx, BerndA, coldz, drull: for various patches</source>
         <translation>- thiger, dunkanx, BerndA, coldz, drull: vir &apos;n verskeidenheid pleisters</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="104"/>
-        <source>- kraut: for internet-game-server hosting and administration</source>
+        <source>- kraut: for hosting and administering the internet game server</source>
         <translation>- kraut: vir huisvesting en administrasie van internetspelbediener</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="105"/>
-        <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
+        <source>- danuxi: for the start-window background and danuxi1 table background</source>
         <translation>- danuxi: vir beginvenster-agtergrondprent en Danuxi1-tafel se agtergrond</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="106"/>
-        <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
+        <source>- heyn: for moderating the forum and organizing the bug tracker and feature requests</source>
         <translation>- heyn: vir modereer van forum en hantering van foutopsporing en wenslys</translation>
     </message>
     <message>
@@ -735,7 +735,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="112"/>
-        <source>- Singleplayer games with up to 9 computer-opponents</source>
+        <source>- Single-player games with up to 9 computer opponents</source>
         <translation>- Enkelspeler-spelle met tot 9 rekenaaropponente</translation>
     </message>
     <message>
@@ -745,12 +745,12 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="114"/>
-        <source>- Internet online games</source>
+        <source>- Online games</source>
         <translation>- Internetspelle aanlyn</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="115"/>
-        <source>- Changeable gui with online style gallery</source>
+        <source>- Customizable GUI with an online style gallery</source>
         <translation>- Aanknip-GUI met aanlyn stylgalery</translation>
     </message>
     <message>
@@ -770,7 +770,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="127"/>
-        <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
+        <source>initial idea, basic architecture, GUI implementation, graphics editing, Linux package</source>
         <translation>aanvanklike idee, basiese argitektuur, GUI-werking, GUI-grafikawerk, Linux-pakket</translation>
     </message>
     <message>
@@ -780,12 +780,12 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="131"/>
-        <source>basic architecture, network development, windows package, MacOS package</source>
+        <source>basic architecture, network development, Windows package, macOS package</source>
         <translation>basiese argitektuur, netwerkontwikkeling, Windows-pakket, MacOS-pakket</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="133"/>
-        <source>initial gui graphics design</source>
+        <source>initial GUI graphics design</source>
         <translation>aanvanklike GUI-grafikaontwerp</translation>
     </message>
     <message>
@@ -3835,8 +3835,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="255"/>
-        <source>A profile with the name: %1 already exists.
-Would you like to overwrite ?</source>
+        <source>A profile with the name %1 already exists.
+Would you like to overwrite it?</source>
         <translation>&apos;n Profiel genaamd %1 bestaan reeds.
 Wil jy dit oorheenskryf?</translation>
     </message>
@@ -5355,12 +5355,12 @@ Herbegin asseblief PokerTH om die nuwe gids vir loglêers te laai!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1386"/>
-        <source>Windows Behaviour</source>
+        <source>Window behavior</source>
         <translation>Venstergedrag</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1387"/>
-        <source>scaleable</source>
+        <source>scalable</source>
         <translation>vergroot/kleinbaar</translation>
     </message>
     <message>
@@ -5882,7 +5882,7 @@ Kontroleer asseblief jou gebruikernaam en wagwoord.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1258"/>
-        <source>You cannot login at this time. Please try again in a few seconds.</source>
+        <source>You cannot log in at this time. Please try again in a few seconds.</source>
         <translation>Jy kan nie nou aanmeld nie. Probeer asseblief weer oor &apos;n paar sekondes.</translation>
     </message>
     <message>
@@ -6092,7 +6092,7 @@ If the problem persists, please check the server address or try again later.</so
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1227"/>
-        <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
+        <source>Your server connection timed out due to inactivity. Please reconnect.</source>
         <translation>Jou bedienerverbinding het uitgetel vanweë geen aktiwiteit. Jy is welkom om weer te koppel!</translation>
     </message>
     <message>
@@ -6117,12 +6117,12 @@ If the problem persists, please check the server address or try again later.</so
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1264"/>
-        <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
+        <source>An internal avatar error occurred. Please report this to an admin in the lobby chat.</source>
         <translation>&apos;n Interne avatarfout het voorgekom. Rapporteer dit asseblief aan &apos;n admin in die voorkamerklets.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1270"/>
-        <source>Could not start game: Synchronization failed.</source>
+        <source>Could not start the game: synchronization failed.</source>
         <translation>Kon nie spel begin nie: sinchronisering het misluk.</translation>
     </message>
     <message>
@@ -6132,7 +6132,7 @@ If the problem persists, please check the server address or try again later.</so
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1282"/>
-        <source>An internal error occured.</source>
+        <source>An internal error occurred.</source>
         <translation>&apos;n Interne fout het voorgekom.</translation>
     </message>
     <message>

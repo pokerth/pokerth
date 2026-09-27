@@ -38,7 +38,7 @@ carries no ads, no real-money gambling and no tracking.
 - **Chat translation** on demand (opt-in, see [docs/third_party_services.md](docs/third_party_services.md))
 - **Looks** — 20 table themes, 11 card decks, several card backsides, import/export of themes as ZIP
 - **29 languages**, with the full UI translated
-- **Cross platform** — Linux, Windows, macOS, Android and iOS
+- **Cross-platform** — Linux, Windows, macOS, Android and iOS
 - **Own server** — a dedicated server binary you can run anywhere ([docs/server_setup_howto.txt](docs/server_setup_howto.txt))
 
 <div align="center">
@@ -71,7 +71,7 @@ share the whole engine, networking and database layer below the GUI:
 | `pokerth_qml-client` | Qt Quick / QML ([src/gui/qt6-qml](src/gui/qt6-qml)) | current client, all platforms, scales from phone to desktop |
 | `pokerth_client` | Qt Widgets ([src/gui/qt](src/gui/qt)) | the classic desktop client; 2.1.9 is its final release |
 
-Server side there are two server binaries: `pokerth_dedicated_server` for
+On the server side, there are two server binaries: `pokerth_dedicated_server` for
 everybody who wants to host games, and `pokerth_official_server`, which adds the
 user database used by pokerth.net.
 
