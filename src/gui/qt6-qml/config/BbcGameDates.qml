@@ -27,11 +27,79 @@ QtObject {
     readonly property int graceMs: 30 * 60 * 1000
     readonly property int maxPlayers: 10
 
-    // [{ id, step, title, ts (UTC ms), num }] sorted by ts, already filtered.
+    // [{ id, step, title, ts (UTC ms), day, num }] sorted by ts, already filtered.
     property var games: []
     property bool loading: false
     property string errorText: ""
     property real lastFetchMs: 0
+
+    // Registered players per game, loaded lazily when a row is expanded:
+    //   regs[id] = { players: [{ nick, admin }, …], loading, error, fetchedMs }
+    // Only nickname and the BBC admin flag are kept – the endpoint also
+    // delivers the IP address and browser fingerprint of every registration,
+    // which are dropped here.
+    // regsRevision is incremented on every change (bindings read it, the
+    // object itself is mutated in place).
+    property var regs: ({})
+    property int regsRevision: 0
+    readonly property int regsTtlMs: 2 * 60 * 1000
+
+    function regsFor(id) {
+        return regs[id] || null
+    }
+
+    // Fetches the registrations of a game unless a fresh list whose length
+    // matches the current player count is cached.
+    function loadRegs(game) {
+        if (!game || game.num <= 0)
+            return
+        var id = game.id
+        var old = regs[id]
+        if (old && (old.loading
+                    || (!old.error && old.players.length === game.num
+                        && Date.now() - old.fetchedMs < regsTtlMs)))
+            return
+
+        _setRegs(id, { players: old ? old.players : [], loading: true, error: false,
+                       fetchedMs: old ? old.fetchedMs : 0 })
+        var xhr = new XMLHttpRequest()
+        xhr.open("GET", siteUrl + "/registration/date/get/" + id)
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState !== XMLHttpRequest.DONE)
+                return
+            var players = null
+            if (xhr.status === 200) {
+                try {
+                    var data = JSON.parse(xhr.responseText)
+                    if (data && data.success === true && data.date && Array.isArray(data.date.regs)) {
+                        players = []
+                        for (var i = 0; i < data.date.regs.length; ++i) {
+                            var p = data.date.regs[i].player
+                            if (p && p.nickname)
+                                players.push({ nick: String(p.nickname), admin: p.admin === true })
+                        }
+                    }
+                } catch (e) {
+                    console.warn("BbcGameDates: registrations not readable:", e)
+                }
+            } else {
+                console.warn("BbcGameDates: registrations fetch failed, status", xhr.status)
+            }
+            var prev = bbc.regs[id]
+            if (players === null)
+                bbc._setRegs(id, { players: prev ? prev.players : [], loading: false, error: true,
+                                   fetchedMs: prev ? prev.fetchedMs : 0 })
+            else
+                bbc._setRegs(id, { players: players, loading: false, error: false,
+                                   fetchedMs: Date.now() })
+        }
+        xhr.send()
+    }
+
+    function _setRegs(id, entry) {
+        regs[id] = entry
+        ++regsRevision
+    }
 
     // force = bypass the TTL. On errors the games fetched last stay.
     function refresh(force) {

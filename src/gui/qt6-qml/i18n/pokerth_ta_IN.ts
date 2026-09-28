@@ -212,12 +212,12 @@
 <context>
     <name>BbcGameDates</name>
     <message>
-        <location filename="../config/BbcGameDates.qml" line="+66"/>
+        <location filename="../config/BbcGameDates.qml" line="+134"/>
         <source>The BBC game dates could not be loaded.</source>
         <translation>BBC ஆட்டத் தேதிகளை ஏற்ற முடியவில்லை.</translation>
     </message>
     <message>
-        <location line="+77"/>
+        <location line="+84"/>
         <source>Today</source>
         <translation>இன்று</translation>
     </message>
@@ -576,7 +576,7 @@
 <context>
     <name>ForumNewsPage</name>
     <message>
-        <location filename="../pages/ForumNewsPage.qml" line="+81"/>
+        <location filename="../pages/ForumNewsPage.qml" line="+98"/>
         <source>Forum news</source>
         <translation>மன்றச் செய்திகள்</translation>
     </message>
@@ -597,7 +597,22 @@
         <translation>பதிவுகள் இல்லை.</translation>
     </message>
     <message>
-        <location line="+147"/>
+        <location line="+254"/>
+        <source>Admin</source>
+        <translation>நிர்வாகி</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>The registrations could not be loaded.</source>
+        <translation>பதிவுகளை ஏற்ற முடியவில்லை.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Loading registrations…</source>
+        <translation>பதிவுகள் ஏற்றப்படுகின்றன…</translation>
+    </message>
+    <message>
+        <location line="+17"/>
         <source>No BBC games in the next %1 days.</source>
         <translation>அடுத்த %1 நாட்களில் BBC ஆட்டங்கள் இல்லை.</translation>
     </message>

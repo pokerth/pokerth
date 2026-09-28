@@ -212,12 +212,12 @@
 <context>
     <name>BbcGameDates</name>
     <message>
-        <location filename="../config/BbcGameDates.qml" line="+66"/>
+        <location filename="../config/BbcGameDates.qml" line="+134"/>
         <source>The BBC game dates could not be loaded.</source>
         <translation>Датите на игрите на BBC не можаха да бъдат заредени.</translation>
     </message>
     <message>
-        <location line="+77"/>
+        <location line="+84"/>
         <source>Today</source>
         <translation>Днес</translation>
     </message>
@@ -576,7 +576,7 @@
 <context>
     <name>ForumNewsPage</name>
     <message>
-        <location filename="../pages/ForumNewsPage.qml" line="+81"/>
+        <location filename="../pages/ForumNewsPage.qml" line="+98"/>
         <source>Forum news</source>
         <translation>Новини от форума</translation>
     </message>
@@ -597,7 +597,22 @@
         <translation>Няма записи.</translation>
     </message>
     <message>
-        <location line="+147"/>
+        <location line="+254"/>
+        <source>Admin</source>
+        <translation>Администратор</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>The registrations could not be loaded.</source>
+        <translation>Регистрациите не можаха да бъдат заредени.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Loading registrations…</source>
+        <translation>Зареждане на регистрациите…</translation>
+    </message>
+    <message>
+        <location line="+17"/>
         <source>No BBC games in the next %1 days.</source>
         <translation>Няма игри на BBC през следващите %1 дни.</translation>
     </message>

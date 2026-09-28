@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Universal
+import QtQuick.Effects
 import QtQuick.Layouts
 
 import "../config" as Config
@@ -11,7 +12,8 @@ import "../components"
 // IN the app (ForumPostPage), not in the browser.
 //
 // Second tab (switch top right): the BBC game dates of the next days with
-// the number of registered players; registering happens on the BBC site.
+// the number of registered players; a row with registrations expands to the
+// list of nicknames. Registering itself happens on the BBC site.
 //
 // Data, deduplication and read status live in Config.ForumNews, the game
 // dates in Config.BbcGameDates.
@@ -28,6 +30,21 @@ Rectangle {
     // "forum" | "bbc"
     property string tab: "forum"
     readonly property bool bbcTab: tab === "bbc"
+
+    // Expanded BBC games by id – kept here, not in the delegate, so that the
+    // state survives a refresh of the list (the delegates are recreated).
+    property var expandedGames: ({})
+
+    function toggleGame(game) {
+        if (!game || game.num <= 0)
+            return
+        var m = Object.assign({}, expandedGames)
+        if (m[game.id])
+            delete m[game.id]
+        else
+            m[game.id] = true
+        expandedGames = m
+    }
 
     // Refresh when opening; the TTL in the singleton prevents every
     // open from triggering a fetch.
@@ -292,8 +309,8 @@ Rectangle {
                     boundsBehavior: Flickable.StopAtBounds
                     activeFocusOnTab: true
                     keyNavigationEnabled: true
-                    Keys.onReturnPressed: forumPage.openExternal(Config.BbcGameDates.registrationUrl)
-                    Keys.onEnterPressed: forumPage.openExternal(Config.BbcGameDates.registrationUrl)
+                    Keys.onReturnPressed: forumPage.toggleGame(Config.BbcGameDates.games[gameList.currentIndex])
+                    Keys.onEnterPressed: forumPage.toggleGame(Config.BbcGameDates.games[gameList.currentIndex])
                     ScrollBar.vertical: ScrollBar {
                         policy: gameList.contentHeight > gameList.height + 4
                                 ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
@@ -314,6 +331,24 @@ Rectangle {
                         readonly property bool full: modelData.num >= Config.BbcGameDates.maxPlayers
                         readonly property bool keyboardCurrent: ListView.isCurrentItem
                                                                 && gameList.activeFocus
+                        readonly property bool expandable: modelData.num > 0
+                        readonly property bool expanded: expandable
+                                                         && forumPage.expandedGames[modelData.id] === true
+                        readonly property var regs: {
+                            var _rev = Config.BbcGameDates.regsRevision
+                            return Config.BbcGameDates.regsFor(modelData.id)
+                        }
+
+                        // Load on expanding – also when a refreshed list recreates
+                        // an expanded row (the player count may have changed).
+                        onExpandedChanged: {
+                            if (expanded)
+                                Config.BbcGameDates.loadRegs(modelData)
+                        }
+                        Component.onCompleted: {
+                            if (expanded)
+                                Config.BbcGameDates.loadRegs(modelData)
+                        }
 
                         width: ListView.view.width
 
@@ -394,14 +429,138 @@ Rectangle {
                                     font.pixelSize: Config.Theme.fontSizeCaption
                                     font.bold: gameDelegate.full
                                 }
+
+                                // Expand / collapse chevron (as in the lobby game list);
+                                // rows without registrations keep the space empty.
+                                Item {
+                                    Layout.preferredWidth: 12
+                                    Layout.preferredHeight: 12
+
+                                    Image {
+                                        anchors.fill: parent
+                                        visible: gameDelegate.expandable
+                                        source: "../resources/caretLeft.svg"
+                                        sourceSize: Qt.size(24, 24)
+                                        rotation: gameDelegate.expanded ? 90 : -90
+                                        smooth: true
+                                        antialiasing: true
+                                        layer.enabled: true
+                                        layer.effect: MultiEffect {
+                                            colorization: 1.0
+                                            colorizationColor: Config.StaticData.palette.secondary.col400
+                                        }
+                                        Behavior on rotation {
+                                            NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
+                                        }
+                                    }
+                                }
                             }
 
                             HoverHandler {
                                 id: gameHover
+                                enabled: gameDelegate.expandable
                                 cursorShape: Qt.PointingHandCursor
                             }
                             TapHandler {
-                                onTapped: forumPage.openExternal(Config.BbcGameDates.registrationUrl)
+                                enabled: gameDelegate.expandable
+                                onTapped: forumPage.toggleGame(gameDelegate.modelData)
+                            }
+                        }
+
+                        // Registered players
+                        Rectangle {
+                            visible: gameDelegate.expanded
+                            width: parent.width
+                            height: visible ? regsContent.implicitHeight + 16 : 0
+                            color: Config.Theme.colorPanelRow
+
+                            Rectangle {
+                                anchors.left: parent.left
+                                anchors.top: parent.top
+                                anchors.bottom: parent.bottom
+                                width: 3
+                                color: forumPage.stepColor(gameDelegate.modelData.step)
+                                opacity: 0.6
+                            }
+
+                            Item {
+                                id: regsContent
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                anchors.top: parent.top
+                                anchors.leftMargin: 20
+                                anchors.rightMargin: 10
+                                anchors.topMargin: 8
+                                implicitHeight: chips.visible ? chips.implicitHeight : regsStatus.implicitHeight
+
+                                readonly property var players: gameDelegate.regs ? gameDelegate.regs.players : []
+
+                                Flow {
+                                    id: chips
+                                    width: parent.width
+                                    spacing: 6
+                                    visible: regsContent.players.length > 0
+
+                                    Repeater {
+                                        model: regsContent.players
+
+                                        // BBC admins get a gold outline and an "Admin" tag
+                                        // (gold, not the green of the table admin badge).
+                                        Rectangle {
+                                            id: chip
+                                            required property var modelData
+                                            readonly property bool admin: modelData.admin === true
+                                            readonly property color adminColor: Config.Theme.isDark
+                                                                                ? Config.Theme.colorAccent
+                                                                                : Config.Theme.colorAccentDim
+
+                                            implicitWidth: chipRow.implicitWidth + 16
+                                            implicitHeight: chipRow.implicitHeight + 8
+                                            radius: height / 2
+                                            color: admin ? Qt.rgba(adminColor.r, adminColor.g, adminColor.b, 0.14)
+                                                         : Config.StaticData.palette.secondary.col600
+                                            border.color: admin ? Qt.rgba(adminColor.r, adminColor.g, adminColor.b, 0.6)
+                                                                : Config.StaticData.palette.secondary.col500
+                                            border.width: 1
+
+                                            Row {
+                                                id: chipRow
+                                                anchors.centerIn: parent
+                                                spacing: 5
+
+                                                AppText {
+                                                    anchors.verticalCenter: parent.verticalCenter
+                                                    text: chip.modelData.nick
+                                                    color: Config.StaticData.palette.secondary.col100
+                                                    font.pixelSize: Config.Theme.fontSizeCaption
+                                                }
+                                                AppText {
+                                                    anchors.verticalCenter: parent.verticalCenter
+                                                    visible: chip.admin
+                                                    text: qsTr("Admin")
+                                                    color: chip.adminColor
+                                                    font.pixelSize: 9
+                                                    font.bold: true
+                                                    font.letterSpacing: 0.5
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                AppText {
+                                    id: regsStatus
+                                    width: parent.width
+                                    visible: !chips.visible
+                                    wrapMode: Text.WordWrap
+                                    text: gameDelegate.regs && gameDelegate.regs.error
+                                          ? qsTr("The registrations could not be loaded.")
+                                          : qsTr("Loading registrations…")
+                                    color: gameDelegate.regs && gameDelegate.regs.error
+                                           ? Config.Theme.colorDanger
+                                           : Config.StaticData.palette.secondary.col300
+                                    font.pixelSize: Config.Theme.fontSizeCaption
+                                }
                             }
                         }
                     }

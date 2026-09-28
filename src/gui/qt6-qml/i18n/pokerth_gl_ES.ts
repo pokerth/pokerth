@@ -212,12 +212,12 @@
 <context>
     <name>BbcGameDates</name>
     <message>
-        <location filename="../config/BbcGameDates.qml" line="+66"/>
+        <location filename="../config/BbcGameDates.qml" line="+134"/>
         <source>The BBC game dates could not be loaded.</source>
         <translation>Non se puideron cargar as datas das partidas BBC.</translation>
     </message>
     <message>
-        <location line="+77"/>
+        <location line="+84"/>
         <source>Today</source>
         <translation>Hoxe</translation>
     </message>
@@ -576,7 +576,7 @@
 <context>
     <name>ForumNewsPage</name>
     <message>
-        <location filename="../pages/ForumNewsPage.qml" line="+81"/>
+        <location filename="../pages/ForumNewsPage.qml" line="+98"/>
         <source>Forum news</source>
         <translation>Novas do foro</translation>
     </message>
@@ -597,7 +597,22 @@
         <translation>Non hai ningunha entrada.</translation>
     </message>
     <message>
-        <location line="+147"/>
+        <location line="+254"/>
+        <source>Admin</source>
+        <translation>Administrador</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>The registrations could not be loaded.</source>
+        <translation>Non se puideron cargar as inscricións.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Loading registrations…</source>
+        <translation>Cargando as inscricións…</translation>
+    </message>
+    <message>
+        <location line="+17"/>
         <source>No BBC games in the next %1 days.</source>
         <translation>Non hai partidas BBC nos próximos %1 días.</translation>
     </message>
