@@ -49,9 +49,13 @@
         <translation>PokerTH %1</translation>
     </message>
     <message>
-        <location line="+13"/>
         <source>- Poker engine for the popular Texas Hold&apos;em Poker</source>
-        <translation>- Pokerový engine pre populárny Texas Hold&apos;em</translation>
+        <translation type="vanished">- Pokerový engine pre populárny Texas Hold&apos;em</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>- Texas Hold&apos;em poker engine</source>
+        <translation>- Pokerový engine pre Texas Hold&apos;em</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -172,7 +176,7 @@
 <context>
     <name>AndroidConnectionService</name>
     <message>
-        <location filename="../cpp/androidconnectionservice.cpp" line="+29"/>
+        <location filename="../cpp/androidconnectionservice.cpp" line="+30"/>
         <source>Connected to the game server</source>
         <translation>Pripojené k hernému serveru</translation>
     </message>
@@ -203,6 +207,44 @@
         <location line="+1"/>
         <source>Maximum: %1 ms</source>
         <translation>Maximum: %1 ms</translation>
+    </message>
+</context>
+<context>
+    <name>BbcGameDates</name>
+    <message>
+        <location filename="../config/BbcGameDates.qml" line="+66"/>
+        <source>The BBC game dates could not be loaded.</source>
+        <translation>Termíny hier BBC sa nepodarilo načítať.</translation>
+    </message>
+    <message>
+        <location line="+77"/>
+        <source>Today</source>
+        <translation>Dnes</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Tomorrow</source>
+        <translation>Zajtra</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Step %1</source>
+        <translation>Fáza %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Special game</source>
+        <translation>Špeciálna hra</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>1 player registered</source>
+        <translation>1 registrovaný hráč</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 players registered</source>
+        <translation>Registrovaní hráči: %1</translation>
     </message>
 </context>
 <context>
@@ -525,7 +567,7 @@
 <context>
     <name>ForumNews</name>
     <message>
-        <location filename="../config/ForumNews.qml" line="+163"/>
+        <location filename="../config/ForumNews.qml" line="+175"/>
         <location line="+11"/>
         <source>The forum feed could not be loaded.</source>
         <translation>Nepodarilo sa načítať príspevky z fóra.</translation>
@@ -534,17 +576,33 @@
 <context>
     <name>ForumNewsPage</name>
     <message>
-        <location filename="../pages/ForumNewsPage.qml" line="+58"/>
+        <location filename="../pages/ForumNewsPage.qml" line="+81"/>
         <source>Forum news</source>
         <translation>Novinky z fóra</translation>
     </message>
     <message>
-        <location line="+172"/>
+        <location line="+0"/>
+        <location line="+21"/>
+        <source>BBC games</source>
+        <translation>Hry BBC</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <source>Forum</source>
+        <translation>Fórum</translation>
+    </message>
+    <message>
+        <location line="+168"/>
         <source>No entries.</source>
         <translation>Žiadne záznamy.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+147"/>
+        <source>No BBC games in the next %1 days.</source>
+        <translation>V najbližších %1 dňoch nie sú žiadne hry BBC.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
         <source>Mark all as read</source>
         <translation>Označiť všetko ako prečítané</translation>
     </message>
@@ -552,6 +610,11 @@
         <location line="+9"/>
         <source>Open the forum</source>
         <translation>Otvoriť fórum</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Register</source>
+        <translation>Registrovať</translation>
     </message>
 </context>
 <context>
@@ -732,7 +795,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+1581"/>
+        <location filename="../pages/GamePage.qml" line="+1610"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>História a šance</translation>
     </message>
@@ -1717,19 +1780,19 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1441"/>
-        <location line="+1347"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1463"/>
+        <location line="+1377"/>
         <source>Guests cannot send chat messages</source>
         <translation>Hostia nemôžu posielať správy do chatu</translation>
     </message>
     <message>
-        <location line="-1328"/>
-        <location line="+1322"/>
+        <location line="-1358"/>
+        <location line="+1352"/>
         <source>Private messages are not available at the table.</source>
         <translation>Súkromné správy nie sú pri stole dostupné.</translation>
     </message>
     <message>
-        <location line="-1316"/>
+        <location line="-1346"/>
         <source>Player not found</source>
         <translation>Hráč sa nenašiel</translation>
     </message>
@@ -1744,146 +1807,146 @@
         <translation>Hlásenie o avatarovi bolo prijaté serverom. Ďakujeme.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This avatar was already reported by another player.</source>
         <translation>Tento avatar už bol nahlásený iným hráčom.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>An error occurred while reporting the avatar.</source>
         <translation>Počas nahlasovania avatara nastala chyba.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game name report was accepted by the server. Thank you.</source>
         <translation>Hlásenie o názve hry bolo prijaté serverom. Ďakujeme.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game name was already reported by another player.</source>
         <translation>Tento názov hry už bol nahlásený iným hráčom.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>An error occurred while reporting the game name.</source>
         <translation>Počas nahlasovania názvu hry nastala chyba.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game was closed.</source>
         <translation>Hra bola zavretá.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game could not be closed.</source>
         <translation>Hru sa nepodarilo zavrieť.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player was kicked and banned permanently.</source>
         <translation>Hráč bol vykopnutý a natrvalo zablokovaný.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player was kicked, but could not be banned because it was a guest player.</source>
         <translation>Hráč bol vykopnutý, ale nedal sa zablokovať, pretože bol iba hosť.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player was kicked, but could not be banned, 
 because the nick could not be found in the database</source>
         <translation>Hráč bol vykopnutý, ale nedal sa zablokovať, 
 pretože jeho prezývka sa nenašla v databáze</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player could not be found.</source>
         <translation>Hráča sa nepodarilo nájsť.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The global notice was sent to all players.</source>
         <translation>Všeobecné oznámenie bolo odoslané všetkým hráčom.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The global notice was rejected by the server.</source>
         <translation>Server zamietol všeobecné oznámenie.</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>You cannot join this game, because another player in that game has your network address.</source>
         <translation>Nemôžete sa pripojiť k tejto hre, pretože iný hráč v tejto hre má vašu sieťovú adresu.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Sorry, this game is already full.</source>
         <translation>Ľutujem, táto hra je už plná.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation>Nepodarilo sa pripojiť k hre - na serveri už začala hra.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game is of type invite-only. You cannot join this game without being invited.</source>
         <translation>Tento typ hry je len na pozvánku. Nemôžete sa pridať k tejto hre bez toho, aby vás niekto pozval.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game name is already in use. Please choose a different name.</source>
         <translation>Tento názov hry sa už používa. Zvoľte, prosím, iný názov.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game name is invalid. Please choose a different name.</source>
         <translation>Názov hry je neplatný. Zvoľte, prosím, iný názov.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>Neplatné heslo pri pripájaní sa k hre.
 Prosím, skúste to znovu.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>You cannot join this type of game as guest.</source>
         <translation>K tejto hre sa nemôžete pripojiť ako hosť.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The settings are invalid for this type of game.</source>
         <translation>Nastavenia sú neplatné pre tento typ hry.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game does not allow spectators.</source>
         <translation>Táto hra nepovoľuje divákov.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Could not join the game.</source>
         <translation>K hre sa nepodarilo pripojiť.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Your connection to the server is very slow, the game had to start without you.</source>
         <translation>Vaše pripojenie k serveru je veľmi pomalé, hra musela začať bez vás.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>You were kicked from the game.</source>
         <translation>Boli ste vykopnutý z hry.</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>You were removed due to inactivity.</source>
         <translation>Boli ste odstránený z dôvodu nečinnosti.</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 momentálne nie je v lobby.</translation>
     </message>
@@ -1922,22 +1985,22 @@ Prosím, skúste to znovu.</translation>
         <translation>Súkromná správa pre %1:</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+97"/>
         <source>Registered players only</source>
         <translation>Iba registrovaní hráči</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Invited players only</source>
         <translation>Iba pozvaní hráči</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Ranking game</source>
         <translation>Vyhodnocovaná hra</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Standard</source>
         <translation>Štandardná</translation>
     </message>
@@ -1962,7 +2025,7 @@ Prosím, skúste to znovu.</translation>
         <translation>Plná</translation>
     </message>
     <message>
-        <location line="-221"/>
+        <location line="-225"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 sa nemôže pripojiť do %2, pretože je zaneprázdnený.</translation>
     </message>
@@ -2351,7 +2414,7 @@ PokerTH ho môže zmenšiť. Nový avatar sa prejaví pri najbližšom prihláse
 <context>
     <name>LobbyStatsBar</name>
     <message>
-        <location filename="../components/LobbyStatsBar.qml" line="+23"/>
+        <location filename="../components/LobbyStatsBar.qml" line="+37"/>
         <source>%1 players · %2 running · %3 open</source>
         <translation>hráčov: %1 · prebieha: %2 · otvorených: %3</translation>
     </message>
@@ -2371,7 +2434,17 @@ PokerTH ho môže zmenšiť. Nový avatar sa prejaví pri najbližšom prihláse
         <translation>otvorené hry: %1</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+26"/>
+        <source>Berlin %1</source>
+        <translation>Berlín %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Server time (Berlin): %1</source>
+        <translation>Čas servera (Berlín): %1</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>PokerTH.net</source>
         <translation>PokerTH.net</translation>
     </message>
@@ -2648,7 +2721,7 @@ PokerTH ho môže zmenšiť. Nový avatar sa prejaví pri najbližšom prihláse
 <context>
     <name>LogHandler</name>
     <message>
-        <location filename="../cpp/loghandler.cpp" line="+361"/>
+        <location filename="../cpp/loghandler.cpp" line="+407"/>
         <source>Export PokerTH log file to HTML</source>
         <translation>Exportovať súbor záznamu PokerTH do HTML</translation>
     </message>
@@ -2706,42 +2779,42 @@ Skontrolujte, či nahrávate platný súbor záznamu PokerTH.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <location line="+30"/>
+        <location line="+36"/>
         <source>Failure reason: </source>
         <translation>Dôvod chyby: </translation>
     </message>
     <message>
-        <location line="-27"/>
+        <location line="-33"/>
         <source>No file received.</source>
         <translation>Nebol prijatý žiadny súbor.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>File rejected because of too many uploads.</source>
         <translation>Súbor odmietnutý - príliš veľa nahrávaní.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>File rejected because of too many recent uploads. Please try again later.</source>
         <translation>Súbor odmietnutý - príliš veľa nedávnych nahrávaní. Skúste to neskôr.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The file is too large.</source>
         <translation>Súbor je príliš veľký.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>This file is not a valid and current PokerTH log file.</source>
         <translation>Tento súbor nie je platný a aktuálny súbor záznamu PokerTH.</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Internal error. Please try again later. ID: </source>
         <translation>Interná chyba. Skúste to neskôr. ID: </translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Upload failed. Please check your internet connection!
 Uploading log files may fail if you are using an http proxy.</source>
         <translation>Nahrávanie zlyhalo. Skontrolujte svoje pripojenie na internet!
@@ -4252,12 +4325,12 @@ Prosím, skontrolujte meno užívateľa a heslo.</translation>
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+328"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+325"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
         <translation>Obrázky (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+302"/>
+        <location line="+189"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Vybrať štýl herného stola</translation>
     </message>
@@ -4317,7 +4390,7 @@ Prosím, skontrolujte meno užívateľa a heslo.</translation>
         <translation>Štýl s názvom „%1“ už existuje.</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+42"/>
         <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
         <translation>Sada kariet je neúplná, chýba: %1</translation>
     </message>
@@ -4362,7 +4435,7 @@ Prosím, skontrolujte meno užívateľa a heslo.</translation>
         <translation>Chýbajúci obsah klient nahradí predvolenými obrázkami.</translation>
     </message>
     <message>
-        <location line="-182"/>
+        <location line="-183"/>
         <source>PokerTH-Stile (*.zip *.xml)</source>
         <translation>Štýly PokerTH (*.zip *.xml)</translation>
     </message>
@@ -4382,7 +4455,7 @@ Prosím, skontrolujte meno užívateľa a heslo.</translation>
         <translation>Archív neobsahuje súbor „%1“.</translation>
     </message>
     <message>
-        <location line="+196"/>
+        <location line="+199"/>
         <source>Stil exportieren</source>
         <translation>Exportovať štýl</translation>
     </message>

@@ -49,9 +49,13 @@
         <translation>PokerTH %1</translation>
     </message>
     <message>
-        <location line="+13"/>
         <source>- Poker engine for the popular Texas Hold&apos;em Poker</source>
-        <translation>Motor de Poker para o popular Texas Hold&apos;em Poker</translation>
+        <translation type="vanished">Motor de Poker para o popular Texas Hold&apos;em Poker</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>- Texas Hold&apos;em poker engine</source>
+        <translation>- Motor de póquer Texas Hold&apos;em</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -172,7 +176,7 @@
 <context>
     <name>AndroidConnectionService</name>
     <message>
-        <location filename="../cpp/androidconnectionservice.cpp" line="+29"/>
+        <location filename="../cpp/androidconnectionservice.cpp" line="+30"/>
         <source>Connected to the game server</source>
         <translation>Ligado ao servidor de jogo</translation>
     </message>
@@ -203,6 +207,44 @@
         <location line="+1"/>
         <source>Maximum: %1 ms</source>
         <translation>Máximo: %1 ms</translation>
+    </message>
+</context>
+<context>
+    <name>BbcGameDates</name>
+    <message>
+        <location filename="../config/BbcGameDates.qml" line="+66"/>
+        <source>The BBC game dates could not be loaded.</source>
+        <translation>Não foi possível carregar as datas dos jogos BBC.</translation>
+    </message>
+    <message>
+        <location line="+77"/>
+        <source>Today</source>
+        <translation>Hoje</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Tomorrow</source>
+        <translation>Amanhã</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Step %1</source>
+        <translation>Passo %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Special game</source>
+        <translation>Jogo especial</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>1 player registered</source>
+        <translation>1 jogador inscrito</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 players registered</source>
+        <translation>%1 jogadores inscritos</translation>
     </message>
 </context>
 <context>
@@ -525,7 +567,7 @@
 <context>
     <name>ForumNews</name>
     <message>
-        <location filename="../config/ForumNews.qml" line="+163"/>
+        <location filename="../config/ForumNews.qml" line="+175"/>
         <location line="+11"/>
         <source>The forum feed could not be loaded.</source>
         <translation>Não foi possível carregar o feed do fórum.</translation>
@@ -534,17 +576,33 @@
 <context>
     <name>ForumNewsPage</name>
     <message>
-        <location filename="../pages/ForumNewsPage.qml" line="+58"/>
+        <location filename="../pages/ForumNewsPage.qml" line="+81"/>
         <source>Forum news</source>
         <translation>Novidades do fórum</translation>
     </message>
     <message>
-        <location line="+172"/>
+        <location line="+0"/>
+        <location line="+21"/>
+        <source>BBC games</source>
+        <translation>Jogos BBC</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <source>Forum</source>
+        <translation>Fórum</translation>
+    </message>
+    <message>
+        <location line="+168"/>
         <source>No entries.</source>
         <translation>Nenhuma entrada.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+147"/>
+        <source>No BBC games in the next %1 days.</source>
+        <translation>Nenhum jogo BBC nos próximos %1 dias.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
         <source>Mark all as read</source>
         <translation>Marcar tudo como lido</translation>
     </message>
@@ -552,6 +610,11 @@
         <location line="+9"/>
         <source>Open the forum</source>
         <translation>Abrir o fórum</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Register</source>
+        <translation>Inscrever-se</translation>
     </message>
 </context>
 <context>
@@ -732,7 +795,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+1581"/>
+        <location filename="../pages/GamePage.qml" line="+1610"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>Histórico e probabilidades</translation>
     </message>
@@ -1717,19 +1780,19 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1441"/>
-        <location line="+1347"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1463"/>
+        <location line="+1377"/>
         <source>Guests cannot send chat messages</source>
         <translation>Convidados não podem enviar mensagens no chat</translation>
     </message>
     <message>
-        <location line="-1328"/>
-        <location line="+1322"/>
+        <location line="-1358"/>
+        <location line="+1352"/>
         <source>Private messages are not available at the table.</source>
         <translation>Mensagens privadas não estão disponíveis na mesa.</translation>
     </message>
     <message>
-        <location line="-1316"/>
+        <location line="-1346"/>
         <source>Player not found</source>
         <translation>Jogador não encontrado</translation>
     </message>
@@ -1744,146 +1807,146 @@
         <translation>O &quot;avatar&quot; denunciado foi aceite pelo servidor. Obrigado.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This avatar was already reported by another player.</source>
         <translation>Este &quot;avatar&quot; já foi denunciado por outro jogador.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>An error occurred while reporting the avatar.</source>
         <translation>Ocorreu um erro ao denunciar o &quot;avatar&quot;.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game name report was accepted by the server. Thank you.</source>
         <translation>O reporte do nome do jogo foi aceite pelo servidor. Obrigado.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game name was already reported by another player.</source>
         <translation>Este nome de jogo já foi reportado por outro jogador.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>An error occurred while reporting the game name.</source>
         <translation>Ocorreu um erro ao reportar o nome do jogo.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game was closed.</source>
         <translation>O jogo foi fechado.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game could not be closed.</source>
         <translation>Não foi possível fechar o jogo.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player was kicked and banned permanently.</source>
         <translation>O jogador foi expulso e banido permanentemente.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player was kicked, but could not be banned because it was a guest player.</source>
         <translation>O jogador foi expulso, mas não pôde ser banido porque era um jogador convidado.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player was kicked, but could not be banned, 
 because the nick could not be found in the database</source>
         <translation>O jogador foi expulso, mas não pôde ser banido, 
 porque o nickname não foi encontrado na base de dados</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player could not be found.</source>
         <translation>Não foi possível encontrar o jogador.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The global notice was sent to all players.</source>
         <translation>O aviso global foi enviado a todos os jogadores.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The global notice was rejected by the server.</source>
         <translation>O aviso global foi rejeitado pelo servidor.</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>You cannot join this game, because another player in that game has your network address.</source>
         <translation>Você não pode entrar neste jogo, pois já existe um jogador que tem o seu endereço de rede.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Sorry, this game is already full.</source>
         <translation>Desculpe mas este jogo está cheio.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation>Não é possível entrar num servidor cujo jogo já iniciou.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game is of type invite-only. You cannot join this game without being invited.</source>
         <translation>Este jogo só está disponível para convidados. Não pode entrar no jogo sem ser convidado.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game name is already in use. Please choose a different name.</source>
         <translation>Este nome de jogo já está a ser utilizado. Escolhe um nome diferente.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game name is invalid. Please choose a different name.</source>
         <translation>O nome do jogo é inválido. Escolhe um nome diferente.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>Ao entrar no jogo indicou uma senha inválida.
 Reintroduza a senha e tente novamente.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>You cannot join this type of game as guest.</source>
         <translation>Não pode entrar neste jogo como convidado.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The settings are invalid for this type of game.</source>
         <translation>As definições são inválidas para este tipo de jogo.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game does not allow spectators.</source>
         <translation>Este jogo não permite espectadores.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Could not join the game.</source>
         <translation>Não foi possível entrar no jogo.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Your connection to the server is very slow, the game had to start without you.</source>
         <translation>A sua ligação ao servidor está muito lenta, o jogo teve de começar sem si.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>You were kicked from the game.</source>
         <translation>Você foi expulso do jogo.</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>You were removed due to inactivity.</source>
         <translation>Foi removido por inatividade.</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 não está na sala neste momento.</translation>
     </message>
@@ -1922,22 +1985,22 @@ Reintroduza a senha e tente novamente.</translation>
         <translation>Mensagem privada para %1:</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+97"/>
         <source>Registered players only</source>
         <translation>Só para jogadores registados</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Invited players only</source>
         <translation>Só para jogadores convidados</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Ranking game</source>
         <translation>Jogo de classificação</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Standard</source>
         <translation>Padrão</translation>
     </message>
@@ -1962,7 +2025,7 @@ Reintroduza a senha e tente novamente.</translation>
         <translation>Cheio</translation>
     </message>
     <message>
-        <location line="-221"/>
+        <location line="-225"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 não pode entrar em %2 porque está ocupado.</translation>
     </message>
@@ -2351,7 +2414,7 @@ O PokerTH pode reduzi-la por si. O novo avatar fica ativo no próximo início de
 <context>
     <name>LobbyStatsBar</name>
     <message>
-        <location filename="../components/LobbyStatsBar.qml" line="+23"/>
+        <location filename="../components/LobbyStatsBar.qml" line="+37"/>
         <source>%1 players · %2 running · %3 open</source>
         <translation>%1 jogadores · %2 em curso · %3 abertos</translation>
     </message>
@@ -2371,7 +2434,17 @@ O PokerTH pode reduzi-la por si. O novo avatar fica ativo no próximo início de
         <translation>jogos abertos: %1</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+26"/>
+        <source>Berlin %1</source>
+        <translation>Berlim %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Server time (Berlin): %1</source>
+        <translation>Hora do servidor (Berlim): %1</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>PokerTH.net</source>
         <translation>PokerTH.net</translation>
     </message>
@@ -2648,7 +2721,7 @@ O PokerTH pode reduzi-la por si. O novo avatar fica ativo no próximo início de
 <context>
     <name>LogHandler</name>
     <message>
-        <location filename="../cpp/loghandler.cpp" line="+361"/>
+        <location filename="../cpp/loghandler.cpp" line="+407"/>
         <source>Export PokerTH log file to HTML</source>
         <translation>Exportar o ficheiro de registo PokerTH para HTML</translation>
     </message>
@@ -2706,42 +2779,42 @@ Verifica se estás a enviar um ficheiro de registo válido do PokerTH.</translat
     </message>
     <message>
         <location line="+4"/>
-        <location line="+30"/>
+        <location line="+36"/>
         <source>Failure reason: </source>
         <translation>Motivo da falha: </translation>
     </message>
     <message>
-        <location line="-27"/>
+        <location line="-33"/>
         <source>No file received.</source>
         <translation>Nenhum ficheiro recebido.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>File rejected because of too many uploads.</source>
         <translation>Ficheiro rejeitado devido a demasiados envios.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>File rejected because of too many recent uploads. Please try again later.</source>
         <translation>Ficheiro rejeitado devido a demasiados envios recentes. Tenta novamente mais tarde.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The file is too large.</source>
         <translation>O ficheiro é demasiado grande.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>This file is not a valid and current PokerTH log file.</source>
         <translation>Este ficheiro não é um ficheiro de registo do PokerTH válido e atual.</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Internal error. Please try again later. ID: </source>
         <translation>Erro interno. Tenta novamente mais tarde. ID: </translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Upload failed. Please check your internet connection!
 Uploading log files may fail if you are using an http proxy.</source>
         <translation>O envio falhou. Verifica a tua ligação à internet!
@@ -4252,12 +4325,12 @@ Verifoque o nome de utilizador e senha.</translation>
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+328"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+325"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
         <translation>Imagens (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+302"/>
+        <location line="+189"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Selecionar estilo de mesa de jogo</translation>
     </message>
@@ -4317,7 +4390,7 @@ Verifoque o nome de utilizador e senha.</translation>
         <translation>Já existe um estilo com o nome &quot;%1&quot;.</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+42"/>
         <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
         <translation>O baralho está incompleto, faltam: %1</translation>
     </message>
@@ -4362,7 +4435,7 @@ Verifoque o nome de utilizador e senha.</translation>
         <translation>O cliente substitui o conteúdo em falta por gráficos padrão.</translation>
     </message>
     <message>
-        <location line="-182"/>
+        <location line="-183"/>
         <source>PokerTH-Stile (*.zip *.xml)</source>
         <translation>Estilos do PokerTH (*.zip *.xml)</translation>
     </message>
@@ -4382,7 +4455,7 @@ Verifoque o nome de utilizador e senha.</translation>
         <translation>O arquivo não contém nenhum ficheiro &quot;%1&quot;.</translation>
     </message>
     <message>
-        <location line="+196"/>
+        <location line="+199"/>
         <source>Stil exportieren</source>
         <translation>Exportar estilo</translation>
     </message>

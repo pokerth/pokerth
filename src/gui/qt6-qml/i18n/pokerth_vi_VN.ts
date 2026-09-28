@@ -49,9 +49,13 @@
         <translation>PokerTH %1</translation>
     </message>
     <message>
-        <location line="+13"/>
         <source>- Poker engine for the popular Texas Hold&apos;em Poker</source>
-        <translation>- Bộ máy chơi bài cho Texas Hold&apos;em nổi tiếng</translation>
+        <translation type="vanished">- Bộ máy chơi bài cho Texas Hold&apos;em nổi tiếng</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>- Texas Hold&apos;em poker engine</source>
+        <translation>- Bộ máy poker Texas Hold&apos;em</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -172,7 +176,7 @@
 <context>
     <name>AndroidConnectionService</name>
     <message>
-        <location filename="../cpp/androidconnectionservice.cpp" line="+29"/>
+        <location filename="../cpp/androidconnectionservice.cpp" line="+30"/>
         <source>Connected to the game server</source>
         <translation>Đã kết nối tới máy chủ trò chơi</translation>
     </message>
@@ -203,6 +207,44 @@
         <location line="+1"/>
         <source>Maximum: %1 ms</source>
         <translation>Lớn nhất: %1 ms</translation>
+    </message>
+</context>
+<context>
+    <name>BbcGameDates</name>
+    <message>
+        <location filename="../config/BbcGameDates.qml" line="+66"/>
+        <source>The BBC game dates could not be loaded.</source>
+        <translation>Không thể tải lịch thi đấu BBC.</translation>
+    </message>
+    <message>
+        <location line="+77"/>
+        <source>Today</source>
+        <translation>Hôm nay</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Tomorrow</source>
+        <translation>Ngày mai</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Step %1</source>
+        <translation>Giai đoạn %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Special game</source>
+        <translation>Trận đặc biệt</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>1 player registered</source>
+        <translation>1 người chơi đã đăng ký</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 players registered</source>
+        <translation>%1 người chơi đã đăng ký</translation>
     </message>
 </context>
 <context>
@@ -525,7 +567,7 @@
 <context>
     <name>ForumNews</name>
     <message>
-        <location filename="../config/ForumNews.qml" line="+163"/>
+        <location filename="../config/ForumNews.qml" line="+175"/>
         <location line="+11"/>
         <source>The forum feed could not be loaded.</source>
         <translation>Không tải được tin từ diễn đàn.</translation>
@@ -534,17 +576,33 @@
 <context>
     <name>ForumNewsPage</name>
     <message>
-        <location filename="../pages/ForumNewsPage.qml" line="+58"/>
+        <location filename="../pages/ForumNewsPage.qml" line="+81"/>
         <source>Forum news</source>
         <translation>Tin diễn đàn</translation>
     </message>
     <message>
-        <location line="+172"/>
+        <location line="+0"/>
+        <location line="+21"/>
+        <source>BBC games</source>
+        <translation>Trận BBC</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <source>Forum</source>
+        <translation>Diễn đàn</translation>
+    </message>
+    <message>
+        <location line="+168"/>
         <source>No entries.</source>
         <translation>Không có mục nào.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+147"/>
+        <source>No BBC games in the next %1 days.</source>
+        <translation>Không có trận BBC nào trong %1 ngày tới.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
         <source>Mark all as read</source>
         <translation>Đánh dấu tất cả là đã đọc</translation>
     </message>
@@ -552,6 +610,11 @@
         <location line="+9"/>
         <source>Open the forum</source>
         <translation>Mở diễn đàn</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Register</source>
+        <translation>Đăng ký</translation>
     </message>
 </context>
 <context>
@@ -732,7 +795,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+1581"/>
+        <location filename="../pages/GamePage.qml" line="+1610"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>Lịch sử và cơ hội</translation>
     </message>
@@ -1717,19 +1780,19 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1441"/>
-        <location line="+1347"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1463"/>
+        <location line="+1377"/>
         <source>Guests cannot send chat messages</source>
         <translation>Khách không thể gửi tin nhắn tán gẫu</translation>
     </message>
     <message>
-        <location line="-1328"/>
-        <location line="+1322"/>
+        <location line="-1358"/>
+        <location line="+1352"/>
         <source>Private messages are not available at the table.</source>
         <translation>Không dùng được tin nhắn riêng khi đang ở bàn.</translation>
     </message>
     <message>
-        <location line="-1316"/>
+        <location line="-1346"/>
         <source>Player not found</source>
         <translation>Không tìm thấy người chơi</translation>
     </message>
@@ -1744,146 +1807,146 @@
         <translation>Thông báo vi phạm về hình đại diện đã được ghi nhận bởi hệ thống máy chủ. Cảm ơn bạn.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This avatar was already reported by another player.</source>
         <translation>Hình đại diện này đã bị báo cáo chính sách về hình đại diện bởi một người chơi khác.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>An error occurred while reporting the avatar.</source>
         <translation>Một lỗi đã xảy ra khi tiến hành thông báo vi phạm về hình đại diện.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game name report was accepted by the server. Thank you.</source>
         <translation>Thông báo vi phạm về tên màn chơi đã được ghi nhận bởi hệ thống máy chủ. Cảm ơn bạn.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game name was already reported by another player.</source>
         <translation>Tên của màn chơi này đã bị một người chơi khác thông báo.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>An error occurred while reporting the game name.</source>
         <translation>Một lỗi đã xảy ra khi tiến hành gửi thông báo vi phạm tên màn chơi.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game was closed.</source>
         <translation>Màn chơi đã được đóng.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game could not be closed.</source>
         <translation>Không thể đóng màn chơi.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player was kicked and banned permanently.</source>
         <translation>Người chơi đã bị đuổi và cấm vĩnh viễn.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player was kicked, but could not be banned because it was a guest player.</source>
         <translation>Người chơi đã bị đuổi, nhưng không thể cấm vì đó là người chơi khách.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player was kicked, but could not be banned, 
 because the nick could not be found in the database</source>
         <translation>Người chơi đã bị đuổi, nhưng không thể cấm, 
 vì không tìm thấy biệt danh trong cơ sở dữ liệu</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player could not be found.</source>
         <translation>Không tìm thấy người chơi.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The global notice was sent to all players.</source>
         <translation>Thông báo chung đã được gửi tới tất cả người chơi.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The global notice was rejected by the server.</source>
         <translation>Máy chủ đã từ chối thông báo chung.</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>You cannot join this game, because another player in that game has your network address.</source>
         <translation>Bạn không thể tham gia màn chơi này, vì một người chơi khác trong màn chơi này đang có cùng chung địa chỉ mạng với bạn.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Sorry, this game is already full.</source>
         <translation>Xin lỗi, màn chơi này hiện đã đủ người chơi.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation>Không thể tham gia - hệ thống máy chủ đã bắt đầu màn chơi này.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game is of type invite-only. You cannot join this game without being invited.</source>
         <translation>Màn chơi này thuộc loại chỉ dành cho người chơi được mời trước. Bạn không thể tham gia vào màn chơi này vì chưa nhận được lời mời nào từ chủ bàn.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game name is already in use. Please choose a different name.</source>
         <translation>Tên màn chơi này đã được dùng. Vui lòng chọn tên khác.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game name is invalid. Please choose a different name.</source>
         <translation>Tên màn chơi không hợp lệ. Vui lòng chọn tên khác.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>Sai mật khẩu khi gia nhập vào màn chơi.
 Hãy điền lại mật khẩu và thử lại một lần nữa.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>You cannot join this type of game as guest.</source>
         <translation>Bạn không thể tham gia vào màn chơi này khi bạn đang đăng nhập dưới dạng khách/ẩn danh.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The settings are invalid for this type of game.</source>
         <translation>Thiết lập cho màn chơi này đã bị lỗi.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game does not allow spectators.</source>
         <translation>Màn chơi này không cho phép người xem.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Could not join the game.</source>
         <translation>Không thể tham gia màn chơi.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Your connection to the server is very slow, the game had to start without you.</source>
         <translation>Kết nối hiện tại của bạn tới máy chủ rất chậm, màn chơi này sẽ tự động bắt đầu mà không có bạn.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>You were kicked from the game.</source>
         <translation>Bạn đã bị đuổi khỏi màn chơi.</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>You were removed due to inactivity.</source>
         <translation>Bạn đã bị loại vì không hoạt động.</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 hiện không ở trong phòng chờ.</translation>
     </message>
@@ -1922,22 +1985,22 @@ Hãy điền lại mật khẩu và thử lại một lần nữa.</translation>
         <translation>Tin nhắn riêng gửi tới %1:</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+97"/>
         <source>Registered players only</source>
         <translation>Chỉ dành cho người chơi đã đăng ký</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Invited players only</source>
         <translation>Chỉ dành cho người chơi được mời</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Ranking game</source>
         <translation>Màn chơi được xếp hạng trên hệ thống máy chủ</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Standard</source>
         <translation>Tiêu Chuẩn</translation>
     </message>
@@ -1962,7 +2025,7 @@ Hãy điền lại mật khẩu và thử lại một lần nữa.</translation>
         <translation>Đã đủ người</translation>
     </message>
     <message>
-        <location line="-221"/>
+        <location line="-225"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 không thể tham gia %2 vì đang bận.</translation>
     </message>
@@ -2351,7 +2414,7 @@ PokerTH có thể thu nhỏ ảnh giúp bạn. Hình đại diện mới sẽ c�
 <context>
     <name>LobbyStatsBar</name>
     <message>
-        <location filename="../components/LobbyStatsBar.qml" line="+23"/>
+        <location filename="../components/LobbyStatsBar.qml" line="+37"/>
         <source>%1 players · %2 running · %3 open</source>
         <translation>%1 người chơi · %2 đang diễn ra · %3 đang mở</translation>
     </message>
@@ -2371,7 +2434,17 @@ PokerTH có thể thu nhỏ ảnh giúp bạn. Hình đại diện mới sẽ c�
         <translation>những màn chơi mở: %1</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+26"/>
+        <source>Berlin %1</source>
+        <translation>Berlin %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Server time (Berlin): %1</source>
+        <translation>Giờ máy chủ (Berlin): %1</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>PokerTH.net</source>
         <translation>PokerTH.net</translation>
     </message>
@@ -2648,7 +2721,7 @@ PokerTH có thể thu nhỏ ảnh giúp bạn. Hình đại diện mới sẽ c�
 <context>
     <name>LogHandler</name>
     <message>
-        <location filename="../cpp/loghandler.cpp" line="+361"/>
+        <location filename="../cpp/loghandler.cpp" line="+407"/>
         <source>Export PokerTH log file to HTML</source>
         <translation>Xuất tệp nhật ký PokerTH sang HTML</translation>
     </message>
@@ -2706,42 +2779,42 @@ Vui lòng kiểm tra rằng bạn đang tải lên một tệp nhật ký PokerT
     </message>
     <message>
         <location line="+4"/>
-        <location line="+30"/>
+        <location line="+36"/>
         <source>Failure reason: </source>
         <translation>Lý do thất bại: </translation>
     </message>
     <message>
-        <location line="-27"/>
+        <location line="-33"/>
         <source>No file received.</source>
         <translation>Không nhận được tệp nào.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>File rejected because of too many uploads.</source>
         <translation>Tệp bị từ chối vì có quá nhiều lượt tải lên.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>File rejected because of too many recent uploads. Please try again later.</source>
         <translation>Tệp bị từ chối vì gần đây có quá nhiều lượt tải lên. Vui lòng thử lại sau.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The file is too large.</source>
         <translation>Tệp quá lớn.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>This file is not a valid and current PokerTH log file.</source>
         <translation>Tệp này không phải là tệp nhật ký PokerTH hợp lệ và hiện hành.</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Internal error. Please try again later. ID: </source>
         <translation>Lỗi nội bộ. Vui lòng thử lại sau. ID: </translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Upload failed. Please check your internet connection!
 Uploading log files may fail if you are using an http proxy.</source>
         <translation>Tải lên thất bại. Vui lòng kiểm tra kết nối Internet của bạn!
@@ -4252,12 +4325,12 @@ Vui lòng kiểm tra tên đăng nhập và mật khẩu lần nữa.</translati
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+328"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+325"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
         <translation>Hình ảnh (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+302"/>
+        <location line="+189"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Chọn kiểu bàn chơi</translation>
     </message>
@@ -4317,7 +4390,7 @@ Vui lòng kiểm tra tên đăng nhập và mật khẩu lần nữa.</translati
         <translation>Đã có một kiểu tên là „%1“.</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+42"/>
         <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
         <translation>Bộ bài không đầy đủ, còn thiếu: %1</translation>
     </message>
@@ -4362,7 +4435,7 @@ Vui lòng kiểm tra tên đăng nhập và mật khẩu lần nữa.</translati
         <translation>Phần nội dung còn thiếu sẽ được ứng dụng thay bằng hình mặc định.</translation>
     </message>
     <message>
-        <location line="-182"/>
+        <location line="-183"/>
         <source>PokerTH-Stile (*.zip *.xml)</source>
         <translation>Kiểu PokerTH (*.zip *.xml)</translation>
     </message>
@@ -4382,7 +4455,7 @@ Vui lòng kiểm tra tên đăng nhập và mật khẩu lần nữa.</translati
         <translation>Kho lưu trữ không chứa tệp „%1“.</translation>
     </message>
     <message>
-        <location line="+196"/>
+        <location line="+199"/>
         <source>Stil exportieren</source>
         <translation>Xuất kiểu</translation>
     </message>

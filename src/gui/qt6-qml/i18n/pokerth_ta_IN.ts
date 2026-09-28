@@ -49,9 +49,13 @@
         <translation>போகர்டேஹோ %1</translation>
     </message>
     <message>
-        <location line="+13"/>
         <source>- Poker engine for the popular Texas Hold&apos;em Poker</source>
-        <translation>- பிரபலமான Texas Hold&apos;em போக்கருக்கான விளையாட்டு இயந்திரம்</translation>
+        <translation type="vanished">- பிரபலமான Texas Hold&apos;em போக்கருக்கான விளையாட்டு இயந்திரம்</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>- Texas Hold&apos;em poker engine</source>
+        <translation>- டெக்சாஸ் ஹோல்டெம் போக்கர் இயந்திரம்</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -172,7 +176,7 @@
 <context>
     <name>AndroidConnectionService</name>
     <message>
-        <location filename="../cpp/androidconnectionservice.cpp" line="+29"/>
+        <location filename="../cpp/androidconnectionservice.cpp" line="+30"/>
         <source>Connected to the game server</source>
         <translation>விளையாட்டு வழங்கியுடன் இணைக்கப்பட்டது</translation>
     </message>
@@ -203,6 +207,44 @@
         <location line="+1"/>
         <source>Maximum: %1 ms</source>
         <translation>அதிகபட்சம்: %1 ms</translation>
+    </message>
+</context>
+<context>
+    <name>BbcGameDates</name>
+    <message>
+        <location filename="../config/BbcGameDates.qml" line="+66"/>
+        <source>The BBC game dates could not be loaded.</source>
+        <translation>BBC ஆட்டத் தேதிகளை ஏற்ற முடியவில்லை.</translation>
+    </message>
+    <message>
+        <location line="+77"/>
+        <source>Today</source>
+        <translation>இன்று</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Tomorrow</source>
+        <translation>நாளை</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Step %1</source>
+        <translation>நிலை %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Special game</source>
+        <translation>சிறப்பு ஆட்டம்</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>1 player registered</source>
+        <translation>1 வீரர் பதிவு செய்துள்ளார்</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 players registered</source>
+        <translation>%1 வீரர்கள் பதிவு செய்துள்ளனர்</translation>
     </message>
 </context>
 <context>
@@ -525,7 +567,7 @@
 <context>
     <name>ForumNews</name>
     <message>
-        <location filename="../config/ForumNews.qml" line="+163"/>
+        <location filename="../config/ForumNews.qml" line="+175"/>
         <location line="+11"/>
         <source>The forum feed could not be loaded.</source>
         <translation>மன்றத்தின் செய்திகளை ஏற்ற இயலவில்லை.</translation>
@@ -534,17 +576,33 @@
 <context>
     <name>ForumNewsPage</name>
     <message>
-        <location filename="../pages/ForumNewsPage.qml" line="+58"/>
+        <location filename="../pages/ForumNewsPage.qml" line="+81"/>
         <source>Forum news</source>
         <translation>மன்றச் செய்திகள்</translation>
     </message>
     <message>
-        <location line="+172"/>
+        <location line="+0"/>
+        <location line="+21"/>
+        <source>BBC games</source>
+        <translation>BBC ஆட்டங்கள்</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <source>Forum</source>
+        <translation>மன்றம்</translation>
+    </message>
+    <message>
+        <location line="+168"/>
         <source>No entries.</source>
         <translation>பதிவுகள் இல்லை.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+147"/>
+        <source>No BBC games in the next %1 days.</source>
+        <translation>அடுத்த %1 நாட்களில் BBC ஆட்டங்கள் இல்லை.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
         <source>Mark all as read</source>
         <translation>அனைத்தையும் படித்ததாகக் குறி</translation>
     </message>
@@ -552,6 +610,11 @@
         <location line="+9"/>
         <source>Open the forum</source>
         <translation>மன்றத்தைத் திற</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Register</source>
+        <translation>பதிவு செய்</translation>
     </message>
 </context>
 <context>
@@ -732,7 +795,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+1581"/>
+        <location filename="../pages/GamePage.qml" line="+1610"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>வரலாறும் வாய்ப்புகளும்</translation>
     </message>
@@ -1717,19 +1780,19 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1441"/>
-        <location line="+1347"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1463"/>
+        <location line="+1377"/>
         <source>Guests cannot send chat messages</source>
         <translation>விருந்தினர்கள் உரையாடல் செய்திகளை அனுப்ப முடியாது</translation>
     </message>
     <message>
-        <location line="-1328"/>
-        <location line="+1322"/>
+        <location line="-1358"/>
+        <location line="+1352"/>
         <source>Private messages are not available at the table.</source>
         <translation>மேசையில் தனிப்பட்ட செய்திகள் கிடைக்காது.</translation>
     </message>
     <message>
-        <location line="-1316"/>
+        <location line="-1346"/>
         <source>Player not found</source>
         <translation>விளையாட்டு வீரர் கிடைக்கவில்லை</translation>
     </message>
@@ -1744,146 +1807,146 @@
         <translation>அவதார் பற்றிய புகார் வழங்கியால் ஏற்கப்பட்டது. நன்றி.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This avatar was already reported by another player.</source>
         <translation>இந்த அவதார் ஏற்கனவே மற்றொரு வீரரால் புகாரளிக்கப்பட்டுள்ளது.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>An error occurred while reporting the avatar.</source>
         <translation>அவதாரைப் புகாரளிக்கும்போது பிழை ஏற்பட்டது.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game name report was accepted by the server. Thank you.</source>
         <translation>விளையாட்டுப் பெயர் பற்றிய புகார் வழங்கியால் ஏற்கப்பட்டது. நன்றி.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game name was already reported by another player.</source>
         <translation>இந்த விளையாட்டுப் பெயர் ஏற்கனவே மற்றொரு வீரரால் புகாரளிக்கப்பட்டுள்ளது.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>An error occurred while reporting the game name.</source>
         <translation>விளையாட்டுப் பெயரைப் புகாரளிக்கும்போது பிழை ஏற்பட்டது.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game was closed.</source>
         <translation>விளையாட்டு மூடப்பட்டது.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game could not be closed.</source>
         <translation>விளையாட்டை மூட இயலவில்லை.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player was kicked and banned permanently.</source>
         <translation>வீரர் வெளியேற்றப்பட்டு நிரந்தரமாகத் தடை செய்யப்பட்டார்.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player was kicked, but could not be banned because it was a guest player.</source>
         <translation>வீரர் வெளியேற்றப்பட்டார், ஆனால் விருந்தினர் என்பதால் தடை செய்ய இயலவில்லை.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player was kicked, but could not be banned, 
 because the nick could not be found in the database</source>
         <translation>வீரர் வெளியேற்றப்பட்டார், ஆனால் தடை செய்ய இயலவில்லை, 
 ஏனெனில் அவரது புனைபெயர் தரவுத்தளத்தில் கிடைக்கவில்லை</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player could not be found.</source>
         <translation>விளையாட்டு வீரரைக் கண்டுபிடிக்க இயலவில்லை.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The global notice was sent to all players.</source>
         <translation>பொது அறிவிப்பு அனைத்து வீரர்களுக்கும் அனுப்பப்பட்டது.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The global notice was rejected by the server.</source>
         <translation>வழங்கி பொது அறிவிப்பை நிராகரித்தது.</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>You cannot join this game, because another player in that game has your network address.</source>
         <translation>இந்த விளையாட்டில் சேர இயலாது, ஏனெனில் அதில் உள்ள மற்றொரு வீரருக்கு அதே வலைப்பின்னல் முகவரி உள்ளது.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Sorry, this game is already full.</source>
         <translation>மன்னிக்கவும், இந்த விளையாட்டு ஏற்கனவே நிரம்பிவிட்டது.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation>சேர இயலவில்லை - வழங்கி ஏற்கனவே விளையாட்டைத் தொடங்கிவிட்டது.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game is of type invite-only. You cannot join this game without being invited.</source>
         <translation>இந்த விளையாட்டு அழைப்பு பெற்றவர்களுக்கு மட்டும். அழைப்பு இல்லாமல் சேர இயலாது.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game name is already in use. Please choose a different name.</source>
         <translation>இந்த விளையாட்டுப் பெயர் ஏற்கனவே பயன்பாட்டில் உள்ளது. வேறு பெயரைத் தேர்ந்தெடுக்கவும்.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game name is invalid. Please choose a different name.</source>
         <translation>விளையாட்டின் பெயர் செல்லாது. வேறு பெயரைத் தேர்ந்தெடுக்கவும்.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>விளையட்டினுள் நுழையும் பொழுது உபயோகித்த இரகசிய வார்த்தை தவறு.
 தயவு செய்து சரியான இரகசிய வார்த்தையை உபயோகித்து மீண்டும் முயற்ச்சி செய்யவும்.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>You cannot join this type of game as guest.</source>
         <translation>இவ்வகையான விளையாட்டில் ஒரு விருந்தாளியாக நீங்கள் சேர முடியாது.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The settings are invalid for this type of game.</source>
         <translation>இவ்வகை விளையாட்டுக்கு இந்த அமைப்புகள் செல்லாது.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game does not allow spectators.</source>
         <translation>இந்த விளையாட்டு பார்வையாளர்களை அனுமதிக்கவில்லை.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Could not join the game.</source>
         <translation>விளையாட்டில் சேர இயலவில்லை.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Your connection to the server is very slow, the game had to start without you.</source>
         <translation>வழங்கியுடனான உங்கள் இணைப்பு மிகவும் மெதுவாக உள்ளது, விளையாட்டு உங்களை விட்டுத் தொடங்க வேண்டியிருந்தது.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>You were kicked from the game.</source>
         <translation>நீங்கள் விளையாட்டிலிருந்து நீக்கப்பட்டுள்ளீர்.</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>You were removed due to inactivity.</source>
         <translation>செயலற்ற நிலையின் காரணமாக நீங்கள் நீக்கப்பட்டீர்கள்.</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 தற்போது வரவேற்பறையில் இல்லை.</translation>
     </message>
@@ -1922,22 +1985,22 @@ Please reenter the password and try again.</source>
         <translation>%1 க்கான தனிப்பட்ட செய்தி:</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+97"/>
         <source>Registered players only</source>
         <translation>பதிவான விளையாட்டு வீரர்கள் மட்டும்</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Invited players only</source>
         <translation>அழைப்பு பெற்ற வீரர்கள் மட்டும்</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Ranking game</source>
         <translation>தரவரிசை விளையாட்டு</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Standard</source>
         <translation>சாதாரண விளையாட்டு</translation>
     </message>
@@ -1962,7 +2025,7 @@ Please reenter the password and try again.</source>
         <translation>நிரம்பியது</translation>
     </message>
     <message>
-        <location line="-221"/>
+        <location line="-225"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 பணியில் இருப்பதால் %2 இல் சேர இயலவில்லை.</translation>
     </message>
@@ -2351,7 +2414,7 @@ PokerTH அதைச் சிறிதாக்க முடியும். �
 <context>
     <name>LobbyStatsBar</name>
     <message>
-        <location filename="../components/LobbyStatsBar.qml" line="+23"/>
+        <location filename="../components/LobbyStatsBar.qml" line="+37"/>
         <source>%1 players · %2 running · %3 open</source>
         <translation>%1 வீரர்கள் · %2 நடைபெறுகிறது · %3 திறந்துள்ளது</translation>
     </message>
@@ -2371,7 +2434,17 @@ PokerTH அதைச் சிறிதாக்க முடியும். �
         <translation>ஆரம்பித்த விளையாட்டுகள்: %1</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+26"/>
+        <source>Berlin %1</source>
+        <translation>பெர்லின் %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Server time (Berlin): %1</source>
+        <translation>சேவையக நேரம் (பெர்லின்): %1</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>PokerTH.net</source>
         <translation>PokerTH.net</translation>
     </message>
@@ -2648,7 +2721,7 @@ PokerTH அதைச் சிறிதாக்க முடியும். �
 <context>
     <name>LogHandler</name>
     <message>
-        <location filename="../cpp/loghandler.cpp" line="+361"/>
+        <location filename="../cpp/loghandler.cpp" line="+407"/>
         <source>Export PokerTH log file to HTML</source>
         <translation>PokerTH பதிவுக் கோப்பை HTML ஆக ஏற்றுமதி செய்</translation>
     </message>
@@ -2706,42 +2779,42 @@ Please verify that you are uploading a valid PokerTH log file.</source>
     </message>
     <message>
         <location line="+4"/>
-        <location line="+30"/>
+        <location line="+36"/>
         <source>Failure reason: </source>
         <translation>தோல்விக்கான காரணம்: </translation>
     </message>
     <message>
-        <location line="-27"/>
+        <location line="-33"/>
         <source>No file received.</source>
         <translation>கோப்பு எதுவும் பெறப்படவில்லை.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>File rejected because of too many uploads.</source>
         <translation>அதிக பதிவேற்றங்கள் காரணமாக கோப்பு நிராகரிக்கப்பட்டது.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>File rejected because of too many recent uploads. Please try again later.</source>
         <translation>சமீபத்தில் அதிக பதிவேற்றங்கள் காரணமாக கோப்பு நிராகரிக்கப்பட்டது. பின்னர் முயற்சிக்கவும்.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The file is too large.</source>
         <translation>கோப்பு மிகப் பெரியது.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>This file is not a valid and current PokerTH log file.</source>
         <translation>இந்தக் கோப்பு செல்லுபடியாகும் தற்போதைய PokerTH பதிவுக் கோப்பு அல்ல.</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Internal error. Please try again later. ID: </source>
         <translation>உள் பிழை. பின்னர் மீண்டும் முயற்சிக்கவும். ID: </translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Upload failed. Please check your internet connection!
 Uploading log files may fail if you are using an http proxy.</source>
         <translation>பதிவேற்றம் தோல்வியடைந்தது. உங்கள் இணைய இணைப்பைச் சரிபார்க்கவும்!
@@ -4252,12 +4325,12 @@ Please check your username and password.</source>
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+328"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+325"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
         <translation>படங்கள் (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+302"/>
+        <location line="+189"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>மேசைப் பாணியைத் தேர்ந்தெடு</translation>
     </message>
@@ -4317,7 +4390,7 @@ Please check your username and password.</source>
         <translation>„%1“ என்ற பெயரில் ஒரு பாணி ஏற்கனவே உள்ளது.</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+42"/>
         <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
         <translation>சீட்டுக் கட்டு முழுமையற்றது, விடுபட்டவை: %1</translation>
     </message>
@@ -4362,7 +4435,7 @@ Please check your username and password.</source>
         <translation>விடுபட்ட உள்ளடக்கத்தை வாடிக்கையாளர் இயல்புநிலைப் படங்களால் நிரப்பும்.</translation>
     </message>
     <message>
-        <location line="-182"/>
+        <location line="-183"/>
         <source>PokerTH-Stile (*.zip *.xml)</source>
         <translation>PokerTH பாணிகள் (*.zip *.xml)</translation>
     </message>
@@ -4382,7 +4455,7 @@ Please check your username and password.</source>
         <translation>காப்பகத்தில் „%1“ கோப்பு இல்லை.</translation>
     </message>
     <message>
-        <location line="+196"/>
+        <location line="+199"/>
         <source>Stil exportieren</source>
         <translation>பாணியை ஏற்றுமதி செய்</translation>
     </message>

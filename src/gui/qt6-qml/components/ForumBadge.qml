@@ -11,7 +11,8 @@ Rectangle {
     property string forum: ""
     property real maxWidth: 78
 
-    readonly property color accent: Config.ForumNews.forumColor(forum)
+    // Overridable for badges that are not a forum (BBC steps).
+    property color accent: Config.ForumNews.forumColor(forum)
 
     // Width via TextMetrics instead of via the label: the label gets its width
     // from the badge, a binding on label.implicitWidth would be a binding

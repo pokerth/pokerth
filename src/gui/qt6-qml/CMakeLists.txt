@@ -162,6 +162,7 @@ set(QML_FILES
     components/ResizeHandle.qml
     components/SeasonStatsSection.qml
     components/SectionDivider.qml
+    components/SegmentedSwitch.qml
     components/SettingsHeader.qml
     components/SideMenu.qml
     components/SoundSettings.qml
@@ -194,6 +195,7 @@ set(QML_FILES
     pages/SettingsPage.qml
     pages/StartPage.qml
     pages/WecRankingPage.qml
+    config/BbcGameDates.qml
     config/BotSuggest.qml
     config/Community.qml
     config/ForumNews.qml

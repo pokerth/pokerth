@@ -10,7 +10,11 @@ import "../components"
 // web client (the "Forum news" window there). A tap opens the post
 // IN the app (ForumPostPage), not in the browser.
 //
-// Data, deduplication and read status live in Config.ForumNews.
+// Second tab (switch top right): the BBC game dates of the next days with
+// the number of registered players; registering happens on the BBC site.
+//
+// Data, deduplication and read status live in Config.ForumNews, the game
+// dates in Config.BbcGameDates.
 Rectangle {
     id: forumPage
     objectName: "forumNewsPage"
@@ -21,9 +25,28 @@ Rectangle {
     readonly property bool compact: Config.Responsive.compact
     readonly property bool listEmpty: Config.ForumNews.posts.length === 0
 
+    // "forum" | "bbc"
+    property string tab: "forum"
+    readonly property bool bbcTab: tab === "bbc"
+
     // Refresh when opening; the TTL in the singleton prevents every
     // open from triggering a fetch.
     Component.onCompleted: Config.ForumNews.refresh(false)
+    onTabChanged: {
+        if (tab === "bbc")
+            Config.BbcGameDates.refresh(false)
+    }
+
+    // Step colours as on the BBC calendar (info/primary/success/warning/danger).
+    function stepColor(step) {
+        switch (step) {
+        case 1: return Config.Theme.isDark ? Config.Theme.colorAccent : Config.Theme.colorAccentDim
+        case 2: return Config.Theme.colorSuccess
+        case 3: return "#e89a30"
+        case 4: return Config.Theme.colorDanger
+        default: return Config.Theme.colorTimeoutSelf
+        }
+    }
 
     function openPost(post) {
         if (post)
@@ -55,185 +78,349 @@ Rectangle {
             spacing: 8
 
             AppLabel {
-                text: qsTr("Forum news")
+                text: forumPage.bbcTab ? qsTr("BBC games") : qsTr("Forum news")
                 Layout.fillWidth: true
+                elide: Text.ElideRight
                 color: Config.StaticData.palette.secondary.col200
                 font.pointSize: 14
                 font.bold: true
             }
 
             BusyIndicator {
-                running: Config.ForumNews.loading
+                running: forumPage.bbcTab ? Config.BbcGameDates.loading
+                                          : Config.ForumNews.loading
                 visible: running
                 implicitWidth: 22
                 implicitHeight: 22
             }
+
+            SegmentedSwitch {
+                objectName: "forumNewsTabSwitch"
+                Layout.alignment: Qt.AlignVCenter
+                model: [
+                    { key: "forum", label: qsTr("Forum") },
+                    { key: "bbc",   label: qsTr("BBC games") }
+                ]
+                current: forumPage.tab
+                onSelected: function(key) { forumPage.tab = key }
+            }
         }
 
-        Rectangle {
+        StackLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            color: Config.StaticData.palette.secondary.col600
-            border.color: Config.StaticData.palette.secondary.col500
-            border.width: 1
-            radius: 4
+            currentIndex: forumPage.bbcTab ? 1 : 0
 
-            ListView {
-                id: postList
-                anchors.fill: parent
-                anchors.margins: 1
-                clip: true
-                model: Config.ForumNews.posts
-                boundsBehavior: Flickable.StopAtBounds
+            Rectangle {
+                color: Config.StaticData.palette.secondary.col600
+                border.color: Config.StaticData.palette.secondary.col500
+                border.width: 1
+                radius: 4
 
-                // Keyboard operation: Tab leads into the list, the arrows change the
-                // row, Enter opens the post (like a click).
-                activeFocusOnTab: true
-                keyNavigationEnabled: true
-                // Directly from the model instead of via currentItem: a ListView
-                // only creates the visible delegates, so currentItem can be
-                // null.
-                function openCurrent() {
-                    var post = Config.ForumNews.posts[postList.currentIndex]
-                    if (post)
-                        forumPage.openPost(post)
-                }
-                Keys.onReturnPressed: postList.openCurrent()
-                Keys.onEnterPressed: postList.openCurrent()
-                ScrollBar.vertical: ScrollBar {
-                    policy: postList.contentHeight > postList.height + 4
-                            ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
-                }
+                ListView {
+                    id: postList
+                    anchors.fill: parent
+                    anchors.margins: 1
+                    clip: true
+                    model: Config.ForumNews.posts
+                    boundsBehavior: Flickable.StopAtBounds
 
-                delegate: Item {
-                    id: postDelegate
-                    required property int index
-                    required property var modelData
-
-                    // Read readRevision so that the row is re-evaluated after
-                    // "read" (a function call alone creates no binding
-                    // dependency).
-                    readonly property bool unread: {
-                        var _rev = Config.ForumNews.readRevision
-                        return Config.ForumNews.isUnread(modelData)
+                    // Keyboard operation: Tab leads into the list, the arrows change the
+                    // row, Enter opens the post (like a click).
+                    activeFocusOnTab: true
+                    keyNavigationEnabled: true
+                    // Directly from the model instead of via currentItem: a ListView
+                    // only creates the visible delegates, so currentItem can be
+                    // null.
+                    function openCurrent() {
+                        var post = Config.ForumNews.posts[postList.currentIndex]
+                        if (post)
+                            forumPage.openPost(post)
+                    }
+                    Keys.onReturnPressed: postList.openCurrent()
+                    Keys.onEnterPressed: postList.openCurrent()
+                    ScrollBar.vertical: ScrollBar {
+                        policy: postList.contentHeight > postList.height + 4
+                                ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
                     }
 
-                    width: ListView.view.width
-                    height: Math.max(forumPage.compact ? 58 : 50,
-                                     textColumn.implicitHeight + 16)
+                    delegate: Item {
+                        id: postDelegate
+                        required property int index
+                        required property var modelData
 
-                    // Current row of the keyboard navigation – only while the
-                    // list has the focus, otherwise the mouse user would see a
-                    // highlight they never touched.
-                    readonly property bool keyboardCurrent: ListView.isCurrentItem
-                                                            && postList.activeFocus
-
-                    Rectangle {
-                        anchors.fill: parent
-                        color: rowHover.hovered || postDelegate.keyboardCurrent
-                               ? Config.Theme.colorHover
-                               : (postDelegate.index % 2 === 0
-                                  ? Config.Theme.colorBox
-                                  : Config.StaticData.palette.secondary.col600)
-
-                        // The accent stripe on the left marks the keyboard selection.
-                        Rectangle {
-                            anchors.left: parent.left
-                            anchors.top: parent.top
-                            anchors.bottom: parent.bottom
-                            width: 3
-                            visible: postDelegate.keyboardCurrent
-                            color: Config.Theme.colorAccent
+                        // Read readRevision so that the row is re-evaluated after
+                        // "read" (a function call alone creates no binding
+                        // dependency).
+                        readonly property bool unread: {
+                            var _rev = Config.ForumNews.readRevision
+                            return Config.ForumNews.isUnread(modelData)
                         }
+
+                        width: ListView.view.width
+                        height: Math.max(forumPage.compact ? 58 : 50,
+                                         textColumn.implicitHeight + 16)
+
+                        // Current row of the keyboard navigation – only while the
+                        // list has the focus, otherwise the mouse user would see a
+                        // highlight they never touched.
+                        readonly property bool keyboardCurrent: ListView.isCurrentItem
+                                                                && postList.activeFocus
 
                         Rectangle {
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            anchors.bottom: parent.bottom
-                            height: 1
-                            color: Config.StaticData.palette.secondary.col500
-                            opacity: 0.5
-                        }
-                    }
+                            anchors.fill: parent
+                            color: rowHover.hovered || postDelegate.keyboardCurrent
+                                   ? Config.Theme.colorHover
+                                   : (postDelegate.index % 2 === 0
+                                      ? Config.Theme.colorBox
+                                      : Config.StaticData.palette.secondary.col600)
 
-                    RowLayout {
-                        anchors.fill: parent
-                        anchors.leftMargin: 10
-                        anchors.rightMargin: postList.contentHeight > postList.height + 4 ? 16 : 10
-                        anchors.topMargin: 6
-                        anchors.bottomMargin: 6
-                        spacing: 10
-
-                        ForumBadge {
-                            forum: postDelegate.modelData.forum || ""
-                            Layout.alignment: Qt.AlignVCenter
-                        }
-
-                        ColumnLayout {
-                            id: textColumn
-                            Layout.fillWidth: true
-                            spacing: 1
-
-                            AppText {
-                                Layout.fillWidth: true
-                                text: postDelegate.modelData.title || ""
-                                elide: Text.ElideRight
-                                color: postDelegate.unread
-                                       ? Config.StaticData.palette.secondary.col100
-                                       : Config.StaticData.palette.secondary.col200
-                                font.pixelSize: Config.Theme.fontSizeBody
-                                font.bold: postDelegate.unread
+                            // The accent stripe on the left marks the keyboard selection.
+                            Rectangle {
+                                anchors.left: parent.left
+                                anchors.top: parent.top
+                                anchors.bottom: parent.bottom
+                                width: 3
+                                visible: postDelegate.keyboardCurrent
+                                color: Config.Theme.colorAccent
                             }
 
-                            AppText {
+                            Rectangle {
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                anchors.bottom: parent.bottom
+                                height: 1
+                                color: Config.StaticData.palette.secondary.col500
+                                opacity: 0.5
+                            }
+                        }
+
+                        RowLayout {
+                            anchors.fill: parent
+                            anchors.leftMargin: 10
+                            anchors.rightMargin: postList.contentHeight > postList.height + 4 ? 16 : 10
+                            anchors.topMargin: 6
+                            anchors.bottomMargin: 6
+                            spacing: 10
+
+                            ForumBadge {
+                                forum: postDelegate.modelData.forum || ""
+                                Layout.alignment: Qt.AlignVCenter
+                            }
+
+                            ColumnLayout {
+                                id: textColumn
                                 Layout.fillWidth: true
-                                text: {
-                                    var a = postDelegate.modelData.author || ""
-                                    var d = Config.ForumNews.formatDate(postDelegate.modelData.ts)
-                                    return a !== "" && d !== "" ? a + " · " + d : a + d
+                                spacing: 1
+
+                                AppText {
+                                    Layout.fillWidth: true
+                                    text: postDelegate.modelData.title || ""
+                                    elide: Text.ElideRight
+                                    color: postDelegate.unread
+                                           ? Config.StaticData.palette.secondary.col100
+                                           : Config.StaticData.palette.secondary.col200
+                                    font.pixelSize: Config.Theme.fontSizeBody
+                                    font.bold: postDelegate.unread
                                 }
-                                elide: Text.ElideRight
-                                color: Config.StaticData.palette.secondary.col400
-                                font.pixelSize: Config.Theme.fontSizeCaption
+
+                                AppText {
+                                    Layout.fillWidth: true
+                                    text: {
+                                        var a = postDelegate.modelData.author || ""
+                                        var d = Config.ForumNews.formatDate(postDelegate.modelData.ts)
+                                        return a !== "" && d !== "" ? a + " · " + d : a + d
+                                    }
+                                    elide: Text.ElideRight
+                                    color: Config.StaticData.palette.secondary.col400
+                                    font.pixelSize: Config.Theme.fontSizeCaption
+                                }
+                            }
+
+                            // State dot: filled = unread, empty ring = read
+                            // (like .fn-dot / .fn-dot-read in the web client).
+                            Rectangle {
+                                Layout.alignment: Qt.AlignVCenter
+                                implicitWidth: 9
+                                implicitHeight: 9
+                                radius: 4.5
+                                color: postDelegate.unread ? Config.Theme.colorAccent : "transparent"
+                                border.color: Config.Theme.colorAccentDim
+                                border.width: postDelegate.unread ? 0 : 1.5
+                                opacity: postDelegate.unread ? 1 : 0.55
                             }
                         }
 
-                        // State dot: filled = unread, empty ring = read
-                        // (like .fn-dot / .fn-dot-read in the web client).
-                        Rectangle {
-                            Layout.alignment: Qt.AlignVCenter
-                            implicitWidth: 9
-                            implicitHeight: 9
-                            radius: 4.5
-                            color: postDelegate.unread ? Config.Theme.colorAccent : "transparent"
-                            border.color: Config.Theme.colorAccentDim
-                            border.width: postDelegate.unread ? 0 : 1.5
-                            opacity: postDelegate.unread ? 1 : 0.55
+                        HoverHandler {
+                            id: rowHover
+                            cursorShape: Qt.PointingHandCursor
+                        }
+                        TapHandler {
+                            onTapped: forumPage.openPost(postDelegate.modelData)
                         }
                     }
+                }
 
-                    HoverHandler {
-                        id: rowHover
-                        cursorShape: Qt.PointingHandCursor
-                    }
-                    TapHandler {
-                        onTapped: forumPage.openPost(postDelegate.modelData)
-                    }
+                AppLabel {
+                    anchors.centerIn: parent
+                    width: parent.width - 32
+                    visible: forumPage.listEmpty && !Config.ForumNews.loading
+                    text: Config.ForumNews.errorText !== ""
+                          ? Config.ForumNews.errorText : qsTr("No entries.")
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WordWrap
+                    color: Config.ForumNews.errorText !== ""
+                           ? Config.Theme.colorDanger
+                           : Config.StaticData.palette.secondary.col300
+                    font.pixelSize: Config.Theme.fontSizeBody
                 }
             }
 
-            AppLabel {
-                anchors.centerIn: parent
-                width: parent.width - 32
-                visible: forumPage.listEmpty && !Config.ForumNews.loading
-                text: Config.ForumNews.errorText !== ""
-                      ? Config.ForumNews.errorText : qsTr("No entries.")
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.WordWrap
-                color: Config.ForumNews.errorText !== ""
-                       ? Config.Theme.colorDanger
-                       : Config.StaticData.palette.secondary.col300
-                font.pixelSize: Config.Theme.fontSizeBody
+            // BBC game dates, grouped by (local) day.
+            Rectangle {
+                color: Config.StaticData.palette.secondary.col600
+                border.color: Config.StaticData.palette.secondary.col500
+                border.width: 1
+                radius: 4
+
+                ListView {
+                    id: gameList
+                    anchors.fill: parent
+                    anchors.margins: 1
+                    clip: true
+                    model: Config.BbcGameDates.games
+                    boundsBehavior: Flickable.StopAtBounds
+                    activeFocusOnTab: true
+                    keyNavigationEnabled: true
+                    Keys.onReturnPressed: forumPage.openExternal(Config.BbcGameDates.registrationUrl)
+                    Keys.onEnterPressed: forumPage.openExternal(Config.BbcGameDates.registrationUrl)
+                    ScrollBar.vertical: ScrollBar {
+                        policy: gameList.contentHeight > gameList.height + 4
+                                ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
+                    }
+
+                    delegate: Column {
+                        id: gameDelegate
+                        required property int index
+                        required property var modelData
+
+                        readonly property string day: Config.BbcGameDates.dayKey(modelData.ts)
+                        readonly property bool firstOfDay: {
+                            if (index === 0)
+                                return true
+                            var prev = Config.BbcGameDates.games[index - 1]
+                            return !prev || Config.BbcGameDates.dayKey(prev.ts) !== day
+                        }
+                        readonly property bool full: modelData.num >= Config.BbcGameDates.maxPlayers
+                        readonly property bool keyboardCurrent: ListView.isCurrentItem
+                                                                && gameList.activeFocus
+
+                        width: ListView.view.width
+
+                        // Day header
+                        Rectangle {
+                            visible: gameDelegate.firstOfDay
+                            width: parent.width
+                            height: visible ? dayLabel.implicitHeight + 10 : 0
+                            color: Config.StaticData.palette.secondary.col500
+
+                            AppText {
+                                id: dayLabel
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.leftMargin: 10
+                                anchors.rightMargin: 10
+                                text: Config.BbcGameDates.dayLabel(gameDelegate.day)
+                                elide: Text.ElideRight
+                                color: Config.StaticData.palette.secondary.col100
+                                font.pixelSize: Config.Theme.fontSizeCaption
+                                font.bold: true
+                            }
+                        }
+
+                        Item {
+                            width: parent.width
+                            height: forumPage.compact ? 44 : 38
+
+                            Rectangle {
+                                anchors.fill: parent
+                                color: gameHover.hovered || gameDelegate.keyboardCurrent
+                                       ? Config.Theme.colorHover
+                                       : (gameDelegate.index % 2 === 0
+                                          ? Config.Theme.colorBox
+                                          : Config.StaticData.palette.secondary.col600)
+
+                                Rectangle {
+                                    anchors.left: parent.left
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    width: 3
+                                    visible: gameDelegate.keyboardCurrent
+                                    color: Config.Theme.colorAccent
+                                }
+                            }
+
+                            RowLayout {
+                                anchors.fill: parent
+                                anchors.leftMargin: 10
+                                anchors.rightMargin: gameList.contentHeight > gameList.height + 4 ? 16 : 10
+                                spacing: 10
+
+                                AppText {
+                                    Layout.preferredWidth: Math.max(46, implicitWidth)
+                                    text: Config.BbcGameDates.timeText(gameDelegate.modelData.ts)
+                                    color: Config.StaticData.palette.secondary.col100
+                                    font.pixelSize: Config.Theme.fontSizeBody
+                                    font.bold: true
+                                }
+
+                                ForumBadge {
+                                    Layout.alignment: Qt.AlignVCenter
+                                    maxWidth: 110
+                                    forum: Config.BbcGameDates.gameTitle(gameDelegate.modelData)
+                                    accent: forumPage.stepColor(gameDelegate.modelData.step)
+                                }
+
+                                AppText {
+                                    Layout.fillWidth: true
+                                    text: "(" + Config.BbcGameDates.playersText(gameDelegate.modelData.num) + ")"
+                                    elide: Text.ElideRight
+                                    color: gameDelegate.full
+                                           ? Config.Theme.colorSuccess
+                                           : (gameDelegate.modelData.num > 0
+                                              ? Config.StaticData.palette.secondary.col200
+                                              : Config.StaticData.palette.secondary.col400)
+                                    font.pixelSize: Config.Theme.fontSizeCaption
+                                    font.bold: gameDelegate.full
+                                }
+                            }
+
+                            HoverHandler {
+                                id: gameHover
+                                cursorShape: Qt.PointingHandCursor
+                            }
+                            TapHandler {
+                                onTapped: forumPage.openExternal(Config.BbcGameDates.registrationUrl)
+                            }
+                        }
+                    }
+                }
+
+                AppLabel {
+                    anchors.centerIn: parent
+                    width: parent.width - 32
+                    visible: Config.BbcGameDates.games.length === 0 && !Config.BbcGameDates.loading
+                    text: Config.BbcGameDates.errorText !== ""
+                          ? Config.BbcGameDates.errorText
+                          : qsTr("No BBC games in the next %1 days.").arg(Config.BbcGameDates.daysAhead)
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WordWrap
+                    color: Config.BbcGameDates.errorText !== ""
+                           ? Config.Theme.colorDanger
+                           : Config.StaticData.palette.secondary.col300
+                    font.pixelSize: Config.Theme.fontSizeBody
+                }
             }
         }
 
@@ -241,6 +428,7 @@ Rectangle {
         // In portrait below each other – next to each other the width is not
         // enough for "mark all as read" (CustomButton does not elide).
         GridLayout {
+            visible: !forumPage.bbcTab
             Layout.fillWidth: true
             columns: forumPage.compact ? 1 : 2
             columnSpacing: 8
@@ -261,6 +449,16 @@ Rectangle {
                 text: qsTr("Open the forum")
                 onClicked: forumPage.openExternal(Config.ForumNews.forumUrl)
             }
+        }
+
+        // Registering needs a login on the BBC site → external browser.
+        CustomButton {
+            objectName: "bbcRegisterButton"
+            visible: forumPage.bbcTab
+            Layout.fillWidth: true
+            Layout.preferredHeight: Config.Theme.buttonHeight
+            text: qsTr("Register")
+            onClicked: forumPage.openExternal(Config.BbcGameDates.registrationUrl)
         }
     }
 }

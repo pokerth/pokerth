@@ -49,9 +49,13 @@
         <translation>PokerTH %1</translation>
     </message>
     <message>
-        <location line="+13"/>
         <source>- Poker engine for the popular Texas Hold&apos;em Poker</source>
-        <translation>- Einnsean poker airson Texas Hold&apos;em Poker mòr-chòrdte</translation>
+        <translation type="vanished">- Einnsean poker airson Texas Hold&apos;em Poker mòr-chòrdte</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>- Texas Hold&apos;em poker engine</source>
+        <translation>- Einnsean pòcair Texas Hold&apos;em</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -172,7 +176,7 @@
 <context>
     <name>AndroidConnectionService</name>
     <message>
-        <location filename="../cpp/androidconnectionservice.cpp" line="+29"/>
+        <location filename="../cpp/androidconnectionservice.cpp" line="+30"/>
         <source>Connected to the game server</source>
         <translation>Ceangailte ri frithealaiche nan geamannan</translation>
     </message>
@@ -203,6 +207,44 @@
         <location line="+1"/>
         <source>Maximum: %1 ms</source>
         <translation>As motha: %1 ms</translation>
+    </message>
+</context>
+<context>
+    <name>BbcGameDates</name>
+    <message>
+        <location filename="../config/BbcGameDates.qml" line="+66"/>
+        <source>The BBC game dates could not be loaded.</source>
+        <translation>Cha b&apos; urrainn dhuinn cinn-latha nan geamannan BBC a luchdadh.</translation>
+    </message>
+    <message>
+        <location line="+77"/>
+        <source>Today</source>
+        <translation>An-diugh</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Tomorrow</source>
+        <translation>A-màireach</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Step %1</source>
+        <translation>Ceum %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Special game</source>
+        <translation>Geama sònraichte</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>1 player registered</source>
+        <translation>1 chluicheadair clàraichte</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 players registered</source>
+        <translation>Cluicheadairean clàraichte: %1</translation>
     </message>
 </context>
 <context>
@@ -525,7 +567,7 @@
 <context>
     <name>ForumNews</name>
     <message>
-        <location filename="../config/ForumNews.qml" line="+163"/>
+        <location filename="../config/ForumNews.qml" line="+175"/>
         <location line="+11"/>
         <source>The forum feed could not be loaded.</source>
         <translation>Cha b&apos; urrainn dhuinn inbhir a&apos; bhùird-bhrath a luchdadh.</translation>
@@ -534,17 +576,33 @@
 <context>
     <name>ForumNewsPage</name>
     <message>
-        <location filename="../pages/ForumNewsPage.qml" line="+58"/>
+        <location filename="../pages/ForumNewsPage.qml" line="+81"/>
         <source>Forum news</source>
         <translation>Naidheachdan a&apos; bhùird-bhrath</translation>
     </message>
     <message>
-        <location line="+172"/>
+        <location line="+0"/>
+        <location line="+21"/>
+        <source>BBC games</source>
+        <translation>Geamannan BBC</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <source>Forum</source>
+        <translation>Bòrd-brath</translation>
+    </message>
+    <message>
+        <location line="+168"/>
         <source>No entries.</source>
         <translation>Chan eil innteart ann.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+147"/>
+        <source>No BBC games in the next %1 days.</source>
+        <translation>Chan eil geama BBC ann sna %1 làithean ri teachd.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
         <source>Mark all as read</source>
         <translation>Cuir comharra gun deach na h-uile a leughadh</translation>
     </message>
@@ -552,6 +610,11 @@
         <location line="+9"/>
         <source>Open the forum</source>
         <translation>Fosgail am bòrd-brath</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Register</source>
+        <translation>Clàraich</translation>
     </message>
 </context>
 <context>
@@ -732,7 +795,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+1581"/>
+        <location filename="../pages/GamePage.qml" line="+1610"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>Eachdraidh is cothroman</translation>
     </message>
@@ -1717,19 +1780,19 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1441"/>
-        <location line="+1347"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1463"/>
+        <location line="+1377"/>
         <source>Guests cannot send chat messages</source>
         <translation>Chan urrainn dha aoighean teachdaireachdan cabadaich a chur</translation>
     </message>
     <message>
-        <location line="-1328"/>
-        <location line="+1322"/>
+        <location line="-1358"/>
+        <location line="+1352"/>
         <source>Private messages are not available at the table.</source>
         <translation>Chan eil teachdaireachdan prìobhaideach ri fhaighinn aig a&apos; bhòrd.</translation>
     </message>
     <message>
-        <location line="-1316"/>
+        <location line="-1346"/>
         <source>Player not found</source>
         <translation>Cha deach an cluicheadair a lorg</translation>
     </message>
@@ -1744,146 +1807,146 @@
         <translation>Ghabh am frithealaiche ris an aithris air avatar. Mòran taing.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This avatar was already reported by another player.</source>
         <translation>Chaidh an t-avatar seo aithris le cluicheadair eile mu thràth.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>An error occurred while reporting the avatar.</source>
         <translation>Thachair mearachd le aithris air an avatar.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game name report was accepted by the server. Thank you.</source>
         <translation>Ghabh am frithealaiche ris an aithris air ainm a&apos; gheama. Mòran taing.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game name was already reported by another player.</source>
         <translation>Chaidh ainm a&apos; gheama seo aithris le cluicheadair eile mu thràth.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>An error occurred while reporting the game name.</source>
         <translation>Thachair mearachd le aithris air ainm a&apos; gheama.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game was closed.</source>
         <translation>Chaidh an geama a dhùnadh.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game could not be closed.</source>
         <translation>Cha b&apos; urrainn dhuinn an geama a dhùnadh.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player was kicked and banned permanently.</source>
         <translation>Chaidh a&apos; bhròg a thoirt dhan chluicheadair is a thoirmeasg gu buan.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player was kicked, but could not be banned because it was a guest player.</source>
         <translation>Chaidh a&apos; bhròg a thoirt dhan chluicheadair ach cha b&apos; urrainn dhuinn a thoirmeasg oir &apos;s e aoigh a bh&apos; ann.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player was kicked, but could not be banned, 
 because the nick could not be found in the database</source>
         <translation>Chaidh a&apos; bhròg a thoirt dhan chluicheadair ach dha b&apos; urrainn dhuinn a thoirmeasg 
 on nach deach am far-ainm a lorg san stòr-dàta</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The player could not be found.</source>
         <translation>Cha deach an cluicheadair a lorg.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The global notice was sent to all players.</source>
         <translation>Chaidh am brath coitcheann a chur dha na h-uile cluicheadair.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The global notice was rejected by the server.</source>
         <translation>Dhiùlt am frithealaiche am brath coitcheann.</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>You cannot join this game, because another player in that game has your network address.</source>
         <translation>Chan urrainn dhut gabhail sa gheama seo oir tha an seòladh lìonraidh agad aig cluicheadair eile sa gheama seo.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Sorry, this game is already full.</source>
         <translation>Tha sinn duilich, ach tha an geama seo làn mar-thà.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation>Chan urrainn dhut gabhail ann - tha am frithealaiche air an geama a thòiseachadh.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game is of type invite-only. You cannot join this game without being invited.</source>
         <translation>Tha an geama seo dhen t-seòrsa le cuireadh a-mhàin. Chan urrainn dhut gabhail sa gheama seo gun chuireadh fhaighinn.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game name is already in use. Please choose a different name.</source>
         <translation>Tha an t-ainm geama seo &apos;ga chleachdadh mu thràth. Tagh ainm eile.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The game name is invalid. Please choose a different name.</source>
         <translation>Tha ainm a&apos; gheama mì-dhligheach. Tagh ainm eile.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>Facal-faire mì-dhligheach le gabhail sa gheama.
 Cuir am facal-faire a-steach turas eile is feuch ris a-rithist.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>You cannot join this type of game as guest.</source>
         <translation>Chan urrainn dhut gabhail san t-seòrsa dhe gheama seo mar aoigh.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The settings are invalid for this type of game.</source>
         <translation>Tha na roghainnean mì-dhligheach airson an t-seòrsa dhe gheama seo.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>This game does not allow spectators.</source>
         <translation>Chan eil an geama seo a&apos; ceadachadh luchd-amhairc.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Could not join the game.</source>
         <translation>Cha b&apos; urrainn dhuinn gabhail sa gheama.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Your connection to the server is very slow, the game had to start without you.</source>
         <translation>Tha an ceangal agad dhan fhrithealaiche glè shlaodach, bha aig a&apos; gheama tòiseachadh às d&apos; aonais.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>You were kicked from the game.</source>
         <translation>Fhuair thu a&apos; bhròg on gheama.</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>You were removed due to inactivity.</source>
         <translation>Chaidh do thoirt air falbh air sgàth dìth gnìomhachd.</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>Chan eil %1 san lobaidh an-dràsta.</translation>
     </message>
@@ -1922,22 +1985,22 @@ Cuir am facal-faire a-steach turas eile is feuch ris a-rithist.</translation>
         <translation>Teachdaireachd phrìobhaideach gu %1:</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+97"/>
         <source>Registered players only</source>
         <translation>Cluicheadairean a chlàraich a-mhàin</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Invited players only</source>
         <translation>Cluicheadairean a fhuair cuireadh a-mhàin</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Ranking game</source>
         <translation>Geama rangachaidh</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Standard</source>
         <translation>Àbhaisteach</translation>
     </message>
@@ -1962,7 +2025,7 @@ Cuir am facal-faire a-steach turas eile is feuch ris a-rithist.</translation>
         <translation>Làn</translation>
     </message>
     <message>
-        <location line="-221"/>
+        <location line="-225"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>Chan urrainn dha %1 gabhail ann an %2 oir tha e trang.</translation>
     </message>
@@ -2284,7 +2347,7 @@ Is urrainn dha PokerTH a lughdachadh dhut. Bidh an t-avatar ùr an sàs an ath-t
     <message>
         <location line="+1"/>
         <source>The image could not be converted. Please pick a different avatar in the settings.</source>
-        <translation>Cha b' urrainn dhuinn an dealbh iompachadh. Tagh avatar eile anns na roghainnean.</translation>
+        <translation>Cha b&apos; urrainn dhuinn an dealbh iompachadh. Tagh avatar eile anns na roghainnean.</translation>
     </message>
     <message>
         <location line="+37"/>
@@ -2351,7 +2414,7 @@ Is urrainn dha PokerTH a lughdachadh dhut. Bidh an t-avatar ùr an sàs an ath-t
 <context>
     <name>LobbyStatsBar</name>
     <message>
-        <location filename="../components/LobbyStatsBar.qml" line="+23"/>
+        <location filename="../components/LobbyStatsBar.qml" line="+37"/>
         <source>%1 players · %2 running · %3 open</source>
         <translation>%1 cluicheadairean · %2 &apos;gan ruith · %3 fosgailte</translation>
     </message>
@@ -2371,7 +2434,17 @@ Is urrainn dha PokerTH a lughdachadh dhut. Bidh an t-avatar ùr an sàs an ath-t
         <translation>geamannan fosgailte: %1</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+26"/>
+        <source>Berlin %1</source>
+        <translation>Berlin %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Server time (Berlin): %1</source>
+        <translation>Àm an fhrithealaiche (Berlin): %1</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>PokerTH.net</source>
         <translation>PokerTH.net</translation>
     </message>
@@ -2648,7 +2721,7 @@ Is urrainn dha PokerTH a lughdachadh dhut. Bidh an t-avatar ùr an sàs an ath-t
 <context>
     <name>LogHandler</name>
     <message>
-        <location filename="../cpp/loghandler.cpp" line="+361"/>
+        <location filename="../cpp/loghandler.cpp" line="+407"/>
         <source>Export PokerTH log file to HTML</source>
         <translation>Às-phortaich faidhle loga PokerTH gu HTML</translation>
     </message>
@@ -2706,42 +2779,42 @@ Feuch an dearbhaich thu gu bheil thu a&apos; luchdadh suas faidhle loga aig Poke
     </message>
     <message>
         <location line="+4"/>
-        <location line="+30"/>
+        <location line="+36"/>
         <source>Failure reason: </source>
         <translation>Adhbhar an fhàilligidh: </translation>
     </message>
     <message>
-        <location line="-27"/>
+        <location line="-33"/>
         <source>No file received.</source>
         <translation>Cha deach faidhle fhaighinn.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>File rejected because of too many uploads.</source>
         <translation>Chaidh am faidhle a dhiùltadh oir tha cus luchdaidhean suas ann.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>File rejected because of too many recent uploads. Please try again later.</source>
         <translation>Chaidh am faidhle a dhiùltadh oir bha cus luchdaidhean suas o chionn ghoirid ann. Am feuch thu ris a-rithist an ceann greis?</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>The file is too large.</source>
         <translation>Tha am faidhle ro mhòr.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>This file is not a valid and current PokerTH log file.</source>
         <translation>Chan e faidhle loga làithreach dligheach aig PokerTH a tha san fhaidhle seo.</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Internal error. Please try again later. ID: </source>
         <translation>Mearachd taobh a-staigh. Am feuch thu ris a-rithist an ceann greis? ID: </translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Upload failed. Please check your internet connection!
 Uploading log files may fail if you are using an http proxy.</source>
         <translation>Dh&apos;fhàillig leis an luchdadh suas. Feuch an toir thu sùil air a&apos; cheangal agad dhan eadar-lìn!
@@ -4252,12 +4325,12 @@ Feuch an dearbhaich thu an t-ainm cleachdaiche is am facal-faire agad.</translat
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+328"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+325"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
         <translation>Dealbhan (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+302"/>
+        <location line="+189"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Tagh stoidhle bùird</translation>
     </message>
@@ -4317,7 +4390,7 @@ Feuch an dearbhaich thu an t-ainm cleachdaiche is am facal-faire agad.</translat
         <translation>Tha stoidhle air a bheil «%1» ann mu thràth.</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+42"/>
         <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
         <translation>Tha na cairtean neo-choileanta, tha seo a dhìth: %1</translation>
     </message>
@@ -4362,7 +4435,7 @@ Feuch an dearbhaich thu an t-ainm cleachdaiche is am facal-faire agad.</translat
         <translation>Cuiridh an cliant grafaigeachd bhunaiteach an àite na susbainte a tha a dhìth.</translation>
     </message>
     <message>
-        <location line="-182"/>
+        <location line="-183"/>
         <source>PokerTH-Stile (*.zip *.xml)</source>
         <translation>Stoidhlichean PokerTH (*.zip *.xml)</translation>
     </message>
@@ -4382,7 +4455,7 @@ Feuch an dearbhaich thu an t-ainm cleachdaiche is am facal-faire agad.</translat
         <translation>Chan eil faidhle «%1» san tasglann.</translation>
     </message>
     <message>
-        <location line="+196"/>
+        <location line="+199"/>
         <source>Stil exportieren</source>
         <translation>Às-phortaich an stoidhle</translation>
     </message>
