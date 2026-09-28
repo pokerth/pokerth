@@ -276,7 +276,7 @@ ChatCleanerManager::SendMessageToServer(ChatCleanerMessage &msg)
 	uint32_t packetSize = msg.ByteSizeLong();
 	google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize + CLEANER_NET_HEADER_SIZE];
 	*((uint32_t *)buf) = htonl(packetSize);
-	msg.SerializeWithCachedSizesToArray(&buf[CLEANER_NET_HEADER_SIZE]);
+	(void)msg.SerializeWithCachedSizesToArray(&buf[CLEANER_NET_HEADER_SIZE]);
 	m_sendManager->EncodeToBuf(buf, packetSize + CLEANER_NET_HEADER_SIZE);
 	delete[] buf;
 

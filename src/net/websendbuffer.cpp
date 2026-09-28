@@ -88,7 +88,7 @@ WebSendBuffer::InternalStorePacket(boost::shared_ptr<SessionData> session, boost
 		buf[2] = static_cast<google::protobuf::uint8>((packetSize >> 8) & 0xFF);
 		buf[3] = static_cast<google::protobuf::uint8>(packetSize & 0xFF);
 	}
-	packet->GetMsg()->SerializeWithCachedSizesToArray(buf + headerSize);
+	(void)packet->GetMsg()->SerializeWithCachedSizesToArray(buf + headerSize);
 
 	if (webData && webData->endpoint) {
 		websocketpp::lib::error_code ec;

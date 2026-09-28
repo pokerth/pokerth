@@ -423,7 +423,7 @@ AsioSendBuffer::InternalStorePacket(boost::shared_ptr<SessionData> session, boos
 	uint32_t packetSize = packet->GetMsg()->ByteSizeLong();
 	google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize + NET_HEADER_SIZE];
 	*((uint32_t *)buf) = htonl(packetSize);
-	packet->GetMsg()->SerializeWithCachedSizesToArray(&buf[NET_HEADER_SIZE]);
+	(void)packet->GetMsg()->SerializeWithCachedSizesToArray(&buf[NET_HEADER_SIZE]);
 	if (EncodeToBuf(buf, packetSize + NET_HEADER_SIZE) != 0) {
 		// The queue is full: the peer has not been draining its socket for a
 		// while. Dropping the packet would leave it with a truncated message

@@ -72,6 +72,9 @@ class GameTableStyleReader;
 class CardDeckStyleReader;
 class SoundEvents;
 
+// Slot arguments must be complete types for the generated metatype code.
+Q_MOC_INCLUDE("settingsdialogimpl.h")
+
 enum SeatState { SEAT_UNDEFINED, SEAT_ACTIVE, SEAT_AUTOFOLD, SEAT_STAYONTABLE, SEAT_CLEAR };
 
 class gameTableImpl: public QMainWindow, public Ui::gameTable

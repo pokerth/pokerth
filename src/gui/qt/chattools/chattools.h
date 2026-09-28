@@ -45,6 +45,9 @@ class GameTableStyleReader;
 class gameLobbyDialogImpl;
 class ChatTranslatorCore;
 
+// Slot arguments must be complete types for the generated metatype code.
+Q_MOC_INCLUDE("gametablestylereader.h")
+
 class ChatTools : public QObject
 {
 	Q_OBJECT

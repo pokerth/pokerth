@@ -295,7 +295,7 @@ public:
 		vector<google::protobuf::uint8> buf(packetSize + NET_HEADER_SIZE);
 
 		*((uint32_t *)buf.data()) = htonl(packetSize);
-		packet->GetMsg()->SerializeWithCachedSizesToArray(&buf[NET_HEADER_SIZE]);
+		(void)packet->GetMsg()->SerializeWithCachedSizesToArray(&buf[NET_HEADER_SIZE]);
 
 		boost::system::error_code ec;
 		// With non-TLS write directly via the TCP socket
@@ -1221,7 +1221,11 @@ static int runChatcleanerTest(const string &server, const string &port,
 			uint32_t packetSize = msg.ByteSizeLong();
 			vector<uint8_t> buf(packetSize + CLEANER_NET_HEADER_SIZE);
 			*((uint32_t *)buf.data()) = htonl(packetSize);
-			msg.SerializeToArray(buf.data() + CLEANER_NET_HEADER_SIZE, packetSize);
+			if (!msg.SerializeToArray(buf.data() + CLEANER_NET_HEADER_SIZE, packetSize))
+			{
+				cerr << "ERROR: Could not serialize message" << endl;
+				return false;
+			}
 			boost::system::error_code wec;
 			boost::asio::write(socket, boost::asio::buffer(buf), wec);
 			if (wec)

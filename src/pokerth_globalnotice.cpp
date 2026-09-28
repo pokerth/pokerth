@@ -391,7 +391,7 @@ public:
 		vector<google::protobuf::uint8> buf(packetSize + NET_HEADER_SIZE);
 		const uint32_t netSize = htonl(packetSize);
 		memcpy(buf.data(), &netSize, sizeof(netSize));
-		packet->GetMsg()->SerializeWithCachedSizesToArray(&buf[NET_HEADER_SIZE]);
+		(void)packet->GetMsg()->SerializeWithCachedSizesToArray(&buf[NET_HEADER_SIZE]);
 
 		boost::system::error_code ec;
 		if (m_useTls)
