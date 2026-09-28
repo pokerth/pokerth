@@ -94,6 +94,7 @@ QtObject {
                 step: Number(g.step) || 0,
                 title: g.title || "",
                 ts: ts,
+                day: _gameDay(g.date),
                 num: Number(g.num) || 0
             })
         }
@@ -127,9 +128,15 @@ QtObject {
         return Date.UTC(year, month, d.getUTCDate() - d.getUTCDay())
     }
 
-    // Section key of the list: local calendar day.
-    function dayKey(ts) {
-        return Qt.formatDate(new Date(ts), "yyyy-MM-dd")
+    // Section key of the list, "YYYY-MM-DD": the game day as on the BBC
+    // calendar – games before 14:00 Berlin time (the 01:00 game) belong to the
+    // evening of the previous day.
+    function _gameDay(s) {
+        var m = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2})/.exec(s || "")
+        var d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]))
+        if (+m[4] < 14)
+            d.setUTCDate(d.getUTCDate() - 1)
+        return d.toISOString().slice(0, 10)
     }
 
     function dayLabel(key) {

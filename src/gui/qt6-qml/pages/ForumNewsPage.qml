@@ -304,12 +304,12 @@ Rectangle {
                         required property int index
                         required property var modelData
 
-                        readonly property string day: Config.BbcGameDates.dayKey(modelData.ts)
+                        readonly property string day: modelData.day
                         readonly property bool firstOfDay: {
                             if (index === 0)
                                 return true
                             var prev = Config.BbcGameDates.games[index - 1]
-                            return !prev || Config.BbcGameDates.dayKey(prev.ts) !== day
+                            return !prev || prev.day !== day
                         }
                         readonly property bool full: modelData.num >= Config.BbcGameDates.maxPlayers
                         readonly property bool keyboardCurrent: ListView.isCurrentItem
