@@ -2803,7 +2803,8 @@ void LobbyHandler::reportGameName(unsigned gameId)
 		emit errorOccurred(tr("Not connected to server"));
 		return;
 	}
-	if (gameId == 0)
+	// Guests are not allowed to report.
+	if (gameId == 0 || isMyPlayerGuest())
 		return;
 	m_session->reportBadGameName(gameId);
 }

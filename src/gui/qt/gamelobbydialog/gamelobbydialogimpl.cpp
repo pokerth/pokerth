@@ -2113,8 +2113,13 @@ void gameLobbyDialogImpl::showGameListContextMenu(QPoint p)
 		}
 
 //		check for admin	and show/hide admin actions
-		gameListAdminSubMenu->menuAction()->setVisible(
-			mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()).isAdmin);
+		const PlayerInfo myInfo(mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()));
+		gameListAdminSubMenu->menuAction()->setVisible(myInfo.isAdmin);
+		// Guests are not allowed to report game names.
+		gameListReportBadGameNameAction->setVisible(!myInfo.isGuest);
+		if(myInfo.isGuest && !myInfo.isAdmin) {
+			return;
+		}
 
 		// Move the popup slightly right to avoid a double-click action.
 		QPoint tempPoint = p;

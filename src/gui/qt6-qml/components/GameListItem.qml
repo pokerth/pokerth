@@ -40,7 +40,8 @@ Item {
     }
 
     // ── Context actions (as in the Qt widgets client) ─────────────────────
-    readonly property bool canReportGame:   Lobby && itemGameId > 0
+    // Guests are not allowed to report (the server rejects it as well).
+    readonly property bool canReportGame:   Lobby && !Lobby.isMyPlayerGuest && itemGameId > 0
     readonly property bool canAdminCloseGame: Lobby && Lobby.isCurrentPlayerAdmin && itemGameId > 0
 
     readonly property color reportColor: Config.StaticData.chartColor(6, true)

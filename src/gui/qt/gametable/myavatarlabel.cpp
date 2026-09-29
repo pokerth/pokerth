@@ -113,7 +113,9 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event )
 						action_EditTip->setDisabled(true);
 					}
 
-					if(myW->getSession()->getGameType() == Session::GAME_TYPE_INTERNET && !((*it_c)->getMyAvatar().empty()) ) {
+					// Guests are not allowed to report avatars.
+					if(myW->getSession()->getGameType() == Session::GAME_TYPE_INTERNET && !((*it_c)->getMyAvatar().empty())
+							&& !myW->getSession()->getClientPlayerInfo(myW->getSession()->getClientUniquePlayerId()).isGuest) {
 						action_ReportBadAvatar->setVisible(true);
 					} else {
 						action_ReportBadAvatar->setVisible(false);

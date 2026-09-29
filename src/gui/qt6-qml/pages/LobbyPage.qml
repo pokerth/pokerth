@@ -56,7 +56,7 @@ Rectangle {
 
     // Context actions for the selected game (confirmation as in the widget client)
     function requestReportGame() {
-        if (!selectedGame) return
+        if (!selectedGame || (Lobby && Lobby.isMyPlayerGuest)) return
         reportGamePopup.openWith(
             qsTr("Report game name"),
             qsTr("Are you sure you want to report the game name:\n\"%1\" as inappropriate?")
@@ -346,6 +346,7 @@ Rectangle {
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
 
                     PlayerActionIcon {
+                        visible: Lobby && !Lobby.isMyPlayerGuest
                         iconSize: 22
                         source: "qrc:/resources/flag.svg"
                         baseColor: Config.StaticData.chartColor(6, true)
@@ -1176,7 +1177,7 @@ Rectangle {
 
                             // Context actions for the selected game
                             PlayerActionIcon {
-                                visible: lobbyPage.selectedGame !== null
+                                visible: lobbyPage.selectedGame !== null && Lobby && !Lobby.isMyPlayerGuest
                                 source: "qrc:/resources/flag.svg"
                                 baseColor: Config.StaticData.chartColor(6, true)
                                 tooltipText: qsTr("Report inappropriate game name")

@@ -1910,7 +1910,9 @@ ServerLobbyThread::HandleNetPacketReportGame(boost::shared_ptr<SessionData> sess
 {
 	GameMap::iterator pos = m_gameMap.find(report.reportedgameid());
 
-	if (pos != m_gameMap.end() && session->GetPlayerData()) {
+	// Guests are not allowed to report, the reporter must be known.
+	if (pos != m_gameMap.end() && session->GetPlayerData()
+			&& session->GetPlayerData()->GetRights() != PLAYER_RIGHTS_GUEST) {
 		boost::shared_ptr<ServerGame> tmpGame(pos->second);
 		if (!tmpGame->IsNameReported()) {
 			// Temporarily note that this game was reported.

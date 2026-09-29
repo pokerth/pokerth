@@ -2159,6 +2159,9 @@ void GameHandler::reportAvatar(int seatId)
 	// Only meaningful in an internet game (as in the Qt widgets client, MyAvatarLabel).
 	if (!isInternetGameRunning() || !m_game)
 		return;
+	// Guests are not allowed to report.
+	if (m_session->getClientPlayerInfo(m_session->getClientUniquePlayerId()).isGuest)
+		return;
 
 	PlayerList seats = m_game->getSeatsList();
 	for (auto it = seats->begin(); it != seats->end(); ++it) {

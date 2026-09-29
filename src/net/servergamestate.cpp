@@ -350,7 +350,9 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 		boost::shared_ptr<PlayerData> tmpPlayer = server->GetPlayerDataByUniqueId(netReport.reportedplayerid());
 		MD5Buf tmpMD5;
 		memcpy(tmpMD5.GetData(), netReport.reportedavatarhash().data(), MD5_DATA_SIZE);
-		if (tmpPlayer && tmpPlayer->GetDBId() && !tmpMD5.IsZero() && tmpPlayer->GetAvatarMD5() == tmpMD5) {
+		// Guests are not allowed to report, the reporter must be known.
+		if (session->GetPlayerData()->GetRights() != PLAYER_RIGHTS_GUEST
+				&& tmpPlayer && tmpPlayer->GetDBId() && !tmpMD5.IsZero() && tmpPlayer->GetAvatarMD5() == tmpMD5) {
 			if (!server->IsAvatarReported(tmpPlayer->GetUniqueId())) {
 				// Temporarily note that this avatar was reported.
 				// This prevents spamming of the avatar report.

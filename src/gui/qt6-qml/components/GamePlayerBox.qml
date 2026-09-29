@@ -60,8 +60,10 @@ SeatBox {
     // Report an avatar: only in an internet game and only if the player has set an
     // (existing) avatar – 1:1 as in the Qt widgets client
     // (MyAvatarLabel). seatData.avatar is only set when a file is present.
+    // Guests are not allowed to report (the server rejects it as well).
     readonly property bool canReportAvatar:
         !targetIsSelf
+        && !(typeof Lobby !== "undefined" && Lobby && Lobby.isMyPlayerGuest)
         && (typeof GameTable !== "undefined" && GameTable && GameTable.isInternetGameRunning())
         && !!(seatData && seatData.avatar && seatData.avatar !== "")
     readonly property bool hasContextActions:
