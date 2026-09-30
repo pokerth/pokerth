@@ -94,8 +94,9 @@ public:
 	// (lastTry), otherwise an unreachable file would cause one download per
 	// join/leave.
 	// Only call it once suggestTypeForGame already delivers a type; then
-	// the feature costs no request at all other tables. The reply comes
-	// via communityAdminResolved(); until then isCommunityAdmin() returns false.
+	// the feature costs no request at all other tables. With a fresh cache the
+	// result is set synchronously (no signal), otherwise it comes via
+	// communityAdminResolved(); until then isCommunityAdmin() returns false.
 	void requestCommunityAdmin(const QString &type, const QString &nick);
 	bool isCommunityAdmin(const QString &type) const;
 
@@ -173,7 +174,7 @@ private:
 
 	// Suggest type → file name of the responsible admin list ("" = none).
 	static QString adminFile(const QString &type);
-	// Set and report the result from the admin cache (possibly just loaded).
+	// Set the result from the admin cache (possibly just loaded).
 	void applyCommunityAdmin(const QString &file, const QString &nick);
 
 	QString suggestStep(int step, const QStringList &idleNames,

@@ -414,12 +414,9 @@ QString gameLobbyDialogImpl::effectiveSuggestType()
 	if (tableType.isEmpty())
 		return QString();
 
-	if (mySuggest->isCommunityAdmin(tableType))
-		return tableType;
-
 	const PlayerInfo playerInfo(mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()));
 	mySuggest->requestCommunityAdmin(tableType, QString::fromUtf8(playerInfo.playerName.c_str()));
-	return QString();
+	return mySuggest->isCommunityAdmin(tableType) ? tableType : QString();
 }
 
 void gameLobbyDialogImpl::updateSuggestButtonVisibility()

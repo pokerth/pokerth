@@ -178,7 +178,6 @@ bool CommunitySuggest::isCommunityAdmin(const QString &type) const
 void CommunitySuggest::applyCommunityAdmin(const QString &file, const QString &nick)
 {
 	m_admins[file].isAdmin = m_admins[file].names.contains(suggestKey(nick));
-	emit communityAdminResolved();
 }
 
 void CommunitySuggest::requestCommunityAdmin(const QString &type, const QString &nick)
@@ -192,7 +191,9 @@ void CommunitySuggest::requestCommunityAdmin(const QString &type, const QString 
 
 	const qint64 now = QDateTime::currentMSecsSinceEpoch();
 	if (list.loaded && (now - list.ts) < CACHE_TTL_MS) {
-		applyCommunityAdmin(file, nick);   // fresh cache ⇒ without the network
+		// Fresh cache ⇒ without the network and without the signal: the
+		// receiver calls in here again, a synchronous emit would recurse.
+		applyCommunityAdmin(file, nick);
 		return;
 	}
 	// Throttle FAILURES as well: the caller hangs off the button visibility
@@ -222,6 +223,7 @@ void CommunitySuggest::requestCommunityAdmin(const QString &type, const QString 
 		// Failure ⇒ fall back to the (possibly expired) old data; if there is
 		// nothing at all, the button stays off – as without the feature.
 		applyCommunityAdmin(file, wanted);
+		emit communityAdminResolved();
 	});
 }
 
