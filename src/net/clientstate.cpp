@@ -1461,7 +1461,10 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 		if (netAnnounce.latestgameversion().majorversion() != BUILD_ID_GET_MAJOR(ownBuildId)
 				|| netAnnounce.latestgameversion().minorversion() != BUILD_ID_GET_MINOR(ownBuildId)) {
 			client->GetCallback().SignalNetClientNotification(NTF_NET_NEW_RELEASE_AVAILABLE);
-		} else if (BUILD_ID_GET_REVISION(ownBuildId)
+		} else if (BUILD_ID_GET_TYPE(ownBuildId) != CLIENT_TYPE_QT_WIDGET
+				   // The discontinued widget client stays on 2.1.9 for good and
+				   // would otherwise be told about every newer release it never gets.
+				   && BUILD_ID_GET_REVISION(ownBuildId)
 				   && netAnnounce.latestbetarevision() != BUILD_ID_GET_REVISION(ownBuildId)) {
 			client->GetCallback().SignalNetClientNotification(NTF_NET_OUTDATED_BETA);
 		}

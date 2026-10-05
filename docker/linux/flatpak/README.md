@@ -1,6 +1,6 @@
 # Flatpak package for PokerTH
 
-This directory holds the Flatpak manifest for PokerTH (currently 2.1.9).
+This directory holds the Flatpak manifest for PokerTH (currently 2.1.10).
 
 ## Overview
 

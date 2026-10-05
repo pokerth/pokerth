@@ -1,7 +1,7 @@
 # Snap package for PokerTH
 
 This directory holds the `snapcraft.yaml` for the PokerTH snap package (for the
-version see `version:` in the `snapcraft.yaml`, currently 2.1.9).
+version see `version:` in the `snapcraft.yaml`, currently 2.1.10).
 
 ## Overview
 
@@ -54,5 +54,5 @@ selected above.
 ### Manual upload
 
 ```bash
-snapcraft upload --release=stable pokerth_2.1.9_amd64.snap
+snapcraft upload --release=stable pokerth_2.1.10_amd64.snap
 ```

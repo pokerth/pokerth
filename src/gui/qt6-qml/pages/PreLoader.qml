@@ -140,7 +140,7 @@ Rectangle {
 
                 AppText {
                     id: preLoaderFooterText
-                    text: qsTr("PokerTH - v2.1.9")
+                    text: qsTr("PokerTH - v2.1.10")
                     color: Config.StaticData.palette.secondary.col200
                     font.pointSize: 12
                     style: Text.Outline

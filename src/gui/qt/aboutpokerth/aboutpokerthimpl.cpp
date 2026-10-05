@@ -87,11 +87,11 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 		}
 	}
 #endif
-	label_pokerthVersion->setText(QString(tr("PokerTH %1 for Android (API%2)").arg(POKERTH_BETA_RELEASE_STRING).arg(api)));
+	label_pokerthVersion->setText(QString(tr("PokerTH %1 for Android (API%2)").arg(WIDGET_RELEASE_STRING).arg(api)));
 #else
-	label_pokerthVersion->setText(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
+	label_pokerthVersion->setText(QString(tr("PokerTH %1").arg(WIDGET_RELEASE_STRING)));
 #endif
-	this->setWindowTitle(QString(tr("About PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
+	this->setWindowTitle(QString(tr("About PokerTH %1").arg(WIDGET_RELEASE_STRING)));
 
 	// Add text to labels and text browsers.
 	QString thxToInfos;

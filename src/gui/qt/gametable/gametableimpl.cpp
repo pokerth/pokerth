@@ -1104,7 +1104,7 @@ void gameTableImpl::initGui(int speed)
 
 #ifdef GUI_800x480
 	tabsDiag->setWindowTitle("Tabs");
-	this->setWindowTitle(QString(titleString + tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
+	this->setWindowTitle(QString(titleString + tr("PokerTH %1").arg(WIDGET_RELEASE_STRING)));
 
 	label_Sets->setText(BetsString);
 	label_Total->setText(TotalString);
@@ -1122,7 +1122,7 @@ void gameTableImpl::initGui(int speed)
 	tabs.horizontalSlider_speed->setValue(guiGameSpeed);
 
 #else
-	this->setWindowTitle(QString(titleString + tr("PokerTH %1 - The Open-Source Texas Holdem Engine").arg(POKERTH_BETA_RELEASE_STRING)));
+	this->setWindowTitle(QString(titleString + tr("PokerTH %1 - The Open-Source Texas Holdem Engine").arg(WIDGET_RELEASE_STRING)));
 
 	label_Pot->setText(PotString);
 	label_Total->setText(TotalString+":");

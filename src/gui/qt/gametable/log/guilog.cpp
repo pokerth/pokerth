@@ -244,7 +244,7 @@ guiLog::guiLog(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(
 				stream_old << "<body>\n";
 #endif
 				stream_old << "<img src='logo.png'>\n";
-				stream_old << QString("<h3><b>Log-File for PokerTH %1 Session started on ").arg(POKERTH_BETA_RELEASE_STRING)+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>\n";
+				stream_old << QString("<h3><b>Log-File for PokerTH %1 Session started on ").arg(WIDGET_RELEASE_STRING)+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>\n";
 				myHtmlLogFile_old->close();
 
 			}

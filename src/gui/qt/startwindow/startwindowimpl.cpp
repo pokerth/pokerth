@@ -94,7 +94,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	// 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 	// #endif
 	setupUi(this);
-	this->setWindowTitle(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
+	this->setWindowTitle(QString(tr("PokerTH %1").arg(WIDGET_RELEASE_STRING)));
 	this->installEventFilter(this);
 
 	// React to screen changes (hibernate/resume, DPI changes, monitor switch)

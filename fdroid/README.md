@@ -127,7 +127,7 @@ All that is needed is static serving; a directory listing is not required.
    the device can run. That is why the order rises from the Qt 6.7 fallback over
    32 bit ARM to arm64 and x86_64.
 
-2. **Optionally add a changelog**: `fdroid/changelogs/2.1.8.txt` (the file name
+2. **Optionally add a changelog**: `fdroid/changelogs/2.1.10.txt` (the file name
    is the versionName). The workflow spreads it over the versionCodes of all
    variants.
 

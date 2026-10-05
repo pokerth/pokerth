@@ -7,7 +7,7 @@
 **The open source Texas Hold'em engine — play against the computer or against other people over the internet.**
 
 [![License: AGPL v3](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](COPYING)
-[![Release](https://img.shields.io/badge/release-2.1.9-green.svg)](ChangeLog)
+[![Release](https://img.shields.io/badge/release-2.1.10-green.svg)](ChangeLog)
 [![Qt](https://img.shields.io/badge/Qt-6.7%2B-41cd52.svg)](https://www.qt.io/)
 [![C++](https://img.shields.io/badge/C%2B%2B-23-00599c.svg)](CMakeLists.txt)
 
@@ -69,7 +69,7 @@ share the whole engine, networking and database layer below the GUI:
 | Target | GUI | Status |
 | --- | --- | --- |
 | `pokerth_qml-client` | Qt Quick / QML ([src/gui/qt6-qml](src/gui/qt6-qml)) | current client, all platforms, scales from phone to desktop |
-| `pokerth_client` | Qt Widgets ([src/gui/qt](src/gui/qt)) | the classic desktop client; 2.1.9 is its final release |
+| `pokerth_client` | Qt Widgets ([src/gui/qt](src/gui/qt)) | the classic desktop client; discontinued, 2.1.9 is its final version (bugfix builds only, currently 2.1.9.1) |
 
 On the server side, there are two server binaries: `pokerth_dedicated_server` for
 everybody who wants to host games, and `pokerth_official_server`, which adds the

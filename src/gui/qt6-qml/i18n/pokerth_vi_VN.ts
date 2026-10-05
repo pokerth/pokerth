@@ -3930,8 +3930,8 @@ Vui lòng khởi động lại PokerTH để các tệp nhật ký được lưu
     <name>PreLoader</name>
     <message>
         <location filename="../pages/PreLoader.qml" line="+143"/>
-        <source>PokerTH - v2.1.9</source>
-        <translation>PokerTH - v2.1.9</translation>
+        <source>PokerTH - v2.1.10</source>
+        <translation>PokerTH - v2.1.10</translation>
     </message>
 </context>
 <context>
@@ -4890,8 +4890,8 @@ Vui lòng kiểm tra tên đăng nhập và mật khẩu lần nữa.</translati
     <name>SideMenu</name>
     <message>
         <location filename="../components/SideMenu.qml" line="+37"/>
-        <source>PokerTH - v2.1.9</source>
-        <translation>PokerTH - v2.1.9</translation>
+        <source>PokerTH - v2.1.10</source>
+        <translation>PokerTH - v2.1.10</translation>
     </message>
     <message>
         <location line="+102"/>
@@ -5269,8 +5269,8 @@ xem trước</translation>
     <name>pokerth</name>
     <message>
         <location filename="../pokerth.qml" line="+205"/>
-        <source>PokerTH - v2.1.9</source>
-        <translation>PokerTH - v2.1.9</translation>
+        <source>PokerTH - v2.1.10</source>
+        <translation>PokerTH - v2.1.10</translation>
     </message>
     <message>
         <location line="+297"/>

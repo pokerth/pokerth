@@ -402,8 +402,8 @@ if(IOS)
     # CFBundleIdentifier — for a real App Store submission the
     # "_" would have to become a "-" (net.pokerth.PokerTH-QML).
     set(POKERTH_IOS_BUNDLE_ID "net.pokerth.PokerTH_QML" CACHE STRING "CFBundleIdentifier of the iOS app")
-    set(POKERTH_IOS_VERSION   "2.1.9"           CACHE STRING "CFBundleShortVersionString of the iOS app")
-    set(POKERTH_IOS_BUILD     "28"              CACHE STRING "CFBundleVersion (build number) of the iOS app")
+    set(POKERTH_IOS_VERSION   "2.1.10"          CACHE STRING "CFBundleShortVersionString of the iOS app")
+    set(POKERTH_IOS_BUILD     "30"              CACHE STRING "CFBundleVersion (build number) of the iOS app")
 
     # An asset catalogue with the app icon (a 1024 PNG, without alpha – actool rejects
     # transparent iOS app icons). Xcode compiles it into Assets.car.
