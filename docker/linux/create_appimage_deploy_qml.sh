@@ -10,7 +10,15 @@ set -e
 #   host systems (Ubuntu 26.04 / GCC 16), because the aqtinstall prebuilds and the
 #   host runtime are incompatible.
 #
-# What is bundled:      Qt libs, QML modules, Qt plugins, glibc, ld-linux,
+# The bundled glibc is only used when the host glibc is OLDER (decided in AppRun).
+#   Host libs that are not bundled (Mesa → LLVM, X11, Wayland, fontconfig) are
+#   built against the host glibc. On rolling distros they can need newer symbols
+#   than the bundled glibc has (e.g. LLVM 23 needs GLIBC_2.44 on Arch), and then
+#   Mesa fails to load ("EGL not available"). Therefore the glibc libs live in
+#   usr/lib/glibc/, which is only put on the library path together with the
+#   bundled loader; with a newer host glibc the system loader is used instead.
+#
+# What is bundled:     Qt libs, QML modules, Qt plugins, glibc, ld-linux,
 #                       libstdc++, libgcc_s, the app's own deps (boost, protobuf, ssl)
 # What is NOT bundled:  GPU/GL, windowing (X11/XCB/Wayland), fonts
 
@@ -247,6 +255,11 @@ else
     echo "WARNUNG: ld-linux Loader nicht gefunden! AppImage wird möglicherweise nicht portabel sein."
 fi
 
+# glibc version of the build system (= the bundled one), compared in AppRun
+BUNDLED_GLIBC_VERSION=$(getconf GNU_LIBC_VERSION 2>/dev/null | awk '{print $2}')
+[ -z "$BUNDLED_GLIBC_VERSION" ] && BUNDLED_GLIBC_VERSION=$(ldd --version 2>/dev/null | head -1 | grep -oE '[0-9]+\.[0-9]+$' || true)
+echo "  Gebündelte glibc-Version: ${BUNDLED_GLIBC_VERSION:-unbekannt}"
+
 rm -f "$APPDIR/usr/lib/.processed_libs"
 
 # --- Qt-Plugins ---
@@ -311,6 +324,22 @@ if [ -d "$QT6_QML" ]; then
 else
     echo "WARNUNG: Qt6-QML-Module nicht gefunden! Der QML-Client wird NICHT starten."
 fi
+
+# --- Move glibc into usr/lib/glibc/ ---
+
+# Only after ALL dependency runs (plugins, QML modules), because every run copies
+# libc & co. into usr/lib again. ld-linux stays in usr/lib: with the bundled loader
+# applicationDirPath() = usr/lib/, where qt.conf and the data symlink are.
+# With the system loader only usr/lib is on LD_LIBRARY_PATH, so the host glibc is used.
+echo ""
+echo "=== Verschiebe glibc nach usr/lib/glibc/ ==="
+mkdir -p "$APPDIR/usr/lib/glibc"
+for glibc_lib in libc.so.6 libm.so.6 libdl.so.2 libpthread.so.0 librt.so.1 libresolv.so.2 libmvec.so.1 \
+                 libutil.so.1 libanl.so.1 libnsl.so.1 libBrokenLocale.so.1 libthread_db.so.1 libc_malloc_debug.so.0; do
+    if [ -f "$APPDIR/usr/lib/${glibc_lib}" ]; then
+        mv "$APPDIR/usr/lib/${glibc_lib}" "$APPDIR/usr/lib/glibc/" && echo "  > ${glibc_lib}"
+    fi
+done
 
 # --- Data-Verzeichnis ---
 
@@ -405,10 +434,14 @@ LD_LINUX_NAME=$(basename "$LD_LINUX" 2>/dev/null || echo "ld-linux-x86-64.so.2")
 
 cat > "$APPDIR/AppRun" << 'RUNEOF'
 #!/bin/bash
-# AppRun: starts the PokerTH QML client with the bundled glibc + ld-linux loader.
-# That makes the glibc version of the host system irrelevant.
+# AppRun: starts the PokerTH QML client with the newer of the two glibc versions:
+# the bundled glibc + ld-linux loader on older hosts, the system loader otherwise.
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Host glibc version (before LD_LIBRARY_PATH is changed), e.g. "2.44"
+HOST_GLIBC="$(getconf GNU_LIBC_VERSION 2>/dev/null)"
+HOST_GLIBC="${HOST_GLIBC##* }"
 
 # --- AppImageLauncher-Erkennung ---
 if [ -n "${APPIMAGE_LAUNCHER_VERSION:-}" ] || \
@@ -464,18 +497,43 @@ done
 # Check whether the bundled ld-linux loader is present
 RUNEOF
 
-# Insert the ld-linux name into the script (has to be outside of 'HEREDOC')
+# Insert the ld-linux name and the glibc version into the script (has to be outside of 'HEREDOC')
 cat >> "$APPDIR/AppRun" << RUNEOF
 BUNDLED_LD="\${HERE}/usr/lib/${LD_LINUX_NAME}"
+BUNDLED_GLIBC="${BUNDLED_GLIBC_VERSION}"
 RUNEOF
 
 cat >> "$APPDIR/AppRun" << 'RUNEOF'
 
-if [ -x "${BUNDLED_LD}" ]; then
+# Use the bundled glibc only if the host glibc is older. Non-bundled host libs
+# (Mesa → LLVM, X11, Wayland, ...) may need symbols of the newer host glibc.
+# POKERTH_APPIMAGE_GLIBC=bundled|host overrides the decision (for debugging).
+USE_BUNDLED_GLIBC=1
+case "${POKERTH_APPIMAGE_GLIBC:-auto}" in
+    bundled) ;;
+    host)    USE_BUNDLED_GLIBC=0 ;;
+    *)
+        if [[ "$HOST_GLIBC" =~ ^([0-9]+)\.([0-9]+) ]]; then
+            HOST_MAJOR="${BASH_REMATCH[1]}"; HOST_MINOR="${BASH_REMATCH[2]}"
+            if [[ "$BUNDLED_GLIBC" =~ ^([0-9]+)\.([0-9]+) ]]; then
+                BUNDLED_MAJOR="${BASH_REMATCH[1]}"; BUNDLED_MINOR="${BASH_REMATCH[2]}"
+                if (( HOST_MAJOR > BUNDLED_MAJOR || (HOST_MAJOR == BUNDLED_MAJOR && HOST_MINOR >= BUNDLED_MINOR) )); then
+                    USE_BUNDLED_GLIBC=0
+                fi
+            fi
+        fi
+        ;;
+esac
+
+if [ "$USE_BUNDLED_GLIBC" = 1 ] && [ -x "${BUNDLED_LD}" ]; then
     # IMPORTANT: use the bundled ld-linux loader!
     # That bypasses the system glibc completely and uses our own version.
-    exec "${BUNDLED_LD}" --inhibit-cache --library-path "${HERE}/usr/lib${HOST_LIB_DIRS:+:${HOST_LIB_DIRS}}" \
+    exec "${BUNDLED_LD}" --inhibit-cache \
+         --library-path "${HERE}/usr/lib/glibc:${HERE}/usr/lib${HOST_LIB_DIRS:+:${HOST_LIB_DIRS}}" \
          "${HERE}/usr/bin/pokerth_qml-client" "$@"
+elif [ "$USE_BUNDLED_GLIBC" = 0 ]; then
+    # The host glibc is at least as new as the bundled one: system loader + host glibc
+    exec "${HERE}/usr/bin/pokerth_qml-client" "$@"
 else
     # Fallback: a normal start (works only if the host glibc is compatible)
     echo "WARNUNG: Gebündelter Loader nicht gefunden, verwende System-Loader" >&2
@@ -505,7 +563,7 @@ echo "QML-Module:           $(find "$APPDIR/usr/qml" -maxdepth 1 -mindepth 1 -ty
 echo "Gesamtgröße AppDir:   $(du -sh "$APPDIR" | cut -f1)"
 echo ""
 
-if [ -f "$APPDIR/usr/lib/libc.so.6" ] && [ -f "$APPDIR/usr/lib/${LD_LINUX_NAME}" ]; then
+if [ -f "$APPDIR/usr/lib/glibc/libc.so.6" ] && [ -f "$APPDIR/usr/lib/${LD_LINUX_NAME}" ]; then
     echo "✓ glibc + ld-linux gebündelt — sollte auf älteren Systemen funktionieren!"
 else
     echo "⚠ glibc oder ld-linux fehlt — AppImage ist möglicherweise nicht voll portabel."

@@ -189,12 +189,17 @@ jobs:
           rm -rf squashfs-root
           "./${{ steps.appimage.outputs.name }}" --appimage-extract >/dev/null
           test -x squashfs-root/AppRun
-          test -f squashfs-root/usr/lib/libc.so.6
           ls squashfs-root/usr/lib/ld-linux-*.so.2
           test -d squashfs-root/usr/share/pokerth/data
           test -x "squashfs-root/usr/bin/$CMAKE_TARGET"
           if [ "${{ matrix.client }}" = "qml" ]; then
             test -d squashfs-root/usr/qml/QtQuick
+            # glibc lives in its own dir; AppRun only uses it on older hosts
+            test -f squashfs-root/usr/lib/glibc/libc.so.6
+            test ! -e squashfs-root/usr/lib/libc.so.6
+            grep -qE '^BUNDLED_GLIBC="[0-9]+\.[0-9]+"' squashfs-root/AppRun
+          else
+            test -f squashfs-root/usr/lib/libc.so.6
           fi
           echo "bundled libs: $(find squashfs-root/usr/lib -name '*.so*' | wc -l)"
           rm -rf squashfs-root
