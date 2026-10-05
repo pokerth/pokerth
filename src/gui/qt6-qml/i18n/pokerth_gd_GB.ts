@@ -767,7 +767,7 @@
 <context>
     <name>GameListItem</name>
     <message>
-        <location filename="../components/GameListItem.qml" line="+147"/>
+        <location filename="../components/GameListItem.qml" line="+148"/>
         <source>Report inappropriate game name</source>
         <translation>Aithris ainm geama mì-iomchaidh</translation>
     </message>
@@ -853,7 +853,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+443"/>
+        <location filename="../components/GamePlayerBox.qml" line="+445"/>
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
@@ -1087,7 +1087,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+241"/>
+        <location filename="../pages/GameWaitPage.qml" line="+250"/>
         <source>Players</source>
         <translation>Cluicheadairean</translation>
     </message>
@@ -1116,48 +1116,48 @@
     </message>
     <message>
         <location line="-267"/>
-        <location line="+687"/>
+        <location line="+689"/>
         <source>Game List</source>
         <translation>Liosta nan geamannan</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+648"/>
+        <location line="-638"/>
+        <location line="+650"/>
         <source>No game list filter</source>
         <translation>Gun chriathrag air liosta nan geamannan</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open games</source>
         <translation>Seall na geamannan fosgailte</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full games</source>
         <translation>Seall na geamannan fosgailte nach eil làn</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Seall na geamannan fosgailte, nach eil làn is a tha poblach</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Seall na geamannan fosgailte, nach eil làn is a tha prìobhaideach</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
         <translation>Seall na geamannan rangachaidh fosgailte nach eil làn</translation>
     </message>
     <message>
-        <location line="-574"/>
+        <location line="-576"/>
         <source>Game Info</source>
         <translation>Fiosrachadh a&apos; gheama</translation>
     </message>
@@ -1182,7 +1182,7 @@
         <translation>Cluicheadairean ceangailte</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+92"/>
         <source>Players: %1 / %2</source>
         <translation>Cluicheadairean: %1 / %2</translation>
     </message>
@@ -1242,13 +1242,13 @@
         <translation>Cluicheadairean sa gheama (%1)</translation>
     </message>
     <message>
-        <location line="-653"/>
-        <location line="+745"/>
+        <location line="-663"/>
+        <location line="+755"/>
         <source>Kick player</source>
         <translation>Thoir an cluicheadair air falbh</translation>
     </message>
     <message>
-        <location line="-744"/>
+        <location line="-754"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
         <translation>A bheil thu cinnteach gu bheil thu airson «%1» a thoirt air falbh on gheama?</translation>
     </message>
@@ -1258,7 +1258,7 @@
         <translation>Thoir a&apos; bhròg</translation>
     </message>
     <message>
-        <location line="+776"/>
+        <location line="+786"/>
         <source>Lobby Chat</source>
         <translation>Cabadaich an lobaidh</translation>
     </message>
@@ -1283,12 +1283,12 @@
         <translation>Fàg an geama</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Start Game</source>
         <translation>Tòisich air a&apos; gheama</translation>
     </message>
     <message>
-        <location line="-88"/>
+        <location line="-89"/>
         <source>Suggest players</source>
         <translation>Mol cluicheadairean</translation>
     </message>
@@ -1434,7 +1434,12 @@
         <translation>Seall gliocasan-sgrìn</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>Ace’s Help: explain each screen the first time</source>
+        <translation>Cobhair an Aoin: mìnich gach sgrìn a’ chiad turas</translation>
+    </message>
+    <message>
+        <location line="+16"/>
         <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
         <translation>Cuir sùm a&apos; bhùird an comas (sguabadh is sùm, sa mhodh mhobile a-mhàin)</translation>
     </message>
@@ -1482,6 +1487,344 @@
         <location line="-31"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
         <translation>Mol cluicheadairean sna geamannan coimhearsnachd agad fhèin</translation>
+    </message>
+</context>
+<context>
+    <name>GuideOverlay</name>
+    <message>
+        <location filename="../components/GuideOverlay.qml" line="+71"/>
+        <source>Ace’s Help</source>
+        <translation>Cobhair an Aoin</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help — tap for my menu</source>
+        <translation>Cobhair an Aoin — thoir gnogag airson a’ chlàr-taice agam</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>New here? I can show you around as you go.</source>
+        <translation>Ùr an seo? ’S urrainn dhomh do stiùireadh mun cuairt fhad ’s a thèid thu air adhart.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yes, please</source>
+        <translation>Tha, mas e do thoil e</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No thanks</source>
+        <translation>Chan eil, tapadh leat</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Got it</source>
+        <translation>Tha mi ga thuigsinn</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Later</source>
+        <translation>Nas anmoiche</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Next</source>
+        <translation>Air adhart</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Back</source>
+        <translation>Air ais</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Close</source>
+        <translation>Dùin</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turn off</source>
+        <translation>Cuir dheth</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show all tips again</source>
+        <translation>Seall gach moladh a-rithist</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Done — every tip will show again.</source>
+        <translation>Dèanta — nochdaidh gach moladh a-rithist.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help is off. You can turn it back on from the menu at any time.</source>
+        <translation>Tha Cobhair an Aoin dheth. ’S urrainn dhut a cur air a-rithist on chlàr-taice uair sam bith.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Gabh pàirt</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create a Ranking table</source>
+        <translation>Cruthaich bòrd rangachaidh</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create an account</source>
+        <translation>Cruthaich cunntas</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>See the ranking</source>
+        <translation>Seall an rangachadh</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This screen’s tip</source>
+        <translation>Moladh na sgrìn seo</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A ranked game is waiting for you: **{n}/{max}** players. It starts as soon as it’s full!</source>
+        <translation>Tha geama rangachaidh a’ feitheamh ort: **{n}/{max}** cluicheadairean. Tòisichidh e cho luath ’s a bhios e làn!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No ranked game open right now. Create one — any player with an account can! It starts by itself as soon as 10 players have joined.</source>
+        <translation>Chan eil geama rangachaidh fosgailte an-dràsta. Cruthaich fear — ’s urrainn do chluicheadair sam bith aig a bheil cunntas! Tòisichidh e leis fhèin cho luath ’s a bhios 10 cluicheadairean air pàirt a ghabhail.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ranked games need a (free) pokerth.net account. As a guest you can play Normal games.</source>
+        <translation>Feumaidh geamannan rangachaidh cunntas pokerth.net (an-asgaidh). Mar aoigh, ’s urrainn dhut geamannan àbhaisteach a chluich.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ranked game: **{n}/{max}** players. It starts by itself as soon as the table is full — meanwhile, here is how the ranking works.</source>
+        <translation>Geama rangachaidh: **{n}/{max}** cluicheadairean. Tòisichidh e leis fhèin cho luath ’s a bhios am bòrd làn — san eadar-àm, seo mar a dh’obraicheas an rangachadh.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Each ranked game hands out points by finishing place: **15, 9, 6, 4, 3, 2, 1** from 1st to 7th, nothing from 8th to 10th — 40 points per table.</source>
+        <translation>Bheir gach geama rangachaidh seachad puingean a rèir an àite aig an deireadh: **15, 9, 6, 4, 3, 2, 1** on 1d chun an 7mh, dad on 8mh chun an 10mh — 40 puing gach bòrd.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your **Score** is not the sum of your points but your average per game, tempered by how many games you have played: playing regularly matters.</source>
+        <translation>Chan e suim nam puingean agad a th’ anns an **Score** agad ach a’ chuibheasachd agad gach geama, air a mhaothachadh a rèir co mheud geama a chluich thu: tha e cudromach cluich gu cunbhalach.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The ranking runs in **quarterly seasons**: at each new season the counters are archived and start again from zero.</source>
+        <translation>Tha an rangachadh a’ ruith ann an **seusanan ràitheil**: aig gach seusan ùr thèid na cunntairean a thasglannachadh agus tòisichidh iad o neoni a-rithist.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Why is **5/5** everyone’s favourite? 5 seconds to act, 5 seconds between hands, 10,000 chips and blinds doubling every 11 hands: fast and the same for everyone, so games stay short and comparable.</source>
+        <translation>Carson a tha **5/5** cho measail aig a h-uile duine? 5 diogan airson gnìomh, 5 diogan eadar làmhan, 10,000 tòcan agus doill a dhùblaicheas gach 11 làmhan: luath agus co-ionann do na h-uile, gus am bi na geamannan goirid agus furasta an coimeas.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Just one more player!</source>
+        <translation>Dìreach aon chluicheadair eile!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Game over — you finished in place **{place}**: **+{points}** points. See your ranking?</source>
+        <translation>Tha an geama seachad — chrìochnaich thu san àite **{place}**: **+{points}** puingean. A bheil thu airson an rangachadh agad fhaicinn?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Game over! Several players went out in the same hand, so your exact place is on the ranking page. See your ranking?</source>
+        <translation>Tha an geama seachad! Chaidh grunn chluicheadairean a-mach san aon làimh, mar sin tha an dearbh àite agad air duilleag an rangachaidh. A bheil thu airson an rangachadh agad fhaicinn?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Let’s go through this form together, one field at a time — I’ll bring each one into view. **Next** moves on, **Back** goes back, **Later** stops the tour.</source>
+        <translation>Rachamaid tron fhoirm seo còmhla, aon raon aig an aon àm — bheir mi gach fear dhan t-sealladh. Gluaisidh **Air adhart** air adhart, thèid **Air ais** air ais, cuiridh **Nas anmoiche** stad air a’ chuairt.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game name**: what the other players see in the list of tables. Say what to expect — « Fast game », « Beginners welcome »…</source>
+        <translation>**Ainm a&apos; gheama**: na chì na cluicheadairean eile ann an liosta nam bòrd. Innis dè ri dhùil — “Geama luath”, “Fàilte do luchd-tòiseachaidh”…</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game name**: as a guest, the name is chosen for you.</source>
+        <translation>**Ainm a&apos; gheama**: mar aoigh, thèid an t-ainm a thaghadh dhut.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>As a guest you can create **Normal** games. Ranking tables and registered-only games need a (free) pokerth.net account.</source>
+        <translation>Mar aoigh, ’s urrainn dhut geamannan **Àbhaisteach** a chruthachadh. Feumaidh bùird rangachaidh agus geamannan do chluicheadairean clàraichte a-mhàin cunntas pokerth.net (an-asgaidh).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Password**: switch it on to keep the table private — only players who know the password can sit down. Not available for a **Ranking game** or an **Invited players only** game.</source>
+        <translation>**Facal-faire**: cuir air e gus am bòrd a chumail prìobhaideach — chan fhaod ach cluicheadairean aig a bheil am facal-faire suidhe sìos. Chan eil e ri fhaighinn airson **Geama rangachaidh** no geama **Cluicheadairean le cuireadh a-mhàin**.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Spectators**: lets other players watch the game without playing.</source>
+        <translation>**Luchd-amhairc**: leigidh e le cluicheadairean eile coimhead air a’ gheama gun a bhith a’ cluich.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Max players**: from 2 to 10 seats. The host starts the game from the waiting room, even with empty seats — a **Ranking game** starts by itself once all 10 seats are taken.</source>
+        <translation>**Cluicheadairean as motha**: o 2 gu 10 suidheachain. Tòisichidh an t-òstair an geama on t-seòmar-feitheimh, fiù ’s le suidheachain falamh — tòisichidh **Geama rangachaidh** leis fhèin nuair a bhios na 10 suidheachain uile làn.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Starting stack**: the chips each player gets. What counts is the stack compared with the blinds: 3000 chips with a small blind of 10 is 150 big blinds, a comfortable game. Fewer big blinds = a faster game, with more all-ins.</source>
+        <translation>**Calpa tòiseachaidh**: na chips a gheibh gach cluicheadair. ’S e an rud a tha cudromach an calpa an coimeas ris na blinds: tha 3000 chips le small blind de 10 co-ionann ri 150 big blinds, geama cofhurtail. Nas lugha de big blinds = geama nas luaithe, le barrachd all-ins.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**First small blind**: the small blind when the game starts. The big blind is always twice the small blind.</source>
+        <translation>**A&apos; chiad small blind**: an small blind nuair a thòisicheas an geama. Tha am big blind an-còmhnaidh dà uiread an small blind.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Blind increase interval**: the blinds go up every so many **hands** or **minutes**. The shorter the interval, the shorter the game.</source>
+        <translation>**Eadaramh àrdachadh nan dall**: thèid na daill suas às dèidh uiread seo de **làmhan** no **mionaidean**. Mar as giorra an t-eadaramh, ’s ann as giorra an geama.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Time per action**: how many seconds each player has to act on their turn (5 to 60).</source>
+        <translation>**Ùine gach gnìomh**: co mheud diog a th’ aig gach cluicheadair gus gluasad nuair a thig an turas aca (5 gu 60).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Pause between hands**: the seconds to see how a hand ended before the next one is dealt (5 to 20).</source>
+        <translation>**Stad eadar làmhan**: na diogan gus fhaicinn mar a chrìochnaich làmh mus tèid an ath tè a roinn (5 gu 20).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Greyed out here: the chosen game type (or community template) sets this value.</source>
+        <translation>Liath an-seo: tha an seòrsa geama a thagh thu (no an teamplaid coimhearsnachd) a’ suidheachadh an luach seo.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Great! I’ll pop up whenever there is something useful to explain — each screen and window once. The **A♠** button at the top opens my menu: this screen’s tip again, all tips again, or turn me off.</source>
+        <translation>Sgoinneil! Nochdaidh mi nuair a bhios rudeigin feumail ri mhìneachadh — gach sgrìn is gach uinneag aon turas. Fosglaidh am putan **A♠** gu h-àrd an clàr-taice agam: gliocas na sgrìn seo a-rithist, na gliocasan uile a-rithist, no cuir dheth mi.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help is on: I explain each screen and window the first time you open it. **Later** puts a tip off — the red dot on the **A♠** button then brings it back.</source>
+        <translation>Tha Cobhair an Aoin air: mìnichidh mi gach sgrìn is gach uinneag a’ chiad turas a dh’fhosglas tu i. Cuiridh **Nas anmoiche** gliocas dheth — bheir an dotag dhearg air a’ phutan **A♠** air ais e an uairsin.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Four ways to play: **Internet Game** on pokerth.net, with the official rankings; **Start Local Game** against computer players, even offline; **Create Network Game** opens a server for your local network, and **Join Network Game** connects to one.</source>
+        <translation>Ceithir dòighean air cluich: **Geama eadar-lìn** air pokerth.net, leis na rangachaidhean oifigeil; **Tòisich air geama ionadail** an aghaidh cluicheadairean coimpiutair, fiù ’s far loidhne; fosglaidh **Cruthaich geama lìonraidh** frithealaiche airson an lìonraidh ionadail agad, agus ceanglaidh **Gabh pàirt an geama lìonraidh** ri fear.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>On pokerth.net, play with your free account — **Login as User** — or **Continue as Guest**. Guests can only play Normal games: no ranked games and no chat. **Register** creates a free account in a minute.</source>
+        <translation>Air pokerth.net, cluich leis a’ chunntas shaor agad — **Log a-steach mar chleachdaiche** — no **Lean air adhart mar aoigh**. Chan fhaod aoighean ach geamannan àbhaisteach a chluich: gun gheamannan rangachaidh is gun chabadaich. Cruthaichidh **Clàraich** cunntas saor ann am mionaid.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>To see where you stand: the **trophy** button at the top — and at the table, tap the **table name** to see the season ranking of the players you sit with.</source>
+        <translation>Airson faicinn càit a bheil thu: am putan **cupa** gu h-àrd — agus aig a’ bhòrd, thoir gnogag air **ainm a’ bhùird** gus rangachadh an t-seusain aig na cluicheadairean aig do bhòrd fhaicinn.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This table is yours: press **Start Game** when everyone is here — or tick **Fill up with computer players** to fill the empty seats.</source>
+        <translation>Is leatsa am bòrd seo: brùth **Tòisich air a’ gheama** nuair a bhios a h-uile duine an seo — no cuir cromag ri **Lìon le cluicheadairean coimpiutair** gus na suidheachain falamh a lìonadh.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The host of the table starts the game — you only have to wait until everyone is here.</source>
+        <translation>Tòisichidh òstair a’ bhùird an geama — chan fheum thu ach feitheamh gus am bi a h-uile duine an seo.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Four game types: **Normal** (open to all), **Registered players only**, **Invited players only** and **Ranking game**. Any player with an account can create a Ranking table: 10 players, no password, it starts by itself when full.</source>
+        <translation>Ceithir seòrsachan geama: **Àbhaisteach** (fosgailte do na h-uile), **Cluicheadairean clàraichte a-mhàin**, **Cluicheadairean le cuireadh a-mhàin** agus **Geama rangachaidh**. Faodaidh cluicheadair sam bith aig a bheil cunntas bòrd rangachaidh a chruthachadh: 10 cluicheadairean, gun fhacal-faire, agus tòisichidh e leis fhèin nuair a bhios e làn.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Community template** (invited players only): the exact settings of a BBC, Monthly Cup or WEC game in one tap, for the admins who open these games. The fields it sets are then locked.</source>
+        <translation>**Teamplaid na coimhearsnachd** (cluicheadairean le cuireadh a-mhàin): dearbh roghainnean geama BBC, Monthly Cup no WEC le aon ghnogag, airson nan rianairean a dh’fhosglas na geamannan seo. Bidh na raointean a shuidhicheas i glaiste an uairsin.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Create Game** opens your table and its waiting room; **Cancel** goes back without creating anything.</source>
+        <translation>An ceum mu dheireadh: fosglaidh **Cruthaich geama** do bhòrd agus an seòmar-feitheimh aige; thèid **Sguir dheth** air ais gun dad a chruthachadh.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A game on your local network: this device becomes the server, and the others connect with **Join Network Game**. Let’s go through the settings one at a time — **Next** moves on, **Back** goes back, **Later** stops the tour.</source>
+        <translation>Geama air an lìonra ionadail agad: bidh an t-uidheam seo na fhrithealaiche, agus ceanglaidh càch le **Gabh pàirt an geama lìonraidh**. Rachamaid tro na roghainnean fear seach fear — thèid **Air adhart** air adhart, thèid **Air ais** air ais, cuiridh **Nas anmoiche** stad air a’ chuairt.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Always double blinds**: the small blind doubles at each raise. Switched off, the blinds follow your manual blinds order from the network game settings.</source>
+        <translation>**Dùblaich na blinds an-còmhnaidh**: dùblaichidh am blind beag aig gach àrdachadh. Ma bhios e dheth, leanaidh na blinds an t-òrdugh blinds làimhe agad o roghainnean a’ gheama lìonraidh.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Create Game** starts the server on this device and opens its lobby; **Cancel** goes back.</source>
+        <translation>An ceum mu dheireadh: tòisichidh **Cruthaich geama** am frithealaiche air an uidheam seo agus fosglaidh e an lobaidh aige; thèid **Sguir dheth** air ais.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Training table: choose the number of players, the starting stack, the blinds and the game speed, then start the game. Nothing here counts towards a ranking.</source>
+        <translation>Bòrd trèanaidh: tagh an àireamh de chluicheadairean, na sliseagan tòiseachaidh, na blinds agus astar a’ gheama, an uairsin tòisich air a’ gheama. Chan eil dad an seo a’ cunntadh airson rangachadh.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Number of players**: you and up to 9 computer players.</source>
+        <translation>**Àireamh nan cluicheadairean**: thusa agus suas ri 9 cluicheadairean coimpiutair.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Blinds**: keep the saved settings, or change them here — the first small blind, how often it goes up (every so many hands or minutes) and how: always doubled, or a manual blinds order.</source>
+        <translation>**Blinds**: cùm na roghainnean a chaidh a shàbhaladh no atharraich iad an seo — a’ chiad bhlind beag, dè cho tric ’s a dh’èireas e (gach uiread de làmhan no de mhionaidean) agus ciamar: dùblaichte an-còmhnaidh, no a rèir òrdugh blinds làimhe.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game speed**: how fast the computer players act and the cards are dealt — from 1 (slow) to 11 (fast).</source>
+        <translation>**Astar a’ gheama**: dè cho luath ’s a nì na cluicheadairean coimpiutair an gnìomh agus a thèid na cairtean a roinn — o 1 (slaodach) gu 11 (luath).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Start game** opens the table straight away; **Cancel** goes back.</source>
+        <translation>An ceum mu dheireadh: fosglaidh **Tòisich air a’ gheama** am bòrd sa bhad; thèid **Sguir dheth** air ais.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The official **PokerTH** ranking and the community ones (**BBC**, **WEC**). Pick one: search a player, choose a season, and tap a name to open the profile.</source>
+        <translation>Rangachadh oifigeil **PokerTH** agus feadhainn na coimhearsnachd (**BBC**, **WEC**). Tagh fear: lorg cluicheadair, tagh seusan agus thoir gnogag air ainm gus a’ phròifil fhosgladh.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The official ranking: the current season, or an earlier one under **Season**. Search a player by name and tap a row for the profile. At the bottom: how the ranking is calculated.</source>
+        <translation>An rangachadh oifigeil: an seusan làithreach, no fear nas tràithe fo **Seusan**. Lorg cluicheadair a rèir ainm agus thoir gnogag air sreath airson na pròifil. Aig a’ bhonn: mar a thèid an rangachadh a thomhas.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The latest posts of the pokerth.net forum, newest first. Tap a post to read it here — it is then marked as read. A filled dot means not read yet; the badge on the newspaper button counts them, and **Mark all as read** clears them all. **BBC games** lists the upcoming BBC games.</source>
+        <translation>Na postaichean as ùire aig fòram pokerth.net, an fheadhainn as ùire an toiseach. Thoir gnogag air post gus a leughadh an seo — thèid comharra a chur ris gun deach a leughadh. Tha dotag làn a’ ciallachadh nach deach a leughadh fhathast; cunntaidh am bràiste air putan na pàipeir-naidheachd iad, agus falamhaichidh **Cuir comharra gun deach na h-uile a leughadh** iad uile. Seallaidh **Geamannan BBC** na geamannan BBC a tha ri thighinn.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Every setting, by section: interface, style, sound, local, network and internet games, nicknames and avatars, log messages, and back to the defaults. Ace’s Help is switched on and off in the interface settings.</source>
+        <translation>Gach roghainn, a rèir earrainn: eadar-aghaidh, stoidhle, fuaim, geama ionadail, lìonraidh is eadar-lìn, far-ainmean is avatars, teachdaireachdan loga, agus air ais gu na bun-roghainnean. Cuiridh tu Cobhair an Aoin air is dheth ann an roghainnean na h-eadar-aghaidh.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your logs: every game played on this device is recorded here. Pick a game for a preview, export it as HTML or text, or analyse it for a review of your play.</source>
+        <translation>Na logaichean agad: thèid gach geama a chaidh a chluich air an uidheam seo a chlàradh an seo. Tagh geama airson ro-shealladh, às-phortaich e mar HTML no teacsa, no faigh mion-sgrùdadh air gus measadh air do chluich fhaighinn.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A player’s card: the profile and the statistics — the current season, the last games and the results so far.</source>
+        <translation>Cairt cluicheadair: a’ phròifil agus an stadastaireachd — an seusan làithreach, na geamannan mu dheireadh agus na toraidhean gu ruige seo.</translation>
     </message>
 </context>
 <context>
@@ -1645,7 +1988,7 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+326"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+362"/>
         <source>← Zurück</source>
         <translation>← Air ais</translation>
     </message>
@@ -1661,12 +2004,12 @@
         <translation>Ainm a&apos; gheama</translation>
     </message>
     <message>
-        <location line="-205"/>
+        <location line="-237"/>
         <source>%1&apos;s game</source>
         <translation>An geama aig %1</translation>
     </message>
     <message>
-        <location line="+214"/>
+        <location line="+246"/>
         <source>Spielname eingeben …</source>
         <translation>Cuir a-steach ainm geama …</translation>
     </message>
@@ -1795,19 +2138,19 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1463"/>
-        <location line="+1377"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1475"/>
+        <location line="+1383"/>
         <source>Guests cannot send chat messages</source>
         <translation>Chan urrainn dha aoighean teachdaireachdan cabadaich a chur</translation>
     </message>
     <message>
-        <location line="-1358"/>
-        <location line="+1352"/>
+        <location line="-1364"/>
+        <location line="+1358"/>
         <source>Private messages are not available at the table.</source>
         <translation>Chan eil teachdaireachdan prìobhaideach ri fhaighinn aig a&apos; bhòrd.</translation>
     </message>
     <message>
-        <location line="-1346"/>
+        <location line="-1352"/>
         <source>Player not found</source>
         <translation>Cha deach an cluicheadair a lorg</translation>
     </message>
@@ -1969,18 +2312,18 @@ Cuir am facal-faire a-steach turas eile is feuch ris a-rithist.</translation>
         <location line="+86"/>
         <location line="+39"/>
         <location line="+9"/>
-        <location line="+160"/>
+        <location line="+165"/>
         <location line="+9"/>
         <location line="+185"/>
         <location line="+9"/>
         <location line="+16"/>
-        <location line="+11"/>
+        <location line="+12"/>
         <location line="+11"/>
         <source>Not connected to server</source>
         <translation>Gun cheangal ris an fhrithealaiche</translation>
     </message>
     <message>
-        <location line="-69"/>
+        <location line="-70"/>
         <source>%1 has been invited to %2 by %3.</source>
         <translation>Thug %3 cuireadh dha %1 gu %2.</translation>
     </message>
@@ -1990,7 +2333,7 @@ Cuir am facal-faire a-steach turas eile is feuch ris a-rithist.</translation>
         <translation>Dhiùlt %1 an cuireadh gu %2.</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+80"/>
         <source>Guests cannot receive private messages.</source>
         <translation>Chan urrainn dha aoighean teachdaireachdan prìobhaideach fhaighinn.</translation>
     </message>
@@ -2040,7 +2383,7 @@ Cuir am facal-faire a-steach turas eile is feuch ris a-rithist.</translation>
         <translation>Làn</translation>
     </message>
     <message>
-        <location line="-225"/>
+        <location line="-226"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>Chan urrainn dha %1 gabhail ann an %2 oir tha e trang.</translation>
     </message>
@@ -2048,7 +2391,7 @@ Cuir am facal-faire a-steach turas eile is feuch ris a-rithist.</translation>
 <context>
     <name>LobbyPage</name>
     <message>
-        <location filename="../pages/LobbyPage.qml" line="+1621"/>
+        <location filename="../pages/LobbyPage.qml" line="+1641"/>
         <source>Game invitation</source>
         <translation>Cuireadh gu geama</translation>
     </message>
@@ -2073,24 +2416,24 @@ Cuir am facal-faire a-steach turas eile is feuch ris a-rithist.</translation>
         <translation>Cruthaich geama</translation>
     </message>
     <message>
-        <location line="-777"/>
-        <location line="+835"/>
+        <location line="-781"/>
+        <location line="+839"/>
         <source>Game Info</source>
         <translation>Fiosrachadh a&apos; gheama</translation>
     </message>
     <message>
-        <location line="-565"/>
-        <location line="+514"/>
+        <location line="-568"/>
+        <location line="+517"/>
         <source>Join Game</source>
         <translation>Gabh pàirt sa gheama</translation>
     </message>
     <message>
-        <location line="-304"/>
+        <location line="-307"/>
         <source>Game List</source>
         <translation>Liosta nan geamannan</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+93"/>
         <source>Time: %1s/%2s</source>
         <translation>Ùine: %1 diog/%2 diog</translation>
     </message>
@@ -2111,37 +2454,37 @@ Cuir am facal-faire a-steach turas eile is feuch ris a-rithist.</translation>
     </message>
     <message>
         <location line="+128"/>
-        <location line="+287"/>
+        <location line="+288"/>
         <source>Lobby Chat</source>
         <translation>Cabadaich an lobaidh</translation>
     </message>
     <message>
-        <location line="-644"/>
+        <location line="-647"/>
         <source>No game list filter</source>
         <translation>Gun chriathrag air liosta nan geamannan</translation>
     </message>
     <message>
-        <location line="+406"/>
+        <location line="+408"/>
         <source>Player: %1</source>
         <translation>Cluicheadair: %1</translation>
     </message>
     <message>
-        <location line="-927"/>
+        <location line="-930"/>
         <source>Players</source>
         <translation>Cluicheadairean</translation>
     </message>
     <message>
-        <location line="+1041"/>
+        <location line="+1045"/>
         <source>Select a game to see details</source>
         <translation>Tagh geama gus am fiosrachadh fhaicinn</translation>
     </message>
     <message>
-        <location line="-517"/>
+        <location line="-520"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Seall na geamannan fosgailte, nach eil làn is a tha poblach</translation>
     </message>
     <message>
-        <location line="-640"/>
+        <location line="-641"/>
         <source>Report game name</source>
         <translation>Aithris ainm a&apos; gheama</translation>
     </message>
@@ -2196,36 +2539,36 @@ Is urrainn dha PokerTH a lughdachadh dhut. Bidh an t-avatar ùr an sàs an ath-t
     </message>
     <message>
         <location line="+167"/>
-        <location line="+510"/>
+        <location line="+511"/>
         <source>Sort alphabetically</source>
         <translation>Seòrsaich a rèir na h-aibidil</translation>
     </message>
     <message>
-        <location line="-509"/>
-        <location line="+510"/>
+        <location line="-510"/>
+        <location line="+511"/>
         <source>Sort by country</source>
         <translation>Seòrsaich a rèir dùthcha</translation>
     </message>
     <message>
-        <location line="-509"/>
-        <location line="+510"/>
+        <location line="-510"/>
+        <location line="+511"/>
         <source>Display idle players</source>
         <translation>Seall cluicheadairean air tàmh</translation>
     </message>
     <message>
         <location line="-423"/>
-        <location line="+830"/>
+        <location line="+833"/>
         <source>Report inappropriate game name</source>
         <translation>Aithris ainm geama mì-iomchaidh</translation>
     </message>
     <message>
-        <location line="-822"/>
-        <location line="+829"/>
+        <location line="-825"/>
+        <location line="+832"/>
         <source>Close game (admin)</source>
         <translation>Dùin an geama (rianaire)</translation>
     </message>
     <message>
-        <location line="-792"/>
+        <location line="-795"/>
         <source>Players: %1 / %2</source>
         <translation>Cluicheadairean: %1 / %2</translation>
     </message>
@@ -2236,12 +2579,12 @@ Is urrainn dha PokerTH a lughdachadh dhut. Bidh an t-avatar ùr an sàs an ath-t
     </message>
     <message>
         <location line="+33"/>
-        <location line="+773"/>
+        <location line="+776"/>
         <source>Type: %1</source>
         <translation>Seòrsa: %1</translation>
     </message>
     <message>
-        <location line="-762"/>
+        <location line="-765"/>
         <source>Small blind: %1</source>
         <translation>Blind beag: %1</translation>
     </message>
@@ -2289,18 +2632,18 @@ Is urrainn dha PokerTH a lughdachadh dhut. Bidh an t-avatar ùr an sàs an ath-t
     </message>
     <message>
         <location line="+12"/>
-        <location line="+721"/>
+        <location line="+724"/>
         <source>Players in game (%1)</source>
         <translation>Cluicheadairean sa gheama (%1)</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+514"/>
+        <location line="-639"/>
+        <location line="+517"/>
         <source>Leave Game</source>
         <translation>Fàg an geama</translation>
     </message>
     <message>
-        <location line="-417"/>
+        <location line="-420"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Seall na geamannan fosgailte, nach eil làn is a tha prìobhaideach</translation>
     </message>
@@ -2315,21 +2658,21 @@ Is urrainn dha PokerTH a lughdachadh dhut. Bidh an t-avatar ùr an sàs an ath-t
         <translation>Cluicheadairean ceangailte</translation>
     </message>
     <message>
-        <location line="-671"/>
-        <location line="+877"/>
+        <location line="-672"/>
+        <location line="+880"/>
         <source>Spectate game</source>
         <translation>Amhairc air a&apos; gheama</translation>
     </message>
     <message>
-        <location line="-876"/>
+        <location line="-879"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
         <translation>A bheil thu cinnteach gu bheil thu airson amharc air a&apos; gheama:
 «%1»?</translation>
     </message>
     <message>
-        <location line="+994"/>
-        <location line="+287"/>
+        <location line="+997"/>
+        <location line="+288"/>
         <source>Global notice (admin)</source>
         <translation>Brath coitcheann (rianaire)</translation>
     </message>
@@ -2410,7 +2753,7 @@ Is urrainn dha PokerTH a lughdachadh dhut. Bidh an t-avatar ùr an sàs an ath-t
         <translation>Till dhan gheama</translation>
     </message>
     <message>
-        <location line="-1046"/>
+        <location line="-1049"/>
         <source>Show open &amp; non-full games</source>
         <translation>Seall na geamannan fosgailte nach eil làn</translation>
     </message>
@@ -2420,8 +2763,8 @@ Is urrainn dha PokerTH a lughdachadh dhut. Bidh an t-avatar ùr an sàs an ath-t
         <translation>Seall na geamannan fosgailte</translation>
     </message>
     <message>
-        <location line="-473"/>
-        <location line="+452"/>
+        <location line="-474"/>
+        <location line="+453"/>
         <source>search for player ...</source>
         <translation>lorg cluicheadair ...</translation>
     </message>
@@ -2467,7 +2810,7 @@ Is urrainn dha PokerTH a lughdachadh dhut. Bidh an t-avatar ùr an sàs an ath-t
 <context>
     <name>LocalGamePage</name>
     <message>
-        <location filename="../pages/LocalGamePage.qml" line="+38"/>
+        <location filename="../pages/LocalGamePage.qml" line="+51"/>
         <source>alle %1 Hände</source>
         <translation>gach %1 làmhan</translation>
     </message>
@@ -2502,17 +2845,17 @@ Is urrainn dha PokerTH a lughdachadh dhut. Bidh an t-avatar ùr an sàs an ath-t
         <translation>Roghainnean a&apos; gheama ionadail</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Anzahl der Spieler:</source>
         <translation>Àireamh nan cluicheadairean:</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+17"/>
         <source>Startkapital:</source>
         <translation>Airgead tòiseachaidh:</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+20"/>
         <source>Blinds</source>
         <translation>Blinds</translation>
     </message>
@@ -2568,7 +2911,7 @@ Is urrainn dha PokerTH a lughdachadh dhut. Bidh an t-avatar ùr an sàs an ath-t
         <translation>Òrdugh nam blinds a làimh</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
         <translation>Luaths a&apos; gheama
@@ -2988,7 +3331,7 @@ Tòisich PokerTH às ùr ach an tèid na faidhlichean loga a shàbhaladh an-siud
 <context>
     <name>NetworkGameCreatePage</name>
     <message>
-        <location filename="../pages/NetworkGameCreatePage.qml" line="+133"/>
+        <location filename="../pages/NetworkGameCreatePage.qml" line="+148"/>
         <source>← Zurück</source>
         <translation>← Air ais</translation>
     </message>
@@ -3892,7 +4235,7 @@ Tòisich PokerTH às ùr ach an tèid na faidhlichean loga a shàbhaladh an-siud
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+341"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+349"/>
         <source>Back</source>
         <translation>Air ais</translation>
     </message>
@@ -4551,7 +4894,12 @@ Feuch an dearbhaich thu an t-ainm cleachdaiche is am facal-faire agad.</translat
         <translation>PokerTH - v2.1.9</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+102"/>
+        <source>Ace’s Help</source>
+        <translation>Cobhair an Aoin</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Über PokerTH</source>
         <translation>Mu PokerTH</translation>
     </message>
@@ -4625,7 +4973,7 @@ Feuch an dearbhaich thu an t-ainm cleachdaiche is am facal-faire agad.</translat
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../pages/StartPage.qml" line="+161"/>
+        <location filename="../pages/StartPage.qml" line="+167"/>
         <source>Internetspiel</source>
         <translation>Geama eadar-lìn</translation>
     </message>
@@ -4935,7 +5283,7 @@ ro-shealladh</translation>
         <translation>Clàr-taice</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+111"/>
         <source>Private messages</source>
         <translation>Teachdaireachdan prìobhaideach</translation>
     </message>
@@ -4955,7 +5303,7 @@ ro-shealladh</translation>
         <translation>Roghainnean</translation>
     </message>
     <message>
-        <location line="+198"/>
+        <location line="+210"/>
         <source>Timeout Warning</source>
         <translation>Rabhadh gum falbh an ùine</translation>
     </message>
@@ -5031,8 +5379,8 @@ ro-shealladh</translation>
         <translation>Chaidh an ceangal air chall</translation>
     </message>
     <message>
-        <location line="-780"/>
-        <location line="+568"/>
+        <location line="-851"/>
+        <location line="+639"/>
         <location line="+23"/>
         <source>Leave Game</source>
         <translation>Fàg an geama</translation>
@@ -5052,8 +5400,8 @@ is tilleadh dhan lobaidh?</translation>
         <translation>Sguir dheth</translation>
     </message>
     <message>
-        <location line="-733"/>
-        <location line="+633"/>
+        <location line="-804"/>
+        <location line="+704"/>
         <location line="+23"/>
         <source>Leave Lobby</source>
         <translation>Fàg an lobaidh</translation>

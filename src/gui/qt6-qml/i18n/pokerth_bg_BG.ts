@@ -767,7 +767,7 @@
 <context>
     <name>GameListItem</name>
     <message>
-        <location filename="../components/GameListItem.qml" line="+147"/>
+        <location filename="../components/GameListItem.qml" line="+148"/>
         <source>Report inappropriate game name</source>
         <translation>Докладвай неподходящо име на игра</translation>
     </message>
@@ -853,7 +853,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+443"/>
+        <location filename="../components/GamePlayerBox.qml" line="+445"/>
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
@@ -1087,7 +1087,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+241"/>
+        <location filename="../pages/GameWaitPage.qml" line="+250"/>
         <source>Players</source>
         <translation>Играчи</translation>
     </message>
@@ -1116,48 +1116,48 @@
     </message>
     <message>
         <location line="-267"/>
-        <location line="+687"/>
+        <location line="+689"/>
         <source>Game List</source>
         <translation>Списък с игри</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+648"/>
+        <location line="-638"/>
+        <location line="+650"/>
         <source>No game list filter</source>
         <translation>Без филтър на списъка с игри</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open games</source>
         <translation>Показвай отворените игри</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full games</source>
         <translation>Показвай отворените и незапълнени игри</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Показвай отворените, незапълнени и публични игри</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Показвай отворените, незапълнени и частни игри</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
         <translation>Показвай отворените, незапълнени игри с класация</translation>
     </message>
     <message>
-        <location line="-574"/>
+        <location line="-576"/>
         <source>Game Info</source>
         <translation>Информация за играта</translation>
     </message>
@@ -1182,7 +1182,7 @@
         <translation>Свързани играчи</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+92"/>
         <source>Players: %1 / %2</source>
         <translation>Играчи: %1 / %2</translation>
     </message>
@@ -1242,13 +1242,13 @@
         <translation>Играчи в играта (%1)</translation>
     </message>
     <message>
-        <location line="-653"/>
-        <location line="+745"/>
+        <location line="-663"/>
+        <location line="+755"/>
         <source>Kick player</source>
         <translation>Изгони играча</translation>
     </message>
     <message>
-        <location line="-744"/>
+        <location line="-754"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
         <translation>Наистина ли искате да изгоните „%1“ от играта?</translation>
     </message>
@@ -1258,7 +1258,7 @@
         <translation>Изгони</translation>
     </message>
     <message>
-        <location line="+776"/>
+        <location line="+786"/>
         <source>Lobby Chat</source>
         <translation>Чат на лобито</translation>
     </message>
@@ -1283,12 +1283,12 @@
         <translation>Напусни играта</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Start Game</source>
         <translation>Започни играта</translation>
     </message>
     <message>
-        <location line="-88"/>
+        <location line="-89"/>
         <source>Suggest players</source>
         <translation>Предложи играчи</translation>
     </message>
@@ -1434,7 +1434,12 @@
         <translation>Показвай подсказки</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>Ace’s Help: explain each screen the first time</source>
+        <translation>Помощ от асото: обяснявай всеки екран първия път</translation>
+    </message>
+    <message>
+        <location line="+16"/>
         <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
         <translation>Включи мащабиране на масата (плъзгане и мащабиране, само в мобилен режим)</translation>
     </message>
@@ -1482,6 +1487,344 @@
         <location line="-31"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
         <translation>Предлагай играчи в собствените игри на общността</translation>
+    </message>
+</context>
+<context>
+    <name>GuideOverlay</name>
+    <message>
+        <location filename="../components/GuideOverlay.qml" line="+71"/>
+        <source>Ace’s Help</source>
+        <translation>Помощ от асото</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help — tap for my menu</source>
+        <translation>Помощ от асото — докосни за моето меню</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>New here? I can show you around as you go.</source>
+        <translation>За първи път ли си тук? Мога да ти показвам всичко по пътя.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yes, please</source>
+        <translation>Да, моля</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No thanks</source>
+        <translation>Не, благодаря</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Got it</source>
+        <translation>Разбрах</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Later</source>
+        <translation>По-късно</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Next</source>
+        <translation>Напред</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Back</source>
+        <translation>Назад</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Close</source>
+        <translation>Затвори</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turn off</source>
+        <translation>Изключи</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show all tips again</source>
+        <translation>Покажи всички съвети отново</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Done — every tip will show again.</source>
+        <translation>Готово — всеки съвет ще се покаже отново.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help is off. You can turn it back on from the menu at any time.</source>
+        <translation>Помощ от асото е изключена. Можеш да я включиш отново от менюто по всяко време.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Влез</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create a Ranking table</source>
+        <translation>Създай маса за класиране</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create an account</source>
+        <translation>Създай акаунт</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>See the ranking</source>
+        <translation>Виж класирането</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This screen’s tip</source>
+        <translation>Съвет за този екран</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A ranked game is waiting for you: **{n}/{max}** players. It starts as soon as it’s full!</source>
+        <translation>Класирана игра те очаква: **{n}/{max}** играчи. Започва веднага щом се напълни!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No ranked game open right now. Create one — any player with an account can! It starts by itself as soon as 10 players have joined.</source>
+        <translation>В момента няма отворена класирана игра. Създай една — всеки играч с акаунт може! Тя започва сама веднага щом се присъединят 10 играчи.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ranked games need a (free) pokerth.net account. As a guest you can play Normal games.</source>
+        <translation>За класираните игри е нужен (безплатен) акаунт в pokerth.net. Като гост можеш да играеш нормални игри.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ranked game: **{n}/{max}** players. It starts by itself as soon as the table is full — meanwhile, here is how the ranking works.</source>
+        <translation>Класирана игра: **{n}/{max}** играчи. Започва сама веднага щом масата се напълни — междувременно, ето как работи класирането.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Each ranked game hands out points by finishing place: **15, 9, 6, 4, 3, 2, 1** from 1st to 7th, nothing from 8th to 10th — 40 points per table.</source>
+        <translation>Всяка класирана игра раздава точки според крайното място: **15, 9, 6, 4, 3, 2, 1** от 1-во до 7-мо място, нищо от 8-мо до 10-о — 40 точки на маса.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your **Score** is not the sum of your points but your average per game, tempered by how many games you have played: playing regularly matters.</source>
+        <translation>Твоят **Score** не е сборът от точките ти, а средното ти на игра, смекчено от броя изиграни игри: редовната игра има значение.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The ranking runs in **quarterly seasons**: at each new season the counters are archived and start again from zero.</source>
+        <translation>Класирането върви на **тримесечни сезони**: с всеки нов сезон броячите се архивират и тръгват отново от нула.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Why is **5/5** everyone’s favourite? 5 seconds to act, 5 seconds between hands, 10,000 chips and blinds doubling every 11 hands: fast and the same for everyone, so games stay short and comparable.</source>
+        <translation>Защо **5/5** е любимецът на всички? 5 секунди за действие, 5 секунди между ръцете, 10 000 чипа и блайндове, които се удвояват на всеки 11 ръце: бързо и еднакво за всички, така че игрите остават кратки и сравними.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Just one more player!</source>
+        <translation>Още само един играч!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Game over — you finished in place **{place}**: **+{points}** points. See your ranking?</source>
+        <translation>Край на играта — зае място **{place}**: **+{points}** точки. Искаш ли да видиш класирането си?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Game over! Several players went out in the same hand, so your exact place is on the ranking page. See your ranking?</source>
+        <translation>Край на играта! Няколко играчи отпаднаха в една и съща ръка, затова точното ти място е на страницата с класирането. Искаш ли да видиш класирането си?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Let’s go through this form together, one field at a time — I’ll bring each one into view. **Next** moves on, **Back** goes back, **Later** stops the tour.</source>
+        <translation>Нека минем заедно през този формуляр, поле по поле — ще ти покажа всяко. **Напред** продължава, **Назад** връща, **По-късно** спира обиколката.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game name**: what the other players see in the list of tables. Say what to expect — « Fast game », « Beginners welcome »…</source>
+        <translation>**Име на играта**: това, което другите играчи виждат в списъка с маси. Кажи какво да очакват — „Бърза игра“, „Начинаещите са добре дошли“…</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game name**: as a guest, the name is chosen for you.</source>
+        <translation>**Име на играта**: като гост името се избира вместо теб.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>As a guest you can create **Normal** games. Ranking tables and registered-only games need a (free) pokerth.net account.</source>
+        <translation>Като гост можеш да създаваш игри от тип **Нормална**. За класираните маси и игрите само за регистрирани е нужен (безплатен) акаунт в pokerth.net.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Password**: switch it on to keep the table private — only players who know the password can sit down. Not available for a **Ranking game** or an **Invited players only** game.</source>
+        <translation>**Парола**: включи я за частна маса — да седнат могат само играчите, които знаят паролата. Не е налично за **Класирана игра** и **Само поканени играчи**.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Spectators**: lets other players watch the game without playing.</source>
+        <translation>**Зрители**: позволява на други играчи да гледат играта, без да играят.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Max players**: from 2 to 10 seats. The host starts the game from the waiting room, even with empty seats — a **Ranking game** starts by itself once all 10 seats are taken.</source>
+        <translation>**Макс. играчи**: от 2 до 10 места. Домакинът стартира играта от чакалнята, дори с празни места — **Класирана игра** започва сама, щом се заемат всичките 10 места.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Starting stack**: the chips each player gets. What counts is the stack compared with the blinds: 3000 chips with a small blind of 10 is 150 big blinds, a comfortable game. Fewer big blinds = a faster game, with more all-ins.</source>
+        <translation>**Начален капитал**: чиповете, които получава всеки играч. Важно е съотношението между капитала и блайндовете: 3000 чипа при малък блайнд 10 са 150 големи блайнда — удобна игра. По-малко големи блайндове = по-бърза игра, с повече all-in.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**First small blind**: the small blind when the game starts. The big blind is always twice the small blind.</source>
+        <translation>**Първи малък блайнд**: малкият блайнд в началото на играта. Големият блайнд винаги е два пъти по-голям.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Blind increase interval**: the blinds go up every so many **hands** or **minutes**. The shorter the interval, the shorter the game.</source>
+        <translation>**Интервал на вдигане на блайндовете**: блайндовете се вдигат през определен брой **ръце** или **минути**. Колкото по-кратък е интервалът, толкова по-кратка е играта.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Time per action**: how many seconds each player has to act on their turn (5 to 60).</source>
+        <translation>**Време за действие**: колко секунди има всеки играч да действа, когато е на ход (от 5 до 60).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Pause between hands**: the seconds to see how a hand ended before the next one is dealt (5 to 20).</source>
+        <translation>**Пауза между ръцете**: секундите, за да видиш как е завършила ръката, преди да се раздаде следващата (от 5 до 20).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Greyed out here: the chosen game type (or community template) sets this value.</source>
+        <translation>Сиво тук: тази стойност се задава от избрания тип игра (или шаблона на общността).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Great! I’ll pop up whenever there is something useful to explain — each screen and window once. The **A♠** button at the top opens my menu: this screen’s tip again, all tips again, or turn me off.</source>
+        <translation>Чудесно! Ще се появявам, когато има нещо полезно за обясняване — всеки екран и всеки прозорец по веднъж. Бутонът **A♠** горе отваря моето меню: съвета за този екран отново, всички съвети отново или да ме изключиш.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help is on: I explain each screen and window the first time you open it. **Later** puts a tip off — the red dot on the **A♠** button then brings it back.</source>
+        <translation>Помощта от асото е включена: обяснявам всеки екран и всеки прозорец, когато го отвориш за първи път. **По-късно** отлага съвет — червената точка на бутона **A♠** после го връща.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Four ways to play: **Internet Game** on pokerth.net, with the official rankings; **Start Local Game** against computer players, even offline; **Create Network Game** opens a server for your local network, and **Join Network Game** connects to one.</source>
+        <translation>Четири начина да играеш: **Интернет игра** в pokerth.net, с официалните класации; **Започни локална игра** срещу компютърни играчи, дори офлайн; **Създай мрежова игра** отваря сървър за локалната ти мрежа, а **Присъедини се към мрежова игра** се свързва с такъв.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>On pokerth.net, play with your free account — **Login as User** — or **Continue as Guest**. Guests can only play Normal games: no ranked games and no chat. **Register** creates a free account in a minute.</source>
+        <translation>В pokerth.net играй с безплатния си акаунт — **Влез като потребител** — или избери **Продължи като гост**. Гостите могат да играят само нормални игри: без игри с класация и без чат. **Регистрация** създава безплатен акаунт за минута.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>To see where you stand: the **trophy** button at the top — and at the table, tap the **table name** to see the season ranking of the players you sit with.</source>
+        <translation>Къде се намираш: бутонът с **купата** горе — а на масата докосни **името на масата**, за да видиш сезонната класация на играчите на твоята маса.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This table is yours: press **Start Game** when everyone is here — or tick **Fill up with computer players** to fill the empty seats.</source>
+        <translation>Тази маса е твоя: натисни **Започни играта**, когато всички са тук — или отметни **Допълни с компютърни играчи**, за да запълниш свободните места.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The host of the table starts the game — you only have to wait until everyone is here.</source>
+        <translation>Домакинът на масата започва играта — трябва само да изчакаш, докато всички дойдат.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Four game types: **Normal** (open to all), **Registered players only**, **Invited players only** and **Ranking game**. Any player with an account can create a Ranking table: 10 players, no password, it starts by itself when full.</source>
+        <translation>Четири вида игри: **Обикновена** (отворена за всички), **Само регистрирани играчи**, **Само поканени играчи** и **Игра с класация**. Всеки играч с акаунт може да създаде класирана маса: 10 играчи, без парола, започва сама, щом се напълни.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Community template** (invited players only): the exact settings of a BBC, Monthly Cup or WEC game in one tap, for the admins who open these games. The fields it sets are then locked.</source>
+        <translation>**Шаблон на общността** (само поканени играчи): точните настройки на игра BBC, Monthly Cup или WEC с едно докосване, за админите, които откриват тези игри. Полетата, които задава, след това са заключени.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Create Game** opens your table and its waiting room; **Cancel** goes back without creating anything.</source>
+        <translation>Последна стъпка: **Създай игра** отваря масата ти и чакалнята ѝ; **Отказ** се връща, без да създава нищо.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A game on your local network: this device becomes the server, and the others connect with **Join Network Game**. Let’s go through the settings one at a time — **Next** moves on, **Back** goes back, **Later** stops the tour.</source>
+        <translation>Игра в локалната ти мрежа: това устройство става сървър, а другите се свързват чрез **Присъедини се към мрежова игра**. Да минем през настройките една по една — **Напред** продължава, **Назад** връща, **По-късно** спира обиколката.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Always double blinds**: the small blind doubles at each raise. Switched off, the blinds follow your manual blinds order from the network game settings.</source>
+        <translation>**Винаги удвоявай блайндовете**: малкият блайнд се удвоява при всяко вдигане. Изключено, блайндовете следват ръчния ти ред на блайндовете от настройките на мрежовата игра.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Create Game** starts the server on this device and opens its lobby; **Cancel** goes back.</source>
+        <translation>Последна стъпка: **Създай игра** стартира сървъра на това устройство и отваря лобито му; **Отказ** се връща.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Training table: choose the number of players, the starting stack, the blinds and the game speed, then start the game. Nothing here counts towards a ranking.</source>
+        <translation>Тренировъчна маса: избери броя на играчите, началните чипове, блайндовете и скоростта на играта, после започни играта. Нищо тук не се отчита в класация.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Number of players**: you and up to 9 computer players.</source>
+        <translation>**Брой играчи**: ти и до 9 компютърни играчи.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Blinds**: keep the saved settings, or change them here — the first small blind, how often it goes up (every so many hands or minutes) and how: always doubled, or a manual blinds order.</source>
+        <translation>**Блайндове**: запази запазените настройки или ги промени тук — първия малък блайнд, колко често се вдига (на толкова ръце или минути) и как: винаги удвоен или по ръчен ред на блайндовете.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game speed**: how fast the computer players act and the cards are dealt — from 1 (slow) to 11 (fast).</source>
+        <translation>**Скорост на играта**: колко бързо действат компютърните играчи и се раздават картите — от 1 (бавно) до 11 (бързо).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Start game** opens the table straight away; **Cancel** goes back.</source>
+        <translation>Последна стъпка: **Започни играта** веднага отваря масата; **Отказ** се връща.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The official **PokerTH** ranking and the community ones (**BBC**, **WEC**). Pick one: search a player, choose a season, and tap a name to open the profile.</source>
+        <translation>Официалната класация на **PokerTH** и тези на общността (**BBC**, **WEC**). Избери една: потърси играч, избери сезон и докосни име, за да отвориш профила.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The official ranking: the current season, or an earlier one under **Season**. Search a player by name and tap a row for the profile. At the bottom: how the ranking is calculated.</source>
+        <translation>Официалната класация: текущият сезон или по-ранен под **Сезон**. Потърси играч по име и докосни ред за профила. Най-долу: как се изчислява класацията.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The latest posts of the pokerth.net forum, newest first. Tap a post to read it here — it is then marked as read. A filled dot means not read yet; the badge on the newspaper button counts them, and **Mark all as read** clears them all. **BBC games** lists the upcoming BBC games.</source>
+        <translation>Най-новите публикации във форума на pokerth.net, първо най-новите. Докосни публикация, за да я прочетеш тук — тя се отбелязва като прочетена. Плътна точка значи още непрочетена; значката на бутона с вестника ги брои, а **Отбележи всички като прочетени** ги изчиства всички. **Игри на BBC** показва предстоящите игри на BBC.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Every setting, by section: interface, style, sound, local, network and internet games, nicknames and avatars, log messages, and back to the defaults. Ace’s Help is switched on and off in the interface settings.</source>
+        <translation>Всички настройки по раздели: интерфейс, стил, звук, локална, мрежова и интернет игра, псевдоними и аватари, съобщения в дневника и връщане към стойностите по подразбиране. Помощта от асото се включва и изключва в настройките на интерфейса.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your logs: every game played on this device is recorded here. Pick a game for a preview, export it as HTML or text, or analyse it for a review of your play.</source>
+        <translation>Твоите дневници: тук се записва всяка игра, изиграна на това устройство. Избери игра за преглед, експортирай я като HTML или текст или я дай за анализ, за да получиш оценка на играта си.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A player’s card: the profile and the statistics — the current season, the last games and the results so far.</source>
+        <translation>Картата на играч: профилът и статистиката — текущият сезон, последните игри и досегашните резултати.</translation>
     </message>
 </context>
 <context>
@@ -1645,7 +1988,7 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+326"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+362"/>
         <source>← Zurück</source>
         <translation>← Назад</translation>
     </message>
@@ -1661,12 +2004,12 @@
         <translation>Име на играта</translation>
     </message>
     <message>
-        <location line="-205"/>
+        <location line="-237"/>
         <source>%1&apos;s game</source>
         <translation>Играта на %1</translation>
     </message>
     <message>
-        <location line="+214"/>
+        <location line="+246"/>
         <source>Spielname eingeben …</source>
         <translation>Въведете име на играта …</translation>
     </message>
@@ -1795,19 +2138,19 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1463"/>
-        <location line="+1377"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1475"/>
+        <location line="+1383"/>
         <source>Guests cannot send chat messages</source>
         <translation>Гостите не могат да изпращат съобщения в чата</translation>
     </message>
     <message>
-        <location line="-1358"/>
-        <location line="+1352"/>
+        <location line="-1364"/>
+        <location line="+1358"/>
         <source>Private messages are not available at the table.</source>
         <translation>Личните съобщения не са достъпни на масата.</translation>
     </message>
     <message>
-        <location line="-1346"/>
+        <location line="-1352"/>
         <source>Player not found</source>
         <translation>Играчът не е намерен</translation>
     </message>
@@ -1969,18 +2312,18 @@ Please reenter the password and try again.</source>
         <location line="+86"/>
         <location line="+39"/>
         <location line="+9"/>
-        <location line="+160"/>
+        <location line="+165"/>
         <location line="+9"/>
         <location line="+185"/>
         <location line="+9"/>
         <location line="+16"/>
-        <location line="+11"/>
+        <location line="+12"/>
         <location line="+11"/>
         <source>Not connected to server</source>
         <translation>Няма връзка със сървъра</translation>
     </message>
     <message>
-        <location line="-69"/>
+        <location line="-70"/>
         <source>%1 has been invited to %2 by %3.</source>
         <translation>%3 покани %1 в %2.</translation>
     </message>
@@ -1990,7 +2333,7 @@ Please reenter the password and try again.</source>
         <translation>%1 отхвърли поканата за %2.</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+80"/>
         <source>Guests cannot receive private messages.</source>
         <translation>Гостите не могат да получават лични съобщения.</translation>
     </message>
@@ -2040,7 +2383,7 @@ Please reenter the password and try again.</source>
         <translation>Пълна</translation>
     </message>
     <message>
-        <location line="-225"/>
+        <location line="-226"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 не може да се присъедини към %2, защото е зает.</translation>
     </message>
@@ -2048,7 +2391,7 @@ Please reenter the password and try again.</source>
 <context>
     <name>LobbyPage</name>
     <message>
-        <location filename="../pages/LobbyPage.qml" line="+1621"/>
+        <location filename="../pages/LobbyPage.qml" line="+1641"/>
         <source>Game invitation</source>
         <translation>Покана за игра</translation>
     </message>
@@ -2073,24 +2416,24 @@ Please reenter the password and try again.</source>
         <translation>Създай игра</translation>
     </message>
     <message>
-        <location line="-777"/>
-        <location line="+835"/>
+        <location line="-781"/>
+        <location line="+839"/>
         <source>Game Info</source>
         <translation>Информация за играта</translation>
     </message>
     <message>
-        <location line="-565"/>
-        <location line="+514"/>
+        <location line="-568"/>
+        <location line="+517"/>
         <source>Join Game</source>
         <translation>Присъедини се към игра</translation>
     </message>
     <message>
-        <location line="-304"/>
+        <location line="-307"/>
         <source>Game List</source>
         <translation>Списък с игри</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+93"/>
         <source>Time: %1s/%2s</source>
         <translation>Време: %1 с/%2 с</translation>
     </message>
@@ -2111,37 +2454,37 @@ Please reenter the password and try again.</source>
     </message>
     <message>
         <location line="+128"/>
-        <location line="+287"/>
+        <location line="+288"/>
         <source>Lobby Chat</source>
         <translation>Чат на лобито</translation>
     </message>
     <message>
-        <location line="-644"/>
+        <location line="-647"/>
         <source>No game list filter</source>
         <translation>Без филтър на списъка с игри</translation>
     </message>
     <message>
-        <location line="+406"/>
+        <location line="+408"/>
         <source>Player: %1</source>
         <translation>Играч: %1</translation>
     </message>
     <message>
-        <location line="-927"/>
+        <location line="-930"/>
         <source>Players</source>
         <translation>Играчи</translation>
     </message>
     <message>
-        <location line="+1041"/>
+        <location line="+1045"/>
         <source>Select a game to see details</source>
         <translation>Изберете игра, за да видите подробности</translation>
     </message>
     <message>
-        <location line="-517"/>
+        <location line="-520"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Показвай отворените, незапълнени и публични игри</translation>
     </message>
     <message>
-        <location line="-640"/>
+        <location line="-641"/>
         <source>Report game name</source>
         <translation>Докладвай името на играта</translation>
     </message>
@@ -2196,36 +2539,36 @@ PokerTH може да го намали вместо теб. Новият ава
     </message>
     <message>
         <location line="+167"/>
-        <location line="+510"/>
+        <location line="+511"/>
         <source>Sort alphabetically</source>
         <translation>Подреди по азбучен ред</translation>
     </message>
     <message>
-        <location line="-509"/>
-        <location line="+510"/>
+        <location line="-510"/>
+        <location line="+511"/>
         <source>Sort by country</source>
         <translation>Подреди по държава</translation>
     </message>
     <message>
-        <location line="-509"/>
-        <location line="+510"/>
+        <location line="-510"/>
+        <location line="+511"/>
         <source>Display idle players</source>
         <translation>Показвай бездействащите играчи</translation>
     </message>
     <message>
         <location line="-423"/>
-        <location line="+830"/>
+        <location line="+833"/>
         <source>Report inappropriate game name</source>
         <translation>Докладвай неподходящо име на игра</translation>
     </message>
     <message>
-        <location line="-822"/>
-        <location line="+829"/>
+        <location line="-825"/>
+        <location line="+832"/>
         <source>Close game (admin)</source>
         <translation>Затвори играта (администратор)</translation>
     </message>
     <message>
-        <location line="-792"/>
+        <location line="-795"/>
         <source>Players: %1 / %2</source>
         <translation>Играчи: %1 / %2</translation>
     </message>
@@ -2236,12 +2579,12 @@ PokerTH може да го намали вместо теб. Новият ава
     </message>
     <message>
         <location line="+33"/>
-        <location line="+773"/>
+        <location line="+776"/>
         <source>Type: %1</source>
         <translation>Вид: %1</translation>
     </message>
     <message>
-        <location line="-762"/>
+        <location line="-765"/>
         <source>Small blind: %1</source>
         <translation>Малък блайнд: %1</translation>
     </message>
@@ -2289,18 +2632,18 @@ PokerTH може да го намали вместо теб. Новият ава
     </message>
     <message>
         <location line="+12"/>
-        <location line="+721"/>
+        <location line="+724"/>
         <source>Players in game (%1)</source>
         <translation>Играчи в играта (%1)</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+514"/>
+        <location line="-639"/>
+        <location line="+517"/>
         <source>Leave Game</source>
         <translation>Напусни играта</translation>
     </message>
     <message>
-        <location line="-417"/>
+        <location line="-420"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Показвай отворените, незапълнени и частни игри</translation>
     </message>
@@ -2315,21 +2658,21 @@ PokerTH може да го намали вместо теб. Новият ава
         <translation>Свързани играчи</translation>
     </message>
     <message>
-        <location line="-671"/>
-        <location line="+877"/>
+        <location line="-672"/>
+        <location line="+880"/>
         <source>Spectate game</source>
         <translation>Наблюдавай играта</translation>
     </message>
     <message>
-        <location line="-876"/>
+        <location line="-879"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
         <translation>Наистина ли искате да наблюдавате играта:
 „%1“?</translation>
     </message>
     <message>
-        <location line="+994"/>
-        <location line="+287"/>
+        <location line="+997"/>
+        <location line="+288"/>
         <source>Global notice (admin)</source>
         <translation>Общо съобщение (администратор)</translation>
     </message>
@@ -2410,7 +2753,7 @@ PokerTH може да го намали вместо теб. Новият ава
         <translation>Върни се</translation>
     </message>
     <message>
-        <location line="-1046"/>
+        <location line="-1049"/>
         <source>Show open &amp; non-full games</source>
         <translation>Показвай отворените и незапълнени игри</translation>
     </message>
@@ -2420,8 +2763,8 @@ PokerTH може да го намали вместо теб. Новият ава
         <translation>Показвай отворените игри</translation>
     </message>
     <message>
-        <location line="-473"/>
-        <location line="+452"/>
+        <location line="-474"/>
+        <location line="+453"/>
         <source>search for player ...</source>
         <translation>търсене на играч ...</translation>
     </message>
@@ -2467,7 +2810,7 @@ PokerTH може да го намали вместо теб. Новият ава
 <context>
     <name>LocalGamePage</name>
     <message>
-        <location filename="../pages/LocalGamePage.qml" line="+38"/>
+        <location filename="../pages/LocalGamePage.qml" line="+51"/>
         <source>alle %1 Hände</source>
         <translation>на всеки %1 раздавания</translation>
     </message>
@@ -2502,17 +2845,17 @@ PokerTH може да го намали вместо теб. Новият ава
         <translation>Настройки на локалната игра</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Anzahl der Spieler:</source>
         <translation>Брой играчи:</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+17"/>
         <source>Startkapital:</source>
         <translation>Начален капитал:</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+20"/>
         <source>Blinds</source>
         <translation>Блайндове</translation>
     </message>
@@ -2568,7 +2911,7 @@ PokerTH може да го намали вместо теб. Новият ава
         <translation>Ръчен ред на блайндовете</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
         <translation>Скорост на играта
@@ -2988,7 +3331,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>NetworkGameCreatePage</name>
     <message>
-        <location filename="../pages/NetworkGameCreatePage.qml" line="+133"/>
+        <location filename="../pages/NetworkGameCreatePage.qml" line="+148"/>
         <source>← Zurück</source>
         <translation>← Назад</translation>
     </message>
@@ -3892,7 +4235,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+341"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+349"/>
         <source>Back</source>
         <translation>Назад</translation>
     </message>
@@ -4551,7 +4894,12 @@ Please check your username and password.</source>
         <translation>PokerTH - v2.1.9</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+102"/>
+        <source>Ace’s Help</source>
+        <translation>Помощ от асото</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Über PokerTH</source>
         <translation>Относно PokerTH</translation>
     </message>
@@ -4625,7 +4973,7 @@ Please check your username and password.</source>
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../pages/StartPage.qml" line="+161"/>
+        <location filename="../pages/StartPage.qml" line="+167"/>
         <source>Internetspiel</source>
         <translation>Интернет игра</translation>
     </message>
@@ -4935,7 +5283,7 @@ Vorschau</source>
         <translation>Меню</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+111"/>
         <source>Private messages</source>
         <translation>Лични съобщения</translation>
     </message>
@@ -4955,7 +5303,7 @@ Vorschau</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location line="+198"/>
+        <location line="+210"/>
         <source>Timeout Warning</source>
         <translation>Предупреждение за изтичане на времето</translation>
     </message>
@@ -5031,8 +5379,8 @@ Vorschau</source>
         <translation>Връзката е загубена</translation>
     </message>
     <message>
-        <location line="-780"/>
-        <location line="+568"/>
+        <location line="-851"/>
+        <location line="+639"/>
         <location line="+23"/>
         <source>Leave Game</source>
         <translation>Напусни играта</translation>
@@ -5052,8 +5400,8 @@ and go back to the lobby?</source>
         <translation>Отказ</translation>
     </message>
     <message>
-        <location line="-733"/>
-        <location line="+633"/>
+        <location line="-804"/>
+        <location line="+704"/>
         <location line="+23"/>
         <source>Leave Lobby</source>
         <translation>Напусни лобито</translation>

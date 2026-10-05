@@ -235,6 +235,21 @@ Rectangle {
                     }
 
                     AppCheckBox {
+                        objectName: "guideOnCheckbox"
+                        text: qsTr("Ace’s Help: explain each screen the first time")
+                        checked: Config.Parameters.guideOn
+                        // Through the overlay: it greets on, and says how to come back off.
+                        onToggled: {
+                            if (typeof guideOverlay === "undefined" || !guideOverlay)
+                                Config.Parameters.guideOn = checked
+                            else if (checked)
+                                guideOverlay.turnOn()
+                            else
+                                guideOverlay.turnOff()
+                        }
+                    }
+
+                    AppCheckBox {
                         visible: Config.Responsive.compact
                         height: visible ? implicitHeight : 0
                         text: qsTr("Tischzoom aktivieren (Wischen & Zoomen, nur Mobilmodus)")

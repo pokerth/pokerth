@@ -767,7 +767,7 @@
 <context>
     <name>GameListItem</name>
     <message>
-        <location filename="../components/GameListItem.qml" line="+147"/>
+        <location filename="../components/GameListItem.qml" line="+148"/>
         <source>Report inappropriate game name</source>
         <translation>Rapporter upassende spillnavn</translation>
     </message>
@@ -853,7 +853,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+443"/>
+        <location filename="../components/GamePlayerBox.qml" line="+445"/>
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
@@ -1087,7 +1087,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+241"/>
+        <location filename="../pages/GameWaitPage.qml" line="+250"/>
         <source>Players</source>
         <translation>Spillere</translation>
     </message>
@@ -1116,48 +1116,48 @@
     </message>
     <message>
         <location line="-267"/>
-        <location line="+687"/>
+        <location line="+689"/>
         <source>Game List</source>
         <translation>Spilliste</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+648"/>
+        <location line="-638"/>
+        <location line="+650"/>
         <source>No game list filter</source>
         <translation>Ingen filtrering av spillisten</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open games</source>
         <translation>Vis åpne spill</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full games</source>
         <translation>Vis åpne og ikke fulle spill</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Vis åpne, ikke fulle og offentlige spill</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Vis åpne, ikke fulle og private spill</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
         <translation>Vis åpne, ikke fulle rangeringsspill</translation>
     </message>
     <message>
-        <location line="-574"/>
+        <location line="-576"/>
         <source>Game Info</source>
         <translation>Spillinformasjon</translation>
     </message>
@@ -1182,7 +1182,7 @@
         <translation>Tilkoblede spillere</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+92"/>
         <source>Players: %1 / %2</source>
         <translation>Spillere: %1 / %2</translation>
     </message>
@@ -1242,13 +1242,13 @@
         <translation>Spillere i spillet (%1)</translation>
     </message>
     <message>
-        <location line="-653"/>
-        <location line="+745"/>
+        <location line="-663"/>
+        <location line="+755"/>
         <source>Kick player</source>
         <translation>Kast ut spilleren</translation>
     </message>
     <message>
-        <location line="-744"/>
+        <location line="-754"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
         <translation>Er du sikker på at du vil kaste ut «%1» fra spillet?</translation>
     </message>
@@ -1258,7 +1258,7 @@
         <translation>Kast ut</translation>
     </message>
     <message>
-        <location line="+776"/>
+        <location line="+786"/>
         <source>Lobby Chat</source>
         <translation>Lobbychat</translation>
     </message>
@@ -1283,12 +1283,12 @@
         <translation>Forlat spillet</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Start Game</source>
         <translation>Start spill</translation>
     </message>
     <message>
-        <location line="-88"/>
+        <location line="-89"/>
         <source>Suggest players</source>
         <translation>Foreslå spillere</translation>
     </message>
@@ -1434,7 +1434,12 @@
         <translation>Vis verktøytips</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>Ace’s Help: explain each screen the first time</source>
+        <translation>Essets hjelp: forklar hver skjerm første gang</translation>
+    </message>
+    <message>
+        <location line="+16"/>
         <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
         <translation>Slå på bordzoom (sveip og zoom, kun mobilmodus)</translation>
     </message>
@@ -1482,6 +1487,344 @@
         <location line="-31"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
         <translation>Foreslå spillere i egne fellesskapsspill</translation>
+    </message>
+</context>
+<context>
+    <name>GuideOverlay</name>
+    <message>
+        <location filename="../components/GuideOverlay.qml" line="+71"/>
+        <source>Ace’s Help</source>
+        <translation>Essets hjelp</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help — tap for my menu</source>
+        <translation>Essets hjelp — trykk for menyen min</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>New here? I can show you around as you go.</source>
+        <translation>Ny her? Jeg kan vise deg rundt underveis.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yes, please</source>
+        <translation>Ja takk</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No thanks</source>
+        <translation>Nei takk</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Got it</source>
+        <translation>Skjønner</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Later</source>
+        <translation>Senere</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Next</source>
+        <translation>Neste</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Back</source>
+        <translation>Tilbake</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Close</source>
+        <translation>Lukk</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turn off</source>
+        <translation>Slå av</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show all tips again</source>
+        <translation>Vis alle tips igjen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Done — every tip will show again.</source>
+        <translation>Ferdig — alle tips vises igjen.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help is off. You can turn it back on from the menu at any time.</source>
+        <translation>Essets hjelp er av. Du kan slå den på igjen fra menyen når som helst.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Bli med</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create a Ranking table</source>
+        <translation>Opprett rangeringsbord</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create an account</source>
+        <translation>Opprett en konto</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>See the ranking</source>
+        <translation>Se rangeringen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This screen’s tip</source>
+        <translation>Tips for denne skjermen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A ranked game is waiting for you: **{n}/{max}** players. It starts as soon as it’s full!</source>
+        <translation>Et rangert spill venter på deg: **{n}/{max}** spillere. Det starter så snart det er fullt!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No ranked game open right now. Create one — any player with an account can! It starts by itself as soon as 10 players have joined.</source>
+        <translation>Ingen rangerte spill er åpne akkurat nå. Opprett et — alle spillere med konto kan! Det starter av seg selv så snart 10 spillere har blitt med.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ranked games need a (free) pokerth.net account. As a guest you can play Normal games.</source>
+        <translation>Rangerte spill krever en (gratis) pokerth.net-konto. Som gjest kan du spille normale spill.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ranked game: **{n}/{max}** players. It starts by itself as soon as the table is full — meanwhile, here is how the ranking works.</source>
+        <translation>Rangert spill: **{n}/{max}** spillere. Det starter av seg selv så snart bordet er fullt — i mellomtiden, slik fungerer rangeringen.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Each ranked game hands out points by finishing place: **15, 9, 6, 4, 3, 2, 1** from 1st to 7th, nothing from 8th to 10th — 40 points per table.</source>
+        <translation>Hvert rangert spill deler ut poeng etter plassering: **15, 9, 6, 4, 3, 2, 1** fra 1. til 7. plass, ingenting fra 8. til 10. — 40 poeng per bord.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your **Score** is not the sum of your points but your average per game, tempered by how many games you have played: playing regularly matters.</source>
+        <translation>**Scoren** din er ikke summen av poengene dine, men snittet ditt per spill, dempet etter hvor mange spill du har spilt: det lønner seg å spille jevnlig.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The ranking runs in **quarterly seasons**: at each new season the counters are archived and start again from zero.</source>
+        <translation>Rangeringen går i **kvartalsvise sesonger**: ved hver ny sesong arkiveres tellerne og starter på null igjen.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Why is **5/5** everyone’s favourite? 5 seconds to act, 5 seconds between hands, 10,000 chips and blinds doubling every 11 hands: fast and the same for everyone, so games stay short and comparable.</source>
+        <translation>Hvorfor er **5/5** alles favoritt? 5 sekunder per handling, 5 sekunder mellom hender, 10 000 sjetonger og blinds som dobles hver 11. hånd: raskt og likt for alle, så spillene holdes korte og sammenlignbare.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Just one more player!</source>
+        <translation>Bare én spiller til!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Game over — you finished in place **{place}**: **+{points}** points. See your ranking?</source>
+        <translation>Spillet er over — du endte på **{place}**. plass: **+{points}** poeng. Vil du se rangeringen din?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Game over! Several players went out in the same hand, so your exact place is on the ranking page. See your ranking?</source>
+        <translation>Spillet er over! Flere spillere røk ut i samme hånd, så den nøyaktige plasseringen din står på rangeringssiden. Vil du se rangeringen din?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Let’s go through this form together, one field at a time — I’ll bring each one into view. **Next** moves on, **Back** goes back, **Later** stops the tour.</source>
+        <translation>La oss gå gjennom skjemaet sammen, ett felt om gangen — jeg viser deg hvert av dem. **Neste** går videre, **Tilbake** går tilbake, **Senere** avslutter omvisningen.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game name**: what the other players see in the list of tables. Say what to expect — « Fast game », « Beginners welcome »…</source>
+        <translation>**Navn på spillet**: det de andre spillerne ser i listen over bord. Si hva de kan vente seg — «Raskt spill», «Nybegynnere velkommen»…</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game name**: as a guest, the name is chosen for you.</source>
+        <translation>**Navn på spillet**: som gjest blir navnet valgt for deg.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>As a guest you can create **Normal** games. Ranking tables and registered-only games need a (free) pokerth.net account.</source>
+        <translation>Som gjest kan du opprette **Normal**-spill. Rangeringsbord og spill kun for registrerte krever en (gratis) pokerth.net-konto.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Password**: switch it on to keep the table private — only players who know the password can sit down. Not available for a **Ranking game** or an **Invited players only** game.</source>
+        <translation>**Passord**: slå det på for å holde bordet privat — bare spillere som kan passordet, kan sette seg. Ikke mulig for et **Rangeringsspill** eller et spill med **Kun inviterte spillere**.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Spectators**: lets other players watch the game without playing.</source>
+        <translation>**Tilskuere**: lar andre spillere se på spillet uten å spille.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Max players**: from 2 to 10 seats. The host starts the game from the waiting room, even with empty seats — a **Ranking game** starts by itself once all 10 seats are taken.</source>
+        <translation>**Maks spillere**: fra 2 til 10 plasser. Verten starter spillet fra venterommet, også med tomme plasser — et **Rangeringsspill** starter av seg selv når alle 10 plassene er tatt.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Starting stack**: the chips each player gets. What counts is the stack compared with the blinds: 3000 chips with a small blind of 10 is 150 big blinds, a comfortable game. Fewer big blinds = a faster game, with more all-ins.</source>
+        <translation>**Startkapital**: sjetongene hver spiller får. Det som teller, er kapitalen sammenlignet med blindene: 3000 sjetonger med en small blind på 10 er 150 big blinds, et komfortabelt spill. Færre big blinds = et raskere spill, med flere all-ins.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**First small blind**: the small blind when the game starts. The big blind is always twice the small blind.</source>
+        <translation>**Første small blind**: small blind når spillet starter. Big blind er alltid det dobbelte.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Blind increase interval**: the blinds go up every so many **hands** or **minutes**. The shorter the interval, the shorter the game.</source>
+        <translation>**Intervall for blindøkning**: blindene øker etter et visst antall **hender** eller **minutter**. Jo kortere intervall, jo kortere spill.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Time per action**: how many seconds each player has to act on their turn (5 to 60).</source>
+        <translation>**Tid per handling**: hvor mange sekunder hver spiller har når det er deres tur (5 til 60).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Pause between hands**: the seconds to see how a hand ended before the next one is dealt (5 to 20).</source>
+        <translation>**Pause mellom hender**: sekundene til å se hvordan en hånd endte før neste deles ut (5 til 20).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Greyed out here: the chosen game type (or community template) sets this value.</source>
+        <translation>Nedtonet her: den valgte spilltypen (eller fellesskapsmalen) bestemmer denne verdien.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Great! I’ll pop up whenever there is something useful to explain — each screen and window once. The **A♠** button at the top opens my menu: this screen’s tip again, all tips again, or turn me off.</source>
+        <translation>Flott! Jeg dukker opp når det er noe nyttig å forklare — hver skjerm og hvert vindu én gang. **A♠**-knappen øverst åpner menyen min: denne skjermens tips igjen, alle tips igjen, eller slå meg av.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help is on: I explain each screen and window the first time you open it. **Later** puts a tip off — the red dot on the **A♠** button then brings it back.</source>
+        <translation>Essets hjelp er på: jeg forklarer hver skjerm og hvert vindu første gang du åpner det. **Senere** utsetter et tips — den røde prikken på **A♠**-knappen henter det tilbake.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Four ways to play: **Internet Game** on pokerth.net, with the official rankings; **Start Local Game** against computer players, even offline; **Create Network Game** opens a server for your local network, and **Join Network Game** connects to one.</source>
+        <translation>Fire måter å spille på: **Internettspill** på pokerth.net, med de offisielle rangeringene; **Start lokalt spill** mot dataspillere, også uten nett; **Opprett nettverksspill** åpner en server for det lokale nettverket ditt, og **Bli med i nettverksspill** kobler til en.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>On pokerth.net, play with your free account — **Login as User** — or **Continue as Guest**. Guests can only play Normal games: no ranked games and no chat. **Register** creates a free account in a minute.</source>
+        <translation>På pokerth.net spiller du med den gratis kontoen din — **Logg inn som bruker** — eller **Fortsett som gjest**. Gjester kan bare spille vanlige spill: ingen rangeringsspill og ingen chat. **Registrer deg** oppretter en gratis konto på et minutt.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>To see where you stand: the **trophy** button at the top — and at the table, tap the **table name** to see the season ranking of the players you sit with.</source>
+        <translation>Se hvor du står: **pokal**-knappen øverst — og ved bordet trykker du på **bordnavnet** for å se sesongrangeringen til spillerne ved bordet ditt.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This table is yours: press **Start Game** when everyone is here — or tick **Fill up with computer players** to fill the empty seats.</source>
+        <translation>Dette bordet er ditt: trykk **Start spill** når alle er her — eller kryss av for **Fyll opp med dataspillere** for å fylle de tomme plassene.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The host of the table starts the game — you only have to wait until everyone is here.</source>
+        <translation>Verten ved bordet starter spillet — du trenger bare å vente til alle er her.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Four game types: **Normal** (open to all), **Registered players only**, **Invited players only** and **Ranking game**. Any player with an account can create a Ranking table: 10 players, no password, it starts by itself when full.</source>
+        <translation>Fire spilltyper: **Normal** (åpen for alle), **Kun registrerte spillere**, **Kun inviterte spillere** og **Rangeringsspill**. Alle spillere med konto kan opprette et rangeringsbord: 10 spillere, ingen passord, og det starter av seg selv når det er fullt.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Community template** (invited players only): the exact settings of a BBC, Monthly Cup or WEC game in one tap, for the admins who open these games. The fields it sets are then locked.</source>
+        <translation>**Fellesskapsmal** (kun inviterte spillere): de nøyaktige innstillingene for et BBC-, Monthly Cup- eller WEC-spill med ett trykk, for adminene som åpner disse spillene. Feltene den fyller ut, blir da låst.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Create Game** opens your table and its waiting room; **Cancel** goes back without creating anything.</source>
+        <translation>Siste steg: **Opprett spill** åpner bordet ditt og venterommet; **Avbryt** går tilbake uten å opprette noe.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A game on your local network: this device becomes the server, and the others connect with **Join Network Game**. Let’s go through the settings one at a time — **Next** moves on, **Back** goes back, **Later** stops the tour.</source>
+        <translation>Et spill på det lokale nettverket ditt: denne enheten blir serveren, og de andre kobler til med **Bli med i nettverksspill**. La oss gå gjennom innstillingene én om gangen — **Neste** går videre, **Tilbake** går tilbake, **Senere** stopper omvisningen.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Always double blinds**: the small blind doubles at each raise. Switched off, the blinds follow your manual blinds order from the network game settings.</source>
+        <translation>**Doble alltid blinds**: small blind dobles ved hver økning. Slått av følger blindene den manuelle blindrekkefølgen din fra innstillingene for nettverksspill.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Create Game** starts the server on this device and opens its lobby; **Cancel** goes back.</source>
+        <translation>Siste steg: **Opprett spill** starter serveren på denne enheten og åpner lobbyen; **Avbryt** går tilbake.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Training table: choose the number of players, the starting stack, the blinds and the game speed, then start the game. Nothing here counts towards a ranking.</source>
+        <translation>Treningsbord: velg antall spillere, startbeholdning, blinds og spillhastighet, og start så spillet. Ingenting her teller i en rangering.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Number of players**: you and up to 9 computer players.</source>
+        <translation>**Antall spillere**: du og opptil 9 dataspillere.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Blinds**: keep the saved settings, or change them here — the first small blind, how often it goes up (every so many hands or minutes) and how: always doubled, or a manual blinds order.</source>
+        <translation>**Blinds**: behold de lagrede innstillingene eller endre dem her — første small blind, hvor ofte den øker (hver så mange hender eller minutter) og hvordan: alltid doblet eller etter en manuell blindrekkefølge.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game speed**: how fast the computer players act and the cards are dealt — from 1 (slow) to 11 (fast).</source>
+        <translation>**Spillhastighet**: hvor raskt dataspillerne handler og kortene deles ut — fra 1 (sakte) til 11 (raskt).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Start game** opens the table straight away; **Cancel** goes back.</source>
+        <translation>Siste steg: **Start spill** åpner bordet med en gang; **Avbryt** går tilbake.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The official **PokerTH** ranking and the community ones (**BBC**, **WEC**). Pick one: search a player, choose a season, and tap a name to open the profile.</source>
+        <translation>Den offisielle **PokerTH**-rangeringen og fellesskapets (**BBC**, **WEC**). Velg én: søk etter en spiller, velg en sesong og trykk på et navn for å åpne profilen.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The official ranking: the current season, or an earlier one under **Season**. Search a player by name and tap a row for the profile. At the bottom: how the ranking is calculated.</source>
+        <translation>Den offisielle rangeringen: inneværende sesong, eller en tidligere under **Sesong**. Søk etter en spiller på navn og trykk på en rad for profilen. Nederst: hvordan rangeringen beregnes.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The latest posts of the pokerth.net forum, newest first. Tap a post to read it here — it is then marked as read. A filled dot means not read yet; the badge on the newspaper button counts them, and **Mark all as read** clears them all. **BBC games** lists the upcoming BBC games.</source>
+        <translation>De nyeste innleggene i pokerth.net-forumet, nyeste først. Trykk på et innlegg for å lese det her — da merkes det som lest. En fylt prikk betyr ikke lest ennå; merket på avisknappen teller dem, og **Merk alle som lest** fjerner alle. **BBC-spill** viser de kommende BBC-spillene.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Every setting, by section: interface, style, sound, local, network and internet games, nicknames and avatars, log messages, and back to the defaults. Ace’s Help is switched on and off in the interface settings.</source>
+        <translation>Alle innstillinger etter del: grensesnitt, stil, lyd, lokalt, nettverks- og internettspill, kallenavn og avatarer, loggmeldinger og tilbake til standardverdiene. Essets hjelp slår du av og på i innstillingene for grensesnittet.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your logs: every game played on this device is recorded here. Pick a game for a preview, export it as HTML or text, or analyse it for a review of your play.</source>
+        <translation>Loggene dine: hvert spill som er spilt på denne enheten, blir lagret her. Velg et spill for en forhåndsvisning, eksporter det som HTML eller tekst, eller få det analysert for en vurdering av spillet ditt.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A player’s card: the profile and the statistics — the current season, the last games and the results so far.</source>
+        <translation>En spillers kort: profilen og statistikken — inneværende sesong, de siste spillene og resultatene så langt.</translation>
     </message>
 </context>
 <context>
@@ -1645,7 +1988,7 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+326"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+362"/>
         <source>← Zurück</source>
         <translation>← Tilbake</translation>
     </message>
@@ -1661,12 +2004,12 @@
         <translation>Spillnavn</translation>
     </message>
     <message>
-        <location line="-205"/>
+        <location line="-237"/>
         <source>%1&apos;s game</source>
         <translation>Spillet til %1</translation>
     </message>
     <message>
-        <location line="+214"/>
+        <location line="+246"/>
         <source>Spielname eingeben …</source>
         <translation>Skriv inn et spillnavn …</translation>
     </message>
@@ -1795,19 +2138,19 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1463"/>
-        <location line="+1377"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1475"/>
+        <location line="+1383"/>
         <source>Guests cannot send chat messages</source>
         <translation>Gjester kan ikke sende chatmeldinger</translation>
     </message>
     <message>
-        <location line="-1358"/>
-        <location line="+1352"/>
+        <location line="-1364"/>
+        <location line="+1358"/>
         <source>Private messages are not available at the table.</source>
         <translation>Private meldinger er ikke tilgjengelige ved bordet.</translation>
     </message>
     <message>
-        <location line="-1346"/>
+        <location line="-1352"/>
         <source>Player not found</source>
         <translation>Fant ikke spilleren</translation>
     </message>
@@ -1969,18 +2312,18 @@ Skriv inn passordet på nytt og prøv igjen.</translation>
         <location line="+86"/>
         <location line="+39"/>
         <location line="+9"/>
-        <location line="+160"/>
+        <location line="+165"/>
         <location line="+9"/>
         <location line="+185"/>
         <location line="+9"/>
         <location line="+16"/>
-        <location line="+11"/>
+        <location line="+12"/>
         <location line="+11"/>
         <source>Not connected to server</source>
         <translation>Ikke tilkoblet serveren</translation>
     </message>
     <message>
-        <location line="-69"/>
+        <location line="-70"/>
         <source>%1 has been invited to %2 by %3.</source>
         <translation>%3 inviterte %1 til %2.</translation>
     </message>
@@ -1990,7 +2333,7 @@ Skriv inn passordet på nytt og prøv igjen.</translation>
         <translation>%1 avslo invitasjonen til %2.</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+80"/>
         <source>Guests cannot receive private messages.</source>
         <translation>Gjester kan ikke motta private meldinger.</translation>
     </message>
@@ -2040,7 +2383,7 @@ Skriv inn passordet på nytt og prøv igjen.</translation>
         <translation>Fullt</translation>
     </message>
     <message>
-        <location line="-225"/>
+        <location line="-226"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 kan ikke bli med i %2 fordi spilleren er opptatt.</translation>
     </message>
@@ -2048,7 +2391,7 @@ Skriv inn passordet på nytt og prøv igjen.</translation>
 <context>
     <name>LobbyPage</name>
     <message>
-        <location filename="../pages/LobbyPage.qml" line="+1621"/>
+        <location filename="../pages/LobbyPage.qml" line="+1641"/>
         <source>Game invitation</source>
         <translation>Spillinvitasjon</translation>
     </message>
@@ -2073,24 +2416,24 @@ Skriv inn passordet på nytt og prøv igjen.</translation>
         <translation>Opprett spill</translation>
     </message>
     <message>
-        <location line="-777"/>
-        <location line="+835"/>
+        <location line="-781"/>
+        <location line="+839"/>
         <source>Game Info</source>
         <translation>Spillinformasjon</translation>
     </message>
     <message>
-        <location line="-565"/>
-        <location line="+514"/>
+        <location line="-568"/>
+        <location line="+517"/>
         <source>Join Game</source>
         <translation>Bli med i spill</translation>
     </message>
     <message>
-        <location line="-304"/>
+        <location line="-307"/>
         <source>Game List</source>
         <translation>Spilliste</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+93"/>
         <source>Time: %1s/%2s</source>
         <translation>Tid: %1 s/%2 s</translation>
     </message>
@@ -2111,37 +2454,37 @@ Skriv inn passordet på nytt og prøv igjen.</translation>
     </message>
     <message>
         <location line="+128"/>
-        <location line="+287"/>
+        <location line="+288"/>
         <source>Lobby Chat</source>
         <translation>Lobbychat</translation>
     </message>
     <message>
-        <location line="-644"/>
+        <location line="-647"/>
         <source>No game list filter</source>
         <translation>Ingen filtrering av spillisten</translation>
     </message>
     <message>
-        <location line="+406"/>
+        <location line="+408"/>
         <source>Player: %1</source>
         <translation>Spiller: %1</translation>
     </message>
     <message>
-        <location line="-927"/>
+        <location line="-930"/>
         <source>Players</source>
         <translation>Spillere</translation>
     </message>
     <message>
-        <location line="+1041"/>
+        <location line="+1045"/>
         <source>Select a game to see details</source>
         <translation>Velg et spill for å se detaljer</translation>
     </message>
     <message>
-        <location line="-517"/>
+        <location line="-520"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Vis åpne, ikke fulle og offentlige spill</translation>
     </message>
     <message>
-        <location line="-640"/>
+        <location line="-641"/>
         <source>Report game name</source>
         <translation>Rapporter spillnavn</translation>
     </message>
@@ -2196,36 +2539,36 @@ PokerTH kan forminske det for deg. Den nye avataren blir aktiv ved neste innlogg
     </message>
     <message>
         <location line="+167"/>
-        <location line="+510"/>
+        <location line="+511"/>
         <source>Sort alphabetically</source>
         <translation>Sorter alfabetisk</translation>
     </message>
     <message>
-        <location line="-509"/>
-        <location line="+510"/>
+        <location line="-510"/>
+        <location line="+511"/>
         <source>Sort by country</source>
         <translation>Sorter etter land</translation>
     </message>
     <message>
-        <location line="-509"/>
-        <location line="+510"/>
+        <location line="-510"/>
+        <location line="+511"/>
         <source>Display idle players</source>
         <translation>Vis inaktive spillere</translation>
     </message>
     <message>
         <location line="-423"/>
-        <location line="+830"/>
+        <location line="+833"/>
         <source>Report inappropriate game name</source>
         <translation>Rapporter upassende spillnavn</translation>
     </message>
     <message>
-        <location line="-822"/>
-        <location line="+829"/>
+        <location line="-825"/>
+        <location line="+832"/>
         <source>Close game (admin)</source>
         <translation>Lukk spillet (administrator)</translation>
     </message>
     <message>
-        <location line="-792"/>
+        <location line="-795"/>
         <source>Players: %1 / %2</source>
         <translation>Spillere: %1 / %2</translation>
     </message>
@@ -2236,12 +2579,12 @@ PokerTH kan forminske det for deg. Den nye avataren blir aktiv ved neste innlogg
     </message>
     <message>
         <location line="+33"/>
-        <location line="+773"/>
+        <location line="+776"/>
         <source>Type: %1</source>
         <translation>Type: %1</translation>
     </message>
     <message>
-        <location line="-762"/>
+        <location line="-765"/>
         <source>Small blind: %1</source>
         <translation>Lille blind: %1</translation>
     </message>
@@ -2289,18 +2632,18 @@ PokerTH kan forminske det for deg. Den nye avataren blir aktiv ved neste innlogg
     </message>
     <message>
         <location line="+12"/>
-        <location line="+721"/>
+        <location line="+724"/>
         <source>Players in game (%1)</source>
         <translation>Spillere i spillet (%1)</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+514"/>
+        <location line="-639"/>
+        <location line="+517"/>
         <source>Leave Game</source>
         <translation>Forlat spillet</translation>
     </message>
     <message>
-        <location line="-417"/>
+        <location line="-420"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Vis åpne, ikke fulle og private spill</translation>
     </message>
@@ -2315,21 +2658,21 @@ PokerTH kan forminske det for deg. Den nye avataren blir aktiv ved neste innlogg
         <translation>Tilkoblede spillere</translation>
     </message>
     <message>
-        <location line="-671"/>
-        <location line="+877"/>
+        <location line="-672"/>
+        <location line="+880"/>
         <source>Spectate game</source>
         <translation>Se på spillet</translation>
     </message>
     <message>
-        <location line="-876"/>
+        <location line="-879"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
         <translation>Er du sikker på at du vil se på spillet:
 «%1»?</translation>
     </message>
     <message>
-        <location line="+994"/>
-        <location line="+287"/>
+        <location line="+997"/>
+        <location line="+288"/>
         <source>Global notice (admin)</source>
         <translation>Generell melding (administrator)</translation>
     </message>
@@ -2410,7 +2753,7 @@ PokerTH kan forminske det for deg. Den nye avataren blir aktiv ved neste innlogg
         <translation>Gå tilbake</translation>
     </message>
     <message>
-        <location line="-1046"/>
+        <location line="-1049"/>
         <source>Show open &amp; non-full games</source>
         <translation>Vis åpne og ikke fulle spill</translation>
     </message>
@@ -2420,8 +2763,8 @@ PokerTH kan forminske det for deg. Den nye avataren blir aktiv ved neste innlogg
         <translation>Vis åpne spill</translation>
     </message>
     <message>
-        <location line="-473"/>
-        <location line="+452"/>
+        <location line="-474"/>
+        <location line="+453"/>
         <source>search for player ...</source>
         <translation>søk etter spiller ...</translation>
     </message>
@@ -2467,7 +2810,7 @@ PokerTH kan forminske det for deg. Den nye avataren blir aktiv ved neste innlogg
 <context>
     <name>LocalGamePage</name>
     <message>
-        <location filename="../pages/LocalGamePage.qml" line="+38"/>
+        <location filename="../pages/LocalGamePage.qml" line="+51"/>
         <source>alle %1 Hände</source>
         <translation>hver %1 hender</translation>
     </message>
@@ -2502,17 +2845,17 @@ PokerTH kan forminske det for deg. Den nye avataren blir aktiv ved neste innlogg
         <translation>Innstillinger for lokalt spill</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Anzahl der Spieler:</source>
         <translation>Antall spillere:</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+17"/>
         <source>Startkapital:</source>
         <translation>Startkapital:</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+20"/>
         <source>Blinds</source>
         <translation>Blinds</translation>
     </message>
@@ -2568,7 +2911,7 @@ PokerTH kan forminske det for deg. Den nye avataren blir aktiv ved neste innlogg
         <translation>Manuell blinds-rekkefølge</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
         <translation>Spillhastighet
@@ -2988,7 +3331,7 @@ Start PokerTH på nytt slik at loggfilene lagres der.</translation>
 <context>
     <name>NetworkGameCreatePage</name>
     <message>
-        <location filename="../pages/NetworkGameCreatePage.qml" line="+133"/>
+        <location filename="../pages/NetworkGameCreatePage.qml" line="+148"/>
         <source>← Zurück</source>
         <translation>← Tilbake</translation>
     </message>
@@ -3892,7 +4235,7 @@ Start PokerTH på nytt slik at loggfilene lagres der.</translation>
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+341"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+349"/>
         <source>Back</source>
         <translation>Tilbake</translation>
     </message>
@@ -4551,7 +4894,12 @@ Kontroller brukernavnet og passordet ditt.</translation>
         <translation>PokerTH - v2.1.9</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+102"/>
+        <source>Ace’s Help</source>
+        <translation>Essets hjelp</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Über PokerTH</source>
         <translation>Om PokerTH</translation>
     </message>
@@ -4625,7 +4973,7 @@ Kontroller brukernavnet og passordet ditt.</translation>
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../pages/StartPage.qml" line="+161"/>
+        <location filename="../pages/StartPage.qml" line="+167"/>
         <source>Internetspiel</source>
         <translation>Internettspill</translation>
     </message>
@@ -4935,7 +5283,7 @@ forhåndsvisning</translation>
         <translation>Meny</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+111"/>
         <source>Private messages</source>
         <translation>Private meldinger</translation>
     </message>
@@ -4955,7 +5303,7 @@ forhåndsvisning</translation>
         <translation>Innstillinger</translation>
     </message>
     <message>
-        <location line="+198"/>
+        <location line="+210"/>
         <source>Timeout Warning</source>
         <translation>Advarsel om tidsavbrudd</translation>
     </message>
@@ -5031,8 +5379,8 @@ forhåndsvisning</translation>
         <translation>Tilkoblingen gikk tapt</translation>
     </message>
     <message>
-        <location line="-780"/>
-        <location line="+568"/>
+        <location line="-851"/>
+        <location line="+639"/>
         <location line="+23"/>
         <source>Leave Game</source>
         <translation>Forlat spillet</translation>
@@ -5052,8 +5400,8 @@ og gå tilbake til lobbyen?</translation>
         <translation>Avbryt</translation>
     </message>
     <message>
-        <location line="-733"/>
-        <location line="+633"/>
+        <location line="-804"/>
+        <location line="+704"/>
         <location line="+23"/>
         <source>Leave Lobby</source>
         <translation>Forlat lobbyen</translation>

@@ -433,6 +433,18 @@ QVariant GameListModel::data(const QModelIndex &index, int role) const
 	}
 }
 
+QVariantMap GameListModel::get(int row) const
+{
+	QVariantMap result;
+	if (row < 0 || row >= m_games.size())
+		return result;
+	const QModelIndex idx = index(row, 0);
+	const QHash<int, QByteArray> roles = roleNames();
+	for (auto it = roles.constBegin(); it != roles.constEnd(); ++it)
+		result.insert(QString::fromLatin1(it.value()), data(idx, it.key()));
+	return result;
+}
+
 QHash<int, QByteArray> GameListModel::roleNames() const
 {
 	QHash<int, QByteArray> roles;
@@ -2537,6 +2549,11 @@ QString LobbyHandler::currentGameName() const
 		return QString();
 	const GameInfo info = m_session->getClientGameInfo(m_currentGameId);
 	return QString::fromStdString(info.name);
+}
+
+bool LobbyHandler::isInternetSession() const
+{
+	return m_session && m_session->getGameType() == Session::GAME_TYPE_INTERNET;
 }
 
 void LobbyHandler::startGame(bool fillWithCpu)

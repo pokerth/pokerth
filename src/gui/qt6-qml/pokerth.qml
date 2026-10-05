@@ -531,6 +531,65 @@ ApplicationWindow {
                     Layout.horizontalStretchFactor: 2
                 }
 
+                // Ace's Help: the A♠ button opens its menu (GuideOverlay). The red
+                // dot = a tip put off with « Later » that applies here.
+                Item {
+                    id: topBarGuideButton
+                    Layout.preferredWidth: 28
+                    Layout.preferredHeight: 22
+                    Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
+                    visible: mainWindow.topBarIconsVisible && Config.Parameters.guideOn
+
+                    readonly property color tint: guideOverlay.bubbleText !== ""
+                        ? Config.Theme.colorAccent
+                        : guideArea.containsMouse
+                            ? Config.StaticData.palette.secondary.col100
+                            : Config.StaticData.palette.secondary.col200
+
+                    ToolTip.visible: guideArea.containsMouse
+                                     && !Config.Responsive.isMobile && Config.Parameters.showTooltips
+                    ToolTip.delay: 600
+                    ToolTip.text: guideOverlay.t("aceLabel")
+
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: 5
+                        color: "transparent"
+                        border.width: 1.5
+                        border.color: topBarGuideButton.tint
+
+                        AppText {
+                            anchors.centerIn: parent
+                            text: "A♠"
+                            font.bold: true
+                            font.pixelSize: 12
+                            color: topBarGuideButton.tint
+                        }
+                    }
+
+                    Rectangle {
+                        visible: guideOverlay.badge
+                        anchors.top: parent.top
+                        anchors.right: parent.right
+                        anchors.topMargin: -4
+                        anchors.rightMargin: -4
+                        width: 10
+                        height: 10
+                        radius: 5
+                        color: Config.Theme.colorDanger
+                        border.color: Config.Theme.colorBox
+                        border.width: 1.5
+                    }
+
+                    MouseArea {
+                        id: guideArea
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+                        onClicked: guideOverlay.chipTapped()
+                    }
+                }
+
                 // The inbox for private messages. It stands to the left of the
                 // news and carries – like it – its counter as a
                 // badge on the icon (not a child of the icon: the MultiEffect layer
@@ -823,6 +882,9 @@ ApplicationWindow {
     Shortcut {
         sequence: "Escape"
         onActivated: {
+            // An open bubble of Ace's Help goes first (« Later »).
+            if (guideOverlay.handleEscape())
+                return
             if (!navigateBackFromTopBar() && sideMenu.visible) {
                 sideMenu.visible = false
                 topBarMenuIcon.source = "resources/threeLines.svg"
@@ -857,6 +919,15 @@ ApplicationWindow {
     }
 
     SideMenu {}
+
+    // Ace's Help: the bubble and the outline above every page (below the popups).
+    GuideOverlay {
+        id: guideOverlay
+        anchors.fill: parent
+        z: 50
+        stack: mainStackView
+        inLobby: mainWindow.inLobbySession
+    }
 
     // The forum fetch follows the setting: switched off = no network traffic
     // and no counter. (Config.ForumNews must not read the Parameters itself –

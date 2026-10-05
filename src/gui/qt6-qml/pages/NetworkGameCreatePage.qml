@@ -41,6 +41,21 @@ Rectangle {
         return false
     }
 
+    // Ace's Help (GuideOverlay): the rows a tour step outlines.
+    function guideTarget(key) {
+        switch (key) {
+        case "players":  return maxPlayersSpinBox.parent
+        case "stack":    return startCashSpinBox.parent
+        case "blind":    return firstBlindSpinBox.parent
+        case "interval": return raiseByHandsRadio.parent.parent
+        case "double":   return doubleBlindsSwitch.parent
+        case "timeout":  return timeoutSpinBox.parent
+        case "delay":    return delaySpinBox.parent
+        case "actions":  return createGameButton.parent
+        }
+        return null
+    }
+
     function cfgInt(key, dflt) {
         if (typeof SettingsManager !== "undefined" && SettingsManager) {
             var v = SettingsManager.readConfigInt(key)

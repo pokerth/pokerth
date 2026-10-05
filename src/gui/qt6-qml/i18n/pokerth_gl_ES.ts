@@ -767,7 +767,7 @@
 <context>
     <name>GameListItem</name>
     <message>
-        <location filename="../components/GameListItem.qml" line="+147"/>
+        <location filename="../components/GameListItem.qml" line="+148"/>
         <source>Report inappropriate game name</source>
         <translation>Informar de que o nome non é axeitado</translation>
     </message>
@@ -853,7 +853,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+443"/>
+        <location filename="../components/GamePlayerBox.qml" line="+445"/>
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
@@ -1087,7 +1087,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+241"/>
+        <location filename="../pages/GameWaitPage.qml" line="+250"/>
         <source>Players</source>
         <translation>Xogadores</translation>
     </message>
@@ -1116,48 +1116,48 @@
     </message>
     <message>
         <location line="-267"/>
-        <location line="+687"/>
+        <location line="+689"/>
         <source>Game List</source>
         <translation>Lista de partidas</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+648"/>
+        <location line="-638"/>
+        <location line="+650"/>
         <source>No game list filter</source>
         <translation>Sen filtro na lista de partidas</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open games</source>
         <translation>Amosar as partidas abertas</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full games</source>
         <translation>Amosar as partidas abertas e non completas</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Amosar as partidas abertas, non completas e públicas</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Amosar as partidas abertas, non completas e privadas</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
         <translation>Amosar as partidas abertas e non completas de puntuación</translation>
     </message>
     <message>
-        <location line="-574"/>
+        <location line="-576"/>
         <source>Game Info</source>
         <translation>Información da partida</translation>
     </message>
@@ -1182,7 +1182,7 @@
         <translation>Xogadores conectados</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+92"/>
         <source>Players: %1 / %2</source>
         <translation>Xogadores: %1 / %2</translation>
     </message>
@@ -1242,13 +1242,13 @@
         <translation>Xogadores na partida (%1)</translation>
     </message>
     <message>
-        <location line="-653"/>
-        <location line="+745"/>
+        <location line="-663"/>
+        <location line="+755"/>
         <source>Kick player</source>
         <translation>Expulsar o xogador</translation>
     </message>
     <message>
-        <location line="-744"/>
+        <location line="-754"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
         <translation>Está seguro de que quere expulsar a «%1» da partida?</translation>
     </message>
@@ -1258,7 +1258,7 @@
         <translation>Expulsar</translation>
     </message>
     <message>
-        <location line="+776"/>
+        <location line="+786"/>
         <source>Lobby Chat</source>
         <translation>Conversa da sala de espera</translation>
     </message>
@@ -1283,12 +1283,12 @@
         <translation>Saír da partida</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Start Game</source>
         <translation>Comezar</translation>
     </message>
     <message>
-        <location line="-88"/>
+        <location line="-89"/>
         <source>Suggest players</source>
         <translation>Suxerir xogadores</translation>
     </message>
@@ -1434,7 +1434,12 @@
         <translation>Amosar os consellos emerxentes</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>Ace’s Help: explain each screen the first time</source>
+        <translation>Axuda do Ás: explicar cada pantalla a primeira vez</translation>
+    </message>
+    <message>
+        <location line="+16"/>
         <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
         <translation>Activar a ampliación do taboleiro (desprazar e ampliar, só no modo móbil)</translation>
     </message>
@@ -1482,6 +1487,344 @@
         <location line="-31"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
         <translation>Suxerir xogadores nas partidas propias da comunidade</translation>
+    </message>
+</context>
+<context>
+    <name>GuideOverlay</name>
+    <message>
+        <location filename="../components/GuideOverlay.qml" line="+71"/>
+        <source>Ace’s Help</source>
+        <translation>Axuda do Ás</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help — tap for my menu</source>
+        <translation>Axuda do Ás — toca para o meu menú</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>New here? I can show you around as you go.</source>
+        <translation>Primeira vez por aquí? Podo ensinarche todo sobre a marcha.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yes, please</source>
+        <translation>Si, por favor</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No thanks</source>
+        <translation>Non, grazas</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Got it</source>
+        <translation>Entendido</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Later</source>
+        <translation>Máis tarde</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Next</source>
+        <translation>Seguinte</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Back</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Close</source>
+        <translation>Pechar</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turn off</source>
+        <translation>Desactivar</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show all tips again</source>
+        <translation>Amosar de novo todos os consellos</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Done — every tip will show again.</source>
+        <translation>Feito — todos os consellos volverán aparecer.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help is off. You can turn it back on from the menu at any time.</source>
+        <translation>A Axuda do Ás está desactivada. Podes volver activala dende o menú en calquera momento.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Entrar</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create a Ranking table</source>
+        <translation>Crear mesa de Ranking</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create an account</source>
+        <translation>Crear unha conta</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>See the ranking</source>
+        <translation>Ver a clasificación</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This screen’s tip</source>
+        <translation>Consello da pantalla</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A ranked game is waiting for you: **{n}/{max}** players. It starts as soon as it’s full!</source>
+        <translation>Agárdache unha partida de clasificación: **{n}/{max}** xogadores. Comeza en canto se encha!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No ranked game open right now. Create one — any player with an account can! It starts by itself as soon as 10 players have joined.</source>
+        <translation>Agora mesmo non hai ningunha partida de clasificación aberta. Crea unha — pode facelo calquera xogador con conta! Comeza soa en canto se unan 10 xogadores.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ranked games need a (free) pokerth.net account. As a guest you can play Normal games.</source>
+        <translation>As partidas de clasificación requiren unha conta (gratuíta) de pokerth.net. Como convidado podes xogar partidas normais.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ranked game: **{n}/{max}** players. It starts by itself as soon as the table is full — meanwhile, here is how the ranking works.</source>
+        <translation>Partida de clasificación: **{n}/{max}** xogadores. Comeza soa en canto se encha a mesa — mentres, velaquí como funciona a clasificación.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Each ranked game hands out points by finishing place: **15, 9, 6, 4, 3, 2, 1** from 1st to 7th, nothing from 8th to 10th — 40 points per table.</source>
+        <translation>Cada partida de clasificación reparte puntos segundo o posto final: **15, 9, 6, 4, 3, 2, 1** do 1.º ao 7.º, nada do 8.º ao 10.º — 40 puntos por mesa.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your **Score** is not the sum of your points but your average per game, tempered by how many games you have played: playing regularly matters.</source>
+        <translation>A túa **Score** non é a suma dos teus puntos senón a túa media por partida, atenuada polo número de partidas xogadas: xogar con regularidade conta.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The ranking runs in **quarterly seasons**: at each new season the counters are archived and start again from zero.</source>
+        <translation>A clasificación funciona por **tempadas trimestrais**: con cada nova tempada os contadores arquívanse e volven comezar desde cero.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Why is **5/5** everyone’s favourite? 5 seconds to act, 5 seconds between hands, 10,000 chips and blinds doubling every 11 hands: fast and the same for everyone, so games stay short and comparable.</source>
+        <translation>Por que é **5/5** o favorito de todos? 5 segundos para actuar, 5 segundos entre mans, 10.000 fichas e cegas que se dobran cada 11 mans: rápido e igual para todos, así que as partidas son curtas e comparables.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Just one more player!</source>
+        <translation>Só falta un xogador!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Game over — you finished in place **{place}**: **+{points}** points. See your ranking?</source>
+        <translation>Fin da partida — o teu posto: **{place}**, puntos: **+{points}**. Queres ver a túa clasificación?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Game over! Several players went out in the same hand, so your exact place is on the ranking page. See your ranking?</source>
+        <translation>Fin da partida! Varios xogadores quedaron fóra na mesma man, así que o teu posto exacto está na páxina da clasificación. Queres ver a túa clasificación?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Let’s go through this form together, one field at a time — I’ll bring each one into view. **Next** moves on, **Back** goes back, **Later** stops the tour.</source>
+        <translation>Imos encher este formulario xuntos, un campo de cada vez — lévote a cada un. **Seguinte** avanza, **Anterior** volve atrás, **Máis tarde** detén a visita.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game name**: what the other players see in the list of tables. Say what to expect — « Fast game », « Beginners welcome »…</source>
+        <translation>**Nome da partida**: o que ven os demais na lista de mesas. Di que poden agardar — «Partida rápida», «Principiantes benvidos»…</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game name**: as a guest, the name is chosen for you.</source>
+        <translation>**Nome da partida**: como convidado, o nome escóllese por ti.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>As a guest you can create **Normal** games. Ranking tables and registered-only games need a (free) pokerth.net account.</source>
+        <translation>Como convidado podes crear partidas **Normal**. As mesas de clasificación e as partidas só para rexistrados requiren unha conta (gratuíta) de pokerth.net.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Password**: switch it on to keep the table private — only players who know the password can sit down. Not available for a **Ranking game** or an **Invited players only** game.</source>
+        <translation>**Contrasinal**: actívao para que a mesa sexa privada — só quen saiba o contrasinal pode sentar. Non dispoñible nunha **Partida de clasificación** nin nunha partida **Só xogadores convidados**.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Spectators**: lets other players watch the game without playing.</source>
+        <translation>**Espectadores**: permite que outros xogadores miren a partida sen xogar.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Max players**: from 2 to 10 seats. The host starts the game from the waiting room, even with empty seats — a **Ranking game** starts by itself once all 10 seats are taken.</source>
+        <translation>**Xogadores máx.**: de 2 a 10 asentos. O anfitrión inicia a partida desde a sala de espera, aínda que queden asentos baleiros — unha **Partida de clasificación** comeza soa en canto se ocupan os 10 asentos.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Starting stack**: the chips each player gets. What counts is the stack compared with the blinds: 3000 chips with a small blind of 10 is 150 big blinds, a comfortable game. Fewer big blinds = a faster game, with more all-ins.</source>
+        <translation>**Capital inicial**: as fichas que recibe cada xogador. O que conta é o capital comparado coas cegas: 3000 fichas cunha cega pequena de 10 son 150 cegas grandes, unha partida cómoda. Menos cegas grandes = unha partida máis rápida, con máis all-in.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**First small blind**: the small blind when the game starts. The big blind is always twice the small blind.</source>
+        <translation>**Primeira cega pequena**: a cega pequena ao comezar a partida. A cega grande vale sempre o dobre.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Blind increase interval**: the blinds go up every so many **hands** or **minutes**. The shorter the interval, the shorter the game.</source>
+        <translation>**Intervalo de suba das cegas**: as cegas soben cada certo número de **mans** ou de **minutos**. Canto máis curto o intervalo, máis curta a partida.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Time per action**: how many seconds each player has to act on their turn (5 to 60).</source>
+        <translation>**Tempo por acción**: os segundos que ten cada xogador para actuar na súa quenda (de 5 a 60).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Pause between hands**: the seconds to see how a hand ended before the next one is dealt (5 to 20).</source>
+        <translation>**Pausa entre mans**: os segundos para ver como rematou unha man antes de repartir a seguinte (de 5 a 20).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Greyed out here: the chosen game type (or community template) sets this value.</source>
+        <translation>Atenuado aquí: o tipo de partida escollido (ou o modelo da comunidade) fixa este valor.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Great! I’ll pop up whenever there is something useful to explain — each screen and window once. The **A♠** button at the top opens my menu: this screen’s tip again, all tips again, or turn me off.</source>
+        <translation>Xenial! Aparecerei cada vez que haxa algo útil que explicar: cada pantalla e cada xanela unha vez. O botón **A♠** de arriba abre o meu menú: o consello desta pantalla outra vez, todos os consellos outra vez ou apagarme.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help is on: I explain each screen and window the first time you open it. **Later** puts a tip off — the red dot on the **A♠** button then brings it back.</source>
+        <translation>A Axuda do Ás está activada: explico cada pantalla e cada xanela a primeira vez que a abres. **Máis tarde** apraza un consello; o punto vermello do botón **A♠** tráeo de volta.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Four ways to play: **Internet Game** on pokerth.net, with the official rankings; **Start Local Game** against computer players, even offline; **Create Network Game** opens a server for your local network, and **Join Network Game** connects to one.</source>
+        <translation>Catro xeitos de xogar: **Partida en internet** en pokerth.net, coas clasificacións oficiais; **Comezar unha partida local** contra xogadores artificiais, mesmo sen conexión; **Crear unha partida en rede** abre un servidor para a túa rede local, e **Unirse a unha partida en rede** conéctase a un.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>On pokerth.net, play with your free account — **Login as User** — or **Continue as Guest**. Guests can only play Normal games: no ranked games and no chat. **Register** creates a free account in a minute.</source>
+        <translation>En pokerth.net xoga coa túa conta gratuíta —**Acceder como usuario**— ou **Continuar como convidado**. Os convidados só poden xogar partidas normais: sen partidas de clasificación e sen chat. **Rexistrarse** crea unha conta gratuíta nun minuto.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>To see where you stand: the **trophy** button at the top — and at the table, tap the **table name** to see the season ranking of the players you sit with.</source>
+        <translation>Para ver onde estás: o botón do **trofeo** arriba, e na mesa toca o **nome da mesa** para ver a clasificación da tempada dos xogadores cos que xogas.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This table is yours: press **Start Game** when everyone is here — or tick **Fill up with computer players** to fill the empty seats.</source>
+        <translation>Esta mesa é túa: preme **Comezar** cando estean todos, ou marca **Completar con xogadores artificiais** para ocupar os postos libres.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The host of the table starts the game — you only have to wait until everyone is here.</source>
+        <translation>O anfitrión da mesa comeza a partida: só tes que agardar a que estean todos.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Four game types: **Normal** (open to all), **Registered players only**, **Invited players only** and **Ranking game**. Any player with an account can create a Ranking table: 10 players, no password, it starts by itself when full.</source>
+        <translation>Catro tipos de partida: **Normal** (aberta a todos), **Só xogadores rexistrados**, **Só xogadores convidados** e **Partida de puntuación**. Calquera xogador con conta pode crear unha mesa de clasificación: 10 xogadores, sen contrasinal, comeza soa cando se enche.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Community template** (invited players only): the exact settings of a BBC, Monthly Cup or WEC game in one tap, for the admins who open these games. The fields it sets are then locked.</source>
+        <translation>**Modelo da comunidade** (só xogadores convidados): a configuración exacta dunha partida BBC, Monthly Cup ou WEC cun toque, para os administradores que abren estas partidas. Os campos que fixa quedan bloqueados.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Create Game** opens your table and its waiting room; **Cancel** goes back without creating anything.</source>
+        <translation>Último paso: **Crear a partida** abre a túa mesa e a súa sala de espera; **Cancelar** volve atrás sen crear nada.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A game on your local network: this device becomes the server, and the others connect with **Join Network Game**. Let’s go through the settings one at a time — **Next** moves on, **Back** goes back, **Later** stops the tour.</source>
+        <translation>Unha partida na túa rede local: este dispositivo pasa a ser o servidor e os demais conéctanse con **Unirse a unha partida en rede**. Repasemos a configuración unha por unha: **Seguinte** avanza, **Anterior** retrocede, **Máis tarde** detén o percorrido.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Always double blinds**: the small blind doubles at each raise. Switched off, the blinds follow your manual blinds order from the network game settings.</source>
+        <translation>**Dobrar sempre as apostas obrigatorias**: a cega pequena dóbrase en cada subida. Desactivado, as cegas seguen a túa orde manual de cegas da configuración da partida en rede.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Create Game** starts the server on this device and opens its lobby; **Cancel** goes back.</source>
+        <translation>Último paso: **Crear a partida** inicia o servidor neste dispositivo e abre o seu vestíbulo; **Cancelar** volve atrás.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Training table: choose the number of players, the starting stack, the blinds and the game speed, then start the game. Nothing here counts towards a ranking.</source>
+        <translation>Mesa de adestramento: escolle o número de xogadores, as fichas iniciais, as cegas e a velocidade do xogo, e despois comeza a partida. Nada disto conta para unha clasificación.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Number of players**: you and up to 9 computer players.</source>
+        <translation>**Número de xogadores**: ti e ata 9 xogadores artificiais.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Blinds**: keep the saved settings, or change them here — the first small blind, how often it goes up (every so many hands or minutes) and how: always doubled, or a manual blinds order.</source>
+        <translation>**Cegas**: mantén a configuración gardada ou cámbiaa aquí: a primeira cega pequena, cada canto sobe (cada tantas mans ou minutos) e como: sempre dobrada ou segundo unha orde manual de cegas.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game speed**: how fast the computer players act and the cards are dealt — from 1 (slow) to 11 (fast).</source>
+        <translation>**Velocidade do xogo**: o rápido que actúan os xogadores artificiais e se reparten as cartas, de 1 (lento) a 11 (rápido).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Start game** opens the table straight away; **Cancel** goes back.</source>
+        <translation>Último paso: **Comezar a partida** abre a mesa ao momento; **Cancelar** volve atrás.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The official **PokerTH** ranking and the community ones (**BBC**, **WEC**). Pick one: search a player, choose a season, and tap a name to open the profile.</source>
+        <translation>A clasificación oficial de **PokerTH** e as da comunidade (**BBC**, **WEC**). Escolle unha: busca un xogador, escolle unha tempada e toca un nome para abrir o perfil.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The official ranking: the current season, or an earlier one under **Season**. Search a player by name and tap a row for the profile. At the bottom: how the ranking is calculated.</source>
+        <translation>A clasificación oficial: a tempada actual ou unha anterior en **Tempada**. Busca un xogador polo nome e toca unha fila para ver o perfil. Ao final: como se calcula a clasificación.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The latest posts of the pokerth.net forum, newest first. Tap a post to read it here — it is then marked as read. A filled dot means not read yet; the badge on the newspaper button counts them, and **Mark all as read** clears them all. **BBC games** lists the upcoming BBC games.</source>
+        <translation>As últimas publicacións do foro de pokerth.net, as máis recentes primeiro. Toca unha publicación para lela aquí: queda marcada como lida. Un punto cheo significa que aínda non se leu; a insignia do botón do xornal cóntaas, e **Marcar todas como lidas** bórraas todas. **Partidas BBC** mostra as próximas partidas BBC.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Every setting, by section: interface, style, sound, local, network and internet games, nicknames and avatars, log messages, and back to the defaults. Ace’s Help is switched on and off in the interface settings.</source>
+        <translation>Toda a configuración, por seccións: interface, estilo, son, partida local, en rede e en internet, alcumes e avatares, mensaxes de rexistro, e volta aos valores predeterminados. A Axuda do Ás actívase e desactívase na configuración da interface.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your logs: every game played on this device is recorded here. Pick a game for a preview, export it as HTML or text, or analyse it for a review of your play.</source>
+        <translation>Os teus rexistros: aquí gárdase cada partida xogada neste dispositivo. Escolle unha partida para unha vista previa, expórtaa como HTML ou texto, ou fai que a analicen para obter unha valoración do teu xogo.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A player’s card: the profile and the statistics — the current season, the last games and the results so far.</source>
+        <translation>A ficha dun xogador: o perfil e as estatísticas, coa tempada actual, as últimas partidas e os resultados ata agora.</translation>
     </message>
 </context>
 <context>
@@ -1645,7 +1988,7 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+326"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+362"/>
         <source>← Zurück</source>
         <translation>← Volver</translation>
     </message>
@@ -1661,12 +2004,12 @@
         <translation>Nome da partida</translation>
     </message>
     <message>
-        <location line="-205"/>
+        <location line="-237"/>
         <source>%1&apos;s game</source>
         <translation>Partida de %1</translation>
     </message>
     <message>
-        <location line="+214"/>
+        <location line="+246"/>
         <source>Spielname eingeben …</source>
         <translation>Escriba un nome de partida …</translation>
     </message>
@@ -1795,19 +2138,19 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1463"/>
-        <location line="+1377"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1475"/>
+        <location line="+1383"/>
         <source>Guests cannot send chat messages</source>
         <translation>Os convidados non poden enviar mensaxes na conversa</translation>
     </message>
     <message>
-        <location line="-1358"/>
-        <location line="+1352"/>
+        <location line="-1364"/>
+        <location line="+1358"/>
         <source>Private messages are not available at the table.</source>
         <translation>As mensaxes privadas non están dispoñíbeis no taboleiro.</translation>
     </message>
     <message>
-        <location line="-1346"/>
+        <location line="-1352"/>
         <source>Player not found</source>
         <translation>Non se atopou o xogador</translation>
     </message>
@@ -1969,18 +2312,18 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
         <location line="+86"/>
         <location line="+39"/>
         <location line="+9"/>
-        <location line="+160"/>
+        <location line="+165"/>
         <location line="+9"/>
         <location line="+185"/>
         <location line="+9"/>
         <location line="+16"/>
-        <location line="+11"/>
+        <location line="+12"/>
         <location line="+11"/>
         <source>Not connected to server</source>
         <translation>Sen conexión ao servidor</translation>
     </message>
     <message>
-        <location line="-69"/>
+        <location line="-70"/>
         <source>%1 has been invited to %2 by %3.</source>
         <translation>%3 convidou a %1 a %2.</translation>
     </message>
@@ -1990,7 +2333,7 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
         <translation>%1 rexeitou a invitación a %2.</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+80"/>
         <source>Guests cannot receive private messages.</source>
         <translation>Os convidados non poden recibir mensaxes privadas.</translation>
     </message>
@@ -2040,7 +2383,7 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
         <translation>Completa</translation>
     </message>
     <message>
-        <location line="-225"/>
+        <location line="-226"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 non pode unirse a %2 porque está ocupado.</translation>
     </message>
@@ -2048,7 +2391,7 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
 <context>
     <name>LobbyPage</name>
     <message>
-        <location filename="../pages/LobbyPage.qml" line="+1621"/>
+        <location filename="../pages/LobbyPage.qml" line="+1641"/>
         <source>Game invitation</source>
         <translation>Invitación a unha partida</translation>
     </message>
@@ -2073,24 +2416,24 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
         <translation>Crear a partida</translation>
     </message>
     <message>
-        <location line="-777"/>
-        <location line="+835"/>
+        <location line="-781"/>
+        <location line="+839"/>
         <source>Game Info</source>
         <translation>Información da partida</translation>
     </message>
     <message>
-        <location line="-565"/>
-        <location line="+514"/>
+        <location line="-568"/>
+        <location line="+517"/>
         <source>Join Game</source>
         <translation>Unirse á partida</translation>
     </message>
     <message>
-        <location line="-304"/>
+        <location line="-307"/>
         <source>Game List</source>
         <translation>Lista de partidas</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+93"/>
         <source>Time: %1s/%2s</source>
         <translation>Tempo: %1 s/%2 s</translation>
     </message>
@@ -2111,37 +2454,37 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
     </message>
     <message>
         <location line="+128"/>
-        <location line="+287"/>
+        <location line="+288"/>
         <source>Lobby Chat</source>
         <translation>Conversa da sala de espera</translation>
     </message>
     <message>
-        <location line="-644"/>
+        <location line="-647"/>
         <source>No game list filter</source>
         <translation>Sen filtro na lista de partidas</translation>
     </message>
     <message>
-        <location line="+406"/>
+        <location line="+408"/>
         <source>Player: %1</source>
         <translation>Xogador: %1</translation>
     </message>
     <message>
-        <location line="-927"/>
+        <location line="-930"/>
         <source>Players</source>
         <translation>Xogadores</translation>
     </message>
     <message>
-        <location line="+1041"/>
+        <location line="+1045"/>
         <source>Select a game to see details</source>
         <translation>Escolla unha partida para ver os detalles</translation>
     </message>
     <message>
-        <location line="-517"/>
+        <location line="-520"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Amosar as partidas abertas, non completas e públicas</translation>
     </message>
     <message>
-        <location line="-640"/>
+        <location line="-641"/>
         <source>Report game name</source>
         <translation>Informar sobre o nome da partida</translation>
     </message>
@@ -2196,36 +2539,36 @@ O PokerTH pode reducila por ti. A nova imaxe activarase no seguinte inicio de se
     </message>
     <message>
         <location line="+167"/>
-        <location line="+510"/>
+        <location line="+511"/>
         <source>Sort alphabetically</source>
         <translation>Orde alfabética</translation>
     </message>
     <message>
-        <location line="-509"/>
-        <location line="+510"/>
+        <location line="-510"/>
+        <location line="+511"/>
         <source>Sort by country</source>
         <translation>Ordear por país</translation>
     </message>
     <message>
-        <location line="-509"/>
-        <location line="+510"/>
+        <location line="-510"/>
+        <location line="+511"/>
         <source>Display idle players</source>
         <translation>Xogadores inactivos</translation>
     </message>
     <message>
         <location line="-423"/>
-        <location line="+830"/>
+        <location line="+833"/>
         <source>Report inappropriate game name</source>
         <translation>Informar de que o nome non é axeitado</translation>
     </message>
     <message>
-        <location line="-822"/>
-        <location line="+829"/>
+        <location line="-825"/>
+        <location line="+832"/>
         <source>Close game (admin)</source>
         <translation>Pechar a partida (administrador)</translation>
     </message>
     <message>
-        <location line="-792"/>
+        <location line="-795"/>
         <source>Players: %1 / %2</source>
         <translation>Xogadores: %1 / %2</translation>
     </message>
@@ -2236,12 +2579,12 @@ O PokerTH pode reducila por ti. A nova imaxe activarase no seguinte inicio de se
     </message>
     <message>
         <location line="+33"/>
-        <location line="+773"/>
+        <location line="+776"/>
         <source>Type: %1</source>
         <translation>Tipo: %1</translation>
     </message>
     <message>
-        <location line="-762"/>
+        <location line="-765"/>
         <source>Small blind: %1</source>
         <translation>Aposta obrigatoria pequena: %1</translation>
     </message>
@@ -2289,18 +2632,18 @@ O PokerTH pode reducila por ti. A nova imaxe activarase no seguinte inicio de se
     </message>
     <message>
         <location line="+12"/>
-        <location line="+721"/>
+        <location line="+724"/>
         <source>Players in game (%1)</source>
         <translation>Xogadores na partida (%1)</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+514"/>
+        <location line="-639"/>
+        <location line="+517"/>
         <source>Leave Game</source>
         <translation>Saír da partida</translation>
     </message>
     <message>
-        <location line="-417"/>
+        <location line="-420"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Amosar as partidas abertas, non completas e privadas</translation>
     </message>
@@ -2315,21 +2658,21 @@ O PokerTH pode reducila por ti. A nova imaxe activarase no seguinte inicio de se
         <translation>Xogadores conectados</translation>
     </message>
     <message>
-        <location line="-671"/>
-        <location line="+877"/>
+        <location line="-672"/>
+        <location line="+880"/>
         <source>Spectate game</source>
         <translation>Espectar a partida</translation>
     </message>
     <message>
-        <location line="-876"/>
+        <location line="-879"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
         <translation>Está seguro de que quere espectar a partida:
 «%1»?</translation>
     </message>
     <message>
-        <location line="+994"/>
-        <location line="+287"/>
+        <location line="+997"/>
+        <location line="+288"/>
         <source>Global notice (admin)</source>
         <translation>Aviso xeral (administrador)</translation>
     </message>
@@ -2410,7 +2753,7 @@ O PokerTH pode reducila por ti. A nova imaxe activarase no seguinte inicio de se
         <translation>Volver</translation>
     </message>
     <message>
-        <location line="-1046"/>
+        <location line="-1049"/>
         <source>Show open &amp; non-full games</source>
         <translation>Amosar as partidas abertas e non completas</translation>
     </message>
@@ -2420,8 +2763,8 @@ O PokerTH pode reducila por ti. A nova imaxe activarase no seguinte inicio de se
         <translation>Amosar as partidas abertas</translation>
     </message>
     <message>
-        <location line="-473"/>
-        <location line="+452"/>
+        <location line="-474"/>
+        <location line="+453"/>
         <source>search for player ...</source>
         <translation>Buscar un xogador…</translation>
     </message>
@@ -2467,7 +2810,7 @@ O PokerTH pode reducila por ti. A nova imaxe activarase no seguinte inicio de se
 <context>
     <name>LocalGamePage</name>
     <message>
-        <location filename="../pages/LocalGamePage.qml" line="+38"/>
+        <location filename="../pages/LocalGamePage.qml" line="+51"/>
         <source>alle %1 Hände</source>
         <translation>cada %1 mans</translation>
     </message>
@@ -2502,17 +2845,17 @@ O PokerTH pode reducila por ti. A nova imaxe activarase no seguinte inicio de se
         <translation>Configuración da partida local</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Anzahl der Spieler:</source>
         <translation>Número de xogadores:</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+17"/>
         <source>Startkapital:</source>
         <translation>Capital inicial:</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+20"/>
         <source>Blinds</source>
         <translation>Apostas obrigatorias</translation>
     </message>
@@ -2568,7 +2911,7 @@ O PokerTH pode reducila por ti. A nova imaxe activarase no seguinte inicio de se
         <translation>Serie predefinida de apostas obrigatorias</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
         <translation>Velocidade da partida
@@ -2988,7 +3331,7 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
 <context>
     <name>NetworkGameCreatePage</name>
     <message>
-        <location filename="../pages/NetworkGameCreatePage.qml" line="+133"/>
+        <location filename="../pages/NetworkGameCreatePage.qml" line="+148"/>
         <source>← Zurück</source>
         <translation>← Volver</translation>
     </message>
@@ -3892,7 +4235,7 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+341"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+349"/>
         <source>Back</source>
         <translation>Volver</translation>
     </message>
@@ -4551,7 +4894,12 @@ Comprobe o seu nome de usuario e o contrasinal.</translation>
         <translation>PokerTH - v2.1.9</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+102"/>
+        <source>Ace’s Help</source>
+        <translation>Axuda do Ás</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Über PokerTH</source>
         <translation>Sobre PokerTH</translation>
     </message>
@@ -4625,7 +4973,7 @@ Comprobe o seu nome de usuario e o contrasinal.</translation>
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../pages/StartPage.qml" line="+161"/>
+        <location filename="../pages/StartPage.qml" line="+167"/>
         <source>Internetspiel</source>
         <translation>Partida en internet</translation>
     </message>
@@ -4935,7 +5283,7 @@ vista previa</translation>
         <translation>Menú</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+111"/>
         <source>Private messages</source>
         <translation>Mensaxes privadas</translation>
     </message>
@@ -4955,7 +5303,7 @@ vista previa</translation>
         <translation>Configuración</translation>
     </message>
     <message>
-        <location line="+198"/>
+        <location line="+210"/>
         <source>Timeout Warning</source>
         <translation>Aviso de tempo límite</translation>
     </message>
@@ -5031,8 +5379,8 @@ vista previa</translation>
         <translation>Perdeuse a conexión</translation>
     </message>
     <message>
-        <location line="-780"/>
-        <location line="+568"/>
+        <location line="-851"/>
+        <location line="+639"/>
         <location line="+23"/>
         <source>Leave Game</source>
         <translation>Saír da partida</translation>
@@ -5052,8 +5400,8 @@ e volver á sala de espera?</translation>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location line="-733"/>
-        <location line="+633"/>
+        <location line="-804"/>
+        <location line="+704"/>
         <location line="+23"/>
         <source>Leave Lobby</source>
         <translation>Saír da sala de espera</translation>

@@ -767,7 +767,7 @@
 <context>
     <name>GameListItem</name>
     <message>
-        <location filename="../components/GameListItem.qml" line="+147"/>
+        <location filename="../components/GameListItem.qml" line="+148"/>
         <source>Report inappropriate game name</source>
         <translation>Denuncia un nom de partida no apropiat</translation>
     </message>
@@ -853,7 +853,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+443"/>
+        <location filename="../components/GamePlayerBox.qml" line="+445"/>
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
@@ -1087,7 +1087,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+241"/>
+        <location filename="../pages/GameWaitPage.qml" line="+250"/>
         <source>Players</source>
         <translation>Jugadors</translation>
     </message>
@@ -1116,48 +1116,48 @@
     </message>
     <message>
         <location line="-267"/>
-        <location line="+687"/>
+        <location line="+689"/>
         <source>Game List</source>
         <translation>Llista de partides</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+648"/>
+        <location line="-638"/>
+        <location line="+650"/>
         <source>No game list filter</source>
         <translation>Sense filtre de la llista de partides</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open games</source>
         <translation>Mostra les partides obertes</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full games</source>
         <translation>Mostra les partides obertes i no plenes</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Mostra les partides obertes, no plenes i públiques</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Mostra les partides obertes, no plenes i privades</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
         <translation>Mostra les partides obertes i no plenes de rànquing</translation>
     </message>
     <message>
-        <location line="-574"/>
+        <location line="-576"/>
         <source>Game Info</source>
         <translation>Informació de la partida</translation>
     </message>
@@ -1182,7 +1182,7 @@
         <translation>Jugadors connectats</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+92"/>
         <source>Players: %1 / %2</source>
         <translation>Jugadors: %1 / %2</translation>
     </message>
@@ -1242,13 +1242,13 @@
         <translation>Jugadors a la partida (%1)</translation>
     </message>
     <message>
-        <location line="-653"/>
-        <location line="+745"/>
+        <location line="-663"/>
+        <location line="+755"/>
         <source>Kick player</source>
         <translation>Expulsa el jugador</translation>
     </message>
     <message>
-        <location line="-744"/>
+        <location line="-754"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
         <translation>Segur que voleu expulsar «%1» de la partida?</translation>
     </message>
@@ -1258,7 +1258,7 @@
         <translation>Expulsa</translation>
     </message>
     <message>
-        <location line="+776"/>
+        <location line="+786"/>
         <source>Lobby Chat</source>
         <translation>Xat de la sala</translation>
     </message>
@@ -1283,12 +1283,12 @@
         <translation>Abandona la partida</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Start Game</source>
         <translation>Comença la partida</translation>
     </message>
     <message>
-        <location line="-88"/>
+        <location line="-89"/>
         <source>Suggest players</source>
         <translation>Suggereix jugadors</translation>
     </message>
@@ -1434,7 +1434,12 @@
         <translation>Mostra els consells emergents</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>Ace’s Help: explain each screen the first time</source>
+        <translation>Ajuda de l’As: explica cada pantalla la primera vegada</translation>
+    </message>
+    <message>
+        <location line="+16"/>
         <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
         <translation>Activa el zoom de la taula (lliscar i ampliar, només en mode mòbil)</translation>
     </message>
@@ -1482,6 +1487,344 @@
         <location line="-31"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
         <translation>Suggereix jugadors a les partides pròpies de la comunitat</translation>
+    </message>
+</context>
+<context>
+    <name>GuideOverlay</name>
+    <message>
+        <location filename="../components/GuideOverlay.qml" line="+71"/>
+        <source>Ace’s Help</source>
+        <translation>Ajuda de l’As</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help — tap for my menu</source>
+        <translation>Ajuda de l’As — toca per veure el meu menú</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>New here? I can show you around as you go.</source>
+        <translation>Ets nou per aquí? Et puc guiar mentre avances.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yes, please</source>
+        <translation>Sí, si us plau</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No thanks</source>
+        <translation>No, gràcies</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Got it</source>
+        <translation>Entesos</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Later</source>
+        <translation>Més tard</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Next</source>
+        <translation>Següent</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Back</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Close</source>
+        <translation>Tanca</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turn off</source>
+        <translation>Desactiva</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show all tips again</source>
+        <translation>Torna a mostrar tots els consells</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Done — every tip will show again.</source>
+        <translation>Fet — tots els consells es tornaran a mostrar.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help is off. You can turn it back on from the menu at any time.</source>
+        <translation>L’Ajuda de l’As està desactivada. La pots tornar a activar des del menú quan vulguis.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Entra</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create a Ranking table</source>
+        <translation>Crea una taula Ranking</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create an account</source>
+        <translation>Crea un compte</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>See the ranking</source>
+        <translation>Mostra la classificació</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This screen’s tip</source>
+        <translation>Consell de la pantalla</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A ranked game is waiting for you: **{n}/{max}** players. It starts as soon as it’s full!</source>
+        <translation>Una partida de classificació t’espera: **{n}/{max}** jugadors. Comença tan bon punt és plena!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No ranked game open right now. Create one — any player with an account can! It starts by itself as soon as 10 players have joined.</source>
+        <translation>Ara no hi ha cap partida de classificació oberta. Crea’n una — qualsevol jugador amb compte pot fer-ho! Comença sola tan bon punt s’hi han unit 10 jugadors.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ranked games need a (free) pokerth.net account. As a guest you can play Normal games.</source>
+        <translation>Les partides de classificació requereixen un compte (gratuït) de pokerth.net. Com a convidat pots jugar partides normals.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ranked game: **{n}/{max}** players. It starts by itself as soon as the table is full — meanwhile, here is how the ranking works.</source>
+        <translation>Partida de classificació: **{n}/{max}** jugadors. Comença sola tan bon punt la taula és plena — mentrestant, t’explico com funciona la classificació.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Each ranked game hands out points by finishing place: **15, 9, 6, 4, 3, 2, 1** from 1st to 7th, nothing from 8th to 10th — 40 points per table.</source>
+        <translation>Cada partida de classificació reparteix punts segons el lloc final: **15, 9, 6, 4, 3, 2, 1** del 1r al 7è, res del 8è al 10è — 40 punts per taula.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your **Score** is not the sum of your points but your average per game, tempered by how many games you have played: playing regularly matters.</source>
+        <translation>La teva **Score** no és la suma dels teus punts, sinó la teva mitjana per partida, atenuada segons el nombre de partides jugades: jugar amb regularitat compta.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The ranking runs in **quarterly seasons**: at each new season the counters are archived and start again from zero.</source>
+        <translation>La classificació funciona per **temporades trimestrals**: a cada nova temporada els comptadors s’arxiven i tornen a començar de zero.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Why is **5/5** everyone’s favourite? 5 seconds to act, 5 seconds between hands, 10,000 chips and blinds doubling every 11 hands: fast and the same for everyone, so games stay short and comparable.</source>
+        <translation>Per què el **5/5** és el preferit de tothom? 5 segons per actuar, 5 segons entre mans, 10.000 fitxes i cegues que es doblen cada 11 mans: ràpid i igual per a tothom, així les partides són curtes i comparables.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Just one more player!</source>
+        <translation>Només falta un jugador!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Game over — you finished in place **{place}**: **+{points}** points. See your ranking?</source>
+        <translation>Partida acabada — has quedat en la posició **{place}**: **+{points}** punts. Vols veure la teva classificació?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Game over! Several players went out in the same hand, so your exact place is on the ranking page. See your ranking?</source>
+        <translation>Partida acabada! Diversos jugadors han quedat eliminats en la mateixa mà, així que el teu lloc exacte és a la pàgina de classificació. Vols veure la teva classificació?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Let’s go through this form together, one field at a time — I’ll bring each one into view. **Next** moves on, **Back** goes back, **Later** stops the tour.</source>
+        <translation>Omplim aquest formulari junts, un camp cada vegada — et porto a cadascun. **Següent** avança, **Anterior** torna enrere, **Més tard** atura la visita.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game name**: what the other players see in the list of tables. Say what to expect — « Fast game », « Beginners welcome »…</source>
+        <translation>**Nom de la partida**: el que veuen els altres a la llista de taules. Digues què poden esperar — «Partida ràpida», «Principiants benvinguts»…</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game name**: as a guest, the name is chosen for you.</source>
+        <translation>**Nom de la partida**: com a convidat, el nom es tria per tu.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>As a guest you can create **Normal** games. Ranking tables and registered-only games need a (free) pokerth.net account.</source>
+        <translation>Com a convidat pots crear partides **Normal**. Les taules de classificació i les partides només per a jugadors registrats requereixen un compte (gratuït) de pokerth.net.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Password**: switch it on to keep the table private — only players who know the password can sit down. Not available for a **Ranking game** or an **Invited players only** game.</source>
+        <translation>**Contrasenya**: activa-la per fer la taula privada — només qui sap la contrasenya s’hi pot asseure. No disponible en una **Partida de classificació** ni en una partida **Només jugadors convidats**.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Spectators**: lets other players watch the game without playing.</source>
+        <translation>**Espectadors**: permet que altres jugadors mirin la partida sense jugar.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Max players**: from 2 to 10 seats. The host starts the game from the waiting room, even with empty seats — a **Ranking game** starts by itself once all 10 seats are taken.</source>
+        <translation>**Jugadors màx.**: de 2 a 10 seients. L’amfitrió inicia la partida des de la sala d’espera, encara que hi hagi seients buits — una **Partida de classificació** comença sola quan els 10 seients estan ocupats.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Starting stack**: the chips each player gets. What counts is the stack compared with the blinds: 3000 chips with a small blind of 10 is 150 big blinds, a comfortable game. Fewer big blinds = a faster game, with more all-ins.</source>
+        <translation>**Capital inicial**: les fitxes de cada jugador. El que compta és el capital comparat amb les cegues: 3000 fitxes amb una cega petita de 10 són 150 cegues grans, una partida còmoda. Menys cegues grans = una partida més ràpida, amb més all-ins.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**First small blind**: the small blind when the game starts. The big blind is always twice the small blind.</source>
+        <translation>**Primera cega petita**: la cega petita a l’inici de la partida. La cega gran sempre és el doble.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Blind increase interval**: the blinds go up every so many **hands** or **minutes**. The shorter the interval, the shorter the game.</source>
+        <translation>**Interval de pujada de cegues**: les cegues pugen cada cert nombre de **mans** o de **minuts**. Com més curt l’interval, més curta la partida.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Time per action**: how many seconds each player has to act on their turn (5 to 60).</source>
+        <translation>**Temps per acció**: els segons que té cada jugador per actuar quan li toca (de 5 a 60).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Pause between hands**: the seconds to see how a hand ended before the next one is dealt (5 to 20).</source>
+        <translation>**Pausa entre mans**: els segons per veure com ha acabat una mà abans de repartir la següent (de 5 a 20).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Greyed out here: the chosen game type (or community template) sets this value.</source>
+        <translation>Atenuat aquí: el tipus de partida triat (o la plantilla de la comunitat) fixa aquest valor.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Great! I’ll pop up whenever there is something useful to explain — each screen and window once. The **A♠** button at the top opens my menu: this screen’s tip again, all tips again, or turn me off.</source>
+        <translation>Genial! Apareixeré sempre que hi hagi alguna cosa útil per explicar: cada pantalla i cada finestra una vegada. El botó **A♠** de dalt obre el meu menú: el consell d’aquesta pantalla una altra vegada, tots els consells una altra vegada o apagar-me.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help is on: I explain each screen and window the first time you open it. **Later** puts a tip off — the red dot on the **A♠** button then brings it back.</source>
+        <translation>L’Ajuda de l’As està activada: explico cada pantalla i cada finestra la primera vegada que l’obres. **Més tard** ajorna un consell; el punt vermell del botó **A♠** te’l torna a portar.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Four ways to play: **Internet Game** on pokerth.net, with the official rankings; **Start Local Game** against computer players, even offline; **Create Network Game** opens a server for your local network, and **Join Network Game** connects to one.</source>
+        <translation>Quatre maneres de jugar: **Partida per internet** a pokerth.net, amb els rànquings oficials; **Comença una partida local** contra jugadors per ordinador, fins i tot sense connexió; **Crea una partida en xarxa** obre un servidor per a la teva xarxa local, i **Uneix-te a una partida en xarxa** s’hi connecta.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>On pokerth.net, play with your free account — **Login as User** — or **Continue as Guest**. Guests can only play Normal games: no ranked games and no chat. **Register** creates a free account in a minute.</source>
+        <translation>A pokerth.net, juga amb el teu compte gratuït —**Entra com a usuari**— o **Continua com a visitant**. Els visitants només poden jugar partides normals: sense partides de rànquing i sense xat. **Registra’t** crea un compte gratuït en un minut.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>To see where you stand: the **trophy** button at the top — and at the table, tap the **table name** to see the season ranking of the players you sit with.</source>
+        <translation>Per veure on ets: el botó del **trofeu** a dalt, i a la taula toca el **nom de la taula** per veure el rànquing de la temporada dels jugadors amb qui jugues.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This table is yours: press **Start Game** when everyone is here — or tick **Fill up with computer players** to fill the empty seats.</source>
+        <translation>Aquesta taula és teva: prem **Comença la partida** quan hi siguin tots, o marca **Omple amb jugadors per ordinador** per ocupar els seients lliures.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The host of the table starts the game — you only have to wait until everyone is here.</source>
+        <translation>L’amfitrió de la taula comença la partida: només has d’esperar que hi siguin tots.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Four game types: **Normal** (open to all), **Registered players only**, **Invited players only** and **Ranking game**. Any player with an account can create a Ranking table: 10 players, no password, it starts by itself when full.</source>
+        <translation>Quatre tipus de partida: **Normal** (oberta a tothom), **Només jugadors registrats**, **Només jugadors invitats** i **Partida de rànquing**. Qualsevol jugador amb compte pot crear una taula de classificació: 10 jugadors, sense contrasenya, i comença sola quan és plena.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Community template** (invited players only): the exact settings of a BBC, Monthly Cup or WEC game in one tap, for the admins who open these games. The fields it sets are then locked.</source>
+        <translation>**Plantilla de la comunitat** (només jugadors convidats): la configuració exacta d’una partida BBC, Monthly Cup o WEC amb un toc, per als administradors que obren aquestes partides. Els camps que fixa queden bloquejats.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Create Game** opens your table and its waiting room; **Cancel** goes back without creating anything.</source>
+        <translation>Últim pas: **Crea una partida** obre la teva taula i la seva sala d’espera; **Cancel·la** torna enrere sense crear res.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A game on your local network: this device becomes the server, and the others connect with **Join Network Game**. Let’s go through the settings one at a time — **Next** moves on, **Back** goes back, **Later** stops the tour.</source>
+        <translation>Una partida a la teva xarxa local: aquest dispositiu fa de servidor i els altres s’hi connecten amb **Uneix-te a una partida en xarxa**. Repassem la configuració una a una: **Següent** avança, **Anterior** recula, **Més tard** atura el recorregut.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Always double blinds**: the small blind doubles at each raise. Switched off, the blinds follow your manual blinds order from the network game settings.</source>
+        <translation>**Duplica sempre les cegues**: la cega petita es duplica a cada augment. Desactivat, les cegues segueixen el teu ordre manual de cegues de la configuració de la partida en xarxa.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Create Game** starts the server on this device and opens its lobby; **Cancel** goes back.</source>
+        <translation>Últim pas: **Crea una partida** inicia el servidor en aquest dispositiu i n’obre el vestíbul; **Cancel·la** torna enrere.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Training table: choose the number of players, the starting stack, the blinds and the game speed, then start the game. Nothing here counts towards a ranking.</source>
+        <translation>Taula d’entrenament: tria el nombre de jugadors, les fitxes inicials, les cegues i la velocitat del joc, i després comença la partida. Res d’això compta per a cap rànquing.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Number of players**: you and up to 9 computer players.</source>
+        <translation>**Nombre de jugadors**: tu i fins a 9 jugadors per ordinador.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Blinds**: keep the saved settings, or change them here — the first small blind, how often it goes up (every so many hands or minutes) and how: always doubled, or a manual blinds order.</source>
+        <translation>**Cegues**: conserva la configuració desada o canvia-la aquí: la primera cega petita, cada quan puja (cada tantes mans o minuts) i com: sempre duplicada o segons un ordre manual de cegues.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game speed**: how fast the computer players act and the cards are dealt — from 1 (slow) to 11 (fast).</source>
+        <translation>**Velocitat del joc**: la rapidesa amb què actuen els jugadors per ordinador i es reparteixen les cartes, d’1 (lent) a 11 (ràpid).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Start game** opens the table straight away; **Cancel** goes back.</source>
+        <translation>Últim pas: **Comença la partida** obre la taula de seguida; **Cancel·la** torna enrere.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The official **PokerTH** ranking and the community ones (**BBC**, **WEC**). Pick one: search a player, choose a season, and tap a name to open the profile.</source>
+        <translation>El rànquing oficial de **PokerTH** i els de la comunitat (**BBC**, **WEC**). Tria’n un: cerca un jugador, tria una temporada i toca un nom per obrir el perfil.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The official ranking: the current season, or an earlier one under **Season**. Search a player by name and tap a row for the profile. At the bottom: how the ranking is calculated.</source>
+        <translation>El rànquing oficial: la temporada actual o una d’anterior a **Temporada**. Cerca un jugador pel nom i toca una fila per veure’n el perfil. A baix de tot: com es calcula el rànquing.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The latest posts of the pokerth.net forum, newest first. Tap a post to read it here — it is then marked as read. A filled dot means not read yet; the badge on the newspaper button counts them, and **Mark all as read** clears them all. **BBC games** lists the upcoming BBC games.</source>
+        <translation>Les darreres publicacions del fòrum de pokerth.net, les més recents primer. Toca una publicació per llegir-la aquí: queda marcada com a llegida. Un punt ple vol dir que encara no s’ha llegit; la insígnia del botó del diari les compta, i **Marca-ho tot com a llegit** les esborra totes. **Partides BBC** mostra les properes partides BBC.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Every setting, by section: interface, style, sound, local, network and internet games, nicknames and avatars, log messages, and back to the defaults. Ace’s Help is switched on and off in the interface settings.</source>
+        <translation>Tota la configuració, per seccions: interfície, estil, so, partida local, en xarxa i per internet, sobrenoms i avatars, missatges de registre, i tornada als valors per defecte. L’Ajuda de l’As s’activa i es desactiva a la configuració de la interfície.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your logs: every game played on this device is recorded here. Pick a game for a preview, export it as HTML or text, or analyse it for a review of your play.</source>
+        <translation>Els teus registres: aquí es desa cada partida jugada en aquest dispositiu. Tria una partida per a una previsualització, exporta-la en HTML o text, o fes-la analitzar per obtenir una valoració del teu joc.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A player’s card: the profile and the statistics — the current season, the last games and the results so far.</source>
+        <translation>La fitxa d’un jugador: el perfil i les estadístiques, amb la temporada actual, les darreres partides i els resultats fins ara.</translation>
     </message>
 </context>
 <context>
@@ -1645,7 +1988,7 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+326"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+362"/>
         <source>← Zurück</source>
         <translation>← Enrere</translation>
     </message>
@@ -1661,12 +2004,12 @@
         <translation>Nom de la partida</translation>
     </message>
     <message>
-        <location line="-205"/>
+        <location line="-237"/>
         <source>%1&apos;s game</source>
         <translation>Partida de %1</translation>
     </message>
     <message>
-        <location line="+214"/>
+        <location line="+246"/>
         <source>Spielname eingeben …</source>
         <translation>Introduïu un nom de partida …</translation>
     </message>
@@ -1795,19 +2138,19 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1463"/>
-        <location line="+1377"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1475"/>
+        <location line="+1383"/>
         <source>Guests cannot send chat messages</source>
         <translation>Els visitants no poden enviar missatges al xat</translation>
     </message>
     <message>
-        <location line="-1358"/>
-        <location line="+1352"/>
+        <location line="-1364"/>
+        <location line="+1358"/>
         <source>Private messages are not available at the table.</source>
         <translation>Els missatges privats no estan disponibles a la taula.</translation>
     </message>
     <message>
-        <location line="-1346"/>
+        <location line="-1352"/>
         <source>Player not found</source>
         <translation>No s&apos;ha trobat el jugador</translation>
     </message>
@@ -1969,18 +2312,18 @@ Torneu a introduir la contrasenya i proveu-ho de nou.</translation>
         <location line="+86"/>
         <location line="+39"/>
         <location line="+9"/>
-        <location line="+160"/>
+        <location line="+165"/>
         <location line="+9"/>
         <location line="+185"/>
         <location line="+9"/>
         <location line="+16"/>
-        <location line="+11"/>
+        <location line="+12"/>
         <location line="+11"/>
         <source>Not connected to server</source>
         <translation>Sense connexió al servidor</translation>
     </message>
     <message>
-        <location line="-69"/>
+        <location line="-70"/>
         <source>%1 has been invited to %2 by %3.</source>
         <translation>%3 ha invitat %1 a %2.</translation>
     </message>
@@ -1990,7 +2333,7 @@ Torneu a introduir la contrasenya i proveu-ho de nou.</translation>
         <translation>%1 ha rebutjat la invitació a %2.</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+80"/>
         <source>Guests cannot receive private messages.</source>
         <translation>Els visitants no poden rebre missatges privats.</translation>
     </message>
@@ -2040,7 +2383,7 @@ Torneu a introduir la contrasenya i proveu-ho de nou.</translation>
         <translation>Plena</translation>
     </message>
     <message>
-        <location line="-225"/>
+        <location line="-226"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 no es pot unir a %2 perquè està ocupat.</translation>
     </message>
@@ -2048,7 +2391,7 @@ Torneu a introduir la contrasenya i proveu-ho de nou.</translation>
 <context>
     <name>LobbyPage</name>
     <message>
-        <location filename="../pages/LobbyPage.qml" line="+1621"/>
+        <location filename="../pages/LobbyPage.qml" line="+1641"/>
         <source>Game invitation</source>
         <translation>Invitació a una partida</translation>
     </message>
@@ -2073,24 +2416,24 @@ Torneu a introduir la contrasenya i proveu-ho de nou.</translation>
         <translation>Crea una partida</translation>
     </message>
     <message>
-        <location line="-777"/>
-        <location line="+835"/>
+        <location line="-781"/>
+        <location line="+839"/>
         <source>Game Info</source>
         <translation>Informació de la partida</translation>
     </message>
     <message>
-        <location line="-565"/>
-        <location line="+514"/>
+        <location line="-568"/>
+        <location line="+517"/>
         <source>Join Game</source>
         <translation>Uneix-te a la partida</translation>
     </message>
     <message>
-        <location line="-304"/>
+        <location line="-307"/>
         <source>Game List</source>
         <translation>Llista de partides</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+93"/>
         <source>Time: %1s/%2s</source>
         <translation>Temps: %1 s/%2 s</translation>
     </message>
@@ -2111,37 +2454,37 @@ Torneu a introduir la contrasenya i proveu-ho de nou.</translation>
     </message>
     <message>
         <location line="+128"/>
-        <location line="+287"/>
+        <location line="+288"/>
         <source>Lobby Chat</source>
         <translation>Xat de la sala</translation>
     </message>
     <message>
-        <location line="-644"/>
+        <location line="-647"/>
         <source>No game list filter</source>
         <translation>Sense filtre de la llista de partides</translation>
     </message>
     <message>
-        <location line="+406"/>
+        <location line="+408"/>
         <source>Player: %1</source>
         <translation>Jugador: %1</translation>
     </message>
     <message>
-        <location line="-927"/>
+        <location line="-930"/>
         <source>Players</source>
         <translation>Jugadors</translation>
     </message>
     <message>
-        <location line="+1041"/>
+        <location line="+1045"/>
         <source>Select a game to see details</source>
         <translation>Trieu una partida per veure&apos;n els detalls</translation>
     </message>
     <message>
-        <location line="-517"/>
+        <location line="-520"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Mostra les partides obertes, no plenes i públiques</translation>
     </message>
     <message>
-        <location line="-640"/>
+        <location line="-641"/>
         <source>Report game name</source>
         <translation>Denuncia el nom de la partida</translation>
     </message>
@@ -2196,36 +2539,36 @@ El PokerTH pot reduir-la per tu. El nou avatar s&apos;activarà en el proper ini
     </message>
     <message>
         <location line="+167"/>
-        <location line="+510"/>
+        <location line="+511"/>
         <source>Sort alphabetically</source>
         <translation>Ordena alfabèticament</translation>
     </message>
     <message>
-        <location line="-509"/>
-        <location line="+510"/>
+        <location line="-510"/>
+        <location line="+511"/>
         <source>Sort by country</source>
         <translation>Ordena per país</translation>
     </message>
     <message>
-        <location line="-509"/>
-        <location line="+510"/>
+        <location line="-510"/>
+        <location line="+511"/>
         <source>Display idle players</source>
         <translation>Mostra els jugadors inactius</translation>
     </message>
     <message>
         <location line="-423"/>
-        <location line="+830"/>
+        <location line="+833"/>
         <source>Report inappropriate game name</source>
         <translation>Denuncia un nom de partida no apropiat</translation>
     </message>
     <message>
-        <location line="-822"/>
-        <location line="+829"/>
+        <location line="-825"/>
+        <location line="+832"/>
         <source>Close game (admin)</source>
         <translation>Tanca la partida (administrador)</translation>
     </message>
     <message>
-        <location line="-792"/>
+        <location line="-795"/>
         <source>Players: %1 / %2</source>
         <translation>Jugadors: %1 / %2</translation>
     </message>
@@ -2236,12 +2579,12 @@ El PokerTH pot reduir-la per tu. El nou avatar s&apos;activarà en el proper ini
     </message>
     <message>
         <location line="+33"/>
-        <location line="+773"/>
+        <location line="+776"/>
         <source>Type: %1</source>
         <translation>Tipus: %1</translation>
     </message>
     <message>
-        <location line="-762"/>
+        <location line="-765"/>
         <source>Small blind: %1</source>
         <translation>Cega petita: %1</translation>
     </message>
@@ -2289,18 +2632,18 @@ El PokerTH pot reduir-la per tu. El nou avatar s&apos;activarà en el proper ini
     </message>
     <message>
         <location line="+12"/>
-        <location line="+721"/>
+        <location line="+724"/>
         <source>Players in game (%1)</source>
         <translation>Jugadors a la partida (%1)</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+514"/>
+        <location line="-639"/>
+        <location line="+517"/>
         <source>Leave Game</source>
         <translation>Abandona la partida</translation>
     </message>
     <message>
-        <location line="-417"/>
+        <location line="-420"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Mostra les partides obertes, no plenes i privades</translation>
     </message>
@@ -2315,21 +2658,21 @@ El PokerTH pot reduir-la per tu. El nou avatar s&apos;activarà en el proper ini
         <translation>Jugadors connectats</translation>
     </message>
     <message>
-        <location line="-671"/>
-        <location line="+877"/>
+        <location line="-672"/>
+        <location line="+880"/>
         <source>Spectate game</source>
         <translation>Espectar la partida</translation>
     </message>
     <message>
-        <location line="-876"/>
+        <location line="-879"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
         <translation>Segur que voleu espectar la partida:
 «%1»?</translation>
     </message>
     <message>
-        <location line="+994"/>
-        <location line="+287"/>
+        <location line="+997"/>
+        <location line="+288"/>
         <source>Global notice (admin)</source>
         <translation>Avís general (administrador)</translation>
     </message>
@@ -2410,7 +2753,7 @@ El PokerTH pot reduir-la per tu. El nou avatar s&apos;activarà en el proper ini
         <translation>Torna-hi</translation>
     </message>
     <message>
-        <location line="-1046"/>
+        <location line="-1049"/>
         <source>Show open &amp; non-full games</source>
         <translation>Mostra les partides obertes i no plenes</translation>
     </message>
@@ -2420,8 +2763,8 @@ El PokerTH pot reduir-la per tu. El nou avatar s&apos;activarà en el proper ini
         <translation>Mostra les partides obertes</translation>
     </message>
     <message>
-        <location line="-473"/>
-        <location line="+452"/>
+        <location line="-474"/>
+        <location line="+453"/>
         <source>search for player ...</source>
         <translation>cerca un jugador ...</translation>
     </message>
@@ -2467,7 +2810,7 @@ El PokerTH pot reduir-la per tu. El nou avatar s&apos;activarà en el proper ini
 <context>
     <name>LocalGamePage</name>
     <message>
-        <location filename="../pages/LocalGamePage.qml" line="+38"/>
+        <location filename="../pages/LocalGamePage.qml" line="+51"/>
         <source>alle %1 Hände</source>
         <translation>cada %1 mans</translation>
     </message>
@@ -2502,17 +2845,17 @@ El PokerTH pot reduir-la per tu. El nou avatar s&apos;activarà en el proper ini
         <translation>Configuració de la partida local</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Anzahl der Spieler:</source>
         <translation>Nombre de jugadors:</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+17"/>
         <source>Startkapital:</source>
         <translation>Capital inicial:</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+20"/>
         <source>Blinds</source>
         <translation>Cegues</translation>
     </message>
@@ -2568,7 +2911,7 @@ El PokerTH pot reduir-la per tu. El nou avatar s&apos;activarà en el proper ini
         <translation>Ordre de cegues manuals</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
         <translation>Velocitat de la partida
@@ -2988,7 +3331,7 @@ Reinicieu PokerTH perquè els fitxers de registre s&apos;hi desin.</translation>
 <context>
     <name>NetworkGameCreatePage</name>
     <message>
-        <location filename="../pages/NetworkGameCreatePage.qml" line="+133"/>
+        <location filename="../pages/NetworkGameCreatePage.qml" line="+148"/>
         <source>← Zurück</source>
         <translation>← Enrere</translation>
     </message>
@@ -3892,7 +4235,7 @@ Reinicieu PokerTH perquè els fitxers de registre s&apos;hi desin.</translation>
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+341"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+349"/>
         <source>Back</source>
         <translation>Enrere</translation>
     </message>
@@ -4551,7 +4894,12 @@ Comproveu el vostre nom d&apos;usuari i la contrasenya.</translation>
         <translation>PokerTH - v2.1.9</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+102"/>
+        <source>Ace’s Help</source>
+        <translation>Ajuda de l’As</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Über PokerTH</source>
         <translation>Quant a PokerTH</translation>
     </message>
@@ -4625,7 +4973,7 @@ Comproveu el vostre nom d&apos;usuari i la contrasenya.</translation>
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../pages/StartPage.qml" line="+161"/>
+        <location filename="../pages/StartPage.qml" line="+167"/>
         <source>Internetspiel</source>
         <translation>Partida per internet</translation>
     </message>
@@ -4935,7 +5283,7 @@ previsualització</translation>
         <translation>Menú</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+111"/>
         <source>Private messages</source>
         <translation>Missatges privats</translation>
     </message>
@@ -4955,7 +5303,7 @@ previsualització</translation>
         <translation>Configuració</translation>
     </message>
     <message>
-        <location line="+198"/>
+        <location line="+210"/>
         <source>Timeout Warning</source>
         <translation>Advertiment de temps permès</translation>
     </message>
@@ -5031,8 +5379,8 @@ previsualització</translation>
         <translation>S&apos;ha perdut la connexió</translation>
     </message>
     <message>
-        <location line="-780"/>
-        <location line="+568"/>
+        <location line="-851"/>
+        <location line="+639"/>
         <location line="+23"/>
         <source>Leave Game</source>
         <translation>Abandona la partida</translation>
@@ -5052,8 +5400,8 @@ i tornar a la sala?</translation>
         <translation>Cancel·la</translation>
     </message>
     <message>
-        <location line="-733"/>
-        <location line="+633"/>
+        <location line="-804"/>
+        <location line="+704"/>
         <location line="+23"/>
         <source>Leave Lobby</source>
         <translation>Abandona la sala</translation>

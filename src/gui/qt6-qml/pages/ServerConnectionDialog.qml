@@ -8,6 +8,7 @@ import "../components"
 
 Rectangle {
     id: serverConnectionPage
+    objectName: "serverConnectionPage"
     // Bind to the visible area (StackView below the top bar), not to the whole
     // window – otherwise the box is not centred vertically.
     width: mainStackView.width
@@ -32,6 +33,13 @@ Rectangle {
     // Enter then did nothing). StackView.onActivated only fires once the page
     // really is in front; Qt.callLater additionally skips the animation.
     StackView.onActivated: Qt.callLater(serverConnectionPage.applyInitialFocus)
+
+    // Ace's Help (GuideOverlay): the view shown (0 = the choice, 1 = the login
+    // form, 2 = connecting) and the controls a tip outlines.
+    readonly property int guideStep: mainStack.currentIndex
+    function guideTarget(key) {
+        return key === "choices" ? initialChoicesView : null
+    }
 
     // Focus on the element that makes sense in the current view.
     function applyInitialFocus() {

@@ -767,7 +767,7 @@
 <context>
     <name>GameListItem</name>
     <message>
-        <location filename="../components/GameListItem.qml" line="+147"/>
+        <location filename="../components/GameListItem.qml" line="+148"/>
         <source>Report inappropriate game name</source>
         <translation>பொருத்தமற்ற விளையாட்டுப் பெயரைப் புகாரளி</translation>
     </message>
@@ -853,7 +853,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+443"/>
+        <location filename="../components/GamePlayerBox.qml" line="+445"/>
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
@@ -1087,7 +1087,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+241"/>
+        <location filename="../pages/GameWaitPage.qml" line="+250"/>
         <source>Players</source>
         <translation>விளையாட்டு வீரர்கள்</translation>
     </message>
@@ -1116,48 +1116,48 @@
     </message>
     <message>
         <location line="-267"/>
-        <location line="+687"/>
+        <location line="+689"/>
         <source>Game List</source>
         <translation>விளையாட்டுப் பட்டியல்</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+648"/>
+        <location line="-638"/>
+        <location line="+650"/>
         <source>No game list filter</source>
         <translation>விளையாட்டுப் பட்டியல் வடிகட்டி இல்லை</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open games</source>
         <translation>திறந்த விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full games</source>
         <translation>திறந்த, நிரம்பாத விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>திறந்த, நிரம்பாத, பொது விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>திறந்த, நிரம்பாத, தனிப்பட்ட விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
         <translation>திறந்த, நிரம்பாத தரவரிசை விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
-        <location line="-574"/>
+        <location line="-576"/>
         <source>Game Info</source>
         <translation>விளையாட்டை பற்றிய செய்தி</translation>
     </message>
@@ -1182,7 +1182,7 @@
         <translation>தொடர்பில் இருக்கும் விளையாட்டு வீரர்கள்</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+92"/>
         <source>Players: %1 / %2</source>
         <translation>வீரர்கள்: %1 / %2</translation>
     </message>
@@ -1242,13 +1242,13 @@
         <translation>விளையாட்டில் உள்ள வீரர்கள் (%1)</translation>
     </message>
     <message>
-        <location line="-653"/>
-        <location line="+745"/>
+        <location line="-663"/>
+        <location line="+755"/>
         <source>Kick player</source>
         <translation>வீரரை வெளியேற்று</translation>
     </message>
     <message>
-        <location line="-744"/>
+        <location line="-754"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
         <translation>„%1“ ஐ விளையாட்டிலிருந்து நிச்சயம் வெளியேற்ற வேண்டுமா?</translation>
     </message>
@@ -1258,7 +1258,7 @@
         <translation>துரத்து</translation>
     </message>
     <message>
-        <location line="+776"/>
+        <location line="+786"/>
         <source>Lobby Chat</source>
         <translation>வரவேற்பறை உரையாடல்</translation>
     </message>
@@ -1283,12 +1283,12 @@
         <translation>விளையாட்டை விட்டு விலகு</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Start Game</source>
         <translation>விளையாட்டை துவக்குக</translation>
     </message>
     <message>
-        <location line="-88"/>
+        <location line="-89"/>
         <source>Suggest players</source>
         <translation>வீரர்களை பரிந்துரை</translation>
     </message>
@@ -1434,7 +1434,12 @@
         <translation>கருவிக் குறிப்புகளைக் காட்டு</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>Ace’s Help: explain each screen the first time</source>
+        <translation>ஏஸின் உதவி: ஒவ்வொரு திரையையும் முதல் முறை விளக்கு</translation>
+    </message>
+    <message>
+        <location line="+16"/>
         <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
         <translation>மேசைப் பெரிதாக்கலை இயக்கு (இழுத்தல் மற்றும் பெரிதாக்கல், கைபேசி பயன்முறையில் மட்டும்)</translation>
     </message>
@@ -1482,6 +1487,344 @@
         <location line="-31"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
         <translation>உங்கள் சமூக விளையாட்டுகளில் வீரர்களை பரிந்துரை</translation>
+    </message>
+</context>
+<context>
+    <name>GuideOverlay</name>
+    <message>
+        <location filename="../components/GuideOverlay.qml" line="+71"/>
+        <source>Ace’s Help</source>
+        <translation>ஏஸின் உதவி</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help — tap for my menu</source>
+        <translation>ஏஸின் உதவி — எனது மெனுவுக்குத் தட்டவும்</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>New here? I can show you around as you go.</source>
+        <translation>இங்கே புதியவரா? நீங்கள் முன்னேறும்போதே எல்லாவற்றையும் நான் உங்களுக்குக் காட்ட முடியும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yes, please</source>
+        <translation>ஆம், தயவுசெய்து</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No thanks</source>
+        <translation>வேண்டாம், நன்றி</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Got it</source>
+        <translation>புரிந்தது</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Later</source>
+        <translation>பிறகு</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Next</source>
+        <translation>அடுத்து</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Back</source>
+        <translation>முந்தைய</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Close</source>
+        <translation>மூடு</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turn off</source>
+        <translation>அணை</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show all tips again</source>
+        <translation>எல்லாக் குறிப்புகளையும் மீண்டும் காட்டு</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Done — every tip will show again.</source>
+        <translation>முடிந்தது — ஒவ்வொரு குறிப்பும் மீண்டும் காட்டப்படும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help is off. You can turn it back on from the menu at any time.</source>
+        <translation>ஏஸின் உதவி அணைக்கப்பட்டது. எப்போது வேண்டுமானாலும் மெனுவிலிருந்து மீண்டும் இயக்கலாம்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>சேர்</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create a Ranking table</source>
+        <translation>தரவரிசை மேசை உருவாக்கு</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create an account</source>
+        <translation>கணக்கை உருவாக்கு</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>See the ranking</source>
+        <translation>தரவரிசையைப் பார்</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This screen’s tip</source>
+        <translation>இந்தத் திரையின் குறிப்பு</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A ranked game is waiting for you: **{n}/{max}** players. It starts as soon as it’s full!</source>
+        <translation>ஒரு தரவரிசை ஆட்டம் உங்களுக்காகக் காத்திருக்கிறது: **{n}/{max}** வீரர்கள். நிரம்பியதும் தொடங்கும்!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No ranked game open right now. Create one — any player with an account can! It starts by itself as soon as 10 players have joined.</source>
+        <translation>இப்போது திறந்த தரவரிசை ஆட்டம் எதுவும் இல்லை. ஒன்றை உருவாக்குங்கள் — கணக்கு உள்ள எந்த வீரரும் உருவாக்கலாம்! 10 வீரர்கள் சேர்ந்ததும் அது தானாகத் தொடங்கும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ranked games need a (free) pokerth.net account. As a guest you can play Normal games.</source>
+        <translation>தரவரிசை ஆட்டங்களுக்கு (இலவச) pokerth.net கணக்கு தேவை. விருந்தினராக நீங்கள் சாதாரண ஆட்டங்களை விளையாடலாம்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ranked game: **{n}/{max}** players. It starts by itself as soon as the table is full — meanwhile, here is how the ranking works.</source>
+        <translation>தரவரிசை ஆட்டம்: **{n}/{max}** வீரர்கள். மேசை நிரம்பியதும் அது தானாகத் தொடங்கும் — அதுவரை, தரவரிசை எப்படிச் செயல்படுகிறது என்று பாருங்கள்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Each ranked game hands out points by finishing place: **15, 9, 6, 4, 3, 2, 1** from 1st to 7th, nothing from 8th to 10th — 40 points per table.</source>
+        <translation>ஒவ்வொரு தரவரிசை ஆட்டமும் இறுதி இடத்தின்படி புள்ளிகளை வழங்குகிறது: 1ஆம் இடம் முதல் 7ஆம் இடம் வரை **15, 9, 6, 4, 3, 2, 1**, 8ஆம் இடம் முதல் 10ஆம் இடம் வரை எதுவும் இல்லை — ஒரு மேசைக்கு 40 புள்ளிகள்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your **Score** is not the sum of your points but your average per game, tempered by how many games you have played: playing regularly matters.</source>
+        <translation>உங்கள் **Score** உங்கள் புள்ளிகளின் கூட்டுத்தொகை அல்ல, ஒரு ஆட்டத்திற்கான உங்கள் சராசரி; நீங்கள் விளையாடிய ஆட்டங்களின் எண்ணிக்கையால் அது மென்மைப்படுத்தப்படுகிறது: தொடர்ந்து விளையாடுவது முக்கியம்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The ranking runs in **quarterly seasons**: at each new season the counters are archived and start again from zero.</source>
+        <translation>தரவரிசை **காலாண்டுப் பருவங்களாக** நடைபெறுகிறது: ஒவ்வொரு புதிய பருவத்திலும் எண்ணிக்கைகள் காப்பகப்படுத்தப்பட்டு மீண்டும் பூஜ்ஜியத்திலிருந்து தொடங்கும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Why is **5/5** everyone’s favourite? 5 seconds to act, 5 seconds between hands, 10,000 chips and blinds doubling every 11 hands: fast and the same for everyone, so games stay short and comparable.</source>
+        <translation>**5/5** ஏன் அனைவருக்கும் பிடித்தது? நடவடிக்கைக்கு 5 விநாடிகள், கைகளுக்கு இடையே 5 விநாடிகள், 10,000 சிப்கள், ஒவ்வொரு 11 கைகளுக்கும் இரட்டிப்பாகும் பிளைண்டுகள்: வேகமானது, அனைவருக்கும் ஒரே மாதிரியானது, எனவே ஆட்டங்கள் குறுகியதாகவும் ஒப்பிடக்கூடியதாகவும் இருக்கும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Just one more player!</source>
+        <translation>இன்னும் ஒரே ஒரு வீரர்!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Game over — you finished in place **{place}**: **+{points}** points. See your ranking?</source>
+        <translation>ஆட்டம் முடிந்தது — உங்கள் இடம்: **{place}**, புள்ளிகள்: **+{points}**. உங்கள் தரவரிசையைப் பார்க்கிறீர்களா?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Game over! Several players went out in the same hand, so your exact place is on the ranking page. See your ranking?</source>
+        <translation>ஆட்டம் முடிந்தது! பல வீரர்கள் ஒரே கையில் வெளியேறியதால், உங்கள் சரியான இடம் தரவரிசைப் பக்கத்தில் உள்ளது. உங்கள் தரவரிசையைப் பார்க்கிறீர்களா?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Let’s go through this form together, one field at a time — I’ll bring each one into view. **Next** moves on, **Back** goes back, **Later** stops the tour.</source>
+        <translation>இந்தப் படிவத்தை ஒன்றாகப் பார்ப்போம், ஒரு நேரத்தில் ஒரு புலம் — ஒவ்வொன்றையும் நான் உங்கள் கண்முன் கொண்டுவருவேன். **அடுத்து** முன்னேறும், **முந்தைய** பின்செல்லும், **பிறகு** வழிகாட்டலை நிறுத்தும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game name**: what the other players see in the list of tables. Say what to expect — « Fast game », « Beginners welcome »…</source>
+        <translation>**ஆட்டத்தின் பெயர்**: மேசைப் பட்டியலில் மற்ற வீரர்கள் பார்ப்பது இதுதான். என்ன எதிர்பார்க்கலாம் என்று சொல்லுங்கள் — “வேகமான ஆட்டம்”, “புதியவர்களுக்கு வரவேற்பு”…</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game name**: as a guest, the name is chosen for you.</source>
+        <translation>**ஆட்டத்தின் பெயர்**: விருந்தினராக இருப்பதால், பெயர் உங்களுக்காகத் தேர்ந்தெடுக்கப்படுகிறது.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>As a guest you can create **Normal** games. Ranking tables and registered-only games need a (free) pokerth.net account.</source>
+        <translation>விருந்தினராக நீங்கள் **சாதாரண** ஆட்டங்களை உருவாக்கலாம். தரவரிசை மேசைகளுக்கும் பதிவு செய்தவர்களுக்கு மட்டுமான ஆட்டங்களுக்கும் (இலவச) pokerth.net கணக்கு தேவை.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Password**: switch it on to keep the table private — only players who know the password can sit down. Not available for a **Ranking game** or an **Invited players only** game.</source>
+        <translation>**கடவுச்சொல்**: மேசையைத் தனிப்பட்டதாக வைக்க இதை இயக்குங்கள் — கடவுச்சொல் தெரிந்த வீரர்கள் மட்டுமே அமர முடியும். **தரவரிசை ஆட்டம்** அல்லது **அழைக்கப்பட்ட வீரர்கள் மட்டும்** ஆட்டத்துக்குக் கிடைக்காது.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Spectators**: lets other players watch the game without playing.</source>
+        <translation>**பார்வையாளர்கள்**: மற்ற வீரர்கள் விளையாடாமல் ஆட்டத்தைப் பார்க்க அனுமதிக்கிறது.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Max players**: from 2 to 10 seats. The host starts the game from the waiting room, even with empty seats — a **Ranking game** starts by itself once all 10 seats are taken.</source>
+        <translation>**அதிகபட்ச வீரர்கள்**: 2 முதல் 10 இருக்கைகள். காலி இருக்கைகள் இருந்தாலும், நடத்துபவர் காத்திருப்பு அறையிலிருந்து ஆட்டத்தைத் தொடங்குவார் — **தரவரிசை ஆட்டம்** 10 இருக்கைகளும் நிரம்பியதும் தானாகவே தொடங்கும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Starting stack**: the chips each player gets. What counts is the stack compared with the blinds: 3000 chips with a small blind of 10 is 150 big blinds, a comfortable game. Fewer big blinds = a faster game, with more all-ins.</source>
+        <translation>**தொடக்க மூலதனம்**: ஒவ்வொரு வீரருக்கும் கிடைக்கும் சிப்கள். முக்கியமானது பிளைண்ட்ஸுடன் ஒப்பிட்ட மூலதனம்: ஸ்மால் பிளைண்ட் 10 உடன் 3000 சிப்கள் என்றால் 150 பிக் பிளைண்ட்ஸ், வசதியான ஆட்டம். குறைவான பிக் பிளைண்ட்ஸ் = வேகமான ஆட்டம், அதிக All-In.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**First small blind**: the small blind when the game starts. The big blind is always twice the small blind.</source>
+        <translation>**முதல் ஸ்மால் பிளைண்ட்**: ஆட்டம் தொடங்கும்போது உள்ள ஸ்மால் பிளைண்ட். பிக் பிளைண்ட் எப்போதும் ஸ்மால் பிளைண்டின் இரு மடங்கு.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Blind increase interval**: the blinds go up every so many **hands** or **minutes**. The shorter the interval, the shorter the game.</source>
+        <translation>**பிளைண்ட் உயர்வு இடைவெளி**: குறிப்பிட்ட எண்ணிக்கையிலான **கைகள்** அல்லது **நிமிடங்கள்** ஆனதும் பிளைண்ட்ஸ் உயரும். இடைவெளி குறுகியதானால், ஆட்டமும் குறுகியதாகும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Time per action**: how many seconds each player has to act on their turn (5 to 60).</source>
+        <translation>**ஒவ்வொரு நடவடிக்கைக்கும் நேரம்**: தன் முறை வரும்போது ஒவ்வொரு வீரருக்கும் செயல்பட எத்தனை விநாடிகள் (5 முதல் 60).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Pause between hands**: the seconds to see how a hand ended before the next one is dealt (5 to 20).</source>
+        <translation>**கைகளுக்கு இடையே இடைநிறுத்தம்**: அடுத்த கை பகிரப்படும் முன், ஒரு கை எப்படி முடிந்தது என்று பார்க்கும் விநாடிகள் (5 முதல் 20).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Greyed out here: the chosen game type (or community template) sets this value.</source>
+        <translation>இங்கே சாம்பல் நிறத்தில்: தேர்ந்தெடுத்த ஆட்ட வகை (அல்லது சமூக வார்ப்புரு) இந்த மதிப்பை அமைக்கிறது.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Great! I’ll pop up whenever there is something useful to explain — each screen and window once. The **A♠** button at the top opens my menu: this screen’s tip again, all tips again, or turn me off.</source>
+        <translation>அருமை! விளக்க பயனுள்ளது ஏதாவது இருக்கும்போதெல்லாம் நான் வருவேன் — ஒவ்வொரு திரையையும் ஒவ்வொரு சாளரத்தையும் ஒரு முறை. மேலே உள்ள **A♠** பொத்தான் எனது மெனுவைத் திறக்கும்: இந்தத் திரையின் குறிப்பு மீண்டும், எல்லாக் குறிப்புகளும் மீண்டும், அல்லது என்னை அணைக்க.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help is on: I explain each screen and window the first time you open it. **Later** puts a tip off — the red dot on the **A♠** button then brings it back.</source>
+        <translation>ஏஸின் உதவி இயக்கத்தில் உள்ளது: ஒவ்வொரு திரையையும் சாளரத்தையும் நீங்கள் முதல் முறை திறக்கும்போது விளக்குகிறேன். **பிறகு** ஒரு குறிப்பைத் தள்ளிவைக்கும் — **A♠** பொத்தானில் உள்ள சிவப்புப் புள்ளி அதைத் திரும்பக் கொண்டுவரும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Four ways to play: **Internet Game** on pokerth.net, with the official rankings; **Start Local Game** against computer players, even offline; **Create Network Game** opens a server for your local network, and **Join Network Game** connects to one.</source>
+        <translation>விளையாட நான்கு வழிகள்: pokerth.net இல் அதிகாரப்பூர்வ தரவரிசைகளுடன் **இணைய விளையாட்டு**; கணினி வீரர்களுக்கு எதிராக, இணைப்பில்லாமலும் **உள்ளூர் விளையாட்டைத் தொடங்கு**; **வலைப்பின்னல் விளையாட்டை உருவாக்கு** உங்கள் உள்ளூர் வலைப்பின்னலுக்கு ஒரு சேவையகத்தைத் திறக்கும், **வலைப்பின்னல் விளையாட்டில் சேர்** அதனுடன் இணைக்கும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>On pokerth.net, play with your free account — **Login as User** — or **Continue as Guest**. Guests can only play Normal games: no ranked games and no chat. **Register** creates a free account in a minute.</source>
+        <translation>pokerth.net இல் உங்கள் இலவச கணக்குடன் விளையாடுங்கள் — **பயனராக நுழை** — அல்லது **விருந்தினராகத் தொடர்**. விருந்தினர்கள் சாதாரண ஆட்டங்களை மட்டுமே விளையாட முடியும்: தரவரிசை ஆட்டங்களும் அரட்டையும் இல்லை. **பதிவு செய்** ஒரு நிமிடத்தில் இலவச கணக்கை உருவாக்கும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>To see where you stand: the **trophy** button at the top — and at the table, tap the **table name** to see the season ranking of the players you sit with.</source>
+        <translation>நீங்கள் எங்கு இருக்கிறீர்கள் என்று பார்க்க: மேலே உள்ள **கோப்பை** பொத்தான் — மேசையில், உங்களுடன் அமர்ந்துள்ள வீரர்களின் பருவ தரவரிசையைப் பார்க்க **மேசையின் பெயரைத்** தட்டவும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This table is yours: press **Start Game** when everyone is here — or tick **Fill up with computer players** to fill the empty seats.</source>
+        <translation>இந்த மேசை உங்களுடையது: அனைவரும் வந்ததும் **விளையாட்டை துவக்குக** அழுத்துங்கள் — அல்லது காலி இருக்கைகளை நிரப்ப **கணினி வீரர்களால் நிரப்பு** என்பதைத் தேர்வுசெய்யுங்கள்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The host of the table starts the game — you only have to wait until everyone is here.</source>
+        <translation>மேசையின் விருந்தோம்பி விளையாட்டைத் தொடங்குவார் — அனைவரும் வரும் வரை காத்திருந்தால் போதும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Four game types: **Normal** (open to all), **Registered players only**, **Invited players only** and **Ranking game**. Any player with an account can create a Ranking table: 10 players, no password, it starts by itself when full.</source>
+        <translation>நான்கு வகை ஆட்டங்கள்: **சாதாரண** (அனைவருக்கும் திறந்தது), **பதிவான வீரர்கள் மட்டும்**, **அழைப்பு பெற்ற வீரர்கள் மட்டும்** மற்றும் **தரவரிசை விளையாட்டு**. கணக்கு உள்ள எந்த வீரரும் தரவரிசை மேசையை உருவாக்கலாம்: 10 வீரர்கள், கடவுச்சொல் இல்லை, நிரம்பியதும் தானாகவே தொடங்கும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Community template** (invited players only): the exact settings of a BBC, Monthly Cup or WEC game in one tap, for the admins who open these games. The fields it sets are then locked.</source>
+        <translation>**சமூக வார்ப்புரு** (அழைப்பு பெற்ற வீரர்கள் மட்டும்): BBC, Monthly Cup அல்லது WEC ஆட்டத்தின் துல்லியமான அமைப்புகள் ஒரே தட்டலில், இந்த ஆட்டங்களைத் திறக்கும் நிர்வாகிகளுக்காக. அது அமைக்கும் புலங்கள் பின்னர் பூட்டப்படும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Create Game** opens your table and its waiting room; **Cancel** goes back without creating anything.</source>
+        <translation>கடைசி படி: **விளையாட்டை உருவாக்கு** உங்கள் மேசையையும் அதன் காத்திருப்பு அறையையும் திறக்கும்; **நிறுத்திவிடு** எதையும் உருவாக்காமல் பின்செல்லும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A game on your local network: this device becomes the server, and the others connect with **Join Network Game**. Let’s go through the settings one at a time — **Next** moves on, **Back** goes back, **Later** stops the tour.</source>
+        <translation>உங்கள் உள்ளூர் வலைப்பின்னலில் ஒரு விளையாட்டு: இந்தச் சாதனம் சேவையகமாகும், மற்றவர்கள் **வலைப்பின்னல் விளையாட்டில் சேர்** மூலம் இணைவார்கள். அமைப்புகளை ஒவ்வொன்றாகப் பார்ப்போம் — **அடுத்து** முன்னேறும், **முந்தைய** பின்செல்லும், **பிறகு** சுற்றுலாவை நிறுத்தும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Always double blinds**: the small blind doubles at each raise. Switched off, the blinds follow your manual blinds order from the network game settings.</source>
+        <translation>**பந்தயத்தொகையை எப்போதும் இரட்டிப்பாக்கு**: ஒவ்வொரு உயர்வின்போதும் சிறிய பிளைண்ட் இரட்டிப்பாகும். அணைத்தால், பிளைண்டுகள் வலைப்பின்னல் விளையாட்டு அமைப்புகளில் உள்ள உங்கள் கைமுறை பிளைண்ட் வரிசையைப் பின்பற்றும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Create Game** starts the server on this device and opens its lobby; **Cancel** goes back.</source>
+        <translation>கடைசி படி: **விளையாட்டை உருவாக்கு** இந்தச் சாதனத்தில் சேவையகத்தைத் தொடங்கி அதன் லாபியைத் திறக்கும்; **நிறுத்திவிடு** பின்செல்லும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Training table: choose the number of players, the starting stack, the blinds and the game speed, then start the game. Nothing here counts towards a ranking.</source>
+        <translation>பயிற்சி மேசை: வீரர்களின் எண்ணிக்கை, தொடக்க சில்லுகள், பிளைண்டுகள் மற்றும் விளையாட்டு வேகத்தைத் தேர்ந்தெடுத்து, பின்னர் விளையாட்டைத் தொடங்குங்கள். இங்கு எதுவும் தரவரிசையில் கணக்கிடப்படாது.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Number of players**: you and up to 9 computer players.</source>
+        <translation>**வீரர்களின் எண்ணிக்கை**: நீங்களும் அதிகபட்சம் 9 கணினி வீரர்களும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Blinds**: keep the saved settings, or change them here — the first small blind, how often it goes up (every so many hands or minutes) and how: always doubled, or a manual blinds order.</source>
+        <translation>**பிளைண்டுகள்**: சேமித்த அமைப்புகளை வைத்திருங்கள் அல்லது இங்கே மாற்றுங்கள் — முதல் சிறிய பிளைண்ட், எவ்வளவு அடிக்கடி உயரும் (இத்தனை கைகள் அல்லது நிமிடங்களுக்கு ஒருமுறை) மற்றும் எப்படி: எப்போதும் இரட்டிப்பாக, அல்லது கைமுறை பிளைண்ட் வரிசைப்படி.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game speed**: how fast the computer players act and the cards are dealt — from 1 (slow) to 11 (fast).</source>
+        <translation>**விளையாட்டு வேகம்**: கணினி வீரர்கள் எவ்வளவு வேகமாகச் செயல்படுகிறார்கள், அட்டைகள் எவ்வளவு வேகமாகப் பகிரப்படுகின்றன — 1 (மெதுவாக) முதல் 11 (வேகமாக) வரை.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Start game** opens the table straight away; **Cancel** goes back.</source>
+        <translation>கடைசி படி: **விளையாட்டைத் தொடங்கு** உடனே மேசையைத் திறக்கும்; **நிறுத்திவிடு** பின்செல்லும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The official **PokerTH** ranking and the community ones (**BBC**, **WEC**). Pick one: search a player, choose a season, and tap a name to open the profile.</source>
+        <translation>அதிகாரப்பூர்வ **PokerTH** தரவரிசையும் சமூகத் தரவரிசைகளும் (**BBC**, **WEC**). ஒன்றைத் தேர்ந்தெடுங்கள்: ஒரு வீரரைத் தேடுங்கள், ஒரு பருவத்தைத் தேர்ந்தெடுங்கள், சுயவிவரத்தைத் திறக்க ஒரு பெயரைத் தட்டுங்கள்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The official ranking: the current season, or an earlier one under **Season**. Search a player by name and tap a row for the profile. At the bottom: how the ranking is calculated.</source>
+        <translation>அதிகாரப்பூர்வ தரவரிசை: நடப்புப் பருவம், அல்லது **பருவம்** என்பதில் முந்தைய ஒன்று. பெயரால் ஒரு வீரரைத் தேடி, சுயவிவரத்துக்கு ஒரு வரிசையைத் தட்டுங்கள். அடியில்: தரவரிசை எப்படிக் கணக்கிடப்படுகிறது.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The latest posts of the pokerth.net forum, newest first. Tap a post to read it here — it is then marked as read. A filled dot means not read yet; the badge on the newspaper button counts them, and **Mark all as read** clears them all. **BBC games** lists the upcoming BBC games.</source>
+        <translation>pokerth.net மன்றத்தின் சமீபத்திய இடுகைகள், புதியவை முதலில். ஒரு இடுகையை இங்கே படிக்க அதைத் தட்டுங்கள் — பின்னர் அது படித்ததாகக் குறிக்கப்படும். நிரம்பிய புள்ளி என்றால் இன்னும் படிக்கவில்லை; செய்தித்தாள் பொத்தானில் உள்ள பதக்கம் அவற்றை எண்ணும், **அனைத்தையும் படித்ததாகக் குறி** அனைத்தையும் அழிக்கும். **BBC ஆட்டங்கள்** வரவிருக்கும் BBC ஆட்டங்களைக் காட்டும்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Every setting, by section: interface, style, sound, local, network and internet games, nicknames and avatars, log messages, and back to the defaults. Ace’s Help is switched on and off in the interface settings.</source>
+        <translation>எல்லா அமைப்புகளும் பிரிவுவாரியாக: இடைமுகம், பாணி, ஒலி, உள்ளூர், வலைப்பின்னல் மற்றும் இணைய விளையாட்டு, புனைபெயர்கள் மற்றும் அவதாரங்கள், பதிவுச் செய்திகள், மற்றும் இயல்புநிலைக்குத் திரும்புதல். ஏஸின் உதவியை இடைமுக அமைப்புகளில் இயக்கலாம், அணைக்கலாம்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your logs: every game played on this device is recorded here. Pick a game for a preview, export it as HTML or text, or analyse it for a review of your play.</source>
+        <translation>உங்கள் பதிவுகள்: இந்தச் சாதனத்தில் விளையாடிய ஒவ்வொரு விளையாட்டும் இங்கே பதிவாகும். முன்னோட்டத்துக்கு ஒரு விளையாட்டைத் தேர்ந்தெடுங்கள், HTML அல்லது உரையாக ஏற்றுமதி செய்யுங்கள், அல்லது உங்கள் ஆட்டத்தின் மதிப்பீட்டைப் பெற அதைப் பகுப்பாய்வு செய்யுங்கள்.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A player’s card: the profile and the statistics — the current season, the last games and the results so far.</source>
+        <translation>ஒரு வீரரின் அட்டை: சுயவிவரமும் புள்ளிவிவரங்களும் — நடப்புப் பருவம், சமீபத்திய விளையாட்டுகள் மற்றும் இதுவரையிலான முடிவுகள்.</translation>
     </message>
 </context>
 <context>
@@ -1645,7 +1988,7 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+326"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+362"/>
         <source>← Zurück</source>
         <translation>← பின்செல்</translation>
     </message>
@@ -1661,12 +2004,12 @@
         <translation>விளையாட்டின் பெயர்</translation>
     </message>
     <message>
-        <location line="-205"/>
+        <location line="-237"/>
         <source>%1&apos;s game</source>
         <translation>%1 இன் விளையாட்டு</translation>
     </message>
     <message>
-        <location line="+214"/>
+        <location line="+246"/>
         <source>Spielname eingeben …</source>
         <translation>விளையாட்டின் பெயரை உள்ளிடுக …</translation>
     </message>
@@ -1795,19 +2138,19 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1463"/>
-        <location line="+1377"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1475"/>
+        <location line="+1383"/>
         <source>Guests cannot send chat messages</source>
         <translation>விருந்தினர்கள் உரையாடல் செய்திகளை அனுப்ப முடியாது</translation>
     </message>
     <message>
-        <location line="-1358"/>
-        <location line="+1352"/>
+        <location line="-1364"/>
+        <location line="+1358"/>
         <source>Private messages are not available at the table.</source>
         <translation>மேசையில் தனிப்பட்ட செய்திகள் கிடைக்காது.</translation>
     </message>
     <message>
-        <location line="-1346"/>
+        <location line="-1352"/>
         <source>Player not found</source>
         <translation>விளையாட்டு வீரர் கிடைக்கவில்லை</translation>
     </message>
@@ -1969,18 +2312,18 @@ Please reenter the password and try again.</source>
         <location line="+86"/>
         <location line="+39"/>
         <location line="+9"/>
-        <location line="+160"/>
+        <location line="+165"/>
         <location line="+9"/>
         <location line="+185"/>
         <location line="+9"/>
         <location line="+16"/>
-        <location line="+11"/>
+        <location line="+12"/>
         <location line="+11"/>
         <source>Not connected to server</source>
         <translation>வழங்கியுடன் இணைப்பு இல்லை</translation>
     </message>
     <message>
-        <location line="-69"/>
+        <location line="-70"/>
         <source>%1 has been invited to %2 by %3.</source>
         <translation>%3 என்பவர் %1 ஐ %2 க்கு அழைத்துள்ளார்.</translation>
     </message>
@@ -1990,7 +2333,7 @@ Please reenter the password and try again.</source>
         <translation>%1 என்பவர் %2 க்கான அழைப்பை நிராகரித்தார்.</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+80"/>
         <source>Guests cannot receive private messages.</source>
         <translation>விருந்தினர்கள் தனிப்பட்ட செய்திகளைப் பெற முடியாது.</translation>
     </message>
@@ -2040,7 +2383,7 @@ Please reenter the password and try again.</source>
         <translation>நிரம்பியது</translation>
     </message>
     <message>
-        <location line="-225"/>
+        <location line="-226"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 பணியில் இருப்பதால் %2 இல் சேர இயலவில்லை.</translation>
     </message>
@@ -2048,7 +2391,7 @@ Please reenter the password and try again.</source>
 <context>
     <name>LobbyPage</name>
     <message>
-        <location filename="../pages/LobbyPage.qml" line="+1621"/>
+        <location filename="../pages/LobbyPage.qml" line="+1641"/>
         <source>Game invitation</source>
         <translation>விளையாட்டு அழைப்பு</translation>
     </message>
@@ -2073,24 +2416,24 @@ Please reenter the password and try again.</source>
         <translation>விளையாட்டை உருவாக்குக</translation>
     </message>
     <message>
-        <location line="-777"/>
-        <location line="+835"/>
+        <location line="-781"/>
+        <location line="+839"/>
         <source>Game Info</source>
         <translation>விளையாட்டை பற்றிய செய்தி</translation>
     </message>
     <message>
-        <location line="-565"/>
-        <location line="+514"/>
+        <location line="-568"/>
+        <location line="+517"/>
         <source>Join Game</source>
         <translation>விளையாட்டில் சேர்</translation>
     </message>
     <message>
-        <location line="-304"/>
+        <location line="-307"/>
         <source>Game List</source>
         <translation>விளையாட்டுப் பட்டியல்</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+93"/>
         <source>Time: %1s/%2s</source>
         <translation>நேரம்: %1 வி/%2 வி</translation>
     </message>
@@ -2111,37 +2454,37 @@ Please reenter the password and try again.</source>
     </message>
     <message>
         <location line="+128"/>
-        <location line="+287"/>
+        <location line="+288"/>
         <source>Lobby Chat</source>
         <translation>வரவேற்பறை உரையாடல்</translation>
     </message>
     <message>
-        <location line="-644"/>
+        <location line="-647"/>
         <source>No game list filter</source>
         <translation>விளையாட்டுப் பட்டியல் வடிகட்டி இல்லை</translation>
     </message>
     <message>
-        <location line="+406"/>
+        <location line="+408"/>
         <source>Player: %1</source>
         <translation>வீரர்: %1</translation>
     </message>
     <message>
-        <location line="-927"/>
+        <location line="-930"/>
         <source>Players</source>
         <translation>விளையாட்டு வீரர்கள்</translation>
     </message>
     <message>
-        <location line="+1041"/>
+        <location line="+1045"/>
         <source>Select a game to see details</source>
         <translation>விவரங்களைக் காண ஒரு விளையாட்டைத் தேர்ந்தெடுக்கவும்</translation>
     </message>
     <message>
-        <location line="-517"/>
+        <location line="-520"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>திறந்த, நிரம்பாத, பொது விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
-        <location line="-640"/>
+        <location line="-641"/>
         <source>Report game name</source>
         <translation>விளையாட்டுப் பெயரைப் புகாரளி</translation>
     </message>
@@ -2196,36 +2539,36 @@ PokerTH அதைச் சிறிதாக்க முடியும். �
     </message>
     <message>
         <location line="+167"/>
-        <location line="+510"/>
+        <location line="+511"/>
         <source>Sort alphabetically</source>
         <translation>அகர வரிசையில் அடுக்கு</translation>
     </message>
     <message>
-        <location line="-509"/>
-        <location line="+510"/>
+        <location line="-510"/>
+        <location line="+511"/>
         <source>Sort by country</source>
         <translation>நாட்டின்படி அடுக்கு</translation>
     </message>
     <message>
-        <location line="-509"/>
-        <location line="+510"/>
+        <location line="-510"/>
+        <location line="+511"/>
         <source>Display idle players</source>
         <translation>செயலற்ற வீரர்களைக் காட்டு</translation>
     </message>
     <message>
         <location line="-423"/>
-        <location line="+830"/>
+        <location line="+833"/>
         <source>Report inappropriate game name</source>
         <translation>பொருத்தமற்ற விளையாட்டுப் பெயரைப் புகாரளி</translation>
     </message>
     <message>
-        <location line="-822"/>
-        <location line="+829"/>
+        <location line="-825"/>
+        <location line="+832"/>
         <source>Close game (admin)</source>
         <translation>விளையாட்டை மூடு (நிர்வாகி)</translation>
     </message>
     <message>
-        <location line="-792"/>
+        <location line="-795"/>
         <source>Players: %1 / %2</source>
         <translation>வீரர்கள்: %1 / %2</translation>
     </message>
@@ -2236,12 +2579,12 @@ PokerTH அதைச் சிறிதாக்க முடியும். �
     </message>
     <message>
         <location line="+33"/>
-        <location line="+773"/>
+        <location line="+776"/>
         <source>Type: %1</source>
         <translation>வகை: %1</translation>
     </message>
     <message>
-        <location line="-762"/>
+        <location line="-765"/>
         <source>Small blind: %1</source>
         <translation>சிறிய பந்தயத்தொகை: %1</translation>
     </message>
@@ -2289,18 +2632,18 @@ PokerTH அதைச் சிறிதாக்க முடியும். �
     </message>
     <message>
         <location line="+12"/>
-        <location line="+721"/>
+        <location line="+724"/>
         <source>Players in game (%1)</source>
         <translation>விளையாட்டில் உள்ள வீரர்கள் (%1)</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+514"/>
+        <location line="-639"/>
+        <location line="+517"/>
         <source>Leave Game</source>
         <translation>விளையாட்டை விட்டு விலகு</translation>
     </message>
     <message>
-        <location line="-417"/>
+        <location line="-420"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>திறந்த, நிரம்பாத, தனிப்பட்ட விளையாட்டுகளைக் காட்டு</translation>
     </message>
@@ -2315,21 +2658,21 @@ PokerTH அதைச் சிறிதாக்க முடியும். �
         <translation>தொடர்பில் இருக்கும் விளையாட்டு வீரர்கள்</translation>
     </message>
     <message>
-        <location line="-671"/>
-        <location line="+877"/>
+        <location line="-672"/>
+        <location line="+880"/>
         <source>Spectate game</source>
         <translation>விளையாட்டைப் பார்வையிடு</translation>
     </message>
     <message>
-        <location line="-876"/>
+        <location line="-879"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
         <translation>விளையாட்டு:
 „%1“ ஐ நிச்சயம் பார்வையிட வேண்டுமா?</translation>
     </message>
     <message>
-        <location line="+994"/>
-        <location line="+287"/>
+        <location line="+997"/>
+        <location line="+288"/>
         <source>Global notice (admin)</source>
         <translation>பொது அறிவிப்பு (நிர்வாகி)</translation>
     </message>
@@ -2410,7 +2753,7 @@ PokerTH அதைச் சிறிதாக்க முடியும். �
         <translation>திரும்பு</translation>
     </message>
     <message>
-        <location line="-1046"/>
+        <location line="-1049"/>
         <source>Show open &amp; non-full games</source>
         <translation>திறந்த, நிரம்பாத விளையாட்டுகளைக் காட்டு</translation>
     </message>
@@ -2420,8 +2763,8 @@ PokerTH அதைச் சிறிதாக்க முடியும். �
         <translation>திறந்த விளையாட்டுகளைக் காட்டு</translation>
     </message>
     <message>
-        <location line="-473"/>
-        <location line="+452"/>
+        <location line="-474"/>
+        <location line="+453"/>
         <source>search for player ...</source>
         <translation>வீரரைத் தேடு ...</translation>
     </message>
@@ -2467,7 +2810,7 @@ PokerTH அதைச் சிறிதாக்க முடியும். �
 <context>
     <name>LocalGamePage</name>
     <message>
-        <location filename="../pages/LocalGamePage.qml" line="+38"/>
+        <location filename="../pages/LocalGamePage.qml" line="+51"/>
         <source>alle %1 Hände</source>
         <translation>ஒவ்வொரு %1 கைகளுக்கும்</translation>
     </message>
@@ -2502,17 +2845,17 @@ PokerTH அதைச் சிறிதாக்க முடியும். �
         <translation>உள்ளூர் விளையாட்டு அமைப்புகள்</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Anzahl der Spieler:</source>
         <translation>வீரர்களின் எண்ணிக்கை:</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+17"/>
         <source>Startkapital:</source>
         <translation>தொடக்க பணம்:</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+20"/>
         <source>Blinds</source>
         <translation>பந்தயத்தொகை</translation>
     </message>
@@ -2568,7 +2911,7 @@ PokerTH அதைச் சிறிதாக்க முடியும். �
         <translation>கைமுறை பந்தயத்தொகை வரிசை</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
         <translation>விளையாட்டு வேகம்
@@ -2988,7 +3331,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>NetworkGameCreatePage</name>
     <message>
-        <location filename="../pages/NetworkGameCreatePage.qml" line="+133"/>
+        <location filename="../pages/NetworkGameCreatePage.qml" line="+148"/>
         <source>← Zurück</source>
         <translation>← பின்செல்</translation>
     </message>
@@ -3892,7 +4235,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+341"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+349"/>
         <source>Back</source>
         <translation>பின்செல்</translation>
     </message>
@@ -4551,7 +4894,12 @@ Please check your username and password.</source>
         <translation>PokerTH - v2.1.9</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+102"/>
+        <source>Ace’s Help</source>
+        <translation>ஏஸின் உதவி</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Über PokerTH</source>
         <translation>PokerTH பற்றி</translation>
     </message>
@@ -4625,7 +4973,7 @@ Please check your username and password.</source>
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../pages/StartPage.qml" line="+161"/>
+        <location filename="../pages/StartPage.qml" line="+167"/>
         <source>Internetspiel</source>
         <translation>இணைய விளையாட்டு</translation>
     </message>
@@ -4935,7 +5283,7 @@ Vorschau</source>
         <translation>பட்டி</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+111"/>
         <source>Private messages</source>
         <translation>தனிப்பட்ட செய்திகள்</translation>
     </message>
@@ -4955,7 +5303,7 @@ Vorschau</source>
         <translation>அமைப்பு</translation>
     </message>
     <message>
-        <location line="+198"/>
+        <location line="+210"/>
         <source>Timeout Warning</source>
         <translation>எச்சரிக்கை, காலம் நிறைவடையப்போகிறது</translation>
     </message>
@@ -5031,8 +5379,8 @@ Vorschau</source>
         <translation>இணைப்பு துண்டிக்கப்பட்டது</translation>
     </message>
     <message>
-        <location line="-780"/>
-        <location line="+568"/>
+        <location line="-851"/>
+        <location line="+639"/>
         <location line="+23"/>
         <source>Leave Game</source>
         <translation>விளையாட்டை விட்டு விலகு</translation>
@@ -5052,8 +5400,8 @@ and go back to the lobby?</source>
         <translation>நிறுத்திவிடு</translation>
     </message>
     <message>
-        <location line="-733"/>
-        <location line="+633"/>
+        <location line="-804"/>
+        <location line="+704"/>
         <location line="+23"/>
         <source>Leave Lobby</source>
         <translation>வரவேற்பறையை விட்டு விலகு</translation>

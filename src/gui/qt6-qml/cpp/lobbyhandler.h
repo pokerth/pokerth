@@ -114,6 +114,9 @@ public:
 	int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 	QHash<int, QByteArray> roleNames() const override;
+	// One row as a map (the role names as keys) – for QML code that has to look
+	// at the whole list (Ace's Help picks the Ranking table it suggests).
+	Q_INVOKABLE QVariantMap get(int row) const;
 
 	int runningCount() const
 	{
@@ -331,6 +334,8 @@ public:
 		return m_rejoinWaiting;
 	}
 	Q_INVOKABLE QString currentGameName() const;
+	// Connected to the internet server (pokerth.net), not to a LAN server.
+	Q_INVOKABLE bool isInternetSession() const;
 	int playerListFilterMode() const
 	{
 		return m_playerListFilterMode;

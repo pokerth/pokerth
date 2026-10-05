@@ -32,6 +32,22 @@ Rectangle {
         return (Lobby && gid) ? Lobby.gamePlayersInGame(gid) : []
     }
 
+    // Ace's Help (GuideOverlay): the controls a tip outlines – "createGame" or
+    // "game:<id>", the row of a table (only while it is built, i.e. in view).
+    function guideTarget(key) {
+        if (key === "createGame")
+            return createGameButton
+        if (key.indexOf("game:") === 0) {
+            var gid = parseInt(key.substring(5))
+            var rows = gameListView.contentItem.children
+            for (var i = 0; i < rows.length; ++i) {
+                if (rows[i].rowGameId === gid)
+                    return rows[i]
+            }
+        }
+        return null
+    }
+
     function gameTypeIconSource(gameType) {
         if (gameType === 2) return "../resources/userSquare.svg"
         if (gameType === 3) return "../resources/users.svg"
@@ -850,6 +866,8 @@ Rectangle {
                                 id: gameRow
                                 width: gameListView.width
                                 height: 54
+                                // Found by guideTarget() (Ace's Help outlines a table).
+                                readonly property int rowGameId: model.gameId || 0
 
                                 readonly property bool selected: ListView.isCurrentItem
 
@@ -1110,6 +1128,7 @@ Rectangle {
                     }
 
                     Button {
+                        id: createGameButton
                         text: qsTr("Create Game")
                         font.family: Config.StaticData.loadedFont.font.family
                         Layout.fillWidth: true

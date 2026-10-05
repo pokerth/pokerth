@@ -8,6 +8,7 @@ import "../components"
 
 Rectangle {
     id: localGamePagePage
+    objectName: "localGamePage"
     Layout.fillWidth: true
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
@@ -22,6 +23,18 @@ Rectangle {
     // because the focus would otherwise fizzle out during the stack animation.
     // Without a focus reason there is no focus frame; it appears on the first Tab.
     StackView.onActivated: Qt.callLater(startGameButton.forceActiveFocus)
+
+    // Ace's Help (GuideOverlay): the fields a tour step outlines (label + control).
+    function guideTarget(key) {
+        switch (key) {
+        case "players": return [numPlayersLabel, numPlayers]
+        case "stack":   return [startCashLabel, startCash]
+        case "blinds":  return blindsBox
+        case "speed":   return [gameSpeedLabel, gameSpeed]
+        case "actions": return startGameButton.parent
+        }
+        return null
+    }
 
     // Returns a readable summary of the current blinds settings
     function blindsSummary() {
@@ -105,6 +118,7 @@ Rectangle {
 
                 // --- Number of players ---
                 Label {
+                    id: numPlayersLabel
                     text: qsTr("Anzahl der Spieler:")
                     color: Config.StaticData.palette.secondary.col200
                     Layout.fillWidth: true
@@ -121,6 +135,7 @@ Rectangle {
 
                 // --- Startkapital ---
                 Label {
+                    id: startCashLabel
                     text: qsTr("Startkapital:")
                     color: Config.StaticData.palette.secondary.col200
                     Layout.fillWidth: true
@@ -138,6 +153,7 @@ Rectangle {
 
                 // --- Blinds ---
                 GroupBox {
+                    id: blindsBox
                     Layout.columnSpan: 2
                     Layout.fillWidth: true
                     title: qsTr("Blinds")
@@ -296,6 +312,7 @@ Rectangle {
 
                 // --- Spielgeschwindigkeit ---
                 Label {
+                    id: gameSpeedLabel
                     text: qsTr("Spielgeschwindigkeit\n(1=langsam, 11=schnell):")
                     color: Config.StaticData.palette.secondary.col200
                     Layout.fillWidth: true

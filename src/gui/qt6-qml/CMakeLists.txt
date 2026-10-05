@@ -132,6 +132,7 @@ set(QML_FILES
     components/GameSidePanel.qml
     components/GameStatusBar.qml
     components/GlobalNoticePopup.qml
+    components/GuideOverlay.qml
     components/GuiSettings.qml
     components/InternetGameSettings.qml
     components/LobbyStatsBar.qml

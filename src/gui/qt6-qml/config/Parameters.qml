@@ -45,6 +45,12 @@ Settings {
     // Tooltips on icon buttons (desktop only – on touch there is no hover).
     property bool showTooltips: true
 
+    // Ace's Help (components/GuideOverlay.qml): on/off, the first-launch offer
+    // already made, and the tips already seen ({"<context id>": ms} as JSON).
+    property bool guideOn: false
+    property bool guideOffered: false
+    property string guideSeen: "{}"
+
     // From the networkTab ColumnLayout
     property bool showCountryFlagOnAvatarCheckbox: true
     property bool showNetworkStatusColorOnAvatarCheckbox: true

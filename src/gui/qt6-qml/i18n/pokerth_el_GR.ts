@@ -767,7 +767,7 @@
 <context>
     <name>GameListItem</name>
     <message>
-        <location filename="../components/GameListItem.qml" line="+147"/>
+        <location filename="../components/GameListItem.qml" line="+148"/>
         <source>Report inappropriate game name</source>
         <translation>Αναφορά ακατάλληλου ονόματος παιχνιδιού</translation>
     </message>
@@ -853,7 +853,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+443"/>
+        <location filename="../components/GamePlayerBox.qml" line="+445"/>
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
@@ -1087,7 +1087,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+241"/>
+        <location filename="../pages/GameWaitPage.qml" line="+250"/>
         <source>Players</source>
         <translation>Παίκτες</translation>
     </message>
@@ -1116,48 +1116,48 @@
     </message>
     <message>
         <location line="-267"/>
-        <location line="+687"/>
+        <location line="+689"/>
         <source>Game List</source>
         <translation>Λίστα παιχνιδιών</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+648"/>
+        <location line="-638"/>
+        <location line="+650"/>
         <source>No game list filter</source>
         <translation>Χωρίς φίλτρο λίστας παιχνιδιών</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open games</source>
         <translation>Εμφάνιση ανοιχτών παιχνιδιών</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full games</source>
         <translation>Εμφάνιση ανοιχτών και μη γεμάτων παιχνιδιών</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Εμφάνιση ανοιχτών, μη γεμάτων και δημόσιων παιχνιδιών</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Εμφάνιση ανοιχτών, μη γεμάτων και ιδιωτικών παιχνιδιών</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
         <translation>Εμφάνιση ανοιχτών, μη γεμάτων παιχνιδιών κατάταξης</translation>
     </message>
     <message>
-        <location line="-574"/>
+        <location line="-576"/>
         <source>Game Info</source>
         <translation>Πληροφορίες Παιχνιδιού</translation>
     </message>
@@ -1182,7 +1182,7 @@
         <translation>Συνδεδεμένοι παίκτες</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+92"/>
         <source>Players: %1 / %2</source>
         <translation>Παίκτες: %1 / %2</translation>
     </message>
@@ -1242,13 +1242,13 @@
         <translation>Παίκτες στο παιχνίδι (%1)</translation>
     </message>
     <message>
-        <location line="-653"/>
-        <location line="+745"/>
+        <location line="-663"/>
+        <location line="+755"/>
         <source>Kick player</source>
         <translation>Αποβολή παίκτη</translation>
     </message>
     <message>
-        <location line="-744"/>
+        <location line="-754"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
         <translation>Θέλετε σίγουρα να αποβάλετε τον/την «%1» από το παιχνίδι;</translation>
     </message>
@@ -1258,7 +1258,7 @@
         <translation>Αποβολή</translation>
     </message>
     <message>
-        <location line="+776"/>
+        <location line="+786"/>
         <source>Lobby Chat</source>
         <translation>Συνομιλία λόμπι</translation>
     </message>
@@ -1283,12 +1283,12 @@
         <translation>Αποχώρηση από το παιχνίδι</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Start Game</source>
         <translation>Έναρξη Παιχνιδιού</translation>
     </message>
     <message>
-        <location line="-88"/>
+        <location line="-89"/>
         <source>Suggest players</source>
         <translation>Πρόταση παικτών</translation>
     </message>
@@ -1434,7 +1434,12 @@
         <translation>Εμφάνιση επεξηγήσεων</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>Ace’s Help: explain each screen the first time</source>
+        <translation>Βοήθεια του Άσου: εξήγηση κάθε οθόνης την πρώτη φορά</translation>
+    </message>
+    <message>
+        <location line="+16"/>
         <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
         <translation>Ενεργοποίηση ζουμ τραπεζιού (σύρσιμο και ζουμ, μόνο σε λειτουργία κινητού)</translation>
     </message>
@@ -1482,6 +1487,344 @@
         <location line="-31"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
         <translation>Πρόταση παικτών στα δικά σας παιχνίδια κοινότητας</translation>
+    </message>
+</context>
+<context>
+    <name>GuideOverlay</name>
+    <message>
+        <location filename="../components/GuideOverlay.qml" line="+71"/>
+        <source>Ace’s Help</source>
+        <translation>Βοήθεια του Άσου</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help — tap for my menu</source>
+        <translation>Βοήθεια του Άσου — πάτα για το μενού μου</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>New here? I can show you around as you go.</source>
+        <translation>Πρώτη φορά εδώ; Μπορώ να σε ξεναγώ καθώς προχωράς.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yes, please</source>
+        <translation>Ναι, παρακαλώ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No thanks</source>
+        <translation>Όχι, ευχαριστώ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Got it</source>
+        <translation>Κατάλαβα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Later</source>
+        <translation>Αργότερα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Next</source>
+        <translation>Επόμενο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Back</source>
+        <translation>Προηγούμενο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Close</source>
+        <translation>Κλείσιμο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turn off</source>
+        <translation>Απενεργοποίηση</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show all tips again</source>
+        <translation>Ξανά όλες οι συμβουλές</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Done — every tip will show again.</source>
+        <translation>Έγινε — κάθε συμβουλή θα εμφανιστεί ξανά.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help is off. You can turn it back on from the menu at any time.</source>
+        <translation>Η Βοήθεια του Άσου απενεργοποιήθηκε. Μπορείς να την ενεργοποιήσεις ξανά από το μενού οποιαδήποτε στιγμή.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Είσοδος</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create a Ranking table</source>
+        <translation>Νέο τραπέζι κατάταξης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create an account</source>
+        <translation>Δημιουργία λογαριασμού</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>See the ranking</source>
+        <translation>Δες την κατάταξη</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This screen’s tip</source>
+        <translation>Συμβουλή της οθόνης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A ranked game is waiting for you: **{n}/{max}** players. It starts as soon as it’s full!</source>
+        <translation>Ένα παιχνίδι κατάταξης σε περιμένει: **{n}/{max}** παίκτες. Ξεκινά μόλις γεμίσει!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No ranked game open right now. Create one — any player with an account can! It starts by itself as soon as 10 players have joined.</source>
+        <translation>Δεν υπάρχει ανοιχτό παιχνίδι κατάταξης αυτή τη στιγμή. Δημιούργησε ένα — μπορεί κάθε παίκτης με λογαριασμό! Ξεκινά αυτόματα μόλις μπουν 10 παίκτες.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ranked games need a (free) pokerth.net account. As a guest you can play Normal games.</source>
+        <translation>Τα παιχνίδια κατάταξης χρειάζονται (δωρεάν) λογαριασμό pokerth.net. Ως επισκέπτης μπορείς να παίζεις κανονικά παιχνίδια.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ranked game: **{n}/{max}** players. It starts by itself as soon as the table is full — meanwhile, here is how the ranking works.</source>
+        <translation>Παιχνίδι κατάταξης: **{n}/{max}** παίκτες. Ξεκινά αυτόματα μόλις γεμίσει το τραπέζι — στο μεταξύ, δες πώς λειτουργεί η κατάταξη.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Each ranked game hands out points by finishing place: **15, 9, 6, 4, 3, 2, 1** from 1st to 7th, nothing from 8th to 10th — 40 points per table.</source>
+        <translation>Κάθε παιχνίδι κατάταξης δίνει πόντους ανάλογα με τη θέση τερματισμού: **15, 9, 6, 4, 3, 2, 1** από την 1η ως την 7η θέση, τίποτα από την 8η ως τη 10η — 40 πόντοι ανά τραπέζι.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your **Score** is not the sum of your points but your average per game, tempered by how many games you have played: playing regularly matters.</source>
+        <translation>Το **Score** σου δεν είναι το άθροισμα των πόντων σου αλλά ο μέσος όρος σου ανά παιχνίδι, μετριασμένος από το πόσα παιχνίδια έχεις παίξει: μετράει να παίζεις τακτικά.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The ranking runs in **quarterly seasons**: at each new season the counters are archived and start again from zero.</source>
+        <translation>Η κατάταξη τρέχει σε **τριμηνιαίες σεζόν**: σε κάθε νέα σεζόν οι μετρητές αρχειοθετούνται και ξεκινούν ξανά από το μηδέν.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Why is **5/5** everyone’s favourite? 5 seconds to act, 5 seconds between hands, 10,000 chips and blinds doubling every 11 hands: fast and the same for everyone, so games stay short and comparable.</source>
+        <translation>Γιατί το **5/5** είναι το αγαπημένο όλων; 5 δευτερόλεπτα για κάθε ενέργεια, 5 δευτερόλεπτα μεταξύ των χεριών, 10.000 μάρκες και τυφλά που διπλασιάζονται κάθε 11 χέρια: γρήγορο και ίδιο για όλους, ώστε τα παιχνίδια να μένουν σύντομα και συγκρίσιμα.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Just one more player!</source>
+        <translation>Μόνο ένας παίκτης ακόμα!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Game over — you finished in place **{place}**: **+{points}** points. See your ranking?</source>
+        <translation>Τέλος παιχνιδιού — τερμάτισες στη θέση **{place}**: **+{points}** πόντοι. Θέλεις να δεις την κατάταξή σου;</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Game over! Several players went out in the same hand, so your exact place is on the ranking page. See your ranking?</source>
+        <translation>Τέλος παιχνιδιού! Αρκετοί παίκτες αποκλείστηκαν στο ίδιο χέρι, οπότε η ακριβής θέση σου φαίνεται στη σελίδα της κατάταξης. Θέλεις να δεις την κατάταξή σου;</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Let’s go through this form together, one field at a time — I’ll bring each one into view. **Next** moves on, **Back** goes back, **Later** stops the tour.</source>
+        <translation>Ας συμπληρώσουμε μαζί αυτή τη φόρμα, ένα πεδίο τη φορά — θα σου δείχνω το καθένα. **Επόμενο** για να προχωρήσεις, **Προηγούμενο** για να γυρίσεις πίσω, **Αργότερα** για να σταματήσεις την περιήγηση.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game name**: what the other players see in the list of tables. Say what to expect — « Fast game », « Beginners welcome »…</source>
+        <translation>**Όνομα παιχνιδιού**: αυτό που βλέπουν οι άλλοι παίκτες στη λίστα τραπεζιών. Πες τους τι να περιμένουν — «Γρήγορη παρτίδα», «Καλοδεχούμενοι οι αρχάριοι»…</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game name**: as a guest, the name is chosen for you.</source>
+        <translation>**Όνομα παιχνιδιού**: ως επισκέπτης, το όνομα επιλέγεται για σένα.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>As a guest you can create **Normal** games. Ranking tables and registered-only games need a (free) pokerth.net account.</source>
+        <translation>Ως επισκέπτης μπορείς να δημιουργείς παιχνίδια τύπου **Κανονικό**. Τα τραπέζια κατάταξης και τα παιχνίδια μόνο για εγγεγραμμένους χρειάζονται (δωρεάν) λογαριασμό pokerth.net.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Password**: switch it on to keep the table private — only players who know the password can sit down. Not available for a **Ranking game** or an **Invited players only** game.</source>
+        <translation>**Κωδικός**: ενεργοποίησέ τον για ιδιωτικό τραπέζι — μόνο όσοι ξέρουν τον κωδικό μπορούν να καθίσουν. Δεν διατίθεται σε **Παιχνίδι κατάταξης** ούτε σε παιχνίδι **Μόνο προσκεκλημένοι παίκτες**.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Spectators**: lets other players watch the game without playing.</source>
+        <translation>**Θεατές**: επιτρέπει σε άλλους παίκτες να παρακολουθούν το παιχνίδι χωρίς να παίζουν.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Max players**: from 2 to 10 seats. The host starts the game from the waiting room, even with empty seats — a **Ranking game** starts by itself once all 10 seats are taken.</source>
+        <translation>**Μέγ. παίκτες**: από 2 έως 10 θέσεις. Ο οικοδεσπότης ξεκινά το παιχνίδι από την αίθουσα αναμονής, ακόμη και με άδειες θέσεις — ένα **Παιχνίδι κατάταξης** ξεκινά μόνο του μόλις πιαστούν και οι 10 θέσεις.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Starting stack**: the chips each player gets. What counts is the stack compared with the blinds: 3000 chips with a small blind of 10 is 150 big blinds, a comfortable game. Fewer big blinds = a faster game, with more all-ins.</source>
+        <translation>**Αρχικό κεφάλαιο**: οι μάρκες που παίρνει κάθε παίκτης. Αυτό που μετράει είναι το κεφάλαιο σε σχέση με τα τυφλά: 3000 μάρκες με μικρό τυφλό 10 κάνουν 150 μεγάλα τυφλά, μια άνετη παρτίδα. Λιγότερα μεγάλα τυφλά = πιο γρήγορη παρτίδα, με περισσότερα All-In.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**First small blind**: the small blind when the game starts. The big blind is always twice the small blind.</source>
+        <translation>**Πρώτο small blind**: το μικρό τυφλό στην αρχή του παιχνιδιού. Το μεγάλο τυφλό είναι πάντα διπλάσιο από το μικρό.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Blind increase interval**: the blinds go up every so many **hands** or **minutes**. The shorter the interval, the shorter the game.</source>
+        <translation>**Διάστημα αύξησης των blinds**: τα τυφλά ανεβαίνουν κάθε τόσα **χέρια** ή κάθε τόσα **λεπτά**. Όσο πιο σύντομο το διάστημα, τόσο πιο σύντομη η παρτίδα.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Time per action**: how many seconds each player has to act on their turn (5 to 60).</source>
+        <translation>**Χρόνος ανά ενέργεια**: πόσα δευτερόλεπτα έχει κάθε παίκτης για να παίξει όταν έρθει η σειρά του (5 έως 60).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Pause between hands**: the seconds to see how a hand ended before the next one is dealt (5 to 20).</source>
+        <translation>**Παύση μεταξύ των χεριών**: τα δευτερόλεπτα για να δεις πώς τελείωσε ένα χέρι πριν μοιραστεί το επόμενο (5 έως 20).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Greyed out here: the chosen game type (or community template) sets this value.</source>
+        <translation>Γκριζαρισμένο εδώ: ο επιλεγμένος τύπος παιχνιδιού (ή το πρότυπο κοινότητας) ορίζει αυτή την τιμή.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Great! I’ll pop up whenever there is something useful to explain — each screen and window once. The **A♠** button at the top opens my menu: this screen’s tip again, all tips again, or turn me off.</source>
+        <translation>Τέλεια! Θα εμφανίζομαι όποτε υπάρχει κάτι χρήσιμο να εξηγήσω — κάθε οθόνη και κάθε παράθυρο μία φορά. Το κουμπί **A♠** επάνω ανοίγει το μενού μου: τη συμβουλή αυτής της οθόνης ξανά, όλες τις συμβουλές ξανά ή να με απενεργοποιήσεις.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help is on: I explain each screen and window the first time you open it. **Later** puts a tip off — the red dot on the **A♠** button then brings it back.</source>
+        <translation>Η Βοήθεια του Άσου είναι ενεργή: εξηγώ κάθε οθόνη και κάθε παράθυρο την πρώτη φορά που το ανοίγεις. Το **Αργότερα** αναβάλλει μια συμβουλή — η κόκκινη τελεία στο κουμπί **A♠** τη φέρνει ξανά.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Four ways to play: **Internet Game** on pokerth.net, with the official rankings; **Start Local Game** against computer players, even offline; **Create Network Game** opens a server for your local network, and **Join Network Game** connects to one.</source>
+        <translation>Τέσσερις τρόποι να παίξεις: **Διαδικτυακό παιχνίδι** στο pokerth.net, με τις επίσημες κατατάξεις· **Έναρξη τοπικού παιχνιδιού** με παίκτες υπολογιστή, ακόμη και εκτός σύνδεσης· η **Δημιουργία δικτυακού παιχνιδιού** ανοίγει διακομιστή για το τοπικό σου δίκτυο, και η **Είσοδος σε δικτυακό παιχνίδι** συνδέεται σε έναν.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>On pokerth.net, play with your free account — **Login as User** — or **Continue as Guest**. Guests can only play Normal games: no ranked games and no chat. **Register** creates a free account in a minute.</source>
+        <translation>Στο pokerth.net παίζεις με τον δωρεάν λογαριασμό σου — **Σύνδεση ως χρήστης** — ή επιλέγεις **Συνέχεια ως επισκέπτης**. Οι επισκέπτες παίζουν μόνο κανονικά παιχνίδια: χωρίς παιχνίδια κατάταξης και χωρίς συνομιλία. Η **Εγγραφή** δημιουργεί δωρεάν λογαριασμό σε ένα λεπτό.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>To see where you stand: the **trophy** button at the top — and at the table, tap the **table name** to see the season ranking of the players you sit with.</source>
+        <translation>Για να δεις πού βρίσκεσαι: το κουμπί με το **κύπελλο** επάνω — και στο τραπέζι πάτα το **όνομα του τραπεζιού** για να δεις την κατάταξη της σεζόν των παικτών στο τραπέζι σου.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This table is yours: press **Start Game** when everyone is here — or tick **Fill up with computer players** to fill the empty seats.</source>
+        <translation>Αυτό το τραπέζι είναι δικό σου: πάτα **Έναρξη Παιχνιδιού** όταν είναι όλοι εδώ — ή τσέκαρε **Συμπλήρωση με παίκτες υπολογιστή** για να γεμίσουν οι κενές θέσεις.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The host of the table starts the game — you only have to wait until everyone is here.</source>
+        <translation>Ο οικοδεσπότης του τραπεζιού ξεκινά το παιχνίδι — αρκεί να περιμένεις μέχρι να έρθουν όλοι.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Four game types: **Normal** (open to all), **Registered players only**, **Invited players only** and **Ranking game**. Any player with an account can create a Ranking table: 10 players, no password, it starts by itself when full.</source>
+        <translation>Τέσσερις τύποι παιχνιδιού: **Κανονικό** (ανοιχτό σε όλους), **Μόνο εγγεγραμμένοι παίκτες**, **Μόνο προσκεκλημένοι παίκτες** και **Παιχνίδι κατάταξης**. Κάθε παίκτης με λογαριασμό μπορεί να δημιουργήσει τραπέζι κατάταξης: 10 παίκτες, χωρίς κωδικό, ξεκινά μόνο του μόλις γεμίσει.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Community template** (invited players only): the exact settings of a BBC, Monthly Cup or WEC game in one tap, for the admins who open these games. The fields it sets are then locked.</source>
+        <translation>**Πρότυπο κοινότητας** (μόνο προσκεκλημένοι παίκτες): οι ακριβείς ρυθμίσεις ενός παιχνιδιού BBC, Monthly Cup ή WEC με ένα πάτημα, για τους διαχειριστές που ανοίγουν αυτά τα παιχνίδια. Τα πεδία που ορίζει κλειδώνουν.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Create Game** opens your table and its waiting room; **Cancel** goes back without creating anything.</source>
+        <translation>Τελευταίο βήμα: η **Δημιουργία παιχνιδιού** ανοίγει το τραπέζι σου και την αίθουσα αναμονής του· η **Ακύρωση** επιστρέφει χωρίς να δημιουργήσει τίποτα.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A game on your local network: this device becomes the server, and the others connect with **Join Network Game**. Let’s go through the settings one at a time — **Next** moves on, **Back** goes back, **Later** stops the tour.</source>
+        <translation>Ένα παιχνίδι στο τοπικό σου δίκτυο: αυτή η συσκευή γίνεται ο διακομιστής, και οι άλλοι συνδέονται με την **Είσοδο σε δικτυακό παιχνίδι**. Ας δούμε τις ρυθμίσεις μία μία — το **Επόμενο** προχωρά, το **Προηγούμενο** επιστρέφει, το **Αργότερα** σταματά την περιήγηση.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Always double blinds**: the small blind doubles at each raise. Switched off, the blinds follow your manual blinds order from the network game settings.</source>
+        <translation>**Πάντα διπλασιασμός τυφλών**: το μικρό blind διπλασιάζεται σε κάθε αύξηση. Απενεργοποιημένο, τα blinds ακολουθούν τη χειροκίνητη σειρά blinds σου από τις ρυθμίσεις δικτυακού παιχνιδιού.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Create Game** starts the server on this device and opens its lobby; **Cancel** goes back.</source>
+        <translation>Τελευταίο βήμα: η **Δημιουργία παιχνιδιού** ξεκινά τον διακομιστή σε αυτή τη συσκευή και ανοίγει το λόμπι του· η **Ακύρωση** επιστρέφει.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Training table: choose the number of players, the starting stack, the blinds and the game speed, then start the game. Nothing here counts towards a ranking.</source>
+        <translation>Τραπέζι εξάσκησης: διάλεξε τον αριθμό των παικτών, τις αρχικές μάρκες, τα blinds και την ταχύτητα του παιχνιδιού, και μετά ξεκίνα. Τίποτα εδώ δεν μετράει για κατάταξη.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Number of players**: you and up to 9 computer players.</source>
+        <translation>**Αριθμός παικτών**: εσύ και έως 9 παίκτες υπολογιστή.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Blinds**: keep the saved settings, or change them here — the first small blind, how often it goes up (every so many hands or minutes) and how: always doubled, or a manual blinds order.</source>
+        <translation>**Blinds**: κράτα τις αποθηκευμένες ρυθμίσεις ή άλλαξέ τες εδώ — το πρώτο μικρό blind, πόσο συχνά ανεβαίνει (κάθε τόσα χέρια ή λεπτά) και πώς: πάντα διπλασιαζόμενο ή με χειροκίνητη σειρά blinds.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game speed**: how fast the computer players act and the cards are dealt — from 1 (slow) to 11 (fast).</source>
+        <translation>**Ταχύτητα παιχνιδιού**: πόσο γρήγορα παίζουν οι παίκτες υπολογιστή και μοιράζονται τα φύλλα — από 1 (αργά) έως 11 (γρήγορα).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Start game** opens the table straight away; **Cancel** goes back.</source>
+        <translation>Τελευταίο βήμα: η **Έναρξη παιχνιδιού** ανοίγει αμέσως το τραπέζι· η **Ακύρωση** επιστρέφει.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The official **PokerTH** ranking and the community ones (**BBC**, **WEC**). Pick one: search a player, choose a season, and tap a name to open the profile.</source>
+        <translation>Η επίσημη κατάταξη του **PokerTH** και αυτές της κοινότητας (**BBC**, **WEC**). Διάλεξε μία: αναζήτησε παίκτη, διάλεξε σεζόν και πάτα ένα όνομα για να ανοίξεις το προφίλ.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The official ranking: the current season, or an earlier one under **Season**. Search a player by name and tap a row for the profile. At the bottom: how the ranking is calculated.</source>
+        <translation>Η επίσημη κατάταξη: η τρέχουσα σεζόν ή μια παλαιότερη από τη **Σεζόν**. Αναζήτησε παίκτη με το όνομα και πάτα μια γραμμή για το προφίλ. Στο κάτω μέρος: πώς υπολογίζεται η κατάταξη.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The latest posts of the pokerth.net forum, newest first. Tap a post to read it here — it is then marked as read. A filled dot means not read yet; the badge on the newspaper button counts them, and **Mark all as read** clears them all. **BBC games** lists the upcoming BBC games.</source>
+        <translation>Οι πιο πρόσφατες αναρτήσεις του φόρουμ του pokerth.net, οι νεότερες πρώτες. Πάτα μια ανάρτηση για να τη διαβάσεις εδώ — σημειώνεται τότε ως αναγνωσμένη. Μια γεμάτη τελεία σημαίνει μη αναγνωσμένη· το σήμα στο κουμπί της εφημερίδας τις μετρά, και η **Σήμανση όλων ως αναγνωσμένων** τις καθαρίζει όλες. Τα **Παιχνίδια BBC** δείχνουν τα επερχόμενα παιχνίδια BBC.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Every setting, by section: interface, style, sound, local, network and internet games, nicknames and avatars, log messages, and back to the defaults. Ace’s Help is switched on and off in the interface settings.</source>
+        <translation>Όλες οι ρυθμίσεις ανά ενότητα: διεπαφή, στυλ, ήχος, τοπικό, δικτυακό και διαδικτυακό παιχνίδι, ψευδώνυμα και άβαταρ, μηνύματα καταγραφής, και επαναφορά στις προεπιλογές. Τη Βοήθεια του Άσου την ενεργοποιείς και απενεργοποιείς στις ρυθμίσεις διεπαφής.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your logs: every game played on this device is recorded here. Pick a game for a preview, export it as HTML or text, or analyse it for a review of your play.</source>
+        <translation>Τα αρχεία καταγραφής σου: κάθε παιχνίδι που παίχτηκε σε αυτή τη συσκευή καταγράφεται εδώ. Διάλεξε ένα παιχνίδι για προεπισκόπηση, εξήγαγέ το ως HTML ή κείμενο, ή στείλ’ το για ανάλυση για να πάρεις μια αξιολόγηση του παιχνιδιού σου.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A player’s card: the profile and the statistics — the current season, the last games and the results so far.</source>
+        <translation>Η κάρτα ενός παίκτη: το προφίλ και τα στατιστικά — η τρέχουσα σεζόν, τα τελευταία παιχνίδια και τα αποτελέσματα μέχρι τώρα.</translation>
     </message>
 </context>
 <context>
@@ -1645,7 +1988,7 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+326"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+362"/>
         <source>← Zurück</source>
         <translation>← Πίσω</translation>
     </message>
@@ -1661,12 +2004,12 @@
         <translation>Όνομα παιχνιδιού</translation>
     </message>
     <message>
-        <location line="-205"/>
+        <location line="-237"/>
         <source>%1&apos;s game</source>
         <translation>Παιχνίδι του/της %1</translation>
     </message>
     <message>
-        <location line="+214"/>
+        <location line="+246"/>
         <source>Spielname eingeben …</source>
         <translation>Εισαγάγετε όνομα παιχνιδιού …</translation>
     </message>
@@ -1795,19 +2138,19 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1463"/>
-        <location line="+1377"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1475"/>
+        <location line="+1383"/>
         <source>Guests cannot send chat messages</source>
         <translation>Οι επισκέπτες δεν μπορούν να στέλνουν μηνύματα συνομιλίας</translation>
     </message>
     <message>
-        <location line="-1358"/>
-        <location line="+1352"/>
+        <location line="-1364"/>
+        <location line="+1358"/>
         <source>Private messages are not available at the table.</source>
         <translation>Τα προσωπικά μηνύματα δεν είναι διαθέσιμα στο τραπέζι.</translation>
     </message>
     <message>
-        <location line="-1346"/>
+        <location line="-1352"/>
         <source>Player not found</source>
         <translation>Ο παίκτης δεν βρέθηκε</translation>
     </message>
@@ -1969,18 +2312,18 @@ Please reenter the password and try again.</source>
         <location line="+86"/>
         <location line="+39"/>
         <location line="+9"/>
-        <location line="+160"/>
+        <location line="+165"/>
         <location line="+9"/>
         <location line="+185"/>
         <location line="+9"/>
         <location line="+16"/>
-        <location line="+11"/>
+        <location line="+12"/>
         <location line="+11"/>
         <source>Not connected to server</source>
         <translation>Δεν υπάρχει σύνδεση με τον διακομιστή</translation>
     </message>
     <message>
-        <location line="-69"/>
+        <location line="-70"/>
         <source>%1 has been invited to %2 by %3.</source>
         <translation>Ο/Η %3 προσκάλεσε τον/την %1 στο %2.</translation>
     </message>
@@ -1990,7 +2333,7 @@ Please reenter the password and try again.</source>
         <translation>Ο/Η %1 απέρριψε την πρόσκληση στο %2.</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+80"/>
         <source>Guests cannot receive private messages.</source>
         <translation>Οι επισκέπτες δεν μπορούν να λαμβάνουν προσωπικά μηνύματα.</translation>
     </message>
@@ -2040,7 +2383,7 @@ Please reenter the password and try again.</source>
         <translation>Γεμάτο</translation>
     </message>
     <message>
-        <location line="-225"/>
+        <location line="-226"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>Ο/Η %1 δεν μπορεί να μπει στο %2 επειδή είναι απασχολημένος.</translation>
     </message>
@@ -2048,7 +2391,7 @@ Please reenter the password and try again.</source>
 <context>
     <name>LobbyPage</name>
     <message>
-        <location filename="../pages/LobbyPage.qml" line="+1621"/>
+        <location filename="../pages/LobbyPage.qml" line="+1641"/>
         <source>Game invitation</source>
         <translation>Πρόσκληση σε παιχνίδι</translation>
     </message>
@@ -2073,24 +2416,24 @@ Please reenter the password and try again.</source>
         <translation>Δημιουργία Παιχνιδιού</translation>
     </message>
     <message>
-        <location line="-777"/>
-        <location line="+835"/>
+        <location line="-781"/>
+        <location line="+839"/>
         <source>Game Info</source>
         <translation>Πληροφορίες Παιχνιδιού</translation>
     </message>
     <message>
-        <location line="-565"/>
-        <location line="+514"/>
+        <location line="-568"/>
+        <location line="+517"/>
         <source>Join Game</source>
         <translation>Είσοδος σε παιχνίδι</translation>
     </message>
     <message>
-        <location line="-304"/>
+        <location line="-307"/>
         <source>Game List</source>
         <translation>Λίστα παιχνιδιών</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+93"/>
         <source>Time: %1s/%2s</source>
         <translation>Χρόνος: %1 δ/%2 δ</translation>
     </message>
@@ -2111,37 +2454,37 @@ Please reenter the password and try again.</source>
     </message>
     <message>
         <location line="+128"/>
-        <location line="+287"/>
+        <location line="+288"/>
         <source>Lobby Chat</source>
         <translation>Συνομιλία λόμπι</translation>
     </message>
     <message>
-        <location line="-644"/>
+        <location line="-647"/>
         <source>No game list filter</source>
         <translation>Χωρίς φίλτρο λίστας παιχνιδιών</translation>
     </message>
     <message>
-        <location line="+406"/>
+        <location line="+408"/>
         <source>Player: %1</source>
         <translation>Παίκτης: %1</translation>
     </message>
     <message>
-        <location line="-927"/>
+        <location line="-930"/>
         <source>Players</source>
         <translation>Παίκτες</translation>
     </message>
     <message>
-        <location line="+1041"/>
+        <location line="+1045"/>
         <source>Select a game to see details</source>
         <translation>Επιλέξτε ένα παιχνίδι για λεπτομέρειες</translation>
     </message>
     <message>
-        <location line="-517"/>
+        <location line="-520"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Εμφάνιση ανοιχτών, μη γεμάτων και δημόσιων παιχνιδιών</translation>
     </message>
     <message>
-        <location line="-640"/>
+        <location line="-641"/>
         <source>Report game name</source>
         <translation>Αναφορά ονόματος παιχνιδιού</translation>
     </message>
@@ -2196,36 +2539,36 @@ PokerTH can scale it down for you. The new avatar becomes active the next time y
     </message>
     <message>
         <location line="+167"/>
-        <location line="+510"/>
+        <location line="+511"/>
         <source>Sort alphabetically</source>
         <translation>Ταξινόμηση αλφαβητικά</translation>
     </message>
     <message>
-        <location line="-509"/>
-        <location line="+510"/>
+        <location line="-510"/>
+        <location line="+511"/>
         <source>Sort by country</source>
         <translation>Ταξινόμηση κατά χώρα</translation>
     </message>
     <message>
-        <location line="-509"/>
-        <location line="+510"/>
+        <location line="-510"/>
+        <location line="+511"/>
         <source>Display idle players</source>
         <translation>Εμφάνιση ανενεργών παικτών</translation>
     </message>
     <message>
         <location line="-423"/>
-        <location line="+830"/>
+        <location line="+833"/>
         <source>Report inappropriate game name</source>
         <translation>Αναφορά ακατάλληλου ονόματος παιχνιδιού</translation>
     </message>
     <message>
-        <location line="-822"/>
-        <location line="+829"/>
+        <location line="-825"/>
+        <location line="+832"/>
         <source>Close game (admin)</source>
         <translation>Κλείσιμο παιχνιδιού (διαχειριστής)</translation>
     </message>
     <message>
-        <location line="-792"/>
+        <location line="-795"/>
         <source>Players: %1 / %2</source>
         <translation>Παίκτες: %1 / %2</translation>
     </message>
@@ -2236,12 +2579,12 @@ PokerTH can scale it down for you. The new avatar becomes active the next time y
     </message>
     <message>
         <location line="+33"/>
-        <location line="+773"/>
+        <location line="+776"/>
         <source>Type: %1</source>
         <translation>Τύπος: %1</translation>
     </message>
     <message>
-        <location line="-762"/>
+        <location line="-765"/>
         <source>Small blind: %1</source>
         <translation>Μικρό τυφλό: %1</translation>
     </message>
@@ -2289,18 +2632,18 @@ PokerTH can scale it down for you. The new avatar becomes active the next time y
     </message>
     <message>
         <location line="+12"/>
-        <location line="+721"/>
+        <location line="+724"/>
         <source>Players in game (%1)</source>
         <translation>Παίκτες στο παιχνίδι (%1)</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+514"/>
+        <location line="-639"/>
+        <location line="+517"/>
         <source>Leave Game</source>
         <translation>Αποχώρηση από το παιχνίδι</translation>
     </message>
     <message>
-        <location line="-417"/>
+        <location line="-420"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Εμφάνιση ανοιχτών, μη γεμάτων και ιδιωτικών παιχνιδιών</translation>
     </message>
@@ -2315,21 +2658,21 @@ PokerTH can scale it down for you. The new avatar becomes active the next time y
         <translation>Συνδεδεμένοι παίκτες</translation>
     </message>
     <message>
-        <location line="-671"/>
-        <location line="+877"/>
+        <location line="-672"/>
+        <location line="+880"/>
         <source>Spectate game</source>
         <translation>Παρακολούθηση παιχνιδιού</translation>
     </message>
     <message>
-        <location line="-876"/>
+        <location line="-879"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
         <translation>Θέλετε σίγουρα να παρακολουθήσετε το παιχνίδι:
 «%1»;</translation>
     </message>
     <message>
-        <location line="+994"/>
-        <location line="+287"/>
+        <location line="+997"/>
+        <location line="+288"/>
         <source>Global notice (admin)</source>
         <translation>Γενική ανακοίνωση (διαχειριστής)</translation>
     </message>
@@ -2410,7 +2753,7 @@ PokerTH can scale it down for you. The new avatar becomes active the next time y
         <translation>Επιστροφή</translation>
     </message>
     <message>
-        <location line="-1046"/>
+        <location line="-1049"/>
         <source>Show open &amp; non-full games</source>
         <translation>Εμφάνιση ανοιχτών και μη γεμάτων παιχνιδιών</translation>
     </message>
@@ -2420,8 +2763,8 @@ PokerTH can scale it down for you. The new avatar becomes active the next time y
         <translation>Εμφάνιση ανοιχτών παιχνιδιών</translation>
     </message>
     <message>
-        <location line="-473"/>
-        <location line="+452"/>
+        <location line="-474"/>
+        <location line="+453"/>
         <source>search for player ...</source>
         <translation>αναζήτηση παίκτη ...</translation>
     </message>
@@ -2467,7 +2810,7 @@ PokerTH can scale it down for you. The new avatar becomes active the next time y
 <context>
     <name>LocalGamePage</name>
     <message>
-        <location filename="../pages/LocalGamePage.qml" line="+38"/>
+        <location filename="../pages/LocalGamePage.qml" line="+51"/>
         <source>alle %1 Hände</source>
         <translation>κάθε %1 χέρια</translation>
     </message>
@@ -2502,17 +2845,17 @@ PokerTH can scale it down for you. The new avatar becomes active the next time y
         <translation>Ρυθμίσεις τοπικού παιχνιδιού</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Anzahl der Spieler:</source>
         <translation>Αριθμός παικτών:</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+17"/>
         <source>Startkapital:</source>
         <translation>Αρχικό κεφάλαιο:</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+20"/>
         <source>Blinds</source>
         <translation>Τυφλά</translation>
     </message>
@@ -2568,7 +2911,7 @@ PokerTH can scale it down for you. The new avatar becomes active the next time y
         <translation>Χειροκίνητη σειρά τυφλών</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
         <translation>Ταχύτητα παιχνιδιού
@@ -2988,7 +3331,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>NetworkGameCreatePage</name>
     <message>
-        <location filename="../pages/NetworkGameCreatePage.qml" line="+133"/>
+        <location filename="../pages/NetworkGameCreatePage.qml" line="+148"/>
         <source>← Zurück</source>
         <translation>← Πίσω</translation>
     </message>
@@ -3892,7 +4235,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+341"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+349"/>
         <source>Back</source>
         <translation>Πίσω</translation>
     </message>
@@ -4551,7 +4894,12 @@ Please check your username and password.</source>
         <translation>PokerTH - v2.1.9</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+102"/>
+        <source>Ace’s Help</source>
+        <translation>Βοήθεια του Άσου</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Über PokerTH</source>
         <translation>Σχετικά με το PokerTH</translation>
     </message>
@@ -4625,7 +4973,7 @@ Please check your username and password.</source>
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../pages/StartPage.qml" line="+161"/>
+        <location filename="../pages/StartPage.qml" line="+167"/>
         <source>Internetspiel</source>
         <translation>Διαδικτυακό παιχνίδι</translation>
     </message>
@@ -4935,7 +5283,7 @@ Vorschau</source>
         <translation>Μενού</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+111"/>
         <source>Private messages</source>
         <translation>Προσωπικά μηνύματα</translation>
     </message>
@@ -4955,7 +5303,7 @@ Vorschau</source>
         <translation>Ρυθμίσεις</translation>
     </message>
     <message>
-        <location line="+198"/>
+        <location line="+210"/>
         <source>Timeout Warning</source>
         <translation>Προειδοποίηση λήξης χρόνου</translation>
     </message>
@@ -5031,8 +5379,8 @@ Vorschau</source>
         <translation>Η σύνδεση χάθηκε</translation>
     </message>
     <message>
-        <location line="-780"/>
-        <location line="+568"/>
+        <location line="-851"/>
+        <location line="+639"/>
         <location line="+23"/>
         <source>Leave Game</source>
         <translation>Αποχώρηση από το παιχνίδι</translation>
@@ -5052,8 +5400,8 @@ and go back to the lobby?</source>
         <translation>Ακύρωση</translation>
     </message>
     <message>
-        <location line="-733"/>
-        <location line="+633"/>
+        <location line="-804"/>
+        <location line="+704"/>
         <location line="+23"/>
         <source>Leave Lobby</source>
         <translation>Αποχώρηση από το λόμπι</translation>

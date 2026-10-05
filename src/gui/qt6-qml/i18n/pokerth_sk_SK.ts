@@ -767,7 +767,7 @@
 <context>
     <name>GameListItem</name>
     <message>
-        <location filename="../components/GameListItem.qml" line="+147"/>
+        <location filename="../components/GameListItem.qml" line="+148"/>
         <source>Report inappropriate game name</source>
         <translation>Nahlásiť nevhodný názov hry</translation>
     </message>
@@ -853,7 +853,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+443"/>
+        <location filename="../components/GamePlayerBox.qml" line="+445"/>
         <location line="+33"/>
         <location line="+2"/>
         <source>Ignore player</source>
@@ -1087,7 +1087,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+241"/>
+        <location filename="../pages/GameWaitPage.qml" line="+250"/>
         <source>Players</source>
         <translation>Hráči</translation>
     </message>
@@ -1116,48 +1116,48 @@
     </message>
     <message>
         <location line="-267"/>
-        <location line="+687"/>
+        <location line="+689"/>
         <source>Game List</source>
         <translation>Zoznam hier</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+648"/>
+        <location line="-638"/>
+        <location line="+650"/>
         <source>No game list filter</source>
         <translation>Bez filtra zoznamu hier</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open games</source>
         <translation>Zobraziť otvorené hry</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full games</source>
         <translation>Zobraziť otvorené a nezaplnené hry</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Zobraziť otvorené, nezaplnené a verejné hry</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Zobraziť otvorené, nezaplnené a súkromné hry</translation>
     </message>
     <message>
-        <location line="-647"/>
-        <location line="+648"/>
+        <location line="-649"/>
+        <location line="+650"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
         <translation>Zobraziť otvorené, nezaplnené vyhodnocované hry</translation>
     </message>
     <message>
-        <location line="-574"/>
+        <location line="-576"/>
         <source>Game Info</source>
         <translation>Info o hre</translation>
     </message>
@@ -1182,7 +1182,7 @@
         <translation>Pripojení hráči</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+92"/>
         <source>Players: %1 / %2</source>
         <translation>Hráči: %1 / %2</translation>
     </message>
@@ -1242,13 +1242,13 @@
         <translation>Hráči v hre (%1)</translation>
     </message>
     <message>
-        <location line="-653"/>
-        <location line="+745"/>
+        <location line="-663"/>
+        <location line="+755"/>
         <source>Kick player</source>
         <translation>Vykopnúť hráča</translation>
     </message>
     <message>
-        <location line="-744"/>
+        <location line="-754"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
         <translation>Určite chcete vykopnúť hráča „%1“ z hry?</translation>
     </message>
@@ -1258,7 +1258,7 @@
         <translation>Vykopnúť</translation>
     </message>
     <message>
-        <location line="+776"/>
+        <location line="+786"/>
         <source>Lobby Chat</source>
         <translation>Chat lobby</translation>
     </message>
@@ -1283,12 +1283,12 @@
         <translation>Opustiť hru</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Start Game</source>
         <translation>Spustiť hru</translation>
     </message>
     <message>
-        <location line="-88"/>
+        <location line="-89"/>
         <source>Suggest players</source>
         <translation>Navrhnúť hráčov</translation>
     </message>
@@ -1434,7 +1434,12 @@
         <translation>Zobrazovať bublinové tipy</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>Ace’s Help: explain each screen the first time</source>
+        <translation>Pomoc od esa: vysvetliť každú obrazovku prvýkrát</translation>
+    </message>
+    <message>
+        <location line="+16"/>
         <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
         <translation>Povoliť priblíženie stola (posúvanie a zoom, len mobilný režim)</translation>
     </message>
@@ -1482,6 +1487,344 @@
         <location line="-31"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
         <translation>Navrhovať hráčov vo vlastných komunitných hrách</translation>
+    </message>
+</context>
+<context>
+    <name>GuideOverlay</name>
+    <message>
+        <location filename="../components/GuideOverlay.qml" line="+71"/>
+        <source>Ace’s Help</source>
+        <translation>Pomoc od esa</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help — tap for my menu</source>
+        <translation>Pomoc od esa — ťukni a otvoríš moje menu</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>New here? I can show you around as you go.</source>
+        <translation>Prvýkrát tu? Môžem ťa tu priebežne sprevádzať.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yes, please</source>
+        <translation>Áno, prosím</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No thanks</source>
+        <translation>Nie, ďakujem</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Got it</source>
+        <translation>Rozumiem</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Later</source>
+        <translation>Neskôr</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Next</source>
+        <translation>Ďalej</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Back</source>
+        <translation>Späť</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Close</source>
+        <translation>Zavrieť</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turn off</source>
+        <translation>Vypnúť</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show all tips again</source>
+        <translation>Znova zobraziť všetky tipy</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Done — every tip will show again.</source>
+        <translation>Hotovo — každý tip sa zobrazí znova.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help is off. You can turn it back on from the menu at any time.</source>
+        <translation>Pomoc od esa je vypnutá. Kedykoľvek ju môžeš znova zapnúť v menu.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Pripojiť sa</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create a Ranking table</source>
+        <translation>Vytvoriť hodnotený stôl</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create an account</source>
+        <translation>Vytvoriť účet</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>See the ranking</source>
+        <translation>Zobraziť rebríček</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This screen’s tip</source>
+        <translation>Tip k tejto obrazovke</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A ranked game is waiting for you: **{n}/{max}** players. It starts as soon as it’s full!</source>
+        <translation>Čaká na teba hodnotená hra: **{n}/{max}** hráčov. Začne sa, len čo sa zaplní!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No ranked game open right now. Create one — any player with an account can! It starts by itself as soon as 10 players have joined.</source>
+        <translation>Momentálne nie je otvorená žiadna hodnotená hra. Vytvor ju — môže každý hráč s účtom! Spustí sa sama, len čo sa pripojí 10 hráčov.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ranked games need a (free) pokerth.net account. As a guest you can play Normal games.</source>
+        <translation>Hodnotené hry vyžadujú (bezplatný) účet pokerth.net. Ako hosť môžeš hrať normálne hry.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ranked game: **{n}/{max}** players. It starts by itself as soon as the table is full — meanwhile, here is how the ranking works.</source>
+        <translation>Hodnotená hra: **{n}/{max}** hráčov. Spustí sa sama, len čo sa stôl zaplní — medzitým ti vysvetlím, ako funguje rebríček.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Each ranked game hands out points by finishing place: **15, 9, 6, 4, 3, 2, 1** from 1st to 7th, nothing from 8th to 10th — 40 points per table.</source>
+        <translation>Každá hodnotená hra rozdáva body podľa konečného umiestnenia: **15, 9, 6, 4, 3, 2, 1** od 1. po 7. miesto, od 8. po 10. nič — 40 bodov na stôl.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your **Score** is not the sum of your points but your average per game, tempered by how many games you have played: playing regularly matters.</source>
+        <translation>Tvoje **Score** nie je súčet tvojich bodov, ale tvoj priemer na hru, zmiernený počtom odohraných hier: záleží na pravidelnom hraní.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The ranking runs in **quarterly seasons**: at each new season the counters are archived and start again from zero.</source>
+        <translation>Rebríček beží v **štvrťročných sezónach**: s každou novou sezónou sa počítadlá archivujú a začínajú znova od nuly.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Why is **5/5** everyone’s favourite? 5 seconds to act, 5 seconds between hands, 10,000 chips and blinds doubling every 11 hands: fast and the same for everyone, so games stay short and comparable.</source>
+        <translation>Prečo má každý najradšej **5/5**? 5 sekúnd na akciu, 5 sekúnd medzi rukami, 10 000 žetónov a blindy, ktoré sa každých 11 rúk zdvojnásobia: rýchlo a pre všetkých rovnako, takže hry zostávajú krátke a porovnateľné.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Just one more player!</source>
+        <translation>Už len jeden hráč!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Game over — you finished in place **{place}**: **+{points}** points. See your ranking?</source>
+        <translation>Koniec hry — tvoje miesto: **{place}**, body: **+{points}**. Pozrieš si svoje poradie?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Game over! Several players went out in the same hand, so your exact place is on the ranking page. See your ranking?</source>
+        <translation>Koniec hry! Viacerí hráči vypadli v tej istej ruke, takže tvoje presné miesto nájdeš na stránke rebríčka. Pozrieš si svoje poradie?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Let’s go through this form together, one field at a time — I’ll bring each one into view. **Next** moves on, **Back** goes back, **Later** stops the tour.</source>
+        <translation>Prejdeme tento formulár spolu, jedno pole po druhom — každé ti ukážem. **Ďalej** ide dopredu, **Späť** sa vráti, **Neskôr** prehliadku ukončí.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game name**: what the other players see in the list of tables. Say what to expect — « Fast game », « Beginners welcome »…</source>
+        <translation>**Názov hry**: čo ostatní hráči uvidia v zozname stolov. Napíš, čo čakať — „Rýchla hra“, „Začiatočníci vítaní“…</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game name**: as a guest, the name is chosen for you.</source>
+        <translation>**Názov hry**: ako hosť dostaneš názov pridelený automaticky.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>As a guest you can create **Normal** games. Ranking tables and registered-only games need a (free) pokerth.net account.</source>
+        <translation>Ako hosť môžeš zakladať hry typu **Normálna**. Hodnotené stoly a hry len pre registrovaných vyžadujú (bezplatný) účet pokerth.net.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Password**: switch it on to keep the table private — only players who know the password can sit down. Not available for a **Ranking game** or an **Invited players only** game.</source>
+        <translation>**Heslo**: zapni ho a stôl bude súkromný — sadnúť si môžu len hráči, ktorí heslo poznajú. Nie je k dispozícii pri typoch **Hodnotená hra** a **Iba pozvaní hráči**.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Spectators**: lets other players watch the game without playing.</source>
+        <translation>**Diváci**: umožní ostatným hráčom sledovať hru bez hrania.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Max players**: from 2 to 10 seats. The host starts the game from the waiting room, even with empty seats — a **Ranking game** starts by itself once all 10 seats are taken.</source>
+        <translation>**Max. hráčov**: 2 až 10 miest. Hostiteľ spúšťa hru z čakárne, aj keď sú miesta voľné — **Hodnotená hra** sa spustí sama, keď je obsadených všetkých 10 miest.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Starting stack**: the chips each player gets. What counts is the stack compared with the blinds: 3000 chips with a small blind of 10 is 150 big blinds, a comfortable game. Fewer big blinds = a faster game, with more all-ins.</source>
+        <translation>**Počiatočný kapitál**: žetóny, ktoré dostane každý hráč. Rozhoduje pomer kapitálu k blindom: 3000 žetónov pri small blinde 10 je 150 big blindov, pohodlná hra. Menej big blindov = rýchlejšia hra s viac all-inmi.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**First small blind**: the small blind when the game starts. The big blind is always twice the small blind.</source>
+        <translation>**Prvý small blind**: small blind na začiatku hry. Big blind je vždy dvojnásobok small blindu.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Blind increase interval**: the blinds go up every so many **hands** or **minutes**. The shorter the interval, the shorter the game.</source>
+        <translation>**Interval zvyšovania blindov**: blindy stúpajú po určitom počte **rúk** alebo **minút**. Čím kratší interval, tým kratšia hra.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Time per action**: how many seconds each player has to act on their turn (5 to 60).</source>
+        <translation>**Čas na akciu**: koľko sekúnd má každý hráč na ťah, keď je na rade (5 až 60).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Pause between hands**: the seconds to see how a hand ended before the next one is dealt (5 to 20).</source>
+        <translation>**Pauza medzi rukami**: sekundy na to, aby si videl, ako ruka skončila, kým sa rozdá ďalšia (5 až 20).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Greyed out here: the chosen game type (or community template) sets this value.</source>
+        <translation>Zošednuté: túto hodnotu určuje zvolený typ hry (alebo šablóna komunity).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Great! I’ll pop up whenever there is something useful to explain — each screen and window once. The **A♠** button at the top opens my menu: this screen’s tip again, all tips again, or turn me off.</source>
+        <translation>Super! Ozvem sa vždy, keď bude čo užitočné vysvetliť — každú obrazovku a každé okno raz. Tlačidlo **A♠** hore otvorí moje menu: tip tejto obrazovky znova, všetky tipy znova, alebo ma vypnúť.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ace’s Help is on: I explain each screen and window the first time you open it. **Later** puts a tip off — the red dot on the **A♠** button then brings it back.</source>
+        <translation>Pomoc od esa je zapnutá: vysvetlím každú obrazovku a každé okno, keď ich prvýkrát otvoríš. **Neskôr** tip odloží — červená bodka na tlačidle **A♠** ho potom vráti.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Four ways to play: **Internet Game** on pokerth.net, with the official rankings; **Start Local Game** against computer players, even offline; **Create Network Game** opens a server for your local network, and **Join Network Game** connects to one.</source>
+        <translation>Štyri spôsoby hry: **Internetová hra** na pokerth.net s oficiálnymi rebríčkami; **Spustiť lokálnu hru** proti počítačovým hráčom, aj offline; **Vytvoriť sieťovú hru** otvorí server pre tvoju lokálnu sieť a **Pripojiť sa k sieťovej hre** sa k nemu pripojí.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>On pokerth.net, play with your free account — **Login as User** — or **Continue as Guest**. Guests can only play Normal games: no ranked games and no chat. **Register** creates a free account in a minute.</source>
+        <translation>Na pokerth.net hraj so svojím bezplatným účtom — **Prihlásiť sa ako používateľ** — alebo zvoľ **Pokračovať ako hosť**. Hostia môžu hrať len normálne hry: žiadne hodnotené hry a žiadny chat. **Registrovať sa** založí bezplatný účet za minútu.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>To see where you stand: the **trophy** button at the top — and at the table, tap the **table name** to see the season ranking of the players you sit with.</source>
+        <translation>Kde stojíš: tlačidlo s **pohárom** hore — a pri stole ťukni na **názov stola**, aby si videl sezónny rebríček hráčov pri tvojom stole.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This table is yours: press **Start Game** when everyone is here — or tick **Fill up with computer players** to fill the empty seats.</source>
+        <translation>Tento stôl je tvoj: stlač **Spustiť hru**, keď budú všetci tu — alebo zaškrtni **Doplniť počítačovými hráčmi** a voľné miesta sa zaplnia.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The host of the table starts the game — you only have to wait until everyone is here.</source>
+        <translation>Hru spúšťa hostiteľ stola — stačí počkať, kým budú všetci tu.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Four game types: **Normal** (open to all), **Registered players only**, **Invited players only** and **Ranking game**. Any player with an account can create a Ranking table: 10 players, no password, it starts by itself when full.</source>
+        <translation>Štyri typy hier: **Normálna** (otvorená všetkým), **Iba registrovaní hráči**, **Iba pozvaní hráči** a **Vyhodnocovaná hra**. Hodnotený stôl môže založiť každý hráč s účtom: 10 hráčov, bez hesla, spustí sa sám, keď je plný.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Community template** (invited players only): the exact settings of a BBC, Monthly Cup or WEC game in one tap, for the admins who open these games. The fields it sets are then locked.</source>
+        <translation>**Šablóna komunity** (iba pozvaní hráči): presné nastavenia hry BBC, Monthly Cup alebo WEC jedným ťuknutím, pre adminov, ktorí tieto hry otvárajú. Polia, ktoré nastaví, sú potom zamknuté.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Create Game** opens your table and its waiting room; **Cancel** goes back without creating anything.</source>
+        <translation>Posledný krok: **Vytvoriť hru** otvorí tvoj stôl a jeho čakáreň; **Zrušiť** sa vráti bez vytvorenia čohokoľvek.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A game on your local network: this device becomes the server, and the others connect with **Join Network Game**. Let’s go through the settings one at a time — **Next** moves on, **Back** goes back, **Later** stops the tour.</source>
+        <translation>Hra v tvojej lokálnej sieti: toto zariadenie sa stane serverom a ostatní sa pripoja cez **Pripojiť sa k sieťovej hre**. Prejdime nastavenia jedno po druhom — **Ďalej** ide ďalej, **Späť** sa vracia, **Neskôr** prehliadku ukončí.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Always double blinds**: the small blind doubles at each raise. Switched off, the blinds follow your manual blinds order from the network game settings.</source>
+        <translation>**Blindy vždy zdvojnásobiť**: malý blind sa pri každom zvýšení zdvojnásobí. Vypnuté, blindy sa riadia tvojím ručným poradím blindov z nastavení sieťovej hry.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Create Game** starts the server on this device and opens its lobby; **Cancel** goes back.</source>
+        <translation>Posledný krok: **Vytvoriť hru** spustí server na tomto zariadení a otvorí jeho lobby; **Zrušiť** sa vráti.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Training table: choose the number of players, the starting stack, the blinds and the game speed, then start the game. Nothing here counts towards a ranking.</source>
+        <translation>Tréningový stôl: zvoľ počet hráčov, počiatočné žetóny, blindy a rýchlosť hry a potom hru spusti. Nič z toho sa nepočíta do žiadneho rebríčka.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Number of players**: you and up to 9 computer players.</source>
+        <translation>**Počet hráčov**: ty a až 9 počítačových hráčov.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Blinds**: keep the saved settings, or change them here — the first small blind, how often it goes up (every so many hands or minutes) and how: always doubled, or a manual blinds order.</source>
+        <translation>**Blindy**: ponechaj uložené nastavenia alebo ich zmeň tu — prvý malý blind, ako často rastie (každých toľko rúk alebo minút) a ako: vždy zdvojnásobený, alebo podľa ručného poradia blindov.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>**Game speed**: how fast the computer players act and the cards are dealt — from 1 (slow) to 11 (fast).</source>
+        <translation>**Rýchlosť hry**: ako rýchlo počítačoví hráči konajú a rozdávajú sa karty — od 1 (pomaly) po 11 (rýchlo).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Last step: **Start game** opens the table straight away; **Cancel** goes back.</source>
+        <translation>Posledný krok: **Spustiť hru** hneď otvorí stôl; **Zrušiť** sa vráti.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The official **PokerTH** ranking and the community ones (**BBC**, **WEC**). Pick one: search a player, choose a season, and tap a name to open the profile.</source>
+        <translation>Oficiálny rebríček **PokerTH** a rebríčky komunity (**BBC**, **WEC**). Vyber jeden: vyhľadaj hráča, zvoľ sezónu a ťukni na meno, aby sa otvoril profil.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The official ranking: the current season, or an earlier one under **Season**. Search a player by name and tap a row for the profile. At the bottom: how the ranking is calculated.</source>
+        <translation>Oficiálny rebríček: aktuálna sezóna alebo skoršia v položke **Sezóna**. Vyhľadaj hráča podľa mena a ťukni na riadok pre profil. Úplne dole: ako sa rebríček počíta.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The latest posts of the pokerth.net forum, newest first. Tap a post to read it here — it is then marked as read. A filled dot means not read yet; the badge on the newspaper button counts them, and **Mark all as read** clears them all. **BBC games** lists the upcoming BBC games.</source>
+        <translation>Najnovšie príspevky z fóra pokerth.net, najnovšie prvé. Ťukni na príspevok a prečítaj si ho tu — potom je označený ako prečítaný. Plná bodka znamená ešte neprečítaný; odznak na tlačidle s novinami ich počíta a **Označiť všetko ako prečítané** ich všetky vymaže. **Hry BBC** ukazuje nadchádzajúce hry BBC.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Every setting, by section: interface, style, sound, local, network and internet games, nicknames and avatars, log messages, and back to the defaults. Ace’s Help is switched on and off in the interface settings.</source>
+        <translation>Všetky nastavenia podľa sekcií: rozhranie, štýl, zvuk, lokálna, sieťová a internetová hra, prezývky a avatary, správy logu a návrat k predvoleným hodnotám. Pomoc od esa zapneš a vypneš v nastaveniach rozhrania.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your logs: every game played on this device is recorded here. Pick a game for a preview, export it as HTML or text, or analyse it for a review of your play.</source>
+        <translation>Tvoje logy: každá hra odohraná na tomto zariadení sa tu zaznamenáva. Vyber hru na náhľad, exportuj ju ako HTML alebo text, alebo ju nechaj analyzovať a získaj hodnotenie svojej hry.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A player’s card: the profile and the statistics — the current season, the last games and the results so far.</source>
+        <translation>Karta hráča: profil a štatistiky — aktuálna sezóna, posledné hry a doterajšie výsledky.</translation>
     </message>
 </context>
 <context>
@@ -1645,7 +1988,7 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+326"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+362"/>
         <source>← Zurück</source>
         <translation>← Späť</translation>
     </message>
@@ -1661,12 +2004,12 @@
         <translation>Názov hry</translation>
     </message>
     <message>
-        <location line="-205"/>
+        <location line="-237"/>
         <source>%1&apos;s game</source>
         <translation>Hra hráča %1</translation>
     </message>
     <message>
-        <location line="+214"/>
+        <location line="+246"/>
         <source>Spielname eingeben …</source>
         <translation>Zadajte názov hry …</translation>
     </message>
@@ -1795,19 +2138,19 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1463"/>
-        <location line="+1377"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1475"/>
+        <location line="+1383"/>
         <source>Guests cannot send chat messages</source>
         <translation>Hostia nemôžu posielať správy do chatu</translation>
     </message>
     <message>
-        <location line="-1358"/>
-        <location line="+1352"/>
+        <location line="-1364"/>
+        <location line="+1358"/>
         <source>Private messages are not available at the table.</source>
         <translation>Súkromné správy nie sú pri stole dostupné.</translation>
     </message>
     <message>
-        <location line="-1346"/>
+        <location line="-1352"/>
         <source>Player not found</source>
         <translation>Hráč sa nenašiel</translation>
     </message>
@@ -1969,18 +2312,18 @@ Prosím, skúste to znovu.</translation>
         <location line="+86"/>
         <location line="+39"/>
         <location line="+9"/>
-        <location line="+160"/>
+        <location line="+165"/>
         <location line="+9"/>
         <location line="+185"/>
         <location line="+9"/>
         <location line="+16"/>
-        <location line="+11"/>
+        <location line="+12"/>
         <location line="+11"/>
         <source>Not connected to server</source>
         <translation>Nepripojené k serveru</translation>
     </message>
     <message>
-        <location line="-69"/>
+        <location line="-70"/>
         <source>%1 has been invited to %2 by %3.</source>
         <translation>%3 pozval hráča %1 do %2.</translation>
     </message>
@@ -1990,7 +2333,7 @@ Prosím, skúste to znovu.</translation>
         <translation>%1 odmietol pozvánku do %2.</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+80"/>
         <source>Guests cannot receive private messages.</source>
         <translation>Hostia nemôžu prijímať súkromné správy.</translation>
     </message>
@@ -2040,7 +2383,7 @@ Prosím, skúste to znovu.</translation>
         <translation>Plná</translation>
     </message>
     <message>
-        <location line="-225"/>
+        <location line="-226"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 sa nemôže pripojiť do %2, pretože je zaneprázdnený.</translation>
     </message>
@@ -2048,7 +2391,7 @@ Prosím, skúste to znovu.</translation>
 <context>
     <name>LobbyPage</name>
     <message>
-        <location filename="../pages/LobbyPage.qml" line="+1621"/>
+        <location filename="../pages/LobbyPage.qml" line="+1641"/>
         <source>Game invitation</source>
         <translation>Pozvánka do hry</translation>
     </message>
@@ -2073,24 +2416,24 @@ Prosím, skúste to znovu.</translation>
         <translation>Vytvoriť hru</translation>
     </message>
     <message>
-        <location line="-777"/>
-        <location line="+835"/>
+        <location line="-781"/>
+        <location line="+839"/>
         <source>Game Info</source>
         <translation>Info o hre</translation>
     </message>
     <message>
-        <location line="-565"/>
-        <location line="+514"/>
+        <location line="-568"/>
+        <location line="+517"/>
         <source>Join Game</source>
         <translation>Pripojiť sa k hre</translation>
     </message>
     <message>
-        <location line="-304"/>
+        <location line="-307"/>
         <source>Game List</source>
         <translation>Zoznam hier</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+93"/>
         <source>Time: %1s/%2s</source>
         <translation>Čas: %1 s/%2 s</translation>
     </message>
@@ -2111,37 +2454,37 @@ Prosím, skúste to znovu.</translation>
     </message>
     <message>
         <location line="+128"/>
-        <location line="+287"/>
+        <location line="+288"/>
         <source>Lobby Chat</source>
         <translation>Chat lobby</translation>
     </message>
     <message>
-        <location line="-644"/>
+        <location line="-647"/>
         <source>No game list filter</source>
         <translation>Bez filtra zoznamu hier</translation>
     </message>
     <message>
-        <location line="+406"/>
+        <location line="+408"/>
         <source>Player: %1</source>
         <translation>Hráč: %1</translation>
     </message>
     <message>
-        <location line="-927"/>
+        <location line="-930"/>
         <source>Players</source>
         <translation>Hráči</translation>
     </message>
     <message>
-        <location line="+1041"/>
+        <location line="+1045"/>
         <source>Select a game to see details</source>
         <translation>Vyberte hru pre zobrazenie podrobností</translation>
     </message>
     <message>
-        <location line="-517"/>
+        <location line="-520"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Zobraziť otvorené, nezaplnené a verejné hry</translation>
     </message>
     <message>
-        <location line="-640"/>
+        <location line="-641"/>
         <source>Report game name</source>
         <translation>Nahlásiť názov hry</translation>
     </message>
@@ -2196,36 +2539,36 @@ PokerTH ho môže zmenšiť. Nový avatar sa prejaví pri najbližšom prihláse
     </message>
     <message>
         <location line="+167"/>
-        <location line="+510"/>
+        <location line="+511"/>
         <source>Sort alphabetically</source>
         <translation>Zoradiť podľa abecedy</translation>
     </message>
     <message>
-        <location line="-509"/>
-        <location line="+510"/>
+        <location line="-510"/>
+        <location line="+511"/>
         <source>Sort by country</source>
         <translation>Zoradiť podľa krajiny</translation>
     </message>
     <message>
-        <location line="-509"/>
-        <location line="+510"/>
+        <location line="-510"/>
+        <location line="+511"/>
         <source>Display idle players</source>
         <translation>Zobraziť neaktívnych hráčov</translation>
     </message>
     <message>
         <location line="-423"/>
-        <location line="+830"/>
+        <location line="+833"/>
         <source>Report inappropriate game name</source>
         <translation>Nahlásiť nevhodný názov hry</translation>
     </message>
     <message>
-        <location line="-822"/>
-        <location line="+829"/>
+        <location line="-825"/>
+        <location line="+832"/>
         <source>Close game (admin)</source>
         <translation>Zavrieť hru (administrátor)</translation>
     </message>
     <message>
-        <location line="-792"/>
+        <location line="-795"/>
         <source>Players: %1 / %2</source>
         <translation>Hráči: %1 / %2</translation>
     </message>
@@ -2236,12 +2579,12 @@ PokerTH ho môže zmenšiť. Nový avatar sa prejaví pri najbližšom prihláse
     </message>
     <message>
         <location line="+33"/>
-        <location line="+773"/>
+        <location line="+776"/>
         <source>Type: %1</source>
         <translation>Typ: %1</translation>
     </message>
     <message>
-        <location line="-762"/>
+        <location line="-765"/>
         <source>Small blind: %1</source>
         <translation>Malý blind: %1</translation>
     </message>
@@ -2289,18 +2632,18 @@ PokerTH ho môže zmenšiť. Nový avatar sa prejaví pri najbližšom prihláse
     </message>
     <message>
         <location line="+12"/>
-        <location line="+721"/>
+        <location line="+724"/>
         <source>Players in game (%1)</source>
         <translation>Hráči v hre (%1)</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+514"/>
+        <location line="-639"/>
+        <location line="+517"/>
         <source>Leave Game</source>
         <translation>Opustiť hru</translation>
     </message>
     <message>
-        <location line="-417"/>
+        <location line="-420"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Zobraziť otvorené, nezaplnené a súkromné hry</translation>
     </message>
@@ -2315,21 +2658,21 @@ PokerTH ho môže zmenšiť. Nový avatar sa prejaví pri najbližšom prihláse
         <translation>Pripojení hráči</translation>
     </message>
     <message>
-        <location line="-671"/>
-        <location line="+877"/>
+        <location line="-672"/>
+        <location line="+880"/>
         <source>Spectate game</source>
         <translation>Prizerať sa hre</translation>
     </message>
     <message>
-        <location line="-876"/>
+        <location line="-879"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
         <translation>Určite sa chcete prizerať hre:
 „%1“?</translation>
     </message>
     <message>
-        <location line="+994"/>
-        <location line="+287"/>
+        <location line="+997"/>
+        <location line="+288"/>
         <source>Global notice (admin)</source>
         <translation>Všeobecné oznámenie (administrátor)</translation>
     </message>
@@ -2410,7 +2753,7 @@ PokerTH ho môže zmenšiť. Nový avatar sa prejaví pri najbližšom prihláse
         <translation>Vrátiť sa</translation>
     </message>
     <message>
-        <location line="-1046"/>
+        <location line="-1049"/>
         <source>Show open &amp; non-full games</source>
         <translation>Zobraziť otvorené a nezaplnené hry</translation>
     </message>
@@ -2420,8 +2763,8 @@ PokerTH ho môže zmenšiť. Nový avatar sa prejaví pri najbližšom prihláse
         <translation>Zobraziť otvorené hry</translation>
     </message>
     <message>
-        <location line="-473"/>
-        <location line="+452"/>
+        <location line="-474"/>
+        <location line="+453"/>
         <source>search for player ...</source>
         <translation>hľadanie hráča...</translation>
     </message>
@@ -2467,7 +2810,7 @@ PokerTH ho môže zmenšiť. Nový avatar sa prejaví pri najbližšom prihláse
 <context>
     <name>LocalGamePage</name>
     <message>
-        <location filename="../pages/LocalGamePage.qml" line="+38"/>
+        <location filename="../pages/LocalGamePage.qml" line="+51"/>
         <source>alle %1 Hände</source>
         <translation>každých %1 rozdaní</translation>
     </message>
@@ -2502,17 +2845,17 @@ PokerTH ho môže zmenšiť. Nový avatar sa prejaví pri najbližšom prihláse
         <translation>Nastavenia lokálnej hry</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Anzahl der Spieler:</source>
         <translation>Počet hráčov:</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+17"/>
         <source>Startkapital:</source>
         <translation>Počiatočný kapitál:</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+20"/>
         <source>Blinds</source>
         <translation>Blindy</translation>
     </message>
@@ -2568,7 +2911,7 @@ PokerTH ho môže zmenšiť. Nový avatar sa prejaví pri najbližšom prihláse
         <translation>Ručné poradie blindov</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
         <translation>Rýchlosť hry
@@ -2988,7 +3331,7 @@ Reštartujte, prosím, PokerTH, aby sa súbory záznamu ukladali tam.</translati
 <context>
     <name>NetworkGameCreatePage</name>
     <message>
-        <location filename="../pages/NetworkGameCreatePage.qml" line="+133"/>
+        <location filename="../pages/NetworkGameCreatePage.qml" line="+148"/>
         <source>← Zurück</source>
         <translation>← Späť</translation>
     </message>
@@ -3892,7 +4235,7 @@ Reštartujte, prosím, PokerTH, aby sa súbory záznamu ukladali tam.</translati
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+341"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+349"/>
         <source>Back</source>
         <translation>Späť</translation>
     </message>
@@ -4551,7 +4894,12 @@ Prosím, skontrolujte meno užívateľa a heslo.</translation>
         <translation>PokerTH - v2.1.9</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+102"/>
+        <source>Ace’s Help</source>
+        <translation>Pomoc od esa</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Über PokerTH</source>
         <translation>O PokerTH</translation>
     </message>
@@ -4625,7 +4973,7 @@ Prosím, skontrolujte meno užívateľa a heslo.</translation>
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../pages/StartPage.qml" line="+161"/>
+        <location filename="../pages/StartPage.qml" line="+167"/>
         <source>Internetspiel</source>
         <translation>Internetová hra</translation>
     </message>
@@ -4935,7 +5283,7 @@ náhľadu</translation>
         <translation>Ponuka</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+111"/>
         <source>Private messages</source>
         <translation>Súkromné správy</translation>
     </message>
@@ -4955,7 +5303,7 @@ náhľadu</translation>
         <translation>Nastavenia</translation>
     </message>
     <message>
-        <location line="+198"/>
+        <location line="+210"/>
         <source>Timeout Warning</source>
         <translation>Varovanie pred vypršaním</translation>
     </message>
@@ -5031,8 +5379,8 @@ náhľadu</translation>
         <translation>Spojenie stratené</translation>
     </message>
     <message>
-        <location line="-780"/>
-        <location line="+568"/>
+        <location line="-851"/>
+        <location line="+639"/>
         <location line="+23"/>
         <source>Leave Game</source>
         <translation>Opustiť hru</translation>
@@ -5052,8 +5400,8 @@ a vrátiť sa späť do lobby?</translation>
         <translation>Zrušiť</translation>
     </message>
     <message>
-        <location line="-733"/>
-        <location line="+633"/>
+        <location line="-804"/>
+        <location line="+704"/>
         <location line="+23"/>
         <source>Leave Lobby</source>
         <translation>Opustiť lobby</translation>

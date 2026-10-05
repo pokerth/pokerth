@@ -8,6 +8,7 @@ import "../components"
 
 Rectangle {
     id: startPage
+    objectName: "startPage"
     // Bind to the visible area (StackView below the top bar), not to the whole
     // window – otherwise the box is not centred vertically.
     width: mainStackView.width
@@ -18,6 +19,11 @@ Rectangle {
     // because the focus would otherwise fizzle out during the stack animation.
     // Without a focus reason there is no focus frame; it appears on the first Tab.
     StackView.onActivated: Qt.callLater(internetGameButton.forceActiveFocus)
+
+    // Ace's Help (GuideOverlay): the controls a tip outlines.
+    function guideTarget(key) {
+        return key === "buttons" ? startPageMainButtons : null
+    }
 
     Image {
         id: preLoaderBackground

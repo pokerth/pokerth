@@ -111,6 +111,8 @@ Drawer {
                         sideMenu.visible = false;
                         if (source === "quit")
                             Qt.quit();
+                        else if (source === "guide")
+                            guideOverlay.menuEntry();
                         else
                             mainStackView.push("../pages/" + source + "Page.qml");
                     }
@@ -133,6 +135,11 @@ Drawer {
 
     ListModel {
         id: sideMenuListItems
+        ListElement {
+            name: qsTr("Ace’s Help")
+            icon: "spade"
+            source: "guide"
+        }
         ListElement {
             name: qsTr("Über PokerTH")
             icon: "user"

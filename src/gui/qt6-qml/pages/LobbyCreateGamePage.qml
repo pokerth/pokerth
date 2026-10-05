@@ -8,6 +8,7 @@ import "../components"
 
 Rectangle {
     id: lobbyCreateGamePage
+    objectName: "lobbyCreateGamePage"
     Layout.fillWidth: true
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
@@ -22,6 +23,9 @@ Rectangle {
     // access via the invitation.
     readonly property bool passwordAllowed: !isRanking && !isInviteOnly
     property string nameError: ""
+    // A preselected game type (index of gameTypeCombo, -1 = the stored one):
+    // Ace's Help opens the page with the Ranking type ("Create a Ranking table").
+    property int initialGameType: -1
 
     // Default button of the page: Enter creates the game, no matter where the focus is.
     // A focused button consumes Return itself and keeps precedence.
@@ -157,7 +161,8 @@ Rectangle {
             gameTypeCombo.currentIndex = 0
             gameNameField.text = qsTr("%1's game").arg(Lobby ? Lobby.myPlayerName : "")
         } else if (SettingsManager) {
-            var type = SettingsManager.readConfigInt("InternetGameType")
+            var type = initialGameType >= 0 ? initialGameType
+                                            : SettingsManager.readConfigInt("InternetGameType")
             gameTypeCombo.currentIndex = (type >= 0 && type <= 3) ? type : 0
             var name = SettingsManager.readConfigString("InternetGameName")
             if (name.trim().length > 0)
@@ -180,6 +185,37 @@ Rectangle {
         if (Config.Parameters.showCommunityContent)
             Config.BotSuggest.prefetchGameTitles()
         formReady = true
+    }
+
+    // Ace's Help (GuideOverlay): the rows a tour step outlines, and whether the
+    // game type or a community template locks them.
+    function guideTarget(key) {
+        switch (key) {
+        case "name":       return gameNameField.parent
+        case "type":       return gameTypeCombo.parent
+        case "preset":     return presetCombo.parent
+        case "password":   return passwordToggle.parent
+        case "spectators": return spectatorsToggle.parent
+        case "players":    return maxPlayersSpinBox.parent
+        case "stack":      return startCashSpinBox.parent
+        case "blind":      return firstBlindSpinBox.parent
+        case "interval":   return raiseByHandsRadio.parent.parent
+        case "timeout":    return playerActionTimeoutSpinBox.parent
+        case "delay":      return delayBetweenHandsSpinBox.parent
+        case "actions":    return createBtn.parent
+        }
+        return null
+    }
+    function guideLocked(key) {
+        switch (key) {
+        case "players": case "stack": case "blind": case "interval":
+            return fieldsLocked
+        case "spectators":
+            return isRanking
+        case "timeout": case "delay":
+            return presetActive
+        }
+        return false
     }
 
     // ── Hilfsfunktion: gestylter ComboBox-Popup ──────────────────────────────
