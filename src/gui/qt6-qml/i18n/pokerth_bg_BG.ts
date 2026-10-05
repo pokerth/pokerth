@@ -1492,7 +1492,7 @@
 <context>
     <name>GuideOverlay</name>
     <message>
-        <location filename="../components/GuideOverlay.qml" line="+71"/>
+        <location filename="../components/GuideOverlay.qml" line="+77"/>
         <source>Ace’s Help</source>
         <translation>Помощ от асото</translation>
     </message>

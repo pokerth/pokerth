@@ -540,7 +540,7 @@ ApplicationWindow {
                     Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
                     visible: mainWindow.topBarIconsVisible && Config.Parameters.guideOn
 
-                    readonly property color tint: guideOverlay.bubbleText !== ""
+                    readonly property color tint: guideOverlay.bubbleText !== "" && guideOverlay.settled
                         ? Config.Theme.colorAccent
                         : guideArea.containsMouse
                             ? Config.StaticData.palette.secondary.col100

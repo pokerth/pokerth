@@ -62,6 +62,12 @@ Item {
     property rect area: Qt.rect(0, 0, width, height)
     property rect targetRect: Qt.rect(0, 0, 0, 0)
     property bool targetShown: false
+    // The outlined control stood still since the last check (no slide-in, no
+    // scrolling): only then the outline shows.
+    property bool targetStable: false
+    // The pages are at rest: no StackView transition running, and a moment
+    // passed since the last one ended. Until then nothing is shown or chosen.
+    property bool settled: true
 
     // ── Texts ───────────────────────────────────────────────────────
     // The keys and the English texts follow the web client's catalogue
@@ -433,8 +439,14 @@ Item {
             x1 = Math.min(x1, rx1); y1 = Math.min(y1, ry1)
             x2 = Math.max(x2, rx2); y2 = Math.max(y2, ry2)
         }
-        targetShown = x2 > x1 && y2 > y1
-        if (targetShown)
+        var shown = x2 > x1 && y2 > y1
+        var moved = shown !== targetShown
+            || (shown && (Math.abs(x1 - targetRect.x) > 1 || Math.abs(y1 - targetRect.y) > 1
+                          || Math.abs(x2 - x1 - targetRect.width) > 1
+                          || Math.abs(y2 - y1 - targetRect.height) > 1))
+        targetStable = shown && !moved
+        targetShown = shown
+        if (shown)
             targetRect = Qt.rect(x1, y1, x2 - x1, y2 - y1)
     }
     // Tour: the field goes to the top of its scrolling list, so that the bubble
@@ -497,6 +509,7 @@ Item {
         bubbleButtons = buttons
         buttonHandler = handler
         target = tgt
+        targetStable = false
         tourMode = tour
         Qt.callLater(function() {
             if (guide.tourMode)
@@ -907,7 +920,7 @@ Item {
     }
 
     function evaluate() {
-        if (!stack)
+        if (!stack || !settled)
             return
         var w = where()
         track(w)
@@ -996,6 +1009,25 @@ Item {
     Connections {
         target: guide.stack
         function onCurrentItemChanged() { evalTimer.restart() }
+        // A page slides in or out: hide the bubble until it is at rest.
+        function onBusyChanged() {
+            if (guide.stack.busy) {
+                settleTimer.stop()
+                guide.settled = false
+            } else {
+                settleTimer.restart()
+            }
+        }
+    }
+    Timer {
+        id: settleTimer
+        interval: 150
+        onTriggered: {
+            guide.settled = true
+            if (guide.bubbleText !== "")
+                guide.place()
+            evalTimer.restart()
+        }
     }
     Connections {
         target: Config.Parameters
@@ -1012,7 +1044,7 @@ Item {
     // ── The outline ─────────────────────────────────────────────────
     Rectangle {
         id: outline
-        visible: guide.targetShown && guide.bubbleText !== ""
+        visible: guide.settled && guide.targetShown && guide.targetStable && guide.bubbleText !== ""
         x: guide.targetRect.x - 4
         y: guide.targetRect.y - 4
         width: guide.targetRect.width + 8
@@ -1035,7 +1067,7 @@ Item {
     Rectangle {
         id: bubble
         readonly property real maxTextHeight: Math.max(80, guide.area.height * 0.6)
-        visible: guide.bubbleText !== ""
+        visible: guide.settled && guide.bubbleText !== ""
         width: Math.min(380, guide.width - 24)
         height: bubbleColumn.implicitHeight + 24
         x: guide.width - width - 12
