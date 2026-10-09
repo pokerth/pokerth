@@ -1820,4 +1820,14 @@ Rectangle {
         // (as in the web client); the TTL in the singleton slows the fetches down.
         Config.ForumNews.refresh(false)
     }
+
+    // A destroyed popup emits no closed() - decline an unanswered invitation
+    // here, otherwise the pending state in the LobbyHandler stays set and all
+    // further invitations are auto-rejected with "busy".
+    Component.onDestruction: {
+        if (inviteGamePopup.inviteGameId !== 0 && inviteGamePopup.opened && !inviteGamePopup.answered) {
+            inviteGamePopup.answered = true
+            Lobby.rejectGameInvitation(inviteGamePopup.inviteGameId, 0)
+        }
+    }
 }

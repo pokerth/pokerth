@@ -697,6 +697,12 @@ void LobbyHandler::setSession(boost::shared_ptr<Session> session)
 	}
 	setRejoinWaiting(false);
 
+	// An invitation popup that was still open belongs to the old connection
+	// too. If the LobbyPage was destroyed with it (logout/connection loss),
+	// no answer reset the flag - every later invitation would then be
+	// auto-rejected with "busy" until the app is restarted.
+	m_pendingInviteGameId = 0;
+
 	// Reset the game context: after a connection loss during a game no
 	// onRemovedFromGame arrives any more - without the reset isInGame/currentGameId
 	// would stay across the reconnect.
