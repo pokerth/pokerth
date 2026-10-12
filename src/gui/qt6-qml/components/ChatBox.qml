@@ -266,6 +266,10 @@ Item {
     }
 
     function _send() {
+        // Android keyboards keep the word being typed as uncommitted preedit text
+        // that is not part of inputField.text yet. The send button takes no
+        // focus, so nothing commits it – without this the last word was lost.
+        Qt.inputMethod.commit()
         var t = inputField.text.trim()
         if (t === "")
             return
@@ -686,7 +690,9 @@ Item {
             Button {
                 Layout.preferredWidth: root.inputHeight
                 Layout.preferredHeight: root.inputHeight
-                enabled: root.inputEnabled && inputField.text.trim().length > 0
+                // displayText includes the uncommitted preedit word (Android keyboards),
+                // so a single, still underlined word can be sent as well.
+                enabled: root.inputEnabled && inputField.displayText.trim().length > 0
                 // No click focus: after sending with the mouse the cursor stays
                 // in the input field, the next message goes out directly with Enter.
                 focusPolicy: Qt.NoFocus

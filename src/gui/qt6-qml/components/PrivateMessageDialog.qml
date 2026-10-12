@@ -90,7 +90,7 @@ Popup {
     }
     readonly property bool canSend: activePartnerId !== 0 && !guestMode && !atTable
                                     && !partnerIsGuest
-                                    && messageInput.text.trim() !== ""
+                                    && messageInput.displayText.trim() !== ""
                                     && usedBytes <= maxBytes
 
     // Narrow windows (portrait/phone): the partner list gives way to a selection box.
@@ -129,6 +129,9 @@ Popup {
     }
 
     function sendMessage() {
+        // Commit the uncommitted preedit word of Android keyboards first –
+        // otherwise it is missing from messageInput.text.
+        Qt.inputMethod.commit()
         if (!canSend)
             return
         Lobby.sendPrivateMessageToName(activePartner, messageInput.text.trim())
