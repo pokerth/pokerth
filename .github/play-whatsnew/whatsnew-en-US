@@ -1,0 +1,5 @@
+• Tablets: in landscape, chat and log/odds are docked next to the action bar and can be resized
+• Android chat: the first tap opens the keyboard right away
+• Android chat: the last word is no longer lost when sending with the button
+• A notice appears when the connection stalls, and dead connections are detected faster
+• Invitations are no longer rejected as "busy" after logging out and in again
