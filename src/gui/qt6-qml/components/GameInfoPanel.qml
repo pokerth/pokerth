@@ -215,8 +215,10 @@ ColumnLayout {
                 selectedTextColor: root.colAccentText
                 font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: root.logFontSize
+                // Mouse only: Qt ignores acceptedButtons for finger touches.
                 TapHandler {
                     acceptedButtons: Qt.RightButton
+                    acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
                     onTapped: logCtxMenu.popup()
                 }
             }
