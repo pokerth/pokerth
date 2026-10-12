@@ -32,11 +32,11 @@ Rectangle {
     readonly property bool isGameAdmin: Lobby
         && (Lobby.isCurrentGameAdmin
             || (info.adminPlayerId !== undefined && info.adminPlayerId === Lobby.myPlayerId))
-    // Admin = the game admin or a server admin reported by the server → may start.
-    readonly property bool isAdmin: Lobby && (Lobby.isCurrentPlayerAdmin || isGameAdmin)
     readonly property bool isRanking: (info.gameType || 1) === 4
+    // Only the game admin may start – not a server admin: the server rejects a start
+    // by anyone else and moves them back to the lobby (NTF_NET_REMOVED_START_FAILED).
     // If a hand is already running (a rejoin waiting state), there is nothing to start.
-    readonly property bool canStart: isAdmin && !isRanking && players.length >= 2
+    readonly property bool canStart: isGameAdmin && !isRanking && players.length >= 2
                                      && !(Lobby && Lobby.rejoinWaiting)
     readonly property bool canKick: isGameAdmin && !isRanking
 
@@ -998,7 +998,7 @@ Rectangle {
 
                 // ── Aktionen ──────────────────────────────────────────────
                 RowLayout {
-                    visible: gameWaitPage.isAdmin && !gameWaitPage.isRanking
+                    visible: gameWaitPage.isGameAdmin && !gameWaitPage.isRanking
                     Layout.fillWidth: true
                     spacing: 8
 
@@ -1037,7 +1037,7 @@ Rectangle {
 
                     CustomButton {
                         id: startGameButton
-                        visible: gameWaitPage.isAdmin && !gameWaitPage.isRanking
+                        visible: gameWaitPage.isGameAdmin && !gameWaitPage.isRanking
                         enabled: gameWaitPage.canStart
                         text: qsTr("Start Game")
                         Layout.fillWidth: true

@@ -341,7 +341,7 @@ Item {
             guest: (screen === "create" && form === "net") ? !!(l && l.isMyPlayerGuest) : guest,
             ranked: screen === "wait" ? !!base.isRanking : false,
             spectator: !!(l && l.isSpectating),
-            host: screen === "wait" ? !!base.isAdmin : false,
+            host: screen === "wait" ? !!base.isGameAdmin : false,
             form: form,
             loginStep: loginStep,
             gamesLoaded: screen === "lobby" && lobbySince > 0 && Date.now() - lobbySince > 3000,
