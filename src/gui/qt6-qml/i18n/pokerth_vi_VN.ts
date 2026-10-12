@@ -5374,7 +5374,17 @@ xem trước</translation>
         <translation>Chỗ của bạn ở bàn vẫn được giữ thêm vài phút.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>Sự cố kết nối</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>Máy chủ không phản hồi. Đang chờ phản hồi…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>Mất kết nối</translation>
     </message>

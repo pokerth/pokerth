@@ -5374,7 +5374,17 @@ forhåndsvisning</translation>
         <translation>Plassen din ved bordet er reservert noen minutter til.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>Tilkoblingsproblemer</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>Serveren svarer ikke. Venter på svar…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>Tilkoblingen gikk tapt</translation>
     </message>

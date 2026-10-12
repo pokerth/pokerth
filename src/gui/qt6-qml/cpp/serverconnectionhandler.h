@@ -41,6 +41,10 @@ class ServerConnectionHandler : public QObject
 	// True between a connection loss during operation and the end of the
 	// automatic reconnect (successful or given up).
 	Q_PROPERTY(bool reconnecting READ reconnecting NOTIFY reconnectingChanged)
+	// True while the server has been silent for a while (connection watchdog
+	// of the ClientThread). If the silence lasts, the connection is dropped and
+	// the usual error path follows.
+	Q_PROPERTY(bool connectionStalled READ connectionStalled NOTIFY connectionStalledChanged)
 
 public:
 	explicit ServerConnectionHandler(QObject *parent = nullptr);
@@ -77,6 +81,10 @@ public:
 	{
 		return m_reconnecting;
 	}
+	bool connectionStalled() const
+	{
+		return m_connectionStalled;
+	}
 	QUrl registerUrl() const
 	{
 		return QUrl(QStringLiteral("https://www.pokerth.net/ucp.php?mode=register"));
@@ -111,6 +119,7 @@ signals:
 	void savedPasswordChanged();
 	void rememberPasswordChanged();
 	void reconnectingChanged();
+	void connectionStalledChanged();
 	// Every single reconnect attempt, for the progress display.
 	void reconnectAttempt(int attempt, int maxAttempts);
 	// Arming the automatic rejoin in the LobbyHandler: the offer of the
@@ -125,6 +134,7 @@ public slots:
 	// Errors of the embedded server (hosting your own network game). Without
 	// this path an occupied port when hosting went unnoticed, for example.
 	void onNetServerError(int errorID, int osErrorID);
+	void onConnectionStalled(bool stalled);
 
 private:
 	void updateProgress(int progress, const QString &message);
@@ -162,6 +172,7 @@ private:
 	// not a failed connection attempt
 	bool m_reconnecting = false;
 	int  m_reconnectAttempt = 0;
+	bool m_connectionStalled = false;
 };
 
 #endif // SERVERCONNECTIONHANDLER_H

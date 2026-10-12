@@ -5374,7 +5374,17 @@ Vorschau</source>
         <translation>Ваше место за столом сохранится ещё несколько минут.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>Проблемы с соединением</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>Сервер не отвечает. Ожидание ответа…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>Соединение потеряно</translation>
     </message>

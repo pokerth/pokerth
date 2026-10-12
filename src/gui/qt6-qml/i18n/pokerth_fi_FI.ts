@@ -5374,7 +5374,17 @@ esikatselua</translation>
         <translation>Paikkasi pöydässä säilyy varattuna vielä muutaman minuutin.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>Yhteysongelmia</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>Palvelin ei vastaa. Odotetaan vastausta…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>Yhteys menetettiin</translation>
     </message>

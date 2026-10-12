@@ -5374,7 +5374,17 @@ voorbeeld</translation>
         <translation>Uw plaats aan tafel blijft nog enkele minuten gereserveerd.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>Verbindingsproblemen</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>De server reageert niet. Wachten op antwoord…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>Verbinding verbroken</translation>
     </message>

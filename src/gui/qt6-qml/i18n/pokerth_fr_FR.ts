@@ -5374,7 +5374,17 @@ aperçu</translation>
         <translation>Votre place à la table reste réservée pendant quelques minutes.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>Problèmes de connexion</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>Le serveur ne répond pas. En attente d&apos;une réponse…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>Connexion perdue</translation>
     </message>

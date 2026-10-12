@@ -5374,7 +5374,17 @@ Vorschau</source>
         <translation>你在牌桌上的座位会保留几分钟。</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>连接问题</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>服务器无响应。正在等待响应…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>连接已断开</translation>
     </message>

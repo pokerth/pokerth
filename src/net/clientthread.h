@@ -63,6 +63,13 @@ struct Gsasl;
 
 #define SIZE_PING_BACKLOG		20
 
+// Player id of the connection probe (see ClientThread::TimerConnectionWatchdog).
+// The server assigns unique ids counting up from 1, so this one never exists
+// and the server answers with a reply without player data. It must not be 0:
+// the client rejects a PlayerInfoReply for id 0 as an invalid packet and
+// closes the session.
+#define CONNECTION_PROBE_PLAYER_ID	0xFFFFFFFFu
+
 class PingData
 {
 public:
@@ -238,6 +245,8 @@ protected:
 	void SetUnknownAvatar(unsigned playerId);
 
 	void TimerCheckAvatarDownloads(const boost::system::error_code& ec);
+	void TimerConnectionWatchdog(const boost::system::error_code& ec);
+	void SendConnectionProbe();
 
 	void UnsubscribeLobbyMsg();
 	void ResubscribeLobbyMsg();
@@ -376,6 +385,13 @@ private:
 
 	boost::asio::steady_timer m_stateTimer;
 	boost::asio::steady_timer m_avatarTimer;
+
+	// Connection watchdog. Only accessed on the io_service thread.
+	boost::asio::steady_timer m_watchdogTimer;
+	boost::asio::steady_timer::time_point m_lastReceiveTime;
+	boost::asio::steady_timer::time_point m_lastProbeTime;
+	boost::asio::steady_timer::time_point m_lastWatchdogTick;
+	bool m_connectionStalled;
 
 	friend class AbstractClientStateReceiving;
 	friend class ClientStateInit;

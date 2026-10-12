@@ -1312,6 +1312,62 @@ ApplicationWindow {
         }
     }
 
+    // ── The server has been silent for a while (connection watchdog) ─────────
+    // Without this notice a dead connection simply looked like a frozen
+    // table until TCP gave up. Deliberately not modal: the table stays usable,
+    // and as soon as the server sends again the notice disappears by itself.
+    // If the silence lasts, the connection is dropped and the usual path
+    // (reconnect or connectionLostPopup) takes over.
+    Popup {
+        id: connectionStalledBanner
+        parent: Overlay.overlay
+        x: Math.round((parent.width - width) / 2)
+        y: mainWindow.safeAreaTop + 8
+        width: Math.min(mainWindow.width - 32, 420)
+        modal: false
+        focus: false
+        closePolicy: Popup.NoAutoClose
+        padding: 12
+        visible: ServerConnection.connectionStalled
+
+        background: Rectangle {
+            color: Config.Theme.colorBox
+            border.color: "#e28230"
+            border.width: 1
+            radius: 8
+        }
+
+        RowLayout {
+            spacing: 12
+            width: connectionStalledBanner.availableWidth
+
+            BusyIndicator {
+                Layout.preferredWidth: 28
+                Layout.preferredHeight: 28
+                running: connectionStalledBanner.visible
+            }
+            ColumnLayout {
+                Layout.fillWidth: true
+                spacing: 2
+
+                AppLabel {
+                    Layout.fillWidth: true
+                    text: qsTr("Connection problems")
+                    color: Config.StaticData.palette.secondary.col100
+                    font.pixelSize: 14
+                    font.bold: true
+                    wrapMode: Text.WordWrap
+                }
+                AppLabel {
+                    Layout.fillWidth: true
+                    text: qsTr("The server is not responding. Waiting for a response…")
+                    font.pixelSize: 12
+                    wrapMode: Text.WordWrap
+                }
+            }
+        }
+    }
+
     // ── A connection loss after the login (lobby/waiting room/game) ──────────
     // The connection/join pages handle connectionFailed themselves
     // (the status line while connecting); after the login there was no

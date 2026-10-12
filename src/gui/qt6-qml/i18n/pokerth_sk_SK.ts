@@ -5374,7 +5374,17 @@ náhľadu</translation>
         <translation>Vaše miesto pri stole zostane rezervované ešte niekoľko minút.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>Problémy s pripojením</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>Server neodpovedá. Čaká sa na odpoveď…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>Spojenie stratené</translation>
     </message>

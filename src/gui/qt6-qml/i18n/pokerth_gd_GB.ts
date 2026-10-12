@@ -5374,7 +5374,17 @@ ro-shealladh</translation>
         <translation>Cumaidh sinn an t-àite agad aig a&apos; bhòrd fad beagan mhionaidean.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>Duilgheadasan leis a’ cheangal</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>Chan eil am frithealaiche a’ freagairt. A’ feitheamh ri freagairt…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>Chaidh an ceangal air chall</translation>
     </message>

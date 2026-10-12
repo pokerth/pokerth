@@ -5374,7 +5374,17 @@ yok</translation>
         <translation>Masadaki yeriniz birkaç dakika daha ayrılmış kalır.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>Bağlantı sorunları</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>Sunucu yanıt vermiyor. Yanıt bekleniyor…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>Bağlantı koptu</translation>
     </message>

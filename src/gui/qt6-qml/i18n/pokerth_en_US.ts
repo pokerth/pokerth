@@ -5374,7 +5374,17 @@ Preview</translation>
         <translation>Your seat at the table stays reserved for a few minutes.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>Connection problems</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>The server is not responding. Waiting for a response…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>Connection lost</translation>
     </message>

@@ -5374,7 +5374,17 @@ előnézet</translation>
         <translation>A helyed az asztalnál még néhány percig fenn marad.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>Kapcsolódási problémák</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>A szerver nem válaszol. Várakozás válaszra…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>A kapcsolat megszakadt</translation>
     </message>

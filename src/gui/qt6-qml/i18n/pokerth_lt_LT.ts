@@ -5374,7 +5374,17 @@ peržiūros</translation>
         <translation>Jūsų vieta prie stalo lieka rezervuota dar kelias minutes.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>Ryšio problemos</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>Serveris neatsako. Laukiama atsakymo…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>Ryšys prarastas</translation>
     </message>

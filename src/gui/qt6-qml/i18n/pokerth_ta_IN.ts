@@ -5374,7 +5374,17 @@ Vorschau</source>
         <translation>மேசையில் உங்கள் இடம் இன்னும் சில நிமிடங்களுக்கு ஒதுக்கப்பட்டிருக்கும்.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>இணைப்புச் சிக்கல்கள்</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>சேவையகம் பதிலளிக்கவில்லை. பதிலுக்காகக் காத்திருக்கிறது…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>இணைப்பு துண்டிக்கப்பட்டது</translation>
     </message>

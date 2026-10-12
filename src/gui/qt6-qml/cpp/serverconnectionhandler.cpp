@@ -424,6 +424,15 @@ void ServerConnectionHandler::onNetClientError(int errorID, int osErrorID)
 	emit connectionFailed(errorMsg);
 }
 
+void ServerConnectionHandler::onConnectionStalled(bool stalled)
+{
+	if (stalled == m_connectionStalled)
+		return;
+	m_connectionStalled = stalled;
+	qInfo() << "[WATCHDOG] connection" << (stalled ? "stalled" : "responding again");
+	emit connectionStalledChanged();
+}
+
 bool ServerConnectionHandler::isRecoverableTransportError(int errorID)
 {
 	switch (errorID) {

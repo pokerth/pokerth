@@ -1028,7 +1028,10 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_PlayerInfoReplyMessage) {
 		const PlayerInfoReplyMessage &infoReply = tmpPacket->GetMsg()->playerinforeplymessage();
 		unsigned playerId = infoReply.playerid();
-		if (infoReply.has_playerinfodata()) {
+		if (playerId == CONNECTION_PROBE_PLAYER_ID) {
+			// Reply to the connection probe of the watchdog - its arrival
+			// alone was the point (ClientThread::HandlePacket).
+		} else if (infoReply.has_playerinfodata()) {
 			PlayerInfo tmpInfo;
 			const PlayerInfoReplyMessage::PlayerInfoData &netInfo = infoReply.playerinfodata();
 			tmpInfo.playerName = netInfo.playername();

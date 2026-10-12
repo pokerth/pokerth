@@ -5374,7 +5374,17 @@ Vorschau</source>
         <translation>テーブルのあなたの席は数分間確保されます。</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>接続の問題</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>サーバーが応答しません。応答を待っています…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>接続が失われました</translation>
     </message>

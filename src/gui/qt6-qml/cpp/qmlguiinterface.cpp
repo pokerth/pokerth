@@ -229,6 +229,17 @@ void QmlGuiInterface::SignalNetClientPingUpdate(unsigned minPing, unsigned avgPi
 	}
 }
 
+void QmlGuiInterface::SignalNetClientConnectionStalled(bool stalled)
+{
+	// The connection watchdog of the network thread: the server has been silent
+	// for a while (or is sending again) → the notice in pokerth.qml.
+	if (m_handler) {
+		QMetaObject::invokeMethod(m_handler, [this, stalled]() {
+			m_handler->onConnectionStalled(stalled);
+		}, Qt::QueuedConnection);
+	}
+}
+
 void QmlGuiInterface::SignalNetClientPrivateChatMsg(const std::string &playerName, const std::string &msg)
 {
 	if (m_lobbyHandler) {

@@ -5374,7 +5374,17 @@ Vorschau</source>
         <translation>Η θέση σας στο τραπέζι παραμένει δεσμευμένη για μερικά λεπτά.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>Προβλήματα σύνδεσης</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>Ο διακομιστής δεν αποκρίνεται. Αναμονή για απάντηση…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>Η σύνδεση χάθηκε</translation>
     </message>

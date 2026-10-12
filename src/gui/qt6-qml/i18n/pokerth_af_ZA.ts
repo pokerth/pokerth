@@ -5374,7 +5374,17 @@ voorskou</translation>
         <translation>Jou plek by die tafel bly nog &apos;n paar minute gereserveer.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>Verbindingsprobleme</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>Die bediener reageer nie. Wag vir &apos;n antwoord…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>Verbinding verloor</translation>
     </message>

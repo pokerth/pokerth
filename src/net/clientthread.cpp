@@ -67,6 +67,15 @@
 #define CLIENT_GUID_SIZE		16
 #define CLIENT_AVATAR_LOOP_MSEC	100
 #define CLIENT_SEND_LOOP_MSEC	50
+// Connection watchdog: without a packet from the server for PROBE seconds
+// a probe is sent, after STALLED seconds the GUI shows a notice, after DEAD
+// seconds the connection is dropped. A gap of more than RESUME_GAP seconds
+// between two watchdog ticks means the process was suspended.
+#define CLIENT_WATCHDOG_LOOP_MSEC		1000
+#define CLIENT_WATCHDOG_PROBE_SEC		5
+#define CLIENT_WATCHDOG_STALLED_SEC		10
+#define CLIENT_WATCHDOG_DEAD_SEC		30
+#define CLIENT_WATCHDOG_RESUME_GAP_SEC	5
 
 using namespace std;
 using namespace boost::filesystem;
@@ -83,7 +92,8 @@ ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager, boos
 	  m_avatarManager(avatarManager), m_isServerSelected(false),
 	  m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_spectating(false),
 	  m_sessionEstablished(false),
-	  m_stateTimer(*m_ioService), m_avatarTimer(*m_ioService)
+	  m_stateTimer(*m_ioService), m_avatarTimer(*m_ioService),
+	  m_watchdogTimer(*m_ioService), m_connectionStalled(false)
 {
 	m_context.reset(new ClientContext);
 	myQtToolsInterface.reset(CreateQtToolsWrapper());
@@ -515,6 +525,13 @@ ClientThread::CloseSession(boost::shared_ptr<SessionData> /*session*/)
 void
 ClientThread::HandlePacket(boost::shared_ptr<SessionData> /*session*/, boost::shared_ptr<NetPacket> packet)
 {
+	// Every packet proves that the connection is alive (see TimerConnectionWatchdog).
+	m_lastReceiveTime = boost::asio::steady_timer::clock_type::now();
+	if (m_connectionStalled) {
+		m_connectionStalled = false;
+		LOG_MSG("[WATCHDOG] Server responds again");
+		GetCallback().SignalNetClientConnectionStalled(false);
+	}
 	GetState().HandlePacket(shared_from_this(), packet);
 }
 
@@ -688,6 +705,13 @@ ClientThread::Main()
 	// Join() times out in terminateNetworkClient().
 	CloseSocket();
 
+	// The notice about a stalled connection is void with the connection -
+	// on an error as well as on a regular termination.
+	if (m_connectionStalled) {
+		m_connectionStalled = false;
+		GetCallback().SignalNetClientConnectionStalled(false);
+	}
+
 	// Set a state which does not do anything.
 	SetState(CLIENT_FINAL_STATE::Instance());
 	// Cancel timers.
@@ -707,12 +731,19 @@ ClientThread::RegisterTimers()
 	m_avatarTimer.async_wait(
 		boost::bind(
 			&ClientThread::TimerCheckAvatarDownloads, shared_from_this(), boost::asio::placeholders::error));
+
+	m_lastReceiveTime = m_lastWatchdogTick = boost::asio::steady_timer::clock_type::now();
+	m_watchdogTimer.expires_after(milliseconds(CLIENT_WATCHDOG_LOOP_MSEC));
+	m_watchdogTimer.async_wait(
+		boost::bind(
+			&ClientThread::TimerConnectionWatchdog, shared_from_this(), boost::asio::placeholders::error));
 }
 
 void
 ClientThread::CancelTimers()
 {
 	m_avatarTimer.cancel();
+	m_watchdogTimer.cancel();
 }
 
 void
@@ -1049,6 +1080,75 @@ ClientThread::TimerCheckAvatarDownloads(const boost::system::error_code& ec)
 			boost::bind(
 				&ClientThread::TimerCheckAvatarDownloads, shared_from_this(), boost::asio::placeholders::error));
 	}
+}
+
+void
+ClientThread::TimerConnectionWatchdog(const boost::system::error_code& ec)
+{
+	// A dead connection (WLAN gone, NAT entry dropped, mobile network switch)
+	// is otherwise only noticed by TCP after 90s and more - on macOS/iOS with
+	// unacknowledged data even later. Until then the table simply stands still
+	// and the client looks frozen. The protocol has no ping, therefore the
+	// watchdog measures the silence of the server itself and, while it is
+	// quiet, provokes a reply with a player info request for a non-existing id.
+	// Every server answers that, and it does not count as player activity
+	// (NetPacket::IsClientActivity), so the AFK timeout stays unaffected.
+	if (ec)
+		return;
+
+	typedef boost::asio::steady_timer::clock_type clock;
+	const clock::time_point now = clock::now();
+
+	if (!IsSessionEstablished()) {
+		// Login still running: the server only answers player info requests
+		// after the InitAck, until then the connect timeouts apply.
+		m_lastReceiveTime = now;
+	} else {
+		if (now - m_lastWatchdogTick > seconds(CLIENT_WATCHDOG_RESUME_GAP_SEC)) {
+			// The tick came far too late: the process was suspended (app in the
+			// background, standby). The silence across that gap says nothing about
+			// the connection - probe right away instead of dropping it.
+			LOG_MSG("[WATCHDOG] Resumed after suspension, probing connection");
+			m_lastReceiveTime = std::max(m_lastReceiveTime, now - seconds(CLIENT_WATCHDOG_PROBE_SEC));
+			m_lastProbeTime = clock::time_point();
+		}
+
+		const clock::duration silence = now - m_lastReceiveTime;
+		if (silence >= seconds(CLIENT_WATCHDOG_DEAD_SEC)) {
+			LOG_ERROR("[WATCHDOG] No data from server for "
+					  << duration_cast<seconds>(silence).count() << "s - dropping connection");
+			// Leaves io_service::run() and ends up in Main() -> SignalNetClientError.
+			throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONN_RESET, 0);
+		}
+		if (silence >= seconds(CLIENT_WATCHDOG_STALLED_SEC) && !m_connectionStalled) {
+			m_connectionStalled = true;
+			LOG_MSG("[WATCHDOG] No data from server for "
+					<< duration_cast<seconds>(silence).count() << "s - connection stalled");
+			GetCallback().SignalNetClientConnectionStalled(true);
+		}
+		if (silence >= seconds(CLIENT_WATCHDOG_PROBE_SEC)
+				&& now - m_lastProbeTime >= seconds(CLIENT_WATCHDOG_PROBE_SEC)) {
+			SendConnectionProbe();
+			m_lastProbeTime = now;
+		}
+	}
+
+	m_lastWatchdogTick = now;
+	m_watchdogTimer.expires_after(milliseconds(CLIENT_WATCHDOG_LOOP_MSEC));
+	m_watchdogTimer.async_wait(
+		boost::bind(
+			&ClientThread::TimerConnectionWatchdog, shared_from_this(), boost::asio::placeholders::error));
+}
+
+void
+ClientThread::SendConnectionProbe()
+{
+	// The reply is filtered in AbstractClientStateReceiving::HandlePacket.
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_PlayerInfoRequestMessage);
+	PlayerInfoRequestMessage *netPlayerInfo = packet->GetMsg()->mutable_playerinforequestmessage();
+	netPlayerInfo->add_playerid(CONNECTION_PROBE_PLAYER_ID);
+	GetSender().Send(GetContext().GetSessionData(), packet);
 }
 
 void

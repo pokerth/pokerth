@@ -5374,7 +5374,17 @@ previsualització</translation>
         <translation>El vostre lloc a la taula queda reservat uns quants minuts.</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+60"/>
+        <source>Connection problems</source>
+        <translation>Problemes de connexió</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>The server is not responding. Waiting for a response…</source>
+        <translation>El servidor no respon. S&apos;està esperant una resposta…</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Connection lost</source>
         <translation>S&apos;ha perdut la connexió</translation>
     </message>
