@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
+import QtQuick.Window
 
 import "../components"
 import "../config" as Config
@@ -49,6 +50,18 @@ Rectangle {
     // have to be off as well – otherwise Alt+C/Alt+L/Alt+I would open an overlay whose
     // close button (the toggle) is not there at all any more.
     readonly property bool spectating: tableZone ? tableZone.spectating : false
+
+    // Docked chat/info panels: desktop, and on mobile only tablets (shorter screen
+    // side >= 600 dp, the Android "sw600dp" criterion). Based on the screen, not the
+    // window: an opening soft keyboard must not undock a panel while typing.
+    readonly property bool dockingAllowed:
+        !Config.Responsive.isMobile || Math.min(Screen.width, Screen.height) >= 600
+    // Touch: a taller grab area for the resize handles of the docked panels.
+    readonly property real resizeGrabHeight: Config.Responsive.isMobile ? 28 : 10
+    // How far that grab area reaches above the panel edge – the maximum panel
+    // heights keep this much more distance, so that the handle never covers
+    // an opponent box (its long press menu).
+    readonly property real resizeGrabOverhang: resizeGrabHeight - 10
 
     // ── The info panel (history/odds/hand) ────────────────────────────────────
     // Desktop: permanently docked at the bottom RIGHT (mirrored to the chat at the bottom left),
@@ -1344,12 +1357,12 @@ Rectangle {
             // The emoji reaction picker (a panel below the toggle next to the chat icon)
             property bool showReactions: false
 
-            // ── The permanent game chat at the bottom left (desktop only, never Android) ───
+            // ── The permanent game chat at the bottom left (desktop and tablets) ───
             // The chat is docked permanently to the left of the action box (the same
             // height, the same vertical position) – provided there is enough free width
             // there. If the room is not enough, it stays the overlay chat (the chat icon).
             readonly property real dockedChatW: {
-                if (Config.Responsive.isMobile) return 0
+                if (!gamePage.dockingAllowed) return 0
                 if (spectating) return 0
                 if (typeof GameTable === "undefined" || !GameTable || !GameTable.hasHumanOpponents) return 0
                 return Math.min(280, (width - actionBar.panelWidth) / 2 - 24)
@@ -1454,7 +1467,7 @@ Rectangle {
                     var limit = height - boxBottom + actionBar.height - 8
                     if (limit < maxH) maxH = limit
                 }
-                return Math.max(dockedChatMinH, maxH)
+                return Math.max(dockedChatMinH, maxH - gamePage.resizeGrabOverhang)
             }
             // The height set by the user via the drag handle; -1 = the default.
             property real dockedChatUserH: -1
@@ -1463,10 +1476,10 @@ Rectangle {
 
             // ── The permanent info panel at the bottom RIGHT – the mirror image of the docked chat ──
             // The same layout as the chat (at the bottom left): it floats ABOVE the table,
-            // can be pulled up and reserves no room. Only on the desktop with enough
-            // free width; otherwise an overlay + a toggle.
+            // can be pulled up and reserves no room. Only on the desktop/tablets with
+            // enough free width; otherwise an overlay + a toggle.
             readonly property real dockedInfoW: {
-                if (Config.Responsive.isMobile) return 0
+                if (!gamePage.dockingAllowed) return 0
                 if (spectating) return 0
                 return Math.min(280, (width - actionBar.panelWidth) / 2 - 24)
             }
@@ -1533,7 +1546,7 @@ Rectangle {
                     var limit = height - boxBottom + actionBar.height - 8
                     if (limit < maxH) maxH = limit
                 }
-                return Math.max(dockedInfoMinH, maxH)
+                return Math.max(dockedInfoMinH, maxH - gamePage.resizeGrabOverhang)
             }
             // The height set by the user via the drag handle; -1 = the default.
             property real dockedInfoUserH: -1
@@ -1756,14 +1769,17 @@ Rectangle {
         // ── The resize handle (drag upwards) ────────────────────────────────
         Item {
             id: chatResizeHandle
-            anchors.top: parent.top
+            // On touch the grab area reaches above the panel edge (a finger needs
+            // more than 10 px); the grip itself stays 5 px below the panel top.
+            y: 10 - height
             width: parent.width
-            height: 10
+            height: gamePage.resizeGrabHeight
             z: 10
 
             Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 5 - height / 2
                 width: 32
                 height: 3
                 radius: 2
@@ -1863,14 +1879,17 @@ Rectangle {
         // ── The resize handle (drag upwards) – as with the chat ─────────
         Item {
             id: infoResizeHandle
-            anchors.top: parent.top
+            // On touch the grab area reaches above the panel edge (a finger needs
+            // more than 10 px); the grip itself stays 5 px below the panel top.
+            y: 10 - height
             width: parent.width
-            height: 10
+            height: gamePage.resizeGrabHeight
             z: 10
 
             Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 5 - height / 2
                 width: 32
                 height: 3
                 radius: 2
