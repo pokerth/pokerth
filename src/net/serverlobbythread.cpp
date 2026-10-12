@@ -1330,8 +1330,7 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 		serverPassword = initMessage.authserverpassword();
 	}
 	if (serverPassword != m_serverConfig.readConfigString("ServerPassword")) {
-		LOG_MSG("Invalid server password attempt from "
-				<< session->GetClientAddr() << " (\"" << serverPassword << "\") " << " expected \"" << m_serverConfig.readConfigString("ServerPassword") << "\".");
+		LOG_MSG("Invalid server password attempt from " << session->GetClientAddr() << ".");
 		SessionError(session, ERR_NET_INVALID_PASSWORD);
 		return;
 	}
