@@ -120,6 +120,7 @@
         <file>i18n/pokerth_vi_VN.ts</file>
         <file>i18n/pokerth_af_ZA.ts</file>
         <file>i18n/pokerth_zh_CN.ts</file>
+        <file>i18n/pokerth_uk_UA.ts</file>
         <file>pages/AboutPage.qml</file>
         <file>pages/GamePage.qml</file>
         <file>pages/seatlayout.js</file>

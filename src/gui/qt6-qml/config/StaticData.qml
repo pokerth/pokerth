@@ -51,6 +51,7 @@ QtObject {
             { langName: "Swedish (Svenska)", code: "sv_SE"},
             { langName: "Tamil (தமிழ்)", code: "ta_IN"},
             { langName: "Turkish (Türkçe)", code: "tr_TR"},
+            { langName: "Ukrainian (Українська)", code: "uk_UA"},
             { langName: "Vietnamese (Tiếng Việt)", code: "vi_VN"}
         ]
 
@@ -85,7 +86,7 @@ QtObject {
         "bg_BG": "bg", "ca_ES": "ca", "fi_FI": "fi", "nb_NO": "no",
         "af_ZA": "af", "gd_GB": "gd", "gl_ES": "gl", "ja_JP": "jp",
         "lt_LT": "lt", "sk_SK": "sk", "ta_IN": "ta", "vi_VN": "vi",
-        "zh_CN": "zhcn"
+        "zh_CN": "zhcn", "uk_UA": "uk"
     })
 
     // QML locale -> config short code (for writing).
