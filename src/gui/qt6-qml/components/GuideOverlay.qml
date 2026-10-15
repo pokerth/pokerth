@@ -809,12 +809,18 @@ Item {
         if (!ps || !ps.length || !ps[0] || !ps[0].name)
             return null
         var out = {}
+        var last = tracker ? tracker.last : null
         for (var i = 0; i < ps.length; ++i) {
             var p = ps[i]
             if (!p || (!p.name && !p.reserved))
                 continue
-            // Seat 0 is always my own; a player who left counts as unknown.
-            out[p.seatId] = p.reserved ? null : (p.stack | 0) + (p.bet | 0)
+            // Seat 0 is always my own. A player who left keeps the last stack
+            // seen (most leave after being knocked out, so 0 – otherwise they
+            // would count as still in the game); never seen counts as unknown.
+            if (p.reserved)
+                out[p.seatId] = last && last[p.seatId] !== undefined ? last[p.seatId] : null
+            else
+                out[p.seatId] = (p.stack | 0) + (p.bet | 0)
         }
         return out
     }
