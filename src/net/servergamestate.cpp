@@ -82,6 +82,7 @@ using namespace boost::chrono;
 #endif
 
 #define SERVER_START_GAME_TIMEOUT_SEC				20
+#define SERVER_START_GAME_SLOW_ACK_MS				3000	// only for logging
 #define SERVER_AUTOSTART_GAME_DELAY_SEC				6
 #define SERVER_GAME_ADMIN_WARNING_REMAINING_SEC		60
 #define SERVER_GAME_ADMIN_TIMEOUT_SEC				1800	// 30 min, MUST be > SERVER_GAME_ADMIN_WARNING_REMAINING_SEC
@@ -840,6 +841,14 @@ ServerGameStateStartGame::InternalProcessPacket(boost::shared_ptr<ServerGame> se
 {
 	if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_StartEventAckMessage) {
 		session->SetReadyFlag();
+		// A slow ACK delays the start for everyone at the table, so name the
+		// session which kept the others waiting.
+		const steady_clock::duration remaining = server->GetStateTimer1().expiry() - steady_clock::now();
+		const long long elapsedMs = duration_cast<milliseconds>(seconds(SERVER_START_GAME_TIMEOUT_SEC) - remaining).count();
+		if (elapsedMs >= SERVER_START_GAME_SLOW_ACK_MS && session->GetPlayerData()) {
+			LOG_MSG("Game " << server->GetId() << " - start ACK from \"" << session->GetPlayerData()->GetName()
+					<< "\" ip=" << session->GetClientAddr() << " after " << elapsedMs << "ms.");
+		}
 		if (server->GetSessionManager().CountReadySessions() == server->GetSessionManager().GetSessionCountWithState(SessionData::Game)) {
 			// Everyone is ready.
 			server->GetSessionManager().ResetAllReadyFlags();
@@ -853,6 +862,14 @@ ServerGameStateStartGame::TimerTimeout(const boost::system::error_code &ec, boos
 {
 	if (!ec && &server->GetState() == this) {
 		// On timeout: start anyway.
+		std::ostringstream missing;
+		server->GetSessionManager().ForEach([&missing](boost::shared_ptr<SessionData> session) {
+			if (session->GetState() == SessionData::Game && !session->IsReady() && session->GetPlayerData()) {
+				missing << " \"" << session->GetPlayerData()->GetName() << "\" ip=" << session->GetClientAddr();
+			}
+		});
+		LOG_MSG("Game " << server->GetId() << " - start timeout after " << SERVER_START_GAME_TIMEOUT_SEC
+				<< "s, starting anyway. No start ACK from:" << missing.str());
 		server->GetSessionManager().ResetAllReadyFlags();
 		// TODO report successful start! -> new callback?!
 		//retVal = MSG_SOCK_INIT_DONE;
@@ -953,6 +970,8 @@ AbstractServerGameStateRunning::HandleNewPlayer(boost::shared_ptr<ServerGame> se
 				&& !tmpPlayer->isKicked()
 				&& tmpPlayer->getMyGuid() == session->GetPlayerData()->GetOldGuid()) {
 			// The player wants to rejoin.
+			LOG_MSG("Player \"" << session->GetPlayerData()->GetName() << "\" session #" << session->GetId()
+					<< " rejoined game " << server->GetId() << ".");
 			AcceptNewSession(server, session, false);
 			// Remember: We need to initiate a rejoin when starting the next hand.
 			server->AddRejoinPlayer(session->GetPlayerData()->GetUniqueId());
@@ -967,6 +986,12 @@ AbstractServerGameStateRunning::HandleNewPlayer(boost::shared_ptr<ServerGame> se
 			// Wait for rejoining player to confirm start of game.
 			server->GetLobbyThread().GetSender().Send(session, packet);
 		} else {
+			if (tmpPlayer) {
+				LOG_MSG("Rejoin of game " << server->GetId() << " by player \"" << session->GetPlayerData()->GetName()
+						<< "\" session #" << session->GetId() << " refused: "
+						<< (tmpPlayer->getMyGuid().empty() || tmpPlayer->isKicked() ? "seat released" : "previous session id does not match")
+						<< ".");
+			}
 			// Do not accept "new" sessions in this state, only rejoin is allowed.
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
 		}

@@ -1767,15 +1767,22 @@ ServerLobbyThread::HandleNetPacketRejoinGame(boost::shared_ptr<SessionData> sess
 {
 	// Rejoin a running game.
 	GameMap::iterator pos = m_gameMap.find(rejoinGame.gameid());
+	const std::string playerName = session->GetPlayerData() ? session->GetPlayerData()->GetName() : std::string("(unknown)");
 
 	if (pos != m_gameMap.end()) {
 		boost::shared_ptr<ServerGame> game = pos->second;
 		if (game->IsRunning()) {
+			LOG_MSG("Player \"" << playerName << "\" session #" << session->GetId()
+					<< " requests rejoin of game " << rejoinGame.gameid() << ".");
 			MoveSessionToGame(game, session, rejoinGame.autoleave(), false);
 		} else {
+			LOG_MSG("Rejoin of game " << rejoinGame.gameid() << " by player \"" << playerName
+					<< "\" failed: game not running.");
 			SendJoinGameFailed(session, rejoinGame.gameid(), NTF_NET_JOIN_REJOIN_FAILED);
 		}
 	} else {
+		LOG_MSG("Rejoin of game " << rejoinGame.gameid() << " by player \"" << playerName
+				<< "\" failed: game does not exist.");
 		SendJoinGameFailed(session, rejoinGame.gameid(), NTF_NET_JOIN_GAME_INVALID);
 	}
 }
@@ -2110,9 +2117,12 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 	u_int32_t rejoinGameId = GetRejoinGameIdForPlayer(session->GetPlayerData()->GetName(), session->GetPlayerData()->GetOldGuid(), rejoinPlayerId);
 
 	if (rejoinGameId != 0) {
+		LOG_MSG("Offering rejoin of game " << rejoinGameId << " to player \"" << session->GetPlayerData()->GetName()
+				<< "\" session #" << session->GetId() << ".");
 		// Offer rejoin, and disconnect current player with the same name.
 		InternalRemovePlayer(rejoinPlayerId, ERR_NET_PLAYER_NAME_IN_USE);
 	} else {
+		LogMissingRejoinOffer(session);
 		// Check whether this player is already connected.
 		unsigned previousPlayerId = GetPlayerId(session->GetPlayerData()->GetName());
 		if (previousPlayerId != 0 && previousPlayerId != session->GetPlayerData()->GetUniqueId()) {
@@ -3039,4 +3049,35 @@ ServerLobbyThread::GetRejoinGameIdForPlayer(const std::string &playerName, const
 		}
 	}
 	return retGameId;
+}
+
+void
+ServerLobbyThread::LogMissingRejoinOffer(boost::shared_ptr<SessionData> session)
+{
+	// Explain why a player who still has a seat in a running game is not
+	// offered a rejoin - otherwise this is not visible in the log at all.
+	const std::string &playerName = session->GetPlayerData()->GetName();
+	const std::string &oldGuid = session->GetPlayerData()->GetOldGuid();
+	GameMap::iterator i = m_gameMap.begin();
+	GameMap::iterator end = m_gameMap.end();
+	while (i != end) {
+		boost::shared_ptr<ServerGame> tmpGame = i->second;
+		if (tmpGame->IsRunning()) {
+			boost::shared_ptr<PlayerInterface> tmpPlayer = tmpGame->GetPlayerInterfaceFromGame(playerName);
+			if (tmpPlayer) {
+				const char *reason;
+				if (tmpPlayer->getMyCash() <= 0)
+					reason = "no cash left";
+				else if (tmpPlayer->getMyGuid().empty())
+					reason = "seat released";
+				else if (oldGuid.empty())
+					reason = "client sent no previous session id";
+				else
+					reason = "previous session id does not match";
+				LOG_MSG("No rejoin offer for player \"" << playerName << "\" session #" << session->GetId()
+						<< " in game " << tmpGame->GetId() << ": " << reason << ".");
+			}
+		}
+		++i;
+	}
 }

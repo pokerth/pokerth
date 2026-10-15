@@ -91,7 +91,7 @@ ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager, boos
 	: m_ioService(new boost::asio::io_context), m_clientLog(myLog), m_curState(NULL), m_gui(gui),
 	  m_avatarManager(avatarManager), m_isServerSelected(false),
 	  m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_spectating(false),
-	  m_sessionEstablished(false),
+	  m_sessionEstablished(false), m_rejoinOfferedGameId(0),
 	  m_stateTimer(*m_ioService), m_avatarTimer(*m_ioService),
 	  m_watchdogTimer(*m_ioService), m_connectionStalled(false)
 {
@@ -1906,6 +1906,18 @@ bool
 ClientThread::IsSessionEstablished() const
 {
 	return m_sessionEstablished;
+}
+
+unsigned
+ClientThread::GetRejoinOfferedGameId() const
+{
+	return m_rejoinOfferedGameId;
+}
+
+void
+ClientThread::SetRejoinOfferedGameId(unsigned gameId)
+{
+	m_rejoinOfferedGameId = gameId;
 }
 
 void

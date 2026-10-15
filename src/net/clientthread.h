@@ -312,6 +312,11 @@ protected:
 	bool IsSessionEstablished() const;
 	void SetSessionEstablished(bool flag);
 
+	// Running game the server offered to rejoin in the InitAck (0 = none).
+	// Only accessed by the network thread.
+	unsigned GetRejoinOfferedGameId() const;
+	void SetRejoinOfferedGameId(unsigned gameId);
+
 	bool IsSynchronized() const;
 
 	void ReadSessionGuidFromFile();
@@ -376,6 +381,7 @@ private:
 	// Set by the network thread (JoinGameAck), read by the GUI thread.
 	std::atomic<bool> m_spectating;
 	bool m_sessionEstablished;
+	unsigned m_rejoinOfferedGameId;
 
 	mutable boost::mutex m_curStatsMutex;
 	ServerStats m_curStats;

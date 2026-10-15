@@ -255,6 +255,7 @@ protected:
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListUpdate(unsigned gameId, GameMode mode);
 
 	u_int32_t GetRejoinGameIdForPlayer(const std::string &playerName, const std::string &guid, unsigned &outPlayerUniqueId);
+	void LogMissingRejoinOffer(boost::shared_ptr<SessionData> session);
 
 private:
 

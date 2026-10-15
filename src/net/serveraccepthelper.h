@@ -40,6 +40,10 @@
 #include <memory>
 #include <algorithm>
 #include <cstring>
+#include <atomic>
+#include <chrono>
+#include <map>
+#include <mutex>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 
@@ -340,11 +344,16 @@ protected:
 	{
 		// Get peer endpoint for debug logging
 		std::string peerAddr;
+		std::string clientIp(proxyClientAddr);
 		try {
 			auto endpoint = acceptedSocket->remote_endpoint();
 			peerAddr = endpoint.address().to_string() + ":" + std::to_string(endpoint.port());
+			if (clientIp.empty())
+				clientIp = endpoint.address().to_string();
 		} catch (...) {
 			peerAddr = "unknown";
+			if (clientIp.empty())
+				clientIp = "unknown";
 		}
 		if (m_tls) {
 			try {
@@ -355,18 +364,20 @@ protected:
 
 				// Shared state to prevent timeout from closing an established connection
 				auto handshakeCompleted = std::make_shared<std::atomic<bool>>(false);
+				auto handshakeTimedOut = std::make_shared<std::atomic<bool>>(false);
 				auto peerAddrShared = std::make_shared<std::string>(peerAddr);
 
-				// Create a timeout timer for the handshake (12 seconds - increased for slow clients)
+				// Create a timeout timer for the handshake (increased for slow clients)
 				auto handshakeTimer = std::make_shared<boost::asio::steady_timer>(*m_ioService);
-				handshakeTimer->expires_after(std::chrono::seconds(12));
+				handshakeTimer->expires_after(std::chrono::seconds(HANDSHAKE_TIMEOUT_SEC));
 
 				// Important: all lambdas must be thread-safe
 				handshakeTimer->async_wait(
-				[handshakeCompleted, sslStream, handshakeTimer, peerAddrShared](const boost::system::error_code& ec) {
+				[handshakeCompleted, handshakeTimedOut, sslStream, handshakeTimer, peerAddrShared](const boost::system::error_code& ec) {
 					try {
 						if (!ec && !handshakeCompleted->load(std::memory_order_acquire)) {
 							// Timeout: close the socket to abort the handshake (only if not completed)
+							handshakeTimedOut->store(true, std::memory_order_release);
 							boost::system::error_code closeEc;
 							sslStream->lowest_layer().close(closeEc);
 						} else if (ec && ec != boost::asio::error::operation_aborted) {
@@ -380,7 +391,7 @@ protected:
 
 				sslStream->async_handshake(
 					boost::asio::ssl::stream_base::server,
-				[this, sslStream, handshakeTimer, handshakeCompleted, peerAddrShared, proxyClientAddr](const boost::system::error_code& error) {
+				[this, sslStream, handshakeTimer, handshakeCompleted, handshakeTimedOut, peerAddrShared, proxyClientAddr, clientIp](const boost::system::error_code& error) {
 					try {
 						// Mark handshake as completed before any other action (memory_order_release for synchronization)
 						bool wasCompleted = handshakeCompleted->exchange(true, std::memory_order_acq_rel);
@@ -389,7 +400,8 @@ protected:
 						// Only handle if this is the first completion (not a timeout-triggered close)
 						if (!wasCompleted) {
 							handshakeTimer->cancel();
-							this->HandleHandshakeOnly(sslStream, error, proxyClientAddr);
+							this->HandleHandshakeOnly(sslStream, error, proxyClientAddr, clientIp,
+													  handshakeTimedOut->load(std::memory_order_acquire));
 						} else {
 							// Handshake callback fired after timeout - socket already closed
 						}
@@ -581,7 +593,9 @@ protected:
 	// HandleHandshakeOnly - does NOT start new async_accept (already started in HandleAccept)
 	void HandleHandshakeOnly(boost::shared_ptr<boost::asio::ssl::stream<P_socket>> sslStream,
 							 const boost::system::error_code &error,
-							 const std::string &proxyClientAddr = std::string())
+							 const std::string &proxyClientAddr,
+							 const std::string &clientIp,
+							 bool timedOut)
 	{
 		std::string peerAddr = "unknown";
 		try {
@@ -614,11 +628,52 @@ protected:
 				}
 			}
 
+			if (timedOut)
+				LogHandshakeFailure(clientIp, "timed out after " + std::to_string(HANDSHAKE_TIMEOUT_SEC) + "s");
+			else
+				LogHandshakeFailure(clientIp, error.message());
+
 			// Close the SSL stream and socket immediately to free resources
 			boost::system::error_code ec;
 			sslStream->lowest_layer().close(ec);
 		}
 		// NOTE: No new async_accept here - it's already running from HandleAccept
+	}
+
+	// A failed TLS handshake creates no session, so without this line a client
+	// which cannot get through leaves no trace in the log at all. Rate limited
+	// per address, because scanners and port probes trigger this all the time.
+	void LogHandshakeFailure(const std::string &clientIp, const std::string &reason)
+	{
+		const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+		unsigned suppressed;
+		{
+			std::lock_guard<std::mutex> lock(m_handshakeLogMutex);
+			if (m_handshakeLog.size() >= HANDSHAKE_LOG_MAX_ENTRIES) {
+				for (auto i = m_handshakeLog.begin(); i != m_handshakeLog.end();) {
+					if (now - i->second.lastLogged >= HANDSHAKE_LOG_INTERVAL)
+						i = m_handshakeLog.erase(i);
+					else
+						++i;
+				}
+				if (m_handshakeLog.size() >= HANDSHAKE_LOG_MAX_ENTRIES)
+					m_handshakeLog.clear();
+			}
+			auto pos = m_handshakeLog.find(clientIp);
+			if (pos != m_handshakeLog.end() && now - pos->second.lastLogged < HANDSHAKE_LOG_INTERVAL) {
+				pos->second.suppressed++;
+				return;
+			}
+			HandshakeLogEntry &entry = m_handshakeLog[clientIp];
+			suppressed = entry.suppressed;
+			entry.lastLogged = now;
+			entry.suppressed = 0;
+		}
+		std::ostringstream ss;
+		ss << "TLS handshake from " << clientIp << " failed: " << reason << ".";
+		if (suppressed)
+			ss << " (" << suppressed << " more failures from this address since the last report)";
+		LOG_MSG(ss.str());
 	}
 
 	void HandleHandshake(boost::shared_ptr<boost::asio::ssl::stream<P_socket>> sslStream,
@@ -740,6 +795,16 @@ private:
 	bool m_tls;
 
 	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
+
+	static constexpr int HANDSHAKE_TIMEOUT_SEC = 12;
+	static constexpr std::chrono::minutes HANDSHAKE_LOG_INTERVAL{10};
+	static constexpr std::size_t HANDSHAKE_LOG_MAX_ENTRIES = 10000;
+	struct HandshakeLogEntry {
+		std::chrono::steady_clock::time_point lastLogged;
+		unsigned suppressed = 0;
+	};
+	std::mutex m_handshakeLogMutex;
+	std::map<std::string, HandshakeLogEntry> m_handshakeLog;
 };
 
 #endif
