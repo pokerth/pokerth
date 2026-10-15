@@ -237,6 +237,7 @@ set(TS_FILES
     i18n/pokerth_vi_VN.ts
     i18n/pokerth_af_ZA.ts
     i18n/pokerth_zh_CN.ts
+    i18n/pokerth_uk_UA.ts
 )
 
 qt_add_translations(pokerth_qml-client
