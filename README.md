@@ -69,7 +69,7 @@ share the whole engine, networking and database layer below the GUI:
 | Target | GUI | Status |
 | --- | --- | --- |
 | `pokerth_qml-client` | Qt Quick / QML ([src/gui/qt6-qml](src/gui/qt6-qml)) | current client, all platforms, scales from phone to desktop |
-| `pokerth_client` | Qt Widgets ([src/gui/qt](src/gui/qt)) | the classic desktop client; discontinued, 2.1.9 is its final version (bugfix builds only, currently 2.1.9.1) |
+| `pokerth_client` | Qt Widgets ([src/gui/qt](src/gui/qt)) | the classic desktop client; discontinued, 2.1.9 is its final version (bugfix builds only, currently 2.1.9.2) |
 
 On the server side, there are two server binaries: `pokerth_dedicated_server` for
 everybody who wants to host games, and `pokerth_official_server`, which adds the

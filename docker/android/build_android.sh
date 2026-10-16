@@ -227,7 +227,7 @@ else
   # The widget client is discontinued and only gets 2.1.9.x bugfix builds
   # (WIDGET_RELEASE_STRING in src/game_defs.h).
   PACKAGE_NAME="org.pokerth.widget"
-  VERSION_NAME="2.1.9.1"
+  VERSION_NAME="2.1.9.2"
   SCREEN_ORIENTATION="landscape"
 fi
 

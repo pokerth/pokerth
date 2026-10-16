@@ -67,8 +67,8 @@
 // Bugfix builds only count WIDGET_VERSION_PATCH up (2.1.9.1, 2.1.9.2, ...);
 // the patch level is not part of the build ID, so every 2.1.9.x logs in as 2.1.9.
 #define WIDGET_VERSION_REVISION	9
-#define WIDGET_VERSION_PATCH	1
-#define WIDGET_RELEASE_STRING	"2.1.9.1"
+#define WIDGET_VERSION_PATCH	2
+#define WIDGET_RELEASE_STRING	"2.1.9.2"
 
 // Build ID for the Qt Widget client (this binary)
 #define POKERTH_BUILD_ID	MAKE_BUILD_ID(CLIENT_TYPE_QT_WIDGET, POKERTH_VERSION_MAJOR, POKERTH_VERSION_MINOR, WIDGET_VERSION_REVISION)
