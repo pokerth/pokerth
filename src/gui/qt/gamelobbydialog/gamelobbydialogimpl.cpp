@@ -1336,6 +1336,37 @@ void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
 	if (myChat->getMyNick() == oldNick) {
 		myChat->setMyNick(newPlayerName);
 	}
+
+	removeStaleNickListDuplicates(playerId, newPlayerName);
+}
+
+void gameLobbyDialogImpl::removeStaleNickListDuplicates(unsigned playerId, const QString &playerName)
+{
+	// The server allows every name only once: a login with a name already in
+	// use replaces the old session. If its playerListLeft got lost, the old
+	// entry stays behind with the old id - private messages to it are rejected.
+	// To be on the safe side, entries of players seated in a running game are
+	// kept; their session ends regularly when the game does.
+	if (playerName.isEmpty())
+		return;
+
+	int it1 = 0;
+	while (myNickListModel->item(it1)) {
+		const unsigned otherId = myNickListModel->item(it1, 0)->data(Qt::UserRole).toUInt();
+		if (otherId != playerId && myNickListModel->item(it1, 0)->text() == playerName) {
+			const unsigned gameIdOfOther = mySession->getGameIdOfPlayer(otherId);
+			const bool otherInRunningGame = gameIdOfOther
+											&& mySession->getClientGameInfo(gameIdOfOther).mode == GAME_MODE_STARTED;
+			if (!otherInRunningGame) {
+				myNickListModel->removeRow(it1);
+				// Don't increment – the next item shifted into this position.
+				continue;
+			}
+		}
+		++it1;
+	}
+
+	refreshPlayerStats();
 }
 
 void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString)
@@ -1429,7 +1460,7 @@ void gameLobbyDialogImpl::playerJoinedLobby(unsigned playerId, QString /*playerN
 		myNickListModel->appendRow(item);
 	}
 
-	refreshPlayerStats();
+	removeStaleNickListDuplicates(playerId, QString::fromUtf8(playerInfo.playerName.c_str()));
 }
 
 void gameLobbyDialogImpl::newGameAdmin(unsigned playerId, QString)

@@ -195,6 +195,10 @@ private:
 	// with community content active. Details at effectiveSuggestType().
 	void updateSuggestButtonVisibility();
 	QString effectiveSuggestType();
+	// Removes nick list entries of other ids carrying the same name (a stale
+	// entry left behind after a reconnect), except for players seated in a
+	// running game.
+	void removeStaleNickListDuplicates(unsigned playerId, const QString &playerName);
 
 	gameTableImpl* myW;
 	startWindowImpl* myStartWindow;

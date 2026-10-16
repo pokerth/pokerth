@@ -2121,6 +2121,22 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 				<< "\" session #" << session->GetId() << ".");
 		// Offer rejoin, and disconnect current player with the same name.
 		InternalRemovePlayer(rejoinPlayerId, ERR_NET_PLAYER_NAME_IN_USE);
+		// The seat keeps the old id and guid until the rejoin is performed at
+		// the start of the next hand. A second login with the same old guid in
+		// that window (e.g. a client retrying its reconnect) is offered the
+		// rejoin as well, while the session of the first login lives on under
+		// a different id - two sessions with the same name, the older one a
+		// ghost in all lobby lists. Disconnect it, too.
+		const std::string &playerName = session->GetPlayerData()->GetName();
+		for (SessionManager *manager : {&m_sessionManager, &m_gameSessionManager}) {
+			boost::shared_ptr<SessionData> otherSession = manager->GetSessionByPlayerName(playerName);
+			if (otherSession && otherSession != session && otherSession->GetPlayerData()
+					&& otherSession->GetPlayerData()->GetUniqueId() != rejoinPlayerId) {
+				LOG_MSG("Disconnecting session #" << otherSession->GetId() << " of player \"" << playerName
+						<< "\": replaced by rejoin session #" << session->GetId() << ".");
+				InternalRemovePlayer(otherSession->GetPlayerData()->GetUniqueId(), ERR_NET_PLAYER_NAME_IN_USE);
+			}
+		}
 	} else {
 		LogMissingRejoinOffer(session);
 		// Check whether this player is already connected.
@@ -2574,8 +2590,8 @@ ServerLobbyThread::InternalRemoveGame(boost::shared_ptr<ServerGame> game)
 	}
 	// Return any players/spectators still in the game to the lobby with full
 	// bookkeeping (removal from the game session manager + GamePlayerLeft
-	// notifications). Must happen before RemoveAllSessions(), which merely
-	// slams the sockets shut and would otherwise leave ghost players behind.
+	// notifications). Must happen before RemoveAllSessions(), which would
+	// disconnect them instead.
 	game->MoveAllSessionsToLobby();
 	// Remove game from list.
 	m_gameMap.erase(game->GetId());

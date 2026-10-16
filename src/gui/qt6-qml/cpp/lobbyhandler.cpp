@@ -761,6 +761,7 @@ void LobbyHandler::onLobbyPlayerJoined(unsigned playerId, const QString &playerN
 	}
 	const bool isAdmin = m_session ? m_session->getClientPlayerInfo(playerId).isAdmin : false;
 	m_playerListModel.addPlayer(playerId, playerName, isAdmin, countryCode, isGuest);
+	removeStalePlayerListDuplicates(playerId, playerName);
 	// The newcomer may already sit at a table (e.g. a rejoin or the
 	// player list sent again after a resubscribe).
 	syncPlayerGameMembership();
@@ -807,6 +808,7 @@ void LobbyHandler::updatePlayerName(unsigned playerId, const QString &playerName
 	}
 	// Update in player list model
 	m_playerListModel.updatePlayerInfo(playerId, playerName, serverAdmin, countryCode, isGuest);
+	removeStalePlayerListDuplicates(playerId, playerName);
 	syncPlayerGameMembership();
 	++m_playerListRevision;
 	emit playerListRevisionChanged();
@@ -1160,6 +1162,33 @@ void LobbyHandler::syncPlayerGameMembership()
 	const QList<unsigned> playerIds = m_playerListModel.playerIds();
 	for (const unsigned playerId : playerIds)
 		m_playerListModel.setPlayerGameId(playerId, gameIdOfPlayer.value(playerId, 0));
+}
+
+void LobbyHandler::removeStalePlayerListDuplicates(unsigned playerId, const QString &playerName)
+{
+	// The server allows every name only once: a login with a name already in
+	// use replaces the old session. If its playerListLeft got lost, the old
+	// entry stays behind with the old id - private messages to it are rejected.
+	// To be on the safe side, entries of players seated in a running game are
+	// kept; their session ends regularly when the game does.
+	if (!m_session || playerName.isEmpty())
+		return;
+
+	QList<unsigned> staleIds;
+	const int count = m_playerListModel.rowCount();
+	for (int i = 0; i < count; ++i) {
+		const QModelIndex idx = m_playerListModel.index(i);
+		const unsigned otherId = m_playerListModel.data(idx, PlayerListModel::PlayerIdRole).toUInt();
+		if (otherId == playerId
+				|| m_playerListModel.data(idx, PlayerListModel::PlayerNameRole).toString() != playerName)
+			continue;
+		const unsigned gameIdOfOther = m_session->getGameIdOfPlayer(otherId);
+		if (gameIdOfOther && m_session->getClientGameInfo(gameIdOfOther).mode == GAME_MODE_STARTED)
+			continue;
+		staleIds.append(otherId);
+	}
+	for (const unsigned staleId : staleIds)
+		m_playerListModel.removePlayer(staleId);
 }
 
 QVariantMap LobbyHandler::playerListEntry(int row) const

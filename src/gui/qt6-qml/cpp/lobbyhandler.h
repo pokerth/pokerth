@@ -671,6 +671,10 @@ private:
 	// player list model (GameIdRole). The only place where the idle criterion
 	// is maintained; to be called on every event that can change it.
 	void syncPlayerGameMembership();
+	// Removes player list entries of other ids carrying the same name (a stale
+	// entry left behind after a reconnect), except for players seated in a
+	// running game.
+	void removeStalePlayerListDuplicates(unsigned playerId, const QString &playerName);
 	QString resolvedPlayerName(unsigned playerId) const;
 	unsigned parsePrivateMessageTarget(QString &chatText) const;
 };

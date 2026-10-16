@@ -231,12 +231,17 @@ ServerGame::RemoveAllSessions()
 		for (auto& session : sessionsToClose) {
 			if (session) {
 				try {
-					// Set the state to Closed FIRST
-					session->SetState(SessionData::Closed);
-					// Cancel Timer
-					session->CancelTimers();
-					// Close the socket directly (not via Close(), to avoid the callback chain)
-					session->CloseSocketHandle();
+					// Close through the lobby thread's regular path: it removes the
+					// session from this game and from the lobby's game session
+					// manager, announces playerListLeft to the lobby and completes
+					// the activity row. A raw socket close marked the session Closed
+					// first, so the CloseSession() from the socket error handler
+					// returned early and the player stayed behind as a ghost in the
+					// lobby lists of all clients. The game is already in its final
+					// state, so removing the sessions triggers no game logic.
+					GetLobbyThread().CloseSession(session);
+					// CloseSession() only closes TCP/TLS sockets.
+					session->CloseWebSocketHandle();
 				} catch (const std::exception& e) {
 					LOG_ERROR("Exception closing session in RemoveAllSessions: " << e.what());
 				} catch (...) {
@@ -276,8 +281,7 @@ ServerGame::MoveAllSessionsToLobby()
 	// lobby through the regular MoveSessionToLobby path. This performs the full
 	// bookkeeping - removes the session from the lobby thread's game session
 	// manager and announces GamePlayerLeft/GameSpectatorLeft to the others -
-	// which the raw socket-close in RemoveAllSessions() would otherwise skip,
-	// leaving ghost players in the lobby that reappear doubled on reconnect.
+	// instead of disconnecting them as RemoveAllSessions() would.
 	// Copy the list first: MoveSessionToLobby mutates the session manager.
 	std::vector<boost::shared_ptr<SessionData>> sessions = GetSessionManager().GetAllSessions();
 	for (auto &session : sessions) {

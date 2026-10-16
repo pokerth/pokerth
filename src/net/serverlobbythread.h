@@ -75,6 +75,7 @@ public:
 	void ReAddSession(boost::shared_ptr<SessionData> session, int reason, unsigned gameId);
 	void MoveSessionToGame(boost::shared_ptr<ServerGame> game, boost::shared_ptr<SessionData> session, bool autoLeave, bool spectateOnly);
 	void SessionError(boost::shared_ptr<SessionData> session, int errorCode);
+	void CloseSession(boost::shared_ptr<SessionData> session);
 	void ResubscribeLobbyMsg(boost::shared_ptr<SessionData> session);
 	void NotifyPlayerJoinedLobby(unsigned playerId);
 	void NotifyPlayerLeftLobby(unsigned playerId);
@@ -232,7 +233,6 @@ protected:
 
 	void CleanupSessionMap();
 
-	void CloseSession(boost::shared_ptr<SessionData> session);
 	void SendError(boost::shared_ptr<SessionData> s, int errorCode);
 	void SendJoinGameFailed(boost::shared_ptr<SessionData> s, unsigned gameId, int reason);
 	void SendPlayerList(boost::shared_ptr<SessionData> s);
