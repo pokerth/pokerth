@@ -274,6 +274,8 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 		const KickPlayerRequestMessage &netKickRequest = packet->GetMsg()->kickplayerrequestmessage();
 		if (session->GetPlayerData()->IsGameAdmin() && !server->IsRunning()
 				&& netKickRequest.gameid() == server->GetId() && server->GetGameData().gameType != GAME_TYPE_RANKING) {
+			LOG_MSG("Game " << server->GetId() << " - admin \"" << session->GetPlayerData()->GetName()
+					<< "\" kicks player id " << netKickRequest.playerid() << ".");
 			server->KickPlayer(netKickRequest.playerid());
 		}
 	} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AskKickPlayerMessage) {

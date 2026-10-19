@@ -210,6 +210,7 @@ public:
 
 	virtual void SignalKickPlayer(unsigned playerId)
 	{
+		LOG_MSG("Chat cleaner kicks player \"" << m_server.GetPlayerNameFromId(playerId) << "\" (id:" << playerId << ").");
 		m_server.RemovePlayer(playerId, ERR_NET_PLAYER_KICKED);
 	}
 
@@ -217,6 +218,7 @@ public:
 	{
 		string playerName(m_server.GetPlayerNameFromId(playerId));
 		if (!playerName.empty()) {
+			LOG_MSG("Chat cleaner bans player \"" << playerName << "\" (id:" << playerId << ").");
 			m_server.GetBanManager().BanPlayerName(playerName, 1);
 			m_server.RemovePlayer(playerId, ERR_NET_PLAYER_KICKED);
 		}
@@ -2714,6 +2716,8 @@ ServerLobbyThread::SessionError(boost::shared_ptr<SessionData> session, int erro
 		if (errorCode == ERR_NET_SESSION_TIMED_OUT) {
 			boost::shared_ptr<ServerGame> game = session->GetGame();
 			if (game && session->GetPlayerData()) {
+				LOG_MSG("Player \"" << session->GetPlayerData()->GetName() << "\" session #" << session->GetId()
+						<< " inactive for " << SERVER_INGAME_ACTIVITY_TIMEOUT_SEC << "s in game " << game->GetId() << " - kicking.");
 				game->KickPlayer(session->GetPlayerData()->GetUniqueId());
 				return;
 			}

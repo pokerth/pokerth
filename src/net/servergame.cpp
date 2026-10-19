@@ -347,8 +347,12 @@ ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 				SendToAllPlayers(packet, SessionData::Game);
 
 				// Perform kick.
-				if (doKick)
+				if (doKick) {
+					LOG_MSG("Game " << GetId() << " - vote kick of player id " << m_voteKickData->kickPlayerId << " passed ("
+							<< m_voteKickData->numVotesInFavourOfKicking << " in favour, "
+							<< m_voteKickData->numVotesAgainstKicking << " against).");
 					KickPlayer(m_voteKickData->kickPlayerId);
+				}
 				// This petition has ended.
 				m_voteKickData.reset();
 			}
@@ -989,7 +993,21 @@ ServerGame::RemoveSession(boost::shared_ptr<SessionData> session, int reason, Se
 	if (GetSessionManager().RemoveSession(session->GetId())) {
 		boost::shared_ptr<PlayerData> tmpPlayerData = session->GetPlayerData();
 		if (tmpPlayerData && !tmpPlayerData->GetName().empty()) {
-			RemovePlayerData(tmpPlayerData, reason, sessionState == SessionData::Spectating || sessionState == SessionData::SpectatorWaiting);
+			const bool spectateOnly = sessionState == SessionData::Spectating || sessionState == SessionData::SpectatorWaiting;
+			// Leaving a seat of a running game is otherwise not visible in the
+			// log - neither a kick nor a voluntary leave. The cash tells whether
+			// the player was already out of chips.
+			if (!spectateOnly && m_game
+					&& (reason == NTF_NET_REMOVED_ON_REQUEST || reason == NTF_NET_REMOVED_KICKED || reason == NTF_NET_REMOVED_TIMEOUT)) {
+				boost::shared_ptr<PlayerInterface> tmpPlayer(m_game->getPlayerByUniqueId(tmpPlayerData->GetUniqueId()));
+				if (tmpPlayer) {
+					LOG_MSG("Player \"" << tmpPlayerData->GetName() << "\" (id:" << tmpPlayerData->GetUniqueId() << ") session #" << session->GetId()
+							<< " left game " << GetId() << ": "
+							<< (reason == NTF_NET_REMOVED_ON_REQUEST ? "on request" : (reason == NTF_NET_REMOVED_KICKED ? "kicked" : "timeout"))
+							<< ", cash " << tmpPlayer->getMyCash() << ".");
+				}
+			}
+			RemovePlayerData(tmpPlayerData, reason, spectateOnly);
 		}
 	}
 }
