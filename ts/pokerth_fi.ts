@@ -203,6 +203,16 @@ Valitse korttipakkatyyli ja yritä uudestaan!</translation>
         <source>Translation is currently unavailable. Please try again later.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="777"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Ei toimitettu: %1 pelaa vielä, ja sinulta on jo viestejä odottamassa. Voit kirjoittaa uudelleen, kun %1 on palannut aulaan.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="830"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 pelaa parhaillaan. Viestisi toimitetaan, kun %1 on palannut aulaan.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

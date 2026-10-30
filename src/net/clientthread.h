@@ -146,6 +146,9 @@ public:
 	void SendGameChatMessage(const std::string &msg);
 	void SendLobbyChatMessage(const std::string &msg);
 	void SendPrivateChatMessage(unsigned targetPlayerId, const std::string &msg);
+	// To a player who is offline (from an existing conversation); the server
+	// holds the message back until the next login.
+	void SendPrivateChatMessageToName(const std::string &targetPlayerName, const std::string &msg);
 	void SendJoinFirstGame(const std::string &password, bool autoLeave);
 	void SendJoinGame(unsigned gameId, const std::string &password, bool autoLeave, bool spectateOnly = false);
 	void SendRejoinGame(unsigned gameId, bool autoLeave);

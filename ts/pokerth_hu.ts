@@ -203,6 +203,16 @@ Válassz egy pakli stílust és próbáld újra!</translation>
         <source>Translation is currently unavailable. Please try again later.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="777"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Nem kézbesítve: %1 még játszik, és már várakoznak nála tőled üzenetek. Újra írhatsz, amint %1 visszatér a lobbiba.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="830"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 éppen játszik. Az üzeneteidet kézbesítjük, amint %1 visszatér a lobbiba.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

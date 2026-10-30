@@ -37,6 +37,8 @@
 #include <boost/asio/steady_timer.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/uuid/uuid_generators.hpp>
+#include <chrono>
+#include <deque>
 
 #include <net/sessionmanager.h>
 #include <net/netpacket.h>
@@ -86,6 +88,8 @@ public:
 	void NotifyGameAdminChanged(unsigned gameId, unsigned newAdminPlayerId);
 	void NotifyStartingGame(unsigned gameId);
 	void NotifyReopeningGame(unsigned gameId);
+	// Hands over the private messages held back while the player sat at a running table.
+	void DeliverPendingPrivateMessages(boost::shared_ptr<SessionData> target);
 
 	void DispatchPacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 	void HandleGameRetrievePlayerInfo(boost::shared_ptr<SessionData> session, const PlayerInfoRequestMessage &playerInfoRequest);
@@ -229,6 +233,22 @@ protected:
 
 	void HandleReAddedSession(boost::shared_ptr<SessionData> session);
 
+	// Private messages to a player at a running table or offline are held
+	// back and delivered once the player is out of the running game, or at
+	// the next login. They are kept by database id in memory and written
+	// through to the database (docs/server_pending_pm_schema.sql).
+	enum PendingPmResult { PendingPmQueued, PendingPmLimit, PendingPmUnavailable };
+	PendingPmResult QueuePendingPrivateMessage(boost::shared_ptr<PlayerData> sender, DB_id targetDBId, const std::string &text);
+	// To an offline player: the account id is looked up first. Returns false
+	// if held back messages are not available.
+	bool RequestOfflinePrivateMessage(boost::shared_ptr<SessionData> sender, const std::string &targetName, const std::string &text);
+	void HandlePendingPrivateMessagesLoaded(const std::list<DBPendingPrivateMessage> &messages);
+	void HandlePlayerIdByName(unsigned requestId, DB_id playerId);
+	void SendPrivateChatLimitReject(boost::shared_ptr<SessionData> sender, const std::string &text, unsigned targetPlayerId, const std::string &targetName);
+	void RemoveExpiredPendingPrivateMessages();
+	boost::shared_ptr<SessionData> GetSessionByDBId(DB_id dbId) const;
+	static bool IsOutsideRunningGame(boost::shared_ptr<SessionData> session);
+
 	void SessionTimeoutWarning(boost::shared_ptr<SessionData> session, unsigned remainingSec);
 
 	void CleanupSessionMap();
@@ -250,6 +270,7 @@ protected:
 	unsigned GetPlayerId(const std::string &name) const;
 
 	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerListNew(unsigned playerId);
+	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerInfoReply(unsigned playerId, boost::shared_ptr<PlayerData> player);
 	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerListLeft(unsigned playerId);
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListNew(const ServerGame &game);
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListUpdate(unsigned gameId, GameMode mode);
@@ -279,6 +300,27 @@ private:
 	mutable boost::mutex m_computerPlayersMutex;
 
 	GameMap m_gameMap;
+
+	struct PendingPrivateMessage {
+		unsigned long long id;
+		boost::shared_ptr<PlayerData> sender;
+		std::string text;
+		std::chrono::steady_clock::time_point queuedAt;
+	};
+	// Key is the database id of the receiving player.
+	typedef std::map<DB_id, std::deque<PendingPrivateMessage> > PendingPrivateMessageMap;
+	PendingPrivateMessageMap m_pendingPrivateMessages;
+	// Off until the stored messages are loaded - without the table for good.
+	bool m_pendingPmLoaded;
+	// The server assigns the ids, see ServerDBInterface::StorePendingPrivateMessage.
+	unsigned long long m_nextPendingPmId;
+	struct PendingPmNameLookup {
+		boost::weak_ptr<SessionData> sender;
+		std::string targetName;
+		std::string text;
+	};
+	std::map<unsigned, PendingPmNameLookup> m_pendingPmLookups;
+	unsigned m_curPendingPmLookupId;
 
 	GuiInterface &m_gui;
 	AvatarManager &m_avatarManager;

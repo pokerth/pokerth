@@ -572,6 +572,8 @@ ServerGame::InternalEndGame()
 	StoreAndResetRanking();
 	m_game.reset();
 	m_numJoinsPerPlayer.clear();
+	// The game is over, private messages held back for the table may go out now.
+	GetSessionManager().ForEach(boost::bind(&ServerLobbyThread::DeliverPendingPrivateMessages, &GetLobbyThread(), boost::placeholders::_1));
 }
 
 void

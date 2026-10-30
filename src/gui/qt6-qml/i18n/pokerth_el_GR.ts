@@ -2387,6 +2387,26 @@ Please reenter the password and try again.</source>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>Ο/Η %1 δεν μπορεί να μπει στο %2 επειδή είναι απασχολημένος.</translation>
     </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2351"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Δεν παραδόθηκε: ο/η %1 παίζει ακόμη και έχει ήδη μηνύματά σας σε αναμονή. Μπορείτε να γράψετε ξανά μόλις ο/η %1 επιστρέψει στο λόμπι.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2353"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>Ο/Η %1 παίζει αυτή τη στιγμή. Τα μηνύματά σας θα παραδοθούν μόλις ο/η %1 επιστρέψει στο λόμπι.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2357"/>
+        <source>Not delivered: %1 is offline and already has messages from you waiting. You can write again once %1 has logged in.</source>
+        <translation>Δεν παραδόθηκε: ο/η %1 είναι εκτός σύνδεσης και έχει ήδη μηνύματά σας σε αναμονή. Μπορείτε να γράψετε ξανά μόλις ο/η %1 συνδεθεί.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2359"/>
+        <source>%1 is offline. Your messages will be delivered at the next login.</source>
+        <translation>Ο/Η %1 είναι εκτός σύνδεσης. Τα μηνύματά σας θα παραδοθούν στην επόμενη σύνδεση.</translation>
+    </message>
 </context>
 <context>
     <name>LobbyPage</name>

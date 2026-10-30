@@ -154,6 +154,7 @@ public:
 	void SignalNetClientGameChatMsg(const std::string &playerName, const std::string &msg);
 	void SignalNetClientLobbyChatMsg(const std::string &playerName, const std::string &msg);
 	void SignalNetClientPrivateChatMsg(const std::string &playerName, const std::string &msg);
+	void SignalNetClientPrivateChatLimitReached(const std::string &playerName, const std::string &msg);
 	void SignalNetClientMsgBox(const std::string &msg);
 	void SignalNetClientMsgBox(unsigned msgId);
 

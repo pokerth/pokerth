@@ -71,6 +71,12 @@ public:
 
 	virtual void BlockPlayerSuccess(unsigned requestId, unsigned replyId) = 0;
 	virtual void BlockPlayerFailed(unsigned requestId, unsigned replyId) = 0;
+
+	// The held back private messages, read once after the first connect. Not
+	// called at all if the table is missing.
+	virtual void PendingPrivateMessagesLoaded(std::list<DBPendingPrivateMessage> messages) = 0;
+	// DB_ID_INVALID if there is no active account with this name.
+	virtual void PlayerIdByName(unsigned requestId, DB_id playerId, std::string playerName) = 0;
 };
 
 #endif

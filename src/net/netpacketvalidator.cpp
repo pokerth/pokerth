@@ -1021,7 +1021,8 @@ NetPacketValidator::ValidateChatRequestMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_chatrequestmessage()) {
 		const ChatRequestMessage &msg = packet.GetMsg()->chatrequestmessage();
-		if (VALIDATE_STRING_SIZE(msg.chattext(), 1, 128)) {
+		if (VALIDATE_STRING_SIZE(msg.chattext(), 1, 128)
+				&& (!msg.has_targetplayername() || VALIDATE_STRING_SIZE(msg.targetplayername(), 1, 64))) {
 			retVal = true;
 		}
 	}

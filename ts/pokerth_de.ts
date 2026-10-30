@@ -220,6 +220,16 @@ Bitte wählen Sie einen Kartendeck-Stil und versuchen Sie es erneut!</translatio
         <source>Translation is currently unavailable. Please try again later.</source>
         <translation>Übersetzung derzeit nicht verfügbar. Bitte später noch einmal versuchen.</translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="777"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Nicht zugestellt: %1 spielt noch, und es warten bereits Nachrichten von dir. Du kannst wieder schreiben, sobald %1 zurück in der Lobby ist.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="830"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 spielt gerade. Deine Nachrichten werden zugestellt, sobald %1 zurück in der Lobby ist.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

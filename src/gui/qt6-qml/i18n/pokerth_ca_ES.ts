@@ -2387,6 +2387,26 @@ Torneu a introduir la contrasenya i proveu-ho de nou.</translation>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 no es pot unir a %2 perquè està ocupat.</translation>
     </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2351"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>No s&apos;ha lliurat: %1 encara està jugant i ja té missatges vostres en espera. Podreu tornar a escriure quan %1 torni a la sala.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2353"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 està jugant ara mateix. Els vostres missatges es lliuraran quan %1 torni a la sala.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2357"/>
+        <source>Not delivered: %1 is offline and already has messages from you waiting. You can write again once %1 has logged in.</source>
+        <translation>No s&apos;ha lliurat: %1 està fora de línia i ja té missatges vostres en espera. Podreu tornar a escriure quan %1 hagi iniciat la sessió.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2359"/>
+        <source>%1 is offline. Your messages will be delivered at the next login.</source>
+        <translation>%1 està fora de línia. Els vostres missatges es lliuraran en el proper inici de sessió.</translation>
+    </message>
 </context>
 <context>
     <name>LobbyPage</name>

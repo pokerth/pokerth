@@ -648,6 +648,10 @@ message ChatRequestMessage {
 	optional	uint32			targetGameId = 1;
 	optional	uint32			targetPlayerId = 2;
 	required	string			chatText = 3;
+	// Private message to a player who may be offline. Sent together with
+	// targetPlayerId = 0, so that an older server rejects it instead of
+	// taking it for lobby chat.
+	optional	string			targetPlayerName = 4;
 }
 
 message ChatMessage {
@@ -666,6 +670,15 @@ message ChatMessage {
 
 message ChatRejectMessage {
 	required	string			chatText = 1;
+	// Set when a private message to a player at a running table or offline
+	// was not held back, because the limit of waiting messages was reached.
+	enum ChatRejectReason {
+		rejectReasonUnknown = 0;
+		rejectReasonPendingLimit = 1;
+	}
+	optional	ChatRejectReason	rejectReason = 2;
+	optional	uint32			targetPlayerId = 3;
+	optional	string			targetPlayerName = 4;
 }
 
 message DialogMessage {

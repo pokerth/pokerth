@@ -2387,6 +2387,26 @@ Kérlek írd be a jelszót még egyszer és próbáld újra.</translation>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 nem tud csatlakozni ide: %2, mert elfoglalt.</translation>
     </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2351"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Nem kézbesítve: %1 még játszik, és már várakoznak nála tőled üzenetek. Újra írhatsz, amint %1 visszatér a lobbiba.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2353"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 éppen játszik. Az üzeneteidet kézbesítjük, amint %1 visszatér a lobbiba.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2357"/>
+        <source>Not delivered: %1 is offline and already has messages from you waiting. You can write again once %1 has logged in.</source>
+        <translation>Nem kézbesítve: %1 nincs bejelentkezve, és már várakoznak nála tőled üzenetek. Újra írhatsz, amint %1 bejelentkezik.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2359"/>
+        <source>%1 is offline. Your messages will be delivered at the next login.</source>
+        <translation>%1 nincs bejelentkezve. Az üzeneteidet a következő bejelentkezéskor kézbesítjük.</translation>
+    </message>
 </context>
 <context>
     <name>LobbyPage</name>

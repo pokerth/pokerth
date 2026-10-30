@@ -772,6 +772,11 @@ void ChatTools::privateMessage(QString playerName, QString message)
 	receiveMessage(playerName, message, pm);
 }
 
+void ChatTools::privateMessageLimitReached(QString playerName, QString /*message*/)
+{
+	showLocalNote(tr("Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.").arg(playerName));
+}
+
 void ChatTools::sendPrivateMessage(unsigned playerId, QString message)
 {
 	if(!mySession || !playerId || !myTextBrowser)
@@ -818,6 +823,12 @@ void ChatTools::sendPrivateMessage(unsigned playerId, QString message)
 	const QString separator = QStringLiteral(" ") + QChar(0x2013) + QStringLiteral(" ");
 	myTextBrowser->append("<i>" + tr("private message sent to player: %1").arg(nickHtml(playerName))
 						  + separator + body + "</i>");
+
+	// At a running table the server holds the message back until the game is over.
+	const unsigned gameIdOfTarget = mySession->getGameIdOfPlayer(playerId);
+	if(gameIdOfTarget && mySession->getClientGameInfo(gameIdOfTarget).mode == GAME_MODE_STARTED) {
+		showLocalNote(tr("%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.").arg(playerName));
+	}
 }
 
 void ChatTools::clearChat()

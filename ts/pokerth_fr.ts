@@ -218,6 +218,16 @@ Veuillez sélectionner un style de carte et essayez à nouveau !</translation>
         <source>Translation is currently unavailable. Please try again later.</source>
         <translation>La traduction est momentanément indisponible. Veuillez réessayer plus tard.</translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="777"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Non distribué : %1 joue encore et a déjà des messages de votre part en attente. Vous pourrez écrire à nouveau dès que %1 sera de retour dans le lobby.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="830"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 est en train de jouer. Vos messages seront distribués dès que %1 sera de retour dans le lobby.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

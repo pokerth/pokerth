@@ -2387,6 +2387,26 @@ Please reenter the password and try again.</source>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 无法加入 %2，因为对方正忙。</translation>
     </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2351"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>未送达：%1 仍在游戏中，并且已有你发送的消息在等待。%1 回到大厅后你可以再次发送。</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2353"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 正在游戏中。%1 回到大厅后，你的消息将被送达。</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2357"/>
+        <source>Not delivered: %1 is offline and already has messages from you waiting. You can write again once %1 has logged in.</source>
+        <translation>未送达：%1 当前离线，并且已有你发送的消息在等待。%1 登录后你可以再次发送。</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2359"/>
+        <source>%1 is offline. Your messages will be delivered at the next login.</source>
+        <translation>%1 当前离线。你的消息将在其下次登录时送达。</translation>
+    </message>
 </context>
 <context>
     <name>LobbyPage</name>

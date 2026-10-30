@@ -202,6 +202,16 @@ Por favor contate o criado do estilo via &quot;%4&quot;.</translation>
         <source>Translation is currently unavailable. Please try again later.</source>
         <translation>A tradução está indisponível no momento. Tente novamente mais tarde.</translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="777"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Não entregue: %1 ainda está jogando e já tem mensagens suas aguardando. Você poderá escrever novamente quando %1 voltar ao lobby.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="830"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 está jogando agora. Suas mensagens serão entregues quando %1 voltar ao lobby.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

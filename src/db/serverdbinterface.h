@@ -88,6 +88,15 @@ public:
 	// forget like the session logging above - a lost heartbeat only makes the
 	// website show a snapshot which is one tick older.
 	virtual void UpdateLiveStats(unsigned playersOnline, unsigned tablesRunning, unsigned playersWaiting) = 0;
+
+	// Held back private messages (docs/server_pending_pm_schema.sql). The
+	// server keeps them in memory and writes every change through; the ids
+	// are assigned by the server, so that a delete can name exactly what was
+	// delivered even if the queue reorders the statements.
+	virtual void StorePendingPrivateMessage(unsigned long long messageId, DB_id recipientId, DB_id senderId, const std::string &text) = 0;
+	virtual void DeletePendingPrivateMessages(DB_id recipientId, unsigned long long upToMessageId) = 0;
+	virtual void DeleteExpiredPendingPrivateMessages() = 0;
+	virtual void AsyncQueryPlayerIdByName(unsigned requestId, const std::string &playerName) = 0;
 };
 
 #endif

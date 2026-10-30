@@ -85,6 +85,11 @@ public:
 
 	virtual void UpdateLiveStats(unsigned playersOnline, unsigned tablesRunning, unsigned playersWaiting);
 
+	virtual void StorePendingPrivateMessage(unsigned long long messageId, DB_id recipientId, DB_id senderId, const std::string &text);
+	virtual void DeletePendingPrivateMessages(DB_id recipientId, unsigned long long upToMessageId);
+	virtual void DeleteExpiredPendingPrivateMessages();
+	virtual void AsyncQueryPlayerIdByName(unsigned requestId, const std::string &playerName);
+
 	bool IsConnected() const;
 
 protected:
@@ -105,6 +110,9 @@ protected:
 	bool IsLiveStatsEnabled() const;
 	void SetLiveStatsEnabled(bool enabled);
 	bool PrepareShadowMuteStatement();
+	bool PreparePendingPmStatements();
+	bool IsPendingPmEnabled() const;
+	void SetPendingPmEnabled(bool enabled);
 	bool IsShadowMuteEnabled() const;
 	void SetShadowMuteEnabled(bool enabled);
 	void HandleNextQuery();
@@ -143,6 +151,10 @@ private:
 	// Unlike the two above pessimistic: the shadow mute query must not be
 	// queued before its statement exists, see AsyncQueryShadowMutedPlayers().
 	bool m_shadowMute{false};
+	// Pessimistic like the shadow mute, for the same reason.
+	bool m_pendingPm{false};
+	// Only touched by the database thread.
+	bool m_pendingPmLoaded{false};
 
 	mutable boost::mutex m_isConnectedMutex;
 	bool m_isConnected;

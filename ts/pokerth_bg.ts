@@ -146,6 +146,16 @@ Please select a card deck style and try again!</source>
         <source>Translation is currently unavailable. Please try again later.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="777"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Не е доставено: %1 все още играе и вече има чакащи съобщения от вас. Можете да пишете отново, когато %1 се върне в лобито.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="830"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 играе в момента. Съобщенията ви ще бъдат доставени, когато %1 се върне в лобито.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

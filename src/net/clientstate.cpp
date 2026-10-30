@@ -1210,8 +1210,17 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		}
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_ChatRejectMessage) {
 		const ChatRejectMessage &netMessage = tmpPacket->GetMsg()->chatrejectmessage();
-		client->GetCallback().SignalNetClientGameChatMsg("(notice)", "Chat rejected: " + netMessage.chattext());
-		client->GetCallback().SignalNetClientLobbyChatMsg("(notice)", "Chat rejected: " + netMessage.chattext());
+		if (netMessage.rejectreason() == ChatRejectMessage::rejectReasonPendingLimit) {
+			PlayerInfo info;
+			if (netMessage.has_targetplayername())
+				info.playerName = netMessage.targetplayername();
+			else
+				client->GetCachedPlayerInfo(netMessage.targetplayerid(), info);
+			client->GetCallback().SignalNetClientPrivateChatLimitReached(info.playerName, netMessage.chattext());
+		} else {
+			client->GetCallback().SignalNetClientGameChatMsg("(notice)", "Chat rejected: " + netMessage.chattext());
+			client->GetCallback().SignalNetClientLobbyChatMsg("(notice)", "Chat rejected: " + netMessage.chattext());
+		}
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_DialogMessage) {
 		// Message box - display it in the GUI.
 		const DialogMessage &netDialog = tmpPacket->GetMsg()->dialogmessage();

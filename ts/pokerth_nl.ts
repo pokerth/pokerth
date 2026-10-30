@@ -203,6 +203,16 @@ Selecteer een speelkaartenstijl en probeer het opnieuw.</translation>
         <source>Translation is currently unavailable. Please try again later.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="777"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Niet bezorgd: %1 speelt nog en er wachten al berichten van u. U kunt weer schrijven zodra %1 terug is in de lobby.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="830"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 speelt op dit moment. Uw berichten worden bezorgd zodra %1 terug is in de lobby.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

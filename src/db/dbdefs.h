@@ -50,4 +50,15 @@ struct DBPlayerData {
 	std::string last_ip;
 };
 
+// A held back private message as stored in the database.
+struct DBPendingPrivateMessage {
+	unsigned long long id = 0;
+	DB_id recipientId = DB_ID_INVALID;
+	DB_id senderId = DB_ID_INVALID;
+	std::string senderName;
+	std::string senderCountry;
+	unsigned ageSec = 0;
+	std::string text;
+};
+
 #endif

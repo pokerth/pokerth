@@ -113,4 +113,12 @@
 #define DB_TABLE_SERVER_LIVE_STATS_COL_WAITING		"players_waiting"
 #define DB_TABLE_SERVER_LIVE_STATS_COL_UPDATED		"updated_at"
 
+// Held back private messages, see docs/server_pending_pm_schema.sql.
+#define DB_TABLE_PENDING_PM							"pending_private_message"
+#define DB_TABLE_PENDING_PM_COL_ID					"message_id"
+#define DB_TABLE_PENDING_PM_COL_RECIPIENT			"recipient_id"
+#define DB_TABLE_PENDING_PM_COL_SENDER				"sender_id"
+#define DB_TABLE_PENDING_PM_COL_TEXT				"text"
+#define DB_TABLE_PENDING_PM_COL_CREATED				"created_at"
+
 #endif // DB_TABLE_DEFS_H

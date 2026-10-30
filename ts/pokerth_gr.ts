@@ -146,6 +146,16 @@ Please select a card deck style and try again!</source>
         <source>Translation is currently unavailable. Please try again later.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="777"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Δεν παραδόθηκε: ο/η %1 παίζει ακόμη και έχει ήδη μηνύματά σας σε αναμονή. Μπορείτε να γράψετε ξανά μόλις ο/η %1 επιστρέψει στο λόμπι.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="830"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>Ο/Η %1 παίζει αυτή τη στιγμή. Τα μηνύματά σας θα παραδοθούν μόλις ο/η %1 επιστρέψει στο λόμπι.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

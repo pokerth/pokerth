@@ -35,6 +35,8 @@ Popup {
                                       ? Lobby.privateMessagesRevision : 0
     readonly property int playerRevision: (typeof Lobby !== "undefined" && Lobby)
                                           ? Lobby.playerListRevision : 0
+    readonly property int gameRevision: (typeof Lobby !== "undefined" && Lobby)
+                                        ? Lobby.gameListRevision : 0
 
     readonly property var partners: {
         var _pm = pmRevision, _pl = playerRevision
@@ -64,6 +66,13 @@ Popup {
     // does not deliver them there anyway.
     readonly property bool atTable: (typeof Lobby !== "undefined" && Lobby)
                                     ? Lobby.atRunningTable : false
+    // The partner sits at a running table or is offline: the server holds the
+    // messages back until the game is over or the next login. Empty otherwise.
+    readonly property string partnerNotice: {
+        var _pm = pmRevision, _pl = playerRevision, _g = gameRevision
+        return (typeof Lobby !== "undefined" && Lobby && activePartner !== "")
+                ? Lobby.privateMessageNotice(activePartner) : ""
+    }
 
     // ── Translation of incoming messages ─────────────────────────────────────
     // Split up as with the chat history: the STATE (translation, currently running,
@@ -88,7 +97,8 @@ Popup {
         }
         return b
     }
-    readonly property bool canSend: activePartnerId !== 0 && !guestMode && !atTable
+    // An offline partner (activePartnerId 0) gets the message at the next login.
+    readonly property bool canSend: activePartner !== "" && !guestMode && !atTable
                                     && !partnerIsGuest
                                     && messageInput.displayText.trim() !== ""
                                     && usedBytes <= maxBytes
@@ -556,11 +566,14 @@ Popup {
                     Layout.leftMargin: 12
                     Layout.rightMargin: 12
                     visible: root.guestMode || root.atTable || root.partnerIsGuest
+                             || root.partnerNotice !== ""
                     text: root.atTable
                           ? qsTr("Private messages are not available at the table.")
                           : root.guestMode
                             ? qsTr("Guests cannot send chat messages")
-                            : qsTr("Guests cannot receive private messages.")
+                            : root.partnerIsGuest
+                              ? qsTr("Guests cannot receive private messages.")
+                              : root.partnerNotice
                     font.pixelSize: 11
                     color: Config.Theme.colorTextMuted
                     wrapMode: Text.Wrap

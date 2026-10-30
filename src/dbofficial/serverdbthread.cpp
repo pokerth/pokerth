@@ -41,6 +41,7 @@
 #include <dbofficial/asyncdbreportgame.h>
 #include <dbofficial/asyncdbadminplayers.h>
 #include <dbofficial/asyncdbshadowmute.h>
+#include <dbofficial/asyncdbpendingpm.h>
 #include <dbofficial/asyncdbblockplayer.h>
 #include <dbofficial/asyncdbplayerlastgames.h>
 #include <dbofficial/asyncdbsessionstart.h>
@@ -94,6 +95,13 @@
 #define QUERY_SESSION_END_PREPARE		"session_end_template"
 #define QUERY_LIVE_STATS_PREPARE		"live_stats_template"
 #define QUERY_SHADOW_MUTE_PREPARE		"shadow_mute_template"
+#define QUERY_PENDING_PM_LOAD_PREPARE	"pending_pm_load_template"
+#define QUERY_PENDING_PM_STORE_PREPARE	"pending_pm_store_template"
+#define QUERY_PENDING_PM_DELETE_PREPARE	"pending_pm_delete_template"
+#define QUERY_PENDING_PM_EXPIRE_PREPARE	"pending_pm_expire_template"
+#define QUERY_PLAYER_ID_BY_NAME_PREPARE	"player_id_by_name_template"
+// Must match SERVER_PENDING_PM_MAX_AGE_SEC of the lobby.
+#define PENDING_PM_MAX_AGE_DAYS			30
 
 using namespace std;
 
@@ -527,6 +535,50 @@ ServerDBThread::AsyncQueryShadowMutedPlayers(unsigned requestId)
 }
 
 void
+ServerDBThread::StorePendingPrivateMessage(unsigned long long messageId, DB_id recipientId, DB_id senderId, const std::string &text)
+{
+	if (!IsPendingPmEnabled())
+		return;
+	list<string> params;
+	params.push_back(std::to_string(messageId));
+	params.push_back(std::to_string(recipientId));
+	params.push_back(std::to_string(senderId));
+	params.push_back(text);
+	EnqueueQuery(boost::shared_ptr<AsyncDBQuery>(new AsyncDBPendingPmUpdate(QUERY_PENDING_PM_STORE_PREPARE, params)));
+}
+
+void
+ServerDBThread::DeletePendingPrivateMessages(DB_id recipientId, unsigned long long upToMessageId)
+{
+	if (!IsPendingPmEnabled())
+		return;
+	list<string> params;
+	params.push_back(std::to_string(recipientId));
+	params.push_back(std::to_string(upToMessageId));
+	EnqueueQuery(boost::shared_ptr<AsyncDBQuery>(new AsyncDBPendingPmUpdate(QUERY_PENDING_PM_DELETE_PREPARE, params)));
+}
+
+void
+ServerDBThread::DeleteExpiredPendingPrivateMessages()
+{
+	if (!IsPendingPmEnabled())
+		return;
+	EnqueueQuery(boost::shared_ptr<AsyncDBQuery>(new AsyncDBPendingPmUpdate(QUERY_PENDING_PM_EXPIRE_PREPARE, list<string>())));
+}
+
+void
+ServerDBThread::AsyncQueryPlayerIdByName(unsigned requestId, const std::string &playerName)
+{
+	if (!IsPendingPmEnabled()) {
+		boost::asio::post(*m_ioService, boost::bind(&ServerDBCallback::PlayerIdByName, &m_callback, requestId, DB_ID_INVALID, string()));
+		return;
+	}
+	list<string> params;
+	params.push_back(playerName);
+	EnqueueQuery(boost::shared_ptr<AsyncDBQuery>(new AsyncDBPlayerIdByName(requestId, QUERY_PLAYER_ID_BY_NAME_PREPARE, params)));
+}
+
+void
 ServerDBThread::AsyncBlockPlayer(unsigned requestId, unsigned replyId, DB_id playerId, int valid, int active)
 {
 	list<string> params;
@@ -758,6 +810,63 @@ ServerDBThread::PrepareShadowMuteStatement()
 		return false;
 	}
 	return true;
+}
+
+bool
+ServerDBThread::PreparePendingPmStatements()
+{
+	// A LEFT JOIN, so that the rows of deleted accounts still count for the
+	// highest id the server continues from. The parameter mechanism turns the
+	// string "NULL" into SQL NULL - for a chat line that says just that,
+	// COALESCE puts the word back.
+	mysqlpp::Query prepareLoad = m_connData->conn.query();
+	prepareLoad
+			<< "PREPARE " QUERY_PENDING_PM_LOAD_PREPARE " FROM " << mysqlpp::quote
+			<< "SELECT m." DB_TABLE_PENDING_PM_COL_ID ", m." DB_TABLE_PENDING_PM_COL_RECIPIENT ", m." DB_TABLE_PENDING_PM_COL_SENDER ", p." DB_TABLE_PLAYER_COL_USERNAME ", TRIM(p." DB_TABLE_PLAYER_COL_COUNTRY "), TIMESTAMPDIFF(SECOND, m." DB_TABLE_PENDING_PM_COL_CREATED ", NOW()), m." DB_TABLE_PENDING_PM_COL_TEXT " FROM " DB_TABLE_PENDING_PM " m LEFT JOIN " DB_TABLE_PLAYER " p ON p." DB_TABLE_PLAYER_COL_ID " = m." DB_TABLE_PENDING_PM_COL_SENDER " ORDER BY m." DB_TABLE_PENDING_PM_COL_ID;
+
+	mysqlpp::Query prepareStore = m_connData->conn.query();
+	prepareStore
+			<< "PREPARE " QUERY_PENDING_PM_STORE_PREPARE " FROM " << mysqlpp::quote
+			<< "INSERT INTO " DB_TABLE_PENDING_PM " (" DB_TABLE_PENDING_PM_COL_ID ", " DB_TABLE_PENDING_PM_COL_RECIPIENT ", " DB_TABLE_PENDING_PM_COL_SENDER ", " DB_TABLE_PENDING_PM_COL_TEXT ", " DB_TABLE_PENDING_PM_COL_CREATED ") VALUES (?, ?, ?, COALESCE(?, 'NULL'), NOW())";
+
+	mysqlpp::Query prepareDelete = m_connData->conn.query();
+	prepareDelete
+			<< "PREPARE " QUERY_PENDING_PM_DELETE_PREPARE " FROM " << mysqlpp::quote
+			<< "DELETE FROM " DB_TABLE_PENDING_PM " WHERE " DB_TABLE_PENDING_PM_COL_RECIPIENT " = ? AND " DB_TABLE_PENDING_PM_COL_ID " <= ?";
+
+	mysqlpp::Query prepareExpire = m_connData->conn.query();
+	prepareExpire
+			<< "PREPARE " QUERY_PENDING_PM_EXPIRE_PREPARE " FROM " << mysqlpp::quote
+			<< "DELETE FROM " DB_TABLE_PENDING_PM " WHERE " DB_TABLE_PENDING_PM_COL_CREATED " < NOW() - INTERVAL " << PENDING_PM_MAX_AGE_DAYS << " DAY";
+
+	// Only active, not blocked accounts can receive messages.
+	mysqlpp::Query prepareIdByName = m_connData->conn.query();
+	prepareIdByName
+			<< "PREPARE " QUERY_PLAYER_ID_BY_NAME_PREPARE " FROM " << mysqlpp::quote
+			<< "SELECT " DB_TABLE_PLAYER_COL_ID ", " DB_TABLE_PLAYER_COL_USERNAME " FROM " DB_TABLE_PLAYER " WHERE " DB_TABLE_PLAYER_COL_USERNAME " = ? AND " DB_TABLE_PLAYER_COL_ACTIVE " = 1 AND " DB_TABLE_PLAYER_COL_VALID " = 0";
+
+	if (!prepareLoad.exec() || !prepareStore.exec() || !prepareDelete.exec()
+			|| !prepareExpire.exec() || !prepareIdByName.exec()) {
+		LOG_ERROR("Held back private messages disabled: cannot prepare statements, is "
+				  DB_TABLE_PENDING_PM " missing? (" << prepareLoad.error() << prepareStore.error()
+				  << prepareDelete.error() << prepareExpire.error() << prepareIdByName.error() << ")");
+		return false;
+	}
+	return true;
+}
+
+bool
+ServerDBThread::IsPendingPmEnabled() const
+{
+	boost::mutex::scoped_lock lock(m_activityLoggingMutex);
+	return m_pendingPm;
+}
+
+void
+ServerDBThread::SetPendingPmEnabled(bool enabled)
+{
+	boost::mutex::scoped_lock lock(m_activityLoggingMutex);
+	m_pendingPm = enabled;
 }
 
 bool
@@ -1031,6 +1140,14 @@ ServerDBThread::EstablishDBConnection()
 			// Same reasoning: a database without the shadow mute column must
 			// still let players log in and chat.
 			SetShadowMuteEnabled(PrepareShadowMuteStatement());
+			// The same once more. The stored messages are read only after the
+			// first connect: from then on the lobby holds them in memory.
+			SetPendingPmEnabled(PreparePendingPmStatements());
+			if (IsPendingPmEnabled() && !m_pendingPmLoaded) {
+				m_pendingPmLoaded = true;
+				DeleteExpiredPendingPrivateMessages();
+				EnqueueQuery(boost::shared_ptr<AsyncDBQuery>(new AsyncDBPendingPmLoad(QUERY_PENDING_PM_LOAD_PREPARE)));
+			}
 			const size_t pending = GetQueueSize();
 			if (pending)
 				LOG_MSG("DB connection ready with " << pending << " pending queries.");

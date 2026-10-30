@@ -170,6 +170,16 @@ Prašome pasirinkti kortų kaladės stilių ir mėginti dar kartą!</translation
         <source>Translation is currently unavailable. Please try again later.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="777"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Nepristatyta: %1 dar žaidžia, o jūsų žinutės jau laukia. Vėl galėsite rašyti, kai %1 grįš į fojė.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="830"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 šiuo metu žaidžia. Jūsų žinutės bus pristatytos, kai %1 grįš į fojė.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

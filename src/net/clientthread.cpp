@@ -320,6 +320,22 @@ ClientThread::SendPrivateChatMessage(unsigned targetPlayerId, const std::string 
 }
 
 void
+ClientThread::SendPrivateChatMessageToName(const std::string &targetPlayerName, const std::string &msg)
+{
+	// Warning: This function is called in the context of the GUI thread.
+	// The player id 0 makes an older server reject the message instead of
+	// taking it for lobby chat.
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatRequestMessage);
+	ChatRequestMessage *netChat = packet->GetMsg()->mutable_chatrequestmessage();
+	netChat->set_targetplayerid(0);
+	netChat->set_targetplayername(targetPlayerName);
+	netChat->set_chattext(msg);
+
+	boost::asio::post(*m_ioService, boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
+}
+
+void
 ClientThread::SendJoinFirstGame(const std::string &password, bool autoLeave)
 {
 	// Warning: This function is called in the context of the GUI thread.

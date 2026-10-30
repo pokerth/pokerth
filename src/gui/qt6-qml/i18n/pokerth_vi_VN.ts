@@ -2387,6 +2387,26 @@ Hãy điền lại mật khẩu và thử lại một lần nữa.</translation>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 không thể tham gia %2 vì đang bận.</translation>
     </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2351"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Chưa gửi được: %1 vẫn đang chơi và đã có tin nhắn của bạn đang chờ. Bạn có thể viết tiếp khi %1 quay lại phòng chờ.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2353"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 đang chơi. Tin nhắn của bạn sẽ được gửi khi %1 quay lại phòng chờ.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2357"/>
+        <source>Not delivered: %1 is offline and already has messages from you waiting. You can write again once %1 has logged in.</source>
+        <translation>Chưa gửi được: %1 đang ngoại tuyến và đã có tin nhắn của bạn đang chờ. Bạn có thể viết tiếp khi %1 đăng nhập.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2359"/>
+        <source>%1 is offline. Your messages will be delivered at the next login.</source>
+        <translation>%1 đang ngoại tuyến. Tin nhắn của bạn sẽ được gửi vào lần đăng nhập tiếp theo.</translation>
+    </message>
 </context>
 <context>
     <name>LobbyPage</name>

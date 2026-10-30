@@ -86,12 +86,10 @@ ItemDelegate {
         && (Lobby.gameListRevision >= 0 && !Lobby.isPlayerInAnyGame(targetPlayerId))
     readonly property bool canAdminModerate: Lobby && Lobby.isCurrentPlayerAdmin && !isSelf
     // Private message: guests are not allowed to chat at all on the server side – neither
-    // as a sender nor as a RECIPIENT –, and the server discards PMs to players
-    // sitting at a RUNNING table. Hide all three here, otherwise
-    // only a "chat rejected" would come back instead of the message.
-    // gameListRevision keeps the check reactive.
+    // as a sender nor as a RECIPIENT. Hide both here, otherwise only a "chat
+    // rejected" would come back instead of the message. Players at a RUNNING
+    // table get their PMs once the game is over (the server holds them back).
     readonly property bool canSendPm: Lobby && !isSelf && !Lobby.isMyPlayerGuest && !guestPlayer
-        && (Lobby.gameListRevision >= 0 && !Lobby.isPlayerInRunningGame(targetPlayerId))
     readonly property bool canShowPlayerStats: !guestPlayer
     // "Currently playing in ..." info. Only query it if somebody sees it:
     // on the desktop when hovering over the name, on touch in the expanded area

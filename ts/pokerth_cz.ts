@@ -198,6 +198,16 @@ Kontaktujte výrobce stylu balíčku karet na &quot;%4&quot;.</translation>
         <source>Translation is currently unavailable. Please try again later.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="777"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Nedoručeno: %1 ještě hraje a už má od vás čekající zprávy. Znovu můžete psát, jakmile bude %1 zpět v lobby.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="830"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 právě hraje. Vaše zprávy budou doručeny, jakmile bude %1 zpět v lobby.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

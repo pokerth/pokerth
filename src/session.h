@@ -102,6 +102,7 @@ public:
 	void sendGameChatMessage(const std::string &message);
 	void sendLobbyChatMessage(const std::string &message);
 	void sendPrivateChatMessage(unsigned targetPlayerId, const std::string &message);
+	void sendPrivateChatMessageToName(const std::string &targetPlayerName, const std::string &message);
 	void kickPlayer(unsigned playerId);
 	void kickPlayer(const std::string &playerName);
 	void startVoteKickPlayer(unsigned playerId);

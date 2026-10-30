@@ -2387,6 +2387,26 @@ Lütfen parolayı yeniden girip tekrar deneyin.</translation>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1, meşgul olduğu için %2 oyununa giremiyor.</translation>
     </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2351"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>İletilmedi: %1 hâlâ oynuyor ve sizden bekleyen mesajları zaten var. %1 lobiye döndüğünde yeniden yazabilirsiniz.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2353"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 şu anda oynuyor. Mesajlarınız %1 lobiye döndüğünde iletilecek.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2357"/>
+        <source>Not delivered: %1 is offline and already has messages from you waiting. You can write again once %1 has logged in.</source>
+        <translation>İletilmedi: %1 çevrimdışı ve sizden bekleyen mesajları zaten var. %1 giriş yaptığında yeniden yazabilirsiniz.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2359"/>
+        <source>%1 is offline. Your messages will be delivered at the next login.</source>
+        <translation>%1 çevrimdışı. Mesajlarınız bir sonraki girişte iletilecek.</translation>
+    </message>
 </context>
 <context>
     <name>LobbyPage</name>

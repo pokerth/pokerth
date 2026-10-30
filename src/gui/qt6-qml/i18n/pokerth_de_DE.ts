@@ -2387,6 +2387,26 @@ Bitte geben Sie das Passwort erneut ein und versuchen Sie es noch einmal.</trans
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 kann %2 nicht beitreten, da gerade beschäftigt.</translation>
     </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2351"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Nicht zugestellt: %1 spielt noch, und es warten bereits Nachrichten von dir. Du kannst wieder schreiben, sobald %1 zurück in der Lobby ist.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2353"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 spielt gerade. Deine Nachrichten werden zugestellt, sobald %1 zurück in der Lobby ist.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2357"/>
+        <source>Not delivered: %1 is offline and already has messages from you waiting. You can write again once %1 has logged in.</source>
+        <translation>Nicht zugestellt: %1 ist offline, und es warten bereits Nachrichten von dir. Du kannst wieder schreiben, sobald %1 sich eingeloggt hat.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2359"/>
+        <source>%1 is offline. Your messages will be delivered at the next login.</source>
+        <translation>%1 ist offline. Deine Nachrichten werden beim nächsten Login zugestellt.</translation>
+    </message>
 </context>
 <context>
     <name>LobbyPage</name>

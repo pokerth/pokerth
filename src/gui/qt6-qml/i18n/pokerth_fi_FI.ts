@@ -2387,6 +2387,26 @@ Kirjoita salasana uudestaan ja yritä uudelleen.</translation>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 ei voi liittyä peliin %2, koska hän on varattu.</translation>
     </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2351"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Ei toimitettu: %1 pelaa vielä, ja sinulta on jo viestejä odottamassa. Voit kirjoittaa uudelleen, kun %1 on palannut aulaan.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2353"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 pelaa parhaillaan. Viestisi toimitetaan, kun %1 on palannut aulaan.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2357"/>
+        <source>Not delivered: %1 is offline and already has messages from you waiting. You can write again once %1 has logged in.</source>
+        <translation>Ei toimitettu: %1 ei ole kirjautuneena, ja sinulta on jo viestejä odottamassa. Voit kirjoittaa uudelleen, kun %1 on kirjautunut sisään.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2359"/>
+        <source>%1 is offline. Your messages will be delivered at the next login.</source>
+        <translation>%1 ei ole kirjautuneena. Viestisi toimitetaan seuraavalla kirjautumiskerralla.</translation>
+    </message>
 </context>
 <context>
     <name>LobbyPage</name>

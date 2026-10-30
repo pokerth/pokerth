@@ -365,6 +365,8 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	connect(this, SIGNAL(signalNetClientLobbyChatMsg(QString, QString)), myGameLobbyDialog->getMyChat(), SLOT(receiveMessage(QString, QString)));
 	connect(this, SIGNAL(signalNetClientPrivateChatMsg(QString, QString)), myStartNetworkGameDialog->getMyChat(), SLOT(privateMessage(QString, QString)));
 	connect(this, SIGNAL(signalNetClientPrivateChatMsg(QString, QString)), myGameLobbyDialog->getMyChat(), SLOT(privateMessage(QString, QString)));
+	connect(this, SIGNAL(signalNetClientPrivateChatLimitReached(QString, QString)), myStartNetworkGameDialog->getMyChat(), SLOT(privateMessageLimitReached(QString, QString)));
+	connect(this, SIGNAL(signalNetClientPrivateChatLimitReached(QString, QString)), myGameLobbyDialog->getMyChat(), SLOT(privateMessageLimitReached(QString, QString)));
 	connect(this, SIGNAL(signalNetClientMsgBox(QString)), this, SLOT(networkMessage(QString)));
 	connect(this, SIGNAL(signalNetClientMsgBox(unsigned)), this, SLOT(networkMessage(unsigned)));
 	connect(this, SIGNAL(signalNetClientShowTimeoutDialog(int, unsigned)), this, SLOT(showTimeoutDialog(int, unsigned)));

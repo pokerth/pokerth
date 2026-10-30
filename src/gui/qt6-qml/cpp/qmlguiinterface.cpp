@@ -249,6 +249,15 @@ void QmlGuiInterface::SignalNetClientPrivateChatMsg(const std::string &playerNam
 	}
 }
 
+void QmlGuiInterface::SignalNetClientPrivateChatLimitReached(const std::string &playerName, const std::string &msg)
+{
+	if (m_lobbyHandler) {
+		QMetaObject::invokeMethod(m_lobbyHandler, "onPrivateChatLimitReached", Qt::QueuedConnection,
+								  Q_ARG(QString, QString::fromStdString(playerName)),
+								  Q_ARG(QString, QString::fromStdString(msg)));
+	}
+}
+
 void QmlGuiInterface::SignalLobbyPlayerJoined(unsigned playerId, const std::string &nickName)
 {
 	if (m_lobbyHandler) {

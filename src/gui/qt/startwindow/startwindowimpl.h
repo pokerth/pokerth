@@ -145,6 +145,7 @@ signals:
 	void signalNetClientGameChatMsg(QString nickName, QString msg);
 	void signalNetClientLobbyChatMsg(QString nickName, QString msg);
 	void signalNetClientPrivateChatMsg(QString nickName, QString msg);
+	void signalNetClientPrivateChatLimitReached(QString nickName, QString msg);
 	void signalNetClientMsgBox(QString msg);
 	void signalNetClientMsgBox(unsigned msgId);
 

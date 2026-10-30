@@ -171,6 +171,16 @@ Por favor, selecione um baralho de cartas e tente novamente!</translation>
         <source>Translation is currently unavailable. Please try again later.</source>
         <translation>A tradução está indisponível de momento. Tente novamente mais tarde.</translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="777"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Não entregue: %1 ainda está a jogar e já tem mensagens tuas em espera. Poderás escrever novamente quando %1 voltar à sala.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="830"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 está a jogar neste momento. As tuas mensagens serão entregues quando %1 voltar à sala.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

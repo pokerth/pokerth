@@ -81,6 +81,9 @@ public:
 	virtual void SignalNetClientGameChatMsg(const std::string &playerName, const std::string &msg) = 0;
 	virtual void SignalNetClientLobbyChatMsg(const std::string &playerName, const std::string &msg) = 0;
 	virtual void SignalNetClientPrivateChatMsg(const std::string &playerName, const std::string &msg) = 0;
+	// A private message to a player at a running table was not accepted:
+	// too many messages wait for that player already.
+	virtual void SignalNetClientPrivateChatLimitReached(const std::string &playerName, const std::string &msg) = 0;
 	virtual void SignalNetClientMsgBox(const std::string &msg) = 0;
 	virtual void SignalNetClientMsgBox(unsigned msgId) = 0;
 	virtual void SignalNetClientWaitDialog() = 0;

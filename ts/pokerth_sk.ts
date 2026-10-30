@@ -203,6 +203,16 @@ Prosím, vyberte štýl kariet a skúste to znovu!</translation>
         <source>Translation is currently unavailable. Please try again later.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="777"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Nedoručené: %1 ešte hrá a už má od vás čakajúce správy. Znova môžete písať, keď bude %1 späť v lobby.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="830"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 práve hrá. Vaše správy budú doručené, keď bude %1 späť v lobby.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

@@ -245,6 +245,10 @@ void ServerGuiWrapper::SignalNetClientPrivateChatMsg(const string &playerName, c
 {
 	if (myClientcb) myClientcb->SignalNetClientPrivateChatMsg(playerName, msg);
 }
+void ServerGuiWrapper::SignalNetClientPrivateChatLimitReached(const string &playerName, const string &msg)
+{
+	if (myClientcb) myClientcb->SignalNetClientPrivateChatLimitReached(playerName, msg);
+}
 void ServerGuiWrapper::SignalNetClientMsgBox(const string &msg)
 {
 	if (myClientcb) myClientcb->SignalNetClientMsgBox(msg);

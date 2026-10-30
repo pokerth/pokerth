@@ -19,6 +19,7 @@ set(POKERTH_OFFICIAL_SERVER_SRC
     asyncdbavatarblacklist.cpp
     asyncdbadminplayers.cpp
     asyncdbshadowmute.cpp
+    asyncdbpendingpm.cpp
     asyncdbblockplayer.cpp
     asyncdbplayerlastgames.cpp
     asyncdbsessionstart.cpp

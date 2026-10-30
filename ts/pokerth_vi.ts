@@ -170,6 +170,16 @@ Hãy chọn kiểu lá bài và thử lại lần nữa!</translation>
         <source>Translation is currently unavailable. Please try again later.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="777"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Chưa gửi được: %1 vẫn đang chơi và đã có tin nhắn của bạn đang chờ. Bạn có thể viết tiếp khi %1 quay lại phòng chờ.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="830"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 đang chơi. Tin nhắn của bạn sẽ được gửi khi %1 quay lại phòng chờ.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

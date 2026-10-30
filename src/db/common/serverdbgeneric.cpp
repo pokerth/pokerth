@@ -152,3 +152,23 @@ void
 ServerDBGeneric::UpdateLiveStats(unsigned /*playersOnline*/, unsigned /*tablesRunning*/, unsigned /*playersWaiting*/)
 {
 }
+
+void
+ServerDBGeneric::StorePendingPrivateMessage(unsigned long long /*messageId*/, DB_id /*recipientId*/, DB_id /*senderId*/, const std::string &/*text*/)
+{
+}
+
+void
+ServerDBGeneric::DeletePendingPrivateMessages(DB_id /*recipientId*/, unsigned long long /*upToMessageId*/)
+{
+}
+
+void
+ServerDBGeneric::DeleteExpiredPendingPrivateMessages()
+{
+}
+
+void
+ServerDBGeneric::AsyncQueryPlayerIdByName(unsigned /*requestId*/, const std::string &/*playerName*/)
+{
+}

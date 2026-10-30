@@ -71,6 +71,10 @@ public:
 								 const std::string &/*ip*/) {}
 	virtual void LogSessionEnd(unsigned /*sessionNo*/, unsigned /*gameId*/, const std::string &/*closeReason*/) {}
 	virtual void UpdateLiveStats(unsigned /*playersOnline*/, unsigned /*tablesRunning*/, unsigned /*playersWaiting*/) {}
+	virtual void StorePendingPrivateMessage(unsigned long long /*messageId*/, DB_id /*recipientId*/, DB_id /*senderId*/, const std::string &/*text*/) {}
+	virtual void DeletePendingPrivateMessages(DB_id /*recipientId*/, unsigned long long /*upToMessageId*/) {}
+	virtual void DeleteExpiredPendingPrivateMessages() {}
+	virtual void AsyncQueryPlayerIdByName(unsigned /*requestId*/, const std::string &/*playerName*/) {}
 };
 
 #endif // _SERVERDBNOACTION_H_

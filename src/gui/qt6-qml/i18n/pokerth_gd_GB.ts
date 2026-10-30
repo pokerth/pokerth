@@ -2387,6 +2387,26 @@ Cuir am facal-faire a-steach turas eile is feuch ris a-rithist.</translation>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>Chan urrainn dha %1 gabhail ann an %2 oir tha e trang.</translation>
     </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2351"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Cha deach a lìbhrigeadh: Tha %1 fhathast a&apos; cluich agus tha teachdaireachdan uat a&apos; feitheamh mu thràth. &apos;S urrainn dhut sgrìobhadh a-rithist nuair a bhios %1 air ais san lobaidh.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2353"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>Tha %1 a&apos; cluich an-dràsta. Thèid na teachdaireachdan agad a lìbhrigeadh nuair a bhios %1 air ais san lobaidh.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2357"/>
+        <source>Not delivered: %1 is offline and already has messages from you waiting. You can write again once %1 has logged in.</source>
+        <translation>Cha deach a lìbhrigeadh: Chan eil %1 air loidhne agus tha teachdaireachdan uat a&apos; feitheamh mu thràth. &apos;S urrainn dhut sgrìobhadh a-rithist nuair a bhios %1 air clàradh a-steach.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2359"/>
+        <source>%1 is offline. Your messages will be delivered at the next login.</source>
+        <translation>Chan eil %1 air loidhne. Thèid na teachdaireachdan agad a lìbhrigeadh aig an ath chlàradh a-steach.</translation>
+    </message>
 </context>
 <context>
     <name>LobbyPage</name>

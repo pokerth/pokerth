@@ -2060,15 +2060,11 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 
 		// Private message: not to yourself, not as a guest and not TO
 		// a guest (the server does not let guests chat at all, in neither
-		// direction) and not to players at a RUNNING table –
-		// the server does not deliver PMs there (ServerLobbyThread::
-		// HandleNetPacketChatRequest), the message would be lost without comment.
-		unsigned gameIdOfTarget = mySession->getGameIdOfPlayer(playerUid);
-		bool targetIsPlaying = gameIdOfTarget
-							   && mySession->getClientGameInfo(gameIdOfTarget).mode == GAME_MODE_STARTED;
+		// direction). Players at a RUNNING table get it once the game is over
+		// (the server holds it back, ServerLobbyThread::HandleNetPacketChatRequest).
 		bool targetIsGuest = mySession->getClientPlayerInfo(playerUid).isGuest;
 		if(playerUid != mySession->getClientUniquePlayerId() && !guestMode
-				&& !targetIsGuest && !targetIsPlaying) {
+				&& !targetIsGuest) {
 			nickListSendPrivateMessageAction->setEnabled(true);
 			nickListSendPrivateMessageAction->setText(tr("Send private message to %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())));
 		} else {

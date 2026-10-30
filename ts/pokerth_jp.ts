@@ -170,6 +170,16 @@ Please select a card deck style and try again!</source>
         <source>Translation is currently unavailable. Please try again later.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="777"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>配信されませんでした：%1 はまだプレイ中で、あなたからのメッセージがすでに待機しています。%1 がロビーに戻ったら、また送信できます。</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="830"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 は現在プレイ中です。メッセージは %1 がロビーに戻ったときに配信されます。</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

@@ -2387,6 +2387,26 @@ Prašome įvesti slaptažodį iš naujo ir pamėginti dar kartą.</translation>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 negali prisijungti prie %2, nes yra užsiėmęs.</translation>
     </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2351"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Nepristatyta: %1 dar žaidžia, o jūsų žinutės jau laukia. Vėl galėsite rašyti, kai %1 grįš į fojė.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2353"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 šiuo metu žaidžia. Jūsų žinutės bus pristatytos, kai %1 grįš į fojė.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2357"/>
+        <source>Not delivered: %1 is offline and already has messages from you waiting. You can write again once %1 has logged in.</source>
+        <translation>Nepristatyta: %1 šiuo metu nėra tinkle, o jūsų žinutės jau laukia. Vėl galėsite rašyti, kai %1 prisijungs.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2359"/>
+        <source>%1 is offline. Your messages will be delivered at the next login.</source>
+        <translation>%1 šiuo metu nėra tinkle. Jūsų žinutės bus pristatytos kito prisijungimo metu.</translation>
+    </message>
 </context>
 <context>
     <name>LobbyPage</name>

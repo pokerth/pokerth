@@ -554,6 +554,16 @@ Tagh stoidhle airson paca chairt is feuch ris a-rithist!</translation>
         <source>Translation is currently unavailable. Please try again later.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="777"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Cha deach a lìbhrigeadh: Tha %1 fhathast a&apos; cluich agus tha teachdaireachdan uat a&apos; feitheamh mu thràth. &apos;S urrainn dhut sgrìobhadh a-rithist nuair a bhios %1 air ais san lobaidh.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="830"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>Tha %1 a&apos; cluich an-dràsta. Thèid na teachdaireachdan agad a lìbhrigeadh nuair a bhios %1 air ais san lobaidh.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

@@ -67,6 +67,9 @@ public slots:
 	void sendMessage();
 	void receiveMessage(QString playerName, QString message, bool pm=false);
 	void privateMessage(QString playerName, QString message);
+	// The server did not hold back a private message to a player at a running
+	// table, because too many of your messages wait for that player already.
+	void privateMessageLimitReached(QString playerName, QString message);
 	// Sends a private message and confirms it in your own chat history –
 	// WITH the full text, because sent PMs do not show up anywhere else. A shared
 	// path for the chat shortcut "/msg" and the context menu entry of the

@@ -2387,6 +2387,26 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 se nemůže připojit do %2, protože je zaneprázdněn.</translation>
     </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2351"/>
+        <source>Not delivered: %1 is still playing and already has messages from you waiting. You can write again once %1 is back in the lobby.</source>
+        <translation>Nedoručeno: %1 ještě hraje a už má od vás čekající zprávy. Znovu můžete psát, jakmile bude %1 zpět v lobby.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2353"/>
+        <source>%1 is playing right now. Your messages will be delivered once %1 is back in the lobby.</source>
+        <translation>%1 právě hraje. Vaše zprávy budou doručeny, jakmile bude %1 zpět v lobby.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2357"/>
+        <source>Not delivered: %1 is offline and already has messages from you waiting. You can write again once %1 has logged in.</source>
+        <translation>Nedoručeno: %1 je offline a už má od vás čekající zprávy. Znovu můžete psát, jakmile se %1 přihlásí.</translation>
+    </message>
+    <message>
+        <location filename="../cpp/lobbyhandler.cpp" line="2359"/>
+        <source>%1 is offline. Your messages will be delivered at the next login.</source>
+        <translation>%1 je offline. Vaše zprávy budou doručeny při příštím přihlášení.</translation>
+    </message>
 </context>
 <context>
     <name>LobbyPage</name>
