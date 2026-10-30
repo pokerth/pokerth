@@ -45,8 +45,8 @@
 #define POKERTH_VERSION_MINOR	1
 #define POKERTH_VERSION			((POKERTH_VERSION_MAJOR << 8) | POKERTH_VERSION_MINOR)
 
-#define POKERTH_BETA_REVISION	10
-#define POKERTH_BETA_RELEASE_STRING	 "2.1.10"
+#define POKERTH_BETA_REVISION	11
+#define POKERTH_BETA_RELEASE_STRING	 "2.1.11"
 
 // --- Client type identifiers (encoded in high byte of buildId) ---
 #define CLIENT_TYPE_QT_WIDGET	0x01	// Qt Widget client (final version: 2.1.9, bugfix builds 2.1.9.x)
@@ -67,8 +67,8 @@
 // Bugfix builds only count WIDGET_VERSION_PATCH up (2.1.9.1, 2.1.9.2, ...);
 // the patch level is not part of the build ID, so every 2.1.9.x logs in as 2.1.9.
 #define WIDGET_VERSION_REVISION	9
-#define WIDGET_VERSION_PATCH	2
-#define WIDGET_RELEASE_STRING	"2.1.9.2"
+#define WIDGET_VERSION_PATCH	3
+#define WIDGET_RELEASE_STRING	"2.1.9.3"
 
 // Build ID for the Qt Widget client (this binary)
 #define POKERTH_BUILD_ID	MAKE_BUILD_ID(CLIENT_TYPE_QT_WIDGET, POKERTH_VERSION_MAJOR, POKERTH_VERSION_MINOR, WIDGET_VERSION_REVISION)
@@ -77,7 +77,7 @@
 // The QML client continues the version scheme as 2.1.x.
 #define QML_VERSION_MAJOR		2
 #define QML_VERSION_MINOR		1
-#define QML_VERSION_REVISION	10
+#define QML_VERSION_REVISION	11
 
 // --- QML client production mode ---
 // Enabled since v2.1.1: the official server (pokerth.net, v2.1.0+) supports CLIENT_TYPE_QML,
@@ -90,8 +90,8 @@
 // Qt Widget: min 2.1.9 for good - the client is discontinued and all of its
 // bugfix builds (2.1.9.x) report 2.1.9; do not raise this with new releases
 #define MIN_BUILD_ID_QT_WIDGET	MAKE_BUILD_ID(CLIENT_TYPE_QT_WIDGET, 2, 1, 9)
-// QML: min 2.1.9, current 2.1.10 (both allowed); update min to previous release with each new release
-#define MIN_BUILD_ID_QML		MAKE_BUILD_ID(CLIENT_TYPE_QML, 2, 1, 9)
+// QML: min 2.1.10, current 2.1.11 (both allowed); update min to previous release with each new release
+#define MIN_BUILD_ID_QML		MAKE_BUILD_ID(CLIENT_TYPE_QML, 2, 1, 10)
 // Web: the browser client is developed and deployed independently of the
 // desktop releases, so no version floor is enforced (any 0.0.0+ build is
 // accepted). The exact version still ends up in the log and in the activity

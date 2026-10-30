@@ -1,5 +1,5 @@
-• Tablets: Im Querformat sind Chat und Log/Chancen neben der Aktionsleiste angedockt und in der Höhe veränderbar
-• Android-Chat: Der erste Tipp öffnet sofort die Tastatur
-• Android-Chat: Das letzte Wort geht beim Senden per Button nicht mehr verloren
-• Bei hängender Verbindung erscheint ein Hinweis, tote Verbindungen werden schneller erkannt
-• Einladungen werden nach Ab- und erneutem Anmelden nicht mehr als „beschäftigt“ abgelehnt
+• Private Nachrichten an Spieler am Tisch oder offline werden später zugestellt, und Gesprächspartnern kann man auch offline schreiben
+• Der Posteingang behält die privaten Nachrichten nach einer Neuverbindung
+• Keine Geisterspieler mehr in der Lobby nach einem Rejoin
+• Ace's Help zählt ausgeschiedene Spieler, die den Tisch verlassen haben, richtig
+• Ukrainische Übersetzung (von viteck1048)

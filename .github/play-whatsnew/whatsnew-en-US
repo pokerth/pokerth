@@ -1,5 +1,5 @@
-• Tablets: in landscape, chat and log/odds are docked next to the action bar and can be resized
-• Android chat: the first tap opens the keyboard right away
-• Android chat: the last word is no longer lost when sending with the button
-• A notice appears when the connection stalls, and dead connections are detected faster
-• Invitations are no longer rejected as "busy" after logging out and in again
+• Private messages to players at a table or offline are delivered later, and you can write to offline partners from your conversations
+• The inbox keeps your private messages after a reconnect
+• No more ghost players in the lobby after a rejoin
+• Ace's Help counts players who left after being knocked out correctly
+• Ukrainian translation (by viteck1048)

@@ -217,17 +217,17 @@ mkdir -p "$ANDROID_BUILD_DIR/res/drawable"
 mkdir -p "$ANDROID_BUILD_DIR/res/values"
 
 # Package name, version and orientation per target.
-VERSION_CODE="30"
+VERSION_CODE="31"
 if [[ $TARGET == "pokerth_qml-client" ]]; then
   # Permanent Play/iOS/F-Droid app id — keep in sync with build_android_qml.sh.
   PACKAGE_NAME="net.pokerth.PokerTH_QML"
-  VERSION_NAME="2.1.10"
+  VERSION_NAME="2.1.11"
   SCREEN_ORIENTATION="fullUser"
 else
   # The widget client is discontinued and only gets 2.1.9.x bugfix builds
   # (WIDGET_RELEASE_STRING in src/game_defs.h).
   PACKAGE_NAME="org.pokerth.widget"
-  VERSION_NAME="2.1.9.2"
+  VERSION_NAME="2.1.9.3"
   SCREEN_ORIENTATION="landscape"
 fi
 

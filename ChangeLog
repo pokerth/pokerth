@@ -1,3 +1,22 @@
+2026-10-30 version 2.1.11:
+- new: private messages to a player at a running table or offline are held back by the server and delivered later, and you can write to offline partners from existing conversations (QML; client & server)
+- new: on Android tablets in landscape, chat and log/odds are docked next to the action bar and can be resized (QML)
+- new: connection watchdog - a notice appears when the connection stalls, and dead connections are dropped faster (QML)
+- new: Ukrainian translation (QML, by viteck1048)
+- bugfix: the private message inbox was empty and not saved after a reconnect with the same nick (QML)
+- bugfix: the guide counted players who left after being knocked out as still in the game (finishing place) (QML)
+- bugfix: the start game button was shown to server admins who are not the table admin (QML)
+- bugfix: the Android chat dropped the last word when sending with the button (QML)
+- bugfix: the first tap on the Android chat input opened the edit menu instead of the keyboard (QML)
+- bugfix: invitations were always rejected as busy after logging out and in again (QML)
+- bugfix: a second rejoin login left a duplicate session (ghost player in the lobby) - the server now closes it, and the clients drop stale lobby entries with the same name (QML & widget & server)
+- server: lobby chat log for moderation in <CacheDir>/chatlog (json lines, rotated every 72h, ServerChatLogRotateHours)
+- server: log players leaving a running game (reason, cash), the cause of kicks, failed TLS handshakes, slow game start acks and rejoin decisions
+- server: server passwords are no longer logged on an invalid password attempt
+- server: script for a game-server restart when idle (tools/restart_when_idle.sh)
+- android: Play Store release notes (de/en) via the workflow
+- widget: bugfix builds 2.1.9.2 and 2.1.9.3; QML clients from 2.1.10 on are accepted by the server
+
 2026-10-06 version 2.1.10:
 - new: Ace's Help - the contextual assistant of the web client, ported to the QML client: a small A♠ button in the header explains each screen the first time it is shown, on the real screens; offered once on the start page and switchable in the side menu and in the interface settings (QML)
 - new: BBC game dates - a second tab in the forum news lists the Best Brainies Cup games of the next days with the number of registered players, and a game with registrations expands to the list of its players (QML)

@@ -3950,8 +3950,8 @@ Reinicieu PokerTH perquè els fitxers de registre s&apos;hi desin.</translation>
     <name>PreLoader</name>
     <message>
         <location filename="../pages/PreLoader.qml" line="+143"/>
-        <source>PokerTH - v2.1.10</source>
-        <translation>PokerTH - v2.1.10</translation>
+        <source>PokerTH - v2.1.11</source>
+        <translation>PokerTH - v2.1.11</translation>
     </message>
 </context>
 <context>
@@ -4910,8 +4910,8 @@ Comproveu el vostre nom d&apos;usuari i la contrasenya.</translation>
     <name>SideMenu</name>
     <message>
         <location filename="../components/SideMenu.qml" line="+37"/>
-        <source>PokerTH - v2.1.10</source>
-        <translation>PokerTH - v2.1.10</translation>
+        <source>PokerTH - v2.1.11</source>
+        <translation>PokerTH - v2.1.11</translation>
     </message>
     <message>
         <location line="+102"/>
@@ -5289,8 +5289,8 @@ previsualització</translation>
     <name>pokerth</name>
     <message>
         <location filename="../pokerth.qml" line="+205"/>
-        <source>PokerTH - v2.1.10</source>
-        <translation>PokerTH - v2.1.10</translation>
+        <source>PokerTH - v2.1.11</source>
+        <translation>PokerTH - v2.1.11</translation>
     </message>
     <message>
         <location line="+297"/>
