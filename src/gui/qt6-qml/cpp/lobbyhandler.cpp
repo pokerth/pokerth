@@ -902,10 +902,12 @@ void LobbyHandler::setMyPlayerInfo(unsigned playerId, const QString &playerName)
 	if (m_myPlayerName != playerName) {
 		m_myPlayerName = playerName;
 		emit myPlayerNameChanged();
-		// The first point after the login at which your own nick is settled: from
-		// here on the inbox of this account applies.
-		setPrivateMessageOwner(playerName);
 	}
+	// The first point after the login at which your own nick is settled: from
+	// here on the inbox of this account applies. Outside the check above:
+	// setSession() clears the owner for every new connection, and a reconnect
+	// with the same nick would otherwise leave the inbox empty and unsaved.
+	setPrivateMessageOwner(playerName);
 
 	emit gameContextChanged();
 }
