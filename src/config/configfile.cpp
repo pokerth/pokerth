@@ -363,6 +363,9 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("ServerWebSocketResource", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("ServerWebSocketOrigin", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("DiscordChatWebhookUrl", CONFIG_TYPE_STRING, ""));
+	// Lobby chat log in <CacheDir>/chatlog/ for moderation, rotated after this
+	// many hours (one previous file is kept). 0 = off.
+	configList.push_back(ConfigInfo("ServerChatLogRotateHours", CONFIG_TYPE_INT, "72"));
 	configList.push_back(ConfigInfo("ServerUsePutAvatars", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("ServerPutAvatarsAddress", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("ServerPutAvatarsUser", CONFIG_TYPE_STRING, ""));

@@ -43,6 +43,7 @@
 #include <net/sessionmanager.h>
 #include <net/netpacket.h>
 #include <net/discordwebhook.h>
+#include <net/chatlogwriter.h>
 #include <db/serverdbcallback.h>
 #include <gui/guiinterface.h>
 #include <gamedata.h>
@@ -341,6 +342,7 @@ private:
 	boost::shared_ptr<ServerBanManager> m_banManager;
 	boost::shared_ptr<ChatCleanerManager> m_chatCleanerManager;
 	boost::shared_ptr<DiscordWebhookSender> m_discordWebhook;
+	boost::shared_ptr<ChatLogWriter> m_lobbyChatLog;
 	boost::shared_ptr<ServerDBInterface> m_database;
 
 	boost::asio::steady_timer m_removeGameTimer;

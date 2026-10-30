@@ -169,6 +169,7 @@ Files the server writes:
 	<LogDir>/server_statistics.log    number of players/games, read back on start
 	<LogDir>/pokerth.pid              process id of the running daemon
 	<CacheDir>/                       avatars uploaded by players
+	<CacheDir>/chatlog/               lobby chat log for moderation, see 5.4
 
 
 ++++++++++++++++++++++++
@@ -319,6 +320,16 @@ every client that still has the old pin.
 
 <DiscordChatWebhookUrl value=""/>
 	If set, lobby chat is mirrored into a Discord channel through this webhook.
+
+<ServerChatLogRotateHours value="72"/>
+	Lobby chat is also written to <CacheDir>/chatlog/lobby-chat.log, so that
+	it reaches the web server together with the avatars. One JSON object per
+	line: ts (unix time), time (UTC), ch ("lobby"), pid (player_id), name, msg,
+	and "muted":true for lines of shadow-muted players, which nobody else saw.
+	Once the first line is older than this many hours, the file is renamed to
+	lobby-chat.log.1 (replacing the previous one), so one to two periods are
+	kept. Readers should skip lines that do not parse, a sync may catch a line
+	half written. 0 switches the log off.
 
 5.5 Avatars
 ------------

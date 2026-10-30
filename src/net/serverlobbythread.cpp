@@ -359,6 +359,16 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ServerMode mode, ConfigF
 	if (m_discordWebhook->IsEnabled()) {
 		LOG_MSG("Discord chat webhook enabled.");
 	}
+	// Lobby chat log for moderation, in the avatar cache dir which is synced
+	// to the web server. Dedicated servers only - clients host LAN games.
+	boost::filesystem::path chatLogDir;
+	const std::string cacheDir = m_serverConfig.readConfigString("CacheDir");
+	if (mode != SERVER_MODE_LAN && !cacheDir.empty())
+		chatLogDir = boost::filesystem::path(cacheDir) / "chatlog";
+	m_lobbyChatLog.reset(new ChatLogWriter(chatLogDir.string(), "lobby-chat", m_serverConfig.readConfigInt("ServerChatLogRotateHours")));
+	if (m_lobbyChatLog->IsEnabled()) {
+		LOG_MSG("Lobby chat log: " << m_lobbyChatLog->GetFileName());
+	}
 	DBFactory dbFactory;
 	m_database = dbFactory.CreateServerDBObject(*m_internalServerCallback, m_ioService);
 }
@@ -1790,7 +1800,14 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 			netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
 			netChat->set_chattext(chatMsg);
 
-			if (GetBanManager().IsShadowMuted(session->GetPlayerData()->GetDBId())) {
+			const bool shadowMuted = GetBanManager().IsShadowMuted(session->GetPlayerData()->GetDBId());
+			m_lobbyChatLog->WriteChatMessage(
+				session->GetPlayerData()->GetDBId(),
+				session->GetPlayerData()->GetName(),
+				chatMsg,
+				shadowMuted);
+
+			if (shadowMuted) {
 				// Shadow mute: echo to the sender only, exactly the packet
 				// everybody else would have received. Keep the chat cleaner
 				// out of it as well - a bot warning about lines nobody saw
