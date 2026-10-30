@@ -100,8 +100,9 @@
 #define QUERY_PENDING_PM_DELETE_PREPARE	"pending_pm_delete_template"
 #define QUERY_PENDING_PM_EXPIRE_PREPARE	"pending_pm_expire_template"
 #define QUERY_PLAYER_ID_BY_NAME_PREPARE	"player_id_by_name_template"
-// Must match SERVER_PENDING_PM_MAX_AGE_SEC of the lobby.
-#define PENDING_PM_MAX_AGE_DAYS			30
+// Must match SERVER_PENDING_PM_MAX_AGE_SEC of the lobby. A string, because
+// mysqlpp::quote only covers the very next piece of the statement.
+#define PENDING_PM_MAX_AGE_DAYS			"30"
 
 using namespace std;
 
@@ -837,7 +838,7 @@ ServerDBThread::PreparePendingPmStatements()
 	mysqlpp::Query prepareExpire = m_connData->conn.query();
 	prepareExpire
 			<< "PREPARE " QUERY_PENDING_PM_EXPIRE_PREPARE " FROM " << mysqlpp::quote
-			<< "DELETE FROM " DB_TABLE_PENDING_PM " WHERE " DB_TABLE_PENDING_PM_COL_CREATED " < NOW() - INTERVAL " << PENDING_PM_MAX_AGE_DAYS << " DAY";
+			<< "DELETE FROM " DB_TABLE_PENDING_PM " WHERE " DB_TABLE_PENDING_PM_COL_CREATED " < NOW() - INTERVAL " PENDING_PM_MAX_AGE_DAYS " DAY";
 
 	// Only active, not blocked accounts can receive messages.
 	mysqlpp::Query prepareIdByName = m_connData->conn.query();
