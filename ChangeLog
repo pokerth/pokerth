@@ -15,7 +15,7 @@
 - server: server passwords are no longer logged on an invalid password attempt
 - server: script for a game-server restart when idle (tools/restart_when_idle.sh)
 - android: Play Store release notes (de/en) via the workflow
-- widget: bugfix builds 2.1.9.2 and 2.1.9.3; QML clients from 2.1.10 on are accepted by the server
+- widget: bugfix build 2.1.9.3; QML clients from 2.1.10 on are accepted by the server
 
 2026-10-06 version 2.1.10:
 - new: Ace's Help - the contextual assistant of the web client, ported to the QML client: a small A♠ button in the header explains each screen the first time it is shown, on the real screens; offered once on the start page and switchable in the side menu and in the interface settings (QML)
