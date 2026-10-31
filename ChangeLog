@@ -1,4 +1,4 @@
-2026-10-30 version 2.1.11:
+2026-11-01 version 2.1.11:
 - new: private messages to a player at a running table or offline are held back by the server and delivered later, and you can write to offline partners from existing conversations (QML; client & server)
 - new: on Android tablets in landscape, chat and log/odds are docked next to the action bar and can be resized (QML)
 - new: connection watchdog - a notice appears when the connection stalls, and dead connections are dropped faster (QML)
