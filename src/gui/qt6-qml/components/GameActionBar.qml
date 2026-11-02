@@ -297,6 +297,10 @@ Item {
     // past canAct as well (a stale m_myTurn).
     readonly property bool inShowdown: GameTable !== null && GameTable.showdownActive
 
+    // Local game with "pause between hands": the result stays on the table, and
+    // instead of fold/call/raise a single button starts the next hand.
+    readonly property bool waitingForNextHand: GameTable !== null && GameTable.waitingForNextHand
+
     // The central "buttons active" state for fold/check-call. True when I am to
     // act OR a preselection is permitted (canAct + the release) – and never in the
     // showdown or while new community cards are being revealed
@@ -372,6 +376,12 @@ Item {
 
     function clickAction(which) {
         if (GameTable === null) return
+        // During the pause between hands every action (button or F key) only
+        // continues the game – there is nothing to act on before the next hand.
+        if (waitingForNextHand) {
+            GameTable.continueToNextHand()
+            return
+        }
         // Your own click on an action button takes precedence over the
         // auto mode → back to "manual", then execute the action
         // or note it (as in the Qt widgets client).
@@ -1114,7 +1124,8 @@ Item {
                                             // "canAct=", actionBar.canAct,
                                             // "preSel=", actionBar.preSelectEnabled, ")")
 
-                opacity: (!ab.armed || ab.blocked) ? 0.4 : ((ab.myTurnNow || ab.preChecked) ? 1.0 : 0.72)
+                opacity: (!ab.armed || ab.blocked) ? 0.4
+                         : ((ab.myTurnNow || ab.preChecked || ab.actionKey === "nexthand") ? 1.0 : 0.72)
 
                 // The theme SVG background (only the look, without baked-in text)
                 Image {
@@ -1233,6 +1244,23 @@ Item {
                 ActionButton {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    visible: actionBar.waitingForNextHand
+                    actionKey: "nexthand"
+                    label: qsTr("Next Hand")
+                    themeSource: StyleProvider ? StyleProvider.checkCallButton : ""
+                    textColor: (StyleProvider && StyleProvider.checkCallButtonTextColor !== "")
+                               ? StyleProvider.checkCallButtonTextColor : "#F0F0F0"
+                    topColor: Config.Theme.colorCallTop
+                    bottomColor: Config.Theme.colorCallBottom
+                    edgeColor: Config.Theme.colorCallEdge
+                    highlight: true
+                    armed: true
+                }
+
+                ActionButton {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    visible: !actionBar.waitingForNextHand
                     actionKey: "fold"
                     label: actionBar.foldText
                     themeSource: StyleProvider ? StyleProvider.foldButton : ""
@@ -1250,6 +1278,7 @@ Item {
                 ActionButton {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    visible: !actionBar.waitingForNextHand
                     actionKey: "call"
                     label: actionBar.checkCallText
                     themeSource: StyleProvider ? StyleProvider.checkCallButton : ""
@@ -1264,6 +1293,7 @@ Item {
                 ActionButton {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    visible: !actionBar.waitingForNextHand
                     actionKey: "raise"
                     label: actionBar.betRaiseText
                     themeSource: StyleProvider ? StyleProvider.betRaiseButton : ""

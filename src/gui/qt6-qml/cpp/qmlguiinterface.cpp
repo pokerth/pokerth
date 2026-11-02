@@ -871,22 +871,8 @@ void QmlGuiInterface::postRiverRunAnimation1()
 	if (isNetwork) {
 		return;
 	}
-	QTimer::singleShot(5500, gh, [gh, sessionForTimer]() {
-		// The end of the tournament? As in the widgets client (gameTableImpl::postRiverRun-
-		// Animation6) NO further hand may follow the last one if only
-		// one player has chips left – otherwise the winner plays on alone endlessly
-		// and pays blinds in the process. checkLocalGameOver() reports the end of the
-		// game to the QML side (the winner popup).
-		if (gh->checkLocalGameOver())
-			return;
-		QMetaObject::invokeMethod(gh, "onNextRoundCleanGui", Qt::DirectConnection);
-		if (sessionForTimer) {
-			auto game = sessionForTimer->getCurrentGame();
-			if (game) {
-				game->initHand();
-				game->startHand();
-			}
-		}
+	QTimer::singleShot(5500, gh, [gh]() {
+		QMetaObject::invokeMethod(gh, "onLocalHandFinished", Qt::DirectConnection);
 	});
 }
 

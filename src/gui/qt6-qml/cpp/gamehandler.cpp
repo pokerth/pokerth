@@ -257,6 +257,7 @@ void GameHandler::setGame(boost::shared_ptr<Game> game)
 
 	m_localGameExitRequested = false;
 	m_localGameOver = false;
+	setWaitingForNextHand(false);
 	m_game = game;
 	// Adopt the spectator mode of the network client (always false in a local
 	// game). It is already settled when the engine reports the game: the
@@ -1161,6 +1162,14 @@ void GameHandler::setShowdownActive(bool active)
 	emit showdownActiveChanged();
 }
 
+void GameHandler::setWaitingForNextHand(bool waiting)
+{
+	if (m_waitingForNextHand == waiting)
+		return;
+	m_waitingForNextHand = waiting;
+	emit waitingForNextHandChanged();
+}
+
 // ─── slots called from QmlGuiInterface ──────────────────────────────────────
 
 void GameHandler::onRefreshSet()
@@ -1655,6 +1664,45 @@ bool GameHandler::checkLocalGameOver()
 	return true;
 }
 
+void GameHandler::onLocalHandFinished()
+{
+	// The end of the tournament? As in the widgets client (gameTableImpl::postRiverRun-
+	// Animation6) NO further hand may follow the last one if only
+	// one player has chips left – otherwise the winner plays on alone endlessly
+	// and pays blinds in the process. checkLocalGameOver() reports the end of the
+	// game to the QML side (the winner popup).
+	if (checkLocalGameOver())
+		return;
+	// Pause between hands: the result (winner, revealed cards, winning hand) stays
+	// on the table until the player starts the next hand – like the start button of
+	// the widgets client (gameTableImpl::startNewHand with breakAfterCurrentHand).
+	if (m_config && m_config->readConfigInt("PauseBetweenHands")) {
+		setWaitingForNextHand(true);
+		return;
+	}
+	startNextLocalHand();
+}
+
+void GameHandler::continueToNextHand()
+{
+	if (!m_waitingForNextHand)
+		return;
+	// Leaving the game during the pause clears the flag (endLocalGame/setGame).
+	setWaitingForNextHand(false);
+	startNextLocalHand();
+}
+
+void GameHandler::startNextLocalHand()
+{
+	onNextRoundCleanGui();
+	if (!m_session) return;
+	auto game = m_session->getCurrentGame();
+	if (game) {
+		game->initHand();
+		game->startHand();
+	}
+}
+
 void GameHandler::onBlindsSet(int smallBlind)
 {
 	if (localGameCallbacksBlocked()) return;
@@ -1791,6 +1839,7 @@ void GameHandler::onNextRoundCleanGui()
 	}
 	// End the showdown before the player data is rebuilt → the cards close.
 	setShowdownActive(false);
+	setWaitingForNextHand(false);
 	m_allInRevealed = false;
 	m_postRiverShownPlayers.clear();
 	// Discard the showdown snapshot of the previous hand → the live state applies again from now on.
@@ -2124,6 +2173,7 @@ void GameHandler::endLocalGame()
 	if (m_session->isNetworkClientRunning()) return;
 
 	m_localGameExitRequested = true;
+	setWaitingForNextHand(false);
 	m_game.reset();
 
 	// Ausstehende Busted-Player-Timer abbrechen.
