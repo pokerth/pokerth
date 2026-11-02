@@ -2309,6 +2309,11 @@ Please reenter the password and try again.</source>
         <translation>செயலற்ற நிலையின் காரணமாக நீங்கள் நீக்கப்பட்டீர்கள்.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;&lt;br&gt;Your version %1 can still be used for now, but the server only supports the current and the previous release. After the next release this version can no longer connect.&lt;br&gt;&lt;br&gt;Please update PokerTH where you installed it from, or download it from &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</source>
+        <translation>PokerTH இன் புதிய பதிப்பு கிடைக்கிறது.&lt;br&gt;&lt;br&gt;உங்கள் பதிப்பு %1 ஐ இப்போதைக்கு இன்னும் பயன்படுத்தலாம், ஆனால் சேவையகம் தற்போதைய மற்றும் முந்தைய பதிப்பை மட்டுமே ஆதரிக்கிறது. அடுத்த வெளியீட்டிற்குப் பிறகு இந்தப் பதிப்பால் இணைக்க முடியாது.&lt;br&gt;&lt;br&gt;நீங்கள் நிறுவிய இடத்திலிருந்து PokerTH ஐப் புதுப்பிக்கவும், அல்லது &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt; இலிருந்து பதிவிறக்கவும்.</translation>
+    </message>
+    <message>
         <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 தற்போது வரவேற்பறையில் இல்லை.</translation>

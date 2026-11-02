@@ -2309,6 +2309,11 @@ Torneu a introduir la contrasenya i proveu-ho de nou.</translation>
         <translation>Heu estat retirat per inactivitat.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;&lt;br&gt;Your version %1 can still be used for now, but the server only supports the current and the previous release. After the next release this version can no longer connect.&lt;br&gt;&lt;br&gt;Please update PokerTH where you installed it from, or download it from &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</source>
+        <translation>Hi ha disponible una nova versió de PokerTH.&lt;br&gt;&lt;br&gt;La vostra versió %1 encara es pot fer servir de moment, però el servidor només admet la versió actual i l&apos;anterior. Després de la propera versió, aquesta ja no s&apos;hi podrà connectar.&lt;br&gt;&lt;br&gt;Actualitzeu PokerTH des d&apos;on el vau instal·lar o baixeu-lo de &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</translation>
+    </message>
+    <message>
         <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 no és a la sala en aquest moment.</translation>

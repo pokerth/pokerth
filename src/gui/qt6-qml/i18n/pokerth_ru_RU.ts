@@ -2309,6 +2309,11 @@ Please reenter the password and try again.</source>
         <translation>Вы были удалены из-за бездействия.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;&lt;br&gt;Your version %1 can still be used for now, but the server only supports the current and the previous release. After the next release this version can no longer connect.&lt;br&gt;&lt;br&gt;Please update PokerTH where you installed it from, or download it from &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</source>
+        <translation>Доступна новая версия PokerTH.&lt;br&gt;&lt;br&gt;Вашу версию %1 пока ещё можно использовать, но сервер поддерживает только текущую и предыдущую версии. После следующего выпуска эта версия больше не сможет подключиться.&lt;br&gt;&lt;br&gt;Обновите PokerTH там, откуда вы его установили, или скачайте его с &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</translation>
+    </message>
+    <message>
         <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 сейчас не в лобби.</translation>

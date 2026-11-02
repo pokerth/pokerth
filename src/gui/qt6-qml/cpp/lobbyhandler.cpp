@@ -1768,6 +1768,21 @@ void LobbyHandler::onNetworkNotification(int notificationId)
 		// onRemovedFromGame handler in pokerth.qml.
 		msgText = tr("You were removed due to inactivity.");
 		break;
+	case NTF_NET_NEW_RELEASE_AVAILABLE:
+	case NTF_NET_OUTDATED_BETA:
+		// Sent with every server announce, i.e. on each (re)connect: tell it once
+		// per program run. The server accepts the current and the previous QML
+		// release (MIN_BUILD_ID_QML), so this version stops working with the next one.
+		if (m_updateNoticeShown)
+			return;
+		m_updateNoticeShown = true;
+		msgText = tr("A new release of PokerTH is available.<br><br>Your version %1 can still be used for now, "
+					 "but the server only supports the current and the previous release. "
+					 "After the next release this version can no longer connect.<br><br>"
+					 "Please update PokerTH where you installed it from, or download it from "
+					 "<a href=\"https://www.pokerth.net/\">www.pokerth.net</a>.")
+				  .arg(QStringLiteral(POKERTH_BETA_RELEASE_STRING));
+		break;
 	default:
 		return;   // do not show unknown IDs (as in the widgets client)
 	}

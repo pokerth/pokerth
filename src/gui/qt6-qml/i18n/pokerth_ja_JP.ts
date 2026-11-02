@@ -2309,6 +2309,11 @@ Please reenter the password and try again.</source>
         <translation>操作がなかったため退出させられました。</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;&lt;br&gt;Your version %1 can still be used for now, but the server only supports the current and the previous release. After the next release this version can no longer connect.&lt;br&gt;&lt;br&gt;Please update PokerTH where you installed it from, or download it from &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</source>
+        <translation>PokerTH の新しいバージョンが公開されています。&lt;br&gt;&lt;br&gt;お使いのバージョン %1 は当面まだ使用できますが、サーバーは現在のバージョンと 1 つ前のバージョンのみをサポートしています。次のリリース以降、このバージョンでは接続できなくなります。&lt;br&gt;&lt;br&gt;インストール元で PokerTH を更新するか、&lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt; からダウンロードしてください。</translation>
+    </message>
+    <message>
         <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 は現在ロビーにいません。</translation>

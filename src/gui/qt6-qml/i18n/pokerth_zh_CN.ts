@@ -2309,6 +2309,11 @@ Please reenter the password and try again.</source>
         <translation>你因长时间无操作而被移出。</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;&lt;br&gt;Your version %1 can still be used for now, but the server only supports the current and the previous release. After the next release this version can no longer connect.&lt;br&gt;&lt;br&gt;Please update PokerTH where you installed it from, or download it from &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</source>
+        <translation>PokerTH 已有新版本。&lt;br&gt;&lt;br&gt;你的版本 %1 目前仍可使用，但服务器只支持当前版本和上一个版本。下一个版本发布后，此版本将无法再连接。&lt;br&gt;&lt;br&gt;请在你安装 PokerTH 的地方更新它，或从 &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt; 下载。</translation>
+    </message>
+    <message>
         <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 目前不在大厅中。</translation>

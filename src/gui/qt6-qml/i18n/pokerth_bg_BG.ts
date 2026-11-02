@@ -2309,6 +2309,11 @@ Please reenter the password and try again.</source>
         <translation>Премахнат сте поради бездействие.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;&lt;br&gt;Your version %1 can still be used for now, but the server only supports the current and the previous release. After the next release this version can no longer connect.&lt;br&gt;&lt;br&gt;Please update PokerTH where you installed it from, or download it from &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</source>
+        <translation>Налична е нова версия на PokerTH.&lt;br&gt;&lt;br&gt;Вашата версия %1 все още може да се използва, но сървърът поддържа само текущата и предишната версия. След следващата версия тази версия вече няма да може да се свързва.&lt;br&gt;&lt;br&gt;Моля, обновете PokerTH от мястото, откъдето сте го инсталирали, или го изтеглете от &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</translation>
+    </message>
+    <message>
         <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 в момента не е в лобито.</translation>

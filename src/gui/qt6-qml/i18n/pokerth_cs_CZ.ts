@@ -2309,6 +2309,11 @@ Zadejte jej prosím znovu a zkuste to ještě jednou.</translation>
         <translation>Byl jste odstraněn z důvodu nečinnosti.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;&lt;br&gt;Your version %1 can still be used for now, but the server only supports the current and the previous release. After the next release this version can no longer connect.&lt;br&gt;&lt;br&gt;Please update PokerTH where you installed it from, or download it from &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</source>
+        <translation>Je k dispozici nová verze PokerTH.&lt;br&gt;&lt;br&gt;Vaši verzi %1 lze zatím ještě používat, ale server podporuje pouze aktuální a předchozí verzi. Po vydání další verze se tato verze již nebude moci připojit.&lt;br&gt;&lt;br&gt;Aktualizujte prosím PokerTH tam, odkud jste jej nainstalovali, nebo jej stáhněte z &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</translation>
+    </message>
+    <message>
         <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 momentálně není v lobby.</translation>

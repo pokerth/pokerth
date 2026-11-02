@@ -2309,6 +2309,11 @@ Please reenter the password and try again.</source>
         <translation>Αφαιρεθήκατε λόγω αδράνειας.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;&lt;br&gt;Your version %1 can still be used for now, but the server only supports the current and the previous release. After the next release this version can no longer connect.&lt;br&gt;&lt;br&gt;Please update PokerTH where you installed it from, or download it from &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</source>
+        <translation>Είναι διαθέσιμη μια νέα έκδοση του PokerTH.&lt;br&gt;&lt;br&gt;Η έκδοσή σας %1 μπορεί να χρησιμοποιηθεί ακόμη προς το παρόν, αλλά ο διακομιστής υποστηρίζει μόνο την τρέχουσα και την προηγούμενη έκδοση. Μετά την επόμενη έκδοση, αυτή η έκδοση δεν θα μπορεί πλέον να συνδεθεί.&lt;br&gt;&lt;br&gt;Ενημερώστε το PokerTH από εκεί που το εγκαταστήσατε ή κατεβάστε το από το &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</translation>
+    </message>
+    <message>
         <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>Ο/Η %1 δεν βρίσκεται αυτή τη στιγμή στο λόμπι.</translation>

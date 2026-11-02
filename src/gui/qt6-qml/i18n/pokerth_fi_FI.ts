@@ -2309,6 +2309,11 @@ Kirjoita salasana uudestaan ja yritä uudelleen.</translation>
         <translation>Sinut poistettiin toimettomuuden vuoksi.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;&lt;br&gt;Your version %1 can still be used for now, but the server only supports the current and the previous release. After the next release this version can no longer connect.&lt;br&gt;&lt;br&gt;Please update PokerTH where you installed it from, or download it from &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</source>
+        <translation>PokerTH:sta on saatavilla uusi versio.&lt;br&gt;&lt;br&gt;Versiotasi %1 voi vielä toistaiseksi käyttää, mutta palvelin tukee vain nykyistä ja edellistä versiota. Seuraavan version jälkeen tällä versiolla ei voi enää muodostaa yhteyttä.&lt;br&gt;&lt;br&gt;Päivitä PokerTH sieltä, mistä asensit sen, tai lataa se osoitteesta &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</translation>
+    </message>
+    <message>
         <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 ei ole tällä hetkellä aulassa.</translation>

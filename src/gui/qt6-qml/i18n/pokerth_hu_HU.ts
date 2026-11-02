@@ -2309,6 +2309,11 @@ Kérlek írd be a jelszót még egyszer és próbáld újra.</translation>
         <translation>Tétlenség miatt eltávolítottak.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;&lt;br&gt;Your version %1 can still be used for now, but the server only supports the current and the previous release. After the next release this version can no longer connect.&lt;br&gt;&lt;br&gt;Please update PokerTH where you installed it from, or download it from &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</source>
+        <translation>Elérhető a PokerTH új verziója.&lt;br&gt;&lt;br&gt;A(z) %1 verzió egyelőre még használható, de a szerver csak a jelenlegi és az előző verziót támogatja. A következő kiadás után ez a verzió már nem tud csatlakozni.&lt;br&gt;&lt;br&gt;Kérjük, frissítse a PokerTH-t ott, ahonnan telepítette, vagy töltse le a(z) &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt; oldalról.</translation>
+    </message>
+    <message>
         <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 jelenleg nincs a lobbiban.</translation>

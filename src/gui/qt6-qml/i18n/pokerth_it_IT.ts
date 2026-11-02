@@ -2309,6 +2309,11 @@ Reinserire la password e riprovare.</translation>
         <translation>Sei stato rimosso per inattività.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;&lt;br&gt;Your version %1 can still be used for now, but the server only supports the current and the previous release. After the next release this version can no longer connect.&lt;br&gt;&lt;br&gt;Please update PokerTH where you installed it from, or download it from &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</source>
+        <translation>È disponibile una nuova versione di PokerTH.&lt;br&gt;&lt;br&gt;La tua versione %1 può ancora essere usata per ora, ma il server supporta solo la versione attuale e quella precedente. Dopo la prossima versione, questa non potrà più connettersi.&lt;br&gt;&lt;br&gt;Aggiorna PokerTH da dove lo hai installato oppure scaricalo da &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</translation>
+    </message>
+    <message>
         <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 non è nella lobby al momento.</translation>

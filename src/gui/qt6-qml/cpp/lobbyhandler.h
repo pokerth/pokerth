@@ -649,6 +649,8 @@ private:
 	QStringList m_chatLog;
 	// Is a bundled chatLogChanged notification already running? (notifyChatLogChanged)
 	bool m_chatLogNotifyPending = false;
+	// Has the "new release available" notice been shown in this program run?
+	bool m_updateNoticeShown = false;
 	ChatTranslator *m_chatTranslator = nullptr; // it appends the translate symbols and translates them
 	TextTranslator *m_textTranslator = nullptr; // it translates individual PM bubbles
 	// Running PM translations: request id -> (conversation partner, msgId).

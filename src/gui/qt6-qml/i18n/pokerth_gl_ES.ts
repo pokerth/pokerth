@@ -2309,6 +2309,11 @@ Escriba de novo o contrasinal e vólvao intentar.</translation>
         <translation>Retirárono por inactividade.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;&lt;br&gt;Your version %1 can still be used for now, but the server only supports the current and the previous release. After the next release this version can no longer connect.&lt;br&gt;&lt;br&gt;Please update PokerTH where you installed it from, or download it from &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</source>
+        <translation>Hai dispoñible unha nova versión de PokerTH.&lt;br&gt;&lt;br&gt;A súa versión %1 aínda se pode usar polo de agora, pero o servidor só admite a versión actual e a anterior. Despois da próxima versión, esta xa non poderá conectarse.&lt;br&gt;&lt;br&gt;Actualice PokerTH desde onde o instalou ou descárgueo de &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</translation>
+    </message>
+    <message>
         <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 non está na sala de espera neste momento.</translation>

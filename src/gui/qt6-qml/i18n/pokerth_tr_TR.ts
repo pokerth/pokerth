@@ -2309,6 +2309,11 @@ Lütfen parolayı yeniden girip tekrar deneyin.</translation>
         <translation>Etkin olmadığınız için oyundan çıkarıldınız.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;&lt;br&gt;Your version %1 can still be used for now, but the server only supports the current and the previous release. After the next release this version can no longer connect.&lt;br&gt;&lt;br&gt;Please update PokerTH where you installed it from, or download it from &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</source>
+        <translation>PokerTH&apos;in yeni bir sürümü mevcut.&lt;br&gt;&lt;br&gt;%1 sürümünüzü şimdilik kullanmaya devam edebilirsiniz, ancak sunucu yalnızca mevcut ve bir önceki sürümü destekliyor. Bir sonraki sürümden sonra bu sürüm artık bağlanamayacak.&lt;br&gt;&lt;br&gt;Lütfen PokerTH&apos;i yüklediğiniz yerden güncelleyin veya &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt; adresinden indirin.</translation>
+    </message>
+    <message>
         <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 şu anda lobide değil.</translation>

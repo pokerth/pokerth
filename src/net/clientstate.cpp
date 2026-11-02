@@ -1477,7 +1477,9 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 				   // The discontinued widget client stays on 2.1.9 for good and
 				   // would otherwise be told about every newer release it never gets.
 				   && BUILD_ID_GET_REVISION(ownBuildId)
-				   && netAnnounce.latestbetarevision() != BUILD_ID_GET_REVISION(ownBuildId)) {
+				   // Only an older client is outdated; a freshly released one may
+				   // reach a server that has not been updated yet.
+				   && netAnnounce.latestbetarevision() > BUILD_ID_GET_REVISION(ownBuildId)) {
 			client->GetCallback().SignalNetClientNotification(NTF_NET_OUTDATED_BETA);
 		}
 

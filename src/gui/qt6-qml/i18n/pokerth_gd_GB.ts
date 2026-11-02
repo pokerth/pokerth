@@ -2309,6 +2309,11 @@ Cuir am facal-faire a-steach turas eile is feuch ris a-rithist.</translation>
         <translation>Chaidh do thoirt air falbh air sgàth dìth gnìomhachd.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;&lt;br&gt;Your version %1 can still be used for now, but the server only supports the current and the previous release. After the next release this version can no longer connect.&lt;br&gt;&lt;br&gt;Please update PokerTH where you installed it from, or download it from &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</source>
+        <translation>Tha tionndadh ùr de PokerTH ri fhaighinn.&lt;br&gt;&lt;br&gt;&apos;S urrainn dhut an tionndadh %1 agad a chleachdadh fhathast an-dràsta, ach chan eil am frithealaiche a&apos; cur taic ach ris an tionndadh làithreach agus ris an fhear roimhe. Às dèidh an ath thionndaidh, cha ghabh an tionndadh seo ceangal tuilleadh.&lt;br&gt;&lt;br&gt;Ùraich PokerTH far an do stàlaich thu e no luchdaich a-nuas e o &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</translation>
+    </message>
+    <message>
         <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>Chan eil %1 san lobaidh an-dràsta.</translation>

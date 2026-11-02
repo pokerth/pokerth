@@ -2309,6 +2309,11 @@ Indtast venligst adgangskoden igen og prøv på ny.</translation>
         <translation>Du blev fjernet på grund af inaktivitet.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;&lt;br&gt;Your version %1 can still be used for now, but the server only supports the current and the previous release. After the next release this version can no longer connect.&lt;br&gt;&lt;br&gt;Please update PokerTH where you installed it from, or download it from &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</source>
+        <translation>En ny version af PokerTH er tilgængelig.&lt;br&gt;&lt;br&gt;Din version %1 kan stadig bruges indtil videre, men serveren understøtter kun den aktuelle og den forrige version. Efter den næste version kan denne version ikke længere oprette forbindelse.&lt;br&gt;&lt;br&gt;Opdater venligst PokerTH der, hvor du installerede det, eller hent det fra &lt;a href=&quot;https://www.pokerth.net/&quot;&gt;www.pokerth.net&lt;/a&gt;.</translation>
+    </message>
+    <message>
         <location line="+584"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 er ikke i lobbyen i øjeblikket.</translation>

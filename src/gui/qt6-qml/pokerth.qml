@@ -1090,6 +1090,8 @@ ApplicationWindow {
                 color: Config.StaticData.palette.secondary.col200
                 font.pixelSize: 13
                 wrapMode: Text.WordWrap
+                // The update notice links to the download page.
+                onLinkActivated: (link) => Qt.openUrlExternally(link)
             }
             CustomButton {
                 id: networkMessageCloseButton
