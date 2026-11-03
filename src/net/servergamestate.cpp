@@ -842,6 +842,14 @@ void
 ServerGameStateStartGame::InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
 	if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_StartEventAckMessage) {
+		const StartEventAckMessage &ack = packet->GetMsg()->starteventackmessage();
+		// StartEvent is sent only to seated players. Spectators share this
+		// SessionManager, so accepting their ACK would let them satisfy a player's
+		// readiness slot and start the game before that player has synchronized.
+		if (session->GetState() != SessionData::Game || ack.gameid() != server->GetId()) {
+			server->SessionError(session, ERR_SOCK_INVALID_PACKET);
+			return;
+		}
 		session->SetReadyFlag();
 		// A slow ACK delays the start for everyone at the table, so name the
 		// session which kept the others waiting.
@@ -851,7 +859,7 @@ ServerGameStateStartGame::InternalProcessPacket(boost::shared_ptr<ServerGame> se
 			LOG_MSG("Game " << server->GetId() << " - start ACK from \"" << session->GetPlayerData()->GetName()
 					<< "\" ip=" << session->GetClientAddr() << " after " << elapsedMs << "ms.");
 		}
-		if (server->GetSessionManager().CountReadySessions() == server->GetSessionManager().GetSessionCountWithState(SessionData::Game)) {
+		if (server->GetSessionManager().CountReadySessions(SessionData::Game) == server->GetSessionManager().GetSessionCountWithState(SessionData::Game)) {
 			// Everyone is ready.
 			server->GetSessionManager().ResetAllReadyFlags();
 			DoStart(server);
@@ -902,7 +910,7 @@ ServerGameStateStartGame::TryStartWithRemainingPlayers(boost::shared_ptr<ServerG
 		return;
 	}
 	// If all remaining players have ACKed, start immediately.
-	if (server->GetSessionManager().CountReadySessions() >= gameCount) {
+	if (server->GetSessionManager().CountReadySessions(SessionData::Game) >= gameCount) {
 		LOG_MSG("Game " << server->GetId() << " - all remaining " << gameCount << " players ready after disconnect, starting.");
 		server->GetStateTimer1().cancel();
 		server->GetSessionManager().ResetAllReadyFlags();
