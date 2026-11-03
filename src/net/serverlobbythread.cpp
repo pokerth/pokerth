@@ -66,6 +66,7 @@
 
 #define SERVER_MAX_NUM_LOBBY_SESSIONS				1536		// Maximum number of idle users in lobby.
 #define SERVER_MAX_NUM_TOTAL_SESSIONS				2000	// Total maximum of sessions, fitting a 2048 handle limit
+#define SERVER_MAX_NUM_OPEN_GAMES					SERVER_MAX_NUM_TOTAL_SESSIONS
 
 #define SERVER_SAVE_STATISTICS_INTERVAL_SEC			45		// heartbeat interval (s): keeps NAT alive, feeds client connection monitor
 #define SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC	500
@@ -82,6 +83,8 @@
 
 #define SERVER_INIT_LOGIN_CLIENT_LOCK_SEC			NetHelper::GetLoginLockSec()
 #define SERVER_INIT_LOGIN_CLIENT_BURST				5		// inits one address may send back to back before the rate limit applies
+#define SERVER_GAME_CREATE_REFILL_SEC				5
+#define SERVER_GAME_CREATE_BURST					3
 
 #define SERVER_INIT_SESSION_TIMEOUT_SEC				60
 #define SERVER_TIMEOUT_WARNING_REMAINING_SEC		60
@@ -1663,7 +1666,13 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 	boost::replace_all(gameName, "\f", " ");
 	unsigned gameId = GetNextGameId();
 
-	if (gameName.empty() || !isprint(gameName[0])) {
+	// Creating a game fans several notifications out to every subscribed
+	// session. Bound that work before any map scan, settings validation, game
+	// allocation, or broadcast. The generic failure remains compatible with
+	// older clients, whose protocol has no rate-limit failure reason.
+	if (!AcquireGameCreateToken(session)) {
+		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GAME_INVALID);
+	} else if (gameName.empty() || !isprint(gameName[0])) {
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GAME_BAD_NAME);
 	} else if (IsGameNameInUse(gameName)) {
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GAME_NAME_IN_USE);
@@ -1680,6 +1689,11 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 			   && !IsTestOrDevAccount(session->GetPlayerData()->GetName())) {
 		LOG_ERROR("not allowed due to ranklimit");
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_IP_BLOCKED);
+	} else if (m_gameMap.size() >= SERVER_MAX_NUM_OPEN_GAMES) {
+		// A disconnected creator leaves an empty game behind until the periodic
+		// cleanup. Never let those transient objects grow past the server's
+		// existing upper bound for connected sessions.
+		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GAME_INVALID);
 	} else {
 		boost::shared_ptr<ServerGame> game(
 			new ServerGame(
@@ -2409,7 +2423,7 @@ void
 ServerLobbyThread::TimerUpdateClientLoginLock(const boost::system::error_code &ec)
 {
 	if (!ec) {
-		boost::mutex::scoped_lock lock(m_timerClientAddressMapMutex);
+		boost::mutex::scoped_lock lock(m_clientRateLimitMutex);
 
 		TimerClientAddressMap::iterator i = m_timerClientAddressMap.begin();
 		TimerClientAddressMap::iterator end = m_timerClientAddressMap.end();
@@ -2426,6 +2440,21 @@ ServerLobbyThread::TimerUpdateClientLoginLock(const boost::system::error_code &e
 			if (refilled >= SERVER_INIT_LOGIN_CLIENT_BURST)
 				m_timerClientAddressMap.erase(i);
 			i = next;
+		}
+
+		// Drop game-create buckets once they are full again as well.
+		GameCreateRateLimitMap::iterator game_i = m_gameCreateRateLimitMap.begin();
+		GameCreateRateLimitMap::iterator game_end = m_gameCreateRateLimitMap.end();
+		const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+		while (game_i != game_end) {
+			GameCreateRateLimitMap::iterator next = game_i;
+			++next;
+			const long long elapsedSec = std::chrono::duration_cast<std::chrono::seconds>(
+					now - game_i->second.lastRefill).count();
+			const unsigned refill = static_cast<unsigned>(elapsedSec / SERVER_GAME_CREATE_REFILL_SEC);
+			if (game_i->second.tokens + refill >= SERVER_GAME_CREATE_BURST)
+				m_gameCreateRateLimitMap.erase(game_i);
+			game_i = next;
 		}
 		// Restart timer
 		m_loginLockTimer.expires_after(milliseconds(SERVER_UPDATE_LOGIN_LOCK_INTERVAL_MSEC));
@@ -2465,7 +2494,7 @@ ServerLobbyThread::TimerRefreshShadowMute(const boost::system::error_code &ec)
 bool
 ServerLobbyThread::AcquireLoginToken(const std::string &clientAddr)
 {
-	boost::mutex::scoped_lock lock(m_timerClientAddressMapMutex);
+	boost::mutex::scoped_lock lock(m_clientRateLimitMutex);
 
 	TimerClientAddressMap::iterator pos = m_timerClientAddressMap.find(clientAddr);
 	if (pos == m_timerClientAddressMap.end()) {
@@ -2503,6 +2532,51 @@ ServerLobbyThread::AcquireLoginToken(const std::string &clientAddr)
 		return false;
 	}
 	entry.tokens--;
+	return true;
+}
+
+bool
+ServerLobbyThread::AcquireGameCreateToken(boost::shared_ptr<SessionData> session)
+{
+	if (!session)
+		return false;
+	boost::shared_ptr<PlayerData> player = session->GetPlayerData();
+	if (!player)
+		return false;
+
+	std::string key;
+	const DB_id dbId = player->GetDBId();
+	if (dbId != DB_ID_INVALID)
+		key = "account:" + boost::lexical_cast<std::string>(dbId);
+	else
+		key = "address:" + session->GetClientAddr();
+
+	boost::mutex::scoped_lock lock(m_clientRateLimitMutex);
+	const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+	GameCreateRateLimitMap::iterator pos = m_gameCreateRateLimitMap.find(key);
+	if (pos == m_gameCreateRateLimitMap.end()) {
+		GameCreateRateLimit fresh;
+		fresh.tokens = SERVER_GAME_CREATE_BURST - 1;
+		fresh.lastRefill = now;
+		m_gameCreateRateLimitMap.insert(GameCreateRateLimitMap::value_type(key, fresh));
+		return true;
+	}
+
+	GameCreateRateLimit &entry = pos->second;
+	const long long elapsedSec = std::chrono::duration_cast<std::chrono::seconds>(now - entry.lastRefill).count();
+	if (elapsedSec >= SERVER_GAME_CREATE_REFILL_SEC) {
+		const unsigned refill = static_cast<unsigned>(elapsedSec / SERVER_GAME_CREATE_REFILL_SEC);
+		if (refill >= SERVER_GAME_CREATE_BURST - entry.tokens)
+			entry.tokens = SERVER_GAME_CREATE_BURST;
+		else
+			entry.tokens += refill;
+		entry.lastRefill += std::chrono::seconds(refill * SERVER_GAME_CREATE_REFILL_SEC);
+	}
+
+	if (!entry.tokens)
+		return false;
+
+	--entry.tokens;
 	return true;
 }
 
