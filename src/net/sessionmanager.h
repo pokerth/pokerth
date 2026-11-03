@@ -72,7 +72,7 @@ public:
 
 	void ForEach(boost::function<void (boost::shared_ptr<SessionData>)> func);
 
-	unsigned CountReadySessions() const;
+	unsigned CountReadySessions(int state) const;
 	void ResetAllReadyFlags();
 
 	void Clear();

@@ -318,7 +318,7 @@ SessionManager::ForEach(boost::function<void (boost::shared_ptr<SessionData>)> f
 }
 
 unsigned
-SessionManager::CountReadySessions() const
+SessionManager::CountReadySessions(int state) const
 {
 	unsigned counter = 0;
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
@@ -327,7 +327,7 @@ SessionManager::CountReadySessions() const
 	SessionMap::const_iterator end = m_sessionMap.end();
 
 	while (i != end) {
-		if ((*i).second->IsReady())
+		if ((*i).second->IsReady() && (((*i).second->GetState() & state) != 0))
 			++counter;
 		++i;
 	}
