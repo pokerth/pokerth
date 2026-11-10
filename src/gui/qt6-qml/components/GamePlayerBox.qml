@@ -27,6 +27,9 @@ SeatBox {
 
     // Knocked out (no money left) - a default of its own as opposed to the self box.
     readonly property bool isActive: seatData ? seatData.active : false
+    // Left/disconnected, but still seated by the server (posts blinds and
+    // folds automatically until it is removed between hands).
+    readonly property bool isOffline: seatData && seatData.offline !== undefined ? seatData.offline : false
     // Hide the avatars of ignored players (bind against the base property),
     // unless DontHideAvatarsOfIgnored switches that off.
     hideIgnoredAvatar:
@@ -107,7 +110,8 @@ SeatBox {
     // Information density: whoever is out (no money left → !isActive) is clearly
     // darkened, whoever has only folded is pulled back subtly. That way the
     // active player and the hand still running stand out more clearly.
-    opacity: !root.isActive ? Config.Theme.dimmedOpacity
+    // An offline player (auto-fold) is darkened the same way.
+    opacity: (!root.isActive || root.isOffline) ? Config.Theme.dimmedOpacity
            : (root.folded ? 0.72 : 1.0)
     Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.OutQuad } }
 

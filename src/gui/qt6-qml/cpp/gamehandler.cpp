@@ -352,11 +352,11 @@ QStringList GameHandler::tableStatsNicks() const
 
 	// The nick list 1:1 like the Qt widgets client (MyNameLabel): active players only.
 	// In addition – as when building m_players – skip players who have already dropped
-	// out (m_leftPlayers), so that the list corresponds exactly to the visible
+	// out (isPlayerGone()), so that the list corresponds exactly to the visible
 	// player boxes and follows along when somebody leaves.
 	PlayerList seats = m_game->getSeatsList();
 	for (auto it = seats->begin(); it != seats->end(); ++it) {
-		if (m_leftPlayers.contains((*it)->getMyUniqueID()))
+		if (isPlayerGone(*it))
 			continue;
 		if (!(*it)->getMyActiveStatus())
 			continue;
@@ -366,6 +366,16 @@ QStringList GameHandler::tableStatsNicks() const
 }
 
 // ─── private helpers ────────────────────────────────────────────────────────
+
+bool GameHandler::isPlayerGone(const boost::shared_ptr<PlayerInterface> &player) const
+{
+	// A player who left is only gone once they are out of the game: the
+	// server keeps a disconnected player (and one who left mid-hand) seated
+	// until it deactivates them between hands; the next HandStart then marks
+	// them NoMoney → inactive. Until then they still post blinds and fold.
+	return m_leftPlayers.contains(player->getMyUniqueID())
+		   && !player->getMyActiveStatus();
+}
 
 void GameHandler::playYourTurnTimeoutSound()
 {
@@ -601,11 +611,11 @@ void GameHandler::refreshPlayerData()
 
 		for (auto it = seats->begin(); it != seats->end(); ++it) {
 			int id = (*it)->getMyID();
-			// A player who has left the game: treat the seat as empty, but
-			// mark it as "reserved". The table view can thereby keep the seat
+			// A player who has left the game (and is out of it): treat the seat as
+			// empty, but mark it as "reserved". The table view can thereby keep the seat
 			// – depending on the setting – as an invisible placeholder in the ring,
 			// so that the remaining boxes do not move up.
-			if (m_leftPlayers.contains((*it)->getMyUniqueID())) {
+			if (isPlayerGone(*it)) {
 				if (id >= 0 && id < 10) {
 					QVariantMap gone = newPlayers[id].toMap();
 					gone["reserved"] = true;
@@ -684,6 +694,12 @@ void GameHandler::refreshPlayerData()
 				p["stack"]  = (*it)->getMyCash();
 				p["bet"]    = (*it)->getMySet();
 				p["active"] = (*it)->getMyActiveStatus();
+				// Left/disconnected, but still seated by the server (blinds + auto-fold
+				// until it deactivates them) → shown dimmed like in the widgets client
+				// (SEAT_AUTOFOLD). Not for your own seat.
+				p["offline"] = id != 0
+							   && (m_leftPlayers.contains((*it)->getMyUniqueID())
+								   || (networkGame && !(*it)->isSessionActive()));
 				p["myTurn"] = (*it)->getMyTurn();
 				p["seatId"] = id;
 				// The dealer/small/big blind only for active players: otherwise those who dropped out

@@ -21,6 +21,7 @@
 class ConfigFile;
 class Session;
 class Game;
+class PlayerInterface;
 class SoundEvents;
 class QTimer;
 class ChatTranslator;
@@ -570,6 +571,12 @@ private:
 	// Local game: remove players with 0 coins from the display after 10 seconds
 	// (analogous to onNetClientPlayerLeft in online games).
 	void checkBustedLocalPlayers();
+	// True if the player has left the game AND no longer takes part in it.
+	// The server keeps a player who lost the connection (or left mid-hand)
+	// seated with their chips – posting blinds and auto-folding – until it
+	// deactivates them between hands (reconnect window). Until then the seat
+	// stays visible (dimmed as offline) instead of looking empty.
+	bool isPlayerGone(const boost::shared_ptr<PlayerInterface> &player) const;
 	// True if the human player (seat 0) can currently act (in the
 	// hand, not all-in/folded, cash > 0, active). Engine based.
 	bool humanCanAct() const;
@@ -730,7 +737,8 @@ private:
 	int m_aggressorToken = -1;
 	bool m_localGameExitRequested = false;
 	// The unique IDs of players who have left the network game.
-	// Their seat is displayed as empty in refreshPlayerData().
+	// Their seat is displayed as empty in refreshPlayerData() as soon as
+	// they are no longer active (see isPlayerGone()).
 	QSet<unsigned> m_leftPlayers;
 	// Local game: the running 10 second timers for players with 0 coins.
 	// The key = the unique player ID; after it expires the player is treated like a
