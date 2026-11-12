@@ -167,6 +167,11 @@ protected:
 		bool refusalLogged;
 	};
 	typedef std::map<std::string, LoginRateLimit> TimerClientAddressMap;
+	struct GameCreateRateLimit {
+		unsigned tokens;
+		std::chrono::steady_clock::time_point lastRefill;
+	};
+	typedef std::map<std::string, GameCreateRateLimit> GameCreateRateLimitMap;
 	typedef std::list<unsigned> RemoveGameList;
 
 	// Main function of the thread.
@@ -217,6 +222,9 @@ protected:
 	// Consumes one login token for the given address. Returns false if the
 	// address is currently rate limited.
 	bool AcquireLoginToken(const std::string &clientAddr);
+	// Rate-limit game creation by account, or by address for guests and
+	// no-auth servers. The state survives reconnecting with a new session.
+	bool AcquireGameCreateToken(boost::shared_ptr<SessionData> session);
 	// True for addresses excluded from brute force protection, configured via
 	// "ServerBruteForceProtectionExempt" (e.g. a web client proxy, whose users
 	// all share its address).
@@ -292,7 +300,8 @@ private:
 	Gsasl *m_authContext;
 
 	TimerClientAddressMap m_timerClientAddressMap;
-	mutable boost::mutex m_timerClientAddressMapMutex;
+	GameCreateRateLimitMap m_gameCreateRateLimitMap;
+	mutable boost::mutex m_clientRateLimitMutex;
 
 	RemoveGameList m_removeGameList;
 	mutable boost::mutex m_removeGameListMutex;
