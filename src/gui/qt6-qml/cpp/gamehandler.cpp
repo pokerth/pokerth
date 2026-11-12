@@ -2505,6 +2505,8 @@ void GameHandler::onShowdown()
 	//    nothing – followed by the real second "shows" when they press the show
 	//    button. The widgets client gates it the same way
 	//    (gameTableImpl::postRiverRunAnimation2: nonfoldPlayersCounter != 1).
+	auto holeCardSeats = hand->getSeatsList();
+	bool humanCardsLogged = false;
 	if (nonFold > 1) {
 		for (auto it = activeList->begin(); it != activeList->end(); ++it) {
 			const unsigned uid = (*it)->getMyUniqueID();
@@ -2528,6 +2530,10 @@ void GameHandler::onShowdown()
 					line += " - \"" + QString::fromStdString(handName) + "\"";
 			}
 			appendGameLog(line);
+			if (!m_spectating && holeCardSeats && !holeCardSeats->empty()
+					&& holeCardSeats->front()
+					&& (*it)->getMyUniqueID() == holeCardSeats->front()->getMyUniqueID())
+				humanCardsLogged = true;
 		}
 	}
 
@@ -2546,6 +2552,20 @@ void GameHandler::onShowdown()
 		if (!isMainPot)
 			msg += QStringLiteral(" (side pot)");
 		appendGameLog(msg, isMainPot ? LogWinnerMain : LogWinnerSide);
+	}
+
+	if (!m_spectating && !humanCardsLogged && holeCardSeats && !holeCardSeats->empty()) {
+		const auto &human = holeCardSeats->front();
+		if (human) {
+			int cards[2] = {-1, -1};
+			human->getMyCards(cards);
+			if (cards[0] >= 0 && cards[0] < 52 && cards[1] >= 0 && cards[1] < 52) {
+				const QString line = QString::fromStdString(human->getMyName())
+									 + QStringLiteral(" has [") + logCard(cards[0])
+									 + QStringLiteral(", ") + logCard(cards[1]) + "]";
+				appendGameLog(line);
+			}
+		}
 	}
 
 	// 3) A sit-out for players without cash (as gameTableImpl does after the pot distribution).
