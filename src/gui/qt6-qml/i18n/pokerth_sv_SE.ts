@@ -95,7 +95,7 @@
     <message>
         <location line="+2"/>
         <source>initial idea, basic architecture, GUI implementation, graphics editing, Linux package</source>
-        <translation>ursprunglig idé, grundarkitektur, implementering av gränssnittet, redigering av gränssnittsgrafik, Linux-paket</translation>
+        <translation>ursprunglig idé, grundarkitektur, implementering av gränssnittet, grafikredigering, Linux-paket</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -105,7 +105,7 @@
     <message>
         <location line="+2"/>
         <source>basic architecture, network development, Windows package, macOS package</source>
-        <translation>grundarkitektur, nätverksutveckling, Windows-paket, MacOS-paket</translation>
+        <translation>grundarkitektur, nätverksutveckling, Windows-paket, macOS-paket</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -125,7 +125,7 @@
     <message>
         <location line="+8"/>
         <source>- Wikimedia Commons: for a variety of avatar images</source>
-        <translation>- Wikimedia Commons: för olika populära avatarbilder</translation>
+        <translation>- Wikimedia Commons: för olika avatarbilder</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -670,12 +670,12 @@
     <message>
         <location line="+0"/>
         <source>Auto Check/Call</source>
-        <translation>Auto checka/syna</translation>
+        <translation>Passa/syna automatiskt</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Auto Check/Fold</source>
-        <translation>Auto checka/lägg</translation>
+        <translation>Passa/lägg dig automatiskt</translation>
     </message>
     <message>
         <location line="+199"/>
@@ -741,7 +741,7 @@
     <message>
         <location line="+1"/>
         <source>Straight Flush</source>
-        <translation>Straight flush</translation>
+        <translation>Färgstege</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -756,7 +756,7 @@
     <message>
         <location line="+0"/>
         <source>Chancen</source>
-        <translation>Chanser</translation>
+        <translation>Sannolikheter</translation>
     </message>
     <message>
         <location line="+248"/>
@@ -817,7 +817,7 @@
     <message>
         <location filename="../pages/GamePage.qml" line="+1610"/>
         <source>Verlauf &amp; Chancen</source>
-        <translation>Historik och chanser</translation>
+        <translation>Historik och sannolikheter</translation>
     </message>
     <message>
         <location line="+55"/>
@@ -1026,7 +1026,7 @@
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>manuell mörk-ordning</translation>
+        <translation>manuell mörkordning</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1229,7 +1229,7 @@
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>manuell mörk-ordning</translation>
+        <translation>manuell mörkordning</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1574,7 +1574,7 @@
     <message>
         <location line="+1"/>
         <source>Create a Ranking table</source>
-        <translation>Skapa ett rankingbord</translation>
+        <translation>Skapa ett rankningsbord</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1584,7 +1584,7 @@
     <message>
         <location line="+1"/>
         <source>See the ranking</source>
-        <translation>Se rankingen</translation>
+        <translation>Se rankningen</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1594,42 +1594,42 @@
     <message>
         <location line="+1"/>
         <source>A ranked game is waiting for you: **{n}/{max}** players. It starts as soon as it’s full!</source>
-        <translation>Ett rankingspel väntar på dig: **{n}/{max}** spelare. Det startar så fort det är fullt!</translation>
+        <translation>Ett rankningsspel väntar på dig: **{n}/{max}** spelare. Det startar så fort det är fullt!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No ranked game open right now. Create one — any player with an account can! It starts by itself as soon as 10 players have joined.</source>
-        <translation>Inget rankingspel är öppet just nu. Skapa ett — alla spelare med konto kan! Det startar av sig självt så fort 10 spelare har gått med.</translation>
+        <translation>Inget rankningsspel är öppet just nu. Skapa ett — alla spelare med konto kan! Det startar av sig självt så fort 10 spelare har gått med.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranked games need a (free) pokerth.net account. As a guest you can play Normal games.</source>
-        <translation>Rankingspel kräver ett (gratis) pokerth.net-konto. Som gäst kan du spela normala spel.</translation>
+        <translation>Rankningsspel kräver ett (gratis) pokerth.net-konto. Som gäst kan du spela normala spel.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ranked game: **{n}/{max}** players. It starts by itself as soon as the table is full — meanwhile, here is how the ranking works.</source>
-        <translation>Rankingspel: **{n}/{max}** spelare. Det startar av sig självt så fort bordet är fullt — under tiden får du veta hur rankingen fungerar.</translation>
+        <translation>Rankningsspel: **{n}/{max}** spelare. Det startar av sig självt så fort bordet är fullt — under tiden får du veta hur rankningen fungerar.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Each ranked game hands out points by finishing place: **15, 9, 6, 4, 3, 2, 1** from 1st to 7th, nothing from 8th to 10th — 40 points per table.</source>
-        <translation>Varje rankingspel delar ut poäng efter slutplacering: **15, 9, 6, 4, 3, 2, 1** från 1:a till 7:e plats, inget från 8:e till 10:e — 40 poäng per bord.</translation>
+        <translation>Varje rankningsspel delar ut poäng efter slutplacering: **15, 9, 6, 4, 3, 2, 1** från 1:a till 7:e plats, inget från 8:e till 10:e — 40 poäng per bord.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Your **Score** is not the sum of your points but your average per game, tempered by how many games you have played: playing regularly matters.</source>
-        <translation>Din **Score** är inte summan av dina poäng utan ditt snitt per spel, dämpat av hur många spel du har spelat: det lönar sig att spela regelbundet.</translation>
+        <translation>Ditt **poängtal** är inte summan av dina poäng utan ditt snitt per spel, justerat efter hur många spel du har spelat: det lönar sig att spela regelbundet.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>The ranking runs in **quarterly seasons**: at each new season the counters are archived and start again from zero.</source>
-        <translation>Rankingen går i **kvartalssäsonger**: vid varje ny säsong arkiveras räknarna och börjar om från noll.</translation>
+        <translation>Rankningen går i **kvartalssäsonger**: vid varje ny säsong arkiveras räknarna och börjar om från noll.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Why is **5/5** everyone’s favourite? 5 seconds to act, 5 seconds between hands, 10,000 chips and blinds doubling every 11 hands: fast and the same for everyone, so games stay short and comparable.</source>
-        <translation>Varför är **5/5** allas favorit? 5 sekunder per handling, 5 sekunder mellan händer, 10 000 marker och mörkar som dubblas var 11:e hand: snabbt och likadant för alla, så att spelen förblir korta och jämförbara.</translation>
+        <translation>Varför är **5/5** allas favorit? 5 sekunders betänketid, 5 sekunder mellan händer, 10 000 marker och mörkar som fördubblas var 11:e hand: snabbt och likadant för alla, så att spelen förblir korta och jämförbara.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1639,12 +1639,12 @@
     <message>
         <location line="+1"/>
         <source>Game over — you finished in place **{place}**: **+{points}** points. See your ranking?</source>
-        <translation>Spelet är slut — du kom på plats **{place}**: **+{points}** poäng. Vill du se din ranking?</translation>
+        <translation>Spelet är slut — du kom på plats **{place}**: **+{points}** poäng. Vill du se din rankning?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Game over! Several players went out in the same hand, so your exact place is on the ranking page. See your ranking?</source>
-        <translation>Spelet är slut! Flera spelare åkte ut i samma hand, så din exakta placering finns på rankingsidan. Vill du se din ranking?</translation>
+        <translation>Spelet är slut! Flera spelare åkte ut i samma hand, så din exakta placering finns på rankningssidan. Vill du se din rankning?</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1664,12 +1664,12 @@
     <message>
         <location line="+1"/>
         <source>As a guest you can create **Normal** games. Ranking tables and registered-only games need a (free) pokerth.net account.</source>
-        <translation>Som gäst kan du skapa spel av typen **Normal**. Rankingbord och spel endast för registrerade kräver ett (gratis) pokerth.net-konto.</translation>
+        <translation>Som gäst kan du skapa spel av typen **Normal**. Rankningsbord och spel endast för registrerade kräver ett (gratis) pokerth.net-konto.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>**Password**: switch it on to keep the table private — only players who know the password can sit down. Not available for a **Ranking game** or an **Invited players only** game.</source>
-        <translation>**Lösenord**: slå på det för att hålla bordet privat — bara spelare som kan lösenordet kan sätta sig. Inte möjligt för ett **Rankingspel** eller ett spel med **Endast inbjudna spelare**.</translation>
+        <translation>**Lösenord**: slå på det för att hålla bordet privat — bara spelare som kan lösenordet kan sätta sig. Inte möjligt för ett **Rankningsspel** eller ett spel med **Endast inbjudna spelare**.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1679,27 +1679,27 @@
     <message>
         <location line="+1"/>
         <source>**Max players**: from 2 to 10 seats. The host starts the game from the waiting room, even with empty seats — a **Ranking game** starts by itself once all 10 seats are taken.</source>
-        <translation>**Max spelare**: från 2 till 10 platser. Värden startar spelet från väntrummet, även med tomma platser — ett **Rankingspel** startar av sig självt när alla 10 platser är tagna.</translation>
+        <translation>**Max spelare**: från 2 till 10 platser. Värden startar spelet från väntrummet, även med tomma platser — ett **Rankningsspel** startar av sig självt när alla 10 platser är tagna.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>**Starting stack**: the chips each player gets. What counts is the stack compared with the blinds: 3000 chips with a small blind of 10 is 150 big blinds, a comfortable game. Fewer big blinds = a faster game, with more all-ins.</source>
-        <translation>**Startkapital**: markerna varje spelare får. Det som räknas är kapitalet jämfört med blindsen: 3000 marker med en small blind på 10 är 150 big blinds, ett bekvämt spel. Färre big blinds = ett snabbare spel, med fler all-ins.</translation>
+        <translation>**Startkapital**: markerna varje spelare får. Det som räknas är hur stor markerhögen är i förhållande till mörkarna: 3 000 marker med en liten mörk på 10 motsvarar 150 stora mörkar, vilket ger gott om spelutrymme. Färre stora mörkar = ett snabbare spel, där fler går all-in.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>**First small blind**: the small blind when the game starts. The big blind is always twice the small blind.</source>
-        <translation>**Första small blind**: small blind när spelet startar. Big blind är alltid dubbelt så stor.</translation>
+        <translation>**Första lilla mörken**: lilla mörken när spelet startar. Stora mörken är alltid dubbelt så stor.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>**Blind increase interval**: the blinds go up every so many **hands** or **minutes**. The shorter the interval, the shorter the game.</source>
-        <translation>**Intervall för blindhöjning**: blindsen höjs efter ett visst antal **händer** eller **minuter**. Ju kortare intervall, desto kortare spel.</translation>
+        <translation>**Intervall för höjning av mörkar**: mörkarna höjs efter ett visst antal **händer** eller **minuter**. Ju kortare intervall, desto kortare spel.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>**Time per action**: how many seconds each player has to act on their turn (5 to 60).</source>
-        <translation>**Tid per handling**: hur många sekunder varje spelare har på sig när det är dennes tur (5 till 60).</translation>
+        <translation>**Betänketid**: hur många sekunder varje spelare har på sig när det är spelarens tur (5 till 60).</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1749,7 +1749,7 @@
     <message>
         <location line="+1"/>
         <source>Four game types: **Normal** (open to all), **Registered players only**, **Invited players only** and **Ranking game**. Any player with an account can create a Ranking table: 10 players, no password, it starts by itself when full.</source>
-        <translation>Fyra speltyper: **Normal** (öppet för alla), **Endast registrerade spelare**, **Endast inbjudna spelare** och **Rankningsspel**. Alla spelare med konto kan skapa ett rankingbord: 10 spelare, inget lösenord, det startar av sig självt när det är fullt.</translation>
+        <translation>Fyra speltyper: **Normal** (öppet för alla), **Endast registrerade spelare**, **Endast inbjudna spelare** och **Rankningsspel**. Alla spelare med konto kan skapa ett rankningsbord: 10 spelare, inget lösenord, det startar av sig självt när det är fullt.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1779,7 +1779,7 @@
     <message>
         <location line="+1"/>
         <source>Training table: choose the number of players, the starting stack, the blinds and the game speed, then start the game. Nothing here counts towards a ranking.</source>
-        <translation>Träningsbord: välj antal spelare, startstack, mörkar och spelhastighet, och starta sedan spelet. Inget här räknas till någon rankning.</translation>
+        <translation>Träningsbord: välj antal spelare, startkapital, mörkar och spelhastighet, och starta sedan spelet. Inget här räknas till någon rankning.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1789,7 +1789,7 @@
     <message>
         <location line="+1"/>
         <source>**Blinds**: keep the saved settings, or change them here — the first small blind, how often it goes up (every so many hands or minutes) and how: always doubled, or a manual blinds order.</source>
-        <translation>**Mörkar**: behåll de sparade inställningarna eller ändra dem här — första lilla mörken, hur ofta den höjs (var så många händer eller minuter) och hur: alltid fördubblad eller enligt en manuell mörkordning.</translation>
+        <translation>**Mörkar**: behåll de sparade inställningarna eller ändra dem här — första lilla mörken, hur ofta den höjs (efter ett visst antal händer eller minuter) och hur: alltid fördubblad eller enligt en manuell mörkordning.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1814,12 +1814,12 @@
     <message>
         <location line="+1"/>
         <source>The latest posts of the pokerth.net forum, newest first. Tap a post to read it here — it is then marked as read. A filled dot means not read yet; the badge on the newspaper button counts them, and **Mark all as read** clears them all. **BBC games** lists the upcoming BBC games.</source>
-        <translation>De senaste inläggen i pokerth.net-forumet, nyaste först. Tryck på ett inlägg för att läsa det här — då markeras det som läst. En fylld prick betyder inte läst än; märket på tidningsknappen räknar dem, och **Markera alla som lästa** rensar alla. **BBC-spel** visar kommande BBC-spel.</translation>
+        <translation>De senaste inläggen i pokerth.net-forumet, nyaste först. Tryck på ett inlägg för att läsa det här — då markeras det som läst. En fylld prick betyder att inlägget ännu inte är läst; märket på tidningsknappen visar antalet olästa inlägg, och **Markera alla som lästa** tar bort alla olästmarkeringar. **BBC-spel** visar kommande BBC-spel.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Every setting, by section: interface, style, sound, local, network and internet games, nicknames and avatars, log messages, and back to the defaults. Ace’s Help is switched on and off in the interface settings.</source>
-        <translation>Alla inställningar per avsnitt: gränssnitt, stil, ljud, lokalt, nätverks- och internetspel, smeknamn och avatarer, loggmeddelanden och tillbaka till standardvärdena. Essets hjälp slår du på och av i gränssnittets inställningar.</translation>
+        <translation>Alla inställningar per avsnitt: gränssnitt, stil, ljud, lokala spel, nätverksspel och internetspel, smeknamn och avatarer, loggmeddelanden och återställning av standardvärden. Essets hjälp slår du på och av i gränssnittets inställningar.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2097,7 +2097,7 @@
         <location line="+22"/>
         <location line="+28"/>
         <source>Alle</source>
-        <translation>Var</translation>
+        <translation>Intervall:</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -2122,7 +2122,7 @@
     <message>
         <location line="+11"/>
         <source>Zeitlimit Spieleraktion</source>
-        <translation>Tidsgräns för spelarens drag</translation>
+        <translation>Betänketid</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -2646,7 +2646,7 @@ PokerTH kan förminska den åt dig. Den nya avataren börjar gälla vid nästa i
     <message>
         <location line="+0"/>
         <source>manual blinds order</source>
-        <translation>manuell mörk-ordning</translation>
+        <translation>manuell mörkordning</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2657,7 +2657,7 @@ PokerTH kan förminska den åt dig. Den nya avataren börjar gälla vid nästa i
         <location line="+10"/>
         <source>Game timing: %1 sec (action)
 %2 sec (hand delay)</source>
-        <translation>Speltider: %1 s (drag)
+        <translation>Speltider: %1 s (betänketid)
 %2 s (paus mellan händer)</translation>
     </message>
     <message>
@@ -2675,12 +2675,12 @@ PokerTH kan förminska den åt dig. Den nya avataren börjar gälla vid nästa i
     <message>
         <location line="-420"/>
         <source>Show open &amp; non-full &amp; private games</source>
-        <translation>Visa öppna, ej fulla och privata spel</translation>
+        <translation>Visa öppna privata spel som inte är fulla</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
-        <translation>Visa öppna, ej fulla rankningsspel</translation>
+        <translation>Visa öppna rankningsspel som inte är fulla</translation>
     </message>
     <message>
         <location line="+39"/>
@@ -2785,7 +2785,7 @@ PokerTH kan förminska den åt dig. Den nya avataren börjar gälla vid nästa i
     <message>
         <location line="-1049"/>
         <source>Show open &amp; non-full games</source>
-        <translation>Visa öppna och ej fulla spel</translation>
+        <translation>Visa öppna spel som inte är fulla</translation>
     </message>
     <message>
         <location line="-1"/>
@@ -2842,12 +2842,12 @@ PokerTH kan förminska den åt dig. Den nya avataren börjar gälla vid nästa i
     <message>
         <location filename="../pages/LocalGamePage.qml" line="+51"/>
         <source>alle %1 Hände</source>
-        <translation>var %1 händer</translation>
+        <translation>%1 händer</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>alle %1 Minuten</source>
-        <translation>var %1 minuter</translation>
+        <translation>%1 minuter</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2862,7 +2862,7 @@ PokerTH kan förminska den åt dig. Den nya avataren börjar gälla vid nästa i
     <message>
         <location line="+1"/>
         <source>Small Blind: $%1  •  Erhöhen %2  •  %3</source>
-        <translation>Lilla mörken: $%1  •  höjning %2  •  %3</translation>
+        <translation>Lilla mörken: $%1  •  Höjningsintervall: %2  •  %3</translation>
     </message>
     <message>
         <location line="+36"/>
@@ -2913,7 +2913,7 @@ PokerTH kan förminska den åt dig. Den nya avataren börjar gälla vid nästa i
         <location line="+13"/>
         <location line="+24"/>
         <source>alle</source>
-        <translation>var</translation>
+        <translation>Intervall:</translation>
     </message>
     <message>
         <location line="-6"/>
@@ -2938,7 +2938,7 @@ PokerTH kan förminska den åt dig. Den nya avataren börjar gälla vid nästa i
     <message>
         <location line="+11"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Manuell mörk-ordning</translation>
+        <translation>Manuell mörkordning</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -3015,7 +3015,7 @@ PokerTH kan förminska den åt dig. Den nya avataren börjar gälla vid nästa i
         <location line="-88"/>
         <location line="+14"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Manuell mörk-ordning</translation>
+        <translation>Manuell mörkordning</translation>
     </message>
     <message>
         <location line="-158"/>
@@ -3026,7 +3026,7 @@ PokerTH kan förminska den åt dig. Den nya avataren börjar gälla vid nästa i
         <location line="+49"/>
         <location line="+42"/>
         <source>Small Blind erhöhen alle:</source>
-        <translation>Höj lilla mörken var:</translation>
+        <translation>Höjningsintervall för lilla mörken:</translation>
     </message>
     <message>
         <location line="-25"/>
@@ -3404,7 +3404,7 @@ Starta om PokerTH så att loggfilerna sparas där.</translation>
         <location line="+10"/>
         <location line="+25"/>
         <source>Alle</source>
-        <translation>Var</translation>
+        <translation>Intervall:</translation>
     </message>
     <message>
         <location line="-14"/>
@@ -3601,12 +3601,12 @@ Starta om PokerTH så att loggfilerna sparas där.</translation>
     <message>
         <location line="+13"/>
         <source>Manuelle Blind-Reihenfolge</source>
-        <translation>Manuell mörk-ordning</translation>
+        <translation>Manuell mörkordning</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Manuelle Blind-Reihenfolge bearbeiten...</source>
-        <translation>Redigera manuell mörk-ordning...</translation>
+        <translation>Redigera manuell mörkordning...</translation>
     </message>
     <message>
         <location line="-157"/>
@@ -3617,7 +3617,7 @@ Starta om PokerTH så att loggfilerna sparas där.</translation>
         <location line="+49"/>
         <location line="+42"/>
         <source>Small Blind erhöhen alle:</source>
-        <translation>Höj lilla mörken var:</translation>
+        <translation>Höjningsintervall för lilla mörken:</translation>
     </message>
     <message>
         <location line="-25"/>
@@ -4259,7 +4259,7 @@ Starta om PokerTH så att loggfilerna sparas där.</translation>
     <message>
         <location line="+28"/>
         <source>Share</source>
-        <translation>Dela</translation>
+        <translation>Andel</translation>
     </message>
 </context>
 <context>
@@ -4442,7 +4442,7 @@ Vänta en stund och försök igen.</translation>
 The server might be busy or still processing a previous connection.
 Please wait a moment and try again.</source>
         <translation>Anslutningen tog för lång tid.
-Servern kan vara upptagen eller behandlar fortfarande en tidigare anslutning.
+Servern kan vara upptagen eller fortfarande behandla en tidigare anslutning.
 Vänta en stund och försök igen.</translation>
     </message>
     <message>
@@ -4622,7 +4622,7 @@ Kontrollera ditt användarnamn och lösenord.</translation>
     <message>
         <location line="+2"/>
         <source>Your server connection timed out due to inactivity. Please reconnect.</source>
-        <translation>Din serveranslutning tog slut på grund av inaktivitet. Du är varmt välkommen att ansluta igen!</translation>
+        <translation>Din anslutning till servern bröts på grund av inaktivitet. Anslut igen.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4672,7 +4672,7 @@ Kontrollera ditt användarnamn och lösenord.</translation>
     <message>
         <location line="+2"/>
         <source>Internal error: The dealer could not be found.</source>
-        <translation>Internt fel: given kunde inte hittas.</translation>
+        <translation>Internt fel: givaren kunde inte hittas.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4969,7 +4969,7 @@ Kontrollera ditt användarnamn och lösenord.</translation>
     <message>
         <location line="+8"/>
         <source>Spielaktionen (Check, Call, Raise ...)</source>
-        <translation>Spelhandlingar (Check, Call, Raise ...)</translation>
+        <translation>Spelhandlingar (passa, syna, höja ...)</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -5038,12 +5038,12 @@ Kontrollera ditt användarnamn och lösenord.</translation>
     <message>
         <location filename="../config/StaticData.qml" line="+124"/>
         <source>Fold</source>
-        <translation>Lägg</translation>
+        <translation>Lägg dig</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Check</source>
-        <translation>Checka</translation>
+        <translation>Passa</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5350,7 +5350,7 @@ förhandsvisning</translation>
     <message>
         <location line="+2"/>
         <source>You are game-admin of an open game which will time out in %1 seconds.</source>
-        <translation>Du är speladmin för ett öppet spel som går ut om %1 sekunder.</translation>
+        <translation>Du är speladministratör för ett öppet spel vars tidsgräns går ut om %1 sekunder.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -5360,7 +5360,7 @@ förhandsvisning</translation>
     <message>
         <location line="+2"/>
         <source>Your connection is about to time out due to inactivity in %1 seconds.</source>
-        <translation>Din anslutning går ut på grund av inaktivitet om %1 sekunder.</translation>
+        <translation>Din anslutning bryts om %1 sekunder på grund av inaktivitet.</translation>
     </message>
     <message>
         <location line="+10"/>
