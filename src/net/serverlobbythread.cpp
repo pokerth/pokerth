@@ -127,6 +127,20 @@ static bool IsTestOrDevAccount(const std::string &username)
 	return false;
 }
 
+// Service accounts which never appear in the lobby player list. They are
+// online like everybody else (PMs by name, admin functions), only the
+// other players do not see them. Names are matched exactly, like the login.
+static const char *const HIDDEN_LOBBY_ACCOUNTS[] = { "bbcbot", "admin-bot" };
+
+static bool IsHiddenLobbyAccount(const std::string &username)
+{
+	for (const char *hidden : HIDDEN_LOBBY_ACCOUNTS) {
+		if (username == hidden)
+			return true;
+	}
+	return false;
+}
+
 // Helper function: client type from the high byte of the buildId as plain text.
 // Single token without spaces, so that log analysis can grep for it.
 static const char *GetClientTypeName(unsigned clientType)
@@ -590,7 +604,7 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 
 			try {
 				if (session->GetPlayerData()) {
-					NotifyPlayerLeftLobby(session->GetPlayerData()->GetUniqueId());
+					NotifyPlayerLeftLobby(*session->GetPlayerData());
 				}
 			} catch (const std::exception& e) {
 				LOG_ERROR("Exception notifying player left for session #" << session->GetId() << ": " << e.what());
@@ -644,17 +658,21 @@ ServerLobbyThread::ResubscribeLobbyMsg(boost::shared_ptr<SessionData> session)
 }
 
 void
-ServerLobbyThread::NotifyPlayerJoinedLobby(unsigned playerId)
+ServerLobbyThread::NotifyPlayerJoinedLobby(const PlayerData &player)
 {
-	boost::shared_ptr<NetPacket> notify = CreateNetPacketPlayerListNew(playerId);
+	if (IsHiddenLobbyAccount(player.GetName()))
+		return;
+	boost::shared_ptr<NetPacket> notify = CreateNetPacketPlayerListNew(player.GetUniqueId());
 	m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), notify, SessionData::Established);
 	m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), notify, SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 }
 
 void
-ServerLobbyThread::NotifyPlayerLeftLobby(unsigned playerId)
+ServerLobbyThread::NotifyPlayerLeftLobby(const PlayerData &player)
 {
-	boost::shared_ptr<NetPacket> notify = CreateNetPacketPlayerListLeft(playerId);
+	if (IsHiddenLobbyAccount(player.GetName()))
+		return;
+	boost::shared_ptr<NetPacket> notify = CreateNetPacketPlayerListLeft(player.GetUniqueId());
 	m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), notify, SessionData::Established);
 	m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), notify, SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 }
@@ -1830,6 +1848,15 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 				return;
 			}
 
+			if (IsHiddenLobbyAccount(session->GetPlayerData()->GetName())) {
+				// Hidden accounts are not in the player list, so the clients
+				// do not know the name and would drop the message. Send the
+				// name along first - this does not add a list entry.
+				boost::shared_ptr<NetPacket> info = CreateNetPacketPlayerInfoReply(
+														session->GetPlayerData()->GetUniqueId(), session->GetPlayerData());
+				m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), info, SessionData::Established);
+				m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), info, SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
+			}
 			m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
 			m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 
@@ -1864,21 +1891,7 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 				// Only allow private messages to players which are not in running games.
 				boost::shared_ptr<ServerGame> tmpGame = targetSession->GetGame();
 				if (!tmpGame || !tmpGame->IsRunning()) {
-					// Legacy clients send global notices as a private message to
-					// bbcbot. Apply the same database-backed admin check as the
-					// dedicated AdminGlobalNoticeMessage handler.
-					const std::string senderName = session->GetPlayerData()->GetName();
-					const std::string targetName = targetSession->GetPlayerData()->GetName();
-					const bool isTargetBbcbot = (targetName == "bbcbot");
-					const bool isSenderAllowed = GetBanManager().IsAdminPlayer(
-													 session->GetPlayerData()->GetDBId());
-
-					if (isTargetBbcbot && isSenderAllowed && chatRequest.chattext().substr(0, 3) == "gn ") {
-						// bbcbot pm from admins - global notice => /msg bbcbot gn This is a global Notice
-						LOG_ERROR("Global Notice: " << chatRequest.chattext().substr(3) << " von " << senderName);
-						SendGlobalChat(chatRequest.chattext().substr(3));
-						chatSent = true;
-					} else if (session->AcquireChatToken()) {
+					if (session->AcquireChatToken()) {
 						boost::shared_ptr<NetPacket> packet(new NetPacket);
 						packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatMessage);
 						ChatMessage *netChat = packet->GetMsg()->mutable_chatmessage();
@@ -1886,6 +1899,11 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 						netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
 						netChat->set_chattext(chatRequest.chattext());
 
+						// Hidden accounts are not in the player list - send the
+						// name along, otherwise the client drops the message.
+						if (IsHiddenLobbyAccount(session->GetPlayerData()->GetName()))
+							GetSender().Send(targetSession, CreateNetPacketPlayerInfoReply(
+												 session->GetPlayerData()->GetUniqueId(), session->GetPlayerData()));
 						GetSender().Send(targetSession, packet);
 						chatSent = true;
 					}
@@ -2274,7 +2292,7 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 		m_statDataChanged = true;
 	}
 	// Notify all players.
-	NotifyPlayerJoinedLobby(session->GetPlayerData()->GetUniqueId());
+	NotifyPlayerJoinedLobby(*session->GetPlayerData());
 
 	UpdateStatisticsNumberOfPlayers();
 
@@ -3123,6 +3141,14 @@ ServerLobbyThread::SendPlayerList(boost::shared_ptr<SessionData> s)
 	PlayerIdList idList(m_sessionManager.GetPlayerIdList(SessionData::Established));
 	PlayerIdList gameIdList(m_gameSessionManager.GetPlayerIdList(SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting));
 	idList.splice(idList.begin(), gameIdList);
+	// Leave out the hidden service accounts.
+	for (const char *hidden : HIDDEN_LOBBY_ACCOUNTS) {
+		boost::shared_ptr<SessionData> hiddenSession(m_sessionManager.GetSessionByPlayerName(hidden));
+		if (!hiddenSession)
+			hiddenSession = m_gameSessionManager.GetSessionByPlayerName(hidden);
+		if (hiddenSession && hiddenSession->GetPlayerData())
+			idList.remove(hiddenSession->GetPlayerData()->GetUniqueId());
+	}
 	// Send all player ids to client.
 	PlayerIdList::const_iterator i = idList.begin();
 	PlayerIdList::const_iterator end = idList.end();
@@ -3162,7 +3188,10 @@ ServerLobbyThread::UpdateStatisticsNumberOfPlayers()
 {
 	ServerStats stats;
 	// Get all logged-in sessions and all sessions within a game.
-	unsigned curNumberOfPlayersOnServer = m_sessionManager.GetSessionCountWithState(SessionData::Established) + m_gameSessionManager.GetRawSessionCount();
+	unsigned hiddenInLobby, hiddenInGame;
+	CountHiddenLobbyAccounts(hiddenInLobby, hiddenInGame);
+	unsigned curNumberOfPlayersOnServer = m_sessionManager.GetSessionCountWithState(SessionData::Established) + m_gameSessionManager.GetRawSessionCount()
+										  - hiddenInLobby - hiddenInGame;
 	{
 		boost::mutex::scoped_lock lock(m_statMutex);
 		if (curNumberOfPlayersOnServer != m_statData.numberOfPlayersOnServer) {
@@ -3177,6 +3206,21 @@ ServerLobbyThread::UpdateStatisticsNumberOfPlayers()
 }
 
 void
+ServerLobbyThread::CountHiddenLobbyAccounts(unsigned &inLobby, unsigned &inGame) const
+{
+	inLobby = inGame = 0;
+	for (const char *hidden : HIDDEN_LOBBY_ACCOUNTS) {
+		// Only count what the totals count as well, so that subtracting
+		// cannot go below zero: established lobby sessions, any game session.
+		boost::shared_ptr<SessionData> lobbySession(m_sessionManager.GetSessionByPlayerName(hidden));
+		if (lobbySession && lobbySession->GetState() == SessionData::Established)
+			++inLobby;
+		else if (m_gameSessionManager.GetSessionByPlayerName(hidden))
+			++inGame;
+	}
+}
+
+void
 ServerLobbyThread::UpdateLiveStats()
 {
 	// Same two counters the "players on server" figure is built from, see
@@ -3184,8 +3228,10 @@ ServerLobbyThread::UpdateLiveStats()
 	// those which moved on into a game. Counted here rather than read from
 	// m_statData so that the waiting count and the total cannot disagree -
 	// they come from the same look at the session managers.
-	unsigned playersWaiting = m_sessionManager.GetSessionCountWithState(SessionData::Established);
-	unsigned playersOnline = playersWaiting + m_gameSessionManager.GetRawSessionCount();
+	unsigned hiddenInLobby, hiddenInGame;
+	CountHiddenLobbyAccounts(hiddenInLobby, hiddenInGame);
+	unsigned playersWaiting = m_sessionManager.GetSessionCountWithState(SessionData::Established) - hiddenInLobby;
+	unsigned playersOnline = playersWaiting + m_gameSessionManager.GetRawSessionCount() - hiddenInGame;
 	unsigned tablesRunning;
 	{
 		boost::mutex::scoped_lock lock(m_statMutex);
@@ -3206,7 +3252,10 @@ ServerLobbyThread::BroadcastStatisticsUpdate(const ServerStats &stats)
 
 		StatisticsMessage::StatisticsData *data = netStatistics->add_statisticsdata();
 		data->set_statisticstype(StatisticsMessage::StatisticsData::statNumberOfPlayers);
-		data->set_statisticsvalue(m_sessionManager.GetRawSessionCount() + m_gameSessionManager.GetRawSessionCount());
+		unsigned hiddenInLobby, hiddenInGame;
+		CountHiddenLobbyAccounts(hiddenInLobby, hiddenInGame);
+		data->set_statisticsvalue(m_sessionManager.GetRawSessionCount() + m_gameSessionManager.GetRawSessionCount()
+								  - hiddenInLobby - hiddenInGame);
 
 		m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
 		// Use SendToAllSessions for game sessions to bypass WantsLobbyMsg check.

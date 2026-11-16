@@ -80,8 +80,8 @@ public:
 	void SessionError(boost::shared_ptr<SessionData> session, int errorCode);
 	void CloseSession(boost::shared_ptr<SessionData> session);
 	void ResubscribeLobbyMsg(boost::shared_ptr<SessionData> session);
-	void NotifyPlayerJoinedLobby(unsigned playerId);
-	void NotifyPlayerLeftLobby(unsigned playerId);
+	void NotifyPlayerJoinedLobby(const PlayerData &player);
+	void NotifyPlayerLeftLobby(const PlayerData &player);
 	void NotifyPlayerJoinedGame(unsigned gameId, unsigned playerId);
 	void NotifyPlayerLeftGame(unsigned gameId, unsigned playerId);
 	void NotifySpectatorJoinedGame(unsigned gameId, unsigned playerId);
@@ -268,6 +268,9 @@ protected:
 	void SendGameList(boost::shared_ptr<SessionData> s);
 	void UpdateStatisticsNumberOfPlayers();
 	void UpdateLiveStats();
+	// Hidden service accounts (bbcbot, admin-bot) currently online, so that
+	// they can be left out of the player counts.
+	void CountHiddenLobbyAccounts(unsigned &inLobby, unsigned &inGame) const;
 	void BroadcastStatisticsUpdate(const ServerStats &stats);
 
 	void ReadStatisticsFile();
