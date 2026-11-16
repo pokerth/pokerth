@@ -2556,7 +2556,8 @@ void GameHandler::onShowdown()
 
 	if (!m_spectating && !humanCardsLogged && holeCardSeats && !holeCardSeats->empty()) {
 		const auto &human = holeCardSeats->front();
-		if (human) {
+		// Busted players keep the stale cards of their last hand (local engine).
+		if (human && human->getMyActiveStatus()) {
 			int cards[2] = {-1, -1};
 			human->getMyCards(cards);
 			if (cards[0] >= 0 && cards[0] < 52 && cards[1] >= 0 && cards[1] < 52) {

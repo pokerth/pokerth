@@ -750,6 +750,12 @@ Log::logPlayerHoleCards(boost::shared_ptr<PlayerInterface> player)
 	if (!player || !SQLITE_LOG || !myConfig->readConfigInt("LogOnOff"))
 		return;
 
+	// A busted player gets no new cards (local engine), so the old ones from
+	// the last played hand would end up in every following hand. Cards that
+	// were already written via shows/has need no second update.
+	if (!player->getMyActiveStatus() || player->getLogHoleCardsDone())
+		return;
+
 	const int seat = player->getMyID();
 	if (seat < 0 || seat >= MAX_NUMBER_OF_PLAYERS)
 		return;
