@@ -2843,6 +2843,9 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 
 		// logging
 		client->GetClientLog()->logHandWinner(curGame->getActivePlayerList(), tmpPlayer->getMyCardsValueInt(), winnerList);
+		PlayerList seatsList = curGame->getSeatsList();
+		if (seatsList && !seatsList->empty())
+			client->GetClientLog()->logPlayerHoleCards(seatsList->front());
 
 		client->GetGui().postRiverRunAnimation1();
 
@@ -2928,6 +2931,9 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 
 		// logging
 		client->GetClientLog()->logHoleCardsHandName(curGame->getActivePlayerList());
+		PlayerList seatsList = curGame->getSeatsList();
+		if (seatsList && !seatsList->empty())
+			client->GetClientLog()->logPlayerHoleCards(seatsList->front());
 		client->GetClientLog()->logHandWinner(curGame->getActivePlayerList(), highestValueOfCards, winnerList);
 
 		client->GetGui().postRiverRunAnimation1();

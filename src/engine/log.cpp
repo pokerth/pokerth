@@ -743,6 +743,39 @@ Log::logHoleCardsHandName(PlayerList activePlayerList, boost::shared_ptr<PlayerI
 }
 
 void
+Log::logPlayerHoleCards(boost::shared_ptr<PlayerInterface> player)
+{
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
+
+	if (!player || !SQLITE_LOG || !myConfig->readConfigInt("LogOnOff"))
+		return;
+
+	const int seat = player->getMyID();
+	if (seat < 0 || seat >= MAX_NUMBER_OF_PLAYERS)
+		return;
+
+	int cards[2];
+	player->getMyCards(cards);
+	if (cards[0] < 0 || cards[0] >= 52 || cards[1] < 0 || cards[1] >= 52)
+		return;
+
+	QSqlDatabase db = getOrCreateDatabase();
+	if (!(db.isValid() && db.isOpen()))
+		return;
+
+	const std::string seatNumber = boost::lexical_cast<std::string>(seat + 1);
+	sql += "UPDATE Hand SET ";
+	sql += "Seat_" + seatNumber + "_Card_1=" + boost::lexical_cast<std::string>(cards[0]);
+	sql += ",Seat_" + seatNumber + "_Card_2=" + boost::lexical_cast<std::string>(cards[1]);
+	sql += " WHERE UniqueGameID=" + boost::lexical_cast<std::string>(uniqueGameID);
+	sql += " AND HandID=" + boost::lexical_cast<std::string>(currentHandID);
+	sql += ";";
+
+	if (myConfig->readConfigInt("LogInterval") == 0)
+		exec_transaction();
+}
+
+void
 Log::logHandWinner(PlayerList activePlayerList, int highestCardsValue, std::list<unsigned> winners)
 {
 	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
