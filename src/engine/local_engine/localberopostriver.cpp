@@ -106,6 +106,10 @@ void LocalBeRoPostRiver::postRiverRun()
 	}
 	if(getMyHand()->getLog()) {
 		getMyHand()->getLog()->logHandWinner(getMyHand()->getActivePlayerList(), highestCardsValue, getMyHand()->getBoard()->getWinners());
+		PlayerList seatsList = getMyHand()->getSeatsList();
+		if(seatsList && !seatsList->empty()) {
+			getMyHand()->getLog()->logPlayerHoleCards(seatsList->front());
+		}
 		getMyHand()->getLog()->logPlayerSitsOut(getMyHand()->getActivePlayerList());
 		getMyHand()->getLog()->logGameWinner(getMyHand()->getActivePlayerList());
 		getMyHand()->getLog()->logAfterHand();

@@ -3034,6 +3034,19 @@ void gameTableImpl::postRiverRunAnimation3()
 		}
 	}
 
+	const auto session = myStartWindow->getSession();
+	const auto seatsList = currentHand->getSeatsList();
+	if (session && !session->isClientSpectating() && seatsList && !seatsList->empty()) {
+		const auto &human = seatsList->front();
+		int cards[2] = {-1, -1};
+		human->getMyCards(cards);
+		if (!human->getMyCardsFlip()
+				&& cards[0] >= 0 && cards[0] < 52 && cards[1] >= 0 && cards[1] < 52) {
+			myGuiLog->logFlipHoleCardsMsg(
+				QString::fromUtf8(human->getMyName().c_str()), cards[0], cards[1], -1, "has");
+		}
+	}
+
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 		if((*it_c)->getMyCash() == 0) {
 			currentHand->getGuiInterface()->logPlayerSitsOut((*it_c)->getMyName());

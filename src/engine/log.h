@@ -40,6 +40,7 @@ public:
 	void logBoardCards(int boardCards[5]);
 	void logHoleCardsHandName(PlayerList activePlayerList);
 	void logHoleCardsHandName(PlayerList activePlayerList, boost::shared_ptr<PlayerInterface> player, bool forceExecLog = 0);
+	void logPlayerHoleCards(boost::shared_ptr<PlayerInterface> player);
 	void logHandWinner(PlayerList activePlayerList, int highestCardsValue, std::list<unsigned> winners);
 	void logGameWinner(PlayerList activePlayerList);
 	void logPlayerSitsOut(PlayerList activePlayerList);
