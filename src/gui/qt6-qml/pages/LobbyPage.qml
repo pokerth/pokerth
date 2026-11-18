@@ -96,7 +96,7 @@ Rectangle {
             qsTr("Close game"),
             qsTr("Are you sure you want to close the game:\n\"%1\"?")
                 .arg(selectedGame.gameName || ("Game #" + selectedGame.gameId)),
-            qsTr("Close game"))
+            qsTr("Close"))
     }
 
     // A notice about an avatar of your own that the server no longer delivers.
@@ -109,7 +109,7 @@ Rectangle {
         myAvatarWarningPopup.openWith(
             qsTr("Your avatar is no longer shown"),
             qsTr("Other players do not see your avatar any more: the image exceeds the dimensions the server accepts.\n\nPokerTH can scale it down for you. The new avatar becomes active the next time you log in."),
-            qsTr("Scale down now"))
+            qsTr("Scale down"))
     }
 
     function resetPlayerListDelegates() {

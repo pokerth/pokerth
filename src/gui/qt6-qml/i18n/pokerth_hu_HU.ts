@@ -811,6 +811,10 @@
         <translation>Biztosan be akarod zárni a következő játékot:
 „%1”?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Bezárás</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Bejelentés</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Tiltás</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Feloldás</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ A PokerTH lekicsinyítheti helyetted. Az új avatar a következő bejelentkezés
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Kicsinyítés most</translation>
+        <source>Scale down</source>
+        <translation>Kicsinyítés</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ A PokerTH lekicsinyítheti helyetted. Az új avatar a következő bejelentkezés
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>játékos keresése ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Bezárás</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Kérlek indítsd újra a PokerTH-t, hogy a naplófájlok oda kerüljenek.</trans
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Teljes kitiltás</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Tiltás</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Feloldás</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Kitiltás</translation>
     </message>
 </context>
 <context>

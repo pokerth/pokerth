@@ -811,6 +811,10 @@
         <translation>Tens a certeza de que queres fechar o jogo:
 &quot;%1&quot;?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Fechar</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Denunciar</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorar</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Não ignorar</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ O PokerTH pode reduzi-la por si. O novo avatar fica ativo no próximo início de
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Reduzir agora</translation>
+        <source>Scale down</source>
+        <translation>Reduzir</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ O PokerTH pode reduzi-la por si. O novo avatar fica ativo no próximo início de
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>pesquisar pelo jogador...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Fechar</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Reinicie o PokerTH para que os ficheiros de registo sejam guardados nessa pasta.
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Total de expulsões com banimento</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorar</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Não ignorar</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Banir</translation>
     </message>
 </context>
 <context>

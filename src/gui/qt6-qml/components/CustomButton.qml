@@ -45,12 +45,21 @@ AbstractButton {
         Behavior on border.color { ColorAnimation { duration: 100 } }
     }
 
+    // Keep the label off the border. A label that is still too long (narrow
+    // popup buttons, long translations) shrinks instead of running over the
+    // button edges; elide is the last resort below the minimum size.
+    leftPadding: 6
+    rightPadding: 6
+
     contentItem: AppText {
         text: customButton.text
         color: customButton.hovered || customButton.pressed
                ? Config.Theme.colorTextPrimary
                : Config.Theme.colorTextSecondary
         font.pixelSize: Config.Theme.fontSizeBody
+        fontSizeMode: Text.HorizontalFit
+        minimumPixelSize: 10
+        elide: Text.ElideRight
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment:   Text.AlignVCenter
 

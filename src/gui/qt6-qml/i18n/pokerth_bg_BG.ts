@@ -811,6 +811,10 @@
         <translation>Наистина ли искате да затворите играта:
 „%1“?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Затвори</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Докладвай</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Игнорирай</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Не игнорирай</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH може да го намали вместо теб. Новият ава
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Намали сега</translation>
+        <source>Scale down</source>
+        <translation>Намали</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH може да го намали вместо теб. Новият ава
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>търсене на играч ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Затвори</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Пълно блокиране</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Игнорирай</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Не игнорирай</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Блокирай</translation>
     </message>
 </context>
 <context>

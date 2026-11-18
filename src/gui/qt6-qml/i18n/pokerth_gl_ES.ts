@@ -811,6 +811,10 @@
         <translation>Estás seguro de que queres pechar a partida:
 «%1»?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Pechar</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Informar</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorar</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Non ignorar</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ O PokerTH pode reducila por ti. A nova imaxe activarase no seguinte inicio de se
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Reducir agora</translation>
+        <source>Scale down</source>
+        <translation>Reducir</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ O PokerTH pode reducila por ti. A nova imaxe activarase no seguinte inicio de se
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>Buscar un xogador…</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Pechar</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Expulsión total</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorar</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Non ignorar</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Bloquear</translation>
     </message>
 </context>
 <context>

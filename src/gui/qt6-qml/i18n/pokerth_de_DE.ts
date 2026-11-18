@@ -811,6 +811,10 @@
         <translation>Möchten Sie das Spiel wirklich schließen:
 &quot;%1&quot;?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Schließen</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Melden</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorieren</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Nicht ignorieren</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH kann es für Dich verkleinern. Der neue Avatar wird bei der nächsten An
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Jetzt verkleinern</translation>
+        <source>Scale down</source>
+        <translation>Verkleinern</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH kann es für Dich verkleinern. Der neue Avatar wird bei der nächsten An
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>Spieler suchen ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Schließen</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</translati
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Komplett kicken/bannen</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorieren</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Nicht ignorieren</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Bannen</translation>
     </message>
 </context>
 <context>

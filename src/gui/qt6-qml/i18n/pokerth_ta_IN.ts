@@ -811,6 +811,10 @@
         <translation>விளையாட்டு:
 „%1“ ஐ நிச்சயம் மூட வேண்டுமா?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>மூடு</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>புகாரளி</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>புறக்கணி</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>புறக்கணிப்பை நீக்கு</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH அதைச் சிறிதாக்க முடியும். �
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>இப்போது சிறிதாக்கு</translation>
+        <source>Scale down</source>
+        <translation>சிறிதாக்கு</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH அதைச் சிறிதாக்க முடியும். �
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>வீரரைத் தேடு ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>மூடு</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>முழுமையான தடை</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>புறக்கணி</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>புறக்கணிப்பை நீக்கு</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>தடை செய்</translation>
     </message>
 </context>
 <context>

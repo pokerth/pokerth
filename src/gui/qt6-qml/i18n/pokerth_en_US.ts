@@ -811,6 +811,10 @@
         <translation>Are you sure you want to close the game:
 &quot;%1&quot;?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Close</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Report</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignore</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Unignore</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH can scale it down for you. The new avatar becomes active the next time y
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Scale down now</translation>
+        <source>Scale down</source>
+        <translation>Scale down</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH can scale it down for you. The new avatar becomes active the next time y
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>search for player ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Close</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Please restart PokerTH so that the log files are stored there.</translation>
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Total kickban</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignore</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Unignore</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Ban</translation>
     </message>
 </context>
 <context>

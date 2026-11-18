@@ -811,6 +811,10 @@
         <translation>A bheil thu cinnteach gu bheil thu airson an geama:
 &quot;%1&quot; a dhùnadh?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Dùin</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Aithris</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Leig seachad</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Na leig seachad</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ Is urrainn dha PokerTH a lughdachadh dhut. Bidh an t-avatar ùr an sàs an ath-t
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Lughdaich a-nis</translation>
+        <source>Scale down</source>
+        <translation>Lughdaich</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ Is urrainn dha PokerTH a lughdachadh dhut. Bidh an t-avatar ùr an sàs an ath-t
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>lorg cluicheadair ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Dùin</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Tòisich PokerTH às ùr ach an tèid na faidhlichean loga a shàbhaladh an-siud
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Toirmeasg slàn</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Leig seachad</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Na leig seachad</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Toirmisg</translation>
     </message>
 </context>
 <context>

@@ -811,6 +811,10 @@
         <translation>本当にゲーム:
 「%1」を閉じますか？</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>閉じる</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>報告</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>無視</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>無視を解除</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH が縮小できます。新しいアバターは次回のログインか
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>今すぐ縮小</translation>
+        <source>Scale down</source>
+        <translation>縮小</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH が縮小できます。新しいアバターは次回のログインか
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>プレイヤーを検索...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>閉じる</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>完全に締め出す</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>無視</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>無視を解除</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>締め出す</translation>
     </message>
 </context>
 <context>

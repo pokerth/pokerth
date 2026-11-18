@@ -811,6 +811,10 @@
         <translation>Czy na pewno chcesz zamknąć grę:
 „%1”?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Zamknij</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Zgłoś</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignoruj</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Nie ignoruj</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH może go zmniejszyć. Nowy awatar zacznie działać przy następnym logo
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Zmniejsz teraz</translation>
+        <source>Scale down</source>
+        <translation>Zmniejsz</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH może go zmniejszyć. Nowy awatar zacznie działać przy następnym logo
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>szukaj gracza ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Zamknij</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Uruchom PokerTH ponownie, aby pliki logu były tam zapisywane.</translation>
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Zablokuj całkowicie</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignoruj</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Nie ignoruj</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Zablokuj</translation>
     </message>
 </context>
 <context>

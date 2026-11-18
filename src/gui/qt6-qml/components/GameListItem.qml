@@ -162,7 +162,7 @@ Item {
                     qsTr("Close game"),
                     qsTr("Are you sure you want to close the game:\n\"%1\"?")
                         .arg(gameItem.itemGameName),
-                    qsTr("Close game"))
+                    qsTr("Close"))
             }
 
             // Expand / collapse chevron

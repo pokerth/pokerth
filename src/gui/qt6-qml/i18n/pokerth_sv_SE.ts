@@ -811,6 +811,10 @@
         <translation>Är du säker på att du vill stänga spelet:
 ”%1”?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Stäng</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Anmäl</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorera</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Sluta ignorera</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH kan förminska den åt dig. Den nya avataren börjar gälla vid nästa i
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Förminska nu</translation>
+        <source>Scale down</source>
+        <translation>Förminska</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH kan förminska den åt dig. Den nya avataren börjar gälla vid nästa i
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>sök spelare ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Stäng</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Starta om PokerTH så att loggfilerna sparas där.</translation>
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Fullständig avstängning</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorera</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Sluta ignorera</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Stäng av</translation>
     </message>
 </context>
 <context>

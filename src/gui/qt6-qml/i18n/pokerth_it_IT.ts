@@ -811,6 +811,10 @@
         <translation>Sei sicuro di voler chiudere la partita:
 &quot;%1&quot;?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Chiudi</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Segnala</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignora</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Non ignorare</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH può ridurla per te. Il nuovo avatar sarà attivo al prossimo accesso.</
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Riduci ora</translation>
+        <source>Scale down</source>
+        <translation>Riduci</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH può ridurla per te. Il nuovo avatar sarà attivo al prossimo accesso.</
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>ricerca giocatore ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Chiudi</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Kickban totale</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignora</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Non ignorare</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Banna</translation>
     </message>
 </context>
 <context>

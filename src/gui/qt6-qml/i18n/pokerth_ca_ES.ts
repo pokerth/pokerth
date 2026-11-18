@@ -811,6 +811,10 @@
         <translation>Segur que voleu tancar la partida:
 «%1»?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Tanca</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Denuncia</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignora</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Deixa d&apos;ignorar</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ El PokerTH pot reduir-la per tu. El nou avatar s&apos;activarà en el proper ini
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Redueix ara</translation>
+        <source>Scale down</source>
+        <translation>Redueix</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ El PokerTH pot reduir-la per tu. El nou avatar s&apos;activarà en el proper ini
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>cerca un jugador ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Tanca</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Reinicieu PokerTH perquè els fitxers de registre s&apos;hi desin.</translation>
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Expulsió i bloqueig total</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignora</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Deixa d&apos;ignorar</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Bloqueja</translation>
     </message>
 </context>
 <context>

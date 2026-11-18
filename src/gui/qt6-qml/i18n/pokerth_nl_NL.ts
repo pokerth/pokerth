@@ -811,6 +811,10 @@
         <translation>Weet u zeker dat u het spel:
 “%1” wilt sluiten?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Sluiten</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Melden</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Negeren</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Niet negeren</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH kan de afbeelding voor je verkleinen. De nieuwe avatar wordt actief bij 
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Nu verkleinen</translation>
+        <source>Scale down</source>
+        <translation>Verkleinen</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH kan de afbeelding voor je verkleinen. De nieuwe avatar wordt actief bij 
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>speler zoeken ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Sluiten</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Start PokerTH opnieuw op zodat de logbestanden daar worden opgeslagen.</translat
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Volledig verwijderen en verbannen</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Negeren</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Niet negeren</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Verbannen</translation>
     </message>
 </context>
 <context>

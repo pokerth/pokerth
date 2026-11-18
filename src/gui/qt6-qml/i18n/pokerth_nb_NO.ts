@@ -811,6 +811,10 @@
         <translation>Er du sikker på at du vil lukke spillet:
 «%1»?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Lukk</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Rapporter</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorer</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Ikke ignorer</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH kan forminske det for deg. Den nye avataren blir aktiv ved neste innlogg
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Forminsk nå</translation>
+        <source>Scale down</source>
+        <translation>Forminsk</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH kan forminske det for deg. Den nye avataren blir aktiv ved neste innlogg
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>søk etter spiller ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Lukk</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Start PokerTH på nytt slik at loggfilene lagres der.</translation>
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Fullstendig utestengelse</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorer</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Ikke ignorer</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Utesteng</translation>
     </message>
 </context>
 <context>

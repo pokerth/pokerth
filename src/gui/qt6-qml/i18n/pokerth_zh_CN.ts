@@ -811,6 +811,10 @@
         <translation>确定要关闭游戏：
 “%1” 吗？</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>关闭</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>举报</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>屏蔽</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>取消屏蔽</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH 可以为你缩小该图片。新头像将在下次登录时生效。</t
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>立即缩小</translation>
+        <source>Scale down</source>
+        <translation>缩小</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH 可以为你缩小该图片。新头像将在下次登录时生效。</t
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>搜索玩家 ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>关闭</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>彻底踢出并封禁</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>屏蔽</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>取消屏蔽</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>封禁</translation>
     </message>
 </context>
 <context>

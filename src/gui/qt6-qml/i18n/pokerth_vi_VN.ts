@@ -811,6 +811,10 @@
         <translation>Bạn có chắc muốn đóng màn chơi:
 „%1“ hay không?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Đóng</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Báo cáo</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Bỏ qua</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Thôi bỏ qua</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH có thể thu nhỏ ảnh giúp bạn. Hình đại diện mới sẽ c�
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Thu nhỏ ngay</translation>
+        <source>Scale down</source>
+        <translation>Thu nhỏ</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH có thể thu nhỏ ảnh giúp bạn. Hình đại diện mới sẽ c�
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>tìm kiếm người chơi...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Đóng</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Vui lòng khởi động lại PokerTH để các tệp nhật ký được lưu
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Cấm hoàn toàn</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Bỏ qua</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Thôi bỏ qua</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Cấm</translation>
     </message>
 </context>
 <context>

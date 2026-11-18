@@ -811,6 +811,10 @@
         <translation>Şu oyunu kapatmak istediğinize emin misiniz:
 “%1”?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Kapat</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Bildir</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Yok say</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Yok sayma</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH görseli senin için küçültebilir. Yeni avatar bir sonraki girişinde
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Şimdi küçült</translation>
+        <source>Scale down</source>
+        <translation>Küçült</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH görseli senin için küçültebilir. Yeni avatar bir sonraki girişinde
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>oyuncu ara ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Kapat</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Günlük dosyalarının oraya kaydedilmesi için lütfen PokerTH&apos;yi yeniden
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Tamamen at ve yasakla</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Yok say</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Yok sayma</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Yasakla</translation>
     </message>
 </context>
 <context>

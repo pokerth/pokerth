@@ -811,6 +811,10 @@
         <translation>Haluatko varmasti sulkea pelin:
 ”%1”?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Sulje</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Ilmoita</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ohita</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Peru ohitus</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH voi pienentää sen puolestasi. Uusi avatar tulee voimaan seuraavalla ki
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Pienennä nyt</translation>
+        <source>Scale down</source>
+        <translation>Pienennä</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH voi pienentää sen puolestasi. Uusi avatar tulee voimaan seuraavalla ki
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>hae pelaajaa ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Sulje</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Käynnistä PokerTH uudelleen, jotta lokitiedostot tallennetaan sinne.</translat
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Täydellinen esto</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ohita</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Peru ohitus</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Estä</translation>
     </message>
 </context>
 <context>

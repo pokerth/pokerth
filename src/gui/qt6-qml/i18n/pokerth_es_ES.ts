@@ -811,6 +811,10 @@
         <translation>¿Seguro que desea cerrar la partida:
 &quot;%1&quot;?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Cerrar</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Denunciar</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorar</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>No ignorar</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH puede reducirla por ti. El nuevo avatar se activará en tu próximo inic
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Reducir ahora</translation>
+        <source>Scale down</source>
+        <translation>Reducir</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH puede reducirla por ti. El nuevo avatar se activará en tu próximo inic
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>buscar jugador ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Cerrar</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Reinicia PokerTH para que los archivos de registro se guarden allí.</translatio
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Expulsar y bloquear</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorar</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>No ignorar</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Bloquear</translation>
     </message>
 </context>
 <context>

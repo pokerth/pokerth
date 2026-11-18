@@ -811,6 +811,10 @@
         <translation>Θέλετε σίγουρα να κλείσετε το παιχνίδι:
 «%1»;</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Κλείσιμο</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Αναφορά</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Παράβλεψη</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Επαναφορά</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH can scale it down for you. The new avatar becomes active the next time y
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Σμίκρυνση τώρα</translation>
+        <source>Scale down</source>
+        <translation>Σμίκρυνση</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH can scale it down for you. The new avatar becomes active the next time y
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>αναζήτηση παίκτη ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Κλείσιμο</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Πλήρης αποκλεισμός</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Παράβλεψη</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Επαναφορά</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Αποκλεισμός</translation>
     </message>
 </context>
 <context>

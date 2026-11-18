@@ -811,6 +811,10 @@
         <translation>Opravdu chcete ukončit hru:
 „%1“?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Ukončit</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Nahlásit</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorovat</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Neignorovat</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH ho může zmenšit. Nový avatar se projeví při příštím přihláš
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Zmenšit nyní</translation>
+        <source>Scale down</source>
+        <translation>Zmenšit</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH ho může zmenšit. Nový avatar se projeví při příštím přihláš
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>vyhledat hráče ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Ukončit</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Restartujte prosím PokerTH, aby se soubory záznamů ukládaly tam.</translatio
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Vyhodit a zabanovat</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorovat</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Neignorovat</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Zabanovat</translation>
     </message>
 </context>
 <context>

@@ -141,7 +141,7 @@ ItemDelegate {
         ignorePopup.openWith(
             qsTr("Ignore player"),
             qsTr("Are you sure you want to ignore \"%1\"?").arg(displayName),
-            qsTr("Ignore player"))
+            qsTr("Ignore"))
     }
 
     // Confirmation before unignoring a player.
@@ -149,7 +149,7 @@ ItemDelegate {
         unignorePopup.openWith(
             qsTr("Unignore player"),
             qsTr("Are you sure you want to unignore \"%1\"?").arg(displayName),
-            qsTr("Unignore player"))
+            qsTr("Unignore"))
     }
 
     // Confirmation before the final kickban (admin) of a player.
@@ -157,7 +157,7 @@ ItemDelegate {
         banPopup.openWith(
             qsTr("Total kickban"),
             qsTr("Are you sure you want to totally kickban \"%1\"?").arg(displayName),
-            qsTr("Total kickban"))
+            qsTr("Ban"))
     }
 
     onCollapseResetCounterChanged: {

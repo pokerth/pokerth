@@ -810,6 +810,10 @@
         <translation>Você tem certeza que deseja fechar o jogo:
 &quot;%1&quot;?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Fechar</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -905,6 +909,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Reportar</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorar</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Não ignorar</translation>
     </message>
 </context>
 <context>
@@ -2562,8 +2574,8 @@ O PokerTH pode reduzi-la para você. O novo avatar entra em vigor no próximo lo
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Reduzir agora</translation>
+        <source>Scale down</source>
+        <translation>Reduzir</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2795,6 +2807,10 @@ O PokerTH pode reduzi-la para você. O novo avatar entra em vigor no próximo lo
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>procurando por jogador...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Fechar</translation>
     </message>
 </context>
 <context>
@@ -3810,6 +3826,18 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Total de ChutesBan</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorar</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Não ignorar</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Banir</translation>
     </message>
 </context>
 <context>

@@ -811,6 +811,10 @@
         <translation>Is jy seker jy wil die spel:
 „%1“ toemaak?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Maak toe</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Rapporteer</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignoreer</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Moenie ignoreer</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH kan dit vir jou verklein. Die nuwe avatar tree by jou volgende aanmeldin
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Verklein nou</translation>
+        <source>Scale down</source>
+        <translation>Verklein</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH kan dit vir jou verklein. Die nuwe avatar tree by jou volgende aanmeldin
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>soek vir speler...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Maak toe</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Herbegin asseblief PokerTH sodat die loglêers daar gestoor word.</translation>
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Totale skopverban</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignoreer</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Moenie ignoreer</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Verban</translation>
     </message>
 </context>
 <context>

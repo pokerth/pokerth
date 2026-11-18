@@ -811,6 +811,10 @@
         <translation>Ar tikrai norite užverti žaidimą:
 „%1“?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Užverti</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Pranešti</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignoruoti</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Nebeignoruoti</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH gali jį sumažinti. Naujas avataras įsigalios kito prisijungimo metu.<
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Sumažinti dabar</translation>
+        <source>Scale down</source>
+        <translation>Sumažinti</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH gali jį sumažinti. Naujas avataras įsigalios kito prisijungimo metu.<
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>ieškoti žaidėjo ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Užverti</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Paleiskite PokerTH iš naujo, kad žurnalo failai būtų įrašomi ten.</transla
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Visiškas užblokavimas</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignoruoti</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Nebeignoruoti</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Užblokuoti</translation>
     </message>
 </context>
 <context>

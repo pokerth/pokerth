@@ -811,6 +811,10 @@
         <translation>Voulez-vous vraiment fermer la partie :
 « %1 » ?</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Fermer</translation>
+    </message>
 </context>
 <context>
     <name>GamePage</name>
@@ -906,6 +910,14 @@
         <location line="+1"/>
         <source>Report</source>
         <translation>Signaler</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorer</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Ne plus ignorer</translation>
     </message>
 </context>
 <context>
@@ -2564,8 +2576,8 @@ PokerTH peut la réduire pour vous. Le nouvel avatar sera actif à votre prochai
     </message>
     <message>
         <location line="+1"/>
-        <source>Scale down now</source>
-        <translation>Réduire maintenant</translation>
+        <source>Scale down</source>
+        <translation>Réduire</translation>
     </message>
     <message>
         <location line="+167"/>
@@ -2797,6 +2809,10 @@ PokerTH peut la réduire pour vous. Le nouvel avatar sera actif à votre prochai
         <location line="+453"/>
         <source>search for player ...</source>
         <translation>rechercher un joueur ...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Fermer</translation>
     </message>
 </context>
 <context>
@@ -3812,6 +3828,18 @@ Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistré
         <location line="+252"/>
         <source>Total kickban</source>
         <translation>Kick/ban total</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorer</translation>
+    </message>
+    <message>
+        <source>Unignore</source>
+        <translation>Ne plus ignorer</translation>
+    </message>
+    <message>
+        <source>Ban</source>
+        <translation>Bannir</translation>
     </message>
 </context>
 <context>

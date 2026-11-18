@@ -481,7 +481,7 @@ SeatBox {
         ignorePopup.openWith(
             qsTr("Ignore player"),
             qsTr("Are you sure you want to ignore \"%1\"?").arg(root.targetPlayerName),
-            qsTr("Ignore player"))
+            qsTr("Ignore"))
     }
 
     // Confirmation before unignoring a player.
@@ -489,7 +489,7 @@ SeatBox {
         unignorePopup.openWith(
             qsTr("Unignore player"),
             qsTr("Are you sure you want to unignore \"%1\"?").arg(root.targetPlayerName),
-            qsTr("Unignore player"))
+            qsTr("Unignore"))
     }
 
     // Confirmation before reporting an inappropriate avatar (a port of the
