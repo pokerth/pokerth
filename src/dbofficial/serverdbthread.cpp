@@ -49,6 +49,8 @@
 #include <dbofficial/asyncdblivestats.h>
 #include <dbofficial/compositeasyncdbquery.h>
 #include <dbofficial/db_table_defs.h>
+#include <dbofficial/serverlogfields.h>
+#include <core/serverlogqueue.h>
 #include <game_defs.h>
 #include <algorithm>
 #include <ctime>
@@ -77,6 +79,15 @@
 // Reconnect backoff bounds.
 #define DB_RECONNECT_MIN_DELAY_MS		250
 #define DB_RECONNECT_MAX_DELAY_MS		5000
+// The copy of server_messages.log is written in batches: at the latest after
+// this many seconds, earlier if a batch is full. One multi-row INSERT per
+// batch, kept well below max_allowed_packet.
+#define DB_SERVER_LOG_FLUSH_SEC			2
+#define DB_SERVER_LOG_BATCH_LINES		500
+#define DB_SERVER_LOG_BATCH_BYTES		(256 * 1024)
+// Code points per message: four bytes each still fit into a TEXT column.
+#define DB_SERVER_LOG_MAX_MESSAGE_CHARS	16000
+#define DB_SERVER_LOG_MAX_NAME_CHARS	64
 
 #define QUERY_NICK_PREPARE				"nick_template"
 #define QUERY_LOGIN_PREPARE				"login_template"
@@ -703,11 +714,13 @@ ServerDBThread::Main()
 	while (!ShouldTerminate() && !HasPermanentError()) {
 		if (HasDBConnection()) {
 			SetConnected(true);
-			// Use a timed wait so we can send periodic keepalive pings
-			// to prevent the MySQL server from closing idle connections
-			// (default wait_timeout is often 28800s, but external/cloud
-			// MySQL hosts frequently use much shorter values like 60-300s).
-			bool hasWork = WaitForQuery(DB_KEEPALIVE_INTERVAL_SEC);
+			// Use a timed wait so we can write the server log copy and send
+			// periodic keepalive pings to prevent the MySQL server from
+			// closing idle connections (default wait_timeout is often 28800s,
+			// but external/cloud MySQL hosts frequently use much shorter values
+			// like 60-300s).
+			bool hasWork = WaitForQuery(DB_SERVER_LOG_FLUSH_SEC);
+			const boost::posix_time::ptime now = boost::posix_time::microsec_clock::universal_time();
 			if (hasWork) {
 				// Validate the connection is still alive before executing.
 				// mysqlpp::Connection::connected() only checks local state;
@@ -720,13 +733,17 @@ ServerDBThread::Main()
 					continue;
 				}
 				HandleNextQuery();
-			} else {
-				// Timed out with no work — send a keepalive ping.
+				m_lastDBActivity = now;
+			} else if (m_lastDBActivity.is_not_a_date_time()
+					   || now - m_lastDBActivity >= boost::posix_time::seconds(DB_KEEPALIVE_INTERVAL_SEC)) {
+				// Idle for the keepalive interval — send a keepalive ping.
+				m_lastDBActivity = now;
 				if (!m_connData->conn.ping()) {
 					LOG_ERROR("DB keepalive ping failed, reconnecting...");
 					m_connData->conn.disconnect();
 				}
 			}
+			FlushServerLog(false);
 		} else {
 			SetConnected(false);
 			EstablishDBConnection();
@@ -734,6 +751,10 @@ ServerDBThread::Main()
 	}
 	SetConnected(false);
 	CloseServerRun();
+	// The last lines, including the ones about this shutdown. Whatever is
+	// logged after this point is only in server_messages.log.
+	FlushServerLog(true);
+	serverlog_queue_set_enabled(false);
 	m_connData->conn.disconnect();
 	DrainQueueWithError();
 }
@@ -1149,6 +1170,8 @@ ServerDBThread::EstablishDBConnection()
 				DeleteExpiredPendingPrivateMessages();
 				EnqueueQuery(boost::shared_ptr<AsyncDBQuery>(new AsyncDBPendingPmLoad(QUERY_PENDING_PM_LOAD_PREPARE)));
 			}
+			// And once more: the server log copy is the least important of all.
+			PrepareServerLog();
 			const size_t pending = GetQueueSize();
 			if (pending)
 				LOG_MSG("DB connection ready with " << pending << " pending queries.");
@@ -1365,6 +1388,118 @@ retry_query:
 		if (elapsedMs >= DB_SLOW_QUERY_MS)
 			LOG_ERROR("Slow DB query " << nextQuery->GetPreparedName()
 					  << ": " << elapsedMs << " ms (" << GetQueueSize() << " queued).");
+	}
+}
+
+void
+ServerDBThread::PrepareServerLog()
+{
+	// No statement to prepare - the lines go out as one multi-row INSERT per
+	// batch, which a prepared statement cannot express. This only checks that
+	// the table and every column the INSERT names exist.
+	mysqlpp::Query probe = m_connData->conn.query();
+	probe << "SELECT " DB_TABLE_SERVER_LOG_COL_RUNID ", " DB_TABLE_SERVER_LOG_COL_LOGGED ", " DB_TABLE_SERVER_LOG_COL_LEVEL ", " DB_TABLE_SERVER_LOG_COL_SESSIONNO ", " DB_TABLE_SERVER_LOG_COL_GAMEID ", " DB_TABLE_SERVER_LOG_COL_PLAYERUID ", " DB_TABLE_SERVER_LOG_COL_PLAYERID ", " DB_TABLE_SERVER_LOG_COL_PLAYERNAME ", " DB_TABLE_SERVER_LOG_COL_IP ", " DB_TABLE_SERVER_LOG_COL_MESSAGE " FROM " DB_TABLE_SERVER_LOG " LIMIT 0";
+	const bool ready = probe.exec();
+	// Reported once, and again only when it changes - not on every reconnect.
+	const bool changed = !m_serverLogChecked || ready != m_serverLog;
+	m_serverLogChecked = true;
+	m_serverLog = ready;
+	if (ready) {
+		// Collecting since loghelper_init(), or switched on again after the
+		// table was missing on an earlier connect - the lines in between are
+		// then only in the file.
+		serverlog_queue_set_enabled(true);
+		if (changed)
+			LOG_MSG("Server log copy to " DB_TABLE_SERVER_LOG " active.");
+	} else {
+		// Off before the message, so that nothing waits for a table which is
+		// not there.
+		serverlog_queue_set_enabled(false);
+		if (changed)
+			LOG_ERROR("Server log copy disabled: is " DB_TABLE_SERVER_LOG " missing? (" << probe.error() << ")");
+	}
+}
+
+void
+ServerDBThread::FlushServerLog(bool force)
+{
+	if (!m_serverLog)
+		return;
+	const boost::posix_time::ptime now = boost::posix_time::microsec_clock::universal_time();
+	if (!force && serverlog_queue_size() < DB_SERVER_LOG_BATCH_LINES && !m_lastServerLogFlush.is_not_a_date_time()
+			&& now - m_lastServerLogFlush < boost::posix_time::seconds(DB_SERVER_LOG_FLUSH_SEC))
+		return;
+	m_lastServerLogFlush = now;
+
+	// A forced flush runs at shutdown: everything, but not forever if the
+	// lines keep coming faster than they can be written.
+	for (unsigned batch = 0; batch < (force ? 100u : 1u); ++batch) {
+		if (!m_connData->conn.connected())
+			return;
+		deque<ServerLogLine> lines;
+		unsigned long dropped = 0;
+		if (!serverlog_queue_take(lines, DB_SERVER_LOG_BATCH_LINES, DB_SERVER_LOG_BATCH_BYTES, dropped))
+			return;
+
+		const DB_id runId = m_dbIdManager.GetServerRunId();
+		mysqlpp::Query insert = m_connData->conn.query();
+		insert << "INSERT INTO " DB_TABLE_SERVER_LOG " (" DB_TABLE_SERVER_LOG_COL_RUNID ", " DB_TABLE_SERVER_LOG_COL_LOGGED ", " DB_TABLE_SERVER_LOG_COL_LEVEL ", " DB_TABLE_SERVER_LOG_COL_SESSIONNO ", " DB_TABLE_SERVER_LOG_COL_GAMEID ", " DB_TABLE_SERVER_LOG_COL_PLAYERUID ", " DB_TABLE_SERVER_LOG_COL_PLAYERID ", " DB_TABLE_SERVER_LOG_COL_PLAYERNAME ", " DB_TABLE_SERVER_LOG_COL_IP ", " DB_TABLE_SERVER_LOG_COL_MESSAGE ") VALUES ";
+		// The number columns come out of the parser as plain digits or empty,
+		// so they go in unquoted; everything taken from text is quoted.
+		auto number = [](const string &digits) {
+			return digits.empty() ? string("NULL") : digits;
+		};
+		bool first = true;
+		for (const ServerLogLine &line : lines) {
+			const ServerLogFields fields = ParseServerLogFields(line.message);
+			// Server-local wall clock, as in the file and in server_session.
+			const string loggedAt = mysqlpp::DateTime(line.time);
+			if (!first)
+				insert << ", ";
+			first = false;
+			insert << "(";
+			if (runId == DB_ID_INVALID)
+				insert << "NULL";
+			else
+				insert << runId;
+			insert << ", " << mysqlpp::quote << loggedAt << ", " << mysqlpp::quote << string(line.level)
+				   << ", " << number(fields.sessionNo) << ", " << number(fields.gameId)
+				   << ", " << number(fields.playerUid) << ", " << number(fields.playerId) << ", ";
+			if (fields.playerName.empty())
+				insert << "NULL";
+			else
+				insert << mysqlpp::quote << fields.playerName;
+			insert << ", ";
+			if (fields.ip.empty())
+				insert << "NULL";
+			else
+				insert << "INET6_ATON(" << mysqlpp::quote << fields.ip << ")";
+			insert << ", " << mysqlpp::quote << SanitizeServerLogText(line.message, DB_SERVER_LOG_MAX_MESSAGE_CHARS) << ")";
+		}
+
+		if (!insert.exec()) {
+			const string error = insert.error();
+			if (IsTransientDBError(error) || !m_connData->conn.connected()) {
+				// Try again with the next batch, after the reconnect if the
+				// connection is gone. Nothing is lost but the order of the
+				// lines logged meanwhile, which stays intact as well: they
+				// queue up behind these.
+				serverlog_queue_put_back(lines);
+				if (IsConnectionLossError(error) || !m_connData->conn.connected())
+					m_connData->conn.disconnect();
+				return;
+			}
+			// Anything else would fail again with every batch and fill the log
+			// with this very message - stop until the next connect checks the
+			// table again. Off before the message, for the same reason.
+			m_serverLog = false;
+			serverlog_queue_set_enabled(false);
+			LOG_ERROR("Server log copy disabled: INSERT into " DB_TABLE_SERVER_LOG " failed (" << error << ").");
+			return;
+		}
+		m_lastDBActivity = now;
+		if (dropped)
+			LOG_ERROR("Server log copy: " << dropped << " lines were dropped because the buffer was full.");
 	}
 }
 

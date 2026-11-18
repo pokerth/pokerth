@@ -34,6 +34,7 @@
 #define _SERVERDBTHREAD_H_
 
 #include <boost/asio.hpp>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <boost/thread/condition_variable.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <queue>
@@ -116,6 +117,11 @@ protected:
 	bool IsShadowMuteEnabled() const;
 	void SetShadowMuteEnabled(bool enabled);
 	void HandleNextQuery();
+	// Copy of server_messages.log, both run inside the database thread.
+	void PrepareServerLog();
+	// Writes the queued log lines, at most once per flush interval unless a
+	// batch is full or force is set; force also writes every batch, not one.
+	void FlushServerLog(bool force);
 
 	// Queue handling. The queue itself is the only source of truth for
 	// "is there work?" - there is deliberately no second counter which
@@ -155,6 +161,12 @@ private:
 	bool m_pendingPm{false};
 	// Only touched by the database thread.
 	bool m_pendingPmLoaded{false};
+	// Only touched by the database thread: server_log exists and is written.
+	bool m_serverLog{false};
+	bool m_serverLogChecked{false};
+	boost::posix_time::ptime m_lastServerLogFlush;
+	// Last statement sent over the connection, for the idle keepalive.
+	boost::posix_time::ptime m_lastDBActivity;
 
 	mutable boost::mutex m_isConnectedMutex;
 	bool m_isConnected;

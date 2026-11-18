@@ -523,11 +523,17 @@ Additional options in config.xml:
 	How many ranking games a player may join or create within the given number
 	of minutes.
 
-The schema for the activity and live statistics tables is in this directory:
+The schema for the activity, live statistics and server log tables is in this
+directory:
 
 	docs/server_activity_schema.sql
 	docs/server_activity_add_client_platform.sql
 	docs/server_live_stats_schema.sql
+	docs/server_log_schema.sql
+
+With server_log present, every line of server_messages.log is also written to
+the database, with the session, game, player and IP address of the line in
+columns of their own. The file is written either way.
 
 The account tables themselves belong to the pokerth.net website and are not part
 of this repository.

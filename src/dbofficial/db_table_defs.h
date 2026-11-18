@@ -121,4 +121,17 @@
 #define DB_TABLE_PENDING_PM_COL_TEXT				"text"
 #define DB_TABLE_PENDING_PM_COL_CREATED				"created_at"
 
+// Copy of server_messages.log, see docs/server_log_schema.sql.
+#define DB_TABLE_SERVER_LOG							"server_log"
+#define DB_TABLE_SERVER_LOG_COL_RUNID				"run_id"
+#define DB_TABLE_SERVER_LOG_COL_LOGGED				"logged_at"
+#define DB_TABLE_SERVER_LOG_COL_LEVEL				"level"
+#define DB_TABLE_SERVER_LOG_COL_SESSIONNO			"session_no"
+#define DB_TABLE_SERVER_LOG_COL_GAMEID				"game_id"
+#define DB_TABLE_SERVER_LOG_COL_PLAYERUID			"player_uid"
+#define DB_TABLE_SERVER_LOG_COL_PLAYERID			"player_id"
+#define DB_TABLE_SERVER_LOG_COL_PLAYERNAME			"player_name"
+#define DB_TABLE_SERVER_LOG_COL_IP					"ip"
+#define DB_TABLE_SERVER_LOG_COL_MESSAGE				"message"
+
 #endif // DB_TABLE_DEFS_H

@@ -25,6 +25,7 @@ set(POKERTH_OFFICIAL_SERVER_SRC
     asyncdbsessionstart.cpp
     asyncdblivestats.cpp
     asyncdbsessionend.cpp
+    serverlogfields.cpp
     dbidmanager.cpp
     ../gui/qt/qttools/nonqttoolswrapper.cpp
     ../gui/qt/qttools/nonqthelper/nonqthelper.cpp
