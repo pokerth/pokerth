@@ -1459,6 +1459,25 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 		SessionError(session, ERR_NET_INVALID_PLAYER_NAME);
 		return;
 	}
+#ifdef POKERTH_OFFICIAL_SERVER
+	// A guest has no account, so its name proves nothing. Only accept the
+	// names the clients generate ("Guest" followed by digits): a raw client
+	// could otherwise pick any name - the one of a registered player who is
+	// offline, or markup like <img src=...> which some clients render as
+	// rich text for everyone who sees the name.
+	if (validGuest) {
+		const std::string prefix(SERVER_GUEST_PLAYER_NAME);
+		const std::string digits = playerName.substr(0, prefix.size()) == prefix
+								   ? playerName.substr(prefix.size()) : std::string();
+		if (digits.empty() || digits.size() > 8
+				|| !std::all_of(digits.begin(), digits.end(), [](char c) { return c >= '0' && c <= '9'; })) {
+			LOG_MSG("Rejected guest login from " << session->GetClientAddr()
+					<< " - invalid guest name \"" << playerName << "\".");
+			SessionError(session, ERR_NET_INVALID_PLAYER_NAME);
+			return;
+		}
+	}
+#endif
 
 	// Check whether the player name is banned.
 	if (GetBanManager().IsPlayerBanned(playerName)) {
@@ -1691,7 +1710,11 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 	// older clients, whose protocol has no rate-limit failure reason.
 	if (!AcquireGameCreateToken(session)) {
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GAME_INVALID);
-	} else if (gameName.empty() || !isprint(gameName[0])) {
+	} else if (gameName.empty() || !isprint(gameName[0])
+			   // '<' and '>' are not wanted in game names: clients which show text
+			   // as rich text would render them as markup (e.g. <img src=...>,
+			   // fetched from the network by everyone who sees the game list).
+			   || gameName.find_first_of("<>") != string::npos) {
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GAME_BAD_NAME);
 	} else if (IsGameNameInUse(gameName)) {
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GAME_NAME_IN_USE);

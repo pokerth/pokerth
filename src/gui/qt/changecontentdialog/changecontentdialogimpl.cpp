@@ -34,6 +34,7 @@
 #include <QtGui>
 #include <QtCore>
 #include <QScreen>
+#include <QRegularExpressionValidator>
 #ifdef ANDROID
 #include "mobileinputhelper.h"
 #endif
@@ -82,6 +83,8 @@ changeContentDialogImpl::changeContentDialogImpl(QWidget *parent, ConfigFile *co
 		label_lineLabel->setText(tr("Game name:"));
 		lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
 		lineEdit->setMaxLength(48);
+		// The server rejects '<' and '>' in game names.
+		lineEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[^<>]*"), lineEdit));
 	}
 	break;
 	case CHANGE_INET_BAD_GAME_NAME: {
@@ -89,6 +92,8 @@ changeContentDialogImpl::changeContentDialogImpl(QWidget *parent, ConfigFile *co
 		label_lineLabel->setText(tr("Game name:"));
 		lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
 		lineEdit->setMaxLength(48);
+		// The server rejects '<' and '>' in game names.
+		lineEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[^<>]*"), lineEdit));
 	}
 	break;
 	}

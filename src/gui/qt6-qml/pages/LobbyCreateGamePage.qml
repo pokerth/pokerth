@@ -405,6 +405,8 @@ Rectangle {
                         Layout.fillWidth: true
                         enabled: !lobbyCreateGamePage.isGuest
                         maximumLength: 48
+                        // The server rejects '<' and '>' in game names.
+                        validator: RegularExpressionValidator { regularExpression: /[^<>]*/ }
                         placeholderText: qsTr("Spielname eingeben …")
                         background: Rectangle {
                             radius: 6

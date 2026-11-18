@@ -98,6 +98,7 @@ set(QML_FILES
     components/AppCheckBox.qml
     components/AppLabel.qml
     components/AppText.qml
+    components/AppToolTip.qml
     components/AvatarCardRow.qml
     components/SafeAreaInsets.qml
     components/BetChip.qml

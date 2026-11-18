@@ -228,12 +228,16 @@ ItemDelegate {
                 // touch devices in the expanded area – see below).
                 HoverHandler { id: nameHover }
 
-                ToolTip.text: playerItem.inGameName !== ""
-                              ? qsTr("%1 is playing in \"%2\".").arg(displayName).arg(playerItem.inGameName)
-                              : qsTr("%1 is not playing at the moment.").arg(displayName)
-                ToolTip.visible: nameHover.hovered && !Config.Responsive.isMobile
-                                 && Config.Parameters.showTooltips
-                ToolTip.delay: 400
+                // Player and game names are chosen by other people: AppToolTip
+                // keeps them plain text (the attached ToolTip would render markup).
+                AppToolTip {
+                    text: playerItem.inGameName !== ""
+                          ? qsTr("%1 is playing in \"%2\".").arg(displayName).arg(playerItem.inGameName)
+                          : qsTr("%1 is not playing at the moment.").arg(displayName)
+                    visible: nameHover.hovered && !Config.Responsive.isMobile
+                             && Config.Parameters.showTooltips
+                    delay: 400
+                }
             }
 
             // Wide screen: action icons inline, right-aligned – in fixed columns

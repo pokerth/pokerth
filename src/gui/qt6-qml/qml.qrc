@@ -4,6 +4,7 @@
         <file>qtquickcontrols2.conf</file>
         <file>components/AppText.qml</file>
         <file>components/AppLabel.qml</file>
+        <file>components/AppToolTip.qml</file>
         <file>components/BetChip.qml</file>
         <file>components/BlindButtonImage.qml</file>
         <file>components/PlayerActionBadge.qml</file>

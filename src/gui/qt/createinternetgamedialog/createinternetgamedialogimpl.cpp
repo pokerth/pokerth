@@ -38,6 +38,7 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QRegularExpressionValidator>
 #ifdef ANDROID
 #include "mobileinputhelper.h"
 #endif
@@ -52,6 +53,8 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 #endif
 	setupUi(this);
 	this->installEventFilter(this);
+	// The server rejects '<' and '>' in game names.
+	lineEdit_gameName->setValidator(new QRegularExpressionValidator(QRegularExpression("[^<>]*"), lineEdit_gameName));
 #ifdef ANDROID
 	MobileInputHelper::prepareAndroidDialog(this);
 	MobileInputHelper::prepareMobileLineEdit(lineEdit_gameName);

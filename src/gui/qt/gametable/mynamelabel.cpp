@@ -104,6 +104,9 @@ void MyNameLabel::setText ( const QString &t, bool trans, bool guest, bool compu
 				t2.chop(chop);
 				t2.append("...");
 			}
+			// The name goes into rich text: escape it (after truncating, so that
+			// no entity gets cut in half), so that markup in a name stays text.
+			t2 = t2.toHtmlEscaped();
 
 			QString tTruncated;
 
