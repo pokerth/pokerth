@@ -900,6 +900,16 @@ void
 ServerGameStateStartGame::TryStartWithRemainingPlayers(boost::shared_ptr<ServerGame> server)
 {
 	unsigned gameCount = server->GetSessionManager().GetSessionCountWithState(SessionData::Game);
+	if (gameCount == 0) {
+		// No seated human left. DoStart() must not run here: InternalStartGame()
+		// counts computer players too and would start a game for bots alone.
+		// Nobody needs to be moved back to the lobby either - the lobby thread
+		// removes the game because it has no seated session any more.
+		LOG_MSG("Game " << server->GetId() << " - no players left to start, aborting.");
+		server->GetStateTimer1().cancel();
+		server->GetSessionManager().ResetAllReadyFlags();
+		return;
+	}
 	if (gameCount < 2) {
 		// Not enough players left — abort game start immediately instead
 		// of waiting the full 20s timeout.

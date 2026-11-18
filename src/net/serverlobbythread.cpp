@@ -31,6 +31,7 @@
 
 #include <net/serverlobbythread.h>
 #include <net/servergame.h>
+#include <net/servergamestate.h>
 #include <net/serverbanmanager.h>
 #include <net/serverexception.h>
 #include <net/receivebuffer.h>
@@ -2703,6 +2704,10 @@ ServerLobbyThread::InternalRemoveGame(boost::shared_ptr<ServerGame> game)
 			m_statDataChanged = true;
 		}
 	}
+	// The game is going away: leave its state first, so that removing the
+	// sessions and computer players below triggers no game logic (e.g. the
+	// start handshake trying to start the game with whoever is left).
+	game->SetState(ServerGameStateFinal::Instance());
 	// Return any players/spectators still in the game to the lobby with full
 	// bookkeeping (removal from the game session manager + GamePlayerLeft
 	// notifications). Must happen before RemoveAllSessions(), which would

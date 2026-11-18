@@ -963,18 +963,20 @@ ServerGame::IsComputerPlayerActive(unsigned playerId) const
 void
 ServerGame::ResetComputerPlayerList()
 {
-	boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
-
-	PlayerDataList::iterator i = m_computerPlayerList.begin();
-	PlayerDataList::iterator end = m_computerPlayerList.end();
-
-	while (i != end) {
-		GetLobbyThread().RemoveComputerPlayer(*i);
-		RemovePlayerData(*i, NTF_NET_REMOVED_ON_REQUEST, false);
-		++i;
+	// Take the list out under the lock, but notify without holding it:
+	// RemovePlayerData() calls into the game state, which may read the player
+	// list again (GetFullPlayerDataList() takes the same non-recursive mutex).
+	// Holding the lock there deadlocked the lobby thread.
+	PlayerDataList computerPlayers;
+	{
+		boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
+		computerPlayers.swap(m_computerPlayerList);
 	}
 
-	m_computerPlayerList.clear();
+	for (const boost::shared_ptr<PlayerData> &player : computerPlayers) {
+		GetLobbyThread().RemoveComputerPlayer(player);
+		RemovePlayerData(player, NTF_NET_REMOVED_ON_REQUEST, false);
+	}
 }
 
 void
