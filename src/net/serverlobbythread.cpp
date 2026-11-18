@@ -84,6 +84,12 @@
 
 #define SERVER_INIT_LOGIN_CLIENT_LOCK_SEC			NetHelper::GetLoginLockSec()
 #define SERVER_INIT_LOGIN_CLIENT_BURST				5		// inits one address may send back to back before the rate limit applies
+// Failed password logins (see ServerLobbyThread::AuthFailureState).
+#define SERVER_AUTH_FAIL_WINDOW_SEC					3600	// failures are counted within this time
+#define SERVER_AUTH_FAIL_ADDRESS_LIMIT				5		// failures from one address before it is blocked
+#define SERVER_AUTH_FAIL_ADDRESS_BLOCK_SEC			3600
+#define SERVER_AUTH_FAIL_ACCOUNT_LIMIT				10		// failures for one account, all addresses together
+#define SERVER_AUTH_FAIL_ACCOUNT_BLOCK_SEC			900
 #define SERVER_GAME_CREATE_REFILL_SEC				5
 #define SERVER_GAME_CREATE_BURST					3
 
@@ -1509,6 +1515,11 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 
 	if (noAuth)
 		InitAfterLogin(session);
+	else if (m_serverConfig.readConfigInt("ServerBruteForceProtection") != 0
+			 && IsPasswordLoginBlocked(session->GetClientAddr(), playerName))
+		// Refused before the database is asked, so a blocked client learns
+		// nothing about the password - not even whether the account exists.
+		SessionError(session, ERR_NET_INIT_BLOCKED);
 	else
 		AuthenticatePlayer(session);
 }
@@ -2349,10 +2360,12 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
 		if (GetBanManager().IsAdminPlayer(dbPlayerData.id)) {
 			tmpSession->GetPlayerData()->SetRights(PLAYER_RIGHTS_ADMIN);
 		}
+		RecordPasswordLoginSuccess(tmpSession->GetPlayerData()->GetName());
 		// Blacklisted avatars are reset before the session is initialised.
 		CheckAvatarBlacklist(tmpSession);
 	} else {
 		LOG_MSG("Authentication failed for player " << playerId << " (" << tmpSession->GetClientAddr() << ")");
+		RecordPasswordLoginFailure(tmpSession->GetClientAddr(), tmpSession->GetPlayerData()->GetName());
 		SessionError(tmpSession, ERR_NET_INVALID_PASSWORD);
 	}
 }
@@ -2360,10 +2373,10 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
 void
 ServerLobbyThread::UserInvalid(unsigned playerId)
 {
+	// The account does not exist: counts for the address, not for an account.
 	boost::shared_ptr<SessionData> tmpSession = m_sessionManager.GetSessionByUniquePlayerId(playerId, true);
-	if (tmpSession) {
-	} else {
-	}
+	if (tmpSession)
+		RecordPasswordLoginFailure(tmpSession->GetClientAddr(), std::string());
 	SessionError(tmpSession, ERR_NET_INVALID_PASSWORD);
 }
 
@@ -2483,6 +2496,8 @@ ServerLobbyThread::TimerUpdateClientLoginLock(const boost::system::error_code &e
 				m_timerClientAddressMap.erase(i);
 			i = next;
 		}
+
+		CleanupAuthFailures();
 
 		// Drop game-create buckets once they are full again as well.
 		GameCreateRateLimitMap::iterator game_i = m_gameCreateRateLimitMap.begin();
@@ -2659,6 +2674,101 @@ bool
 ServerLobbyThread::IsLoginRateLimitExempt(const std::string &clientAddr) const
 {
 	return IsAddressInList(m_serverConfig.readConfigString("ServerBruteForceProtectionExempt"), clientAddr);
+}
+
+namespace
+{
+// "::ffff:1.2.3.4" and "1.2.3.4" are the same client, depending only on the
+// listener it used - count them together.
+std::string AuthFailureAddressKey(const std::string &clientAddr)
+{
+	static const std::string mappedPrefix("::ffff:");
+	return boost::istarts_with(clientAddr, mappedPrefix) ? clientAddr.substr(mappedPrefix.size()) : clientAddr;
+}
+}
+
+bool
+ServerLobbyThread::IsPasswordLoginBlocked(const std::string &clientAddr, const std::string &accountName)
+{
+	const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+	boost::mutex::scoped_lock lock(m_clientRateLimitMutex);
+
+	if (!IsLoginRateLimitExempt(clientAddr)) {
+		AuthFailureMap::const_iterator pos = m_authFailuresByAddress.find(AuthFailureAddressKey(clientAddr));
+		if (pos != m_authFailuresByAddress.end() && pos->second.blockedUntil > now)
+			return true;
+	}
+	AuthFailureMap::const_iterator pos = m_authFailuresByAccount.find(accountName);
+	return pos != m_authFailuresByAccount.end() && pos->second.blockedUntil > now;
+}
+
+void
+ServerLobbyThread::RecordPasswordLoginFailure(const std::string &clientAddr, const std::string &accountName)
+{
+	const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+	const std::chrono::seconds window(SERVER_AUTH_FAIL_WINDOW_SEC);
+	boost::mutex::scoped_lock lock(m_clientRateLimitMutex);
+
+	// Count one failure; returns true when this failure starts a block.
+	auto count = [&](AuthFailureState &state, unsigned limit, unsigned blockSec) {
+		if (state.failures == 0 || now - state.windowStart > window) {
+			state.failures = 0;
+			state.windowStart = now;
+		}
+		if (++state.failures < limit)
+			return false;
+		// Every further failure once the limit is reached extends the block,
+		// so a client that just waits for it to expire and goes on is held off
+		// again after its first new attempt.
+		const bool newBlock = state.blockedUntil <= now;
+		state.blockedUntil = now + std::chrono::seconds(blockSec);
+		return newBlock;
+	};
+
+	// Addresses shared by many players (the web client proxy) are not blocked
+	// as a whole - the account limit below still applies to them.
+	if (!IsLoginRateLimitExempt(clientAddr)) {
+		const std::string key(AuthFailureAddressKey(clientAddr));
+		AuthFailureState &state = m_authFailuresByAddress[key];
+		if (count(state, SERVER_AUTH_FAIL_ADDRESS_LIMIT, SERVER_AUTH_FAIL_ADDRESS_BLOCK_SEC)) {
+			LOG_MSG("Password logins from " << key << " blocked for " << SERVER_AUTH_FAIL_ADDRESS_BLOCK_SEC / 60
+					<< " min after " << state.failures << " failed logins.");
+		}
+	}
+	if (!accountName.empty()) {
+		AuthFailureState &state = m_authFailuresByAccount[accountName];
+		if (count(state, SERVER_AUTH_FAIL_ACCOUNT_LIMIT, SERVER_AUTH_FAIL_ACCOUNT_BLOCK_SEC)) {
+			LOG_MSG("Password logins for account \"" << accountName << "\" blocked for " << SERVER_AUTH_FAIL_ACCOUNT_BLOCK_SEC / 60
+					<< " min after " << state.failures << " failed logins.");
+		}
+	}
+}
+
+void
+ServerLobbyThread::RecordPasswordLoginSuccess(const std::string &accountName)
+{
+	// Only the account is reset: resetting the address as well would let an
+	// attacker clear his own counter by logging into an account of his own
+	// between the guesses.
+	boost::mutex::scoped_lock lock(m_clientRateLimitMutex);
+	m_authFailuresByAccount.erase(accountName);
+}
+
+void
+ServerLobbyThread::CleanupAuthFailures()
+{
+	// Called with m_clientRateLimitMutex held. Drop entries that neither
+	// block nor count any more.
+	const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+	const std::chrono::seconds window(SERVER_AUTH_FAIL_WINDOW_SEC);
+	for (AuthFailureMap *map : {&m_authFailuresByAddress, &m_authFailuresByAccount}) {
+		for (AuthFailureMap::iterator i = map->begin(); i != map->end();) {
+			if (i->second.blockedUntil <= now && now - i->second.windowStart > window)
+				i = map->erase(i);
+			else
+				++i;
+		}
+	}
 }
 
 bool

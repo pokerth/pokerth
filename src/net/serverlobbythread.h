@@ -172,6 +172,16 @@ protected:
 		std::chrono::steady_clock::time_point lastRefill;
 	};
 	typedef std::map<std::string, GameCreateRateLimit> GameCreateRateLimitMap;
+	// Failed password logins, per client address and per account. The login
+	// rate limit above counts every init, so a client that paces itself just
+	// below it can still guess thousands of passwords a day; this counts only
+	// failures and blocks the password login for a while once there are too many.
+	struct AuthFailureState {
+		unsigned failures = 0;
+		std::chrono::steady_clock::time_point windowStart;
+		std::chrono::steady_clock::time_point blockedUntil;
+	};
+	typedef std::map<std::string, AuthFailureState> AuthFailureMap;
 	typedef std::list<unsigned> RemoveGameList;
 
 	// Main function of the thread.
@@ -229,6 +239,14 @@ protected:
 	// "ServerBruteForceProtectionExempt" (e.g. a web client proxy, whose users
 	// all share its address).
 	bool IsLoginRateLimitExempt(const std::string &clientAddr) const;
+	// Failed password protection (see AuthFailureState). IsPasswordLoginBlocked()
+	// is asked before the database is; the Record functions are called with
+	// the result of the database lookup. An empty account name means that the
+	// account does not exist - that counts for the address only.
+	bool IsPasswordLoginBlocked(const std::string &clientAddr, const std::string &accountName);
+	void RecordPasswordLoginFailure(const std::string &clientAddr, const std::string &accountName);
+	void RecordPasswordLoginSuccess(const std::string &accountName);
+	void CleanupAuthFailures();
 	void TimerCleanupAvatarCache(const boost::system::error_code &ec);
 	void TimerRefreshShadowMute(const boost::system::error_code &ec);
 
@@ -304,6 +322,8 @@ private:
 
 	TimerClientAddressMap m_timerClientAddressMap;
 	GameCreateRateLimitMap m_gameCreateRateLimitMap;
+	AuthFailureMap m_authFailuresByAddress;
+	AuthFailureMap m_authFailuresByAccount;
 	mutable boost::mutex m_clientRateLimitMutex;
 
 	RemoveGameList m_removeGameList;
