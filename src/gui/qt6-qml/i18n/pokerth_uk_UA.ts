@@ -284,39 +284,39 @@
     <name>ChatBox</name>
     <message>
         <location filename="../components/ChatBox.qml" line="+31"/>
-        <source>Nachricht …</source>
+        <source>Message …</source>
         <translation>Повідомлення…</translation>
     </message>
     <message>
         <location line="+807"/>
-        <source>Link öffnen</source>
+        <source>Open link</source>
         <translation>Відкрити посилання</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Link kopieren</source>
+        <source>Copy link</source>
         <translation>Копіювати посилання</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+38"/>
-        <source>Kopieren</source>
+        <source>Copy</source>
         <translation>Копіювати</translation>
     </message>
     <message>
         <location line="-33"/>
         <location line="+43"/>
-        <source>Alles auswählen</source>
+        <source>Select all</source>
         <translation>Виділити все</translation>
     </message>
     <message>
         <location line="-15"/>
-        <source>Ausschneiden</source>
+        <source>Cut</source>
         <translation>Вирізати</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Einfügen</source>
+        <source>Paste</source>
         <translation>Вставити</translation>
     </message>
 </context>
@@ -545,22 +545,22 @@
     <name>ExampleAvatarPicker</name>
     <message>
         <location filename="../components/ExampleAvatarPicker.qml" line="+70"/>
-        <source>Beispiel-Avatar wählen</source>
+        <source>Choose example avatar</source>
         <translation>Вибір аватара з прикладів</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>Personen</source>
+        <source>People</source>
         <translation>Люди</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Verschiedenes</source>
+        <source>Miscellaneous</source>
         <translation>Різне</translation>
     </message>
     <message>
         <location line="+83"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Скасувати</translation>
     </message>
 </context>
@@ -569,7 +569,7 @@
     <message>
         <location filename="../config/ForumNews.qml" line="+175"/>
         <location line="+11"/>
-        <source>The forum feed could not be loaded.</source>
+        <source>Could not load the forum feed.</source>
         <translation>Не вдалося завантажити стрічку форуму.</translation>
     </message>
 </context>
@@ -664,7 +664,7 @@
     </message>
     <message>
         <location line="+36"/>
-        <source>Manuell</source>
+        <source>Manual</source>
         <translation>Вручну</translation>
     </message>
     <message>
@@ -700,27 +700,27 @@
     <name>GameInfoPanel</name>
     <message>
         <location filename="../components/GameInfoPanel.qml" line="+68"/>
-        <source>Höchste Karte</source>
+        <source>High Card</source>
         <translation>Старша карта</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Paar</source>
+        <source>Pair</source>
         <translation>Пара</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Zwei Paare</source>
+        <source>Two Pair</source>
         <translation>Дві пари</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Drilling</source>
+        <source>Three of a Kind</source>
         <translation>Сет</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Straße</source>
+        <source>Straight</source>
         <translation>Стріт</translation>
     </message>
     <message>
@@ -735,7 +735,7 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>Vierling</source>
+        <source>Four of a Kind</source>
         <translation>Каре</translation>
     </message>
     <message>
@@ -750,22 +750,22 @@
     </message>
     <message>
         <location line="+28"/>
-        <source>Verlauf</source>
+        <source>History</source>
         <translation>Історія</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Chancen</source>
+        <source>Odds</source>
         <translation>Шанси</translation>
     </message>
     <message>
         <location line="+248"/>
-        <source>Kopieren</source>
+        <source>Copy</source>
         <translation>Копіювати</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Alles auswählen</source>
+        <source>Select all</source>
         <translation>Виділити все</translation>
     </message>
 </context>
@@ -820,7 +820,7 @@
     <name>GamePage</name>
     <message>
         <location filename="../pages/GamePage.qml" line="+1610"/>
-        <source>Verlauf &amp; Chancen</source>
+        <source>History &amp; Odds</source>
         <translation>Історія і шанси</translation>
     </message>
     <message>
@@ -830,7 +830,7 @@
     </message>
     <message>
         <location line="+17"/>
-        <source>Emoji-Reaktionen</source>
+        <source>Emoji reactions</source>
         <translation>Емодзі-реакції</translation>
     </message>
     <message>
@@ -925,7 +925,7 @@
     <message>
         <location filename="../components/GamePlayerSelfBox.qml" line="+151"/>
         <location line="+33"/>
-        <source>Du</source>
+        <source>You</source>
         <translation>Ви</translation>
     </message>
 </context>
@@ -1347,17 +1347,17 @@
     <name>GuiSettings</name>
     <message>
         <location filename="../components/GuiSettings.qml" line="+20"/>
-        <source>Benutzeroberfläche</source>
+        <source>User Interface</source>
         <translation>Інтерфейс</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Allgemein</source>
+        <source>General</source>
         <translation>Загальне</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Netzwerk</source>
+        <source>Network</source>
         <translation>Мережа</translation>
     </message>
     <message>
@@ -1367,87 +1367,87 @@
     </message>
     <message>
         <location line="+7"/>
-        <source>Automatisch</source>
+        <source>Automatic</source>
         <translation>Автоматично</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Hell</source>
+        <source>Light</source>
         <translation>Світлий</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Dunkel</source>
+        <source>Dark</source>
         <translation>Темний</translation>
     </message>
     <message>
         <location line="+36"/>
-        <source>Sprache:</source>
+        <source>Language:</source>
         <translation>Мова:</translation>
     </message>
     <message>
         <location line="+70"/>
-        <source>Ausblend-Animation für Verliererkarten</source>
+        <source>Fade-out animation for losing cards</source>
         <translation>Анімація згасання для карт, що програли</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Zeitstempel im Chat anzeigen</source>
+        <source>Show timestamp in chat</source>
         <translation>Показувати час у чаті</translation>
     </message>
     <message>
         <location line="-30"/>
-        <source>Übersetzung anbieten (Globus-Symbol im Chat und bei Forum-Beiträgen)</source>
+        <source>Offer translation (globe symbol in chat and on forum posts)</source>
         <translation>Пропонувати переклад (значок глобуса в чаті й біля дописів форуму)</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht oder eines Forum-Beitrags antippst; Zielsprache ist die oben gewählte Sprache.</source>
+        <source>Translation uses an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap the symbol of a message or a forum post; the target language is the one selected above.</source>
         <translation>Переклад використовує зовнішній сервіс (Google Translate, як запасний варіант — MyMemory). Нічого не надсилається, доки ви не торкнетеся значка біля повідомлення чи допису форуму; мова перекладу — та, що вибрана вище.</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Animierte Karten (Aufdeck-Animation)</source>
+        <source>Animated Cards (Flip Animation)</source>
         <translation>Анімовані карти (анімація відкриття)</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Grafikeffekte reduzieren (Schatten/Glow) – für schwache Systeme</source>
+        <source>Reduce graphics effects (shadows/glow) – for low-end systems</source>
         <translation>Зменшити графічні ефекти (тіні/світіння) — для слабких систем</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Alternative F-Tasten-Belegung (F1-F4)</source>
+        <source>Alternative F-Key Assignment (F1-F4)</source>
         <translation>Альтернативне призначення F-клавіш (F1-F4)</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Symbole für Small Blind und Big Blind anzeigen</source>
+        <source>Show Small Blind and Big Blind symbols</source>
         <translation>Показувати позначки малого й великого блайндів</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Pot-Prozent-Schaltflächen anzeigen</source>
+        <source>Show pot percent buttons</source>
         <translation>Показувати кнопки ставки у відсотках банку</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Anti-Peek: Eigene Karten erst bei Klick anzeigen</source>
+        <source>Anti-Peek: Show own cards only on click</source>
         <translation>Захист від підглядання: показувати власні карти лише після клацання</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Startbildschirm beim Startvorgang deaktivieren</source>
+        <source>Disable splash screen on startup</source>
         <translation>Не показувати заставку під час запуску</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Internationale Pokerausdrücke (Check, Call, Raise) nicht übersetzen</source>
+        <source>Do not translate international poker terms (Check, Call, Raise)</source>
         <translation>Не перекладати міжнародні покерні терміни (Check, Call, Raise)</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Tooltips anzeigen</source>
+        <source>Show tooltips</source>
         <translation>Показувати спливні підказки</translation>
     </message>
     <message>
@@ -1457,52 +1457,52 @@
     </message>
     <message>
         <location line="+16"/>
-        <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
+        <source>Enable table zoom (swipe &amp; zoom, mobile mode only)</source>
         <translation>Увімкнути масштабування стола (гортання й масштаб, лише мобільний режим)</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)</source>
+        <source>Keep seats of players who left the table (remaining player boxes stay in place)</source>
         <translation>Залишати за столом місця гравців, що вибули (решта блоків гравців лишаються на своїх місцях)</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Forum-Neuigkeiten anzeigen</source>
+        <source>Show forum news</source>
         <translation>Показувати новини форуму</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Community-Inhalte anzeigen</source>
+        <source>Show community content</source>
         <translation>Показувати вміст спільноти</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Standard-Community:</source>
+        <source>Default community:</source>
         <translation>Типова спільнота:</translation>
     </message>
     <message>
         <location line="+56"/>
-        <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
+        <source>Set focus to bet input when it&apos;s your turn</source>
         <translation>Переводити фокус у поле ставки, коли ваш хід</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen</source>
+        <source>Show network status color in avatar corner</source>
         <translation>Показувати колір стану мережі в куті аватара</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Emoji-Reaktionen deaktivieren</source>
+        <source>Disable emoji reactions</source>
         <translation>Вимкнути емодзі-реакції</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Versehentliches Call nach einem großen Raise verhindern</source>
+        <source>Prevent accidental call after a big raise</source>
         <translation>Запобігати випадковому колу після великого рейзу</translation>
     </message>
     <message>
         <location line="-31"/>
-        <source>Spieler in eigenen Community-Spielen vorschlagen</source>
+        <source>Suggest players in your own community games</source>
         <translation>Пропонувати гравців у власних іграх спільноти</translation>
     </message>
 </context>
@@ -1848,107 +1848,107 @@
     <name>InternetGameSettings</name>
     <message>
         <location filename="../components/InternetGameSettings.qml" line="+19"/>
-        <source>Internetspiel</source>
+        <source>Internet Game</source>
         <translation>Інтернет-гра</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Server-Konfiguration</source>
+        <source>Server Configuration</source>
         <translation>Конфігурація сервера</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Automatische Server-Konfiguration</source>
+        <source>Automatic Server Configuration</source>
         <translation>Автоматична конфігурація сервера</translation>
     </message>
     <message>
         <location line="+33"/>
-        <source>Manuelle Server-Konfiguration</source>
+        <source>Manual Server Configuration</source>
         <translation>Ручна конфігурація сервера</translation>
     </message>
     <message>
         <location line="-18"/>
-        <source>Server-Liste:</source>
+        <source>Server List:</source>
         <translation>Список серверів:</translation>
     </message>
     <message>
         <location line="+36"/>
-        <source>Server-Adresse:</source>
+        <source>Server Address:</source>
         <translation>Адреса сервера:</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Server-Port:</source>
+        <source>Server Port:</source>
         <translation>Порт сервера:</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Server-Passwort:</source>
+        <source>Server Password:</source>
         <translation>Пароль сервера:</translation>
     </message>
     <message>
         <location line="+55"/>
-        <source>Nur registrierte Spieler</source>
+        <source>Registered players only</source>
         <translation>Лише зареєстровані гравці</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Nur eingeladene Spieler</source>
+        <source>Invited players only</source>
         <translation>Лише запрошені гравці</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Ranglistenspiel</source>
+        <source>Ranking game</source>
         <translation>Рейтингова гра</translation>
     </message>
     <message>
         <location line="+87"/>
-        <source>Verbindungsoptionen</source>
+        <source>Connection Options</source>
         <translation>Параметри з&apos;єднання</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>TLS/SSL verwenden (verschlüsselte Verbindung)</source>
+        <source>Use TLS/SSL (encrypted connection)</source>
         <translation>Використовувати TLS/SSL (шифроване з&apos;єднання)</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>SCTP verwenden (statt TCP)</source>
+        <source>Use SCTP (instead of TCP)</source>
         <translation>Використовувати SCTP (замість TCP)</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>IPv6 verwenden</source>
+        <source>Use IPv6</source>
         <translation>Використовувати IPv6</translation>
     </message>
     <message>
         <location line="-52"/>
-        <source>Avatar-Server</source>
+        <source>Avatar Server</source>
         <translation>Сервер аватарів</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Avatar-Server verwenden</source>
+        <source>Use Avatar Server</source>
         <translation>Використовувати сервер аватарів</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Avatar-Server-Adresse:</source>
+        <source>Avatar Server Address:</source>
         <translation>Адреса сервера аватарів:</translation>
     </message>
     <message>
         <location line="-101"/>
-        <source>Spiel-Einstellungen</source>
+        <source>Game Settings</source>
         <translation>Налаштування гри</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Spiel-Name:</source>
+        <source>Game Name:</source>
         <translation>Назва гри:</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Spiel-Typ:</source>
+        <source>Game Type:</source>
         <translation>Тип гри:</translation>
     </message>
     <message>
@@ -1958,47 +1958,47 @@
     </message>
     <message>
         <location line="+18"/>
-        <source>Spiel-Passwort verwenden</source>
+        <source>Use Game Password</source>
         <translation>Використовувати пароль гри</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Spiel-Passwort:</source>
+        <source>Game Password:</source>
         <translation>Пароль гри:</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Zuschauer erlauben</source>
+        <source>Allow Spectators</source>
         <translation>Дозволити глядачів</translation>
     </message>
     <message>
         <location line="+84"/>
-        <source>Tisch automatisch verlassen nach Spielende</source>
+        <source>Automatically leave table after game ends</source>
         <translation>Автоматично залишати стіл після завершення гри</translation>
     </message>
     <message>
         <location line="-7"/>
-        <source>Weitere Optionen</source>
+        <source>More Options</source>
         <translation>Інші параметри</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Ignorierte Spieler</source>
+        <source>Ignored Players</source>
         <translation>Ігноровані гравці</translation>
     </message>
     <message>
         <location line="+52"/>
-        <source>(keine ignorierten Spieler)</source>
+        <source>(no ignored players)</source>
         <translation>(немає ігнорованих гравців)</translation>
     </message>
     <message>
         <location line="-45"/>
-        <source>Spieler auf der Ignore-Liste werden nicht im Chat angezeigt.</source>
+        <source>Players on the ignore list are not shown in chat.</source>
         <translation>Гравці зі списку ігнорованих не показуються в чаті.</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Entfernen</source>
+        <source>Remove</source>
         <translation>Вилучити</translation>
     </message>
 </context>
@@ -2006,18 +2006,18 @@
     <name>LobbyCreateGamePage</name>
     <message>
         <location filename="../pages/LobbyCreateGamePage.qml" line="+362"/>
-        <source>← Zurück</source>
+        <source>← Back</source>
         <translation>← Назад</translation>
     </message>
     <message>
         <location line="+8"/>
         <location line="+455"/>
-        <source>Spiel erstellen</source>
+        <source>Create Game</source>
         <translation>Створити гру</translation>
     </message>
     <message>
         <location line="-426"/>
-        <source>Spielname</source>
+        <source>Game name</source>
         <translation>Назва гри</translation>
     </message>
     <message>
@@ -2027,12 +2027,12 @@
     </message>
     <message>
         <location line="+246"/>
-        <source>Spielname eingeben …</source>
+        <source>Enter game name …</source>
         <translation>Введіть назву гри…</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Spieltyp</source>
+        <source>Game type</source>
         <translation>Тип гри</translation>
     </message>
     <message>
@@ -2042,113 +2042,113 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>Nur registrierte Spieler</source>
+        <source>Registered players only</source>
         <translation>Лише зареєстровані гравці</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Nur eingeladene Spieler</source>
+        <source>Invited players only</source>
         <translation>Лише запрошені гравці</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Ranglistenspiel</source>
+        <source>Ranking game</source>
         <translation>Рейтингова гра</translation>
     </message>
     <message>
         <location line="+28"/>
-        <source>Community-Vorlage</source>
+        <source>Community template</source>
         <translation>Шаблон спільноти</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Eigene Einstellungen</source>
+        <source>Custom settings</source>
         <translation>Власні налаштування</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Passwort</source>
+        <source>Password</source>
         <translation>Пароль</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Passwort eingeben …</source>
+        <source>Enter password …</source>
         <translation>Введіть пароль…</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Zuschauer erlaubt</source>
+        <source>Spectators allowed</source>
         <translation>Глядачі дозволені</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Max. Spieler</source>
+        <source>Max. players</source>
         <translation>Макс. гравців</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Startgeld</source>
+        <source>Start cash</source>
         <translation>Початкові гроші</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Blind-Einstellungen</source>
+        <source>Blind settings</source>
         <translation>Налаштування блайндів</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Erster Small Blind</source>
+        <source>First small blind</source>
         <translation>Перший малий блайнд</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Blind-Erhöhungsintervall</source>
+        <source>Blinds raise interval</source>
         <translation>Інтервал підвищення блайндів</translation>
     </message>
     <message>
         <location line="+22"/>
         <location line="+28"/>
-        <source>Alle</source>
+        <source>Every</source>
         <translation>Кожні</translation>
     </message>
     <message>
         <location line="-17"/>
-        <source>Hände</source>
+        <source>hands</source>
         <translation>роздач</translation>
     </message>
     <message>
         <location line="+28"/>
-        <source>Minuten</source>
+        <source>minutes</source>
         <translation>хвилин</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Blindliste: %1</source>
+        <source>Blind list: %1</source>
         <translation>Список блайндів: %1</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Zeitlimits</source>
+        <source>Time limits</source>
         <translation>Обмеження часу</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Zeitlimit Spieleraktion</source>
+        <source>Player action time limit</source>
         <translation>Час на хід гравця</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Pause zwischen Händen</source>
+        <source>Delay between hands</source>
         <translation>Пауза між роздачами</translation>
     </message>
     <message>
         <location line="+34"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Скасувати</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Bitte einen Spielnamen eingeben.</source>
+        <source>Please enter a game name.</source>
         <translation>Будь ласка, введіть назву гри.</translation>
     </message>
 </context>
@@ -2751,28 +2751,23 @@ PokerTH може зменшити його для вас. Новий авата�
     </message>
     <message>
         <location line="+37"/>
-        <source>Privates Spiel</source>
+        <source>Private game</source>
         <translation>Приватна гра</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Bitte das Passwort eingeben, um beizutreten.</source>
+        <source>Please enter the password to join.</source>
         <translation>Введіть пароль, щоб приєднатися.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Passwort …</source>
+        <source>Password …</source>
         <translation>Пароль…</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Скасувати</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Beitreten</source>
-        <translation>Приєднатися</translation>
     </message>
     <message>
         <location line="+151"/>
@@ -2857,47 +2852,47 @@ PokerTH може зменшити його для вас. Новий авата�
     <name>LocalGamePage</name>
     <message>
         <location filename="../pages/LocalGamePage.qml" line="+51"/>
-        <source>alle %1 Hände</source>
+        <source>every %1 hands</source>
         <translation>кожні %1 роздач</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>alle %1 Minuten</source>
+        <source>every %1 minutes</source>
         <translation>кожні %1 хв</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>verdoppeln</source>
+        <source>double</source>
         <translation>подвоювати</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>manuell</source>
+        <source>manual</source>
         <translation>вручну</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Small Blind: $%1  •  Erhöhen %2  •  %3</source>
+        <source>Small blind: $%1  •  Raise %2  •  %3</source>
         <translation>Малий блайнд: $%1  •  Підвищення %2  •  %3</translation>
     </message>
     <message>
         <location line="+36"/>
-        <source>Lokales Spiel</source>
+        <source>Local Game</source>
         <translation>Локальна гра</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Lokale Spiel-Einstellungen</source>
+        <source>Local game settings</source>
         <translation>Налаштування локальної гри</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Anzahl der Spieler:</source>
+        <source>Number of players:</source>
         <translation>Кількість гравців:</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Startkapital:</source>
+        <source>Start cash:</source>
         <translation>Початковий капітал:</translation>
     </message>
     <message>
@@ -2907,70 +2902,70 @@ PokerTH може зменшити його для вас. Новий авата�
     </message>
     <message>
         <location line="+10"/>
-        <source>Gespeicherte Blinds-Einstellungen verwenden</source>
+        <source>Use saved blinds settings</source>
         <translation>Використати збережені налаштування блайндів</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Blinds-Einstellungen ändern …</source>
+        <source>Change blinds settings …</source>
         <translation>Змінити налаштування блайндів…</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Erster Small Blind:</source>
+        <source>First small blind:</source>
         <translation>Перший малий блайнд:</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Small Blind erhöhen:</source>
+        <source>Raise small blind:</source>
         <translation>Підвищувати малий блайнд:</translation>
     </message>
     <message>
         <location line="+13"/>
         <location line="+24"/>
-        <source>alle</source>
+        <source>every</source>
         <translation>кожні</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Hände</source>
+        <source>hands</source>
         <translation>роздач</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>Minuten</source>
+        <source>minutes</source>
         <translation>хвилин</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Erhöhungsmodus:</source>
+        <source>Raise mode:</source>
         <translation>Режим підвищення:</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Blinds immer verdoppeln</source>
+        <source>Always double blinds</source>
         <translation>Завжди подвоювати блайнди</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Manuelle Blind-Reihenfolge</source>
+        <source>Manual blinds order</source>
         <translation>Власний порядок блайндів</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Spielgeschwindigkeit
-(1=langsam, 11=schnell):</source>
+        <source>Game speed
+(1=slow, 11=fast):</source>
         <translation>Швидкість гри
 (1=повільно, 11=швидко):</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Скасувати</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Spiel starten</source>
+        <source>Start game</source>
         <translation>Почати гру</translation>
     </message>
 </context>
@@ -2978,147 +2973,147 @@ PokerTH може зменшити його для вас. Новий авата�
     <name>LocalGameSettings</name>
     <message>
         <location filename="../components/LocalGameSettings.qml" line="+55"/>
-        <source>Lokales Spiel</source>
+        <source>Local Game</source>
         <translation>Локальна гра</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Spieler &amp; Startkapital</source>
+        <source>Players &amp; Starting Capital</source>
         <translation>Гравці й початковий капітал</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Anzahl der Spieler:</source>
+        <source>Number of Players:</source>
         <translation>Кількість гравців:</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Startkapital:</source>
+        <source>Starting Capital:</source>
         <translation>Початковий капітал:</translation>
     </message>
     <message>
         <location line="+351"/>
-        <source>Spiel-Einstellungsdialog bei neuem Spiel anzeigen</source>
+        <source>Show Game Settings Dialog for New Game</source>
         <translation>Показувати налаштування гри перед новою грою</translation>
     </message>
     <message>
         <location line="-313"/>
-        <source>Blinds erhöhen</source>
+        <source>Increase Blinds</source>
         <translation>Підвищення блайндів</translation>
     </message>
     <message>
         <location line="+99"/>
-        <source>Blind-Erhöhungsreihenfolge</source>
+        <source>Blind Raise Order</source>
         <translation>Порядок підвищення блайндів</translation>
     </message>
     <message>
         <location line="-87"/>
-        <source>Blinds bei Anzahl der Hände erhöhen</source>
+        <source>Increase Blinds after Number of Hands</source>
         <translation>Підвищувати блайнди за кількістю роздач</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Blinds zeitbasiert erhöhen</source>
+        <source>Increase Blinds Time-Based</source>
         <translation>Підвищувати блайнди за часом</translation>
     </message>
     <message>
         <location line="+57"/>
         <location line="+101"/>
-        <source>Blinds immer verdoppeln</source>
+        <source>Always Double Blinds</source>
         <translation>Завжди подвоювати блайнди</translation>
     </message>
     <message>
         <location line="-88"/>
         <location line="+14"/>
-        <source>Manuelle Blind-Reihenfolge</source>
+        <source>Manual Blind Order</source>
         <translation>Власний порядок блайндів</translation>
     </message>
     <message>
         <location line="-158"/>
-        <source>Erster Small Blind:</source>
+        <source>First Small Blind:</source>
         <translation>Перший малий блайнд:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
-        <source>Small Blind erhöhen alle:</source>
+        <source>Increase Small Blind every:</source>
         <translation>Підвищувати малий блайнд кожні:</translation>
     </message>
     <message>
         <location line="-25"/>
-        <source>Hände</source>
+        <source>Hands</source>
         <translation>роздач</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Minuten</source>
+        <source>Minutes</source>
         <translation>хвилин</translation>
     </message>
     <message>
         <location line="+100"/>
-        <source>Hinzufügen</source>
+        <source>Add</source>
         <translation>Додати</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Löschen</source>
+        <source>Delete</source>
         <translation>Видалити</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Danach:</source>
+        <source>After that:</source>
         <translation>Потім:</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Immer erhöhen um:</source>
+        <source>Always raise by:</source>
         <translation>Завжди підвищувати на:</translation>
     </message>
     <message>
         <location line="+30"/>
-        <source>Letzten Blind beibehalten</source>
+        <source>Keep last blind</source>
         <translation>Залишити останній блайнд</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Spielgeschwindigkeit</source>
+        <source>Game Speed</source>
         <translation>Швидкість гри</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Spielgeschwindigkeit
-(1=langsam, 11=schnell):</source>
+        <source>Game Speed
+(1=slow, 11=fast):</source>
         <translation>Швидкість гри
 (1=повільно, 11=швидко):</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Pause zwischen den Händen</source>
+        <source>Pause Between Hands</source>
         <translation>Пауза між роздачами</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Computerspieler</source>
+        <source>Computer players</source>
         <translation>Комп&apos;ютерні гравці</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Spielstärke:</source>
+        <source>Playing strength:</source>
         <translation>Сила гри:</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Klassisch</source>
+        <source>Classic</source>
         <translation>Класична</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Stark</source>
+        <source>Strong</source>
         <translation>Сильна</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</source>
+        <source>Applies to local games. In network games the server decides how strong its computer players are.</source>
         <translation>Стосується локальних ігор. У мережевих іграх силу комп&apos;ютерних гравців визначає сервер.</translation>
     </message>
 </context>
@@ -3303,43 +3298,43 @@ Uploading log files may fail if you are using an http proxy.</source>
     <name>LogsSettings</name>
     <message>
         <location filename="../components/LogsSettings.qml" line="+25"/>
-        <source>Log-Nachrichten</source>
+        <source>Log Messages</source>
         <translation>Повідомлення журналу</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Log-Einstellungen</source>
+        <source>Log Settings</source>
         <translation>Налаштування журналу</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Logging aktivieren</source>
+        <source>Enable Logging</source>
         <translation>Увімкнути журнал</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Log-Verzeichnis:</source>
+        <source>Log Directory:</source>
         <translation>Тека журналів:</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Durchsuchen...</source>
+        <source>Browse...</source>
         <translation>Огляд…</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Log-Verzeichnis auswählen</source>
+        <source>Select Log Directory</source>
         <translation>Вибрати теку журналів</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Log-Verzeichnis</source>
+        <source>Log Directory</source>
         <translation>Тека журналів</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Das Log-Verzeichnis wurde geändert.
-Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
+        <source>The log directory has been changed.
+Please restart PokerTH so that the log files are stored there.</source>
         <translation>Теку журналів змінено.
 Перезапустіть PokerTH, щоб файли журналу зберігалися там.</translation>
     </message>
@@ -3350,27 +3345,27 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     </message>
     <message>
         <location line="+29"/>
-        <source>Log-Intervall:</source>
+        <source>Log Interval:</source>
         <translation>Інтервал запису:</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Jedes Spiel</source>
+        <source>Every Game</source>
         <translation>Кожна гра</translation>
     </message>
     <message>
         <location line="-1"/>
-        <source>Jede Hand</source>
+        <source>Every Hand</source>
         <translation>Кожна роздача</translation>
     </message>
     <message>
         <location line="-1"/>
-        <source>Jede Aktion</source>
+        <source>Every Action</source>
         <translation>Кожна дія</translation>
     </message>
     <message>
         <location line="-29"/>
-        <source>Log-Speicherdauer (Tage):</source>
+        <source>Log Retention (Days):</source>
         <translation>Зберігати журнали (днів):</translation>
     </message>
 </context>
@@ -3378,94 +3373,94 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     <name>NetworkGameCreatePage</name>
     <message>
         <location filename="../pages/NetworkGameCreatePage.qml" line="+148"/>
-        <source>← Zurück</source>
+        <source>← Back</source>
         <translation>← Назад</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Netzwerkspiel erstellen</source>
+        <source>Create Network Game</source>
         <translation>Створити мережеву гру</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Spiel-Einstellungen</source>
+        <source>Game settings</source>
         <translation>Налаштування гри</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Max. Spieler</source>
+        <source>Max. players</source>
         <translation>Макс. гравців</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Startgeld</source>
+        <source>Start cash</source>
         <translation>Початкові гроші</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Blind-Einstellungen</source>
+        <source>Blind settings</source>
         <translation>Налаштування блайндів</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Erster Small Blind</source>
+        <source>First small blind</source>
         <translation>Перший малий блайнд</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Blind-Erhöhungsintervall</source>
+        <source>Blinds raise interval</source>
         <translation>Інтервал підвищення блайндів</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+25"/>
-        <source>Alle</source>
+        <source>Every</source>
         <translation>Кожні</translation>
     </message>
     <message>
         <location line="-14"/>
-        <source>Hände</source>
+        <source>hands</source>
         <translation>роздач</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Minuten</source>
+        <source>minutes</source>
         <translation>хвилин</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Blinds immer verdoppeln</source>
+        <source>Always double blinds</source>
         <translation>Завжди подвоювати блайнди</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Zeitlimits</source>
+        <source>Time limits</source>
         <translation>Обмеження часу</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Zeitlimit Spieleraktion</source>
+        <source>Player action time limit</source>
         <translation>Час на хід гравця</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Pause zwischen Händen</source>
+        <source>Delay between hands</source>
         <translation>Пауза між роздачами</translation>
     </message>
     <message>
         <location line="+37"/>
         <location line="+37"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Скасувати</translation>
     </message>
     <message>
         <location line="-31"/>
-        <source>Spiel erstellen</source>
+        <source>Create Game</source>
         <translation>Створити гру</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Server wird gestartet …</source>
+        <source>Starting server …</source>
         <translation>Запуск сервера…</translation>
     </message>
 </context>
@@ -3473,27 +3468,27 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     <name>NetworkGameEnterPage</name>
     <message>
         <location filename="../pages/NetworkGameEnterPage.qml" line="+121"/>
-        <source>← Zurück</source>
+        <source>← Back</source>
         <translation>← Назад</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Netzwerkspiel beitreten</source>
+        <source>Join Network Game</source>
         <translation>Приєднатися до мережевої гри</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Server-Verbindung</source>
+        <source>Server connection</source>
         <translation>З&apos;єднання з сервером</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Server-Adresse</source>
+        <source>Server address</source>
         <translation>Адреса сервера</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>IP-Adresse oder Hostname</source>
+        <source>IP address or hostname</source>
         <translation>IP-адреса або ім&apos;я хоста</translation>
     </message>
     <message>
@@ -3503,53 +3498,53 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     </message>
     <message>
         <location line="+18"/>
-        <source>IPv6 verwenden</source>
+        <source>Use IPv6</source>
         <translation>Використовувати IPv6</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>SCTP verwenden</source>
+        <source>Use SCTP</source>
         <translation>Використовувати SCTP</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Server-Profile</source>
+        <source>Server profiles</source>
         <translation>Профілі серверів</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Profilname</source>
+        <source>Profile name</source>
         <translation>Назва профілю</translation>
     </message>
     <message>
         <location line="+22"/>
-        <source>Name des Profils</source>
+        <source>Name of the profile</source>
         <translation>Назва профілю</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Speichern</source>
+        <source>Save</source>
         <translation>Зберегти</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Löschen</source>
+        <source>Delete</source>
         <translation>Видалити</translation>
     </message>
     <message>
         <location line="+92"/>
         <location line="+38"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Скасувати</translation>
     </message>
     <message>
         <location line="-32"/>
-        <source>Verbinden</source>
+        <source>Connect</source>
         <translation>Підключитися</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>Verbinde mit Server …</source>
+        <source>Connecting to server …</source>
         <translation>Підключення до сервера…</translation>
     </message>
 </context>
@@ -3571,117 +3566,117 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     <name>NetworkGameSettings</name>
     <message>
         <location filename="../components/NetworkGameSettings.qml" line="+19"/>
-        <source>Netzwerkspiel</source>
+        <source>Network Game</source>
         <translation>Мережева гра</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Spieler &amp; Startkapital</source>
+        <source>Players &amp; Starting Capital</source>
         <translation>Гравці й початковий капітал</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Anzahl der Spieler:</source>
+        <source>Number of Players:</source>
         <translation>Кількість гравців:</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Startkapital:</source>
+        <source>Starting Capital:</source>
         <translation>Початковий капітал:</translation>
     </message>
     <message>
         <location line="+38"/>
-        <source>Blinds erhöhen</source>
+        <source>Increase Blinds</source>
         <translation>Підвищення блайндів</translation>
     </message>
     <message>
         <location line="+99"/>
-        <source>Blind-Erhöhungsreihenfolge</source>
+        <source>Blind Raise Order</source>
         <translation>Порядок підвищення блайндів</translation>
     </message>
     <message>
         <location line="-87"/>
-        <source>Blinds bei Anzahl der Hände erhöhen</source>
+        <source>Increase Blinds after Number of Hands</source>
         <translation>Підвищувати блайнди за кількістю роздач</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Blinds zeitbasiert erhöhen</source>
+        <source>Increase Blinds Time-Based</source>
         <translation>Підвищувати блайнди за часом</translation>
     </message>
     <message>
         <location line="+57"/>
-        <source>Blinds immer verdoppeln</source>
+        <source>Always Double Blinds</source>
         <translation>Завжди подвоювати блайнди</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>Manuelle Blind-Reihenfolge</source>
+        <source>Manual Blind Order</source>
         <translation>Власний порядок блайндів</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>Manuelle Blind-Reihenfolge bearbeiten...</source>
+        <source>Edit Manual Blind Order...</source>
         <translation>Змінити власний порядок блайндів…</translation>
     </message>
     <message>
         <location line="-157"/>
-        <source>Erster Small Blind:</source>
+        <source>First Small Blind:</source>
         <translation>Перший малий блайнд:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
-        <source>Small Blind erhöhen alle:</source>
+        <source>Increase Small Blind every:</source>
         <translation>Підвищувати малий блайнд кожні:</translation>
     </message>
     <message>
         <location line="-25"/>
-        <source>Hände</source>
+        <source>Hands</source>
         <translation>роздач</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Minuten</source>
+        <source>Minutes</source>
         <translation>хвилин</translation>
     </message>
     <message>
         <location line="+61"/>
-        <source>Zeiteinstellungen</source>
+        <source>Time Settings</source>
         <translation>Налаштування часу</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Verzögerung zwischen Händen
-(Sekunden):</source>
+        <source>Delay Between Hands
+(Seconds):</source>
         <translation>Пауза між роздачами
 (секунди):</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Timeout für Spieleraktion
-(Sekunden):</source>
+        <source>Player Action Timeout
+(Seconds):</source>
         <translation>Час на хід гравця
 (секунди):</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Server-Einstellungen</source>
+        <source>Server Settings</source>
         <translation>Налаштування сервера</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Server-Port:</source>
+        <source>Server Port:</source>
         <translation>Порт сервера:</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>SCTP verwenden</source>
+        <source>Use SCTP</source>
         <translation>Використовувати SCTP</translation>
     </message>
     <message>
         <location line="-7"/>
-        <source>IPv6 verwenden</source>
+        <source>Use IPv6</source>
         <translation>Використовувати IPv6</translation>
     </message>
 </context>
@@ -3689,46 +3684,46 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     <name>NicknameAvatarSettings</name>
     <message>
         <location filename="../components/NicknameAvatarSettings.qml" line="+19"/>
-        <source>Nicknamen/Avatare</source>
+        <source>Nicknames/Avatars</source>
         <translation>Ніки/аватари</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Mein Spieler</source>
+        <source>My Player</source>
         <translation>Мій гравець</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Mein Nickname:</source>
+        <source>My Nickname:</source>
         <translation>Мій нік:</translation>
     </message>
     <message>
         <location line="+45"/>
-        <source>Mein Avatar:</source>
+        <source>My Avatar:</source>
         <translation>Мій аватар:</translation>
     </message>
     <message>
         <location line="+26"/>
         <location line="+113"/>
-        <source>Auswählen...</source>
+        <source>Select...</source>
         <translation>Вибрати…</translation>
     </message>
     <message>
         <location line="-110"/>
         <location line="+113"/>
-        <source>Avatar auswählen</source>
+        <source>Select avatar</source>
         <translation>Вибір аватара</translation>
     </message>
     <message>
         <location line="-134"/>
         <location line="+113"/>
-        <source>Kein Avatar gewählt</source>
+        <source>No Avatar Selected</source>
         <translation>Аватар не вибрано</translation>
     </message>
     <message>
         <location line="-82"/>
         <location line="+113"/>
-        <source>Beispiele...</source>
+        <source>Examples...</source>
         <translation>Приклади…</translation>
     </message>
     <message>
@@ -3738,7 +3733,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     </message>
     <message>
         <location line="-55"/>
-        <source>Gegner %1</source>
+        <source>Opponent %1</source>
         <translation>Суперник %1</translation>
     </message>
     <message>
@@ -4075,79 +4070,79 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     <name>QObject</name>
     <message>
         <location filename="../cpp/ziputils.cpp" line="+54"/>
-        <source>Das Archiv konnte nicht gelesen werden.</source>
+        <source>The archive could not be read.</source>
         <translation>Не вдалося прочитати архів.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
+        <source>The archive is empty or contains too many files.</source>
         <translation>Архів порожній або містить забагато файлів.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
+        <source>The target directory could not be created.</source>
         <translation>Не вдалося створити цільову теку.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
+        <source>An archive entry could not be read.</source>
         <translation>Не вдалося прочитати запис архіву.</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+8"/>
-        <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
+        <source>The archive contains an invalid path: %1</source>
         <translation>Архів містить недопустимий шлях: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+14"/>
-        <source>Verzeichnis konnte nicht angelegt werden: %1</source>
+        <source>Directory could not be created: %1</source>
         <translation>Не вдалося створити теку: %1</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Das Archiv ist ungewöhnlich groß.</source>
+        <source>The archive is unusually large.</source>
         <translation>Архів підозріло великий.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
+        <source>An archive entry could not be extracted: %1</source>
         <translation>Не вдалося розпакувати запис архіву: %1</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Datei konnte nicht geschrieben werden: %1</source>
+        <source>File could not be written: %1</source>
         <translation>Не вдалося записати файл: %1</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Der Stil-Ordner wurde nicht gefunden.</source>
+        <source>The style folder was not found.</source>
         <translation>Теку стилю не знайдено.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <source>The archive could not be created.</source>
         <translation>Не вдалося створити архів.</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Datei konnte nicht gelesen werden: %1</source>
+        <source>File could not be read: %1</source>
         <translation>Не вдалося прочитати файл: %1</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
+        <source>File could not be written to the archive: %1</source>
         <translation>Не вдалося записати файл в архів: %1</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Der Stil-Ordner enthält keine Dateien.</source>
+        <source>The style folder does not contain any files.</source>
         <translation>Тека стилю не містить файлів.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Das Archiv konnte nicht abgeschlossen werden.</source>
+        <source>The archive could not be finalized.</source>
         <translation>Не вдалося завершити архів.</translation>
     </message>
 </context>
@@ -4253,22 +4248,22 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     <name>ResetSettings</name>
     <message>
         <location filename="../components/ResetSettings.qml" line="+20"/>
-        <source>Standardeinstellung</source>
+        <source>Default Settings</source>
         <translation>Типові налаштування</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Alle Einstellungen werden auf die Standardwerte zurückgesetzt. Diese Aktion kann nicht rückgängig gemacht werden.</source>
+        <source>All settings will be reset to their default values. This action cannot be undone.</source>
         <translation>Усі налаштування буде скинуто до типових значень. Цю дію неможливо скасувати.</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Auf Werkeinstellungen zurücksetzen</source>
+        <source>Reset to Factory Defaults</source>
         <translation>Скинути до заводських налаштувань</translation>
     </message>
     <message>
         <location line="+32"/>
-        <source>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</source>
+        <source>Settings have been reset. Please restart PokerTH for all changes to take effect.</source>
         <translation>Налаштування скинуто. Перезапустіть PokerTH, щоб усі зміни набули чинності.</translation>
     </message>
 </context>
@@ -4747,152 +4742,152 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+189"/>
-        <source>Spieltisch-Stil auswählen</source>
+        <source>Select game table style</source>
         <translation>Вибрати стиль ігрового стола</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Die ausgewählte Datei ist kein Spieltisch-Stil.</source>
+        <source>The selected file is not a game table style.</source>
         <translation>Вибраний файл не є стилем ігрового стола.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Kartenstapel-Stil auswählen</source>
+        <source>Select card deck style</source>
         <translation>Вибрати стиль колоди карт</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Die ausgewählte Datei ist kein Kartenstapel-Stil.</source>
+        <source>The selected file is not a card deck style.</source>
         <translation>Вибраний файл не є стилем колоди карт.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Kartenrückseiten-Stil auswählen</source>
+        <source>Select card back style</source>
         <translation>Вибрати стиль сорочки карт</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Die ausgewählte Datei ist kein Kartenrückseiten-Stil.</source>
+        <source>The selected file is not a card back style.</source>
         <translation>Вибраний файл не є стилем сорочки карт.</translation>
     </message>
     <message>
         <location line="+86"/>
-        <source>Die Stil-Datei kann nicht gelesen werden.</source>
+        <source>The style file cannot be read.</source>
         <translation>Не вдалося прочитати файл стилю.</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Die ausgewählte Datei ist kein PokerTH-Stil.</source>
+        <source>The selected file is not a PokerTH style.</source>
         <translation>Вибраний файл не є стилем PokerTH.</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Die Stil-Datei enthält kein gültiges XML (%1).</source>
+        <source>The style file does not contain valid XML (%1).</source>
         <translation>Файл стилю не містить коректного XML (%1).</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Der Dateiname der Stil-Datei muss auf &quot;%1&quot; enden.</source>
+        <source>The style file&apos;s name must end with &quot;%1&quot;.</source>
         <translation>Ім&apos;я файлу стилю має закінчуватися на «%1».</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Die Stil-Datei muss in einem eigenen Ordner liegen.</source>
+        <source>The style file must be located in its own folder.</source>
         <translation>Файл стилю має лежати в окремій теці.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Ein Stil mit dem Namen &quot;%1&quot; ist bereits vorhanden.</source>
+        <source>A style named &quot;%1&quot; already exists.</source>
         <translation>Стиль із назвою «%1» вже існує.</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
+        <source>The card deck is incomplete, missing: %1</source>
         <translation>Колода неповна, бракує: %1</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Die Kartenrückseiten-Grafik (Backside) fehlt.</source>
+        <source>The card back image (Backside) is missing.</source>
         <translation>Бракує зображення сорочки карт (Backside).</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Der Ordner der Stil-Datei enthält ungewöhnlich viele Dateien. Bitte den Stil in einen eigenen Ordner legen.</source>
+        <source>The folder of the style file contains an unusually large number of files. Please put the style into its own folder.</source>
         <translation>Тека з файлом стилю містить підозріло багато файлів. Будь ласка, покладіть стиль в окрему теку.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Der Stil konnte nicht nach &quot;%1&quot; kopiert werden.</source>
+        <source>The style could not be copied to &quot;%1&quot;.</source>
         <translation>Не вдалося скопіювати стиль до «%1».</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Der Stil hat Format-Version %1, aktuell ist Version %2.</source>
+        <source>The style has format version %1, the current version is %2.</source>
         <translation>Стиль має версію формату %1, поточна версія — %2.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Fehlende Angaben: %1.</source>
+        <source>Missing fields: %1.</source>
         <translation>Бракує даних: %1.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Nicht gefundene Grafiken: %1.</source>
+        <source>Graphics not found: %1.</source>
         <translation>Не знайдено зображень: %1.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Der Stil &quot;%1&quot; wurde übernommen, ist aber unvollständig:</source>
+        <source>The style &quot;%1&quot; was added, but it is incomplete:</source>
         <translation>Стиль «%1» додано, але він неповний:</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
+        <source>Missing content is replaced by the client&apos;s default graphics.</source>
         <translation>Відсутній вміст клієнт замінить стандартною графікою.</translation>
     </message>
     <message>
         <location line="-183"/>
-        <source>PokerTH-Stile (*.zip *.xml)</source>
+        <source>PokerTH styles (*.zip *.xml)</source>
         <translation>Стилі PokerTH (*.zip *.xml)</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Die ausgewählte Datei kann nicht gelesen werden.</source>
+        <source>The selected file cannot be read.</source>
         <translation>Не вдалося прочитати вибраний файл.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Es konnte kein temporäres Verzeichnis angelegt werden.</source>
+        <source>A temporary directory could not be created.</source>
         <translation>Не вдалося створити тимчасову теку.</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Das Archiv enthält keine Datei &quot;%1&quot;.</source>
+        <source>The archive does not contain a file &quot;%1&quot;.</source>
         <translation>Архів не містить файлу «%1».</translation>
     </message>
     <message>
         <location line="+199"/>
-        <source>Stil exportieren</source>
+        <source>Export style</source>
         <translation>Експортувати стиль</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>ZIP-Archive (*.zip)</source>
+        <source>ZIP archives (*.zip)</source>
         <translation>ZIP-архіви (*.zip)</translation>
     </message>
     <message>
         <location line="-9"/>
-        <source>Der Stil &quot;%1&quot; wurde nicht gefunden.</source>
+        <source>The style &quot;%1&quot; was not found.</source>
         <translation>Стиль «%1» не знайдено.</translation>
     </message>
     <message>
         <location line="+22"/>
-        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <source>The archive could not be created.</source>
         <translation>Не вдалося створити архів.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</source>
+        <source>The archive could not be written to &quot;%1&quot;.</source>
         <translation>Не вдалося записати архів до «%1».</translation>
     </message>
 </context>
@@ -4900,12 +4895,12 @@ Please check your username and password.</source>
     <name>SettingsPage</name>
     <message>
         <location filename="../pages/SettingsPage.qml" line="+264"/>
-        <source>Benutzeroberfläche</source>
+        <source>User Interface</source>
         <translation>Інтерфейс</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Stil</source>
+        <source>Style</source>
         <translation>Стиль</translation>
     </message>
     <message>
@@ -4915,32 +4910,32 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Lokales Spiel</source>
+        <source>Local Game</source>
         <translation>Локальна гра</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Netzwerkspiel</source>
+        <source>Network Game</source>
         <translation>Мережева гра</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Internetspiel</source>
+        <source>Internet Game</source>
         <translation>Інтернет-гра</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Nicknamen/Avatare</source>
+        <source>Nicknames/Avatars</source>
         <translation>Ніки/аватари</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Log-Nachrichten</source>
+        <source>Log Messages</source>
         <translation>Повідомлення журналу</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Standardeinstellung</source>
+        <source>Default Settings</source>
         <translation>Типові налаштування</translation>
     </message>
 </context>
@@ -4958,12 +4953,12 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Über PokerTH</source>
+        <source>About PokerTH</source>
         <translation>Про PokerTH</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Schließen</source>
+        <source>Close</source>
         <translation>Закрити</translation>
     </message>
 </context>
@@ -4976,42 +4971,42 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+20"/>
-        <source>Klangeffekte</source>
+        <source>Sound Effects</source>
         <translation>Звукові ефекти</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Klangeffekte aktivieren</source>
+        <source>Enable Sound Effects</source>
         <translation>Увімкнути звукові ефекти</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Lautstärke:</source>
+        <source>Volume:</source>
         <translation>Гучність:</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Klang-Kategorien</source>
+        <source>Sound Categories</source>
         <translation>Категорії звуків</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Spielaktionen (Check, Call, Raise ...)</source>
+        <source>Game Actions (Check, Call, Raise...)</source>
         <translation>Ігрові дії (чек, колл, рейз…)</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Blind-Erhöhungs-Benachrichtigung</source>
+        <source>Blind Raise Notification</source>
         <translation>Сповіщення про підвищення блайндів</translation>
     </message>
     <message>
         <location line="-5"/>
-        <source>Netzwerkspiel-Benachrichtigungen</source>
+        <source>Network Game Notifications</source>
         <translation>Сповіщення мережевої гри</translation>
     </message>
     <message>
         <location line="-5"/>
-        <source>Lobby-Chat-Benachrichtigungen</source>
+        <source>Lobby Chat Notifications</source>
         <translation>Сповіщення чату лобі</translation>
     </message>
 </context>
@@ -5032,22 +5027,22 @@ Please check your username and password.</source>
     <name>StartPage</name>
     <message>
         <location filename="../pages/StartPage.qml" line="+167"/>
-        <source>Internetspiel</source>
+        <source>Internet Game</source>
         <translation>Інтернет-гра</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Lokales Spiel starten</source>
+        <source>Start Local Game</source>
         <translation>Почати локальну гру</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Netzwerkspiel erstellen</source>
+        <source>Create Network Game</source>
         <translation>Створити мережеву гру</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Netzwerkspiel beitreten</source>
+        <source>Join Network Game</source>
         <translation>Приєднатися до мережевої гри</translation>
     </message>
     <message>
@@ -5098,29 +5093,29 @@ Please check your username and password.</source>
     <name>StyleCard</name>
     <message>
         <location filename="../components/StyleCard.qml" line="+69"/>
-        <source>Keine
-Vorschau</source>
+        <source>No
+Preview</source>
         <translation>Немає
 перегляду</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>von %1</source>
+        <source>of %1</source>
         <translation>від %1</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>✓ Ausgewählt</source>
+        <source>✓ Selected</source>
         <translation>✓ Вибрано</translation>
     </message>
     <message>
         <location line="+43"/>
-        <source>Stil entfernen</source>
+        <source>Remove style</source>
         <translation>Вилучити стиль</translation>
     </message>
     <message>
         <location line="+32"/>
-        <source>Stil als ZIP exportieren</source>
+        <source>Export style as ZIP</source>
         <translation>Експортувати стиль як ZIP</translation>
     </message>
 </context>
@@ -5128,7 +5123,7 @@ Vorschau</source>
     <name>StyleSettings</name>
     <message>
         <location filename="../components/StyleSettings.qml" line="+49"/>
-        <source>Stil hinzufügen</source>
+        <source>Add style</source>
         <translation>Додати стиль</translation>
     </message>
     <message>
@@ -5139,94 +5134,94 @@ Vorschau</source>
     </message>
     <message>
         <location line="+49"/>
-        <source>Stil entfernen</source>
+        <source>Remove style</source>
         <translation>Вилучити стиль</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Den Stil &quot;%1&quot; wirklich entfernen?</source>
+        <source>Really remove the style &quot;%1&quot;?</source>
         <translation>Справді вилучити стиль «%1»?</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Entfernen</source>
+        <source>Remove</source>
         <translation>Вилучити</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Stil</source>
+        <source>Style</source>
         <translation>Стиль</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Spieltisch</source>
+        <source>Game Table</source>
         <translation>Ігровий стіл</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Kartenstapel</source>
+        <source>Card Deck</source>
         <translation>Колода карт</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Kartenrückseite</source>
+        <source>Card Back</source>
         <translation>Сорочка карт</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Einsatzanzeige:</source>
+        <source>Bet display:</source>
         <translation>Показ ставки:</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Einsatz in der Spielerbox</source>
+        <source>Bet inside the player box</source>
         <translation>Ставка в блоці гравця</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Einsatz neben der Spielerbox</source>
+        <source>Bet next to the player box</source>
         <translation>Ставка поруч із блоком гравця</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Verfügbare Spieltisch-Stile:</source>
+        <source>Available Table Styles:</source>
         <translation>Доступні стилі ігрових столів:</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Keine Spieltisch-Stile gefunden.</source>
+        <source>No table styles found.</source>
         <translation>Стилів ігрових столів не знайдено.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Verfügbare Kartenstapel-Stile:</source>
+        <source>Available Card Deck Styles:</source>
         <translation>Доступні стилі колод карт:</translation>
     </message>
     <message>
         <location line="+27"/>
-        <source>Keine Kartenstapel-Stile gefunden.</source>
+        <source>No card deck styles found.</source>
         <translation>Стилів колод карт не знайдено.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Verfügbare Kartenrückseiten:</source>
+        <source>Available card backs:</source>
         <translation>Доступні сорочки карт:</translation>
     </message>
     <message>
         <location line="+27"/>
-        <source>Keine Kartenrückseiten gefunden.</source>
+        <source>No card backs found.</source>
         <translation>Сорочок карт не знайдено.</translation>
     </message>
     <message>
         <location line="-104"/>
         <location line="+56"/>
         <location line="+56"/>
-        <source>Stil hinzufügen...</source>
+        <source>Add Style...</source>
         <translation>Додати стиль…</translation>
     </message>
     <message>
         <location line="-266"/>
-        <source>Stil exportieren</source>
+        <source>Export style</source>
         <translation>Експортувати стиль</translation>
     </message>
 </context>

@@ -17,7 +17,7 @@ Rectangle {
         id: resetSettingsContent
         anchors.fill: parent
 
-        SettingsHeader { title: qsTr("Standardeinstellung") }
+        SettingsHeader { title: qsTr("Default Settings") }
 
         ScrollView {
             Layout.fillWidth: true
@@ -37,7 +37,7 @@ Rectangle {
                 Label {
                     Layout.fillWidth: true
                     Layout.topMargin: 8
-                    text: qsTr("Alle Einstellungen werden auf die Standardwerte zurückgesetzt. Diese Aktion kann nicht rückgängig gemacht werden.")
+                    text: qsTr("All settings will be reset to their default values. This action cannot be undone.")
                     wrapMode: Text.Wrap
                     color: Config.StaticData.palette.secondary.col200
                     font.pointSize: 11
@@ -45,7 +45,7 @@ Rectangle {
 
                 CustomButton {
                     id: resetButton
-                    text: qsTr("Auf Werkeinstellungen zurücksetzen")
+                    text: qsTr("Reset to Factory Defaults")
                     enabled: !resetSettings.resetDone
                     Layout.topMargin: 4
                     implicitWidth: contentItem.implicitWidth + 24
@@ -77,7 +77,7 @@ Rectangle {
                 Label {
                     visible: resetSettings.resetDone
                     Layout.fillWidth: true
-                    text: qsTr("Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.")
+                    text: qsTr("Settings have been reset. Please restart PokerTH for all changes to take effect.")
                     wrapMode: Text.Wrap
                     color: Config.Theme.colorSuccessMessage
                     font.pointSize: 11

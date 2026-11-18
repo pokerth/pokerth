@@ -284,39 +284,39 @@
     <name>ChatBox</name>
     <message>
         <location filename="../components/ChatBox.qml" line="+31"/>
-        <source>Nachricht …</source>
+        <source>Message …</source>
         <translation>Nachricht …</translation>
     </message>
     <message>
         <location line="+807"/>
-        <source>Link öffnen</source>
+        <source>Open link</source>
         <translation>Link öffnen</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Link kopieren</source>
+        <source>Copy link</source>
         <translation>Link kopieren</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+38"/>
-        <source>Kopieren</source>
+        <source>Copy</source>
         <translation>Kopieren</translation>
     </message>
     <message>
         <location line="-33"/>
         <location line="+43"/>
-        <source>Alles auswählen</source>
+        <source>Select all</source>
         <translation>Alles auswählen</translation>
     </message>
     <message>
         <location line="-15"/>
-        <source>Ausschneiden</source>
+        <source>Cut</source>
         <translation>Ausschneiden</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Einfügen</source>
+        <source>Paste</source>
         <translation>Einfügen</translation>
     </message>
 </context>
@@ -545,22 +545,22 @@
     <name>ExampleAvatarPicker</name>
     <message>
         <location filename="../components/ExampleAvatarPicker.qml" line="+70"/>
-        <source>Beispiel-Avatar wählen</source>
+        <source>Choose example avatar</source>
         <translation>Beispiel-Avatar wählen</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>Personen</source>
+        <source>People</source>
         <translation>Personen</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Verschiedenes</source>
+        <source>Miscellaneous</source>
         <translation>Verschiedenes</translation>
     </message>
     <message>
         <location line="+83"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
 </context>
@@ -569,7 +569,7 @@
     <message>
         <location filename="../config/ForumNews.qml" line="+175"/>
         <location line="+11"/>
-        <source>The forum feed could not be loaded.</source>
+        <source>Could not load the forum feed.</source>
         <translation>Der Forum-Feed konnte nicht geladen werden.</translation>
     </message>
 </context>
@@ -664,7 +664,7 @@
     </message>
     <message>
         <location line="+36"/>
-        <source>Manuell</source>
+        <source>Manual</source>
         <translation>Manuell</translation>
     </message>
     <message>
@@ -700,27 +700,27 @@
     <name>GameInfoPanel</name>
     <message>
         <location filename="../components/GameInfoPanel.qml" line="+68"/>
-        <source>Höchste Karte</source>
+        <source>High Card</source>
         <translation>Höchste Karte</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Paar</source>
+        <source>Pair</source>
         <translation>Paar</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Zwei Paare</source>
+        <source>Two Pair</source>
         <translation>Zwei Paare</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Drilling</source>
+        <source>Three of a Kind</source>
         <translation>Drilling</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Straße</source>
+        <source>Straight</source>
         <translation>Straße</translation>
     </message>
     <message>
@@ -735,7 +735,7 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>Vierling</source>
+        <source>Four of a Kind</source>
         <translation>Vierling</translation>
     </message>
     <message>
@@ -750,22 +750,22 @@
     </message>
     <message>
         <location line="+28"/>
-        <source>Verlauf</source>
+        <source>History</source>
         <translation>Verlauf</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Chancen</source>
+        <source>Odds</source>
         <translation>Chancen</translation>
     </message>
     <message>
         <location line="+248"/>
-        <source>Kopieren</source>
+        <source>Copy</source>
         <translation>Kopieren</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Alles auswählen</source>
+        <source>Select all</source>
         <translation>Alles auswählen</translation>
     </message>
 </context>
@@ -820,7 +820,7 @@
     <name>GamePage</name>
     <message>
         <location filename="../pages/GamePage.qml" line="+1610"/>
-        <source>Verlauf &amp; Chancen</source>
+        <source>History &amp; Odds</source>
         <translation>Verlauf &amp; Chancen</translation>
     </message>
     <message>
@@ -830,7 +830,7 @@
     </message>
     <message>
         <location line="+17"/>
-        <source>Emoji-Reaktionen</source>
+        <source>Emoji reactions</source>
         <translation>Emoji-Reaktionen</translation>
     </message>
     <message>
@@ -925,7 +925,7 @@
     <message>
         <location filename="../components/GamePlayerSelfBox.qml" line="+151"/>
         <location line="+33"/>
-        <source>Du</source>
+        <source>You</source>
         <translation>Du</translation>
     </message>
 </context>
@@ -1347,17 +1347,17 @@
     <name>GuiSettings</name>
     <message>
         <location filename="../components/GuiSettings.qml" line="+20"/>
-        <source>Benutzeroberfläche</source>
+        <source>User Interface</source>
         <translation>Benutzeroberfläche</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Allgemein</source>
+        <source>General</source>
         <translation>Allgemein</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Netzwerk</source>
+        <source>Network</source>
         <translation>Netzwerk</translation>
     </message>
     <message>
@@ -1367,87 +1367,87 @@
     </message>
     <message>
         <location line="+7"/>
-        <source>Automatisch</source>
+        <source>Automatic</source>
         <translation>Automatisch</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Hell</source>
+        <source>Light</source>
         <translation>Hell</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Dunkel</source>
+        <source>Dark</source>
         <translation>Dunkel</translation>
     </message>
     <message>
         <location line="+36"/>
-        <source>Sprache:</source>
+        <source>Language:</source>
         <translation>Sprache:</translation>
     </message>
     <message>
         <location line="+70"/>
-        <source>Ausblend-Animation für Verliererkarten</source>
+        <source>Fade-out animation for losing cards</source>
         <translation>Ausblend-Animation für Verliererkarten</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Zeitstempel im Chat anzeigen</source>
+        <source>Show timestamp in chat</source>
         <translation>Zeitstempel im Chat anzeigen</translation>
     </message>
     <message>
         <location line="-30"/>
-        <source>Übersetzung anbieten (Globus-Symbol im Chat und bei Forum-Beiträgen)</source>
+        <source>Offer translation (globe symbol in chat and on forum posts)</source>
         <translation>Übersetzung anbieten (Globus-Symbol im Chat und bei Forum-Beiträgen)</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht oder eines Forum-Beitrags antippst; Zielsprache ist die oben gewählte Sprache.</source>
+        <source>Translation uses an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap the symbol of a message or a forum post; the target language is the one selected above.</source>
         <translation>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht oder eines Forum-Beitrags antippst; Zielsprache ist die oben gewählte Sprache.</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Animierte Karten (Aufdeck-Animation)</source>
+        <source>Animated Cards (Flip Animation)</source>
         <translation>Animierte Karten (Aufdeck-Animation)</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Grafikeffekte reduzieren (Schatten/Glow) – für schwache Systeme</source>
+        <source>Reduce graphics effects (shadows/glow) – for low-end systems</source>
         <translation>Grafikeffekte reduzieren (Schatten/Glow) – für schwache Systeme</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Alternative F-Tasten-Belegung (F1-F4)</source>
+        <source>Alternative F-Key Assignment (F1-F4)</source>
         <translation>Alternative F-Tasten-Belegung (F1-F4)</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Symbole für Small Blind und Big Blind anzeigen</source>
+        <source>Show Small Blind and Big Blind symbols</source>
         <translation>Symbole für Small Blind und Big Blind anzeigen</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Pot-Prozent-Schaltflächen anzeigen</source>
+        <source>Show pot percent buttons</source>
         <translation>Pot-Prozent-Schaltflächen anzeigen</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Anti-Peek: Eigene Karten erst bei Klick anzeigen</source>
+        <source>Anti-Peek: Show own cards only on click</source>
         <translation>Anti-Peek: Eigene Karten erst bei Klick anzeigen</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Startbildschirm beim Startvorgang deaktivieren</source>
+        <source>Disable splash screen on startup</source>
         <translation>Startbildschirm beim Startvorgang deaktivieren</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Internationale Pokerausdrücke (Check, Call, Raise) nicht übersetzen</source>
+        <source>Do not translate international poker terms (Check, Call, Raise)</source>
         <translation>Internationale Pokerausdrücke (Check, Call, Raise) nicht übersetzen</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Tooltips anzeigen</source>
+        <source>Show tooltips</source>
         <translation>Tooltips anzeigen</translation>
     </message>
     <message>
@@ -1457,52 +1457,52 @@
     </message>
     <message>
         <location line="+16"/>
-        <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
+        <source>Enable table zoom (swipe &amp; zoom, mobile mode only)</source>
         <translation>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)</source>
+        <source>Keep seats of players who left the table (remaining player boxes stay in place)</source>
         <translation>Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Forum-Neuigkeiten anzeigen</source>
+        <source>Show forum news</source>
         <translation>Forum-Neuigkeiten anzeigen</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Community-Inhalte anzeigen</source>
+        <source>Show community content</source>
         <translation>Community-Inhalte anzeigen</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Standard-Community:</source>
+        <source>Default community:</source>
         <translation>Standard-Community:</translation>
     </message>
     <message>
         <location line="+56"/>
-        <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
+        <source>Set focus to bet input when it&apos;s your turn</source>
         <translation>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen</source>
+        <source>Show network status color in avatar corner</source>
         <translation>Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Emoji-Reaktionen deaktivieren</source>
+        <source>Disable emoji reactions</source>
         <translation>Emoji-Reaktionen deaktivieren</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Versehentliches Call nach einem großen Raise verhindern</source>
+        <source>Prevent accidental call after a big raise</source>
         <translation>Versehentliches Call nach einem großen Raise verhindern</translation>
     </message>
     <message>
         <location line="-31"/>
-        <source>Spieler in eigenen Community-Spielen vorschlagen</source>
+        <source>Suggest players in your own community games</source>
         <translation>Spieler in eigenen Community-Spielen vorschlagen</translation>
     </message>
 </context>
@@ -1848,107 +1848,107 @@
     <name>InternetGameSettings</name>
     <message>
         <location filename="../components/InternetGameSettings.qml" line="+19"/>
-        <source>Internetspiel</source>
+        <source>Internet Game</source>
         <translation>Internetspiel</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Server-Konfiguration</source>
+        <source>Server Configuration</source>
         <translation>Server-Konfiguration</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Automatische Server-Konfiguration</source>
+        <source>Automatic Server Configuration</source>
         <translation>Automatische Server-Konfiguration</translation>
     </message>
     <message>
         <location line="+33"/>
-        <source>Manuelle Server-Konfiguration</source>
+        <source>Manual Server Configuration</source>
         <translation>Manuelle Server-Konfiguration</translation>
     </message>
     <message>
         <location line="-18"/>
-        <source>Server-Liste:</source>
+        <source>Server List:</source>
         <translation>Server-Liste:</translation>
     </message>
     <message>
         <location line="+36"/>
-        <source>Server-Adresse:</source>
+        <source>Server Address:</source>
         <translation>Server-Adresse:</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Server-Port:</source>
+        <source>Server Port:</source>
         <translation>Server-Port:</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Server-Passwort:</source>
+        <source>Server Password:</source>
         <translation>Server-Passwort:</translation>
     </message>
     <message>
         <location line="+55"/>
-        <source>Nur registrierte Spieler</source>
+        <source>Registered players only</source>
         <translation>Nur registrierte Spieler</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Nur eingeladene Spieler</source>
+        <source>Invited players only</source>
         <translation>Nur eingeladene Spieler</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Ranglistenspiel</source>
+        <source>Ranking game</source>
         <translation>Ranglistenspiel</translation>
     </message>
     <message>
         <location line="+87"/>
-        <source>Verbindungsoptionen</source>
+        <source>Connection Options</source>
         <translation>Verbindungsoptionen</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>TLS/SSL verwenden (verschlüsselte Verbindung)</source>
+        <source>Use TLS/SSL (encrypted connection)</source>
         <translation>TLS/SSL verwenden (verschlüsselte Verbindung)</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>SCTP verwenden (statt TCP)</source>
+        <source>Use SCTP (instead of TCP)</source>
         <translation>SCTP verwenden (statt TCP)</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>IPv6 verwenden</source>
+        <source>Use IPv6</source>
         <translation>IPv6 verwenden</translation>
     </message>
     <message>
         <location line="-52"/>
-        <source>Avatar-Server</source>
+        <source>Avatar Server</source>
         <translation>Avatar-Server</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Avatar-Server verwenden</source>
+        <source>Use Avatar Server</source>
         <translation>Avatar-Server verwenden</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Avatar-Server-Adresse:</source>
+        <source>Avatar Server Address:</source>
         <translation>Avatar-Server-Adresse:</translation>
     </message>
     <message>
         <location line="-101"/>
-        <source>Spiel-Einstellungen</source>
+        <source>Game Settings</source>
         <translation>Spiel-Einstellungen</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Spiel-Name:</source>
+        <source>Game Name:</source>
         <translation>Spiel-Name:</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Spiel-Typ:</source>
+        <source>Game Type:</source>
         <translation>Spiel-Typ:</translation>
     </message>
     <message>
@@ -1958,47 +1958,47 @@
     </message>
     <message>
         <location line="+18"/>
-        <source>Spiel-Passwort verwenden</source>
+        <source>Use Game Password</source>
         <translation>Spiel-Passwort verwenden</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Spiel-Passwort:</source>
+        <source>Game Password:</source>
         <translation>Spiel-Passwort:</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Zuschauer erlauben</source>
+        <source>Allow Spectators</source>
         <translation>Zuschauer erlauben</translation>
     </message>
     <message>
         <location line="+84"/>
-        <source>Tisch automatisch verlassen nach Spielende</source>
+        <source>Automatically leave table after game ends</source>
         <translation>Tisch automatisch verlassen nach Spielende</translation>
     </message>
     <message>
         <location line="-7"/>
-        <source>Weitere Optionen</source>
+        <source>More Options</source>
         <translation>Weitere Optionen</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Ignorierte Spieler</source>
+        <source>Ignored Players</source>
         <translation>Ignorierte Spieler</translation>
     </message>
     <message>
         <location line="+52"/>
-        <source>(keine ignorierten Spieler)</source>
+        <source>(no ignored players)</source>
         <translation>(keine ignorierten Spieler)</translation>
     </message>
     <message>
         <location line="-45"/>
-        <source>Spieler auf der Ignore-Liste werden nicht im Chat angezeigt.</source>
+        <source>Players on the ignore list are not shown in chat.</source>
         <translation>Spieler auf der Ignore-Liste werden nicht im Chat angezeigt.</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Entfernen</source>
+        <source>Remove</source>
         <translation>Entfernen</translation>
     </message>
 </context>
@@ -2006,18 +2006,18 @@
     <name>LobbyCreateGamePage</name>
     <message>
         <location filename="../pages/LobbyCreateGamePage.qml" line="+362"/>
-        <source>← Zurück</source>
+        <source>← Back</source>
         <translation>← Zurück</translation>
     </message>
     <message>
         <location line="+8"/>
         <location line="+455"/>
-        <source>Spiel erstellen</source>
+        <source>Create Game</source>
         <translation>Spiel erstellen</translation>
     </message>
     <message>
         <location line="-426"/>
-        <source>Spielname</source>
+        <source>Game name</source>
         <translation>Spielname</translation>
     </message>
     <message>
@@ -2027,12 +2027,12 @@
     </message>
     <message>
         <location line="+246"/>
-        <source>Spielname eingeben …</source>
+        <source>Enter game name …</source>
         <translation>Spielname eingeben …</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Spieltyp</source>
+        <source>Game type</source>
         <translation>Spieltyp</translation>
     </message>
     <message>
@@ -2042,113 +2042,113 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>Nur registrierte Spieler</source>
+        <source>Registered players only</source>
         <translation>Nur registrierte Spieler</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Nur eingeladene Spieler</source>
+        <source>Invited players only</source>
         <translation>Nur eingeladene Spieler</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Ranglistenspiel</source>
+        <source>Ranking game</source>
         <translation>Ranglistenspiel</translation>
     </message>
     <message>
         <location line="+28"/>
-        <source>Community-Vorlage</source>
+        <source>Community template</source>
         <translation>Community-Vorlage</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Eigene Einstellungen</source>
+        <source>Custom settings</source>
         <translation>Eigene Einstellungen</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Passwort</source>
+        <source>Password</source>
         <translation>Passwort</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Passwort eingeben …</source>
+        <source>Enter password …</source>
         <translation>Passwort eingeben …</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Zuschauer erlaubt</source>
+        <source>Spectators allowed</source>
         <translation>Zuschauer erlaubt</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Max. Spieler</source>
+        <source>Max. players</source>
         <translation>Max. Spieler</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Startgeld</source>
+        <source>Start cash</source>
         <translation>Startgeld</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Blind-Einstellungen</source>
+        <source>Blind settings</source>
         <translation>Blind-Einstellungen</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Erster Small Blind</source>
+        <source>First small blind</source>
         <translation>Erster Small Blind</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Blind-Erhöhungsintervall</source>
+        <source>Blinds raise interval</source>
         <translation>Blind-Erhöhungsintervall</translation>
     </message>
     <message>
         <location line="+22"/>
         <location line="+28"/>
-        <source>Alle</source>
+        <source>Every</source>
         <translation>Alle</translation>
     </message>
     <message>
         <location line="-17"/>
-        <source>Hände</source>
+        <source>hands</source>
         <translation>Hände</translation>
     </message>
     <message>
         <location line="+28"/>
-        <source>Minuten</source>
+        <source>minutes</source>
         <translation>Minuten</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Blindliste: %1</source>
+        <source>Blind list: %1</source>
         <translation>Blindliste: %1</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Zeitlimits</source>
+        <source>Time limits</source>
         <translation>Zeitlimits</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Zeitlimit Spieleraktion</source>
+        <source>Player action time limit</source>
         <translation>Zeitlimit Spieleraktion</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Pause zwischen Händen</source>
+        <source>Delay between hands</source>
         <translation>Pause zwischen Händen</translation>
     </message>
     <message>
         <location line="+34"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Bitte einen Spielnamen eingeben.</source>
+        <source>Please enter a game name.</source>
         <translation>Bitte einen Spielnamen eingeben.</translation>
     </message>
 </context>
@@ -2751,28 +2751,23 @@ PokerTH kann es für Dich verkleinern. Der neue Avatar wird bei der nächsten An
     </message>
     <message>
         <location line="+37"/>
-        <source>Privates Spiel</source>
+        <source>Private game</source>
         <translation>Privates Spiel</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Bitte das Passwort eingeben, um beizutreten.</source>
+        <source>Please enter the password to join.</source>
         <translation>Bitte das Passwort eingeben, um beizutreten.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Passwort …</source>
+        <source>Password …</source>
         <translation>Passwort …</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Abbrechen</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Beitreten</source>
-        <translation>Beitreten</translation>
     </message>
     <message>
         <location line="+151"/>
@@ -2857,47 +2852,47 @@ PokerTH kann es für Dich verkleinern. Der neue Avatar wird bei der nächsten An
     <name>LocalGamePage</name>
     <message>
         <location filename="../pages/LocalGamePage.qml" line="+51"/>
-        <source>alle %1 Hände</source>
+        <source>every %1 hands</source>
         <translation>alle %1 Hände</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>alle %1 Minuten</source>
+        <source>every %1 minutes</source>
         <translation>alle %1 Minuten</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>verdoppeln</source>
+        <source>double</source>
         <translation>verdoppeln</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>manuell</source>
+        <source>manual</source>
         <translation>manuell</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Small Blind: $%1  •  Erhöhen %2  •  %3</source>
+        <source>Small blind: $%1  •  Raise %2  •  %3</source>
         <translation>Small Blind: $%1  •  Erhöhen %2  •  %3</translation>
     </message>
     <message>
         <location line="+36"/>
-        <source>Lokales Spiel</source>
+        <source>Local Game</source>
         <translation>Lokales Spiel</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Lokale Spiel-Einstellungen</source>
+        <source>Local game settings</source>
         <translation>Lokale Spiel-Einstellungen</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Anzahl der Spieler:</source>
+        <source>Number of players:</source>
         <translation>Anzahl der Spieler:</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Startkapital:</source>
+        <source>Start cash:</source>
         <translation>Startkapital:</translation>
     </message>
     <message>
@@ -2907,70 +2902,70 @@ PokerTH kann es für Dich verkleinern. Der neue Avatar wird bei der nächsten An
     </message>
     <message>
         <location line="+10"/>
-        <source>Gespeicherte Blinds-Einstellungen verwenden</source>
+        <source>Use saved blinds settings</source>
         <translation>Gespeicherte Blinds-Einstellungen verwenden</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Blinds-Einstellungen ändern …</source>
+        <source>Change blinds settings …</source>
         <translation>Blinds-Einstellungen ändern …</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Erster Small Blind:</source>
+        <source>First small blind:</source>
         <translation>Erster Small Blind:</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Small Blind erhöhen:</source>
+        <source>Raise small blind:</source>
         <translation>Small Blind erhöhen:</translation>
     </message>
     <message>
         <location line="+13"/>
         <location line="+24"/>
-        <source>alle</source>
+        <source>every</source>
         <translation>alle</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Hände</source>
+        <source>hands</source>
         <translation>Hände</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>Minuten</source>
+        <source>minutes</source>
         <translation>Minuten</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Erhöhungsmodus:</source>
+        <source>Raise mode:</source>
         <translation>Erhöhungsmodus:</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Blinds immer verdoppeln</source>
+        <source>Always double blinds</source>
         <translation>Blinds immer verdoppeln</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Manuelle Blind-Reihenfolge</source>
+        <source>Manual blinds order</source>
         <translation>Manuelle Blind-Reihenfolge</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Spielgeschwindigkeit
-(1=langsam, 11=schnell):</source>
+        <source>Game speed
+(1=slow, 11=fast):</source>
         <translation>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Spiel starten</source>
+        <source>Start game</source>
         <translation>Spiel starten</translation>
     </message>
 </context>
@@ -2978,147 +2973,147 @@ PokerTH kann es für Dich verkleinern. Der neue Avatar wird bei der nächsten An
     <name>LocalGameSettings</name>
     <message>
         <location filename="../components/LocalGameSettings.qml" line="+55"/>
-        <source>Lokales Spiel</source>
+        <source>Local Game</source>
         <translation>Lokales Spiel</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Spieler &amp; Startkapital</source>
+        <source>Players &amp; Starting Capital</source>
         <translation>Spieler &amp; Startkapital</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Anzahl der Spieler:</source>
+        <source>Number of Players:</source>
         <translation>Anzahl der Spieler:</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Startkapital:</source>
+        <source>Starting Capital:</source>
         <translation>Startkapital:</translation>
     </message>
     <message>
         <location line="+351"/>
-        <source>Spiel-Einstellungsdialog bei neuem Spiel anzeigen</source>
+        <source>Show Game Settings Dialog for New Game</source>
         <translation>Spiel-Einstellungsdialog bei neuem Spiel anzeigen</translation>
     </message>
     <message>
         <location line="-313"/>
-        <source>Blinds erhöhen</source>
+        <source>Increase Blinds</source>
         <translation>Blinds erhöhen</translation>
     </message>
     <message>
         <location line="+99"/>
-        <source>Blind-Erhöhungsreihenfolge</source>
+        <source>Blind Raise Order</source>
         <translation>Blind-Erhöhungsreihenfolge</translation>
     </message>
     <message>
         <location line="-87"/>
-        <source>Blinds bei Anzahl der Hände erhöhen</source>
+        <source>Increase Blinds after Number of Hands</source>
         <translation>Blinds bei Anzahl der Hände erhöhen</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Blinds zeitbasiert erhöhen</source>
+        <source>Increase Blinds Time-Based</source>
         <translation>Blinds zeitbasiert erhöhen</translation>
     </message>
     <message>
         <location line="+57"/>
         <location line="+101"/>
-        <source>Blinds immer verdoppeln</source>
+        <source>Always Double Blinds</source>
         <translation>Blinds immer verdoppeln</translation>
     </message>
     <message>
         <location line="-88"/>
         <location line="+14"/>
-        <source>Manuelle Blind-Reihenfolge</source>
+        <source>Manual Blind Order</source>
         <translation>Manuelle Blind-Reihenfolge</translation>
     </message>
     <message>
         <location line="-158"/>
-        <source>Erster Small Blind:</source>
+        <source>First Small Blind:</source>
         <translation>Erster Small Blind:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
-        <source>Small Blind erhöhen alle:</source>
+        <source>Increase Small Blind every:</source>
         <translation>Small Blind erhöhen alle:</translation>
     </message>
     <message>
         <location line="-25"/>
-        <source>Hände</source>
+        <source>Hands</source>
         <translation>Hände</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Minuten</source>
+        <source>Minutes</source>
         <translation>Minuten</translation>
     </message>
     <message>
         <location line="+100"/>
-        <source>Hinzufügen</source>
+        <source>Add</source>
         <translation>Hinzufügen</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Löschen</source>
+        <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Danach:</source>
+        <source>After that:</source>
         <translation>Danach:</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Immer erhöhen um:</source>
+        <source>Always raise by:</source>
         <translation>Immer erhöhen um:</translation>
     </message>
     <message>
         <location line="+30"/>
-        <source>Letzten Blind beibehalten</source>
+        <source>Keep last blind</source>
         <translation>Letzten Blind beibehalten</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Spielgeschwindigkeit</source>
+        <source>Game Speed</source>
         <translation>Spielgeschwindigkeit</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Spielgeschwindigkeit
-(1=langsam, 11=schnell):</source>
+        <source>Game Speed
+(1=slow, 11=fast):</source>
         <translation>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Pause zwischen den Händen</source>
+        <source>Pause Between Hands</source>
         <translation>Pause zwischen den Händen</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Computerspieler</source>
+        <source>Computer players</source>
         <translation>Computerspieler</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Spielstärke:</source>
+        <source>Playing strength:</source>
         <translation>Spielstärke:</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Klassisch</source>
+        <source>Classic</source>
         <translation>Klassisch</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Stark</source>
+        <source>Strong</source>
         <translation>Stark</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</source>
+        <source>Applies to local games. In network games the server decides how strong its computer players are.</source>
         <translation>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</translation>
     </message>
 </context>
@@ -3303,43 +3298,43 @@ Das Hochladen von Logdateien kann fehlschlagen, wenn Sie einen HTTP-Proxy verwen
     <name>LogsSettings</name>
     <message>
         <location filename="../components/LogsSettings.qml" line="+25"/>
-        <source>Log-Nachrichten</source>
+        <source>Log Messages</source>
         <translation>Log-Nachrichten</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Log-Einstellungen</source>
+        <source>Log Settings</source>
         <translation>Log-Einstellungen</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Logging aktivieren</source>
+        <source>Enable Logging</source>
         <translation>Logging aktivieren</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Log-Verzeichnis:</source>
+        <source>Log Directory:</source>
         <translation>Log-Verzeichnis:</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Durchsuchen...</source>
+        <source>Browse...</source>
         <translation>Durchsuchen...</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Log-Verzeichnis auswählen</source>
+        <source>Select Log Directory</source>
         <translation>Log-Verzeichnis auswählen</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Log-Verzeichnis</source>
+        <source>Log Directory</source>
         <translation>Log-Verzeichnis</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Das Log-Verzeichnis wurde geändert.
-Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
+        <source>The log directory has been changed.
+Please restart PokerTH so that the log files are stored there.</source>
         <translation>Das Log-Verzeichnis wurde geändert.
 Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</translation>
     </message>
@@ -3350,27 +3345,27 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</translati
     </message>
     <message>
         <location line="+29"/>
-        <source>Log-Intervall:</source>
+        <source>Log Interval:</source>
         <translation>Log-Intervall:</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Jedes Spiel</source>
+        <source>Every Game</source>
         <translation>Jedes Spiel</translation>
     </message>
     <message>
         <location line="-1"/>
-        <source>Jede Hand</source>
+        <source>Every Hand</source>
         <translation>Jede Hand</translation>
     </message>
     <message>
         <location line="-1"/>
-        <source>Jede Aktion</source>
+        <source>Every Action</source>
         <translation>Jede Aktion</translation>
     </message>
     <message>
         <location line="-29"/>
-        <source>Log-Speicherdauer (Tage):</source>
+        <source>Log Retention (Days):</source>
         <translation>Log-Speicherdauer (Tage):</translation>
     </message>
 </context>
@@ -3378,94 +3373,94 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</translati
     <name>NetworkGameCreatePage</name>
     <message>
         <location filename="../pages/NetworkGameCreatePage.qml" line="+148"/>
-        <source>← Zurück</source>
+        <source>← Back</source>
         <translation>← Zurück</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Netzwerkspiel erstellen</source>
+        <source>Create Network Game</source>
         <translation>Netzwerkspiel erstellen</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Spiel-Einstellungen</source>
+        <source>Game settings</source>
         <translation>Spiel-Einstellungen</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Max. Spieler</source>
+        <source>Max. players</source>
         <translation>Max. Spieler</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Startgeld</source>
+        <source>Start cash</source>
         <translation>Startgeld</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Blind-Einstellungen</source>
+        <source>Blind settings</source>
         <translation>Blind-Einstellungen</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Erster Small Blind</source>
+        <source>First small blind</source>
         <translation>Erster Small Blind</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Blind-Erhöhungsintervall</source>
+        <source>Blinds raise interval</source>
         <translation>Blind-Erhöhungsintervall</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+25"/>
-        <source>Alle</source>
+        <source>Every</source>
         <translation>Alle</translation>
     </message>
     <message>
         <location line="-14"/>
-        <source>Hände</source>
+        <source>hands</source>
         <translation>Hände</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Minuten</source>
+        <source>minutes</source>
         <translation>Minuten</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Blinds immer verdoppeln</source>
+        <source>Always double blinds</source>
         <translation>Blinds immer verdoppeln</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Zeitlimits</source>
+        <source>Time limits</source>
         <translation>Zeitlimits</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Zeitlimit Spieleraktion</source>
+        <source>Player action time limit</source>
         <translation>Zeitlimit Spieleraktion</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Pause zwischen Händen</source>
+        <source>Delay between hands</source>
         <translation>Pause zwischen Händen</translation>
     </message>
     <message>
         <location line="+37"/>
         <location line="+37"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
         <location line="-31"/>
-        <source>Spiel erstellen</source>
+        <source>Create Game</source>
         <translation>Spiel erstellen</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Server wird gestartet …</source>
+        <source>Starting server …</source>
         <translation>Server wird gestartet …</translation>
     </message>
 </context>
@@ -3473,27 +3468,27 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</translati
     <name>NetworkGameEnterPage</name>
     <message>
         <location filename="../pages/NetworkGameEnterPage.qml" line="+121"/>
-        <source>← Zurück</source>
+        <source>← Back</source>
         <translation>← Zurück</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Netzwerkspiel beitreten</source>
+        <source>Join Network Game</source>
         <translation>Netzwerkspiel beitreten</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Server-Verbindung</source>
+        <source>Server connection</source>
         <translation>Server-Verbindung</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Server-Adresse</source>
+        <source>Server address</source>
         <translation>Server-Adresse</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>IP-Adresse oder Hostname</source>
+        <source>IP address or hostname</source>
         <translation>IP-Adresse oder Hostname</translation>
     </message>
     <message>
@@ -3503,53 +3498,53 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</translati
     </message>
     <message>
         <location line="+18"/>
-        <source>IPv6 verwenden</source>
+        <source>Use IPv6</source>
         <translation>IPv6 verwenden</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>SCTP verwenden</source>
+        <source>Use SCTP</source>
         <translation>SCTP verwenden</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Server-Profile</source>
+        <source>Server profiles</source>
         <translation>Server-Profile</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Profilname</source>
+        <source>Profile name</source>
         <translation>Profilname</translation>
     </message>
     <message>
         <location line="+22"/>
-        <source>Name des Profils</source>
+        <source>Name of the profile</source>
         <translation>Name des Profils</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Speichern</source>
+        <source>Save</source>
         <translation>Speichern</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Löschen</source>
+        <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
         <location line="+92"/>
         <location line="+38"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
         <location line="-32"/>
-        <source>Verbinden</source>
+        <source>Connect</source>
         <translation>Verbinden</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>Verbinde mit Server …</source>
+        <source>Connecting to server …</source>
         <translation>Verbinde mit Server …</translation>
     </message>
 </context>
@@ -3571,117 +3566,117 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</translati
     <name>NetworkGameSettings</name>
     <message>
         <location filename="../components/NetworkGameSettings.qml" line="+19"/>
-        <source>Netzwerkspiel</source>
+        <source>Network Game</source>
         <translation>Netzwerkspiel</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Spieler &amp; Startkapital</source>
+        <source>Players &amp; Starting Capital</source>
         <translation>Spieler &amp; Startkapital</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Anzahl der Spieler:</source>
+        <source>Number of Players:</source>
         <translation>Anzahl der Spieler:</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Startkapital:</source>
+        <source>Starting Capital:</source>
         <translation>Startkapital:</translation>
     </message>
     <message>
         <location line="+38"/>
-        <source>Blinds erhöhen</source>
+        <source>Increase Blinds</source>
         <translation>Blinds erhöhen</translation>
     </message>
     <message>
         <location line="+99"/>
-        <source>Blind-Erhöhungsreihenfolge</source>
+        <source>Blind Raise Order</source>
         <translation>Blind-Erhöhungsreihenfolge</translation>
     </message>
     <message>
         <location line="-87"/>
-        <source>Blinds bei Anzahl der Hände erhöhen</source>
+        <source>Increase Blinds after Number of Hands</source>
         <translation>Blinds bei Anzahl der Hände erhöhen</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Blinds zeitbasiert erhöhen</source>
+        <source>Increase Blinds Time-Based</source>
         <translation>Blinds zeitbasiert erhöhen</translation>
     </message>
     <message>
         <location line="+57"/>
-        <source>Blinds immer verdoppeln</source>
+        <source>Always Double Blinds</source>
         <translation>Blinds immer verdoppeln</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>Manuelle Blind-Reihenfolge</source>
+        <source>Manual Blind Order</source>
         <translation>Manuelle Blind-Reihenfolge</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>Manuelle Blind-Reihenfolge bearbeiten...</source>
+        <source>Edit Manual Blind Order...</source>
         <translation>Manuelle Blind-Reihenfolge bearbeiten...</translation>
     </message>
     <message>
         <location line="-157"/>
-        <source>Erster Small Blind:</source>
+        <source>First Small Blind:</source>
         <translation>Erster Small Blind:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
-        <source>Small Blind erhöhen alle:</source>
+        <source>Increase Small Blind every:</source>
         <translation>Small Blind erhöhen alle:</translation>
     </message>
     <message>
         <location line="-25"/>
-        <source>Hände</source>
+        <source>Hands</source>
         <translation>Hände</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Minuten</source>
+        <source>Minutes</source>
         <translation>Minuten</translation>
     </message>
     <message>
         <location line="+61"/>
-        <source>Zeiteinstellungen</source>
+        <source>Time Settings</source>
         <translation>Zeiteinstellungen</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Verzögerung zwischen Händen
-(Sekunden):</source>
+        <source>Delay Between Hands
+(Seconds):</source>
         <translation>Verzögerung zwischen Händen
 (Sekunden):</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Timeout für Spieleraktion
-(Sekunden):</source>
+        <source>Player Action Timeout
+(Seconds):</source>
         <translation>Timeout für Spieleraktion
 (Sekunden):</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Server-Einstellungen</source>
+        <source>Server Settings</source>
         <translation>Server-Einstellungen</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Server-Port:</source>
+        <source>Server Port:</source>
         <translation>Server-Port:</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>SCTP verwenden</source>
+        <source>Use SCTP</source>
         <translation>SCTP verwenden</translation>
     </message>
     <message>
         <location line="-7"/>
-        <source>IPv6 verwenden</source>
+        <source>Use IPv6</source>
         <translation>IPv6 verwenden</translation>
     </message>
 </context>
@@ -3689,46 +3684,46 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</translati
     <name>NicknameAvatarSettings</name>
     <message>
         <location filename="../components/NicknameAvatarSettings.qml" line="+19"/>
-        <source>Nicknamen/Avatare</source>
+        <source>Nicknames/Avatars</source>
         <translation>Nicknamen/Avatare</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Mein Spieler</source>
+        <source>My Player</source>
         <translation>Mein Spieler</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Mein Nickname:</source>
+        <source>My Nickname:</source>
         <translation>Mein Nickname:</translation>
     </message>
     <message>
         <location line="+45"/>
-        <source>Mein Avatar:</source>
+        <source>My Avatar:</source>
         <translation>Mein Avatar:</translation>
     </message>
     <message>
         <location line="+26"/>
         <location line="+113"/>
-        <source>Auswählen...</source>
+        <source>Select...</source>
         <translation>Auswählen...</translation>
     </message>
     <message>
         <location line="-110"/>
         <location line="+113"/>
-        <source>Avatar auswählen</source>
+        <source>Select avatar</source>
         <translation>Avatar auswählen</translation>
     </message>
     <message>
         <location line="-134"/>
         <location line="+113"/>
-        <source>Kein Avatar gewählt</source>
+        <source>No Avatar Selected</source>
         <translation>Kein Avatar gewählt</translation>
     </message>
     <message>
         <location line="-82"/>
         <location line="+113"/>
-        <source>Beispiele...</source>
+        <source>Examples...</source>
         <translation>Beispiele...</translation>
     </message>
     <message>
@@ -3738,7 +3733,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</translati
     </message>
     <message>
         <location line="-55"/>
-        <source>Gegner %1</source>
+        <source>Opponent %1</source>
         <translation>Gegner %1</translation>
     </message>
     <message>
@@ -4075,79 +4070,79 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</translati
     <name>QObject</name>
     <message>
         <location filename="../cpp/ziputils.cpp" line="+54"/>
-        <source>Das Archiv konnte nicht gelesen werden.</source>
+        <source>The archive could not be read.</source>
         <translation>Das Archiv konnte nicht gelesen werden.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
+        <source>The archive is empty or contains too many files.</source>
         <translation>Das Archiv ist leer oder enthält zu viele Dateien.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
+        <source>The target directory could not be created.</source>
         <translation>Das Zielverzeichnis konnte nicht angelegt werden.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
+        <source>An archive entry could not be read.</source>
         <translation>Ein Archiv-Eintrag konnte nicht gelesen werden.</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+8"/>
-        <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
+        <source>The archive contains an invalid path: %1</source>
         <translation>Das Archiv enthält einen ungültigen Pfad: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+14"/>
-        <source>Verzeichnis konnte nicht angelegt werden: %1</source>
+        <source>Directory could not be created: %1</source>
         <translation>Verzeichnis konnte nicht angelegt werden: %1</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Das Archiv ist ungewöhnlich groß.</source>
+        <source>The archive is unusually large.</source>
         <translation>Das Archiv ist ungewöhnlich groß.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
+        <source>An archive entry could not be extracted: %1</source>
         <translation>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Datei konnte nicht geschrieben werden: %1</source>
+        <source>File could not be written: %1</source>
         <translation>Datei konnte nicht geschrieben werden: %1</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Der Stil-Ordner wurde nicht gefunden.</source>
+        <source>The style folder was not found.</source>
         <translation>Der Stil-Ordner wurde nicht gefunden.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <source>The archive could not be created.</source>
         <translation>Das Archiv konnte nicht erstellt werden.</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Datei konnte nicht gelesen werden: %1</source>
+        <source>File could not be read: %1</source>
         <translation>Datei konnte nicht gelesen werden: %1</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
+        <source>File could not be written to the archive: %1</source>
         <translation>Datei konnte nicht ins Archiv geschrieben werden: %1</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Der Stil-Ordner enthält keine Dateien.</source>
+        <source>The style folder does not contain any files.</source>
         <translation>Der Stil-Ordner enthält keine Dateien.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Das Archiv konnte nicht abgeschlossen werden.</source>
+        <source>The archive could not be finalized.</source>
         <translation>Das Archiv konnte nicht abgeschlossen werden.</translation>
     </message>
 </context>
@@ -4253,22 +4248,22 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</translati
     <name>ResetSettings</name>
     <message>
         <location filename="../components/ResetSettings.qml" line="+20"/>
-        <source>Standardeinstellung</source>
+        <source>Default Settings</source>
         <translation>Standardeinstellung</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Alle Einstellungen werden auf die Standardwerte zurückgesetzt. Diese Aktion kann nicht rückgängig gemacht werden.</source>
+        <source>All settings will be reset to their default values. This action cannot be undone.</source>
         <translation>Alle Einstellungen werden auf die Standardwerte zurückgesetzt. Diese Aktion kann nicht rückgängig gemacht werden.</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Auf Werkeinstellungen zurücksetzen</source>
+        <source>Reset to Factory Defaults</source>
         <translation>Auf Werkeinstellungen zurücksetzen</translation>
     </message>
     <message>
         <location line="+32"/>
-        <source>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</source>
+        <source>Settings have been reset. Please restart PokerTH for all changes to take effect.</source>
         <translation>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</translation>
     </message>
 </context>
@@ -4747,152 +4742,152 @@ Bitte prüfen Sie Ihren Benutzernamen und Ihr Kennwort.</translation>
     </message>
     <message>
         <location line="+189"/>
-        <source>Spieltisch-Stil auswählen</source>
+        <source>Select game table style</source>
         <translation>Spieltisch-Stil auswählen</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Die ausgewählte Datei ist kein Spieltisch-Stil.</source>
+        <source>The selected file is not a game table style.</source>
         <translation>Die ausgewählte Datei ist kein Spieltisch-Stil.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Kartenstapel-Stil auswählen</source>
+        <source>Select card deck style</source>
         <translation>Kartenstapel-Stil auswählen</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Die ausgewählte Datei ist kein Kartenstapel-Stil.</source>
+        <source>The selected file is not a card deck style.</source>
         <translation>Die ausgewählte Datei ist kein Kartenstapel-Stil.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Kartenrückseiten-Stil auswählen</source>
+        <source>Select card back style</source>
         <translation>Kartenrückseiten-Stil auswählen</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Die ausgewählte Datei ist kein Kartenrückseiten-Stil.</source>
+        <source>The selected file is not a card back style.</source>
         <translation>Die ausgewählte Datei ist kein Kartenrückseiten-Stil.</translation>
     </message>
     <message>
         <location line="+86"/>
-        <source>Die Stil-Datei kann nicht gelesen werden.</source>
+        <source>The style file cannot be read.</source>
         <translation>Die Stil-Datei kann nicht gelesen werden.</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Die ausgewählte Datei ist kein PokerTH-Stil.</source>
+        <source>The selected file is not a PokerTH style.</source>
         <translation>Die ausgewählte Datei ist kein PokerTH-Stil.</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Die Stil-Datei enthält kein gültiges XML (%1).</source>
+        <source>The style file does not contain valid XML (%1).</source>
         <translation>Die Stil-Datei enthält kein gültiges XML (%1).</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Der Dateiname der Stil-Datei muss auf &quot;%1&quot; enden.</source>
+        <source>The style file&apos;s name must end with &quot;%1&quot;.</source>
         <translation>Der Dateiname der Stil-Datei muss auf &quot;%1&quot; enden.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Die Stil-Datei muss in einem eigenen Ordner liegen.</source>
+        <source>The style file must be located in its own folder.</source>
         <translation>Die Stil-Datei muss in einem eigenen Ordner liegen.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Ein Stil mit dem Namen &quot;%1&quot; ist bereits vorhanden.</source>
+        <source>A style named &quot;%1&quot; already exists.</source>
         <translation>Ein Stil mit dem Namen &quot;%1&quot; ist bereits vorhanden.</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
+        <source>The card deck is incomplete, missing: %1</source>
         <translation>Der Kartenstapel ist unvollständig, es fehlen: %1</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Die Kartenrückseiten-Grafik (Backside) fehlt.</source>
+        <source>The card back image (Backside) is missing.</source>
         <translation>Die Kartenrückseiten-Grafik (Backside) fehlt.</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Der Ordner der Stil-Datei enthält ungewöhnlich viele Dateien. Bitte den Stil in einen eigenen Ordner legen.</source>
+        <source>The folder of the style file contains an unusually large number of files. Please put the style into its own folder.</source>
         <translation>Der Ordner der Stil-Datei enthält ungewöhnlich viele Dateien. Bitte den Stil in einen eigenen Ordner legen.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Der Stil konnte nicht nach &quot;%1&quot; kopiert werden.</source>
+        <source>The style could not be copied to &quot;%1&quot;.</source>
         <translation>Der Stil konnte nicht nach &quot;%1&quot; kopiert werden.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Der Stil hat Format-Version %1, aktuell ist Version %2.</source>
+        <source>The style has format version %1, the current version is %2.</source>
         <translation>Der Stil hat Format-Version %1, aktuell ist Version %2.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Fehlende Angaben: %1.</source>
+        <source>Missing fields: %1.</source>
         <translation>Fehlende Angaben: %1.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Nicht gefundene Grafiken: %1.</source>
+        <source>Graphics not found: %1.</source>
         <translation>Nicht gefundene Grafiken: %1.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Der Stil &quot;%1&quot; wurde übernommen, ist aber unvollständig:</source>
+        <source>The style &quot;%1&quot; was added, but it is incomplete:</source>
         <translation>Der Stil &quot;%1&quot; wurde übernommen, ist aber unvollständig:</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
+        <source>Missing content is replaced by the client&apos;s default graphics.</source>
         <translation>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</translation>
     </message>
     <message>
         <location line="-183"/>
-        <source>PokerTH-Stile (*.zip *.xml)</source>
+        <source>PokerTH styles (*.zip *.xml)</source>
         <translation>PokerTH-Stile (*.zip *.xml)</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Die ausgewählte Datei kann nicht gelesen werden.</source>
+        <source>The selected file cannot be read.</source>
         <translation>Die ausgewählte Datei kann nicht gelesen werden.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Es konnte kein temporäres Verzeichnis angelegt werden.</source>
+        <source>A temporary directory could not be created.</source>
         <translation>Es konnte kein temporäres Verzeichnis angelegt werden.</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Das Archiv enthält keine Datei &quot;%1&quot;.</source>
+        <source>The archive does not contain a file &quot;%1&quot;.</source>
         <translation>Das Archiv enthält keine Datei &quot;%1&quot;.</translation>
     </message>
     <message>
         <location line="+199"/>
-        <source>Stil exportieren</source>
+        <source>Export style</source>
         <translation>Stil exportieren</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>ZIP-Archive (*.zip)</source>
+        <source>ZIP archives (*.zip)</source>
         <translation>ZIP-Archive (*.zip)</translation>
     </message>
     <message>
         <location line="-9"/>
-        <source>Der Stil &quot;%1&quot; wurde nicht gefunden.</source>
+        <source>The style &quot;%1&quot; was not found.</source>
         <translation>Der Stil &quot;%1&quot; wurde nicht gefunden.</translation>
     </message>
     <message>
         <location line="+22"/>
-        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <source>The archive could not be created.</source>
         <translation>Das Archiv konnte nicht erstellt werden.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</source>
+        <source>The archive could not be written to &quot;%1&quot;.</source>
         <translation>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</translation>
     </message>
 </context>
@@ -4900,12 +4895,12 @@ Bitte prüfen Sie Ihren Benutzernamen und Ihr Kennwort.</translation>
     <name>SettingsPage</name>
     <message>
         <location filename="../pages/SettingsPage.qml" line="+264"/>
-        <source>Benutzeroberfläche</source>
+        <source>User Interface</source>
         <translation>Benutzeroberfläche</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Stil</source>
+        <source>Style</source>
         <translation>Stil</translation>
     </message>
     <message>
@@ -4915,32 +4910,32 @@ Bitte prüfen Sie Ihren Benutzernamen und Ihr Kennwort.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Lokales Spiel</source>
+        <source>Local Game</source>
         <translation>Lokales Spiel</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Netzwerkspiel</source>
+        <source>Network Game</source>
         <translation>Netzwerkspiel</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Internetspiel</source>
+        <source>Internet Game</source>
         <translation>Internetspiel</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Nicknamen/Avatare</source>
+        <source>Nicknames/Avatars</source>
         <translation>Nicknamen/Avatare</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Log-Nachrichten</source>
+        <source>Log Messages</source>
         <translation>Log-Nachrichten</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Standardeinstellung</source>
+        <source>Default Settings</source>
         <translation>Standardeinstellung</translation>
     </message>
 </context>
@@ -4958,12 +4953,12 @@ Bitte prüfen Sie Ihren Benutzernamen und Ihr Kennwort.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Über PokerTH</source>
+        <source>About PokerTH</source>
         <translation>Über PokerTH</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Schließen</source>
+        <source>Close</source>
         <translation>Schließen</translation>
     </message>
 </context>
@@ -4976,42 +4971,42 @@ Bitte prüfen Sie Ihren Benutzernamen und Ihr Kennwort.</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Klangeffekte</source>
+        <source>Sound Effects</source>
         <translation>Klangeffekte</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Klangeffekte aktivieren</source>
+        <source>Enable Sound Effects</source>
         <translation>Klangeffekte aktivieren</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Lautstärke:</source>
+        <source>Volume:</source>
         <translation>Lautstärke:</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Klang-Kategorien</source>
+        <source>Sound Categories</source>
         <translation>Klang-Kategorien</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Spielaktionen (Check, Call, Raise ...)</source>
+        <source>Game Actions (Check, Call, Raise...)</source>
         <translation>Spielaktionen (Check, Call, Raise ...)</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Blind-Erhöhungs-Benachrichtigung</source>
+        <source>Blind Raise Notification</source>
         <translation>Blind-Erhöhungs-Benachrichtigung</translation>
     </message>
     <message>
         <location line="-5"/>
-        <source>Netzwerkspiel-Benachrichtigungen</source>
+        <source>Network Game Notifications</source>
         <translation>Netzwerkspiel-Benachrichtigungen</translation>
     </message>
     <message>
         <location line="-5"/>
-        <source>Lobby-Chat-Benachrichtigungen</source>
+        <source>Lobby Chat Notifications</source>
         <translation>Lobby-Chat-Benachrichtigungen</translation>
     </message>
 </context>
@@ -5032,22 +5027,22 @@ Bitte prüfen Sie Ihren Benutzernamen und Ihr Kennwort.</translation>
     <name>StartPage</name>
     <message>
         <location filename="../pages/StartPage.qml" line="+167"/>
-        <source>Internetspiel</source>
+        <source>Internet Game</source>
         <translation>Internetspiel</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Lokales Spiel starten</source>
+        <source>Start Local Game</source>
         <translation>Lokales Spiel starten</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Netzwerkspiel erstellen</source>
+        <source>Create Network Game</source>
         <translation>Netzwerkspiel erstellen</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Netzwerkspiel beitreten</source>
+        <source>Join Network Game</source>
         <translation>Netzwerkspiel beitreten</translation>
     </message>
     <message>
@@ -5098,29 +5093,29 @@ Bitte prüfen Sie Ihren Benutzernamen und Ihr Kennwort.</translation>
     <name>StyleCard</name>
     <message>
         <location filename="../components/StyleCard.qml" line="+69"/>
-        <source>Keine
-Vorschau</source>
+        <source>No
+Preview</source>
         <translation>Keine
 Vorschau</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>von %1</source>
+        <source>of %1</source>
         <translation>von %1</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>✓ Ausgewählt</source>
+        <source>✓ Selected</source>
         <translation>✓ Ausgewählt</translation>
     </message>
     <message>
         <location line="+43"/>
-        <source>Stil entfernen</source>
+        <source>Remove style</source>
         <translation>Stil entfernen</translation>
     </message>
     <message>
         <location line="+32"/>
-        <source>Stil als ZIP exportieren</source>
+        <source>Export style as ZIP</source>
         <translation>Stil als ZIP exportieren</translation>
     </message>
 </context>
@@ -5128,7 +5123,7 @@ Vorschau</translation>
     <name>StyleSettings</name>
     <message>
         <location filename="../components/StyleSettings.qml" line="+49"/>
-        <source>Stil hinzufügen</source>
+        <source>Add style</source>
         <translation>Stil hinzufügen</translation>
     </message>
     <message>
@@ -5139,94 +5134,94 @@ Vorschau</translation>
     </message>
     <message>
         <location line="+49"/>
-        <source>Stil entfernen</source>
+        <source>Remove style</source>
         <translation>Stil entfernen</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Den Stil &quot;%1&quot; wirklich entfernen?</source>
+        <source>Really remove the style &quot;%1&quot;?</source>
         <translation>Den Stil &quot;%1&quot; wirklich entfernen?</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Entfernen</source>
+        <source>Remove</source>
         <translation>Entfernen</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Stil</source>
+        <source>Style</source>
         <translation>Stil</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Spieltisch</source>
+        <source>Game Table</source>
         <translation>Spieltisch</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Kartenstapel</source>
+        <source>Card Deck</source>
         <translation>Kartenstapel</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Kartenrückseite</source>
+        <source>Card Back</source>
         <translation>Kartenrückseite</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Einsatzanzeige:</source>
+        <source>Bet display:</source>
         <translation>Einsatzanzeige:</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Einsatz in der Spielerbox</source>
+        <source>Bet inside the player box</source>
         <translation>Einsatz in der Spielerbox</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Einsatz neben der Spielerbox</source>
+        <source>Bet next to the player box</source>
         <translation>Einsatz neben der Spielerbox</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Verfügbare Spieltisch-Stile:</source>
+        <source>Available Table Styles:</source>
         <translation>Verfügbare Spieltisch-Stile:</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Keine Spieltisch-Stile gefunden.</source>
+        <source>No table styles found.</source>
         <translation>Keine Spieltisch-Stile gefunden.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Verfügbare Kartenstapel-Stile:</source>
+        <source>Available Card Deck Styles:</source>
         <translation>Verfügbare Kartenstapel-Stile:</translation>
     </message>
     <message>
         <location line="+27"/>
-        <source>Keine Kartenstapel-Stile gefunden.</source>
+        <source>No card deck styles found.</source>
         <translation>Keine Kartenstapel-Stile gefunden.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Verfügbare Kartenrückseiten:</source>
+        <source>Available card backs:</source>
         <translation>Verfügbare Kartenrückseiten:</translation>
     </message>
     <message>
         <location line="+27"/>
-        <source>Keine Kartenrückseiten gefunden.</source>
+        <source>No card backs found.</source>
         <translation>Keine Kartenrückseiten gefunden.</translation>
     </message>
     <message>
         <location line="-104"/>
         <location line="+56"/>
         <location line="+56"/>
-        <source>Stil hinzufügen...</source>
+        <source>Add Style...</source>
         <translation>Stil hinzufügen...</translation>
     </message>
     <message>
         <location line="-266"/>
-        <source>Stil exportieren</source>
+        <source>Export style</source>
         <translation>Stil exportieren</translation>
     </message>
 </context>

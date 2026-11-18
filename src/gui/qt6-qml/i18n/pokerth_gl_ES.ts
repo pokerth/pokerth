@@ -284,39 +284,39 @@
     <name>ChatBox</name>
     <message>
         <location filename="../components/ChatBox.qml" line="+31"/>
-        <source>Nachricht …</source>
+        <source>Message …</source>
         <translation>Mensaxe …</translation>
     </message>
     <message>
         <location line="+807"/>
-        <source>Link öffnen</source>
+        <source>Open link</source>
         <translation>Abrir a ligazón</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Link kopieren</source>
+        <source>Copy link</source>
         <translation>Copiar a ligazón</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+38"/>
-        <source>Kopieren</source>
+        <source>Copy</source>
         <translation>Copiar</translation>
     </message>
     <message>
         <location line="-33"/>
         <location line="+43"/>
-        <source>Alles auswählen</source>
+        <source>Select all</source>
         <translation>Seleccionar todo</translation>
     </message>
     <message>
         <location line="-15"/>
-        <source>Ausschneiden</source>
+        <source>Cut</source>
         <translation>Cortar</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Einfügen</source>
+        <source>Paste</source>
         <translation>Pegar</translation>
     </message>
 </context>
@@ -545,22 +545,22 @@
     <name>ExampleAvatarPicker</name>
     <message>
         <location filename="../components/ExampleAvatarPicker.qml" line="+70"/>
-        <source>Beispiel-Avatar wählen</source>
+        <source>Choose example avatar</source>
         <translation>Escoller unha imaxe de usuario de exemplo</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>Personen</source>
+        <source>People</source>
         <translation>Persoas</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Verschiedenes</source>
+        <source>Miscellaneous</source>
         <translation>Diversos</translation>
     </message>
     <message>
         <location line="+83"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
 </context>
@@ -569,7 +569,7 @@
     <message>
         <location filename="../config/ForumNews.qml" line="+175"/>
         <location line="+11"/>
-        <source>The forum feed could not be loaded.</source>
+        <source>Could not load the forum feed.</source>
         <translation>Non foi posíbel cargar as novas do foro.</translation>
     </message>
 </context>
@@ -664,7 +664,7 @@
     </message>
     <message>
         <location line="+36"/>
-        <source>Manuell</source>
+        <source>Manual</source>
         <translation>Manualmente</translation>
     </message>
     <message>
@@ -700,27 +700,27 @@
     <name>GameInfoPanel</name>
     <message>
         <location filename="../components/GameInfoPanel.qml" line="+68"/>
-        <source>Höchste Karte</source>
+        <source>High Card</source>
         <translation>Carta alta</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Paar</source>
+        <source>Pair</source>
         <translation>Parella</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Zwei Paare</source>
+        <source>Two Pair</source>
         <translation>Dobre parella</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Drilling</source>
+        <source>Three of a Kind</source>
         <translation>Trío</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Straße</source>
+        <source>Straight</source>
         <translation>Escaleira</translation>
     </message>
     <message>
@@ -735,7 +735,7 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>Vierling</source>
+        <source>Four of a Kind</source>
         <translation>Póker</translation>
     </message>
     <message>
@@ -750,22 +750,22 @@
     </message>
     <message>
         <location line="+28"/>
-        <source>Verlauf</source>
+        <source>History</source>
         <translation>Historial</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Chancen</source>
+        <source>Odds</source>
         <translation>Posibilidades</translation>
     </message>
     <message>
         <location line="+248"/>
-        <source>Kopieren</source>
+        <source>Copy</source>
         <translation>Copiar</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Alles auswählen</source>
+        <source>Select all</source>
         <translation>Seleccionar todo</translation>
     </message>
 </context>
@@ -820,7 +820,7 @@
     <name>GamePage</name>
     <message>
         <location filename="../pages/GamePage.qml" line="+1610"/>
-        <source>Verlauf &amp; Chancen</source>
+        <source>History &amp; Odds</source>
         <translation>Historial e posibilidades</translation>
     </message>
     <message>
@@ -830,7 +830,7 @@
     </message>
     <message>
         <location line="+17"/>
-        <source>Emoji-Reaktionen</source>
+        <source>Emoji reactions</source>
         <translation>Reaccións con emoji</translation>
     </message>
     <message>
@@ -925,7 +925,7 @@
     <message>
         <location filename="../components/GamePlayerSelfBox.qml" line="+151"/>
         <location line="+33"/>
-        <source>Du</source>
+        <source>You</source>
         <translation>Vostede</translation>
     </message>
 </context>
@@ -1347,17 +1347,17 @@
     <name>GuiSettings</name>
     <message>
         <location filename="../components/GuiSettings.qml" line="+20"/>
-        <source>Benutzeroberfläche</source>
+        <source>User Interface</source>
         <translation>Interface de usuario</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Allgemein</source>
+        <source>General</source>
         <translation>Xeral</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Netzwerk</source>
+        <source>Network</source>
         <translation>Rede</translation>
     </message>
     <message>
@@ -1367,87 +1367,87 @@
     </message>
     <message>
         <location line="+7"/>
-        <source>Automatisch</source>
+        <source>Automatic</source>
         <translation>Automático</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Hell</source>
+        <source>Light</source>
         <translation>Claro</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Dunkel</source>
+        <source>Dark</source>
         <translation>Escuro</translation>
     </message>
     <message>
         <location line="+36"/>
-        <source>Sprache:</source>
+        <source>Language:</source>
         <translation>Idioma:</translation>
     </message>
     <message>
         <location line="+70"/>
-        <source>Ausblend-Animation für Verliererkarten</source>
+        <source>Fade-out animation for losing cards</source>
         <translation>Animación de desaparición das cartas perdedoras</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Zeitstempel im Chat anzeigen</source>
+        <source>Show timestamp in chat</source>
         <translation>Amosar as marcas de tempo na conversa</translation>
     </message>
     <message>
         <location line="-30"/>
-        <source>Übersetzung anbieten (Globus-Symbol im Chat und bei Forum-Beiträgen)</source>
+        <source>Offer translation (globe symbol in chat and on forum posts)</source>
         <translation>Ofrecer tradución (icona do globo na conversa e nas mensaxes do foro)</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht oder eines Forum-Beitrags antippst; Zielsprache ist die oben gewählte Sprache.</source>
+        <source>Translation uses an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap the symbol of a message or a forum post; the target language is the one selected above.</source>
         <translation>A tradución emprega un servizo externo (Google Tradutor, alternativamente MyMemory). Non se envía nada ata que toque a icona dunha mensaxe ou dunha entrada do foro; o idioma de destino é o escollido enriba.</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Animierte Karten (Aufdeck-Animation)</source>
+        <source>Animated Cards (Flip Animation)</source>
         <translation>Cartas animadas (animación ao descubrir)</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Grafikeffekte reduzieren (Schatten/Glow) – für schwache Systeme</source>
+        <source>Reduce graphics effects (shadows/glow) – for low-end systems</source>
         <translation>Reducir os efectos gráficos (sombras/brillo) – para sistemas lentos</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Alternative F-Tasten-Belegung (F1-F4)</source>
+        <source>Alternative F-Key Assignment (F1-F4)</source>
         <translation>Disposición alternativa das teclas F1-F4</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Symbole für Small Blind und Big Blind anzeigen</source>
+        <source>Show Small Blind and Big Blind symbols</source>
         <translation>Amosar os símbolos das apostas obrigatorias pequena e grande</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Pot-Prozent-Schaltflächen anzeigen</source>
+        <source>Show pot percent buttons</source>
         <translation>Amosar os botóns de porcentaxe do bote</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Anti-Peek: Eigene Karten erst bei Klick anzeigen</source>
+        <source>Anti-Peek: Show own cards only on click</source>
         <translation>Protección contra ollares: amosar as cartas propias só ao premer</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Startbildschirm beim Startvorgang deaktivieren</source>
+        <source>Disable splash screen on startup</source>
         <translation>Non amosar a pantalla de inicio ao arrincar</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Internationale Pokerausdrücke (Check, Call, Raise) nicht übersetzen</source>
+        <source>Do not translate international poker terms (Check, Call, Raise)</source>
         <translation>Non traducir os termos internacionais do póker (Check, Call, Raise)</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Tooltips anzeigen</source>
+        <source>Show tooltips</source>
         <translation>Amosar os consellos emerxentes</translation>
     </message>
     <message>
@@ -1457,52 +1457,52 @@
     </message>
     <message>
         <location line="+16"/>
-        <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
+        <source>Enable table zoom (swipe &amp; zoom, mobile mode only)</source>
         <translation>Activar a ampliación do taboleiro (desprazar e ampliar, só no modo móbil)</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)</source>
+        <source>Keep seats of players who left the table (remaining player boxes stay in place)</source>
         <translation>Manter os postos dos xogadores que saíron do taboleiro (as demais caixas de xogador quedan no seu sitio)</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Forum-Neuigkeiten anzeigen</source>
+        <source>Show forum news</source>
         <translation>Amosar as novas do foro</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Community-Inhalte anzeigen</source>
+        <source>Show community content</source>
         <translation>Amosar o contido da comunidade</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Standard-Community:</source>
+        <source>Default community:</source>
         <translation>Comunidade predeterminada:</translation>
     </message>
     <message>
         <location line="+56"/>
-        <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
+        <source>Set focus to bet input when it&apos;s your turn</source>
         <translation>Poñer o foco no campo da aposta cando lle toque a quenda</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen</source>
+        <source>Show network status color in avatar corner</source>
         <translation>Amosar a cor do estado da rede na esquina da imaxe de usuario</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Emoji-Reaktionen deaktivieren</source>
+        <source>Disable emoji reactions</source>
         <translation>Desactivar as reaccións con emoji</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Versehentliches Call nach einem großen Raise verhindern</source>
+        <source>Prevent accidental call after a big raise</source>
         <translation>Evitar igualar sen querer tras unha subida grande</translation>
     </message>
     <message>
         <location line="-31"/>
-        <source>Spieler in eigenen Community-Spielen vorschlagen</source>
+        <source>Suggest players in your own community games</source>
         <translation>Suxerir xogadores nas partidas propias da comunidade</translation>
     </message>
 </context>
@@ -1848,107 +1848,107 @@
     <name>InternetGameSettings</name>
     <message>
         <location filename="../components/InternetGameSettings.qml" line="+19"/>
-        <source>Internetspiel</source>
+        <source>Internet Game</source>
         <translation>Partida en internet</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Server-Konfiguration</source>
+        <source>Server Configuration</source>
         <translation>Configuración do servidor</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Automatische Server-Konfiguration</source>
+        <source>Automatic Server Configuration</source>
         <translation>Configuración automática do servidor</translation>
     </message>
     <message>
         <location line="+33"/>
-        <source>Manuelle Server-Konfiguration</source>
+        <source>Manual Server Configuration</source>
         <translation>Configuración manual do servidor</translation>
     </message>
     <message>
         <location line="-18"/>
-        <source>Server-Liste:</source>
+        <source>Server List:</source>
         <translation>Lista de servidores:</translation>
     </message>
     <message>
         <location line="+36"/>
-        <source>Server-Adresse:</source>
+        <source>Server Address:</source>
         <translation>Enderezo do servidor:</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Server-Port:</source>
+        <source>Server Port:</source>
         <translation>Porto do servidor:</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Server-Passwort:</source>
+        <source>Server Password:</source>
         <translation>Contrasinal do servidor:</translation>
     </message>
     <message>
         <location line="+55"/>
-        <source>Nur registrierte Spieler</source>
+        <source>Registered players only</source>
         <translation>Só xogadores rexistrados</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Nur eingeladene Spieler</source>
+        <source>Invited players only</source>
         <translation>Só xogadores convidados</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Ranglistenspiel</source>
+        <source>Ranking game</source>
         <translation>Partida de puntuación</translation>
     </message>
     <message>
         <location line="+87"/>
-        <source>Verbindungsoptionen</source>
+        <source>Connection Options</source>
         <translation>Opcións de conexión</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>TLS/SSL verwenden (verschlüsselte Verbindung)</source>
+        <source>Use TLS/SSL (encrypted connection)</source>
         <translation>Empregar TLS/SSL (conexión cifrada)</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>SCTP verwenden (statt TCP)</source>
+        <source>Use SCTP (instead of TCP)</source>
         <translation>Empregar SCTP (no canto de TCP)</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>IPv6 verwenden</source>
+        <source>Use IPv6</source>
         <translation>Empregar IPv6</translation>
     </message>
     <message>
         <location line="-52"/>
-        <source>Avatar-Server</source>
+        <source>Avatar Server</source>
         <translation>Servidor de imaxes de usuario</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Avatar-Server verwenden</source>
+        <source>Use Avatar Server</source>
         <translation>Empregar o servidor de imaxes de usuario</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Avatar-Server-Adresse:</source>
+        <source>Avatar Server Address:</source>
         <translation>Enderezo do servidor de imaxes de usuario:</translation>
     </message>
     <message>
         <location line="-101"/>
-        <source>Spiel-Einstellungen</source>
+        <source>Game Settings</source>
         <translation>Configuración da partida</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Spiel-Name:</source>
+        <source>Game Name:</source>
         <translation>Nome da partida:</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Spiel-Typ:</source>
+        <source>Game Type:</source>
         <translation>Tipo de partida:</translation>
     </message>
     <message>
@@ -1958,47 +1958,47 @@
     </message>
     <message>
         <location line="+18"/>
-        <source>Spiel-Passwort verwenden</source>
+        <source>Use Game Password</source>
         <translation>Empregar contrasinal na partida</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Spiel-Passwort:</source>
+        <source>Game Password:</source>
         <translation>Contrasinal da partida:</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Zuschauer erlauben</source>
+        <source>Allow Spectators</source>
         <translation>Permitir espectadores</translation>
     </message>
     <message>
         <location line="+84"/>
-        <source>Tisch automatisch verlassen nach Spielende</source>
+        <source>Automatically leave table after game ends</source>
         <translation>Saír automaticamente do taboleiro ao rematar a partida</translation>
     </message>
     <message>
         <location line="-7"/>
-        <source>Weitere Optionen</source>
+        <source>More Options</source>
         <translation>Máis opcións</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Ignorierte Spieler</source>
+        <source>Ignored Players</source>
         <translation>Xogadores ignorados</translation>
     </message>
     <message>
         <location line="+52"/>
-        <source>(keine ignorierten Spieler)</source>
+        <source>(no ignored players)</source>
         <translation>(non hai xogadores ignorados)</translation>
     </message>
     <message>
         <location line="-45"/>
-        <source>Spieler auf der Ignore-Liste werden nicht im Chat angezeigt.</source>
+        <source>Players on the ignore list are not shown in chat.</source>
         <translation>Os xogadores da lista de ignorados non se amosan na conversa.</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Entfernen</source>
+        <source>Remove</source>
         <translation>Retirar</translation>
     </message>
 </context>
@@ -2006,18 +2006,18 @@
     <name>LobbyCreateGamePage</name>
     <message>
         <location filename="../pages/LobbyCreateGamePage.qml" line="+362"/>
-        <source>← Zurück</source>
+        <source>← Back</source>
         <translation>← Volver</translation>
     </message>
     <message>
         <location line="+8"/>
         <location line="+455"/>
-        <source>Spiel erstellen</source>
+        <source>Create Game</source>
         <translation>Crear a partida</translation>
     </message>
     <message>
         <location line="-426"/>
-        <source>Spielname</source>
+        <source>Game name</source>
         <translation>Nome da partida</translation>
     </message>
     <message>
@@ -2027,12 +2027,12 @@
     </message>
     <message>
         <location line="+246"/>
-        <source>Spielname eingeben …</source>
+        <source>Enter game name …</source>
         <translation>Escriba un nome de partida …</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Spieltyp</source>
+        <source>Game type</source>
         <translation>Tipo de partida</translation>
     </message>
     <message>
@@ -2042,113 +2042,113 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>Nur registrierte Spieler</source>
+        <source>Registered players only</source>
         <translation>Só xogadores rexistrados</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Nur eingeladene Spieler</source>
+        <source>Invited players only</source>
         <translation>Só xogadores convidados</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Ranglistenspiel</source>
+        <source>Ranking game</source>
         <translation>Partida de puntuación</translation>
     </message>
     <message>
         <location line="+28"/>
-        <source>Community-Vorlage</source>
+        <source>Community template</source>
         <translation>Modelo da comunidade</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Eigene Einstellungen</source>
+        <source>Custom settings</source>
         <translation>Configuración propia</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Passwort</source>
+        <source>Password</source>
         <translation>Contrasinal</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Passwort eingeben …</source>
+        <source>Enter password …</source>
         <translation>Escriba o contrasinal …</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Zuschauer erlaubt</source>
+        <source>Spectators allowed</source>
         <translation>Espectadores permitidos</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Max. Spieler</source>
+        <source>Max. players</source>
         <translation>Máx. xogadores</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Startgeld</source>
+        <source>Start cash</source>
         <translation>Capital inicial</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Blind-Einstellungen</source>
+        <source>Blind settings</source>
         <translation>Configuración das apostas obrigatorias</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Erster Small Blind</source>
+        <source>First small blind</source>
         <translation>Primeira aposta obrigatoria pequena</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Blind-Erhöhungsintervall</source>
+        <source>Blinds raise interval</source>
         <translation>Intervalo de subida das apostas obrigatorias</translation>
     </message>
     <message>
         <location line="+22"/>
         <location line="+28"/>
-        <source>Alle</source>
+        <source>Every</source>
         <translation>Cada</translation>
     </message>
     <message>
         <location line="-17"/>
-        <source>Hände</source>
+        <source>hands</source>
         <translation>mans</translation>
     </message>
     <message>
         <location line="+28"/>
-        <source>Minuten</source>
+        <source>minutes</source>
         <translation>minutos</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Blindliste: %1</source>
+        <source>Blind list: %1</source>
         <translation>Serie de apostas obrigatorias: %1</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Zeitlimits</source>
+        <source>Time limits</source>
         <translation>Límites de tempo</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Zeitlimit Spieleraktion</source>
+        <source>Player action time limit</source>
         <translation>Límite de tempo para a acción do xogador</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Pause zwischen Händen</source>
+        <source>Delay between hands</source>
         <translation>Pausa entre mans</translation>
     </message>
     <message>
         <location line="+34"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Bitte einen Spielnamen eingeben.</source>
+        <source>Please enter a game name.</source>
         <translation>Escriba un nome de partida.</translation>
     </message>
 </context>
@@ -2751,28 +2751,23 @@ O PokerTH pode reducila por ti. A nova imaxe activarase no seguinte inicio de se
     </message>
     <message>
         <location line="+37"/>
-        <source>Privates Spiel</source>
+        <source>Private game</source>
         <translation>Partida privada</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Bitte das Passwort eingeben, um beizutreten.</source>
+        <source>Please enter the password to join.</source>
         <translation>Escriba o contrasinal para unirse.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Passwort …</source>
+        <source>Password …</source>
         <translation>Contrasinal …</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Cancelar</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Beitreten</source>
-        <translation>Unirse</translation>
     </message>
     <message>
         <location line="+151"/>
@@ -2857,47 +2852,47 @@ O PokerTH pode reducila por ti. A nova imaxe activarase no seguinte inicio de se
     <name>LocalGamePage</name>
     <message>
         <location filename="../pages/LocalGamePage.qml" line="+51"/>
-        <source>alle %1 Hände</source>
+        <source>every %1 hands</source>
         <translation>cada %1 mans</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>alle %1 Minuten</source>
+        <source>every %1 minutes</source>
         <translation>cada %1 minutos</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>verdoppeln</source>
+        <source>double</source>
         <translation>dobre</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>manuell</source>
+        <source>manual</source>
         <translation>manualmente</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Small Blind: $%1  •  Erhöhen %2  •  %3</source>
+        <source>Small blind: $%1  •  Raise %2  •  %3</source>
         <translation>Aposta obrigatoria pequena: $%1  •  subida %2  •  %3</translation>
     </message>
     <message>
         <location line="+36"/>
-        <source>Lokales Spiel</source>
+        <source>Local Game</source>
         <translation>Partida local</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Lokale Spiel-Einstellungen</source>
+        <source>Local game settings</source>
         <translation>Configuración da partida local</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Anzahl der Spieler:</source>
+        <source>Number of players:</source>
         <translation>Número de xogadores:</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Startkapital:</source>
+        <source>Start cash:</source>
         <translation>Capital inicial:</translation>
     </message>
     <message>
@@ -2907,70 +2902,70 @@ O PokerTH pode reducila por ti. A nova imaxe activarase no seguinte inicio de se
     </message>
     <message>
         <location line="+10"/>
-        <source>Gespeicherte Blinds-Einstellungen verwenden</source>
+        <source>Use saved blinds settings</source>
         <translation>Empregar a configuración gardada das apostas obrigatorias</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Blinds-Einstellungen ändern …</source>
+        <source>Change blinds settings …</source>
         <translation>Cambiar a configuración das apostas obrigatorias …</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Erster Small Blind:</source>
+        <source>First small blind:</source>
         <translation>Primeira aposta obrigatoria pequena:</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Small Blind erhöhen:</source>
+        <source>Raise small blind:</source>
         <translation>Subir a aposta obrigatoria pequena:</translation>
     </message>
     <message>
         <location line="+13"/>
         <location line="+24"/>
-        <source>alle</source>
+        <source>every</source>
         <translation>cada</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Hände</source>
+        <source>hands</source>
         <translation>mans</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>Minuten</source>
+        <source>minutes</source>
         <translation>minutos</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Erhöhungsmodus:</source>
+        <source>Raise mode:</source>
         <translation>Modo de subida:</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Blinds immer verdoppeln</source>
+        <source>Always double blinds</source>
         <translation>Dobrar sempre as apostas obrigatorias</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Manuelle Blind-Reihenfolge</source>
+        <source>Manual blinds order</source>
         <translation>Serie predefinida de apostas obrigatorias</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Spielgeschwindigkeit
-(1=langsam, 11=schnell):</source>
+        <source>Game speed
+(1=slow, 11=fast):</source>
         <translation>Velocidade da partida
 (1 = lenta, 11 = rápida):</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Spiel starten</source>
+        <source>Start game</source>
         <translation>Comezar a partida</translation>
     </message>
 </context>
@@ -2978,147 +2973,147 @@ O PokerTH pode reducila por ti. A nova imaxe activarase no seguinte inicio de se
     <name>LocalGameSettings</name>
     <message>
         <location filename="../components/LocalGameSettings.qml" line="+55"/>
-        <source>Lokales Spiel</source>
+        <source>Local Game</source>
         <translation>Partida local</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Spieler &amp; Startkapital</source>
+        <source>Players &amp; Starting Capital</source>
         <translation>Xogadores e capital inicial</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Anzahl der Spieler:</source>
+        <source>Number of Players:</source>
         <translation>Número de xogadores:</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Startkapital:</source>
+        <source>Starting Capital:</source>
         <translation>Capital inicial:</translation>
     </message>
     <message>
         <location line="+351"/>
-        <source>Spiel-Einstellungsdialog bei neuem Spiel anzeigen</source>
+        <source>Show Game Settings Dialog for New Game</source>
         <translation>Amosar o diálogo de configuración ao crear unha partida nova</translation>
     </message>
     <message>
         <location line="-313"/>
-        <source>Blinds erhöhen</source>
+        <source>Increase Blinds</source>
         <translation>Subir as apostas obrigatorias</translation>
     </message>
     <message>
         <location line="+99"/>
-        <source>Blind-Erhöhungsreihenfolge</source>
+        <source>Blind Raise Order</source>
         <translation>Orde de subida das apostas obrigatorias</translation>
     </message>
     <message>
         <location line="-87"/>
-        <source>Blinds bei Anzahl der Hände erhöhen</source>
+        <source>Increase Blinds after Number of Hands</source>
         <translation>Subir as apostas obrigatorias segundo o número de mans</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Blinds zeitbasiert erhöhen</source>
+        <source>Increase Blinds Time-Based</source>
         <translation>Subir as apostas obrigatorias segundo o tempo</translation>
     </message>
     <message>
         <location line="+57"/>
         <location line="+101"/>
-        <source>Blinds immer verdoppeln</source>
+        <source>Always Double Blinds</source>
         <translation>Dobrar sempre as apostas obrigatorias</translation>
     </message>
     <message>
         <location line="-88"/>
         <location line="+14"/>
-        <source>Manuelle Blind-Reihenfolge</source>
+        <source>Manual Blind Order</source>
         <translation>Serie predefinida de apostas obrigatorias</translation>
     </message>
     <message>
         <location line="-158"/>
-        <source>Erster Small Blind:</source>
+        <source>First Small Blind:</source>
         <translation>Primeira aposta obrigatoria pequena:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
-        <source>Small Blind erhöhen alle:</source>
+        <source>Increase Small Blind every:</source>
         <translation>Subir a aposta obrigatoria pequena cada:</translation>
     </message>
     <message>
         <location line="-25"/>
-        <source>Hände</source>
+        <source>Hands</source>
         <translation>mans</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Minuten</source>
+        <source>Minutes</source>
         <translation>minutos</translation>
     </message>
     <message>
         <location line="+100"/>
-        <source>Hinzufügen</source>
+        <source>Add</source>
         <translation>Engadir</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Löschen</source>
+        <source>Delete</source>
         <translation>Eliminar</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Danach:</source>
+        <source>After that:</source>
         <translation>Despois:</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Immer erhöhen um:</source>
+        <source>Always raise by:</source>
         <translation>Subir sempre en:</translation>
     </message>
     <message>
         <location line="+30"/>
-        <source>Letzten Blind beibehalten</source>
+        <source>Keep last blind</source>
         <translation>Manter a última aposta obrigatoria</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Spielgeschwindigkeit</source>
+        <source>Game Speed</source>
         <translation>Velocidade da partida</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Spielgeschwindigkeit
-(1=langsam, 11=schnell):</source>
+        <source>Game Speed
+(1=slow, 11=fast):</source>
         <translation>Velocidade da partida
 (1 = lenta, 11 = rápida):</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Pause zwischen den Händen</source>
+        <source>Pause Between Hands</source>
         <translation>Pausa entre as mans</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Computerspieler</source>
+        <source>Computer players</source>
         <translation>Xogadores artificiais</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Spielstärke:</source>
+        <source>Playing strength:</source>
         <translation>Nivel de xogo:</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Klassisch</source>
+        <source>Classic</source>
         <translation>Clásico</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Stark</source>
+        <source>Strong</source>
         <translation>Forte</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</source>
+        <source>Applies to local games. In network games the server decides how strong its computer players are.</source>
         <translation>Aplícase ás partidas locais. Nas partidas en rede, o servidor determina o nivel dos seus xogadores artificiais.</translation>
     </message>
 </context>
@@ -3303,43 +3298,43 @@ O envío de ficheiros de historial pode non funcionar se está a empregar un pro
     <name>LogsSettings</name>
     <message>
         <location filename="../components/LogsSettings.qml" line="+25"/>
-        <source>Log-Nachrichten</source>
+        <source>Log Messages</source>
         <translation>Mensaxes do historial</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Log-Einstellungen</source>
+        <source>Log Settings</source>
         <translation>Configuración do historial</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Logging aktivieren</source>
+        <source>Enable Logging</source>
         <translation>Activar o rexistro no historial</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Log-Verzeichnis:</source>
+        <source>Log Directory:</source>
         <translation>Cartafol do historial:</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Durchsuchen...</source>
+        <source>Browse...</source>
         <translation>Examinar...</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Log-Verzeichnis auswählen</source>
+        <source>Select Log Directory</source>
         <translation>Escoller o cartafol do historial</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Log-Verzeichnis</source>
+        <source>Log Directory</source>
         <translation>Cartafol do historial</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Das Log-Verzeichnis wurde geändert.
-Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
+        <source>The log directory has been changed.
+Please restart PokerTH so that the log files are stored there.</source>
         <translation>Cambiouse o cartafol do historial.
 Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation>
     </message>
@@ -3350,27 +3345,27 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
     </message>
     <message>
         <location line="+29"/>
-        <source>Log-Intervall:</source>
+        <source>Log Interval:</source>
         <translation>Intervalo do historial:</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Jedes Spiel</source>
+        <source>Every Game</source>
         <translation>Cada partida</translation>
     </message>
     <message>
         <location line="-1"/>
-        <source>Jede Hand</source>
+        <source>Every Hand</source>
         <translation>Cada man</translation>
     </message>
     <message>
         <location line="-1"/>
-        <source>Jede Aktion</source>
+        <source>Every Action</source>
         <translation>Cada acción</translation>
     </message>
     <message>
         <location line="-29"/>
-        <source>Log-Speicherdauer (Tage):</source>
+        <source>Log Retention (Days):</source>
         <translation>Tempo de conservación do historial (días):</translation>
     </message>
 </context>
@@ -3378,94 +3373,94 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
     <name>NetworkGameCreatePage</name>
     <message>
         <location filename="../pages/NetworkGameCreatePage.qml" line="+148"/>
-        <source>← Zurück</source>
+        <source>← Back</source>
         <translation>← Volver</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Netzwerkspiel erstellen</source>
+        <source>Create Network Game</source>
         <translation>Crear unha partida en rede</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Spiel-Einstellungen</source>
+        <source>Game settings</source>
         <translation>Configuración da partida</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Max. Spieler</source>
+        <source>Max. players</source>
         <translation>Máx. xogadores</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Startgeld</source>
+        <source>Start cash</source>
         <translation>Capital inicial</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Blind-Einstellungen</source>
+        <source>Blind settings</source>
         <translation>Configuración das apostas obrigatorias</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Erster Small Blind</source>
+        <source>First small blind</source>
         <translation>Primeira aposta obrigatoria pequena</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Blind-Erhöhungsintervall</source>
+        <source>Blinds raise interval</source>
         <translation>Intervalo de subida das apostas obrigatorias</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+25"/>
-        <source>Alle</source>
+        <source>Every</source>
         <translation>Cada</translation>
     </message>
     <message>
         <location line="-14"/>
-        <source>Hände</source>
+        <source>hands</source>
         <translation>mans</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Minuten</source>
+        <source>minutes</source>
         <translation>minutos</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Blinds immer verdoppeln</source>
+        <source>Always double blinds</source>
         <translation>Dobrar sempre as apostas obrigatorias</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Zeitlimits</source>
+        <source>Time limits</source>
         <translation>Límites de tempo</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Zeitlimit Spieleraktion</source>
+        <source>Player action time limit</source>
         <translation>Límite de tempo para a acción do xogador</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Pause zwischen Händen</source>
+        <source>Delay between hands</source>
         <translation>Pausa entre mans</translation>
     </message>
     <message>
         <location line="+37"/>
         <location line="+37"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
         <location line="-31"/>
-        <source>Spiel erstellen</source>
+        <source>Create Game</source>
         <translation>Crear a partida</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Server wird gestartet …</source>
+        <source>Starting server …</source>
         <translation>Iniciando o servidor …</translation>
     </message>
 </context>
@@ -3473,27 +3468,27 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
     <name>NetworkGameEnterPage</name>
     <message>
         <location filename="../pages/NetworkGameEnterPage.qml" line="+121"/>
-        <source>← Zurück</source>
+        <source>← Back</source>
         <translation>← Volver</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Netzwerkspiel beitreten</source>
+        <source>Join Network Game</source>
         <translation>Unirse a unha partida en rede</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Server-Verbindung</source>
+        <source>Server connection</source>
         <translation>Conexión ao servidor</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Server-Adresse</source>
+        <source>Server address</source>
         <translation>Enderezo do servidor</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>IP-Adresse oder Hostname</source>
+        <source>IP address or hostname</source>
         <translation>Enderezo IP ou nome de máquina</translation>
     </message>
     <message>
@@ -3503,53 +3498,53 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
     </message>
     <message>
         <location line="+18"/>
-        <source>IPv6 verwenden</source>
+        <source>Use IPv6</source>
         <translation>Empregar IPv6</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>SCTP verwenden</source>
+        <source>Use SCTP</source>
         <translation>Empregar SCTP</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Server-Profile</source>
+        <source>Server profiles</source>
         <translation>Perfís de servidor</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Profilname</source>
+        <source>Profile name</source>
         <translation>Nome do perfil</translation>
     </message>
     <message>
         <location line="+22"/>
-        <source>Name des Profils</source>
+        <source>Name of the profile</source>
         <translation>O nome do perfil</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Speichern</source>
+        <source>Save</source>
         <translation>Gardar</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Löschen</source>
+        <source>Delete</source>
         <translation>Eliminar</translation>
     </message>
     <message>
         <location line="+92"/>
         <location line="+38"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
         <location line="-32"/>
-        <source>Verbinden</source>
+        <source>Connect</source>
         <translation>Conectar</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>Verbinde mit Server …</source>
+        <source>Connecting to server …</source>
         <translation>Conectándose ao servidor …</translation>
     </message>
 </context>
@@ -3571,117 +3566,117 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
     <name>NetworkGameSettings</name>
     <message>
         <location filename="../components/NetworkGameSettings.qml" line="+19"/>
-        <source>Netzwerkspiel</source>
+        <source>Network Game</source>
         <translation>Partida en rede</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Spieler &amp; Startkapital</source>
+        <source>Players &amp; Starting Capital</source>
         <translation>Xogadores e capital inicial</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Anzahl der Spieler:</source>
+        <source>Number of Players:</source>
         <translation>Número de xogadores:</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Startkapital:</source>
+        <source>Starting Capital:</source>
         <translation>Capital inicial:</translation>
     </message>
     <message>
         <location line="+38"/>
-        <source>Blinds erhöhen</source>
+        <source>Increase Blinds</source>
         <translation>Subir as apostas obrigatorias</translation>
     </message>
     <message>
         <location line="+99"/>
-        <source>Blind-Erhöhungsreihenfolge</source>
+        <source>Blind Raise Order</source>
         <translation>Orde de subida das apostas obrigatorias</translation>
     </message>
     <message>
         <location line="-87"/>
-        <source>Blinds bei Anzahl der Hände erhöhen</source>
+        <source>Increase Blinds after Number of Hands</source>
         <translation>Subir as apostas obrigatorias segundo o número de mans</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Blinds zeitbasiert erhöhen</source>
+        <source>Increase Blinds Time-Based</source>
         <translation>Subir as apostas obrigatorias segundo o tempo</translation>
     </message>
     <message>
         <location line="+57"/>
-        <source>Blinds immer verdoppeln</source>
+        <source>Always Double Blinds</source>
         <translation>Dobrar sempre as apostas obrigatorias</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>Manuelle Blind-Reihenfolge</source>
+        <source>Manual Blind Order</source>
         <translation>Serie predefinida de apostas obrigatorias</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>Manuelle Blind-Reihenfolge bearbeiten...</source>
+        <source>Edit Manual Blind Order...</source>
         <translation>Editar a serie predefinida de apostas obrigatorias...</translation>
     </message>
     <message>
         <location line="-157"/>
-        <source>Erster Small Blind:</source>
+        <source>First Small Blind:</source>
         <translation>Primeira aposta obrigatoria pequena:</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
-        <source>Small Blind erhöhen alle:</source>
+        <source>Increase Small Blind every:</source>
         <translation>Subir a aposta obrigatoria pequena cada:</translation>
     </message>
     <message>
         <location line="-25"/>
-        <source>Hände</source>
+        <source>Hands</source>
         <translation>mans</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Minuten</source>
+        <source>Minutes</source>
         <translation>minutos</translation>
     </message>
     <message>
         <location line="+61"/>
-        <source>Zeiteinstellungen</source>
+        <source>Time Settings</source>
         <translation>Configuración do tempo</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Verzögerung zwischen Händen
-(Sekunden):</source>
+        <source>Delay Between Hands
+(Seconds):</source>
         <translation>Pausa entre mans
 (segundos):</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Timeout für Spieleraktion
-(Sekunden):</source>
+        <source>Player Action Timeout
+(Seconds):</source>
         <translation>Tempo límite para a acción do xogador
 (segundos):</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Server-Einstellungen</source>
+        <source>Server Settings</source>
         <translation>Configuración do servidor</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Server-Port:</source>
+        <source>Server Port:</source>
         <translation>Porto do servidor:</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>SCTP verwenden</source>
+        <source>Use SCTP</source>
         <translation>Empregar SCTP</translation>
     </message>
     <message>
         <location line="-7"/>
-        <source>IPv6 verwenden</source>
+        <source>Use IPv6</source>
         <translation>Empregar IPv6</translation>
     </message>
 </context>
@@ -3689,46 +3684,46 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
     <name>NicknameAvatarSettings</name>
     <message>
         <location filename="../components/NicknameAvatarSettings.qml" line="+19"/>
-        <source>Nicknamen/Avatare</source>
+        <source>Nicknames/Avatars</source>
         <translation>Alcumes/imaxes de usuario</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Mein Spieler</source>
+        <source>My Player</source>
         <translation>O meu xogador</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Mein Nickname:</source>
+        <source>My Nickname:</source>
         <translation>O meu alcume:</translation>
     </message>
     <message>
         <location line="+45"/>
-        <source>Mein Avatar:</source>
+        <source>My Avatar:</source>
         <translation>A miña imaxe de usuario:</translation>
     </message>
     <message>
         <location line="+26"/>
         <location line="+113"/>
-        <source>Auswählen...</source>
+        <source>Select...</source>
         <translation>Escoller...</translation>
     </message>
     <message>
         <location line="-110"/>
         <location line="+113"/>
-        <source>Avatar auswählen</source>
+        <source>Select avatar</source>
         <translation>Escoller unha imaxe de usuario</translation>
     </message>
     <message>
         <location line="-134"/>
         <location line="+113"/>
-        <source>Kein Avatar gewählt</source>
+        <source>No Avatar Selected</source>
         <translation>Non se escolleu ningunha imaxe de usuario</translation>
     </message>
     <message>
         <location line="-82"/>
         <location line="+113"/>
-        <source>Beispiele...</source>
+        <source>Examples...</source>
         <translation>Exemplos...</translation>
     </message>
     <message>
@@ -3738,7 +3733,7 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
     </message>
     <message>
         <location line="-55"/>
-        <source>Gegner %1</source>
+        <source>Opponent %1</source>
         <translation>Rival %1</translation>
     </message>
     <message>
@@ -4075,79 +4070,79 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
     <name>QObject</name>
     <message>
         <location filename="../cpp/ziputils.cpp" line="+54"/>
-        <source>Das Archiv konnte nicht gelesen werden.</source>
+        <source>The archive could not be read.</source>
         <translation>Non foi posíbel ler o arquivo.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
+        <source>The archive is empty or contains too many files.</source>
         <translation>O arquivo está baleiro ou contén ficheiros de máis.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
+        <source>The target directory could not be created.</source>
         <translation>Non foi posíbel crear o cartafol de destino.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
+        <source>An archive entry could not be read.</source>
         <translation>Non foi posíbel ler unha entrada do arquivo.</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+8"/>
-        <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
+        <source>The archive contains an invalid path: %1</source>
         <translation>O arquivo contén unha ruta incorrecta: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+14"/>
-        <source>Verzeichnis konnte nicht angelegt werden: %1</source>
+        <source>Directory could not be created: %1</source>
         <translation>Non foi posíbel crear o cartafol: %1</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Das Archiv ist ungewöhnlich groß.</source>
+        <source>The archive is unusually large.</source>
         <translation>O arquivo é inusualmente grande.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
+        <source>An archive entry could not be extracted: %1</source>
         <translation>Non foi posíbel extraer unha entrada do arquivo: %1</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Datei konnte nicht geschrieben werden: %1</source>
+        <source>File could not be written: %1</source>
         <translation>Non foi posíbel escribir o ficheiro: %1</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Der Stil-Ordner wurde nicht gefunden.</source>
+        <source>The style folder was not found.</source>
         <translation>Non se atopou o cartafol do estilo.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <source>The archive could not be created.</source>
         <translation>Non foi posíbel crear o arquivo.</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Datei konnte nicht gelesen werden: %1</source>
+        <source>File could not be read: %1</source>
         <translation>Non foi posíbel ler o ficheiro: %1</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
+        <source>File could not be written to the archive: %1</source>
         <translation>Non foi posíbel escribir o ficheiro no arquivo: %1</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Der Stil-Ordner enthält keine Dateien.</source>
+        <source>The style folder does not contain any files.</source>
         <translation>O cartafol do estilo non contén ningún ficheiro.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Das Archiv konnte nicht abgeschlossen werden.</source>
+        <source>The archive could not be finalized.</source>
         <translation>Non foi posíbel completar o arquivo.</translation>
     </message>
 </context>
@@ -4253,22 +4248,22 @@ Reinicie PokerTH para que os ficheiros de historial se garden alí.</translation
     <name>ResetSettings</name>
     <message>
         <location filename="../components/ResetSettings.qml" line="+20"/>
-        <source>Standardeinstellung</source>
+        <source>Default Settings</source>
         <translation>Configuración predeterminada</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Alle Einstellungen werden auf die Standardwerte zurückgesetzt. Diese Aktion kann nicht rückgängig gemacht werden.</source>
+        <source>All settings will be reset to their default values. This action cannot be undone.</source>
         <translation>Toda a configuración volverá aos valores predeterminados. Esta acción non se pode desfacer.</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Auf Werkeinstellungen zurücksetzen</source>
+        <source>Reset to Factory Defaults</source>
         <translation>Restaurar a configuración de fábrica</translation>
     </message>
     <message>
         <location line="+32"/>
-        <source>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</source>
+        <source>Settings have been reset. Please restart PokerTH for all changes to take effect.</source>
         <translation>Restaurouse a configuración. Reinicie PokerTH para que todos os cambios teñan efecto.</translation>
     </message>
 </context>
@@ -4747,152 +4742,152 @@ Comprobe o seu nome de usuario e o contrasinal.</translation>
     </message>
     <message>
         <location line="+189"/>
-        <source>Spieltisch-Stil auswählen</source>
+        <source>Select game table style</source>
         <translation>Escoller un estilo de taboleiro</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Die ausgewählte Datei ist kein Spieltisch-Stil.</source>
+        <source>The selected file is not a game table style.</source>
         <translation>O ficheiro escollido non é un estilo de taboleiro.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Kartenstapel-Stil auswählen</source>
+        <source>Select card deck style</source>
         <translation>Escoller un estilo de baralla</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Die ausgewählte Datei ist kein Kartenstapel-Stil.</source>
+        <source>The selected file is not a card deck style.</source>
         <translation>O ficheiro escollido non é un estilo de baralla.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Kartenrückseiten-Stil auswählen</source>
+        <source>Select card back style</source>
         <translation>Escoller un estilo de reverso das cartas</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Die ausgewählte Datei ist kein Kartenrückseiten-Stil.</source>
+        <source>The selected file is not a card back style.</source>
         <translation>O ficheiro escollido non é un estilo de reverso das cartas.</translation>
     </message>
     <message>
         <location line="+86"/>
-        <source>Die Stil-Datei kann nicht gelesen werden.</source>
+        <source>The style file cannot be read.</source>
         <translation>Non é posíbel ler o ficheiro do estilo.</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Die ausgewählte Datei ist kein PokerTH-Stil.</source>
+        <source>The selected file is not a PokerTH style.</source>
         <translation>O ficheiro escollido non é un estilo de PokerTH.</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Die Stil-Datei enthält kein gültiges XML (%1).</source>
+        <source>The style file does not contain valid XML (%1).</source>
         <translation>O ficheiro do estilo non contén XML correcto (%1).</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Der Dateiname der Stil-Datei muss auf &quot;%1&quot; enden.</source>
+        <source>The style file&apos;s name must end with &quot;%1&quot;.</source>
         <translation>O nome do ficheiro do estilo debe rematar en «%1».</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Die Stil-Datei muss in einem eigenen Ordner liegen.</source>
+        <source>The style file must be located in its own folder.</source>
         <translation>O ficheiro do estilo debe estar nun cartafol propio.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Ein Stil mit dem Namen &quot;%1&quot; ist bereits vorhanden.</source>
+        <source>A style named &quot;%1&quot; already exists.</source>
         <translation>Xa existe un estilo co nome «%1».</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
+        <source>The card deck is incomplete, missing: %1</source>
         <translation>A baralla está incompleta, faltan: %1</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Die Kartenrückseiten-Grafik (Backside) fehlt.</source>
+        <source>The card back image (Backside) is missing.</source>
         <translation>Falta a imaxe do reverso das cartas (Backside).</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Der Ordner der Stil-Datei enthält ungewöhnlich viele Dateien. Bitte den Stil in einen eigenen Ordner legen.</source>
+        <source>The folder of the style file contains an unusually large number of files. Please put the style into its own folder.</source>
         <translation>O cartafol do ficheiro do estilo contén unha cantidade inusual de ficheiros. Poña o estilo nun cartafol propio.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Der Stil konnte nicht nach &quot;%1&quot; kopiert werden.</source>
+        <source>The style could not be copied to &quot;%1&quot;.</source>
         <translation>Non foi posíbel copiar o estilo a «%1».</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Der Stil hat Format-Version %1, aktuell ist Version %2.</source>
+        <source>The style has format version %1, the current version is %2.</source>
         <translation>O estilo ten a versión de formato %1, a versión actual é a %2.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Fehlende Angaben: %1.</source>
+        <source>Missing fields: %1.</source>
         <translation>Datos que faltan: %1.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Nicht gefundene Grafiken: %1.</source>
+        <source>Graphics not found: %1.</source>
         <translation>Imaxes non atopadas: %1.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Der Stil &quot;%1&quot; wurde übernommen, ist aber unvollständig:</source>
+        <source>The style &quot;%1&quot; was added, but it is incomplete:</source>
         <translation>Aceptouse o estilo «%1», pero está incompleto:</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
+        <source>Missing content is replaced by the client&apos;s default graphics.</source>
         <translation>O cliente substitúe o contido que falta por imaxes predeterminadas.</translation>
     </message>
     <message>
         <location line="-183"/>
-        <source>PokerTH-Stile (*.zip *.xml)</source>
+        <source>PokerTH styles (*.zip *.xml)</source>
         <translation>Estilos de PokerTH (*.zip *.xml)</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Die ausgewählte Datei kann nicht gelesen werden.</source>
+        <source>The selected file cannot be read.</source>
         <translation>Non é posíbel ler o ficheiro escollido.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Es konnte kein temporäres Verzeichnis angelegt werden.</source>
+        <source>A temporary directory could not be created.</source>
         <translation>Non foi posíbel crear un cartafol temporal.</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Das Archiv enthält keine Datei &quot;%1&quot;.</source>
+        <source>The archive does not contain a file &quot;%1&quot;.</source>
         <translation>O arquivo non contén ningún ficheiro «%1».</translation>
     </message>
     <message>
         <location line="+199"/>
-        <source>Stil exportieren</source>
+        <source>Export style</source>
         <translation>Exportar o estilo</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>ZIP-Archive (*.zip)</source>
+        <source>ZIP archives (*.zip)</source>
         <translation>Arquivos ZIP (*.zip)</translation>
     </message>
     <message>
         <location line="-9"/>
-        <source>Der Stil &quot;%1&quot; wurde nicht gefunden.</source>
+        <source>The style &quot;%1&quot; was not found.</source>
         <translation>Non se atopou o estilo «%1».</translation>
     </message>
     <message>
         <location line="+22"/>
-        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <source>The archive could not be created.</source>
         <translation>Non foi posíbel crear o arquivo.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</source>
+        <source>The archive could not be written to &quot;%1&quot;.</source>
         <translation>Non foi posíbel escribir o arquivo en «%1».</translation>
     </message>
 </context>
@@ -4900,12 +4895,12 @@ Comprobe o seu nome de usuario e o contrasinal.</translation>
     <name>SettingsPage</name>
     <message>
         <location filename="../pages/SettingsPage.qml" line="+264"/>
-        <source>Benutzeroberfläche</source>
+        <source>User Interface</source>
         <translation>Interface de usuario</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Stil</source>
+        <source>Style</source>
         <translation>Estilo</translation>
     </message>
     <message>
@@ -4915,32 +4910,32 @@ Comprobe o seu nome de usuario e o contrasinal.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Lokales Spiel</source>
+        <source>Local Game</source>
         <translation>Partida local</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Netzwerkspiel</source>
+        <source>Network Game</source>
         <translation>Partida en rede</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Internetspiel</source>
+        <source>Internet Game</source>
         <translation>Partida en internet</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Nicknamen/Avatare</source>
+        <source>Nicknames/Avatars</source>
         <translation>Alcumes/imaxes de usuario</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Log-Nachrichten</source>
+        <source>Log Messages</source>
         <translation>Mensaxes do historial</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Standardeinstellung</source>
+        <source>Default Settings</source>
         <translation>Configuración predeterminada</translation>
     </message>
 </context>
@@ -4958,12 +4953,12 @@ Comprobe o seu nome de usuario e o contrasinal.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Über PokerTH</source>
+        <source>About PokerTH</source>
         <translation>Sobre PokerTH</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Schließen</source>
+        <source>Close</source>
         <translation>Pechar</translation>
     </message>
 </context>
@@ -4976,42 +4971,42 @@ Comprobe o seu nome de usuario e o contrasinal.</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Klangeffekte</source>
+        <source>Sound Effects</source>
         <translation>Efectos de son</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Klangeffekte aktivieren</source>
+        <source>Enable Sound Effects</source>
         <translation>Activar os efectos de son</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Lautstärke:</source>
+        <source>Volume:</source>
         <translation>Volume:</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Klang-Kategorien</source>
+        <source>Sound Categories</source>
         <translation>Categorías de son</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Spielaktionen (Check, Call, Raise ...)</source>
+        <source>Game Actions (Check, Call, Raise...)</source>
         <translation>Accións da partida (Check, Call, Raise ...)</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Blind-Erhöhungs-Benachrichtigung</source>
+        <source>Blind Raise Notification</source>
         <translation>Aviso de subida das apostas obrigatorias</translation>
     </message>
     <message>
         <location line="-5"/>
-        <source>Netzwerkspiel-Benachrichtigungen</source>
+        <source>Network Game Notifications</source>
         <translation>Avisos das partidas en rede</translation>
     </message>
     <message>
         <location line="-5"/>
-        <source>Lobby-Chat-Benachrichtigungen</source>
+        <source>Lobby Chat Notifications</source>
         <translation>Avisos da conversa da sala de espera</translation>
     </message>
 </context>
@@ -5032,22 +5027,22 @@ Comprobe o seu nome de usuario e o contrasinal.</translation>
     <name>StartPage</name>
     <message>
         <location filename="../pages/StartPage.qml" line="+167"/>
-        <source>Internetspiel</source>
+        <source>Internet Game</source>
         <translation>Partida en internet</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Lokales Spiel starten</source>
+        <source>Start Local Game</source>
         <translation>Comezar unha partida local</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Netzwerkspiel erstellen</source>
+        <source>Create Network Game</source>
         <translation>Crear unha partida en rede</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Netzwerkspiel beitreten</source>
+        <source>Join Network Game</source>
         <translation>Unirse a unha partida en rede</translation>
     </message>
     <message>
@@ -5098,29 +5093,29 @@ Comprobe o seu nome de usuario e o contrasinal.</translation>
     <name>StyleCard</name>
     <message>
         <location filename="../components/StyleCard.qml" line="+69"/>
-        <source>Keine
-Vorschau</source>
+        <source>No
+Preview</source>
         <translation>Sen
 vista previa</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>von %1</source>
+        <source>of %1</source>
         <translation>de %1</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>✓ Ausgewählt</source>
+        <source>✓ Selected</source>
         <translation>✓ Escollido</translation>
     </message>
     <message>
         <location line="+43"/>
-        <source>Stil entfernen</source>
+        <source>Remove style</source>
         <translation>Retirar o estilo</translation>
     </message>
     <message>
         <location line="+32"/>
-        <source>Stil als ZIP exportieren</source>
+        <source>Export style as ZIP</source>
         <translation>Exportar o estilo como ZIP</translation>
     </message>
 </context>
@@ -5128,7 +5123,7 @@ vista previa</translation>
     <name>StyleSettings</name>
     <message>
         <location filename="../components/StyleSettings.qml" line="+49"/>
-        <source>Stil hinzufügen</source>
+        <source>Add style</source>
         <translation>Engadir un estilo</translation>
     </message>
     <message>
@@ -5139,94 +5134,94 @@ vista previa</translation>
     </message>
     <message>
         <location line="+49"/>
-        <source>Stil entfernen</source>
+        <source>Remove style</source>
         <translation>Retirar o estilo</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Den Stil &quot;%1&quot; wirklich entfernen?</source>
+        <source>Really remove the style &quot;%1&quot;?</source>
         <translation>Está seguro de que quere retirar o estilo «%1»?</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Entfernen</source>
+        <source>Remove</source>
         <translation>Retirar</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Stil</source>
+        <source>Style</source>
         <translation>Estilo</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Spieltisch</source>
+        <source>Game Table</source>
         <translation>Taboleiro</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Kartenstapel</source>
+        <source>Card Deck</source>
         <translation>Baralla</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Kartenrückseite</source>
+        <source>Card Back</source>
         <translation>Reverso das cartas</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Einsatzanzeige:</source>
+        <source>Bet display:</source>
         <translation>Amosar a aposta:</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Einsatz in der Spielerbox</source>
+        <source>Bet inside the player box</source>
         <translation>Aposta dentro da caixa do xogador</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Einsatz neben der Spielerbox</source>
+        <source>Bet next to the player box</source>
         <translation>Aposta ao lado da caixa do xogador</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Verfügbare Spieltisch-Stile:</source>
+        <source>Available Table Styles:</source>
         <translation>Estilos de taboleiro dispoñíbeis:</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Keine Spieltisch-Stile gefunden.</source>
+        <source>No table styles found.</source>
         <translation>Non se atopou ningún estilo de taboleiro.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Verfügbare Kartenstapel-Stile:</source>
+        <source>Available Card Deck Styles:</source>
         <translation>Estilos de baralla dispoñíbeis:</translation>
     </message>
     <message>
         <location line="+27"/>
-        <source>Keine Kartenstapel-Stile gefunden.</source>
+        <source>No card deck styles found.</source>
         <translation>Non se atopou ningún estilo de baralla.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Verfügbare Kartenrückseiten:</source>
+        <source>Available card backs:</source>
         <translation>Reversos de cartas dispoñíbeis:</translation>
     </message>
     <message>
         <location line="+27"/>
-        <source>Keine Kartenrückseiten gefunden.</source>
+        <source>No card backs found.</source>
         <translation>Non se atopou ningún reverso de cartas.</translation>
     </message>
     <message>
         <location line="-104"/>
         <location line="+56"/>
         <location line="+56"/>
-        <source>Stil hinzufügen...</source>
+        <source>Add Style...</source>
         <translation>Engadir un estilo...</translation>
     </message>
     <message>
         <location line="-266"/>
-        <source>Stil exportieren</source>
+        <source>Export style</source>
         <translation>Exportar o estilo</translation>
     </message>
 </context>

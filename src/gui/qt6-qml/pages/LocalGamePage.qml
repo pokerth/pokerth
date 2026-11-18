@@ -48,13 +48,13 @@ Rectangle {
         var raise = ""
         if (atHands) {
             var h = SettingsManager.readConfigInt("RaiseSmallBlindEveryHands")
-            raise = qsTr("alle %1 Hände").arg(h)
+            raise = qsTr("every %1 hands").arg(h)
         } else if (atMins) {
             var m = SettingsManager.readConfigInt("RaiseSmallBlindEveryMinutes")
-            raise = qsTr("alle %1 Minuten").arg(m)
+            raise = qsTr("every %1 minutes").arg(m)
         }
-        var mode = alwaysDouble ? qsTr("verdoppeln") : (manual ? qsTr("manuell") : "")
-        return qsTr("Small Blind: $%1  •  Erhöhen %2  •  %3").arg(fsb).arg(raise).arg(mode)
+        var mode = alwaysDouble ? qsTr("double") : (manual ? qsTr("manual") : "")
+        return qsTr("Small blind: $%1  •  Raise %2  •  %3").arg(fsb).arg(raise).arg(mode)
     }
 
     Flickable {
@@ -90,7 +90,7 @@ Rectangle {
         spacing: Config.Theme.spacing
 
         AppLabel {
-            text: qsTr("Lokales Spiel")
+            text: qsTr("Local Game")
             font.bold: true
             font.pixelSize: 16
             color: Config.StaticData.palette.secondary.col200
@@ -107,7 +107,7 @@ Rectangle {
         // Settings card (corresponds to the Qt widgets newGameDialog)
         GroupBox {
             Layout.fillWidth: true
-            title: qsTr("Lokale Spiel-Einstellungen")
+            title: qsTr("Local game settings")
 
             GridLayout {
                 anchors.left: parent.left
@@ -119,7 +119,7 @@ Rectangle {
                 // --- Number of players ---
                 Label {
                     id: numPlayersLabel
-                    text: qsTr("Anzahl der Spieler:")
+                    text: qsTr("Number of players:")
                     color: Config.StaticData.palette.secondary.col200
                     Layout.fillWidth: true
                 }
@@ -136,7 +136,7 @@ Rectangle {
                 // --- Startkapital ---
                 Label {
                     id: startCashLabel
-                    text: qsTr("Startkapital:")
+                    text: qsTr("Start cash:")
                     color: Config.StaticData.palette.secondary.col200
                     Layout.fillWidth: true
                 }
@@ -166,7 +166,7 @@ Rectangle {
 
                         RadioButton {
                             id: useSavedBlinds
-                            text: qsTr("Gespeicherte Blinds-Einstellungen verwenden")
+                            text: qsTr("Use saved blinds settings")
                             ButtonGroup.group: blindsChoiceGroup
                             checked: true
                         }
@@ -184,7 +184,7 @@ Rectangle {
 
                         RadioButton {
                             id: changeBlinds
-                            text: qsTr("Blinds-Einstellungen ändern …")
+                            text: qsTr("Change blinds settings …")
                             ButtonGroup.group: blindsChoiceGroup
                         }
 
@@ -198,7 +198,7 @@ Rectangle {
                             rowSpacing: 8
 
                             Label {
-                                text: qsTr("Erster Small Blind:")
+                                text: qsTr("First small blind:")
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
                             }
@@ -214,7 +214,7 @@ Rectangle {
                             }
 
                             Label {
-                                text: qsTr("Small Blind erhöhen:")
+                                text: qsTr("Raise small blind:")
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
                             }
@@ -227,7 +227,7 @@ Rectangle {
                                 RowLayout {
                                     RadioButton {
                                         id: raiseAtHands
-                                        text: qsTr("alle")
+                                        text: qsTr("every")
                                         ButtonGroup.group: raiseAtGroup
                                         checked: SettingsManager ? SettingsManager.readConfigInt("RaiseBlindsAtHands") !== 0 : true
                                         onCheckedChanged: {
@@ -245,13 +245,13 @@ Rectangle {
                                             if (SettingsManager) SettingsManager.writeConfigInt("RaiseSmallBlindEveryHands", value)
                                         }
                                     }
-                                    Label { text: qsTr("Hände"); color: Config.StaticData.palette.secondary.col200; enabled: raiseAtHands.checked }
+                                    Label { text: qsTr("hands"); color: Config.StaticData.palette.secondary.col200; enabled: raiseAtHands.checked }
                                 }
 
                                 RowLayout {
                                     RadioButton {
                                         id: raiseAtMinutes
-                                        text: qsTr("alle")
+                                        text: qsTr("every")
                                         ButtonGroup.group: raiseAtGroup
                                         checked: SettingsManager ? SettingsManager.readConfigInt("RaiseBlindsAtMinutes") !== 0 : false
                                         onCheckedChanged: {
@@ -269,12 +269,12 @@ Rectangle {
                                             if (SettingsManager) SettingsManager.writeConfigInt("RaiseSmallBlindEveryMinutes", value)
                                         }
                                     }
-                                    Label { text: qsTr("Minuten"); color: Config.StaticData.palette.secondary.col200; enabled: raiseAtMinutes.checked }
+                                    Label { text: qsTr("minutes"); color: Config.StaticData.palette.secondary.col200; enabled: raiseAtMinutes.checked }
                                 }
                             }
 
                             Label {
-                                text: qsTr("Erhöhungsmodus:")
+                                text: qsTr("Raise mode:")
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
                             }
@@ -284,7 +284,7 @@ Rectangle {
                                 ButtonGroup { id: raiseModeGroup }
 
                                 RadioButton {
-                                    text: qsTr("Blinds immer verdoppeln")
+                                    text: qsTr("Always double blinds")
                                     ButtonGroup.group: raiseModeGroup
                                     checked: SettingsManager ? SettingsManager.readConfigInt("AlwaysDoubleBlinds") !== 0 : true
                                     onCheckedChanged: {
@@ -295,7 +295,7 @@ Rectangle {
                                     }
                                 }
                                 RadioButton {
-                                    text: qsTr("Manuelle Blind-Reihenfolge")
+                                    text: qsTr("Manual blinds order")
                                     ButtonGroup.group: raiseModeGroup
                                     checked: SettingsManager ? SettingsManager.readConfigInt("ManualBlindsOrder") !== 0 : false
                                     onCheckedChanged: {
@@ -313,7 +313,7 @@ Rectangle {
                 // --- Spielgeschwindigkeit ---
                 Label {
                     id: gameSpeedLabel
-                    text: qsTr("Spielgeschwindigkeit\n(1=langsam, 11=schnell):")
+                    text: qsTr("Game speed\n(1=slow, 11=fast):")
                     color: Config.StaticData.palette.secondary.col200
                     Layout.fillWidth: true
                 }
@@ -336,14 +336,14 @@ Rectangle {
             spacing: Config.Theme.spacing
 
             CustomButton {
-                text: qsTr("Abbrechen")
+                text: qsTr("Cancel")
                 Layout.fillWidth: true
                 onClicked: mainStackView.pop()
             }
 
             CustomButton {
                 id: startGameButton
-                text: qsTr("Spiel starten")
+                text: qsTr("Start game")
                 Layout.fillWidth: true
                 onClicked: {
                     // Double click protection: otherwise two GamePages end up in the stack.

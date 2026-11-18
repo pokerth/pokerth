@@ -22,7 +22,7 @@ Rectangle {
         id: logsettingsContent
         anchors.fill: parent
 
-        SettingsHeader { title: qsTr("Log-Nachrichten"); topGap: 4 }
+        SettingsHeader { title: qsTr("Log Messages"); topGap: 4 }
 
         ScrollView {
             id: logsScrollView
@@ -39,7 +39,7 @@ Rectangle {
                 width: parent.width - 12
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Log-Einstellungen")
+                    title: qsTr("Log Settings")
 
                     ColumnLayout {
                         anchors.fill: parent
@@ -47,7 +47,7 @@ Rectangle {
 
                         ConfigCheckBox {
                             id: logOnOff
-                            text: qsTr("Logging aktivieren")
+                            text: qsTr("Enable Logging")
                             configKey: "LogOnOff"
                         }
 
@@ -55,7 +55,7 @@ Rectangle {
                             Layout.fillWidth: true
 
                             Label {
-                                text: qsTr("Log-Verzeichnis:")
+                                text: qsTr("Log Directory:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: logOnOff.checked
                             }
@@ -69,7 +69,7 @@ Rectangle {
                             }
 
                             Button {
-                                text: qsTr("Durchsuchen...")
+                                text: qsTr("Browse...")
                                 enabled: logOnOff.checked
                                 // On mobile devices the log directory lives in
                                 // the app storage and cannot be chosen freely (the
@@ -80,7 +80,7 @@ Rectangle {
                                     if (!SettingsManager)
                                         return
                                     var dir = SettingsManager.pickDirectory(
-                                        qsTr("Log-Verzeichnis auswählen"),
+                                        qsTr("Select Log Directory"),
                                         logDirectory.text)
                                     if (!dir || dir === logDirectory.text)
                                         return
@@ -90,8 +90,8 @@ Rectangle {
                                     // (Log::init()), so the new directory only takes
                                     // effect after a restart.
                                     logDirRestartHint.openWith(
-                                        qsTr("Log-Verzeichnis"),
-                                        qsTr("Das Log-Verzeichnis wurde geändert.\nBitte PokerTH neu starten, damit die Logdateien dort abgelegt werden."),
+                                        qsTr("Log Directory"),
+                                        qsTr("The log directory has been changed.\nPlease restart PokerTH so that the log files are stored there."),
                                         qsTr("OK"))
                                 }
                             }
@@ -104,7 +104,7 @@ Rectangle {
                             rowSpacing: 8
 
                             Label {
-                                text: qsTr("Log-Speicherdauer (Tage):")
+                                text: qsTr("Log Retention (Days):")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: logOnOff.checked
                             }
@@ -121,7 +121,7 @@ Rectangle {
                             }
 
                             Label {
-                                text: qsTr("Log-Intervall:")
+                                text: qsTr("Log Interval:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: logOnOff.checked
                             }
@@ -133,9 +133,9 @@ Rectangle {
                                 // 0 = flush after every action, 1 = after every hand,
                                 // 2 = after every game (see src/engine/log.cpp).
                                 model: [
-                                    qsTr("Jede Aktion"),
-                                    qsTr("Jede Hand"),
-                                    qsTr("Jedes Spiel")
+                                    qsTr("Every Action"),
+                                    qsTr("Every Hand"),
+                                    qsTr("Every Game")
                                 ]
                                 currentIndex: SettingsManager ? SettingsManager.readConfigInt("LogInterval") : 1
                                 enabled: logOnOff.checked

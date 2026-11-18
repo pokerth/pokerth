@@ -284,39 +284,39 @@
     <name>ChatBox</name>
     <message>
         <location filename="../components/ChatBox.qml" line="+31"/>
-        <source>Nachricht …</source>
+        <source>Message …</source>
         <translation>消息 …</translation>
     </message>
     <message>
         <location line="+807"/>
-        <source>Link öffnen</source>
+        <source>Open link</source>
         <translation>打开链接</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Link kopieren</source>
+        <source>Copy link</source>
         <translation>复制链接</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+38"/>
-        <source>Kopieren</source>
+        <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
         <location line="-33"/>
         <location line="+43"/>
-        <source>Alles auswählen</source>
+        <source>Select all</source>
         <translation>全选</translation>
     </message>
     <message>
         <location line="-15"/>
-        <source>Ausschneiden</source>
+        <source>Cut</source>
         <translation>剪切</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Einfügen</source>
+        <source>Paste</source>
         <translation>粘贴</translation>
     </message>
 </context>
@@ -545,22 +545,22 @@
     <name>ExampleAvatarPicker</name>
     <message>
         <location filename="../components/ExampleAvatarPicker.qml" line="+70"/>
-        <source>Beispiel-Avatar wählen</source>
+        <source>Choose example avatar</source>
         <translation>选择示例头像</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>Personen</source>
+        <source>People</source>
         <translation>人物</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Verschiedenes</source>
+        <source>Miscellaneous</source>
         <translation>其它</translation>
     </message>
     <message>
         <location line="+83"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>取消</translation>
     </message>
 </context>
@@ -569,7 +569,7 @@
     <message>
         <location filename="../config/ForumNews.qml" line="+175"/>
         <location line="+11"/>
-        <source>The forum feed could not be loaded.</source>
+        <source>Could not load the forum feed.</source>
         <translation>无法加载论坛动态。</translation>
     </message>
 </context>
@@ -664,7 +664,7 @@
     </message>
     <message>
         <location line="+36"/>
-        <source>Manuell</source>
+        <source>Manual</source>
         <translation>手动</translation>
     </message>
     <message>
@@ -700,27 +700,27 @@
     <name>GameInfoPanel</name>
     <message>
         <location filename="../components/GameInfoPanel.qml" line="+68"/>
-        <source>Höchste Karte</source>
+        <source>High Card</source>
         <translation>高牌</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Paar</source>
+        <source>Pair</source>
         <translation>一对</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Zwei Paare</source>
+        <source>Two Pair</source>
         <translation>两对</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Drilling</source>
+        <source>Three of a Kind</source>
         <translation>三条</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Straße</source>
+        <source>Straight</source>
         <translation>顺子</translation>
     </message>
     <message>
@@ -735,7 +735,7 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>Vierling</source>
+        <source>Four of a Kind</source>
         <translation>四条</translation>
     </message>
     <message>
@@ -750,22 +750,22 @@
     </message>
     <message>
         <location line="+28"/>
-        <source>Verlauf</source>
+        <source>History</source>
         <translation>历史记录</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Chancen</source>
+        <source>Odds</source>
         <translation>胜率</translation>
     </message>
     <message>
         <location line="+248"/>
-        <source>Kopieren</source>
+        <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Alles auswählen</source>
+        <source>Select all</source>
         <translation>全选</translation>
     </message>
 </context>
@@ -820,7 +820,7 @@
     <name>GamePage</name>
     <message>
         <location filename="../pages/GamePage.qml" line="+1610"/>
-        <source>Verlauf &amp; Chancen</source>
+        <source>History &amp; Odds</source>
         <translation>历史记录与胜率</translation>
     </message>
     <message>
@@ -830,7 +830,7 @@
     </message>
     <message>
         <location line="+17"/>
-        <source>Emoji-Reaktionen</source>
+        <source>Emoji reactions</source>
         <translation>表情回应</translation>
     </message>
     <message>
@@ -925,7 +925,7 @@
     <message>
         <location filename="../components/GamePlayerSelfBox.qml" line="+151"/>
         <location line="+33"/>
-        <source>Du</source>
+        <source>You</source>
         <translation>你</translation>
     </message>
 </context>
@@ -1347,17 +1347,17 @@
     <name>GuiSettings</name>
     <message>
         <location filename="../components/GuiSettings.qml" line="+20"/>
-        <source>Benutzeroberfläche</source>
+        <source>User Interface</source>
         <translation>用户界面</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Allgemein</source>
+        <source>General</source>
         <translation>常规</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Netzwerk</source>
+        <source>Network</source>
         <translation>网络</translation>
     </message>
     <message>
@@ -1367,87 +1367,87 @@
     </message>
     <message>
         <location line="+7"/>
-        <source>Automatisch</source>
+        <source>Automatic</source>
         <translation>自动</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Hell</source>
+        <source>Light</source>
         <translation>浅色</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Dunkel</source>
+        <source>Dark</source>
         <translation>深色</translation>
     </message>
     <message>
         <location line="+36"/>
-        <source>Sprache:</source>
+        <source>Language:</source>
         <translation>语言：</translation>
     </message>
     <message>
         <location line="+70"/>
-        <source>Ausblend-Animation für Verliererkarten</source>
+        <source>Fade-out animation for losing cards</source>
         <translation>输家手牌的淡出动画</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Zeitstempel im Chat anzeigen</source>
+        <source>Show timestamp in chat</source>
         <translation>在聊天中显示时间戳</translation>
     </message>
     <message>
         <location line="-30"/>
-        <source>Übersetzung anbieten (Globus-Symbol im Chat und bei Forum-Beiträgen)</source>
+        <source>Offer translation (globe symbol in chat and on forum posts)</source>
         <translation>提供翻译（聊天和论坛帖子中的地球图标）</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht oder eines Forum-Beitrags antippst; Zielsprache ist die oben gewählte Sprache.</source>
+        <source>Translation uses an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap the symbol of a message or a forum post; the target language is the one selected above.</source>
         <translation>翻译使用外部服务（Google 翻译，备用 MyMemory）。只有当你点击某条消息或某个论坛帖子的图标时才会发送内容；目标语言为上方所选的语言。</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Animierte Karten (Aufdeck-Animation)</source>
+        <source>Animated Cards (Flip Animation)</source>
         <translation>卡牌动画（翻牌动画）</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Grafikeffekte reduzieren (Schatten/Glow) – für schwache Systeme</source>
+        <source>Reduce graphics effects (shadows/glow) – for low-end systems</source>
         <translation>减少图形效果（阴影/光晕）– 适用于低配置系统</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Alternative F-Tasten-Belegung (F1-F4)</source>
+        <source>Alternative F-Key Assignment (F1-F4)</source>
         <translation>备用 F 键布局（F1-F4）</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Symbole für Small Blind und Big Blind anzeigen</source>
+        <source>Show Small Blind and Big Blind symbols</source>
         <translation>显示小盲注和大盲注标记</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Pot-Prozent-Schaltflächen anzeigen</source>
+        <source>Show pot percent buttons</source>
         <translation>显示底池百分比按钮</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Anti-Peek: Eigene Karten erst bei Klick anzeigen</source>
+        <source>Anti-Peek: Show own cards only on click</source>
         <translation>防偷看：点击后才显示自己的手牌</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Startbildschirm beim Startvorgang deaktivieren</source>
+        <source>Disable splash screen on startup</source>
         <translation>启动时不显示启动画面</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Internationale Pokerausdrücke (Check, Call, Raise) nicht übersetzen</source>
+        <source>Do not translate international poker terms (Check, Call, Raise)</source>
         <translation>不翻译国际通用扑克术语（Check、Call、Raise）</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Tooltips anzeigen</source>
+        <source>Show tooltips</source>
         <translation>显示工具提示</translation>
     </message>
     <message>
@@ -1457,52 +1457,52 @@
     </message>
     <message>
         <location line="+16"/>
-        <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
+        <source>Enable table zoom (swipe &amp; zoom, mobile mode only)</source>
         <translation>启用牌桌缩放（滑动与缩放，仅移动模式）</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)</source>
+        <source>Keep seats of players who left the table (remaining player boxes stay in place)</source>
         <translation>保留已离开玩家的座位（其余玩家框保持原位）</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Forum-Neuigkeiten anzeigen</source>
+        <source>Show forum news</source>
         <translation>显示论坛动态</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Community-Inhalte anzeigen</source>
+        <source>Show community content</source>
         <translation>显示社区内容</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Standard-Community:</source>
+        <source>Default community:</source>
         <translation>默认社区：</translation>
     </message>
     <message>
         <location line="+56"/>
-        <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
+        <source>Set focus to bet input when it&apos;s your turn</source>
         <translation>轮到你行动时，将焦点移入下注输入框</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen</source>
+        <source>Show network status color in avatar corner</source>
         <translation>在头像角上显示网络状态颜色</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Emoji-Reaktionen deaktivieren</source>
+        <source>Disable emoji reactions</source>
         <translation>禁用表情回应</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Versehentliches Call nach einem großen Raise verhindern</source>
+        <source>Prevent accidental call after a big raise</source>
         <translation>防止在大额加注后误跟注</translation>
     </message>
     <message>
         <location line="-31"/>
-        <source>Spieler in eigenen Community-Spielen vorschlagen</source>
+        <source>Suggest players in your own community games</source>
         <translation>在自己的社区游戏中推荐玩家</translation>
     </message>
 </context>
@@ -1848,107 +1848,107 @@
     <name>InternetGameSettings</name>
     <message>
         <location filename="../components/InternetGameSettings.qml" line="+19"/>
-        <source>Internetspiel</source>
+        <source>Internet Game</source>
         <translation>互联网游戏</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Server-Konfiguration</source>
+        <source>Server Configuration</source>
         <translation>服务器配置</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Automatische Server-Konfiguration</source>
+        <source>Automatic Server Configuration</source>
         <translation>自动服务器配置</translation>
     </message>
     <message>
         <location line="+33"/>
-        <source>Manuelle Server-Konfiguration</source>
+        <source>Manual Server Configuration</source>
         <translation>手动服务器配置</translation>
     </message>
     <message>
         <location line="-18"/>
-        <source>Server-Liste:</source>
+        <source>Server List:</source>
         <translation>服务器列表：</translation>
     </message>
     <message>
         <location line="+36"/>
-        <source>Server-Adresse:</source>
+        <source>Server Address:</source>
         <translation>服务器地址：</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Server-Port:</source>
+        <source>Server Port:</source>
         <translation>服务器端口：</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Server-Passwort:</source>
+        <source>Server Password:</source>
         <translation>服务器密码：</translation>
     </message>
     <message>
         <location line="+55"/>
-        <source>Nur registrierte Spieler</source>
+        <source>Registered players only</source>
         <translation>仅限已注册玩家</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Nur eingeladene Spieler</source>
+        <source>Invited players only</source>
         <translation>仅限受邀玩家</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Ranglistenspiel</source>
+        <source>Ranking game</source>
         <translation>排位游戏</translation>
     </message>
     <message>
         <location line="+87"/>
-        <source>Verbindungsoptionen</source>
+        <source>Connection Options</source>
         <translation>连接选项</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>TLS/SSL verwenden (verschlüsselte Verbindung)</source>
+        <source>Use TLS/SSL (encrypted connection)</source>
         <translation>使用 TLS/SSL（加密连接）</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>SCTP verwenden (statt TCP)</source>
+        <source>Use SCTP (instead of TCP)</source>
         <translation>使用 SCTP（代替 TCP）</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>IPv6 verwenden</source>
+        <source>Use IPv6</source>
         <translation>使用 IPv6</translation>
     </message>
     <message>
         <location line="-52"/>
-        <source>Avatar-Server</source>
+        <source>Avatar Server</source>
         <translation>头像服务器</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Avatar-Server verwenden</source>
+        <source>Use Avatar Server</source>
         <translation>使用头像服务器</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Avatar-Server-Adresse:</source>
+        <source>Avatar Server Address:</source>
         <translation>头像服务器地址：</translation>
     </message>
     <message>
         <location line="-101"/>
-        <source>Spiel-Einstellungen</source>
+        <source>Game Settings</source>
         <translation>游戏设置</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Spiel-Name:</source>
+        <source>Game Name:</source>
         <translation>游戏名称：</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Spiel-Typ:</source>
+        <source>Game Type:</source>
         <translation>游戏类型：</translation>
     </message>
     <message>
@@ -1958,47 +1958,47 @@
     </message>
     <message>
         <location line="+18"/>
-        <source>Spiel-Passwort verwenden</source>
+        <source>Use Game Password</source>
         <translation>使用游戏密码</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Spiel-Passwort:</source>
+        <source>Game Password:</source>
         <translation>游戏密码：</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Zuschauer erlauben</source>
+        <source>Allow Spectators</source>
         <translation>允许观战</translation>
     </message>
     <message>
         <location line="+84"/>
-        <source>Tisch automatisch verlassen nach Spielende</source>
+        <source>Automatically leave table after game ends</source>
         <translation>游戏结束后自动离开牌桌</translation>
     </message>
     <message>
         <location line="-7"/>
-        <source>Weitere Optionen</source>
+        <source>More Options</source>
         <translation>更多选项</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Ignorierte Spieler</source>
+        <source>Ignored Players</source>
         <translation>已屏蔽的玩家</translation>
     </message>
     <message>
         <location line="+52"/>
-        <source>(keine ignorierten Spieler)</source>
+        <source>(no ignored players)</source>
         <translation>（没有已屏蔽的玩家）</translation>
     </message>
     <message>
         <location line="-45"/>
-        <source>Spieler auf der Ignore-Liste werden nicht im Chat angezeigt.</source>
+        <source>Players on the ignore list are not shown in chat.</source>
         <translation>屏蔽列表中的玩家不会在聊天中显示。</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Entfernen</source>
+        <source>Remove</source>
         <translation>移除</translation>
     </message>
 </context>
@@ -2006,18 +2006,18 @@
     <name>LobbyCreateGamePage</name>
     <message>
         <location filename="../pages/LobbyCreateGamePage.qml" line="+362"/>
-        <source>← Zurück</source>
+        <source>← Back</source>
         <translation>← 返回</translation>
     </message>
     <message>
         <location line="+8"/>
         <location line="+455"/>
-        <source>Spiel erstellen</source>
+        <source>Create Game</source>
         <translation>创建游戏</translation>
     </message>
     <message>
         <location line="-426"/>
-        <source>Spielname</source>
+        <source>Game name</source>
         <translation>游戏名称</translation>
     </message>
     <message>
@@ -2027,12 +2027,12 @@
     </message>
     <message>
         <location line="+246"/>
-        <source>Spielname eingeben …</source>
+        <source>Enter game name …</source>
         <translation>输入游戏名称 …</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Spieltyp</source>
+        <source>Game type</source>
         <translation>游戏类型</translation>
     </message>
     <message>
@@ -2042,113 +2042,113 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>Nur registrierte Spieler</source>
+        <source>Registered players only</source>
         <translation>仅限已注册玩家</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Nur eingeladene Spieler</source>
+        <source>Invited players only</source>
         <translation>仅限受邀玩家</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Ranglistenspiel</source>
+        <source>Ranking game</source>
         <translation>排位游戏</translation>
     </message>
     <message>
         <location line="+28"/>
-        <source>Community-Vorlage</source>
+        <source>Community template</source>
         <translation>社区模板</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Eigene Einstellungen</source>
+        <source>Custom settings</source>
         <translation>自定义设置</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Passwort</source>
+        <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Passwort eingeben …</source>
+        <source>Enter password …</source>
         <translation>输入密码 …</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Zuschauer erlaubt</source>
+        <source>Spectators allowed</source>
         <translation>允许观战</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Max. Spieler</source>
+        <source>Max. players</source>
         <translation>最大玩家数</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Startgeld</source>
+        <source>Start cash</source>
         <translation>起始筹码</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Blind-Einstellungen</source>
+        <source>Blind settings</source>
         <translation>盲注设置</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Erster Small Blind</source>
+        <source>First small blind</source>
         <translation>首个小盲注</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Blind-Erhöhungsintervall</source>
+        <source>Blinds raise interval</source>
         <translation>盲注提升间隔</translation>
     </message>
     <message>
         <location line="+22"/>
         <location line="+28"/>
-        <source>Alle</source>
+        <source>Every</source>
         <translation>每</translation>
     </message>
     <message>
         <location line="-17"/>
-        <source>Hände</source>
+        <source>hands</source>
         <translation>手</translation>
     </message>
     <message>
         <location line="+28"/>
-        <source>Minuten</source>
+        <source>minutes</source>
         <translation>分钟</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Blindliste: %1</source>
+        <source>Blind list: %1</source>
         <translation>盲注列表：%1</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Zeitlimits</source>
+        <source>Time limits</source>
         <translation>时间限制</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Zeitlimit Spieleraktion</source>
+        <source>Player action time limit</source>
         <translation>玩家行动时限</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Pause zwischen Händen</source>
+        <source>Delay between hands</source>
         <translation>每手之间的间隔</translation>
     </message>
     <message>
         <location line="+34"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Bitte einen Spielnamen eingeben.</source>
+        <source>Please enter a game name.</source>
         <translation>请输入游戏名称。</translation>
     </message>
 </context>
@@ -2751,28 +2751,23 @@ PokerTH 可以为你缩小该图片。新头像将在下次登录时生效。</t
     </message>
     <message>
         <location line="+37"/>
-        <source>Privates Spiel</source>
+        <source>Private game</source>
         <translation>私密游戏</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Bitte das Passwort eingeben, um beizutreten.</source>
+        <source>Please enter the password to join.</source>
         <translation>请输入密码以加入。</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Passwort …</source>
+        <source>Password …</source>
         <translation>密码 …</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>取消</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Beitreten</source>
-        <translation>加入</translation>
     </message>
     <message>
         <location line="+151"/>
@@ -2857,47 +2852,47 @@ PokerTH 可以为你缩小该图片。新头像将在下次登录时生效。</t
     <name>LocalGamePage</name>
     <message>
         <location filename="../pages/LocalGamePage.qml" line="+51"/>
-        <source>alle %1 Hände</source>
+        <source>every %1 hands</source>
         <translation>每 %1 手</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>alle %1 Minuten</source>
+        <source>every %1 minutes</source>
         <translation>每 %1 分钟</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>verdoppeln</source>
+        <source>double</source>
         <translation>翻倍</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>manuell</source>
+        <source>manual</source>
         <translation>手动</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Small Blind: $%1  •  Erhöhen %2  •  %3</source>
+        <source>Small blind: $%1  •  Raise %2  •  %3</source>
         <translation>小盲注：$%1  •  提升 %2  •  %3</translation>
     </message>
     <message>
         <location line="+36"/>
-        <source>Lokales Spiel</source>
+        <source>Local Game</source>
         <translation>本地游戏</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Lokale Spiel-Einstellungen</source>
+        <source>Local game settings</source>
         <translation>本地游戏设置</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Anzahl der Spieler:</source>
+        <source>Number of players:</source>
         <translation>玩家数量：</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Startkapital:</source>
+        <source>Start cash:</source>
         <translation>起始筹码：</translation>
     </message>
     <message>
@@ -2907,70 +2902,70 @@ PokerTH 可以为你缩小该图片。新头像将在下次登录时生效。</t
     </message>
     <message>
         <location line="+10"/>
-        <source>Gespeicherte Blinds-Einstellungen verwenden</source>
+        <source>Use saved blinds settings</source>
         <translation>使用已保存的盲注设置</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Blinds-Einstellungen ändern …</source>
+        <source>Change blinds settings …</source>
         <translation>修改盲注设置 …</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Erster Small Blind:</source>
+        <source>First small blind:</source>
         <translation>首个小盲注：</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Small Blind erhöhen:</source>
+        <source>Raise small blind:</source>
         <translation>小盲注提升：</translation>
     </message>
     <message>
         <location line="+13"/>
         <location line="+24"/>
-        <source>alle</source>
+        <source>every</source>
         <translation>每</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Hände</source>
+        <source>hands</source>
         <translation>手</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>Minuten</source>
+        <source>minutes</source>
         <translation>分钟</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Erhöhungsmodus:</source>
+        <source>Raise mode:</source>
         <translation>提升方式：</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Blinds immer verdoppeln</source>
+        <source>Always double blinds</source>
         <translation>盲注始终翻倍</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Manuelle Blind-Reihenfolge</source>
+        <source>Manual blinds order</source>
         <translation>手动盲注顺序</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Spielgeschwindigkeit
-(1=langsam, 11=schnell):</source>
+        <source>Game speed
+(1=slow, 11=fast):</source>
         <translation>游戏速度
 （1=慢，11=快）：</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Spiel starten</source>
+        <source>Start game</source>
         <translation>开始游戏</translation>
     </message>
 </context>
@@ -2978,147 +2973,147 @@ PokerTH 可以为你缩小该图片。新头像将在下次登录时生效。</t
     <name>LocalGameSettings</name>
     <message>
         <location filename="../components/LocalGameSettings.qml" line="+55"/>
-        <source>Lokales Spiel</source>
+        <source>Local Game</source>
         <translation>本地游戏</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Spieler &amp; Startkapital</source>
+        <source>Players &amp; Starting Capital</source>
         <translation>玩家与起始筹码</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Anzahl der Spieler:</source>
+        <source>Number of Players:</source>
         <translation>玩家数量：</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Startkapital:</source>
+        <source>Starting Capital:</source>
         <translation>起始筹码：</translation>
     </message>
     <message>
         <location line="+351"/>
-        <source>Spiel-Einstellungsdialog bei neuem Spiel anzeigen</source>
+        <source>Show Game Settings Dialog for New Game</source>
         <translation>新建游戏时显示游戏设置对话框</translation>
     </message>
     <message>
         <location line="-313"/>
-        <source>Blinds erhöhen</source>
+        <source>Increase Blinds</source>
         <translation>盲注提升</translation>
     </message>
     <message>
         <location line="+99"/>
-        <source>Blind-Erhöhungsreihenfolge</source>
+        <source>Blind Raise Order</source>
         <translation>盲注提升顺序</translation>
     </message>
     <message>
         <location line="-87"/>
-        <source>Blinds bei Anzahl der Hände erhöhen</source>
+        <source>Increase Blinds after Number of Hands</source>
         <translation>按手数提升盲注</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Blinds zeitbasiert erhöhen</source>
+        <source>Increase Blinds Time-Based</source>
         <translation>按时间提升盲注</translation>
     </message>
     <message>
         <location line="+57"/>
         <location line="+101"/>
-        <source>Blinds immer verdoppeln</source>
+        <source>Always Double Blinds</source>
         <translation>盲注始终翻倍</translation>
     </message>
     <message>
         <location line="-88"/>
         <location line="+14"/>
-        <source>Manuelle Blind-Reihenfolge</source>
+        <source>Manual Blind Order</source>
         <translation>手动盲注顺序</translation>
     </message>
     <message>
         <location line="-158"/>
-        <source>Erster Small Blind:</source>
+        <source>First Small Blind:</source>
         <translation>首个小盲注：</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
-        <source>Small Blind erhöhen alle:</source>
+        <source>Increase Small Blind every:</source>
         <translation>小盲注提升间隔：</translation>
     </message>
     <message>
         <location line="-25"/>
-        <source>Hände</source>
+        <source>Hands</source>
         <translation>手</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Minuten</source>
+        <source>Minutes</source>
         <translation>分钟</translation>
     </message>
     <message>
         <location line="+100"/>
-        <source>Hinzufügen</source>
+        <source>Add</source>
         <translation>添加</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Löschen</source>
+        <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Danach:</source>
+        <source>After that:</source>
         <translation>之后：</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Immer erhöhen um:</source>
+        <source>Always raise by:</source>
         <translation>每次提升：</translation>
     </message>
     <message>
         <location line="+30"/>
-        <source>Letzten Blind beibehalten</source>
+        <source>Keep last blind</source>
         <translation>保持最后一档盲注</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Spielgeschwindigkeit</source>
+        <source>Game Speed</source>
         <translation>游戏速度</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Spielgeschwindigkeit
-(1=langsam, 11=schnell):</source>
+        <source>Game Speed
+(1=slow, 11=fast):</source>
         <translation>游戏速度
 （1=慢，11=快）：</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Pause zwischen den Händen</source>
+        <source>Pause Between Hands</source>
         <translation>每手之间的间隔</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Computerspieler</source>
+        <source>Computer players</source>
         <translation>电脑玩家</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Spielstärke:</source>
+        <source>Playing strength:</source>
         <translation>实力：</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Klassisch</source>
+        <source>Classic</source>
         <translation>经典</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Stark</source>
+        <source>Strong</source>
         <translation>强</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.</source>
+        <source>Applies to local games. In network games the server decides how strong its computer players are.</source>
         <translation>适用于本地游戏。在网络游戏中，电脑玩家的实力由服务器决定。</translation>
     </message>
 </context>
@@ -3303,43 +3298,43 @@ Uploading log files may fail if you are using an http proxy.</source>
     <name>LogsSettings</name>
     <message>
         <location filename="../components/LogsSettings.qml" line="+25"/>
-        <source>Log-Nachrichten</source>
+        <source>Log Messages</source>
         <translation>日志消息</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Log-Einstellungen</source>
+        <source>Log Settings</source>
         <translation>日志设置</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Logging aktivieren</source>
+        <source>Enable Logging</source>
         <translation>启用日志记录</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Log-Verzeichnis:</source>
+        <source>Log Directory:</source>
         <translation>日志目录：</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Durchsuchen...</source>
+        <source>Browse...</source>
         <translation>浏览...</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Log-Verzeichnis auswählen</source>
+        <source>Select Log Directory</source>
         <translation>选择日志目录</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Log-Verzeichnis</source>
+        <source>Log Directory</source>
         <translation>日志目录</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Das Log-Verzeichnis wurde geändert.
-Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
+        <source>The log directory has been changed.
+Please restart PokerTH so that the log files are stored there.</source>
         <translation>日志目录已更改。
 请重新启动 PokerTH，日志文件才会保存到该目录。</translation>
     </message>
@@ -3350,27 +3345,27 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     </message>
     <message>
         <location line="+29"/>
-        <source>Log-Intervall:</source>
+        <source>Log Interval:</source>
         <translation>日志记录间隔：</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Jedes Spiel</source>
+        <source>Every Game</source>
         <translation>每局游戏</translation>
     </message>
     <message>
         <location line="-1"/>
-        <source>Jede Hand</source>
+        <source>Every Hand</source>
         <translation>每手牌</translation>
     </message>
     <message>
         <location line="-1"/>
-        <source>Jede Aktion</source>
+        <source>Every Action</source>
         <translation>每次行动</translation>
     </message>
     <message>
         <location line="-29"/>
-        <source>Log-Speicherdauer (Tage):</source>
+        <source>Log Retention (Days):</source>
         <translation>日志保存天数：</translation>
     </message>
 </context>
@@ -3378,94 +3373,94 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     <name>NetworkGameCreatePage</name>
     <message>
         <location filename="../pages/NetworkGameCreatePage.qml" line="+148"/>
-        <source>← Zurück</source>
+        <source>← Back</source>
         <translation>← 返回</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Netzwerkspiel erstellen</source>
+        <source>Create Network Game</source>
         <translation>创建网络游戏</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Spiel-Einstellungen</source>
+        <source>Game settings</source>
         <translation>游戏设置</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Max. Spieler</source>
+        <source>Max. players</source>
         <translation>最大玩家数</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Startgeld</source>
+        <source>Start cash</source>
         <translation>起始筹码</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Blind-Einstellungen</source>
+        <source>Blind settings</source>
         <translation>盲注设置</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Erster Small Blind</source>
+        <source>First small blind</source>
         <translation>首个小盲注</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Blind-Erhöhungsintervall</source>
+        <source>Blinds raise interval</source>
         <translation>盲注提升间隔</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+25"/>
-        <source>Alle</source>
+        <source>Every</source>
         <translation>每</translation>
     </message>
     <message>
         <location line="-14"/>
-        <source>Hände</source>
+        <source>hands</source>
         <translation>手</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Minuten</source>
+        <source>minutes</source>
         <translation>分钟</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Blinds immer verdoppeln</source>
+        <source>Always double blinds</source>
         <translation>盲注始终翻倍</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Zeitlimits</source>
+        <source>Time limits</source>
         <translation>时间限制</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Zeitlimit Spieleraktion</source>
+        <source>Player action time limit</source>
         <translation>玩家行动时限</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Pause zwischen Händen</source>
+        <source>Delay between hands</source>
         <translation>每手之间的间隔</translation>
     </message>
     <message>
         <location line="+37"/>
         <location line="+37"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
         <location line="-31"/>
-        <source>Spiel erstellen</source>
+        <source>Create Game</source>
         <translation>创建游戏</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Server wird gestartet …</source>
+        <source>Starting server …</source>
         <translation>正在启动服务器 …</translation>
     </message>
 </context>
@@ -3473,27 +3468,27 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     <name>NetworkGameEnterPage</name>
     <message>
         <location filename="../pages/NetworkGameEnterPage.qml" line="+121"/>
-        <source>← Zurück</source>
+        <source>← Back</source>
         <translation>← 返回</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Netzwerkspiel beitreten</source>
+        <source>Join Network Game</source>
         <translation>加入网络游戏</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Server-Verbindung</source>
+        <source>Server connection</source>
         <translation>服务器连接</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Server-Adresse</source>
+        <source>Server address</source>
         <translation>服务器地址</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>IP-Adresse oder Hostname</source>
+        <source>IP address or hostname</source>
         <translation>IP 地址或主机名</translation>
     </message>
     <message>
@@ -3503,53 +3498,53 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     </message>
     <message>
         <location line="+18"/>
-        <source>IPv6 verwenden</source>
+        <source>Use IPv6</source>
         <translation>使用 IPv6</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>SCTP verwenden</source>
+        <source>Use SCTP</source>
         <translation>使用 SCTP</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Server-Profile</source>
+        <source>Server profiles</source>
         <translation>服务器配置</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Profilname</source>
+        <source>Profile name</source>
         <translation>配置名称</translation>
     </message>
     <message>
         <location line="+22"/>
-        <source>Name des Profils</source>
+        <source>Name of the profile</source>
         <translation>配置的名称</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Speichern</source>
+        <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Löschen</source>
+        <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
         <location line="+92"/>
         <location line="+38"/>
-        <source>Abbrechen</source>
+        <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
         <location line="-32"/>
-        <source>Verbinden</source>
+        <source>Connect</source>
         <translation>连接</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>Verbinde mit Server …</source>
+        <source>Connecting to server …</source>
         <translation>正在连接服务器 …</translation>
     </message>
 </context>
@@ -3571,117 +3566,117 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     <name>NetworkGameSettings</name>
     <message>
         <location filename="../components/NetworkGameSettings.qml" line="+19"/>
-        <source>Netzwerkspiel</source>
+        <source>Network Game</source>
         <translation>网络游戏</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Spieler &amp; Startkapital</source>
+        <source>Players &amp; Starting Capital</source>
         <translation>玩家与起始筹码</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Anzahl der Spieler:</source>
+        <source>Number of Players:</source>
         <translation>玩家数量：</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Startkapital:</source>
+        <source>Starting Capital:</source>
         <translation>起始筹码：</translation>
     </message>
     <message>
         <location line="+38"/>
-        <source>Blinds erhöhen</source>
+        <source>Increase Blinds</source>
         <translation>盲注提升</translation>
     </message>
     <message>
         <location line="+99"/>
-        <source>Blind-Erhöhungsreihenfolge</source>
+        <source>Blind Raise Order</source>
         <translation>盲注提升顺序</translation>
     </message>
     <message>
         <location line="-87"/>
-        <source>Blinds bei Anzahl der Hände erhöhen</source>
+        <source>Increase Blinds after Number of Hands</source>
         <translation>按手数提升盲注</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Blinds zeitbasiert erhöhen</source>
+        <source>Increase Blinds Time-Based</source>
         <translation>按时间提升盲注</translation>
     </message>
     <message>
         <location line="+57"/>
-        <source>Blinds immer verdoppeln</source>
+        <source>Always Double Blinds</source>
         <translation>盲注始终翻倍</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>Manuelle Blind-Reihenfolge</source>
+        <source>Manual Blind Order</source>
         <translation>手动盲注顺序</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>Manuelle Blind-Reihenfolge bearbeiten...</source>
+        <source>Edit Manual Blind Order...</source>
         <translation>编辑手动盲注顺序...</translation>
     </message>
     <message>
         <location line="-157"/>
-        <source>Erster Small Blind:</source>
+        <source>First Small Blind:</source>
         <translation>首个小盲注：</translation>
     </message>
     <message>
         <location line="+49"/>
         <location line="+42"/>
-        <source>Small Blind erhöhen alle:</source>
+        <source>Increase Small Blind every:</source>
         <translation>小盲注提升间隔：</translation>
     </message>
     <message>
         <location line="-25"/>
-        <source>Hände</source>
+        <source>Hands</source>
         <translation>手</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Minuten</source>
+        <source>Minutes</source>
         <translation>分钟</translation>
     </message>
     <message>
         <location line="+61"/>
-        <source>Zeiteinstellungen</source>
+        <source>Time Settings</source>
         <translation>时间设置</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Verzögerung zwischen Händen
-(Sekunden):</source>
+        <source>Delay Between Hands
+(Seconds):</source>
         <translation>每手之间的间隔
 （秒）：</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Timeout für Spieleraktion
-(Sekunden):</source>
+        <source>Player Action Timeout
+(Seconds):</source>
         <translation>玩家行动超时
 （秒）：</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Server-Einstellungen</source>
+        <source>Server Settings</source>
         <translation>服务器设置</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Server-Port:</source>
+        <source>Server Port:</source>
         <translation>服务器端口：</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>SCTP verwenden</source>
+        <source>Use SCTP</source>
         <translation>使用 SCTP</translation>
     </message>
     <message>
         <location line="-7"/>
-        <source>IPv6 verwenden</source>
+        <source>Use IPv6</source>
         <translation>使用 IPv6</translation>
     </message>
 </context>
@@ -3689,46 +3684,46 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     <name>NicknameAvatarSettings</name>
     <message>
         <location filename="../components/NicknameAvatarSettings.qml" line="+19"/>
-        <source>Nicknamen/Avatare</source>
+        <source>Nicknames/Avatars</source>
         <translation>昵称/头像</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Mein Spieler</source>
+        <source>My Player</source>
         <translation>我的玩家</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Mein Nickname:</source>
+        <source>My Nickname:</source>
         <translation>我的昵称：</translation>
     </message>
     <message>
         <location line="+45"/>
-        <source>Mein Avatar:</source>
+        <source>My Avatar:</source>
         <translation>我的头像：</translation>
     </message>
     <message>
         <location line="+26"/>
         <location line="+113"/>
-        <source>Auswählen...</source>
+        <source>Select...</source>
         <translation>选择...</translation>
     </message>
     <message>
         <location line="-110"/>
         <location line="+113"/>
-        <source>Avatar auswählen</source>
+        <source>Select avatar</source>
         <translation>选择头像</translation>
     </message>
     <message>
         <location line="-134"/>
         <location line="+113"/>
-        <source>Kein Avatar gewählt</source>
+        <source>No Avatar Selected</source>
         <translation>未选择头像</translation>
     </message>
     <message>
         <location line="-82"/>
         <location line="+113"/>
-        <source>Beispiele...</source>
+        <source>Examples...</source>
         <translation>示例...</translation>
     </message>
     <message>
@@ -3738,7 +3733,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     </message>
     <message>
         <location line="-55"/>
-        <source>Gegner %1</source>
+        <source>Opponent %1</source>
         <translation>对手 %1</translation>
     </message>
     <message>
@@ -4075,79 +4070,79 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     <name>QObject</name>
     <message>
         <location filename="../cpp/ziputils.cpp" line="+54"/>
-        <source>Das Archiv konnte nicht gelesen werden.</source>
+        <source>The archive could not be read.</source>
         <translation>无法读取该压缩包。</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
+        <source>The archive is empty or contains too many files.</source>
         <translation>该压缩包为空或包含过多文件。</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
+        <source>The target directory could not be created.</source>
         <translation>无法创建目标目录。</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
+        <source>An archive entry could not be read.</source>
         <translation>无法读取压缩包中的某个条目。</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+8"/>
-        <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
+        <source>The archive contains an invalid path: %1</source>
         <translation>压缩包中包含无效的路径：%1</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+14"/>
-        <source>Verzeichnis konnte nicht angelegt werden: %1</source>
+        <source>Directory could not be created: %1</source>
         <translation>无法创建目录：%1</translation>
     </message>
     <message>
         <location line="-6"/>
-        <source>Das Archiv ist ungewöhnlich groß.</source>
+        <source>The archive is unusually large.</source>
         <translation>该压缩包异常大。</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
+        <source>An archive entry could not be extracted: %1</source>
         <translation>无法解压压缩包中的某个条目：%1</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Datei konnte nicht geschrieben werden: %1</source>
+        <source>File could not be written: %1</source>
         <translation>无法写入文件：%1</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Der Stil-Ordner wurde nicht gefunden.</source>
+        <source>The style folder was not found.</source>
         <translation>未找到该风格的文件夹。</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <source>The archive could not be created.</source>
         <translation>无法创建压缩包。</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Datei konnte nicht gelesen werden: %1</source>
+        <source>File could not be read: %1</source>
         <translation>无法读取文件：%1</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
+        <source>File could not be written to the archive: %1</source>
         <translation>无法将文件写入压缩包：%1</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Der Stil-Ordner enthält keine Dateien.</source>
+        <source>The style folder does not contain any files.</source>
         <translation>该风格的文件夹中没有文件。</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Das Archiv konnte nicht abgeschlossen werden.</source>
+        <source>The archive could not be finalized.</source>
         <translation>无法完成压缩包的写入。</translation>
     </message>
 </context>
@@ -4253,22 +4248,22 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
     <name>ResetSettings</name>
     <message>
         <location filename="../components/ResetSettings.qml" line="+20"/>
-        <source>Standardeinstellung</source>
+        <source>Default Settings</source>
         <translation>默认设置</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Alle Einstellungen werden auf die Standardwerte zurückgesetzt. Diese Aktion kann nicht rückgängig gemacht werden.</source>
+        <source>All settings will be reset to their default values. This action cannot be undone.</source>
         <translation>所有设置都将恢复为默认值。此操作无法撤销。</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Auf Werkeinstellungen zurücksetzen</source>
+        <source>Reset to Factory Defaults</source>
         <translation>恢复出厂设置</translation>
     </message>
     <message>
         <location line="+32"/>
-        <source>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</source>
+        <source>Settings have been reset. Please restart PokerTH for all changes to take effect.</source>
         <translation>设置已重置。请重新启动 PokerTH，以使所有更改生效。</translation>
     </message>
 </context>
@@ -4747,152 +4742,152 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+189"/>
-        <source>Spieltisch-Stil auswählen</source>
+        <source>Select game table style</source>
         <translation>选择牌桌风格</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Die ausgewählte Datei ist kein Spieltisch-Stil.</source>
+        <source>The selected file is not a game table style.</source>
         <translation>所选文件不是牌桌风格。</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Kartenstapel-Stil auswählen</source>
+        <source>Select card deck style</source>
         <translation>选择牌面风格</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Die ausgewählte Datei ist kein Kartenstapel-Stil.</source>
+        <source>The selected file is not a card deck style.</source>
         <translation>所选文件不是牌面风格。</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Kartenrückseiten-Stil auswählen</source>
+        <source>Select card back style</source>
         <translation>选择牌背风格</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Die ausgewählte Datei ist kein Kartenrückseiten-Stil.</source>
+        <source>The selected file is not a card back style.</source>
         <translation>所选文件不是牌背风格。</translation>
     </message>
     <message>
         <location line="+86"/>
-        <source>Die Stil-Datei kann nicht gelesen werden.</source>
+        <source>The style file cannot be read.</source>
         <translation>无法读取该风格文件。</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Die ausgewählte Datei ist kein PokerTH-Stil.</source>
+        <source>The selected file is not a PokerTH style.</source>
         <translation>所选文件不是 PokerTH 风格。</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Die Stil-Datei enthält kein gültiges XML (%1).</source>
+        <source>The style file does not contain valid XML (%1).</source>
         <translation>该风格文件不包含有效的 XML（%1）。</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Der Dateiname der Stil-Datei muss auf &quot;%1&quot; enden.</source>
+        <source>The style file&apos;s name must end with &quot;%1&quot;.</source>
         <translation>风格文件的文件名必须以 “%1” 结尾。</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Die Stil-Datei muss in einem eigenen Ordner liegen.</source>
+        <source>The style file must be located in its own folder.</source>
         <translation>风格文件必须放在单独的文件夹中。</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Ein Stil mit dem Namen &quot;%1&quot; ist bereits vorhanden.</source>
+        <source>A style named &quot;%1&quot; already exists.</source>
         <translation>名为 “%1” 的风格已存在。</translation>
     </message>
     <message>
         <location line="+42"/>
-        <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
+        <source>The card deck is incomplete, missing: %1</source>
         <translation>牌面不完整，缺少：%1</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Die Kartenrückseiten-Grafik (Backside) fehlt.</source>
+        <source>The card back image (Backside) is missing.</source>
         <translation>缺少牌背图片（Backside）。</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Der Ordner der Stil-Datei enthält ungewöhnlich viele Dateien. Bitte den Stil in einen eigenen Ordner legen.</source>
+        <source>The folder of the style file contains an unusually large number of files. Please put the style into its own folder.</source>
         <translation>风格文件所在的文件夹包含异常多的文件。请将该风格放到单独的文件夹中。</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Der Stil konnte nicht nach &quot;%1&quot; kopiert werden.</source>
+        <source>The style could not be copied to &quot;%1&quot;.</source>
         <translation>无法将该风格复制到 “%1”。</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Der Stil hat Format-Version %1, aktuell ist Version %2.</source>
+        <source>The style has format version %1, the current version is %2.</source>
         <translation>该风格的格式版本为 %1，当前版本为 %2。</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Fehlende Angaben: %1.</source>
+        <source>Missing fields: %1.</source>
         <translation>缺少的信息：%1。</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Nicht gefundene Grafiken: %1.</source>
+        <source>Graphics not found: %1.</source>
         <translation>未找到的图片：%1。</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Der Stil &quot;%1&quot; wurde übernommen, ist aber unvollständig:</source>
+        <source>The style &quot;%1&quot; was added, but it is incomplete:</source>
         <translation>风格 “%1” 已导入，但并不完整：</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
+        <source>Missing content is replaced by the client&apos;s default graphics.</source>
         <translation>缺失的内容将由客户端使用默认图片替代。</translation>
     </message>
     <message>
         <location line="-183"/>
-        <source>PokerTH-Stile (*.zip *.xml)</source>
+        <source>PokerTH styles (*.zip *.xml)</source>
         <translation>PokerTH 风格 (*.zip *.xml)</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Die ausgewählte Datei kann nicht gelesen werden.</source>
+        <source>The selected file cannot be read.</source>
         <translation>无法读取所选的文件。</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Es konnte kein temporäres Verzeichnis angelegt werden.</source>
+        <source>A temporary directory could not be created.</source>
         <translation>无法创建临时目录。</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Das Archiv enthält keine Datei &quot;%1&quot;.</source>
+        <source>The archive does not contain a file &quot;%1&quot;.</source>
         <translation>压缩包中不包含文件 “%1”。</translation>
     </message>
     <message>
         <location line="+199"/>
-        <source>Stil exportieren</source>
+        <source>Export style</source>
         <translation>导出风格</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>ZIP-Archive (*.zip)</source>
+        <source>ZIP archives (*.zip)</source>
         <translation>ZIP 压缩包 (*.zip)</translation>
     </message>
     <message>
         <location line="-9"/>
-        <source>Der Stil &quot;%1&quot; wurde nicht gefunden.</source>
+        <source>The style &quot;%1&quot; was not found.</source>
         <translation>未找到风格 “%1”。</translation>
     </message>
     <message>
         <location line="+22"/>
-        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <source>The archive could not be created.</source>
         <translation>无法创建压缩包。</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</source>
+        <source>The archive could not be written to &quot;%1&quot;.</source>
         <translation>无法将压缩包写入 “%1”。</translation>
     </message>
 </context>
@@ -4900,12 +4895,12 @@ Please check your username and password.</source>
     <name>SettingsPage</name>
     <message>
         <location filename="../pages/SettingsPage.qml" line="+264"/>
-        <source>Benutzeroberfläche</source>
+        <source>User Interface</source>
         <translation>用户界面</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Stil</source>
+        <source>Style</source>
         <translation>风格</translation>
     </message>
     <message>
@@ -4915,32 +4910,32 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Lokales Spiel</source>
+        <source>Local Game</source>
         <translation>本地游戏</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Netzwerkspiel</source>
+        <source>Network Game</source>
         <translation>网络游戏</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Internetspiel</source>
+        <source>Internet Game</source>
         <translation>互联网游戏</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Nicknamen/Avatare</source>
+        <source>Nicknames/Avatars</source>
         <translation>昵称/头像</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Log-Nachrichten</source>
+        <source>Log Messages</source>
         <translation>日志消息</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Standardeinstellung</source>
+        <source>Default Settings</source>
         <translation>默认设置</translation>
     </message>
 </context>
@@ -4958,12 +4953,12 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Über PokerTH</source>
+        <source>About PokerTH</source>
         <translation>关于 PokerTH</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Schließen</source>
+        <source>Close</source>
         <translation>关闭</translation>
     </message>
 </context>
@@ -4976,42 +4971,42 @@ Please check your username and password.</source>
     </message>
     <message>
         <location line="+20"/>
-        <source>Klangeffekte</source>
+        <source>Sound Effects</source>
         <translation>音效</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Klangeffekte aktivieren</source>
+        <source>Enable Sound Effects</source>
         <translation>启用音效</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Lautstärke:</source>
+        <source>Volume:</source>
         <translation>音量：</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Klang-Kategorien</source>
+        <source>Sound Categories</source>
         <translation>音效类别</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Spielaktionen (Check, Call, Raise ...)</source>
+        <source>Game Actions (Check, Call, Raise...)</source>
         <translation>游戏动作（Check、Call、Raise ...）</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Blind-Erhöhungs-Benachrichtigung</source>
+        <source>Blind Raise Notification</source>
         <translation>盲注提升提示音</translation>
     </message>
     <message>
         <location line="-5"/>
-        <source>Netzwerkspiel-Benachrichtigungen</source>
+        <source>Network Game Notifications</source>
         <translation>网络游戏提示音</translation>
     </message>
     <message>
         <location line="-5"/>
-        <source>Lobby-Chat-Benachrichtigungen</source>
+        <source>Lobby Chat Notifications</source>
         <translation>大厅聊天提示音</translation>
     </message>
 </context>
@@ -5032,22 +5027,22 @@ Please check your username and password.</source>
     <name>StartPage</name>
     <message>
         <location filename="../pages/StartPage.qml" line="+167"/>
-        <source>Internetspiel</source>
+        <source>Internet Game</source>
         <translation>互联网游戏</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Lokales Spiel starten</source>
+        <source>Start Local Game</source>
         <translation>开始本地游戏</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Netzwerkspiel erstellen</source>
+        <source>Create Network Game</source>
         <translation>创建网络游戏</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Netzwerkspiel beitreten</source>
+        <source>Join Network Game</source>
         <translation>加入网络游戏</translation>
     </message>
     <message>
@@ -5098,29 +5093,29 @@ Please check your username and password.</source>
     <name>StyleCard</name>
     <message>
         <location filename="../components/StyleCard.qml" line="+69"/>
-        <source>Keine
-Vorschau</source>
+        <source>No
+Preview</source>
         <translation>无
 预览</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>von %1</source>
+        <source>of %1</source>
         <translation>作者 %1</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>✓ Ausgewählt</source>
+        <source>✓ Selected</source>
         <translation>✓ 已选择</translation>
     </message>
     <message>
         <location line="+43"/>
-        <source>Stil entfernen</source>
+        <source>Remove style</source>
         <translation>移除风格</translation>
     </message>
     <message>
         <location line="+32"/>
-        <source>Stil als ZIP exportieren</source>
+        <source>Export style as ZIP</source>
         <translation>将风格导出为 ZIP</translation>
     </message>
 </context>
@@ -5128,7 +5123,7 @@ Vorschau</source>
     <name>StyleSettings</name>
     <message>
         <location filename="../components/StyleSettings.qml" line="+49"/>
-        <source>Stil hinzufügen</source>
+        <source>Add style</source>
         <translation>添加风格</translation>
     </message>
     <message>
@@ -5139,94 +5134,94 @@ Vorschau</source>
     </message>
     <message>
         <location line="+49"/>
-        <source>Stil entfernen</source>
+        <source>Remove style</source>
         <translation>移除风格</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Den Stil &quot;%1&quot; wirklich entfernen?</source>
+        <source>Really remove the style &quot;%1&quot;?</source>
         <translation>确定要移除风格 “%1” 吗？</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Entfernen</source>
+        <source>Remove</source>
         <translation>移除</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Stil</source>
+        <source>Style</source>
         <translation>风格</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Spieltisch</source>
+        <source>Game Table</source>
         <translation>牌桌</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Kartenstapel</source>
+        <source>Card Deck</source>
         <translation>牌面</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Kartenrückseite</source>
+        <source>Card Back</source>
         <translation>牌背</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Einsatzanzeige:</source>
+        <source>Bet display:</source>
         <translation>注额显示：</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Einsatz in der Spielerbox</source>
+        <source>Bet inside the player box</source>
         <translation>注额显示在玩家框内</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Einsatz neben der Spielerbox</source>
+        <source>Bet next to the player box</source>
         <translation>注额显示在玩家框旁</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Verfügbare Spieltisch-Stile:</source>
+        <source>Available Table Styles:</source>
         <translation>可用的牌桌风格：</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Keine Spieltisch-Stile gefunden.</source>
+        <source>No table styles found.</source>
         <translation>未找到牌桌风格。</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Verfügbare Kartenstapel-Stile:</source>
+        <source>Available Card Deck Styles:</source>
         <translation>可用的牌面风格：</translation>
     </message>
     <message>
         <location line="+27"/>
-        <source>Keine Kartenstapel-Stile gefunden.</source>
+        <source>No card deck styles found.</source>
         <translation>未找到牌面风格。</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Verfügbare Kartenrückseiten:</source>
+        <source>Available card backs:</source>
         <translation>可用的牌背：</translation>
     </message>
     <message>
         <location line="+27"/>
-        <source>Keine Kartenrückseiten gefunden.</source>
+        <source>No card backs found.</source>
         <translation>未找到牌背。</translation>
     </message>
     <message>
         <location line="-104"/>
         <location line="+56"/>
         <location line="+56"/>
-        <source>Stil hinzufügen...</source>
+        <source>Add Style...</source>
         <translation>添加风格...</translation>
     </message>
     <message>
         <location line="-266"/>
-        <source>Stil exportieren</source>
+        <source>Export style</source>
         <translation>导出风格</translation>
     </message>
 </context>

@@ -1546,14 +1546,14 @@ Rectangle {
 
             AppLabel {
                 Layout.fillWidth: true
-                text: qsTr("Privates Spiel")
+                text: qsTr("Private game")
                 color: Config.StaticData.palette.secondary.col100
                 font.pixelSize: 15
                 font.bold: true
             }
             AppLabel {
                 Layout.fillWidth: true
-                text: qsTr("Bitte das Passwort eingeben, um beizutreten.")
+                text: qsTr("Please enter the password to join.")
                 color: Config.StaticData.palette.secondary.col300
                 font.pixelSize: 12
                 wrapMode: Text.WordWrap
@@ -1563,7 +1563,7 @@ Rectangle {
                 id: joinPasswordField
                 Layout.fillWidth: true
                 echoMode: TextInput.Password
-                placeholderText: qsTr("Passwort …")
+                placeholderText: qsTr("Password …")
                 font.family: Config.StaticData.loadedFont.font.family
                 color: Config.StaticData.palette.secondary.col100
                 background: Rectangle {
@@ -1583,12 +1583,12 @@ Rectangle {
                 Layout.fillWidth: true
                 spacing: 8
                 CustomButton {
-                    text: qsTr("Abbrechen")
+                    text: qsTr("Cancel")
                     Layout.fillWidth: true
                     onClicked: joinPasswordPopup.close()
                 }
                 CustomButton {
-                    text: qsTr("Beitreten")
+                    text: qsTr("Join")
                     Layout.fillWidth: true
                     onClicked: joinPasswordPopup.doJoin()
                 }

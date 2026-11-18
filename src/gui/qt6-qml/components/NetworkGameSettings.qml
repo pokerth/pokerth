@@ -16,7 +16,7 @@ Rectangle {
         id: networkGameSettingsContent
         anchors.fill: parent
 
-        SettingsHeader { title: qsTr("Netzwerkspiel"); topGap: 4 }
+        SettingsHeader { title: qsTr("Network Game"); topGap: 4 }
 
         ScrollView {
             id: netScrollView
@@ -35,7 +35,7 @@ Rectangle {
                 // Players & starting money
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Spieler & Startkapital")
+                    title: qsTr("Players & Starting Capital")
 
                     GridLayout {
                         anchors.fill: parent
@@ -46,7 +46,7 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             wrapMode: Text.WordWrap
-                            text: qsTr("Anzahl der Spieler:")
+                            text: qsTr("Number of Players:")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
@@ -63,7 +63,7 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             wrapMode: Text.WordWrap
-                            text: qsTr("Startkapital:")
+                            text: qsTr("Starting Capital:")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
@@ -81,7 +81,7 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             wrapMode: Text.WordWrap
-                            text: qsTr("Erster Small Blind:")
+                            text: qsTr("First Small Blind:")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
@@ -101,7 +101,7 @@ Rectangle {
                 // Raise blinds
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Blinds erhöhen")
+                    title: qsTr("Increase Blinds")
 
                     ColumnLayout {
                         anchors.fill: parent
@@ -113,7 +113,7 @@ Rectangle {
 
                         RadioButton {
                             id: netRaiseBlindsAtHands
-                            text: qsTr("Blinds bei Anzahl der Hände erhöhen")
+                            text: qsTr("Increase Blinds after Number of Hands")
                             checked: SettingsManager ? SettingsManager.readConfigInt("NetRaiseBlindsAtHands") !== 0 : true
                             ButtonGroup.group: netRaiseBlindsGroup
                             onCheckedChanged: {
@@ -130,7 +130,7 @@ Rectangle {
                             Label {
                                 Layout.fillWidth: true
                                 wrapMode: Text.WordWrap
-                                text: qsTr("Small Blind erhöhen alle:")
+                                text: qsTr("Increase Small Blind every:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: netRaiseBlindsAtHands.checked
                             }
@@ -147,7 +147,7 @@ Rectangle {
                             }
 
                             Label {
-                                text: qsTr("Hände")
+                                text: qsTr("Hands")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: netRaiseBlindsAtHands.checked
                             }
@@ -155,7 +155,7 @@ Rectangle {
 
                         RadioButton {
                             id: netRaiseBlindsAtMinutes
-                            text: qsTr("Blinds zeitbasiert erhöhen")
+                            text: qsTr("Increase Blinds Time-Based")
                             checked: SettingsManager ? SettingsManager.readConfigInt("NetRaiseBlindsAtMinutes") !== 0 : false
                             ButtonGroup.group: netRaiseBlindsGroup
                             onCheckedChanged: {
@@ -172,7 +172,7 @@ Rectangle {
                             Label {
                                 Layout.fillWidth: true
                                 wrapMode: Text.WordWrap
-                                text: qsTr("Small Blind erhöhen alle:")
+                                text: qsTr("Increase Small Blind every:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: netRaiseBlindsAtMinutes.checked
                             }
@@ -189,7 +189,7 @@ Rectangle {
                             }
 
                             Label {
-                                text: qsTr("Minuten")
+                                text: qsTr("Minutes")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: netRaiseBlindsAtMinutes.checked
                             }
@@ -200,7 +200,7 @@ Rectangle {
                 // Blind raise order
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Blind-Erhöhungsreihenfolge")
+                    title: qsTr("Blind Raise Order")
 
                     ColumnLayout {
                         anchors.fill: parent
@@ -212,7 +212,7 @@ Rectangle {
 
                         RadioButton {
                             id: netAlwaysDoubleBlinds
-                            text: qsTr("Blinds immer verdoppeln")
+                            text: qsTr("Always Double Blinds")
                             checked: SettingsManager ? SettingsManager.readConfigInt("NetAlwaysDoubleBlinds") !== 0 : true
                             ButtonGroup.group: netBlindsOrderGroup
                             onCheckedChanged: {
@@ -225,7 +225,7 @@ Rectangle {
 
                         RadioButton {
                             id: netManualBlindsOrder
-                            text: qsTr("Manuelle Blind-Reihenfolge")
+                            text: qsTr("Manual Blind Order")
                             checked: SettingsManager ? SettingsManager.readConfigInt("NetManualBlindsOrder") !== 0 : false
                             ButtonGroup.group: netBlindsOrderGroup
                             onCheckedChanged: {
@@ -238,7 +238,7 @@ Rectangle {
 
                         Button {
                             Layout.leftMargin: 30
-                            text: qsTr("Manuelle Blind-Reihenfolge bearbeiten...")
+                            text: qsTr("Edit Manual Blind Order...")
                             enabled: netManualBlindsOrder.checked
                             onClicked: {
                                 // TODO: open dialog for the manual blind order
@@ -250,7 +250,7 @@ Rectangle {
                 // Timing
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Zeiteinstellungen")
+                    title: qsTr("Time Settings")
 
                     GridLayout {
                         anchors.fill: parent
@@ -261,7 +261,7 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             wrapMode: Text.WordWrap
-                            text: qsTr("Verzögerung zwischen Händen\n(Sekunden):")
+                            text: qsTr("Delay Between Hands\n(Seconds):")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
@@ -278,7 +278,7 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             wrapMode: Text.WordWrap
-                            text: qsTr("Timeout für Spieleraktion\n(Sekunden):")
+                            text: qsTr("Player Action Timeout\n(Seconds):")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
@@ -297,7 +297,7 @@ Rectangle {
                 // Server-Einstellungen
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Server-Einstellungen")
+                    title: qsTr("Server Settings")
 
                     GridLayout {
                         anchors.fill: parent
@@ -308,7 +308,7 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             wrapMode: Text.WordWrap
-                            text: qsTr("Server-Port:")
+                            text: qsTr("Server Port:")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
@@ -324,14 +324,14 @@ Rectangle {
 
                         ConfigCheckBox {
                             Layout.columnSpan: 2
-                            text: qsTr("IPv6 verwenden")
+                            text: qsTr("Use IPv6")
                             configKey: "ServerUseIpv6"
                             defaultChecked: false
                         }
 
                         ConfigCheckBox {
                             Layout.columnSpan: 2
-                            text: qsTr("SCTP verwenden")
+                            text: qsTr("Use SCTP")
                             configKey: "ServerUseSctp"
                             defaultChecked: false
                         }

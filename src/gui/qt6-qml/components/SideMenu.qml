@@ -141,12 +141,12 @@ Drawer {
             source: "guide"
         }
         ListElement {
-            name: qsTr("Über PokerTH")
+            name: qsTr("About PokerTH")
             icon: "user"
             source: "About"
         }
         ListElement {
-            name: qsTr("Schließen")
+            name: qsTr("Close")
             icon: "power"
             source: "quit"
         }

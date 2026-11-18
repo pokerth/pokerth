@@ -164,7 +164,7 @@ Rectangle {
 
                         CustomButton {
                             id: internetGameButton
-                            text: qsTr("Internetspiel")
+                            text: qsTr("Internet Game")
                             Layout.fillWidth: true
                             Layout.preferredWidth: 100
                             Layout.preferredHeight: startPage.buttonHeight
@@ -172,7 +172,7 @@ Rectangle {
                         }
 
                         CustomButton {
-                            text: qsTr("Lokales Spiel starten")
+                            text: qsTr("Start Local Game")
                             Layout.fillWidth: true
                             Layout.preferredWidth: 100
                             Layout.preferredHeight: startPage.buttonHeight
@@ -180,7 +180,7 @@ Rectangle {
                         }
 
                         CustomButton {
-                            text: qsTr("Netzwerkspiel erstellen")
+                            text: qsTr("Create Network Game")
                             Layout.fillWidth: true
                             Layout.preferredWidth: 100
                             Layout.preferredHeight: startPage.buttonHeight
@@ -188,7 +188,7 @@ Rectangle {
                         }
 
                         CustomButton {
-                            text: qsTr("Netzwerkspiel beitreten")
+                            text: qsTr("Join Network Game")
                             Layout.fillWidth: true
                             Layout.preferredWidth: 100
                             Layout.preferredHeight: startPage.buttonHeight

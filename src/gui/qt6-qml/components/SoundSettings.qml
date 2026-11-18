@@ -36,7 +36,7 @@ Rectangle {
                 // Hauptschalter
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Klangeffekte")
+                    title: qsTr("Sound Effects")
 
                     ColumnLayout {
                         anchors.fill: parent
@@ -44,7 +44,7 @@ Rectangle {
 
                         CustomToggle {
                             id: playSounds
-                            label: qsTr("Klangeffekte aktivieren")
+                            label: qsTr("Enable Sound Effects")
                             checked: SettingsManager ? SettingsManager.soundEnabled : false
                             onToggled: {
                                 if (SettingsManager) SettingsManager.soundEnabled = checked
@@ -56,7 +56,7 @@ Rectangle {
                             enabled: playSounds.checked
 
                             Label {
-                                text: qsTr("Lautstärke:")
+                                text: qsTr("Volume:")
                                 color: Config.StaticData.palette.secondary.col200
                                 opacity: playSounds.checked ? 1.0 : 0.4
                             }
@@ -87,7 +87,7 @@ Rectangle {
                 // Klang-Kategorien
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Klang-Kategorien")
+                    title: qsTr("Sound Categories")
                     enabled: playSounds.checked
 
                     ColumnLayout {
@@ -95,22 +95,22 @@ Rectangle {
                         spacing: 4
 
                         ConfigCheckBox {
-                            text: qsTr("Spielaktionen (Check, Call, Raise ...)")
+                            text: qsTr("Game Actions (Check, Call, Raise...)")
                             configKey: "PlayGameActions"
                         }
 
                         ConfigCheckBox {
-                            text: qsTr("Lobby-Chat-Benachrichtigungen")
+                            text: qsTr("Lobby Chat Notifications")
                             configKey: "PlayLobbyChatNotification"
                         }
 
                         ConfigCheckBox {
-                            text: qsTr("Netzwerkspiel-Benachrichtigungen")
+                            text: qsTr("Network Game Notifications")
                             configKey: "PlayNetworkGameNotification"
                         }
 
                         ConfigCheckBox {
-                            text: qsTr("Blind-Erhöhungs-Benachrichtigung")
+                            text: qsTr("Blind Raise Notification")
                             configKey: "PlayBlindRaiseNotification"
                         }
                     }

@@ -261,12 +261,12 @@ Rectangle {
     ListModel {
         id: settingsMenuListItems
         ListElement {
-            name: qsTr("Benutzeroberfläche")
+            name: qsTr("User Interface")
             icon: "monitor"
             source: "Gui"
         }
         ListElement {
-            name: qsTr("Stil")
+            name: qsTr("Style")
             icon: "palette"
             source: "Style"
         }
@@ -276,32 +276,32 @@ Rectangle {
             source: "Sound"
         }
         ListElement {
-            name: qsTr("Lokales Spiel")
+            name: qsTr("Local Game")
             icon: "spade"
             source: "LocalGame"
         }
         ListElement {
-            name: qsTr("Netzwerkspiel")
+            name: qsTr("Network Game")
             icon: "network"
             source: "NetworkGame"
         }
         ListElement {
-            name: qsTr("Internetspiel")
+            name: qsTr("Internet Game")
             icon: "globe"
             source: "InternetGame"
         }
         ListElement {
-            name: qsTr("Nicknamen/Avatare")
+            name: qsTr("Nicknames/Avatars")
             icon: "userSquare"
             source: "NicknameAvatar"
         }
         ListElement {
-            name: qsTr("Log-Nachrichten")
+            name: qsTr("Log Messages")
             icon: "terminalWindow"
             source: "Logs"
         }
         ListElement {
-            name: qsTr("Standardeinstellung")
+            name: qsTr("Default Settings")
             icon: "arrowUpLeft"
             source: "Reset"
         }

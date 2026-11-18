@@ -46,7 +46,7 @@ Rectangle {
             return
         refreshStyles()
         if (result.message)
-            importResultPopup.openWith(qsTr("Stil hinzufügen"), result.message, qsTr("OK"))
+            importResultPopup.openWith(qsTr("Add style"), result.message, qsTr("OK"))
     }
 
     // Export a style as .zip: the save dialog already names the target path,
@@ -54,7 +54,7 @@ Rectangle {
     function exportStyle(category, name) {
         var result = SettingsManager.exportStyle(category, name)
         if (result && result.status === "error" && result.message)
-            importResultPopup.openWith(qsTr("Stil exportieren"), result.message, qsTr("OK"))
+            importResultPopup.openWith(qsTr("Export style"), result.message, qsTr("OK"))
     }
 
     // Removing an imported style: if it was just active, switch back to
@@ -103,9 +103,9 @@ Rectangle {
         function askFor(cat, name, description) {
             category = cat
             styleName = name
-            openWith(qsTr("Stil entfernen"),
-                     qsTr("Den Stil \"%1\" wirklich entfernen?").arg(description || name),
-                     qsTr("Entfernen"))
+            openWith(qsTr("Remove style"),
+                     qsTr("Really remove the style \"%1\"?").arg(description || name),
+                     qsTr("Remove"))
         }
     }
 
@@ -113,7 +113,7 @@ Rectangle {
         id: styleSettingsContent
         anchors.fill: parent
 
-        SettingsHeader { title: qsTr("Stil") }
+        SettingsHeader { title: qsTr("Style") }
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -125,7 +125,7 @@ Rectangle {
 
             CustomTabBar {
                 id: guiSettingsTabBar
-                model: [qsTr("Spieltisch"), qsTr("Kartenstapel"), qsTr("Kartenrückseite")]
+                model: [qsTr("Game Table"), qsTr("Card Deck"), qsTr("Card Back")]
             }
 
             StackLayout {
@@ -150,7 +150,7 @@ Rectangle {
 
                         Label {
                             Layout.fillWidth: true
-                            text: qsTr("Einsatzanzeige:")
+                            text: qsTr("Bet display:")
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -158,14 +158,14 @@ Rectangle {
                         ButtonGroup { id: seatStyleGroup }
 
                         RadioButton {
-                            text: qsTr("Einsatz in der Spielerbox")
+                            text: qsTr("Bet inside the player box")
                             checked: Config.SeatStyle.variant === "inset"
                             ButtonGroup.group: seatStyleGroup
                             onClicked: styleSettings.applySeatStyle("inset")
                         }
 
                         RadioButton {
-                            text: qsTr("Einsatz neben der Spielerbox")
+                            text: qsTr("Bet next to the player box")
                             checked: Config.SeatStyle.variant === "classic"
                             ButtonGroup.group: seatStyleGroup
                             onClicked: styleSettings.applySeatStyle("classic")
@@ -174,7 +174,7 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             Layout.topMargin: 8
-                            text: qsTr("Verfügbare Spieltisch-Stile:")
+                            text: qsTr("Available Table Styles:")
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -200,7 +200,7 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             visible: styleSettings.tableStyles.length === 0
-                            text: qsTr("Keine Spieltisch-Stile gefunden.")
+                            text: qsTr("No table styles found.")
                             color: Config.StaticData.palette.secondary.col400
                             font.italic: true
                             wrapMode: Text.WordWrap
@@ -208,7 +208,7 @@ Rectangle {
 
                         Button {
                             Layout.topMargin: 4
-                            text: qsTr("Stil hinzufügen...")
+                            text: qsTr("Add Style...")
                             onClicked: styleSettings.handleImportResult(
                                            SettingsManager.importTableStyle())
                         }
@@ -229,7 +229,7 @@ Rectangle {
 
                         Label {
                             Layout.fillWidth: true
-                            text: qsTr("Verfügbare Kartenstapel-Stile:")
+                            text: qsTr("Available Card Deck Styles:")
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -256,7 +256,7 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             visible: styleSettings.cardStyles.length === 0
-                            text: qsTr("Keine Kartenstapel-Stile gefunden.")
+                            text: qsTr("No card deck styles found.")
                             color: Config.StaticData.palette.secondary.col400
                             font.italic: true
                             wrapMode: Text.WordWrap
@@ -264,7 +264,7 @@ Rectangle {
 
                         Button {
                             Layout.topMargin: 4
-                            text: qsTr("Stil hinzufügen...")
+                            text: qsTr("Add Style...")
                             onClicked: styleSettings.handleImportResult(
                                            SettingsManager.importCardDeckStyle())
                         }
@@ -285,7 +285,7 @@ Rectangle {
 
                         Label {
                             Layout.fillWidth: true
-                            text: qsTr("Verfügbare Kartenrückseiten:")
+                            text: qsTr("Available card backs:")
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -312,7 +312,7 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             visible: styleSettings.cardBackStyles.length === 0
-                            text: qsTr("Keine Kartenrückseiten gefunden.")
+                            text: qsTr("No card backs found.")
                             color: Config.StaticData.palette.secondary.col400
                             font.italic: true
                             wrapMode: Text.WordWrap
@@ -320,7 +320,7 @@ Rectangle {
 
                         Button {
                             Layout.topMargin: 4
-                            text: qsTr("Stil hinzufügen...")
+                            text: qsTr("Add Style...")
                             onClicked: styleSettings.handleImportResult(
                                            SettingsManager.importCardBackStyle())
                         }

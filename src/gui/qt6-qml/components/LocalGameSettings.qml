@@ -52,7 +52,7 @@ Rectangle {
         id: localGameSettingsContent
         anchors.fill: parent
 
-        SettingsHeader { title: qsTr("Lokales Spiel"); topGap: 4 }
+        SettingsHeader { title: qsTr("Local Game"); topGap: 4 }
 
         ScrollView {
             id: localScrollView
@@ -72,7 +72,7 @@ Rectangle {
                 // Players & starting money
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Spieler & Startkapital")
+                    title: qsTr("Players & Starting Capital")
 
                     GridLayout {
                         anchors.fill: parent
@@ -83,7 +83,7 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             wrapMode: Text.WordWrap
-                            text: qsTr("Anzahl der Spieler:")
+                            text: qsTr("Number of Players:")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
@@ -100,7 +100,7 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             wrapMode: Text.WordWrap
-                            text: qsTr("Startkapital:")
+                            text: qsTr("Starting Capital:")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
@@ -118,7 +118,7 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             wrapMode: Text.WordWrap
-                            text: qsTr("Erster Small Blind:")
+                            text: qsTr("First Small Blind:")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
@@ -138,7 +138,7 @@ Rectangle {
                 // Raise blinds
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Blinds erhöhen")
+                    title: qsTr("Increase Blinds")
 
                     ColumnLayout {
                         anchors.fill: parent
@@ -150,7 +150,7 @@ Rectangle {
 
                         RadioButton {
                             id: raiseBlindsAtHands
-                            text: qsTr("Blinds bei Anzahl der Hände erhöhen")
+                            text: qsTr("Increase Blinds after Number of Hands")
                             checked: SettingsManager ? SettingsManager.readConfigInt("RaiseBlindsAtHands") !== 0 : true
                             ButtonGroup.group: raiseBlindsGroup
                             onCheckedChanged: {
@@ -167,7 +167,7 @@ Rectangle {
                             Label {
                                 Layout.fillWidth: true
                                 wrapMode: Text.WordWrap
-                                text: qsTr("Small Blind erhöhen alle:")
+                                text: qsTr("Increase Small Blind every:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: raiseBlindsAtHands.checked
                             }
@@ -184,7 +184,7 @@ Rectangle {
                             }
 
                             Label {
-                                text: qsTr("Hände")
+                                text: qsTr("Hands")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: raiseBlindsAtHands.checked
                             }
@@ -192,7 +192,7 @@ Rectangle {
 
                         RadioButton {
                             id: raiseBlindsAtMinutes
-                            text: qsTr("Blinds zeitbasiert erhöhen")
+                            text: qsTr("Increase Blinds Time-Based")
                             checked: SettingsManager ? SettingsManager.readConfigInt("RaiseBlindsAtMinutes") !== 0 : false
                             ButtonGroup.group: raiseBlindsGroup
                             onCheckedChanged: {
@@ -209,7 +209,7 @@ Rectangle {
                             Label {
                                 Layout.fillWidth: true
                                 wrapMode: Text.WordWrap
-                                text: qsTr("Small Blind erhöhen alle:")
+                                text: qsTr("Increase Small Blind every:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: raiseBlindsAtMinutes.checked
                             }
@@ -226,7 +226,7 @@ Rectangle {
                             }
 
                             Label {
-                                text: qsTr("Minuten")
+                                text: qsTr("Minutes")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: raiseBlindsAtMinutes.checked
                             }
@@ -237,7 +237,7 @@ Rectangle {
                 // Blind raise order
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Blind-Erhöhungsreihenfolge")
+                    title: qsTr("Blind Raise Order")
 
                     ColumnLayout {
                         anchors.fill: parent
@@ -249,7 +249,7 @@ Rectangle {
 
                         RadioButton {
                             id: alwaysDoubleBlinds
-                            text: qsTr("Blinds immer verdoppeln")
+                            text: qsTr("Always Double Blinds")
                             checked: SettingsManager ? SettingsManager.readConfigInt("AlwaysDoubleBlinds") !== 0 : true
                             ButtonGroup.group: blindsOrderGroup
                             onCheckedChanged: {
@@ -262,7 +262,7 @@ Rectangle {
 
                         RadioButton {
                             id: manualBlindsOrder
-                            text: qsTr("Manuelle Blind-Reihenfolge")
+                            text: qsTr("Manual Blind Order")
                             checked: SettingsManager ? SettingsManager.readConfigInt("ManualBlindsOrder") !== 0 : false
                             ButtonGroup.group: blindsOrderGroup
                             onCheckedChanged: {
@@ -276,7 +276,7 @@ Rectangle {
                         // Manual blind order – list editor (only active when selected)
                         GroupBox {
                             Layout.fillWidth: true
-                            title: qsTr("Manuelle Blind-Reihenfolge")
+                            title: qsTr("Manual Blind Order")
                             enabled: manualBlindsOrder.checked
 
                             ColumnLayout {
@@ -326,12 +326,12 @@ Rectangle {
                                     }
 
                                     Button {
-                                        text: qsTr("Hinzufügen")
+                                        text: qsTr("Add")
                                         onClicked: localGameSettings.addBlind(newBlindInput.value)
                                     }
 
                                     Button {
-                                        text: qsTr("Löschen")
+                                        text: qsTr("Delete")
                                         enabled: localGameSettings.selectedBlindIndex >= 0
                                         onClicked: localGameSettings.removeBlindAt(localGameSettings.selectedBlindIndex)
                                     }
@@ -340,7 +340,7 @@ Rectangle {
                                 // Danach-Optionen
                                 GroupBox {
                                     Layout.fillWidth: true
-                                    title: qsTr("Danach:")
+                                    title: qsTr("After that:")
 
                                     ColumnLayout {
                                         anchors.fill: parent
@@ -350,7 +350,7 @@ Rectangle {
 
                                         RadioButton {
                                             id: afterMBAlwaysDouble
-                                            text: qsTr("Blinds immer verdoppeln")
+                                            text: qsTr("Always Double Blinds")
                                             ButtonGroup.group: afterMBGroup
                                             checked: SettingsManager ? SettingsManager.readConfigInt("AfterMBAlwaysDoubleBlinds") !== 0 : true
                                             onCheckedChanged: {
@@ -366,7 +366,7 @@ Rectangle {
                                             spacing: 6
                                             RadioButton {
                                                 id: afterMBAlwaysRaise
-                                                text: qsTr("Immer erhöhen um:")
+                                                text: qsTr("Always raise by:")
                                                 ButtonGroup.group: afterMBGroup
                                                 checked: SettingsManager ? SettingsManager.readConfigInt("AfterMBAlwaysRaiseAbout") !== 0 : false
                                                 onCheckedChanged: {
@@ -396,7 +396,7 @@ Rectangle {
 
                                         RadioButton {
                                             id: afterMBStayAtLast
-                                            text: qsTr("Letzten Blind beibehalten")
+                                            text: qsTr("Keep last blind")
                                             ButtonGroup.group: afterMBGroup
                                             checked: SettingsManager ? SettingsManager.readConfigInt("AfterMBStayAtLastBlind") !== 0 : false
                                             onCheckedChanged: {
@@ -417,7 +417,7 @@ Rectangle {
                 // Spielgeschwindigkeit
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Spielgeschwindigkeit")
+                    title: qsTr("Game Speed")
 
                     GridLayout {
                         anchors.fill: parent
@@ -428,7 +428,7 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             wrapMode: Text.WordWrap
-                            text: qsTr("Spielgeschwindigkeit\n(1=langsam, 11=schnell):")
+                            text: qsTr("Game Speed\n(1=slow, 11=fast):")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
@@ -444,14 +444,14 @@ Rectangle {
 
                         ConfigCheckBox {
                             Layout.columnSpan: 2
-                            text: qsTr("Pause zwischen den Händen")
+                            text: qsTr("Pause Between Hands")
                             configKey: "PauseBetweenHands"
                             defaultChecked: false
                         }
 
                         ConfigCheckBox {
                             Layout.columnSpan: 2
-                            text: qsTr("Spiel-Einstellungsdialog bei neuem Spiel anzeigen")
+                            text: qsTr("Show Game Settings Dialog for New Game")
                             configKey: "ShowGameSettingsDialogOnNewGame"
                         }
                     }
@@ -460,7 +460,7 @@ Rectangle {
                 // Computerspieler
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Computerspieler")
+                    title: qsTr("Computer players")
 
                     GridLayout {
                         anchors.fill: parent
@@ -471,7 +471,7 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             wrapMode: Text.WordWrap
-                            text: qsTr("Spielstärke:")
+                            text: qsTr("Playing strength:")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
@@ -479,7 +479,7 @@ Rectangle {
                             id: botStrengthSelector
                             // Index 0 = klassische Engine (Config 0),
                             // Index 1 = EV-basierte Engine 4 (Config 4)
-                            model: [qsTr("Klassisch"), qsTr("Stark")]
+                            model: [qsTr("Classic"), qsTr("Strong")]
                             currentIndex: 1   // matches the default value of the configuration
                             Component.onCompleted: {
                                 if (SettingsManager)
@@ -495,7 +495,7 @@ Rectangle {
                             Layout.columnSpan: 2
                             Layout.fillWidth: true
                             wrapMode: Text.WordWrap
-                            text: qsTr("Gilt für lokale Spiele. Bei Netzwerkspielen bestimmt der Server die Stärke seiner Computerspieler.")
+                            text: qsTr("Applies to local games. In network games the server decides how strong its computer players are.")
                             font.pixelSize: 12
                             color: Config.StaticData.palette.secondary.col300
                         }

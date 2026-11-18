@@ -28,7 +28,7 @@ Item {
     // null = no translation (then the symbols do not appear at all).
     property var chatTranslator: null
     property bool inputEnabled: true
-    property string placeholder: qsTr("Nachricht …")
+    property string placeholder: qsTr("Message …")
     property int messageFontSize: 14
     // The emoji picker as a popup ABOVE the box instead of inline above the input line.
     property bool emojiPickerAsPopup: false
@@ -848,22 +848,22 @@ Item {
         }
 
         CtxItem {
-            text: qsTr("Link öffnen")
+            text: qsTr("Open link")
             visible: root._menuLink !== ""
             onTriggered: root._openLink(root._menuLink)
         }
         CtxItem {
-            text: qsTr("Link kopieren")
+            text: qsTr("Copy link")
             visible: root._menuLink !== ""
             onTriggered: root._copyToClipboard(root._menuLink)
         }
         CtxItem {
-            text: qsTr("Kopieren")
+            text: qsTr("Copy")
             enabled: msgText.selectedText.length > 0
             onTriggered: msgText.copy()
         }
         CtxItem {
-            text: qsTr("Alles auswählen")
+            text: qsTr("Select all")
             onTriggered: msgText.selectAll()
         }
     }
@@ -891,22 +891,22 @@ Item {
         }
 
         CtxItem {
-            text: qsTr("Ausschneiden")
+            text: qsTr("Cut")
             enabled: !inputField.readOnly && inputField.selectedText.length > 0
             onTriggered: inputField.cut()
         }
         CtxItem {
-            text: qsTr("Kopieren")
+            text: qsTr("Copy")
             enabled: inputField.selectedText.length > 0
             onTriggered: inputField.copy()
         }
         CtxItem {
-            text: qsTr("Einfügen")
+            text: qsTr("Paste")
             enabled: !inputField.readOnly && inputField.canPaste
             onTriggered: inputField.paste()
         }
         CtxItem {
-            text: qsTr("Alles auswählen")
+            text: qsTr("Select all")
             enabled: inputField.length > 0
             onTriggered: inputField.selectAll()
         }

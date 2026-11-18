@@ -359,7 +359,7 @@ Rectangle {
                     spacing: 10
 
                     CustomButton {
-                        text: qsTr("← Zurück")
+                        text: qsTr("← Back")
                         implicitWidth: 90
                         implicitHeight: 36
                         onClicked: mainStackView.pop()
@@ -367,7 +367,7 @@ Rectangle {
 
                     AppLabel {
                         Layout.fillWidth: true
-                        text: qsTr("Spiel erstellen")
+                        text: qsTr("Create Game")
                         color: Config.StaticData.palette.secondary.col100
                         font.pixelSize: 18
                         font.bold: true
@@ -396,7 +396,7 @@ Rectangle {
                     spacing: 4
 
                     AppLabel {
-                        text: qsTr("Spielname")
+                        text: qsTr("Game name")
                         color: Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
                     }
@@ -407,7 +407,7 @@ Rectangle {
                         maximumLength: 48
                         // The server rejects '<' and '>' in game names.
                         validator: RegularExpressionValidator { regularExpression: /[^<>]*/ }
-                        placeholderText: qsTr("Spielname eingeben …")
+                        placeholderText: qsTr("Enter game name …")
                         background: Rectangle {
                             radius: 6
                             color: Config.StaticData.palette.secondary.col600
@@ -436,7 +436,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("Spieltyp")
+                        text: qsTr("Game type")
                         color: Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
@@ -455,9 +455,9 @@ Rectangle {
                         ]
                         model: [
                             qsTr("Normal"),
-                            qsTr("Nur registrierte Spieler"),
-                            qsTr("Nur eingeladene Spieler"),
-                            qsTr("Ranglistenspiel")
+                            qsTr("Registered players only"),
+                            qsTr("Invited players only"),
+                            qsTr("Ranking game")
                         ]
                         onCurrentIndexChanged: {
                             // While the page is being built, Component.onCompleted fills
@@ -485,7 +485,7 @@ Rectangle {
                     visible: Config.Parameters.showCommunityContent
                              && lobbyCreateGamePage.isInviteOnly
                     AppLabel {
-                        text: qsTr("Community-Vorlage")
+                        text: qsTr("Community template")
                         color: Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
@@ -496,7 +496,7 @@ Rectangle {
                         id: presetCombo
                         Layout.fillWidth: true
                         model: [
-                            qsTr("Eigene Einstellungen"),
+                            qsTr("Custom settings"),
                             "BBC Step 1", "BBC Step 2", "BBC Step 3", "BBC Step 4",
                             "Monthly Cup", "Monthly Cup Final",
                             "WEC", "WEC Monthly Final", "WEC Grand Final"
@@ -510,7 +510,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("Passwort")
+                        text: qsTr("Password")
                         color: lobbyCreateGamePage.passwordAllowed
                             ? Config.StaticData.palette.secondary.col200
                             : Config.StaticData.palette.secondary.col400
@@ -530,7 +530,7 @@ Rectangle {
                     Layout.fillWidth: true
                     visible: passwordToggle.checked && lobbyCreateGamePage.passwordAllowed
                     echoMode: TextInput.Password
-                    placeholderText: qsTr("Passwort eingeben …")
+                    placeholderText: qsTr("Enter password …")
                     maximumLength: 48
                 }
 
@@ -539,7 +539,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("Zuschauer erlaubt")
+                        text: qsTr("Spectators allowed")
                         color: lobbyCreateGamePage.isRanking
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
@@ -560,7 +560,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("Max. Spieler")
+                        text: qsTr("Max. players")
                         color: lobbyCreateGamePage.fieldsLocked
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
@@ -583,7 +583,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("Startgeld")
+                        text: qsTr("Start cash")
                         color: lobbyCreateGamePage.fieldsLocked
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
@@ -614,7 +614,7 @@ Rectangle {
                 }
 
                 AppLabel {
-                    text: qsTr("Blind-Einstellungen")
+                    text: qsTr("Blind settings")
                     color: Config.StaticData.palette.secondary.col300
                     font.pixelSize: 13
                     font.bold: true
@@ -625,7 +625,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("Erster Small Blind")
+                        text: qsTr("First small blind")
                         color: lobbyCreateGamePage.fieldsLocked
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
@@ -651,7 +651,7 @@ Rectangle {
                     spacing: 6
 
                     AppLabel {
-                        text: qsTr("Blind-Erhöhungsintervall")
+                        text: qsTr("Blinds raise interval")
                         color: lobbyCreateGamePage.fieldsLocked
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
@@ -673,7 +673,7 @@ Rectangle {
                             id: raiseByHandsRadio
                             checked: true
                             enabled: !lobbyCreateGamePage.fieldsLocked
-                            text: qsTr("Alle")
+                            text: qsTr("Every")
                         }
                         CustomSpinBox {
                             id: raiseEveryHandsSpinBox
@@ -684,7 +684,7 @@ Rectangle {
                             implicitWidth: 110
                         }
                         AppLabel {
-                            text: qsTr("Hände")
+                            text: qsTr("hands")
                             color: (raiseByHandsRadio.checked && !lobbyCreateGamePage.fieldsLocked)
                                 ? Config.StaticData.palette.secondary.col200
                                 : Config.StaticData.palette.secondary.col400
@@ -701,7 +701,7 @@ Rectangle {
                             id: raiseByMinutesRadio
                             checked: false
                             enabled: !lobbyCreateGamePage.fieldsLocked
-                            text: qsTr("Alle")
+                            text: qsTr("Every")
                         }
                         CustomSpinBox {
                             id: raiseEveryMinutesSpinBox
@@ -712,7 +712,7 @@ Rectangle {
                             implicitWidth: 110
                         }
                         AppLabel {
-                            text: qsTr("Minuten")
+                            text: qsTr("minutes")
                             color: (raiseByMinutesRadio.checked && !lobbyCreateGamePage.fieldsLocked)
                                 ? Config.StaticData.palette.secondary.col200
                                 : Config.StaticData.palette.secondary.col400
@@ -729,7 +729,7 @@ Rectangle {
                                  && lobbyCreateGamePage.effectiveBlinds.length > 0
                         Layout.fillWidth: true
                         text: visible
-                            ? qsTr("Blindliste: %1").arg(lobbyCreateGamePage.effectiveBlinds.join(" · "))
+                            ? qsTr("Blind list: %1").arg(lobbyCreateGamePage.effectiveBlinds.join(" · "))
                             : ""
                         color: Config.StaticData.palette.secondary.col300
                         font.pixelSize: 11
@@ -747,7 +747,7 @@ Rectangle {
                 }
 
                 AppLabel {
-                    text: qsTr("Zeitlimits")
+                    text: qsTr("Time limits")
                     color: Config.StaticData.palette.secondary.col300
                     font.pixelSize: 13
                     font.bold: true
@@ -758,7 +758,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("Zeitlimit Spieleraktion")
+                        text: qsTr("Player action time limit")
                         color: lobbyCreateGamePage.presetActive
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
@@ -783,7 +783,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("Pause zwischen Händen")
+                        text: qsTr("Delay between hands")
                         color: lobbyCreateGamePage.presetActive
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
@@ -817,19 +817,19 @@ Rectangle {
                     spacing: 10
 
                     CustomButton {
-                        text: qsTr("Abbrechen")
+                        text: qsTr("Cancel")
                         Layout.fillWidth: true
                         onClicked: mainStackView.pop()
                     }
 
                     CustomButton {
                         id: createBtn
-                        text: qsTr("Spiel erstellen")
+                        text: qsTr("Create Game")
                         Layout.fillWidth: true
                         onClicked: {
                             // Validierung
                             if (gameNameField.text.trim().length === 0) {
-                                lobbyCreateGamePage.nameError = qsTr("Bitte einen Spielnamen eingeben.")
+                                lobbyCreateGamePage.nameError = qsTr("Please enter a game name.")
                                 return
                             }
 

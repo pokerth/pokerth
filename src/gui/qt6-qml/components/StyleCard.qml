@@ -66,7 +66,7 @@ Rectangle {
             Label {
                 anchors.centerIn: parent
                 visible: card.previewSource === "" || previewImg.status === Image.Error
-                text: qsTr("Keine\nVorschau")
+                text: qsTr("No\nPreview")
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: 8
                 color: Config.StaticData.palette.secondary.col400
@@ -90,7 +90,7 @@ Rectangle {
             Label {
                 Layout.fillWidth: true
                 visible: !!card.styleEntry.maintainer && card.styleEntry.maintainer.length > 0
-                text: qsTr("von %1").arg(card.styleEntry.maintainer || "")
+                text: qsTr("of %1").arg(card.styleEntry.maintainer || "")
                 font.pointSize: 9
                 wrapMode: Text.WordWrap
                 color: Config.StaticData.palette.secondary.col400
@@ -99,7 +99,7 @@ Rectangle {
             Label {
                 Layout.fillWidth: true
                 visible: card.selected
-                text: qsTr("✓ Ausgewählt")
+                text: qsTr("✓ Selected")
                 font.pointSize: 9
                 font.bold: true
                 color: Config.StaticData.chartColors[0]
@@ -142,7 +142,7 @@ Rectangle {
         ToolTip.visible: removeArea.containsMouse && !Config.Responsive.isMobile
                          && Config.Parameters.showTooltips
         ToolTip.delay: 600
-        ToolTip.text: qsTr("Stil entfernen")
+        ToolTip.text: qsTr("Remove style")
     }
 
     // Export button (share as .zip) – for ALL styles, bundled ones included.
@@ -174,6 +174,6 @@ Rectangle {
         ToolTip.visible: exportArea.containsMouse && !Config.Responsive.isMobile
                          && Config.Parameters.showTooltips
         ToolTip.delay: 600
-        ToolTip.text: qsTr("Stil als ZIP exportieren")
+        ToolTip.text: qsTr("Export style as ZIP")
     }
 }

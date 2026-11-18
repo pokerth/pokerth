@@ -16,7 +16,7 @@ Rectangle {
         id: internetGameSettingsContent
         anchors.fill: parent
 
-        SettingsHeader { title: qsTr("Internetspiel"); topGap: 4 }
+        SettingsHeader { title: qsTr("Internet Game"); topGap: 4 }
 
         ScrollView {
             id: inetScrollView
@@ -33,7 +33,7 @@ Rectangle {
                 width: parent.width - 12
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Server-Konfiguration")
+                    title: qsTr("Server Configuration")
 
                     ColumnLayout {
                         anchors.fill: parent
@@ -45,7 +45,7 @@ Rectangle {
 
                         RadioButton {
                             id: automaticServerConfig
-                            text: qsTr("Automatische Server-Konfiguration")
+                            text: qsTr("Automatic Server Configuration")
                             checked: SettingsManager ? SettingsManager.readConfigInt("InternetServerConfigMode") === 0 : true
                             ButtonGroup.group: serverConfigGroup
                             onCheckedChanged: {
@@ -60,7 +60,7 @@ Rectangle {
                             Layout.fillWidth: true
 
                             Label {
-                                text: qsTr("Server-Liste:")
+                                text: qsTr("Server List:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: automaticServerConfig.checked
                             }
@@ -78,7 +78,7 @@ Rectangle {
 
                         RadioButton {
                             id: manualServerConfig
-                            text: qsTr("Manuelle Server-Konfiguration")
+                            text: qsTr("Manual Server Configuration")
                             checked: SettingsManager ? SettingsManager.readConfigInt("InternetServerConfigMode") === 1 : false
                             ButtonGroup.group: serverConfigGroup
                             onCheckedChanged: {
@@ -96,7 +96,7 @@ Rectangle {
                             rowSpacing: 8
 
                             Label {
-                                text: qsTr("Server-Adresse:")
+                                text: qsTr("Server Address:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: manualServerConfig.checked
                             }
@@ -112,7 +112,7 @@ Rectangle {
                             }
 
                             Label {
-                                text: qsTr("Server-Port:")
+                                text: qsTr("Server Port:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: manualServerConfig.checked
                             }
@@ -129,7 +129,7 @@ Rectangle {
                             }
 
                             Label {
-                                text: qsTr("Server-Passwort:")
+                                text: qsTr("Server Password:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: manualServerConfig.checked
                             }
@@ -151,7 +151,7 @@ Rectangle {
                 // Spiel-Einstellungen
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Spiel-Einstellungen")
+                    title: qsTr("Game Settings")
 
                     GridLayout {
                         anchors.fill: parent
@@ -160,7 +160,7 @@ Rectangle {
                         rowSpacing: 8
 
                         Label {
-                            text: qsTr("Spiel-Name:")
+                            text: qsTr("Game Name:")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
@@ -174,7 +174,7 @@ Rectangle {
                         }
 
                         Label {
-                            text: qsTr("Spiel-Typ:")
+                            text: qsTr("Game Type:")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
@@ -184,9 +184,9 @@ Rectangle {
                             // Order and index correspond to GameType-1
                             // (GAME_TYPE_NORMAL … GAME_TYPE_RANKING).
                             model: [qsTr("Normal"),
-                                    qsTr("Nur registrierte Spieler"),
-                                    qsTr("Nur eingeladene Spieler"),
-                                    qsTr("Ranglistenspiel")]
+                                    qsTr("Registered players only"),
+                                    qsTr("Invited players only"),
+                                    qsTr("Ranking game")]
                             currentIndex: {
                                 if (!SettingsManager)
                                     return 0
@@ -201,13 +201,13 @@ Rectangle {
                         ConfigCheckBox {
                             id: useInternetGamePassword
                             Layout.columnSpan: 2
-                            text: qsTr("Spiel-Passwort verwenden")
+                            text: qsTr("Use Game Password")
                             configKey: "UseInternetGamePassword"
                             defaultChecked: false
                         }
 
                         Label {
-                            text: qsTr("Spiel-Passwort:")
+                            text: qsTr("Game Password:")
                             color: Config.StaticData.palette.secondary.col200
                             enabled: useInternetGamePassword.checked
                         }
@@ -225,7 +225,7 @@ Rectangle {
 
                         ConfigCheckBox {
                             Layout.columnSpan: 2
-                            text: qsTr("Zuschauer erlauben")
+                            text: qsTr("Allow Spectators")
                             configKey: "InternetGameAllowSpectators"
                         }
                     }
@@ -234,7 +234,7 @@ Rectangle {
                 // Avatar-Server
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Avatar-Server")
+                    title: qsTr("Avatar Server")
 
                     ColumnLayout {
                         anchors.fill: parent
@@ -242,7 +242,7 @@ Rectangle {
 
                         ConfigCheckBox {
                             id: useAvatarServer
-                            text: qsTr("Avatar-Server verwenden")
+                            text: qsTr("Use Avatar Server")
                             configKey: "UseAvatarServer"
                             defaultChecked: false
                         }
@@ -252,7 +252,7 @@ Rectangle {
                             Layout.leftMargin: 30
 
                             Label {
-                                text: qsTr("Avatar-Server-Adresse:")
+                                text: qsTr("Avatar Server Address:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: useAvatarServer.checked
                             }
@@ -273,26 +273,26 @@ Rectangle {
                 // Verbindungsoptionen
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Verbindungsoptionen")
+                    title: qsTr("Connection Options")
 
                     ColumnLayout {
                         anchors.fill: parent
                         spacing: 8
 
                         ConfigCheckBox {
-                            text: qsTr("TLS/SSL verwenden (verschlüsselte Verbindung)")
+                            text: qsTr("Use TLS/SSL (encrypted connection)")
                             configKey: "InternetServerUseTls"
                             defaultChecked: false
                         }
 
                         ConfigCheckBox {
-                            text: qsTr("IPv6 verwenden")
+                            text: qsTr("Use IPv6")
                             configKey: "InternetServerUseIpv6"
                             defaultChecked: false
                         }
 
                         ConfigCheckBox {
-                            text: qsTr("SCTP verwenden (statt TCP)")
+                            text: qsTr("Use SCTP (instead of TCP)")
                             configKey: "InternetServerUseSctp"
                             defaultChecked: false
                         }
@@ -302,14 +302,14 @@ Rectangle {
                 // Weitere Optionen
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Weitere Optionen")
+                    title: qsTr("More Options")
 
                     ColumnLayout {
                         anchors.fill: parent
                         spacing: 8
 
                         ConfigCheckBox {
-                            text: qsTr("Tisch automatisch verlassen nach Spielende")
+                            text: qsTr("Automatically leave table after game ends")
                             configKey: "NetAutoLeaveGameAfterFinish"
                             defaultChecked: false
                         }
@@ -319,14 +319,14 @@ Rectangle {
                 // Ignored players
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Ignorierte Spieler")
+                    title: qsTr("Ignored Players")
 
                     ColumnLayout {
                         anchors.fill: parent
                         spacing: 8
 
                         Label {
-                            text: qsTr("Spieler auf der Ignore-Liste werden nicht im Chat angezeigt.")
+                            text: qsTr("Players on the ignore list are not shown in chat.")
                             color: Config.StaticData.palette.secondary.col400
                             wrapMode: Text.WordWrap
                             Layout.fillWidth: true
@@ -352,7 +352,7 @@ Rectangle {
                                 }
 
                                 CustomButton {
-                                    text: qsTr("Entfernen")
+                                    text: qsTr("Remove")
                                     Layout.preferredWidth: 100
                                     onClicked: {
                                         if (!SettingsManager) return
@@ -371,7 +371,7 @@ Rectangle {
 
                                 Label {
                                     anchors.centerIn: parent
-                                    text: qsTr("(keine ignorierten Spieler)")
+                                    text: qsTr("(no ignored players)")
                                     color: Config.StaticData.palette.secondary.col500
                                     font.italic: true
                                 }

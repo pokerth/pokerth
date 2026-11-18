@@ -27,7 +27,7 @@ Rectangle {
             // Label {
             //     id: internetGamePageLabel
             //     color: Config.StaticData.palette.secondary.col200
-            //     text: qsTr("Internetspiel")
+            //     text: qsTr("Internet Game")
             //     font.family: Config.StaticData.loadedFont.font.family
             //     font.pointSize: 14
             //     font.bold: true

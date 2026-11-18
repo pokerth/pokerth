@@ -145,14 +145,14 @@ Rectangle {
                     spacing: 10
 
                     CustomButton {
-                        text: qsTr("← Zurück")
+                        text: qsTr("← Back")
                         implicitWidth: 90
                         implicitHeight: 36
                         onClicked: mainStackView.pop()
                     }
                     AppLabel {
                         Layout.fillWidth: true
-                        text: qsTr("Netzwerkspiel erstellen")
+                        text: qsTr("Create Network Game")
                         color: Config.StaticData.palette.secondary.col100
                         font.pixelSize: 18
                         font.bold: true
@@ -175,7 +175,7 @@ Rectangle {
 
                 // ── Spiel-Einstellungen ──────────────────────────────────────
                 AppLabel {
-                    text: qsTr("Spiel-Einstellungen")
+                    text: qsTr("Game settings")
                     color: Config.StaticData.palette.secondary.col300
                     font.pixelSize: 13
                     font.bold: true
@@ -185,7 +185,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("Max. Spieler")
+                        text: qsTr("Max. players")
                         color: Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
@@ -203,7 +203,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("Startgeld")
+                        text: qsTr("Start cash")
                         color: Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
@@ -229,7 +229,7 @@ Rectangle {
                     Layout.bottomMargin: 4
                 }
                 AppLabel {
-                    text: qsTr("Blind-Einstellungen")
+                    text: qsTr("Blind settings")
                     color: Config.StaticData.palette.secondary.col300
                     font.pixelSize: 13
                     font.bold: true
@@ -239,7 +239,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("Erster Small Blind")
+                        text: qsTr("First small blind")
                         color: Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
@@ -259,7 +259,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 6
                     AppLabel {
-                        text: qsTr("Blind-Erhöhungsintervall")
+                        text: qsTr("Blinds raise interval")
                         color: Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
                     }
@@ -269,7 +269,7 @@ Rectangle {
                         RadioButton {
                             id: raiseByHandsRadio
                             checked: true
-                            text: qsTr("Alle")
+                            text: qsTr("Every")
                         }
                         CustomSpinBox {
                             id: raiseEveryHandsSpinBox
@@ -280,7 +280,7 @@ Rectangle {
                             implicitWidth: 110
                         }
                         AppLabel {
-                            text: qsTr("Hände")
+                            text: qsTr("hands")
                             color: raiseByHandsRadio.checked
                                 ? Config.StaticData.palette.secondary.col200
                                 : Config.StaticData.palette.secondary.col400
@@ -294,7 +294,7 @@ Rectangle {
                         RadioButton {
                             id: raiseByMinutesRadio
                             checked: false
-                            text: qsTr("Alle")
+                            text: qsTr("Every")
                         }
                         CustomSpinBox {
                             id: raiseEveryMinutesSpinBox
@@ -305,7 +305,7 @@ Rectangle {
                             implicitWidth: 110
                         }
                         AppLabel {
-                            text: qsTr("Minuten")
+                            text: qsTr("minutes")
                             color: raiseByMinutesRadio.checked
                                 ? Config.StaticData.palette.secondary.col200
                                 : Config.StaticData.palette.secondary.col400
@@ -319,7 +319,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("Blinds immer verdoppeln")
+                        text: qsTr("Always double blinds")
                         color: Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
@@ -340,7 +340,7 @@ Rectangle {
                     Layout.bottomMargin: 4
                 }
                 AppLabel {
-                    text: qsTr("Zeitlimits")
+                    text: qsTr("Time limits")
                     color: Config.StaticData.palette.secondary.col300
                     font.pixelSize: 13
                     font.bold: true
@@ -350,7 +350,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("Zeitlimit Spieleraktion")
+                        text: qsTr("Player action time limit")
                         color: Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
@@ -370,7 +370,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("Pause zwischen Händen")
+                        text: qsTr("Delay between hands")
                         color: Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
@@ -407,13 +407,13 @@ Rectangle {
                     Layout.topMargin: 4
                     spacing: 10
                     CustomButton {
-                        text: qsTr("Abbrechen")
+                        text: qsTr("Cancel")
                         Layout.fillWidth: true
                         onClicked: mainStackView.pop()
                     }
                     CustomButton {
                         id: createGameButton
-                        text: qsTr("Spiel erstellen")
+                        text: qsTr("Create Game")
                         Layout.fillWidth: true
                         onClicked: networkGameCreatePage.startHosting()
                     }
@@ -436,7 +436,7 @@ Rectangle {
             implicitHeight: 48
         }
         AppLabel {
-            text: qsTr("Server wird gestartet …")
+            text: qsTr("Starting server …")
             Layout.alignment: Qt.AlignHCenter
             color: Config.StaticData.palette.secondary.col200
             font.pixelSize: Config.Theme.fontSizeTitle
@@ -444,7 +444,7 @@ Rectangle {
         }
         CustomButton {
             id: cancelHostingButton
-            text: qsTr("Abbrechen")
+            text: qsTr("Cancel")
             Layout.fillWidth: true
             onClicked: {
                 if (typeof ServerConnection !== "undefined" && ServerConnection)

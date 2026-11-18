@@ -1620,7 +1620,7 @@ Rectangle {
                 anchors.margins: 8
                 iconSource: "../resources/gameLog.svg"
                 active: gamePage.infoPanelOpen
-                tooltipText: qsTr("Verlauf & Chancen")
+                tooltipText: qsTr("History & Odds")
                 onClicked: gamePage.toggleInfoOverlay()
             }
 
@@ -1692,7 +1692,7 @@ Rectangle {
                 anchors.topMargin: 8
                 iconSource: "../resources/addReaction.svg"
                 active: tableZone.showReactions
-                tooltipText: qsTr("Emoji-Reaktionen")
+                tooltipText: qsTr("Emoji reactions")
                 onClicked: tableZone.showReactions = !tableZone.showReactions
             }
 

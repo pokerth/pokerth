@@ -17,7 +17,7 @@ Rectangle {
         id: guiSettingsContent
         anchors.fill: parent
 
-        SettingsHeader { title: qsTr("Benutzeroberfläche") }
+        SettingsHeader { title: qsTr("User Interface") }
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -29,7 +29,7 @@ Rectangle {
 
             CustomTabBar {
                 id: guiSettingsTabBar
-                model: [qsTr("Allgemein"), qsTr("Netzwerk")]
+                model: [qsTr("General"), qsTr("Network")]
             }
 
             StackLayout {
@@ -59,7 +59,7 @@ Rectangle {
 
                         ComboBox {
                             id: darkModeSelector
-                            model: [qsTr("Automatisch"), qsTr("Hell"), qsTr("Dunkel")]
+                            model: [qsTr("Automatic"), qsTr("Light"), qsTr("Dark")]
                             // Config: 0=Hell, 1=Dunkel, 2=Auto → Index: 0=Auto, 1=Hell, 2=Dunkel
                             Component.onCompleted: {
                                 if (SettingsManager) {
@@ -95,7 +95,7 @@ Rectangle {
                             Layout.fillHeight: false
                             horizontalAlignment: Text.AlignLeft
                             verticalAlignment: Text.AlignVCenter
-                            text: qsTr("Sprache:")
+                            text: qsTr("Language:")
                             color: Config.StaticData.palette.secondary.col200
                             font.pointSize: 12
                         }
@@ -129,7 +129,7 @@ Rectangle {
 
                     AppCheckBox {
                         objectName: "allowChatTranslationCheckbox"
-                        text: qsTr("Übersetzung anbieten (Globus-Symbol im Chat und bei Forum-Beiträgen)")
+                        text: qsTr("Offer translation (globe symbol in chat and on forum posts)")
                         checked: (typeof SettingsManager !== "undefined" && SettingsManager)
                                  ? SettingsManager.readConfigInt("AllowChatTranslation") !== 0 : true
                         onToggled: {
@@ -152,32 +152,32 @@ Rectangle {
                         Layout.leftMargin: 28
                         Layout.bottomMargin: 4
                         wrapMode: Text.Wrap
-                        text: qsTr("Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht oder eines Forum-Beitrags antippst; Zielsprache ist die oben gewählte Sprache.")
+                        text: qsTr("Translation uses an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap the symbol of a message or a forum post; the target language is the one selected above.")
                         color: Config.StaticData.palette.secondary.col400
                         font.pointSize: 10
                     }
 
                     ConfigCheckBox {
                         objectName: "showChatTimestampCheckbox"
-                        text: qsTr("Zeitstempel im Chat anzeigen")
+                        text: qsTr("Show timestamp in chat")
                         configKey: "ShowChatTimestamp"
                     }
 
                     ConfigCheckBox {
                         objectName: "fadeOutLosingCardsAnimationCheckbox"
-                        text: qsTr("Ausblend-Animation für Verliererkarten")
+                        text: qsTr("Fade-out animation for losing cards")
                         configKey: "ShowFadeOutCardsAnimation"
                     }
 
                     ConfigCheckBox {
                         objectName: "animatedCardsCheckbox"
-                        text: qsTr("Animierte Karten (Aufdeck-Animation)")
+                        text: qsTr("Animated Cards (Flip Animation)")
                         configKey: "ShowFlipCardsAnimation"
                     }
 
                     AppCheckBox {
                         objectName: "reduceEffectsCheckbox"
-                        text: qsTr("Grafikeffekte reduzieren (Schatten/Glow) – für schwache Systeme")
+                        text: qsTr("Reduce graphics effects (shadows/glow) – for low-end systems")
                         checked: SettingsManager ? SettingsManager.readConfigInt("QmlReduceEffects") !== 0 : false
                         onToggled: {
                             if (SettingsManager) SettingsManager.writeConfigInt("QmlReduceEffects", checked ? 1 : 0)
@@ -187,40 +187,40 @@ Rectangle {
 
                     ConfigCheckBox {
                         objectName: "reverseFKeysOrderCheckbox"
-                        text: qsTr("Alternative F-Tasten-Belegung (F1-F4)")
+                        text: qsTr("Alternative F-Key Assignment (F1-F4)")
                         configKey: "AlternateFKeysUserActionMode"
                         defaultChecked: false
                     }
 
                     ConfigCheckBox {
                         objectName: "showBlindButtonsCheckbox"
-                        text: qsTr("Symbole für Small Blind und Big Blind anzeigen")
+                        text: qsTr("Show Small Blind and Big Blind symbols")
                         configKey: "ShowBlindButtons"
                     }
 
                     ConfigCheckBox {
                         objectName: "showPotPercentButtonsCheckbox"
-                        text: qsTr("Pot-Prozent-Schaltflächen anzeigen")
+                        text: qsTr("Show pot percent buttons")
                         configKey: "ShowPotPercentButtons"
                     }
 
                     ConfigCheckBox {
                         objectName: "showOwnCardsOnMouseClickCheckbox"
-                        text: qsTr("Anti-Peek: Eigene Karten erst bei Klick anzeigen")
+                        text: qsTr("Anti-Peek: Show own cards only on click")
                         configKey: "AntiPeekMode"
                         defaultChecked: false
                     }
 
                     AppCheckBox {
                         objectName: "disableSplashScreenOnStartupCheckbox"
-                        text: qsTr("Startbildschirm beim Startvorgang deaktivieren")
+                        text: qsTr("Disable splash screen on startup")
                         checked: SettingsManager ? SettingsManager.disableSplashScreen : false
                         onToggled: { if (SettingsManager) SettingsManager.disableSplashScreen = checked }
                     }
 
                     AppCheckBox {
                         objectName: "doNotTranslatePokerTermsCheckbox"
-                        text: qsTr("Internationale Pokerausdrücke (Check, Call, Raise) nicht übersetzen")
+                        text: qsTr("Do not translate international poker terms (Check, Call, Raise)")
                         checked: SettingsManager ? SettingsManager.readConfigInt("DontTranslateInternationalPokerStringsFromStyle") !== 0 : false
                         onToggled: { if (SettingsManager) SettingsManager.writeConfigInt("DontTranslateInternationalPokerStringsFromStyle", checked ? 1 : 0) }
                     }
@@ -229,7 +229,7 @@ Rectangle {
                         objectName: "showTooltipsCheckbox"
                         visible: !Config.Responsive.isMobile
                         height: visible ? implicitHeight : 0
-                        text: qsTr("Tooltips anzeigen")
+                        text: qsTr("Show tooltips")
                         checked: Config.Parameters.showTooltips
                         onCheckedChanged: Config.Parameters.showTooltips = checked
                     }
@@ -252,14 +252,14 @@ Rectangle {
                     AppCheckBox {
                         visible: Config.Responsive.compact
                         height: visible ? implicitHeight : 0
-                        text: qsTr("Tischzoom aktivieren (Wischen & Zoomen, nur Mobilmodus)")
+                        text: qsTr("Enable table zoom (swipe & zoom, mobile mode only)")
                         checked: Config.Parameters.tableZoomEnabled
                         onCheckedChanged: Config.Parameters.tableZoomEnabled = checked
                     }
 
                     AppCheckBox {
                         objectName: "keepEmptySeatsCheckbox"
-                        text: qsTr("Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)")
+                        text: qsTr("Keep seats of players who left the table (remaining player boxes stay in place)")
                         checked: Config.Parameters.keepEmptySeats
                         onCheckedChanged: Config.Parameters.keepEmptySeats = checked
                     }
@@ -269,14 +269,14 @@ Rectangle {
                     // (official PokerTH forum, not BBC/WEC).
                     AppCheckBox {
                         objectName: "showForumNewsCheckbox"
-                        text: qsTr("Forum-Neuigkeiten anzeigen")
+                        text: qsTr("Show forum news")
                         checked: Config.Parameters.showForumNews
                         onCheckedChanged: Config.Parameters.showForumNews = checked
                     }
 
                     AppCheckBox {
                         objectName: "showCommunityContentCheckbox"
-                        text: qsTr("Community-Inhalte anzeigen")
+                        text: qsTr("Show community content")
                         checked: Config.Parameters.showCommunityContent
                         onCheckedChanged: Config.Parameters.showCommunityContent = checked
                     }
@@ -292,7 +292,7 @@ Rectangle {
                         Label {
                             Layout.preferredHeight: 24
                             verticalAlignment: Text.AlignVCenter
-                            text: qsTr("Standard-Community:")
+                            text: qsTr("Default community:")
                             color: Config.StaticData.palette.secondary.col200
                             font.pointSize: 12
                         }
@@ -324,7 +324,7 @@ Rectangle {
                         Layout.leftMargin: 24
                         visible: Config.Parameters.showCommunityContent
                         Layout.preferredHeight: visible ? implicitHeight : 0
-                        text: qsTr("Spieler in eigenen Community-Spielen vorschlagen")
+                        text: qsTr("Suggest players in your own community games")
                         checked: Config.Parameters.showCommunitySuggest
                         onCheckedChanged: Config.Parameters.showCommunitySuggest = checked
                     }
@@ -342,26 +342,26 @@ Rectangle {
 
                     ConfigCheckBox {
                         objectName: "showNetworkStatusColorOnAvatarCheckbox"
-                        text: qsTr("Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen")
+                        text: qsTr("Show network status color in avatar corner")
                         configKey: "ShowPingStateInAvatar"
                     }
 
                     ConfigCheckBox {
                         objectName: "focusBetInputOnTurnCheckbox"
-                        text: qsTr("Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind")
+                        text: qsTr("Set focus to bet input when it's your turn")
                         configKey: "EnableBetInputFocusSwitch"
                         defaultChecked: false
                     }
 
                     ConfigCheckBox {
                         objectName: "preventAccidentalCallAfterBigRaiseCheckbox"
-                        text: qsTr("Versehentliches Call nach einem großen Raise verhindern")
+                        text: qsTr("Prevent accidental call after a big raise")
                         configKey: "AccidentallyCallBlocker"
                     }
 
                     ConfigCheckBox {
                         objectName: "disableEmojiReactionsCheckbox"
-                        text: qsTr("Emoji-Reaktionen deaktivieren")
+                        text: qsTr("Disable emoji reactions")
                         configKey: "DisableEmojiReactions"
                         defaultChecked: false
                     }

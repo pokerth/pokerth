@@ -16,7 +16,7 @@ Rectangle {
         id: nicknameAvatarSettingsContent
         anchors.fill: parent
 
-        SettingsHeader { title: qsTr("Nicknamen/Avatare"); topGap: 4 }
+        SettingsHeader { title: qsTr("Nicknames/Avatars"); topGap: 4 }
 
         ScrollView {
             id: nickScrollView
@@ -35,7 +35,7 @@ Rectangle {
                 // Mein Name / Avatar
                 GroupBox {
                     Layout.fillWidth: true
-                    title: qsTr("Mein Spieler")
+                    title: qsTr("My Player")
 
                     ColumnLayout {
                         anchors.fill: parent
@@ -45,7 +45,7 @@ Rectangle {
 
                             Label {
                                 Layout.preferredWidth: 120
-                                text: qsTr("Mein Nickname:")
+                                text: qsTr("My Nickname:")
                                 color: Config.StaticData.palette.secondary.col200
                             }
 
@@ -90,7 +90,7 @@ Rectangle {
                                 spacing: 2
 
                                 Label {
-                                    text: qsTr("Mein Avatar:")
+                                    text: qsTr("My Avatar:")
                                     color: Config.StaticData.palette.secondary.col200
                                 }
 
@@ -98,7 +98,7 @@ Rectangle {
                                     Layout.fillWidth: true
                                     text: myAvatarField.text.length > 0
                                           ? myAvatarField.text.split("/").pop()
-                                          : qsTr("Kein Avatar gewählt")
+                                          : qsTr("No Avatar Selected")
                                     font.pointSize: 10
                                     color: Config.StaticData.palette.secondary.col400
                                     elide: Text.ElideLeft
@@ -116,10 +116,10 @@ Rectangle {
 
                                 Button {
                                     Layout.fillWidth: true
-                                    text: qsTr("Auswählen...")
+                                    text: qsTr("Select...")
                                     onClicked: {
                                         if (!SettingsManager) return
-                                        let path = SettingsManager.pickImageFile(qsTr("Avatar auswählen"))
+                                        let path = SettingsManager.pickImageFile(qsTr("Select avatar"))
                                         if (path) {
                                             myAvatarField.text = path
                                             SettingsManager.writeConfigString("MyAvatar", path)
@@ -129,7 +129,7 @@ Rectangle {
 
                                 Button {
                                     Layout.fillWidth: true
-                                    text: qsTr("Beispiele...")
+                                    text: qsTr("Examples...")
                                     onClicked: {
                                         avatarPicker.onPicked = function(path) {
                                             myAvatarField.text = path
@@ -148,7 +148,7 @@ Rectangle {
                     model: 9
                     delegate: GroupBox {
                         Layout.fillWidth: true
-                        title: qsTr("Gegner %1").arg(index + 1)
+                        title: qsTr("Opponent %1").arg(index + 1)
 
                         ColumnLayout {
                             anchors.fill: parent
@@ -211,7 +211,7 @@ Rectangle {
                                         Layout.fillWidth: true
                                         text: opponentAvatarField.text.length > 0
                                               ? opponentAvatarField.text.split("/").pop()
-                                              : qsTr("Kein Avatar gewählt")
+                                              : qsTr("No Avatar Selected")
                                         font.pointSize: 10
                                         color: Config.StaticData.palette.secondary.col400
                                         elide: Text.ElideLeft
@@ -229,10 +229,10 @@ Rectangle {
 
                                     Button {
                                         Layout.fillWidth: true
-                                        text: qsTr("Auswählen...")
+                                        text: qsTr("Select...")
                                         onClicked: {
                                             if (!SettingsManager) return
-                                            let path = SettingsManager.pickImageFile(qsTr("Avatar auswählen"))
+                                            let path = SettingsManager.pickImageFile(qsTr("Select avatar"))
                                             if (path) {
                                                 opponentAvatarField.text = path
                                                 SettingsManager.writeConfigString("Opponent" + (index + 1) + "Avatar", path)
@@ -242,7 +242,7 @@ Rectangle {
 
                                     Button {
                                         Layout.fillWidth: true
-                                        text: qsTr("Beispiele...")
+                                        text: qsTr("Examples...")
                                         onClicked: {
                                             avatarPicker.onPicked = function(path) {
                                                 opponentAvatarField.text = path

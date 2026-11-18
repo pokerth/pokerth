@@ -172,7 +172,7 @@ QtObject {
             if (xhr.status !== 200 || xhr.responseText.length === 0) {
                 console.warn("ForumNews: fetch failed, status", xhr.status)
                 if (forumNews.posts.length === 0)
-                    forumNews.errorText = qsTr("The forum feed could not be loaded.")
+                    forumNews.errorText = qsTr("Could not load the forum feed.")
                 return
             }
             var parsed = []
@@ -183,7 +183,7 @@ QtObject {
             }
             if (parsed.length === 0) {
                 if (forumNews.posts.length === 0)
-                    forumNews.errorText = qsTr("The forum feed could not be loaded.")
+                    forumNews.errorText = qsTr("Could not load the forum feed.")
                 return
             }
             forumNews.posts = parsed

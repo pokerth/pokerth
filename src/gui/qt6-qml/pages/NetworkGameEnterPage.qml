@@ -118,14 +118,14 @@ Rectangle {
                     anchors { fill: parent; leftMargin: 12; rightMargin: 12 }
                     spacing: 10
                     CustomButton {
-                        text: qsTr("← Zurück")
+                        text: qsTr("← Back")
                         implicitWidth: 90
                         implicitHeight: 36
                         onClicked: mainStackView.pop()
                     }
                     AppLabel {
                         Layout.fillWidth: true
-                        text: qsTr("Netzwerkspiel beitreten")
+                        text: qsTr("Join Network Game")
                         color: Config.StaticData.palette.secondary.col100
                         font.pixelSize: 18
                         font.bold: true
@@ -148,7 +148,7 @@ Rectangle {
 
                 // ── Server-Verbindung ────────────────────────────────────────
                 AppLabel {
-                    text: qsTr("Server-Verbindung")
+                    text: qsTr("Server connection")
                     color: Config.StaticData.palette.secondary.col300
                     font.pixelSize: 13
                     font.bold: true
@@ -158,14 +158,14 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 4
                     AppLabel {
-                        text: qsTr("Server-Adresse")
+                        text: qsTr("Server address")
                         color: Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
                     }
                     TextField {
                         id: addressField
                         Layout.fillWidth: true
-                        placeholderText: qsTr("IP-Adresse oder Hostname")
+                        placeholderText: qsTr("IP address or hostname")
                         font.family: Config.StaticData.loadedFont.font.family
                         color: Config.StaticData.palette.secondary.col100
                         placeholderTextColor: Config.StaticData.palette.secondary.col400
@@ -202,7 +202,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("IPv6 verwenden")
+                        text: qsTr("Use IPv6")
                         color: Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
@@ -215,7 +215,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("SCTP verwenden")
+                        text: qsTr("Use SCTP")
                         color: Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
@@ -233,7 +233,7 @@ Rectangle {
                     Layout.bottomMargin: 4
                 }
                 AppLabel {
-                    text: qsTr("Server-Profile")
+                    text: qsTr("Server profiles")
                     color: Config.StaticData.palette.secondary.col300
                     font.pixelSize: 13
                     font.bold: true
@@ -243,7 +243,7 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 8
                     AppLabel {
-                        text: qsTr("Profilname")
+                        text: qsTr("Profile name")
                         color: Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
@@ -265,7 +265,7 @@ Rectangle {
                             event.accepted = true
                         }
                         Layout.fillWidth: true
-                        placeholderText: qsTr("Name des Profils")
+                        placeholderText: qsTr("Name of the profile")
                         font.family: Config.StaticData.loadedFont.font.family
                         color: Config.StaticData.palette.secondary.col100
                         placeholderTextColor: Config.StaticData.palette.secondary.col400
@@ -291,7 +291,7 @@ Rectangle {
                     spacing: 8
                     CustomButton {
                         id: saveProfileButton
-                        text: qsTr("Speichern")
+                        text: qsTr("Save")
                         Layout.fillWidth: true
                         enabled: profileNameField.text.trim().length > 0
                                  && addressField.text.trim().length > 0
@@ -305,7 +305,7 @@ Rectangle {
                         }
                     }
                     CustomButton {
-                        text: qsTr("Löschen")
+                        text: qsTr("Delete")
                         Layout.fillWidth: true
                         enabled: networkGameEnterPage.selectedProfile !== ""
                         onClicked: {
@@ -397,13 +397,13 @@ Rectangle {
                     Layout.topMargin: 4
                     spacing: 10
                     CustomButton {
-                        text: qsTr("Abbrechen")
+                        text: qsTr("Cancel")
                         Layout.fillWidth: true
                         onClicked: mainStackView.pop()
                     }
                     CustomButton {
                         id: connectButton
-                        text: qsTr("Verbinden")
+                        text: qsTr("Connect")
                         Layout.fillWidth: true
                         enabled: addressField.text.trim().length > 0
                         onClicked: networkGameEnterPage.startConnect()
@@ -427,7 +427,7 @@ Rectangle {
             implicitHeight: 48
         }
         AppLabel {
-            text: qsTr("Verbinde mit Server …")
+            text: qsTr("Connecting to server …")
             Layout.alignment: Qt.AlignHCenter
             color: Config.StaticData.palette.secondary.col200
             font.pixelSize: Config.Theme.fontSizeTitle
@@ -435,7 +435,7 @@ Rectangle {
         }
         CustomButton {
             id: cancelConnectButton
-            text: qsTr("Abbrechen")
+            text: qsTr("Cancel")
             Layout.fillWidth: true
             onClicked: {
                 if (typeof ServerConnection !== "undefined" && ServerConnection)

@@ -1047,7 +1047,7 @@ Item {
                     Layout.preferredHeight: actionBar.raiseRowHeight
                     font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 11
-                    model: [ qsTr("Manuell"), qsTr("Auto Check/Call"), qsTr("Auto Check/Fold") ]
+                    model: [ qsTr("Manual"), qsTr("Auto Check/Call"), qsTr("Auto Check/Fold") ]
                     currentIndex: actionBar.playingMode
                     onActivated: (index) => actionBar.applyPlayingMode(index)
                     // Open the popup upwards – it prevents it from disappearing behind

@@ -67,7 +67,7 @@ Popup {
 
             AppLabel {
                 Layout.fillWidth: true
-                text: qsTr("Beispiel-Avatar wählen")
+                text: qsTr("Choose example avatar")
                 color: Config.StaticData.palette.secondary.col100
                 font.pixelSize: Config.Theme.fontSizeBody
                 font.bold: true
@@ -91,8 +91,8 @@ Popup {
 
             Repeater {
                 model: [
-                    { key: "people", label: qsTr("Personen") },
-                    { key: "misc",   label: qsTr("Verschiedenes") }
+                    { key: "people", label: qsTr("People") },
+                    { key: "misc",   label: qsTr("Miscellaneous") }
                 ]
 
                 delegate: ColumnLayout {
@@ -175,7 +175,7 @@ Popup {
 
         // Footer: cancel
         CustomButton {
-            text: qsTr("Abbrechen")
+            text: qsTr("Cancel")
             Layout.alignment: Qt.AlignRight
             Layout.bottomMargin: 16
             Layout.rightMargin: 16

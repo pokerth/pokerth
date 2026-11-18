@@ -511,24 +511,24 @@ QVariantMap SettingsManager::importTableStyle()
 {
 	return importStyle("table", "TableStyle", "tablestyle.xml",
 					   QML_TABLE_STYLE_VERSION, "LastGameTableStyleDir",
-					   tr("Spieltisch-Stil auswählen"),
-					   tr("Die ausgewählte Datei ist kein Spieltisch-Stil."));
+					   tr("Select game table style"),
+					   tr("The selected file is not a game table style."));
 }
 
 QVariantMap SettingsManager::importCardDeckStyle()
 {
 	return importStyle("cards", "CardDeck", "deckstyle.xml",
 					   QML_CARD_DECK_STYLE_VERSION, "LastCardDeckStyleDir",
-					   tr("Kartenstapel-Stil auswählen"),
-					   tr("Die ausgewählte Datei ist kein Kartenstapel-Stil."));
+					   tr("Select card deck style"),
+					   tr("The selected file is not a card deck style."));
 }
 
 QVariantMap SettingsManager::importCardBackStyle()
 {
 	return importStyle("backside", "CardBack", "backsidestyle.xml",
 					   QML_CARD_BACK_STYLE_VERSION, "LastCardBackStyleDir",
-					   tr("Kartenrückseiten-Stil auswählen"),
-					   tr("Die ausgewählte Datei ist kein Kartenrückseiten-Stil."));
+					   tr("Select card back style"),
+					   tr("The selected file is not a card back style."));
 }
 
 QVariantMap SettingsManager::importStyle(const QString &category, const QString &sectionTag,
@@ -556,7 +556,7 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 		startDir = QDir::home().absolutePath();
 	const QString picked = QFileDialog::getOpenFileName(
 							   nullptr, dialogTitle, startDir,
-							   tr("PokerTH-Stile (*.zip *.xml)"),
+							   tr("PokerTH styles (*.zip *.xml)"),
 							   nullptr, AppImageUtils::fileDialogOptions());
 	if (picked.isEmpty())
 		return result;
@@ -579,12 +579,12 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 	// recognise a ZIP by the magic "PK\x03\x04" – independently of the file extension.
 	QFile pickedFile(picked);
 	if (!pickedFile.open(QIODevice::ReadOnly))
-		return fail(tr("Die ausgewählte Datei kann nicht gelesen werden."));
+		return fail(tr("The selected file cannot be read."));
 	const bool isZip = pickedFile.peek(4).startsWith(QByteArrayLiteral("PK\x03\x04"));
 
 	if (isZip) {
 		if (!tempDir.isValid())
-			return fail(tr("Es konnte kein temporäres Verzeichnis angelegt werden."));
+			return fail(tr("A temporary directory could not be created."));
 		const QByteArray zipData = pickedFile.readAll();
 		pickedFile.close();
 		QString zipError;
@@ -595,7 +595,7 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 		QDirIterator it(tempDir.path(), QStringList() << ("*" + xmlSuffix),
 						QDir::Files, QDirIterator::Subdirectories);
 		if (!it.hasNext())
-			return fail(tr("Das Archiv enthält keine Datei \"%1\".").arg(xmlSuffix));
+			return fail(tr("The archive does not contain a file \"%1\".").arg(xmlSuffix));
 		xmlPath = it.next();
 		styleDir = QFileInfo(xmlPath).dir();
 		// Style name = the folder name in the archive. If the XML lies in the archive root folder
@@ -614,7 +614,7 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 	// transported via the value attribute as in the StyleProvider.
 	QFile xmlFile(xmlPath);
 	if (!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text))
-		return fail(tr("Die Stil-Datei kann nicht gelesen werden."));
+		return fail(tr("The style file cannot be read."));
 
 	QString sectionName;
 	QHash<QString, QString> values;
@@ -625,7 +625,7 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 		if (token == QXmlStreamReader::StartElement) {
 			++depth;
 			if (depth == 1 && xml.name() != QStringLiteral("PokerTH"))
-				return fail(tr("Die ausgewählte Datei ist kein PokerTH-Stil."));
+				return fail(tr("The selected file is not a PokerTH style."));
 			else if (depth == 2 && sectionName.isEmpty())
 				sectionName = xml.name().toString();
 			else if (depth == 3)
@@ -636,7 +636,7 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 		}
 	}
 	if (xml.hasError())
-		return fail(tr("Die Stil-Datei enthält kein gültiges XML (%1).")
+		return fail(tr("The style file does not contain valid XML (%1).")
 					.arg(xml.errorString()));
 	if (sectionName != sectionTag)
 		return fail(wrongTypeMessage);
@@ -644,15 +644,15 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 	// The scan and the StyleProvider only find styles via the naming convention
 	// "*<xmlSuffix>" – a file named differently would be invisible after the import.
 	if (!xmlPath.endsWith(xmlSuffix, Qt::CaseInsensitive))
-		return fail(tr("Der Dateiname der Stil-Datei muss auf \"%1\" enden.").arg(xmlSuffix));
+		return fail(tr("The style file's name must end with \"%1\".").arg(xmlSuffix));
 
 	// The style name is the folder name (config keys such as QmlGameTableStyle
 	// only store names) – reject a name collision with existing styles.
 	if (name.isEmpty())
-		return fail(tr("Die Stil-Datei muss in einem eigenen Ordner liegen."));
+		return fail(tr("The style file must be located in its own folder."));
 	if (QDir(stylesRootPath(false, category) + "/" + name).exists()
 			|| QDir(stylesRootPath(true, category) + "/" + name).exists())
-		return fail(tr("Ein Stil mit dem Namen \"%1\" ist bereits vorhanden.").arg(name));
+		return fail(tr("A style named \"%1\" already exists.").arg(name));
 
 	// Checks analogous to the widget client (GameTableStyleReader):
 	// leftItems = missing mandatory fields, picsLeft = graphics that were not found.
@@ -694,14 +694,14 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 				missingCards << cardFile;
 		}
 		if (!missingCards.isEmpty())
-			return fail(tr("Der Kartenstapel ist unvollständig, es fehlen: %1")
+			return fail(tr("The card deck is incomplete, missing: %1")
 						.arg(missingCards.join(", ")));
 	}
 	// Card back: it consists of exactly one graphic – without it the style is
 	// non-functional, hence a hard error as well.
 	if (category == "backside"
 			&& (values.value("Backside").isEmpty() || !picsLeft.filter("Backside").isEmpty()))
-		return fail(tr("Die Kartenrückseiten-Grafik (Backside) fehlt."));
+		return fail(tr("The card back image (Backside) is missing."));
 
 	// Check the format version (corresponds to the outdated warning of the widget client).
 	const QString versionValue = values.value("PokerTHStyleFileVersion");
@@ -716,30 +716,30 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
 	// style (card deck: 52 cards + XML + preview) stays well below that.
 	const int fileCount = countFilesRecursively(styleDir.absolutePath(), 200);
 	if (fileCount > 200)
-		return fail(tr("Der Ordner der Stil-Datei enthält ungewöhnlich viele Dateien. "
-					   "Bitte den Stil in einen eigenen Ordner legen."));
+		return fail(tr("The folder of the style file contains an unusually large number of files. "
+					   "Please put the style into its own folder."));
 	const QString targetPath = stylesRootPath(true, category) + "/" + name;
 	if (!copyDirRecursively(styleDir.absolutePath(), targetPath)) {
 		QDir(targetPath).removeRecursively();
-		return fail(tr("Der Stil konnte nicht nach \"%1\" kopiert werden.").arg(targetPath));
+		return fail(tr("The style could not be copied to \"%1\".").arg(targetPath));
 	}
 
 	result["status"] = "ok";
 	result["name"] = name;
 	QStringList problems;
 	if (outdated)
-		problems << tr("Der Stil hat Format-Version %1, aktuell ist Version %2.")
+		problems << tr("The style has format version %1, the current version is %2.")
 				 .arg(versionValue).arg(expectedVersion);
 	if (!leftItems.isEmpty())
-		problems << tr("Fehlende Angaben: %1.").arg(leftItems.join(", "));
+		problems << tr("Missing fields: %1.").arg(leftItems.join(", "));
 	if (!picsLeft.isEmpty())
-		problems << tr("Nicht gefundene Grafiken: %1.").arg(picsLeft.join(", "));
+		problems << tr("Graphics not found: %1.").arg(picsLeft.join(", "));
 	if (!problems.isEmpty()) {
 		result["status"] = "warning";
 		result["message"] =
-			tr("Der Stil \"%1\" wurde übernommen, ist aber unvollständig:").arg(name)
+			tr("The style \"%1\" was added, but it is incomplete:").arg(name)
 			+ "\n" + problems.join("\n") + "\n"
-			+ tr("Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.");
+			+ tr("Missing content is replaced by the client's default graphics.");
 	}
 	return result;
 }
@@ -786,7 +786,7 @@ QVariantMap SettingsManager::exportStyle(const QString &category, const QString 
 		}
 	}
 	if (styleDir.isEmpty())
-		return fail(tr("Der Stil \"%1\" wurde nicht gefunden.").arg(name));
+		return fail(tr("The style \"%1\" was not found.").arg(name));
 
 	// The save dialog (the default: <name>.zip in the export folder used last).
 	QString startDir = QString::fromStdString(
@@ -794,8 +794,8 @@ QVariantMap SettingsManager::exportStyle(const QString &category, const QString 
 	if (startDir.isEmpty() || !QDir(startDir).exists())
 		startDir = QDir::home().absolutePath();
 	const QString target = QFileDialog::getSaveFileName(
-							   nullptr, tr("Stil exportieren"), startDir + "/" + name + ".zip",
-							   tr("ZIP-Archive (*.zip)"), nullptr, AppImageUtils::fileDialogOptions());
+							   nullptr, tr("Export style"), startDir + "/" + name + ".zip",
+							   tr("ZIP archives (*.zip)"), nullptr, AppImageUtils::fileDialogOptions());
 	if (target.isEmpty())
 		return result;
 	m_config->writeConfigString("LastStyleExportDir",
@@ -808,14 +808,14 @@ QVariantMap SettingsManager::exportStyle(const QString &category, const QString 
 	const QByteArray archive = ZipUtils::createArchive(styleDir, name, zipError);
 	if (archive.isEmpty())
 		return fail(zipError.isEmpty()
-					? tr("Das Archiv konnte nicht erstellt werden.")
+					? tr("The archive could not be created.")
 					: zipError);
 
 	QFile out(target);
 	if (!out.open(QIODevice::WriteOnly) || out.write(archive) != archive.size()) {
 		out.close();
 		QFile::remove(target);
-		return fail(tr("Das Archiv konnte nicht nach \"%1\" geschrieben werden.").arg(target));
+		return fail(tr("The archive could not be written to \"%1\".").arg(target));
 	}
 	out.close();
 

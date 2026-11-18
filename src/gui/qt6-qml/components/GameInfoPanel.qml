@@ -65,14 +65,14 @@ ColumnLayout {
     // Category index (0 = high card … 9 = royal flush) → name + SVG icon.
     // The order is identical to the cardsChance indexing in the GameHandler.
     readonly property var handDefs: [
-        { name: qsTr("Höchste Karte"),  icon: "highcard" },
-        { name: qsTr("Paar"),           icon: "onepair" },
-        { name: qsTr("Zwei Paare"),     icon: "twopair" },
-        { name: qsTr("Drilling"),       icon: "threeofakind" },
-        { name: qsTr("Straße"),         icon: "straight" },
+        { name: qsTr("High Card"),  icon: "highcard" },
+        { name: qsTr("Pair"),           icon: "onepair" },
+        { name: qsTr("Two Pair"),     icon: "twopair" },
+        { name: qsTr("Three of a Kind"),       icon: "threeofakind" },
+        { name: qsTr("Straight"),         icon: "straight" },
         { name: qsTr("Flush"),          icon: "flush" },
         { name: qsTr("Full House"),     icon: "fullhouse" },
-        { name: qsTr("Vierling"),       icon: "fourofakind" },
+        { name: qsTr("Four of a Kind"),       icon: "fourofakind" },
         { name: qsTr("Straight Flush"), icon: "straightflush" },
         { name: qsTr("Royal Flush"),    icon: "royalflush" }
     ]
@@ -102,7 +102,7 @@ ColumnLayout {
         colTextIdle:   root.colTextMuted
         colTabActive:  root.colSurface
         colTabIdle:    Config.Theme.withAlpha(root.colBorder, 0.20)
-        model: [qsTr("Verlauf"), qsTr("Chancen")]
+        model: [qsTr("History"), qsTr("Odds")]
     }
 
     StackLayout {
@@ -352,12 +352,12 @@ ColumnLayout {
         }
 
         CtxItem {
-            text: qsTr("Kopieren")
+            text: qsTr("Copy")
             enabled: logText.selectedText.length > 0
             onTriggered: logText.copy()
         }
         CtxItem {
-            text: qsTr("Alles auswählen")
+            text: qsTr("Select all")
             onTriggered: logText.selectAll()
         }
     }

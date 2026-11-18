@@ -148,7 +148,7 @@ SeatBox {
                     font.weight: Font.DemiBold
                     font.letterSpacing: 0.3
                     elide: Text.ElideRight
-                    text: root.seatData && root.seatData.name !== "" ? root.seatData.name : qsTr("Du")
+                    text: root.seatData && root.seatData.name !== "" ? root.seatData.name : qsTr("You")
                 }
 
                 AppText {
@@ -181,7 +181,7 @@ SeatBox {
                     font.weight: Font.DemiBold
                     font.letterSpacing: 0.3
                     elide: Text.ElideRight
-                    text: root.seatData && root.seatData.name !== "" ? root.seatData.name : qsTr("Du")
+                    text: root.seatData && root.seatData.name !== "" ? root.seatData.name : qsTr("You")
                 }
 
                 Image {
