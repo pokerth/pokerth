@@ -30,6 +30,11 @@ Popup {
 
     // Current conversation partner (player name).
     property string activePartner: ""
+    // PM accent (gold) at low opacity – tints the own bubbles in light mode.
+    readonly property color pmTint: {
+        var c = Qt.color(Config.StaticData.chartColors[3])
+        return Qt.rgba(c.r, c.g, c.b, 0.28)
+    }
 
     readonly property int pmRevision: (typeof Lobby !== "undefined" && Lobby)
                                       ? Lobby.privateMessagesRevision : 0
@@ -441,9 +446,14 @@ Popup {
                             radius: 8
                             anchors.right: modelData.fromMe ? parent.right : undefined
                             anchors.left: modelData.fromMe ? undefined : parent.left
-                            color: modelData.fromMe
-                                   ? Config.StaticData.chartColor(3, false)
-                                   : Config.Theme.colorPanelRow
+                            // Own bubble: dark shade of the PM accent in dark mode,
+                            // light tint of it in light mode (the dark shade would
+                            // swallow the dark light-theme text).
+                            color: !modelData.fromMe
+                                   ? Config.Theme.colorPanelRow
+                                   : Config.StaticData.isDark
+                                     ? Config.StaticData.chartColor(3, false)
+                                     : Qt.tint("#ffffff", root.pmTint)
                             border.width: 1
                             border.color: modelData.fromMe
                                           ? Config.StaticData.chartColor(3, true)
