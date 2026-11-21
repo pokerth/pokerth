@@ -645,7 +645,23 @@ void QtAudioPlayer::destroyMixerSink()
 	m_stoppingMixerIntentionally = true;
 	mixerSink->stop();
 	m_stoppingMixerIntentionally = false;
+#ifdef Q_OS_ANDROID
+	// On Android stop() only puts the OpenSL ES player into STOPPED; the
+	// player is destroyed in the QAudioSink destructor. Deleting right after
+	// stop() races with a callback the AudioTrack thread may still be running
+	// (typically an underrun while the app goes to the background, which is
+	// exactly when we drop the sink): it then enters the already destroyed
+	// player (Play Console: AudioTrackCallback::onUnderrun ->
+	// CallbackProtector::enterCbIfOk -> pthread_mutex_lock). So keep the
+	// stopped sink alive a moment before destroying it. It stays a child of
+	// this object, so it is cleaned up with us should we go first.
+	{
+		QPointer<QAudioSink> stoppedSink(mixerSink);
+		QTimer::singleShot(1000, this, [stoppedSink]() { delete stoppedSink.data(); });
+	}
+#else
 	delete mixerSink;
+#endif
 	mixerSink = nullptr;
 
 	// The mixer outlives the sink and is handed to the next one.  The Qt 6.10+

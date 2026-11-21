@@ -66,6 +66,19 @@ public class ConnectionService extends Service {
     // request on every reconnect would be pointless churn.
     private static boolean notificationPermissionAsked = false;
 
+    // start() requests that have not reached onStartCommand yet, and whether a
+    // stop() came in while such a request was still pending. Stopping a
+    // service that was started with startForegroundService() before it called
+    // startForeground() makes the system crash the app with
+    // ForegroundServiceDidNotStartInTimeException - and start/stop in quick
+    // succession is common (connect, then the login is refused right away).
+    // So a stop() during that window is deferred: onStartCommand still enters
+    // the foreground state as required and then stops itself.
+    // start(), stop() and onStartCommand all run on the Android main thread
+    // (the C++ side posts via runOnAndroidMainThread), so no locking is needed.
+    private static int pendingStarts = 0;
+    private static boolean stopRequested = false;
+
     private PowerManager.WakeLock wakeLock;
     private WifiManager.WifiLock wifiLock;
 
@@ -74,10 +87,19 @@ public class ConnectionService extends Service {
         Intent intent = new Intent(context, ConnectionService.class);
         intent.putExtra(EXTRA_TEXT, notificationText);
         intent.putExtra(EXTRA_CHANNEL_NAME, channelName);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            context.startForegroundService(intent);
-        else
-            context.startService(intent);
+        stopRequested = false;
+        pendingStarts++;
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                context.startForegroundService(intent);
+            else
+                context.startService(intent);
+        } catch (RuntimeException e) {
+            // e.g. ForegroundServiceStartNotAllowedException (API 31+, app in
+            // the background): no onStartCommand will follow for this request.
+            pendingStarts--;
+            throw e;
+        }
     }
 
     /**
@@ -109,6 +131,11 @@ public class ConnectionService extends Service {
     }
 
     public static void stop(Context context) {
+        if (pendingStarts > 0) {
+            // Too early for stopService - see pendingStarts.
+            stopRequested = true;
+            return;
+        }
         context.stopService(new Intent(context, ConnectionService.class));
     }
 
@@ -158,6 +185,20 @@ public class ConnectionService extends Service {
                 ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE);
         } else {
             startForeground(NOTIFICATION_ID, notification);
+        }
+
+        if (pendingStarts > 0)
+            pendingStarts--;
+        if (stopRequested) {
+            // A stop() arrived before this start was delivered. The foreground
+            // state above was mandatory; now end it. stopSelf(startId) only
+            // stops once the newest start request is handled, so a start that
+            // is still pending gets its own onStartCommand first.
+            if (pendingStarts == 0)
+                stopRequested = false;
+            stopForeground(STOP_FOREGROUND_REMOVE);
+            stopSelf(startId);
+            return START_NOT_STICKY;
         }
 
         acquireLocks();

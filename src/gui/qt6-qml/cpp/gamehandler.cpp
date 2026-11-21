@@ -34,9 +34,25 @@
 #include <QEvent>
 #include <algorithm>
 #include <list>
+#include <exception>
 
 namespace
 {
+// The local game engine throws on inconsistent state (e.g.
+// ERR_RUNNING_PLAYER_NOT_FOUND in LocalBeRo::nextPlayer). Its steps run from
+// timer slots with nothing above them that catches, so an exception that
+// escapes terminates the app (seen in the Play Console crash reports). Log it
+// instead: the hand may hang, but the player keeps the app and can leave.
+template<typename Step>
+void runEngineStep(const char *what, Step &&step)
+{
+	try {
+		step();
+	} catch (const std::exception &e) {
+		qWarning() << "[ENGINE]" << what << "threw:" << e.what();
+	}
+}
+
 // Card code (0-51) → a short form with a Unicode suit symbol, e.g. "K♥". Identical to
 // QmlGuiInterface::fmtCard, so that showdown cards look exactly like the board cards in the
 // game history.  0-12 diamonds(♦), 13-25 hearts(♥), 26-38 spades(♠), 39-51 clubs(♣).
@@ -1163,9 +1179,12 @@ void GameHandler::doActionDone()
 	} else {
 		// Local game: advance game loop (equivalent to Qt5 nextPlayerAnimation -> switchRounds)
 		boost::shared_ptr<Game> game = m_game;
-		QTimer::singleShot(300, this, [game]() {
+		const int generation = localGameGeneration();
+		QTimer::singleShot(300, this, [this, game, generation]() {
+			if (generation != localGameGeneration())
+				return; // left or restarted meanwhile
 			if (game && game->getCurrentHand())
-				game->getCurrentHand()->switchRounds();
+				runEngineStep("switchRounds", [&]() { game->getCurrentHand()->switchRounds(); });
 		});
 	}
 }
@@ -1714,8 +1733,10 @@ void GameHandler::startNextLocalHand()
 	if (!m_session) return;
 	auto game = m_session->getCurrentGame();
 	if (game) {
-		game->initHand();
-		game->startHand();
+		runEngineStep("startHand", [&]() {
+			game->initHand();
+			game->startHand();
+		});
 	}
 }
 
@@ -1862,6 +1883,7 @@ void GameHandler::onNextRoundCleanGui()
 	m_foldedAtHandEnd.clear();
 	m_needToShowAtHandEnd.clear();
 	m_showdownSnapshotValid = false;
+	boost::atomic_store(&m_showdownActivePlayers, PlayerList());
 	if (m_canShowCards) {
 		m_canShowCards = false;
 		emit canShowCardsChanged();
@@ -2176,6 +2198,9 @@ void GameHandler::startLocalGame()
 	startData.numberOfPlayers     = gameData.maxNumberOfPlayers;
 	startData.startDealerPlayerId = 0;
 
+	// Before the start, not in setGame(): startLocalGame() already deals the
+	// first hand and schedules its steps, which must count as the new game.
+	++m_localGameGeneration;
 	m_session->startLocalGame(gameData, startData);
 
 	// Sync m_game so action methods and refreshes work immediately
@@ -2191,6 +2216,7 @@ void GameHandler::endLocalGame()
 	m_localGameExitRequested = true;
 	setWaitingForNextHand(false);
 	m_game.reset();
+	++m_localGameGeneration;
 
 	// Ausstehende Busted-Player-Timer abbrechen.
 	qDeleteAll(m_bustedLocalTimers);
@@ -2253,7 +2279,7 @@ void GameHandler::onRunBeRo()
 	if (!m_game) return;
 	auto hand = m_game->getCurrentHand();
 	if (hand && hand->getCurrentBeRo())
-		hand->getCurrentBeRo()->run();
+		runEngineStep("run", [&]() { hand->getCurrentBeRo()->run(); });
 }
 
 void GameHandler::onNextPlayerBeRo()
@@ -2262,7 +2288,7 @@ void GameHandler::onNextPlayerBeRo()
 	if (!m_game) return;
 	auto hand = m_game->getCurrentHand();
 	if (hand && hand->getCurrentBeRo())
-		hand->getCurrentBeRo()->nextPlayer();
+		runEngineStep("nextPlayer", [&]() { hand->getCurrentBeRo()->nextPlayer(); });
 }
 
 // Called after the board cards of a street have been dealt. In an all-in
@@ -2278,9 +2304,9 @@ void GameHandler::onAfterDealCards()
 	if (!hand) return;
 
 	if (hand->getAllInCondition()) {
-		hand->switchRounds();
+		runEngineStep("switchRounds", [&]() { hand->switchRounds(); });
 	} else if (hand->getCurrentBeRo()) {
-		hand->getCurrentBeRo()->run();
+		runEngineStep("run", [&]() { hand->getCurrentBeRo()->run(); });
 	}
 }
 
@@ -2289,7 +2315,7 @@ void GameHandler::onSwitchRounds()
 	if (localGameCallbacksBlocked()) return;
 	if (!m_game) return;
 	auto hand = m_game->getCurrentHand();
-	if (hand) hand->switchRounds();
+	if (hand) runEngineStep("switchRounds", [&]() { hand->switchRounds(); });
 }
 
 void GameHandler::onPostRiverRunBeRo()
@@ -2298,7 +2324,7 @@ void GameHandler::onPostRiverRunBeRo()
 	if (!m_game) return;
 	auto hand = m_game->getCurrentHand();
 	if (hand && hand->getCurrentBeRo())
-		hand->getCurrentBeRo()->postRiverRun();
+		runEngineStep("postRiverRun", [&]() { hand->getCurrentBeRo()->postRiverRun(); });
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -2331,11 +2357,18 @@ void GameHandler::captureShowdownSnapshot()
 	m_foldedAtHandEnd.clear();
 	m_needToShowAtHandEnd.clear();
 	m_showdownSnapshotValid = false;
+	boost::atomic_store(&m_showdownActivePlayers, PlayerList());
 	if (!m_game) return;
 	auto hand = m_game->getCurrentHand();
 	if (!hand) return;
 	auto activeList = hand->getActivePlayerList();
 	if (!activeList) return;
+	// Copied here, on the thread that owns the engine, before it moves on to
+	// the next hand - see m_showdownActivePlayers.
+	// Atomic: written here on the network thread, read by the queued
+	// onShowdown() on the GUI thread.
+	boost::atomic_store(&m_showdownActivePlayers,
+		PlayerList(new std::list<boost::shared_ptr<PlayerInterface> >(*activeList)));
 
 	for (auto it = activeList->begin(); it != activeList->end(); ++it) {
 		const unsigned uid = (*it)->getMyUniqueID();
@@ -2386,7 +2419,11 @@ void GameHandler::onShowdown()
 	// The pot is already distributed. Determine the winners and separate the main/side pot exactly
 	// like the widgets client (gameTableImpl::postRiverRunAnimation3).
 	std::list<unsigned> winners = board->getWinners();
-	auto activeList = hand->getActivePlayerList();
+	// The snapshot copy, not the live list: the network thread may already be
+	// erasing players from it for the next hand (see m_showdownActivePlayers).
+	PlayerList activeList = boost::atomic_load(&m_showdownActivePlayers);
+	if (!m_showdownSnapshotValid || !activeList)
+		activeList = hand->getActivePlayerList();
 	auto bero = hand->getCurrentBeRo();
 
 	// The side pot criterion exactly as the engine itself (Log::logHandWinner): a main pot

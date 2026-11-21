@@ -204,6 +204,20 @@ int main(int argc, char *argv[])
 			qputenv("QSG_RENDER_LOOP", "basic");
 	}
 
+#ifdef Q_OS_ANDROID
+	// Switch off Qt's Android accessibility bridge. As soon as any
+	// accessibility service is active (TalkBack, but also password managers or
+	// vendor services), the Android UI thread queries the QML item tree
+	// through blocking calls into the Qt thread, and on our large scenes
+	// QAccessibleQuickItem::child takes long enough for an ANR "Input dispatching
+	// timed out" (Play Console, 2.1.11). The QML sets no Accessible.* metadata,
+	// so little is lost. Qt 6.9 reads the variable in QtAccessibilityDelegate
+	// (Java, Os.getenv, value "1" or "true") when the accessibility state
+	// changes; that only happens after the platform plugin initializes, i.e.
+	// after QApplication below - so setting it here is early enough.
+	qputenv("QT_ANDROID_DISABLE_ACCESSIBILITY", "1");
+#endif
+
 	QGuiApplication::setApplicationName("PokerTH");
 	QGuiApplication::setOrganizationName("PokerTH");
 	QGuiApplication::setOrganizationDomain("pokerth.net");
@@ -457,7 +471,15 @@ int main(int argc, char *argv[])
 	// its [CRASH] line below this line.
 	loghelper_write_raw("[SHUTDOWN] clean exit (code " + std::to_string(result) + ")");
 
-	if (QGuiApplication::platformName().startsWith(QLatin1String("wayland"))) {
+	bool skipQmlTeardown = QGuiApplication::platformName().startsWith(QLatin1String("wayland"));
+#ifdef Q_OS_ANDROID
+	// Android crashes in the same teardown, there inside ~QJSEngine →
+	// QV4::MemoryManager::~MemoryManager (Play Console crash reports for
+	// 2.1.11). Everything is persisted at this point, and a plain process exit
+	// does not count as a crash for Android vitals - a SIGSEGV does.
+	skipQmlTeardown = true;
+#endif
+	if (skipQmlTeardown) {
 		QSettings().sync();   // QtQuick-Settings (gemeinsamer QConfFile-Store) flushen
 		std::cout.flush();
 		std::cerr.flush();

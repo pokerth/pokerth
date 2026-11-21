@@ -33,6 +33,9 @@
 #   VERSION_CODE      versionCode, must grow per upload   (default 31)
 #   BUILD_TYPE        Release | Debug                     (default Release)
 #   UNIVERSAL_APK     1 = also build a universal APK      (default 0)
+#   DEBUG_SYMBOL_LEVEL FULL | SYMBOL_TABLE | NONE: native
+#                     symbols filed in the bundle for Play
+#                     (FULL = file:line in crash reports) (default FULL)
 #   ANDROID_KEYSTORE        upload keystore; unsigned bundle if unset
 #   ANDROID_KEYSTORE_PASS   keystore password
 #   ANDROID_KEY_ALIAS       key alias
@@ -95,6 +98,12 @@ ANDROID_ABIS="${ANDROID_ABIS:-arm64-v8a armeabi-v7a x86_64 x86}"
 
 BUILD_TYPE="${BUILD_TYPE:-Release}"
 UNIVERSAL_APK="${UNIVERSAL_APK:-0}"
+DEBUG_SYMBOL_LEVEL="${DEBUG_SYMBOL_LEVEL:-FULL}"
+case "$DEBUG_SYMBOL_LEVEL" in
+  FULL|SYMBOL_TABLE|NONE) ;;
+  *) echo "DEBUG_SYMBOL_LEVEL must be FULL, SYMBOL_TABLE or NONE (got '$DEBUG_SYMBOL_LEVEL')" >&2
+     exit 1 ;;
+esac
 BUNDLETOOL_VERSION="${BUNDLETOOL_VERSION:-1.18.3}"
 # Google's read-only mirror of Maven Central (full sync, unmetered), queried
 # before Central itself — see patch_gradle_template_mirror().
@@ -777,34 +786,43 @@ if [ "$ANDROID_API_LEVEL" -gt 35 ]; then
   set_gradle_property android.suppressUnsupportedCompileSdk "$ANDROID_API_LEVEL"
 fi
 
-# Native debug symbols: keep the symbol tables, drop the debug info. AGP strips
-# every .so it ships either way; 'SYMBOL_TABLE' additionally files the symbol
-# tables under BUNDLE-METADATA/, from where Play takes them to symbolicate
-# native crashes and ANRs — without them the Play Console shows bare addresses
-# and warns on every upload. 'FULL' would add the DWARF debug info on top, which
-# a Release build does not even produce (no -g), so it would cost size for
-# nothing. Qt's own libraries arrive stripped and contribute next to nothing;
-# what this is really about is libpokerth_qml-client_<abi>.so. None of it is
-# ever downloaded by a device — it only travels inside the bundle, where Play
-# caps the symbols at 800 MB (section 11 prints what we actually use).
+# Native debug symbols for Play, filed under BUNDLE-METADATA/ (no device ever
+# downloads them; AGP strips every .so it ships either way). Play caps them at
+# 800 MB per bundle - section 11 prints what we use and stops the build above it.
+#   FULL          symbol tables plus DWARF: crash reports and ANRs show file and
+#                 line. Our own code is compiled with -gline-tables-only on
+#                 Android (CMakeLists.txt), which is all symbolication needs
+#                 and keeps the size down. Note that the NDK toolchain passes
+#                 -g to every build type, so the vcpkg dependencies carry DWARF
+#                 as well - if that ever pushes past the limit, fall back to
+#                 DEBUG_SYMBOL_LEVEL=SYMBOL_TABLE.
+#   SYMBOL_TABLE  function names only: reports show function+offset, no lines.
+#   NONE          nothing: bare addresses, and Play warns on every upload.
+# Qt's own libraries arrive stripped and contribute next to nothing; what this
+# is about is libpokerth_qml-client_<abi>.so. The build.gradle may survive from
+# an earlier run, so an existing setting is rewritten, not just skipped.
 BUILD_GRADLE="$ANDROID_BUILD_DIR/build.gradle"
-if [ -f "$BUILD_GRADLE" ] && ! grep -q "debugSymbolLevel" "$BUILD_GRADLE"; then
-  log "Keeping native symbol tables in the bundle (debugSymbolLevel 'SYMBOL_TABLE')…"
-  cat >> "$BUILD_GRADLE" <<'EOF'
+if [ -f "$BUILD_GRADLE" ]; then
+  log "Native debug symbols in the bundle: debugSymbolLevel '$DEBUG_SYMBOL_LEVEL'…"
+  if grep -q "debugSymbolLevel" "$BUILD_GRADLE"; then
+    sed -i "s/debugSymbolLevel '[A-Z_]*'/debugSymbolLevel '$DEBUG_SYMBOL_LEVEL'/" "$BUILD_GRADLE"
+  else
+    cat >> "$BUILD_GRADLE" <<EOF
 
-// Added by build_android_qml.sh: keep the native symbol tables so Play can
+// Added by build_android_qml.sh (DEBUG_SYMBOL_LEVEL): native symbols for Play to
 // symbolicate crashes and ANRs. They live in BUNDLE-METADATA/ and are never
-// delivered to a device. 'FULL' would add DWARF a Release build does not have.
+// delivered to a device.
 android {
     buildTypes {
         release {
             ndk {
-                debugSymbolLevel 'SYMBOL_TABLE'
+                debugSymbolLevel '$DEBUG_SYMBOL_LEVEL'
             }
         }
     }
 }
 EOF
+  fi
 fi
 
 chmod +x "$ANDROID_BUILD_DIR/gradlew"
@@ -1113,8 +1131,15 @@ SYMBOL_BYTES="$(unzip -l "$FINAL_AAB" |
   awk '$NF ~ /BUNDLE-METADATA\/com\.android\.tools\.build\.debugsymbols/ { n += $1 } END { print n + 0 }')"
 if [ "$SYMBOL_BYTES" -gt 0 ]; then
   echo ""
-  printf 'Native debug symbols for Play: %d MB uncompressed (Play rejects above 800 MB)\n' \
-    "$((SYMBOL_BYTES / 1048576))"
+  printf 'Native debug symbols for Play (%s): %d MB uncompressed (Play rejects above 800 MB)\n' \
+    "$DEBUG_SYMBOL_LEVEL" "$((SYMBOL_BYTES / 1048576))"
+  # Fail here rather than an hour later in the Play Console upload.
+  if [ "$SYMBOL_BYTES" -gt $((800 * 1048576)) ]; then
+    echo "ERROR: the native debug symbols exceed Play's 800 MB limit, the upload" >&2
+    echo "       would be rejected. Rebuild with DEBUG_SYMBOL_LEVEL=SYMBOL_TABLE" >&2
+    echo "       (function names only) or reduce the debug info." >&2
+    exit 1
+  fi
 fi
 if [ "$UNIVERSAL_APK" = "1" ]; then
   echo ""

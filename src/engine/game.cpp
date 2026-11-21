@@ -138,14 +138,16 @@ Game::~Game()
 {
 }
 
+// Atomic load: see initHand() - the network thread replaces currentHand while
+// the GUI thread reads it.
 boost::shared_ptr<HandInterface> Game::getCurrentHand()
 {
-	return currentHand;
+	return boost::atomic_load(&currentHand);
 }
 
 const boost::shared_ptr<HandInterface> Game::getCurrentHand() const
 {
-	return currentHand;
+	return boost::atomic_load(&currentHand);
 }
 
 void Game::initHand()
@@ -201,7 +203,12 @@ void Game::initHand()
 	}
 
 	// create Hand
-	currentHand = myFactory->createHand(myFactory, myGui, currentBoard, myLog, seatsList, activePlayerList, runningPlayerList, currentHandID, startQuantityPlayers, dealerPosition, currentSmallBlind, startCash);
+	// Atomic: the GUI thread reads currentHand via getCurrentHand() while the
+	// network thread replaces it here. A plain assignment races with that copy:
+	// the GUI could take the old pointer just as its last reference drops and
+	// then use a destroyed hand (Play Console: ClientHand::getMyID() locking a
+	// destroyed mutex from GameHandler::refreshPlayerData()).
+	boost::atomic_store(&currentHand, myFactory->createHand(myFactory, myGui, currentBoard, myLog, seatsList, activePlayerList, runningPlayerList, currentHandID, startQuantityPlayers, dealerPosition, currentSmallBlind, startCash));
 
 	// shifting dealer button
 	dealerPosition = getNextActivePlayerId(dealerPosition);

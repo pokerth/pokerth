@@ -174,6 +174,10 @@ public:
 	virtual void SignalRejectedGameInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason) override;
 
 private:
+	// Runs a GameHandler slot of the local game loop after delayMs, unless the
+	// game changed meanwhile (see GameHandler::localGameGeneration()).
+	void scheduleLocalStep(int delayMs, const char *slot);
+
 	ConfigFile *m_config;
 	boost::shared_ptr<Session> m_session;
 	ServerConnectionHandler *m_handler;

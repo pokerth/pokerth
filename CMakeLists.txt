@@ -78,6 +78,15 @@ if(ANDROID)
     # The result is checked on the finished package (build_android_qml.sh,
     # "16 KB page alignment").
     add_link_options(-Wl,-z,max-page-size=16384 -Wl,-z,common-page-size=16384)
+
+    # Line tables for Play: the bundle files our DWARF under BUNDLE-METADATA/
+    # (build_android_qml.sh, DEBUG_SYMBOL_LEVEL=FULL), so crash reports and
+    # ANRs in the Play Console show file and line instead of function+offset.
+    # The NDK toolchain already passes a full -g to every build type; for
+    # release builds narrow it to line tables (the last -g* option wins), which
+    # is all symbolication needs - including inlined frames - at a fraction of
+    # the size Play caps at 800 MB. Never shipped to devices: AGP strips the .so.
+    add_compile_options($<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<NOT:$<CONFIG:Debug>>>:-gline-tables-only>)
 endif()
 
 # vcpkg uses CONFIG mode for all platforms

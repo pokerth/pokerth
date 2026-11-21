@@ -40,6 +40,11 @@ on:
         description: "Also build a universal APK (side-load testing — an .aab cannot be installed directly)"
         type: boolean
         default: true
+      debug_symbols:
+        description: "Native debug symbols for Play (FULL = file:line in crash reports; SYMBOL_TABLE = function names only, if FULL exceeds Play's 800 MB limit)"
+        type: choice
+        default: "FULL"
+        options: ["FULL", "SYMBOL_TABLE"]
       play_track:
         description: "Publish to Google Play on this track"
         type: choice
@@ -57,6 +62,7 @@ jobs:
       ANDROID_API_LEVEL: ${{ inputs.api_level }}
       VERSION_CODE_INPUT: ${{ inputs.version_code }}
       UNIVERSAL_APK: ${{ inputs.universal_apk && '1' || '0' }}
+      DEBUG_SYMBOL_LEVEL: ${{ inputs.debug_symbols }}
       # The secrets context is not available in step `if:`, so fan it out to env here.
       HAS_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && 'true' || 'false' }}
 

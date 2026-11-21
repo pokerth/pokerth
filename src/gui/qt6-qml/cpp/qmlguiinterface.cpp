@@ -745,61 +745,54 @@ void QmlGuiInterface::dealRiverCard()
 // "nextPlayerAnimation" processes the end of an action (calls switchRounds()).
 // "postRiverAnimation1" distributes the pot; "postRiverRunAnimation1" starts the next hand.
 
+void QmlGuiInterface::scheduleLocalStep(int delayMs, const char *slot)
+{
+	if (!m_gameHandler) return;
+	GameHandler *gh = m_gameHandler;
+	// Bound to the game it was scheduled for: if the player left or started a
+	// new game meanwhile, a step of the old game must not run on the new one
+	// (two engine chains on one hand → LocalBeRo::nextPlayer() throws).
+	const int generation = gh->localGameGeneration();
+	QTimer::singleShot(delayMs, gh, [gh, slot, generation]() {
+		if (generation != gh->localGameGeneration()) {
+			qInfo() << "[ENGINE] skipped stale local step" << slot;
+			return;
+		}
+		QMetaObject::invokeMethod(gh, slot, Qt::DirectConnection);
+	});
+}
+
 void QmlGuiInterface::nextPlayerAnimation()
 {
 	// After a player acts: trigger switchRounds() with a short delay
-	if (!m_gameHandler) return;
-	GameHandler *gh = m_gameHandler;
-	QTimer::singleShot(300, gh, [gh]() {
-		QMetaObject::invokeMethod(gh, "onSwitchRounds", Qt::DirectConnection);
-	});
+	scheduleLocalStep(300, "onSwitchRounds");
 }
 
 void QmlGuiInterface::beRoAnimation2(int /*myBeRoID*/)
 {
 	// CPU player's turn: advance to nextPlayer() with a short delay
-	if (!m_gameHandler) return;
-	GameHandler *gh = m_gameHandler;
-	QTimer::singleShot(300, gh, [gh]() {
-		QMetaObject::invokeMethod(gh, "onNextPlayerBeRo", Qt::DirectConnection);
-	});
+	scheduleLocalStep(300, "onNextPlayerBeRo");
 }
 
 void QmlGuiInterface::preflopAnimation1()
 {
 	// Start of preflop betting: call BeRo::run()
-	if (!m_gameHandler) return;
-	GameHandler *gh = m_gameHandler;
-	QTimer::singleShot(300, gh, [gh]() {
-		QMetaObject::invokeMethod(gh, "onRunBeRo", Qt::DirectConnection);
-	});
+	scheduleLocalStep(300, "onRunBeRo");
 }
 
 void QmlGuiInterface::flopAnimation1()
 {
-	if (!m_gameHandler) return;
-	GameHandler *gh = m_gameHandler;
-	QTimer::singleShot(300, gh, [gh]() {
-		QMetaObject::invokeMethod(gh, "onRunBeRo", Qt::DirectConnection);
-	});
+	scheduleLocalStep(300, "onRunBeRo");
 }
 
 void QmlGuiInterface::turnAnimation1()
 {
-	if (!m_gameHandler) return;
-	GameHandler *gh = m_gameHandler;
-	QTimer::singleShot(300, gh, [gh]() {
-		QMetaObject::invokeMethod(gh, "onRunBeRo", Qt::DirectConnection);
-	});
+	scheduleLocalStep(300, "onRunBeRo");
 }
 
 void QmlGuiInterface::riverAnimation1()
 {
-	if (!m_gameHandler) return;
-	GameHandler *gh = m_gameHandler;
-	QTimer::singleShot(300, gh, [gh]() {
-		QMetaObject::invokeMethod(gh, "onRunBeRo", Qt::DirectConnection);
-	});
+	scheduleLocalStep(300, "onRunBeRo");
 }
 
 void QmlGuiInterface::flipHolecardsAllIn()
@@ -821,11 +814,7 @@ void QmlGuiInterface::SignalNetClientPostRiverShowCards(unsigned playerId)
 void QmlGuiInterface::postRiverAnimation1()
 {
 	// Show-down: call BeRo::postRiverRun() which distributes the pot
-	if (!m_gameHandler) return;
-	GameHandler *gh = m_gameHandler;
-	QTimer::singleShot(500, gh, [gh]() {
-		QMetaObject::invokeMethod(gh, "onPostRiverRunBeRo", Qt::DirectConnection);
-	});
+	scheduleLocalStep(500, "onPostRiverRunBeRo");
 }
 
 void QmlGuiInterface::postRiverRunAnimation1()
@@ -871,9 +860,7 @@ void QmlGuiInterface::postRiverRunAnimation1()
 	if (isNetwork) {
 		return;
 	}
-	QTimer::singleShot(5500, gh, [gh]() {
-		QMetaObject::invokeMethod(gh, "onLocalHandFinished", Qt::DirectConnection);
-	});
+	scheduleLocalStep(5500, "onLocalHandFinished");
 }
 
 void QmlGuiInterface::dealBeRoCards(int beRoID)
@@ -894,7 +881,5 @@ void QmlGuiInterface::dealBeRoCards(int beRoID)
 
 	// After the reveal, continue the round. In an all-in condition this advances
 	// to the next street/showdown (no betting); otherwise it starts the betting.
-	QTimer::singleShot(300, gh, [gh]() {
-		QMetaObject::invokeMethod(gh, "onAfterDealCards", Qt::DirectConnection);
-	});
+	scheduleLocalStep(300, "onAfterDealCards");
 }

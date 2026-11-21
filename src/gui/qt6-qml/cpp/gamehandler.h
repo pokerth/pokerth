@@ -14,6 +14,8 @@
 #include <QSet>
 #include <QPointer>
 #include <vector>
+#include <atomic>
+#include <list>
 
 #include "chatcolors.h"
 #include <boost/shared_ptr.hpp>
@@ -227,6 +229,13 @@ public:
 	Q_INVOKABLE void startLocalGame();
 	Q_INVOKABLE void endLocalGame();
 	Q_INVOKABLE bool isLocalGameRunning() const;
+	// Changes whenever a local game is started or left. The delayed
+	// local game steps (QmlGuiInterface timers) remember it when scheduled and
+	// skip themselves if it changed meanwhile - otherwise a step of the old
+	// game runs on the new one, e.g. the next-hand timer still pending after
+	// leaving during the showdown, which then runs a second engine chain in
+	// parallel and makes the engine throw.
+	int localGameGeneration() const { return m_localGameGeneration.load(); }
 	// Is an internet game running (a network client, the game type internet)? Only then
 	// does reporting an avatar make sense – as in the Qt widgets client, which shows
 	// "Report inappropriate avatar" exclusively for internet games.
@@ -714,6 +723,12 @@ private:
 	QSet<unsigned> m_foldedAtHandEnd;
 	QSet<unsigned> m_needToShowAtHandEnd;
 	bool m_showdownSnapshotValid = false;
+	// A copy of the active player list taken with the snapshot. onShowdown()
+	// runs queued on the GUI thread, while the network thread may already set
+	// up the next hand and erase players from the live list (Game::initHand) -
+	// iterating the live list then walks freed nodes (Play Console SIGSEGV in
+	// onShowdown). The copy holds the players alive via their shared_ptrs.
+	boost::shared_ptr<std::list<boost::shared_ptr<PlayerInterface> > > m_showdownActivePlayers;
 	// The fold/reveal state for the showdown. While the snapshot is valid,
 	// it wins against the (possibly already reset) live state.
 	bool showdownFolded(unsigned uniqueId, bool liveFolded) const;
@@ -736,6 +751,9 @@ private:
 	int m_lastAggressorSeq = 0;
 	int m_aggressorToken = -1;
 	bool m_localGameExitRequested = false;
+	// See localGameGeneration(). Atomic: the engine callbacks that schedule
+	// the steps may come from the network thread.
+	std::atomic<int> m_localGameGeneration{0};
 	// The unique IDs of players who have left the network game.
 	// Their seat is displayed as empty in refreshPlayerData() as soon as
 	// they are no longer active (see isPlayerGone()).
